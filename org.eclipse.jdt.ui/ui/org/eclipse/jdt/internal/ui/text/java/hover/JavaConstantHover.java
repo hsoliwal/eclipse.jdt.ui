@@ -20,7 +20,7 @@ import org.eclipse.jface.text.ITextViewer;
 
 public class JavaConstantHover extends AbstractJavaEditorTextHover {
 
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {
 		if (hoverRegion.getLength() > 0) {
@@ -35,7 +35,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 					if (prevChar == '.') {
 						--offset;
 						++length;
-						while (offset > 1 && document.get(offset - 1, 1).toLowerCase().charAt(0) != 'x'
+						while (offset > 1 && document.get(offset - 1, 1).toLowerCase().charAt(0) != 'x' //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								&& Character.digit(document.getChar(offset - 1), 16) != -1) {
 							--offset;
 							++length;
@@ -60,7 +60,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 								prevChar= ' ';
 								offset -= 2;
 							    length += 2;
-							    while (offset > 0 && (document.getChar(offset - 1) == '.' || Character.digit(document.getChar(offset - 1), 16) != -1)) {
+							    while (offset > 0 && (document.getChar(offset - 1) == '.' || Character.digit(document.getChar(offset - 1), 16) != -1)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									--offset;
 									++length;
 								}
@@ -82,7 +82,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 					if (offset + length < document.getLength() &&
 							document.getChar(offset + length) == '.') {
 						++length;
-						while (offset + length <= document.getLength()
+						while (offset + length <= document.getLength() //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								&& Character.digit(document.getChar(offset + length), 16) != -1
 								|| document.get(offset + length, 1).toLowerCase().charAt(0) == 'p') {
 							++length;
@@ -95,7 +95,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 						if (nextChar == '-' || nextChar == '+') {
 							++length;
 						}
-						while (offset + length <= document.getLength()
+						while (offset + length <= document.getLength() //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								&& Character.digit(document.getChar(offset + length), 16) != -1) {
 							++length;
 						}
@@ -119,7 +119,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 						if (negated) {
 							longValue= -longValue;
 						}
-						return "<body><p>" + Long.toString(longValue) + "<b> : [0x" + Long.toHexString(longValue) + "]</p></body>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						return "<body><p>" + Long.toString(longValue) + "<b> : [0x" + Long.toHexString(longValue) + "]</p></body>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else {
 						int intValue= hoverSource.startsWith("0b") ? //$NON-NLS-1$
 								Integer.parseUnsignedInt(withoutUnderscoreInfixes(hoverSource.substring(2)), 2)
@@ -129,7 +129,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 						if (negated) {
 							intValue= -intValue;
 						}
-						return "<body><p>" + Integer.toString(intValue) + "<b> : [0x" + Integer.toHexString(intValue) + "]</p></body>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						return "<body><p>" + Integer.toString(intValue) + "<b> : [0x" + Integer.toHexString(intValue) + "]</p></body>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 					}
 				} catch (NumberFormatException e) {
@@ -137,7 +137,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 						if (hoverSource.startsWith("0x")) { //$NON-NLS-1$
 							if (hoverSource.endsWith("p")) { //$NON-NLS-1$
 								++length;
-								while (offset + length <= document.getLength() && !Character.isWhitespace(document.get(offset + length + 1, 1).charAt(0))) {
+								while (offset + length <= document.getLength() && !Character.isWhitespace(document.get(offset + length + 1, 1).charAt(0))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									++length;
 								}
 								hoverSource= document.get(offset, length).toLowerCase();
@@ -146,7 +146,7 @@ public class JavaConstantHover extends AbstractJavaEditorTextHover {
 							if (negated) {
 								doubleValue= -doubleValue;
 							}
-							return "<body><p>" + Double.toString(doubleValue) + "</p></body>"; //$NON-NLS-1$ //$NON-NLS-2$
+							return "<body><p>" + Double.toString(doubleValue) + "</p></body>"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 					} catch (NumberFormatException | BadLocationException e1) {
 						// do nothing

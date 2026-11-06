@@ -48,7 +48,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.text.java.JavaMultiLineStringAutoIndentStrategy;
 
-public class AddTextBlockAction extends SelectionDispatchAction {
+public class AddTextBlockAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private CompilationUnitEditor fEditor;
 
@@ -103,7 +103,7 @@ public class AddTextBlockAction extends SelectionDispatchAction {
 		//do nothing
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		IEditorInput input= fEditor.getEditorInput();
 		IDocumentProvider docProvider= fEditor.getDocumentProvider();
@@ -145,7 +145,7 @@ public class AddTextBlockAction extends SelectionDispatchAction {
 		}
 	}
 
-	private DocumentCommand getDocumentCommand(IDocument document, IJavaProject javaProject, ITextSelection selection, String indentStr) {
+	private DocumentCommand getDocumentCommand(IDocument document, IJavaProject javaProject, ITextSelection selection, String indentStr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DocumentCommand cmd= new DocumentCommand() { //empty
 		};
 
@@ -159,13 +159,13 @@ public class AddTextBlockAction extends SelectionDispatchAction {
 		String delimiter= TextUtilities.getDefaultLineDelimiter(document);
 		cmd.offset= selection.getOffset();
 		cmd.length= selection.getLength();
-		cmd.text= IndentAction.TEXT_BLOCK_STR + delimiter + indentStr;
+		cmd.text= IndentAction.TEXT_BLOCK_STR + delimiter + indentStr; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		cmd.doit= true;
 		cmd.shiftsCaret= true;
 		cmd.caretOffset= selection.getOffset() + selection.getLength() + cmd.text.length();
 		cmd.text+= selection.getText();
 		if (JavaMultiLineStringAutoIndentStrategy.isCloseStringsPreferenceSet(javaProject)) {
-			cmd.text+= delimiter + indentStr + IndentAction.TEXT_BLOCK_STR;
+			cmd.text+= delimiter + indentStr + IndentAction.TEXT_BLOCK_STR; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		return cmd;
@@ -175,7 +175,7 @@ public class AddTextBlockAction extends SelectionDispatchAction {
 		document.replace(offset, length, string);
 	}
 
-	private boolean canAddTextBlock(ITypedRegion partition, IJavaProject javaProject, ITextSelection selection) {
+	private boolean canAddTextBlock(ITypedRegion partition, IJavaProject javaProject, ITextSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEditor == null) {
 			return false;
 		}
@@ -236,7 +236,7 @@ public class AddTextBlockAction extends SelectionDispatchAction {
 	}
 
 	protected int findEndOfWhiteSpace(IDocument document, int offset, int end) throws BadLocationException {
-		while (offset < end) {
+		while (offset < end) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= document.getChar(offset);
 			if (c != ' ' && c != '\t') {
 				return offset;

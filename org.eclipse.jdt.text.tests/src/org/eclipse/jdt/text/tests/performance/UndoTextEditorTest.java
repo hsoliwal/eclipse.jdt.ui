@@ -29,9 +29,9 @@ public class UndoTextEditorTest extends UndoEditorTest {
 
 	private static final String FILE_PREFIX= "/org.eclipse.swt/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/StyledText";
 
-	private static final String ORIG_FILE= FILE_PREFIX + ".java";
+	private static final String ORIG_FILE= FILE_PREFIX + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String FILE= FILE_PREFIX + ".txt";
+	private static final String FILE= FILE_PREFIX + ".txt"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final int WARM_UP_RUNS= 2;
 

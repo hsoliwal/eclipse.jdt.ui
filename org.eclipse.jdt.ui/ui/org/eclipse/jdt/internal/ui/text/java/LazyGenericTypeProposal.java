@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -77,7 +78,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
  * Only used when compliance is set to 5.0 or higher.
  * </p>
  */
-public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
+public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	/** Triggers for types. Do not modify. */
 	private final static char[] GENERIC_TYPE_TRIGGERS= new char[] { '.', '\t', '[', '(', '<', ' ' };
 
@@ -125,17 +126,17 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 			return fInformationDisplayString;
 		}
 
-		private String computeContextString(LazyGenericTypeProposal proposal) {
+		private String computeContextString(LazyGenericTypeProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				TypeArgumentProposal[] proposals= proposal.computeTypeArgumentProposals();
 				if (proposals.length == 0)
 					return null;
 
-				StringBuilder buf= new StringBuilder();
-				for (int i= 0; i < proposals.length; i++) {
-					buf.append(proposals[i].getDisplayName());
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				for (int i= 0; i < proposals.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append(proposals[i].getDisplayName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (i < proposals.length - 1)
-						buf.append(", "); //$NON-NLS-1$
+						buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				return Strings.markJavaElementLabelLTR(buf.toString());
 
@@ -213,7 +214,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	/*
 	 * @see ICompletionProposalExtension#apply(IDocument, char)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 		boolean onlyAppendArguments;
 		try {
@@ -297,7 +298,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	private void adaptOffsets(int[] offsets, StringBuffer buffer) {
 		String replacementString= getReplacementString();
 		int delta= buffer.length() - replacementString.length(); // due to using an import instead of package
-		for (int i= 0; i < offsets.length; i++) {
+		for (int i= 0; i < offsets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			offsets[i]-= delta;
 		}
 	}
@@ -321,7 +322,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 * @return the type argument proposals for the proposed type
 	 * @throws JavaModelException if accessing the java model fails
 	 */
-	private TypeArgumentProposal[] computeTypeArgumentProposals() throws JavaModelException {
+	private TypeArgumentProposal[] computeTypeArgumentProposals() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTypeArgumentProposals == null) {
 
 			IType type= (IType) getJavaElement();
@@ -349,14 +350,14 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 					return new TypeArgumentProposal[0];
 
 				int[] indices= new int[parameters.length];
-				for (int paramIdx= 0; paramIdx < parameters.length; paramIdx++) {
+				for (int paramIdx= 0; paramIdx < parameters.length; paramIdx++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					indices[paramIdx]= mapTypeParameterIndex(path, path.length - 1, paramIdx);
 				}
 
 				// for type arguments that are mapped through to the expected type's
 				// parameters, take the arguments of the expected type
 				ITypeBinding[] typeArguments= expectedTypeBinding.getTypeArguments();
-				for (int paramIdx= 0; paramIdx < parameters.length; paramIdx++) {
+				for (int paramIdx= 0; paramIdx < parameters.length; paramIdx++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (indices[paramIdx] != -1) {
 						// type argument is mapped through
 						ITypeBinding binding= typeArguments[indices[paramIdx]];
@@ -367,7 +368,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 
 			// for type arguments that are not mapped through to the expected type,
 			// take the lower bound of the type parameter
-			for (int i= 0; i < arguments.length; i++) {
+			for (int i= 0; i < arguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (arguments[i] == null) {
 					arguments[i]= computeTypeProposal(parameters[i]);
 				}
@@ -403,15 +404,17 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	private String computeTypeParameterDisplayName(ITypeParameter parameter, String[] bounds) {
 		if (bounds.length == 0 || bounds.length == 1 && "java.lang.Object".equals(bounds[0])) //$NON-NLS-1$
 			return parameter.getElementName();
-		StringBuilder buf= new StringBuilder(parameter.getElementName());
-		buf.append(" extends "); //$NON-NLS-1$
-		for (int i= 0; i < bounds.length; i++) {
-			buf.append(Signature.getSimpleName(bounds[i]));
+		StringBuilder buf= new StringBuilder(parameter.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(" extends "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < bounds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(Signature.getSimpleName(bounds[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (i < bounds.length - 1)
-				buf.append(" & "); //$NON-NLS-1$
+				buf.append(" & "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
+
+	private static final Pattern CONTEXT_NAME_PATTERN = Pattern.compile("\\?"); //$NON-NLS-1$
 
 	/**
 	 * Returns a type argument proposal for a given type binding. The proposal is:
@@ -433,13 +436,14 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 *             accessing its corresponding resource
 	 * @see #computeTypeProposal(ITypeParameter)
 	 */
-	private TypeArgumentProposal computeTypeProposal(ITypeBinding binding, ITypeParameter parameter) throws JavaModelException {
+	private TypeArgumentProposal computeTypeProposal(ITypeBinding binding, ITypeParameter parameter) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String name= Bindings.getTypeQualifiedName(binding);
 		if (binding.isWildcardType()) {
 
 			if (binding.isUpperbound()) {
 				// replace the wildcard ? with the type parameter name to get "E extends Bound" instead of "? extends Bound"
-				String contextName= name.replaceFirst("\\?", parameter.getElementName()); //$NON-NLS-1$
+				String contextName= CONTEXT_NAME_PATTERN.matcher(name).replaceFirst(parameter.getElementName());
+				// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				// upper bound - the upper bound is the bound itself
 				return new TypeArgumentProposal(binding.getBound().getName(), true, contextName);
 			}
@@ -471,7 +475,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 * @throws JavaModelException if this element does not exist or if an exception occurs while
 	 *             accessing its corresponding resource
 	 */
-	private IType[] computeInheritancePath(IType subType, IType superType) throws JavaModelException {
+	private IType[] computeInheritancePath(IType subType, IType superType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (superType == null)
 			return null;
 
@@ -485,12 +489,12 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 
 		List<IType> path= new LinkedList<>();
 		path.add(superType);
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// any sub type must be on a hierarchy chain from superType to subType
 			try {
 				superType= hierarchy.getSubtypes(superType)[0];
 			} catch (ArrayIndexOutOfBoundsException e) { // see bug 433587
-				String message= "Illegal supertype hierarchy for " + subType.getFullyQualifiedName('.') + ". No subtype found for " + superType.getFullyQualifiedName('.') + " in the hierarchy."; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String message= "Illegal supertype hierarchy for " + subType.getFullyQualifiedName('.') + ". No subtype found for " + superType.getFullyQualifiedName('.') + " in the hierarchy."; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavaPlugin.log(new CoreException(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, message, e)));
 				break;
 			}
@@ -523,7 +527,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 * @throws ArrayIndexOutOfBoundsException if <code>path[pathIndex]</code> has &lt;=
 	 *             <code>paramIndex</code> parameters
 	 */
-	private int mapTypeParameterIndex(IType[] path, int pathIndex, int paramIndex) throws JavaModelException, ArrayIndexOutOfBoundsException {
+	private int mapTypeParameterIndex(IType[] path, int pathIndex, int paramIndex) throws JavaModelException, ArrayIndexOutOfBoundsException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (pathIndex == 0)
 			// break condition: we've reached the top of the hierarchy
 			return paramIndex;
@@ -557,7 +561,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 *         signature to <code>superType</code>
 	 */
 	private String findMatchingSuperTypeSignature(IType subType, IType superType) throws JavaModelException {
-		for (String signature : getSuperTypeSignatures(subType, superType)) {
+		for (String signature : getSuperTypeSignatures(subType, superType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String qualified= SignatureUtil.qualifySignature(signature, subType);
 			String subFQN= SignatureUtil.stripSignatureToFQN(qualified);
 
@@ -588,7 +592,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 */
 	private int findMatchingTypeArgumentIndex(String signature, String argument) {
 		String[] typeArguments= Signature.getTypeArguments(signature);
-		for (int i= 0; i < typeArguments.length; i++) {
+		for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Signature.getSignatureSimpleName(typeArguments[i]).equals(argument))
 				return i;
 		}
@@ -618,13 +622,13 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 *
 	 * @return the binding of the expected type
 	 */
-	private ITypeBinding getExpectedType() {
+	private ITypeBinding getExpectedType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[][] chKeys= fInvocationContext.getCoreContext().getExpectedTypesKeys();
 		if (chKeys == null || chKeys.length == 0)
 			return null;
 
 		String[] keys= new String[chKeys.length];
-		for (int i= 0; i < keys.length; i++) {
+		for (int i= 0; i < keys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			keys[i]= String.valueOf(chKeys[0]);
 		}
 
@@ -633,7 +637,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 		parser.setResolveBindings(true);
 		parser.setStatementsRecovery(true);
 
-		final Map<String, IBinding> bindings= new HashMap<>();
+		final Map<String, IBinding> bindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		ASTRequestor requestor= new ASTRequestor() {
 			@Override
 			public void acceptBinding(String bindingKey, IBinding binding) {
@@ -658,7 +662,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 	 * @param trigger the trigger character
 	 * @return <code>true</code> if arguments should be appended
 	 */
-	private boolean shouldAppendArguments(IDocument document, int offset, char trigger) {
+	private boolean shouldAppendArguments(IDocument document, int offset, char trigger) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * No argument list if there were any special triggers (for example a period to qualify an
 		 * inner type).
@@ -680,7 +684,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 			String line= document.get(region.getOffset(), region.getLength());
 
 			int index= offset - region.getOffset();
-			while (index != line.length() && Character.isUnicodeIdentifierPart(line.charAt(index)))
+			while (index != line.length() && Character.isUnicodeIdentifierPart(line.charAt(index))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				++index;
 
 			if (index == line.length())
@@ -694,7 +698,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 		}
 	}
 
-	private StringBuffer createParameterList(TypeArgumentProposal[] typeArguments, int[] offsets, int[] lengths, boolean onlyAppendArguments) {
+	private StringBuffer createParameterList(TypeArgumentProposal[] typeArguments, int[] offsets, int[] lengths, boolean onlyAppendArguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer buffer= new StringBuffer();
 		buffer.append(getReplacementString());
 
@@ -715,7 +719,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 		if (prefs.afterTypeArgumentComma)
 			separator.append(SPACE);
 
-		for (int i= 0; i != typeArguments.length; i++) {
+		for (int i= 0; i != typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0)
 				buffer.append(separator);
 
@@ -732,14 +736,14 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 		return buffer;
 	}
 
-	private void installLinkedMode(final IDocument document, int[] offsets, int[] lengths,
+	private void installLinkedMode(final IDocument document, int[] offsets, int[] lengths, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			TypeArgumentProposal[] typeArgumentProposals, boolean withParentheses, final boolean onlyAppendArguments) {
 		int replacementOffset= getReplacementOffset();
 		String replacementString= getReplacementString();
 
 		try {
 			LinkedModeModel model= new LinkedModeModel();
-			for (int i= 0; i != offsets.length; i++) {
+			for (int i= 0; i != offsets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (typeArgumentProposals[i].isAmbiguous()) {
 					LinkedPositionGroup group= new LinkedPositionGroup();
 					group.addPosition(new LinkedPosition(document, replacementOffset + offsets[i], lengths[i]));
@@ -778,12 +782,12 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 				document.addPosition(secondBracketPosition);
 
 				model.addLinkingListener(new ILinkedModeListener() {
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public void left(LinkedModeModel environment, int flags) {
 						try {
 							if (getTextViewer().getSelectedRange().y > 1 || flags != ILinkedModeListener.EXTERNAL_MODIFICATION)
 								return;
-							((IDocumentExtension) document).registerPostNotificationReplace(null, (d, _) -> {
+							((IDocumentExtension) document).registerPostNotificationReplace(null, (d, unused) -> {
 								try {
 									if ((firstBracketPosition.length == 0 || firstBracketPosition.isDeleted) && !secondBracketPosition.isDeleted) {
 										d.replace(firstBracketPosition.offset, secondBracketPosition.offset - firstBracketPosition.offset, ""); //$NON-NLS-1$
@@ -824,7 +828,7 @@ public class LazyGenericTypeProposal extends LazyJavaTypeCompletionProposal {
 
 	private boolean hasAmbiguousProposals(TypeArgumentProposal[] typeArgumentProposals) {
 		boolean hasAmbiguousProposals= false;
-		for (TypeArgumentProposal typeArgumentProposal : typeArgumentProposals) {
+		for (TypeArgumentProposal typeArgumentProposal : typeArgumentProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (typeArgumentProposal.isAmbiguous()) {
 				hasAmbiguousProposals= true;
 				break;

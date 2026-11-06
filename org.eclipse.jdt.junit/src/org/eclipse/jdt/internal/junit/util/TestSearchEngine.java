@@ -48,8 +48,8 @@ import org.eclipse.jdt.internal.junit.ui.JUnitMessages;
 public class TestSearchEngine extends CoreTestSearchEngine {
 
 	public static Set<IType> findTests(IRunnableContext context, IJavaElement element, ITestKind testKind) throws InvocationTargetException, InterruptedException {
-		var result= new HashSet<IType>();
-		context.run(true, true, (progressMonitor) -> {
+		var result= new HashSet<IType>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		context.run(true, true, (progressMonitor) -> { //FLLDCIM: MARK — T09  LAMBDA
 			ITestFinder finder= testKind.getFinder();
 			try {
 				finder.findTestsInContainer(element, result, progressMonitor);
@@ -61,8 +61,8 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 	}
 
 	public static Set<String> findTestMethods(IRunnableContext context, IJavaProject javaProject, IType type, TestKind testKind) throws InvocationTargetException, InterruptedException {
-		var result= new HashSet<String>();
-		context.run(true, true, (progressMonitor) -> {
+		var result= new HashSet<String>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		context.run(true, true, (progressMonitor) -> { //FLLDCIM: MARK — T09  LAMBDA
 			String message= Messages.format(JUnitMessages.TestSearchEngine_search_message_progress_monitor, type.getElementName());
 			SubMonitor subMonitor= SubMonitor.convert(progressMonitor, message, 1);
 			try {
@@ -74,7 +74,7 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 		return result;
 	}
 
-	private static void collectMethodNames(IType type, IJavaProject javaProject, String testKindId, Set<String> methodNames, IProgressMonitor monitor) throws JavaModelException {
+	private static void collectMethodNames(IType type, IJavaProject javaProject, String testKindId, Set<String> methodNames, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type == null) {
 			return;
 		}
@@ -90,7 +90,7 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 
 		String[] superInterfaceNames= type.getSuperInterfaceNames();
 		subMonitor.setWorkRemaining(superInterfaceNames.length);
-		for (String interfaceName : superInterfaceNames) {
+		for (String interfaceName : superInterfaceNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			superType= getResolvedType(interfaceName, type, javaProject);
 			collectMethodNames(superType, javaProject, testKindId, methodNames, subMonitor.split(1));
 		}
@@ -112,12 +112,12 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 		return resolvedType;
 	}
 
-	private static void collectDeclaredMethodNames(IType type, IJavaProject javaProject, String testKindId, Set<String> methodNames) throws JavaModelException {
+	private static void collectDeclaredMethodNames(IType type, IJavaProject javaProject, String testKindId, Set<String> methodNames) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isJUnit3= TestKindRegistry.JUNIT3_TEST_KIND_ID.equals(testKindId);
 		boolean isJUnitJupiter= !isJUnit3 && !TestKindRegistry.JUNIT4_TEST_KIND_ID.equals(testKindId);
 
 		IMethod[] methods= type.getMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int flags= method.getFlags();
 			if (Flags.isStatic(flags) || Flags.isPrivate(flags) || Flags.isAbstract(flags)) continue;
 			String methodName= method.getElementName();
@@ -131,7 +131,7 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 			if (!isJUnit3) {
 				IAnnotation annotation= method.getAnnotation("Test"); //$NON-NLS-1$
 				if (annotation.exists()) {
-					methodNames.add(methodName + JUnitStubUtility.getParameterTypes(method, false));
+					methodNames.add(methodName + JUnitStubUtility.getParameterTypes(method, false)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else if (isJUnitJupiter) {
 					boolean hasAnyTestAnnotation=
 							method.getAnnotation("TestFactory").exists() //$NON-NLS-1$
@@ -140,7 +140,7 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 							|| method.getAnnotation("ParameterizedTest").exists() //$NON-NLS-1$
 							|| method.getAnnotation("RepeatedTest").exists(); //$NON-NLS-1$
 					if (hasAnyTestAnnotation || isAnnotatedWithTestable(method, type, javaProject)) {
-						methodNames.add(methodName + JUnitStubUtility.getParameterTypes(method, false));
+						methodNames.add(methodName + JUnitStubUtility.getParameterTypes(method, false)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -149,13 +149,13 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 
 	// See JUnit5TestFinder.Annotation#annotates also.
 	private static boolean isAnnotatedWithTestable(IMethod method, IType declaringType, IJavaProject javaProject) throws JavaModelException {
-		for (IAnnotation annotation : method.getAnnotations()) {
+		for (IAnnotation annotation : method.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType annotationType= getResolvedType(annotation.getElementName(), declaringType, javaProject);
 			if (annotationType != null) {
 				if (matchesTestable(annotationType)) {
 					return true;
 				}
-				Set<IType> hierarchy= new HashSet<>();
+				Set<IType> hierarchy= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				if (matchesTestableInAnnotationHierarchy(annotationType, javaProject, hierarchy)) {
 					return true;
 				}
@@ -170,7 +170,7 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 
 	private static boolean matchesTestableInAnnotationHierarchy(IType annotationType, IJavaProject javaProject, Set<IType> hierarchy) throws JavaModelException {
 		if (annotationType != null) {
-			for (IAnnotation annotation : annotationType.getAnnotations()) {
+			for (IAnnotation annotation : annotationType.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType annType= getResolvedType(annotation.getElementName(), annotationType, javaProject);
 				if (annType != null && hierarchy.add(annType)) {
 					if (matchesTestable(annType) || matchesTestableInAnnotationHierarchy(annType, javaProject, hierarchy)) {

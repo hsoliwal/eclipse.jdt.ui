@@ -67,23 +67,23 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 
 	@Override
 	public String getName() {
-		StringBuilder buf= new StringBuilder();
-		buf.append(fTypeNode.getName().getIdentifier());
-		buf.append('(');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(fTypeNode.getName().getIdentifier()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (fSuperConstructor != null) {
 			ITypeBinding[] paramTypes= fSuperConstructor.getParameterTypes();
-			for (int i= 0; i < paramTypes.length; i++) {
+			for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
-					buf.append(',');
+					buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append(paramTypes[i].getName());
+				buf.append(paramTypes[i].getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buf.append(')');
+		buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return Messages.format(CorrectionMessages.ConstructorFromSuperclassProposal_description, BasicElementLabels.getJavaElementName(buf.toString()));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		AST ast= fTypeNode.getAST();
 
@@ -107,14 +107,14 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 
 	private void addLinkedRanges(ASTRewrite rewrite, MethodDeclaration newStub) {
 		List<SingleVariableDeclaration> parameters= newStub.parameters();
-		for (SingleVariableDeclaration curr : parameters) {
+		for (SingleVariableDeclaration curr : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= curr.getName().getIdentifier();
-			addLinkedPosition(rewrite.track(curr.getType()), false, "arg_type_" + name); //$NON-NLS-1$
-			addLinkedPosition(rewrite.track(curr.getName()), false, "arg_name_" + name); //$NON-NLS-1$
+			addLinkedPosition(rewrite.track(curr.getType()), false, "arg_type_" + name); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			addLinkedPosition(rewrite.track(curr.getName()), false, "arg_name_" + name); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private MethodDeclaration createNewMethodDeclaration(AST ast, IMethodBinding binding, ASTRewrite rewrite, ImportRewriteContext importRewriteContext, CodeGenerationSettings commentSettings) throws CoreException {
+	private MethodDeclaration createNewMethodDeclaration(AST ast, IMethodBinding binding, ASTRewrite rewrite, ImportRewriteContext importRewriteContext, CodeGenerationSettings commentSettings) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= fTypeNode.getName().getIdentifier();
 		MethodDeclaration decl= ast.newMethodDeclaration();
 		decl.setConstructor(true);
@@ -138,7 +138,7 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 			decl.modifiers().addAll(ASTNodeFactory.newModifiers(ast, binding.getModifiers()));
 
 			ITypeBinding[] params= binding.getParameterTypes();
-			for (int i= 0; i < params.length; i++) {
+			for (int i= 0; i < params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration var= ast.newSingleVariableDeclaration();
 				Type varType= getImportRewrite().addImport(params[i], ast, importRewriteContext, TypeLocation.LOCAL_VARIABLE);
 				var.setType(varType);
@@ -147,7 +147,7 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 						annotatedType.annotations().size() == 0) {
 					ITypeBinding[] paramTypes= binding.getParameterTypes();
 					IAnnotationBinding[] annotations= paramTypes[i].getTypeAnnotations();
-					for (IAnnotationBinding annotation : annotations) {
+					for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (annotation.getDeclaredMemberValuePairs().length == 0) {
 							String annotationName= annotation.getName();
 							ITypeBinding annotationBinding= annotation.getAnnotationType();
@@ -164,7 +164,7 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 			}
 
 			List<Type> thrownExceptions= decl.thrownExceptionTypes();
-			for (ITypeBinding t : binding.getExceptionTypes()) {
+			for (ITypeBinding t : binding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type excType= getImportRewrite().addImport(t, ast, importRewriteContext, TypeLocation.EXCEPTION);
 				thrownExceptions.add(excType);
 			}
@@ -174,10 +174,10 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 			}
 
 			List<Expression> arguments= invocation.arguments();
-			for (String paramName : paramNames) {
+			for (String paramName : paramNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Name argument= ast.newSimpleName(paramName);
 				arguments.add(argument);
-				addLinkedPosition(rewrite.track(argument), false, "arg_name_" + paramName); //$NON-NLS-1$
+				addLinkedPosition(rewrite.track(argument), false, "arg_name_" + paramName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -197,7 +197,7 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 		return decl;
 	}
 
-	private SuperConstructorInvocation addEnclosingInstanceAccess(ASTRewrite rewrite, ImportRewriteContext importRewriteContext, List<SingleVariableDeclaration> parameters, String[] paramNames, ITypeBinding enclosingInstance) {
+	private SuperConstructorInvocation addEnclosingInstanceAccess(ASTRewrite rewrite, ImportRewriteContext importRewriteContext, List<SingleVariableDeclaration> parameters, String[] paramNames, ITypeBinding enclosingInstance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		SuperConstructorInvocation invocation= ast.newSuperConstructorInvocation();
 
@@ -211,15 +211,15 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 		Name enclosing= ast.newSimpleName(firstName);
 		invocation.setExpression(enclosing);
 
-		String key= "arg_name_" + firstName; //$NON-NLS-1$
+		String key= "arg_name_" + firstName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		addLinkedPosition(rewrite.track(enclosing), false, key);
-		for (String enclosingArgName : enclosingArgNames) {
+		for (String enclosingArgName : enclosingArgNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addLinkedPositionProposal(key, enclosingArgName); // alternative names
 		}
 		return invocation;
 	}
 
-	private ITypeBinding getEnclosingInstance() {
+	private ITypeBinding getEnclosingInstance() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding currBinding= fTypeNode.resolveBinding();
 		if (currBinding == null || Modifier.isStatic(currBinding.getModifiers())) {
 			return null;
@@ -230,7 +230,7 @@ public class ConstructorFromSuperclassProposalCore extends LinkedCorrectionPropo
 		}
 		ITypeBinding enclosing= superBinding.getDeclaringClass();
 
-		while (currBinding != null) {
+		while (currBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Bindings.isSuperType(enclosing, currBinding)) {
 				return null; // enclosing in scope
 			}

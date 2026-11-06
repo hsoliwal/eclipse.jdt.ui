@@ -56,7 +56,7 @@ public abstract class AbstractVariableResolver extends TemplateVariableResolver 
 	 */
 	protected abstract Variable[] getVisibleVariables(String type, IJavaContext context);
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 
 		if (variable instanceof JavaVariable) {
@@ -72,8 +72,8 @@ public abstract class AbstractVariableResolver extends TemplateVariableResolver 
 				fVariables= getVisibleVariables(type, jc);
 				jv.setParamType(type);
 			} else {
-				ArrayList<Variable> variables= new ArrayList<>();
-				for (String string : params) {
+				ArrayList<Variable> variables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (String string : params) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					variables.addAll(Arrays.asList(getVisibleVariables(string, jc)));
 				}
 				fVariables= variables.toArray(new Variable[variables.size()]);
@@ -102,7 +102,7 @@ public abstract class AbstractVariableResolver extends TemplateVariableResolver 
 	protected String[] resolveAll(TemplateContext context) {
 
 		String[] names= new String[fVariables.length];
-	    for (int i= 0; i < fVariables.length; i++)
+	    for (int i= 0; i < fVariables.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			names[i]= fVariables[i].getName();
 
 	    if (names.length > 0)

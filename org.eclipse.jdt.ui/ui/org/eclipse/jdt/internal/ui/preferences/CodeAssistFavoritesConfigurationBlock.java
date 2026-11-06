@@ -106,7 +106,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 		private List<String> fExistingEntries;
 		private final boolean fIsEditingMember;
 
-		public FavoriteStaticMemberInputDialog(Shell parent, List<String> existingEntries, boolean isMember, boolean isNew) {
+		public FavoriteStaticMemberInputDialog(Shell parent, List<String> existingEntries, boolean isMember, boolean isNew) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent);
 			fIsEditingMember= isMember;
 			fExistingEntries= existingEntries;
@@ -150,11 +150,11 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 		public String getResult() {
 			String val= fNameDialogField.getText();
 			if (!fIsEditingMember)
-				val= val + WILDCARD;
+				val= val + WILDCARD; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return val;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite) super.createDialogArea(parent);
 			initializeDialogUnits(parent);
@@ -202,7 +202,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 			}
 		}
 
-		private void doValidation() {
+		private void doValidation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			StatusInfo status= new StatusInfo();
 			String newText= fNameDialogField.getText();
 			if (newText.length() == 0) {
@@ -316,7 +316,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 		super(statusListener, null, getAllKeys(), workbenchcontainer);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		ScrolledPageContent scrolled= new ScrolledPageContent(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolled.setExpandHorizontal(true);
@@ -342,7 +342,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 		return scrolled;
 	}
 
-	private void createFavoriteList(Composite parent) {
+	private void createFavoriteList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] buttonLabels= new String[] {
 				PreferencesMessages.CodeAssistStaticMembersConfigurationBlock_newType_button,
 				PreferencesMessages.CodeAssistStaticMembersConfigurationBlock_newMember_button,
@@ -399,22 +399,22 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 			label.setEnabled(enabled);
 	}
 
-	private Control getControl(Key key) {
-		for (int i= fComboBoxes.size() - 1; i >= 0; i--) {
+	private Control getControl(Key key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i= fComboBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fComboBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey())) {
 				return curr;
 			}
 		}
-		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fCheckBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fCheckBoxes.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (key.equals(data.getKey())) {
 				return curr;
 			}
 		}
-		for (int i= fTextBoxes.size() - 1; i >= 0; i--) {
+		for (int i= fTextBoxes.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fTextBoxes.get(i);
 			Key currKey= (Key) curr.getData();
 			if (key.equals(currKey)) {
@@ -424,7 +424,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 		return null;
 	}
 
-	private void doButtonPressed(int index) {
+	private void doButtonPressed(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index == IDX_NEW_TYPE || index == IDX_NEW_MEMBER) { // add new
 			List<String> existing= fList.getElements();
 			FavoriteStaticMemberInputDialog dialog= new FavoriteStaticMemberInputDialog(getShell(), existing, index == IDX_NEW_MEMBER, true);
@@ -467,7 +467,7 @@ class CodeAssistFavoritesConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private static String[] deserializeFavorites(String str) {
-		return str.split(";"); //$NON-NLS-1$
+		return str.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	private static String serializeFavorites(List<String> favorites) {

@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -80,7 +81,7 @@ public final class JUnitModel {
 		 * so that we only attach a TestRunner once to a launch.
 		 * Once a test runner is connected, it is removed from the set.
 		 */
-		private HashSet<ILaunch> fTrackedLaunches= new HashSet<>(20);
+		private HashSet<ILaunch> fTrackedLaunches= new HashSet<>(20); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		/*
 		 * @see ILaunchListener#launchAdded(ILaunch)
@@ -109,7 +110,7 @@ public final class JUnitModel {
 		/*
 		 * @see ILaunchListener#launchChanged(ILaunch)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void launchChanged(final ILaunch launch) {
 			if (!fTrackedLaunches.contains(launch))
 				return;
@@ -139,7 +140,7 @@ public final class JUnitModel {
 			TestRunSession testRunSession= new TestRunSession(launch, javaProject, port);
 			addTestRunSession(testRunSession);
 
-			for (TestRunListener listener : JUnitCorePlugin.getDefault().getNewTestRunListeners()) {
+			for (TestRunListener listener : JUnitCorePlugin.getDefault().getNewTestRunListeners()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.sessionLaunched(testRunSession);
 			}
 		}
@@ -150,7 +151,7 @@ public final class JUnitModel {
 		private TestRunSession fActiveTestRunSession;
 		private ITestSessionListener fTestSessionListener;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void sessionAdded(TestRunSession testRunSession) {
 			// Only serve one legacy ITestRunListener at a time, since they cannot distinguish between different concurrent test sessions:
 			if (fActiveTestRunSession != null)
@@ -166,14 +167,14 @@ public final class JUnitModel {
 				@Override
 				public void sessionStarted() {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testRunStarted(fActiveTestRunSession.getTotalCount());
 					}
 				}
 				@Override
 				public void sessionTerminated() {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testRunTerminated();
 					}
 					sessionRemoved(fActiveTestRunSession);
@@ -181,7 +182,7 @@ public final class JUnitModel {
 				@Override
 				public void sessionStopped(long elapsedTime) {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testRunStopped(elapsedTime);
 					}
 					sessionRemoved(fActiveTestRunSession);
@@ -189,7 +190,7 @@ public final class JUnitModel {
 				@Override
 				public void sessionEnded(long elapsedTime) {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testRunEnded(elapsedTime);
 					}
 					sessionRemoved(fActiveTestRunSession);
@@ -201,7 +202,7 @@ public final class JUnitModel {
 				@Override
 				public void testStarted(TestCaseElement testCaseElement) {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testStarted(testCaseElement.getId(), testCaseElement.getTestName());
 					}
 				}
@@ -209,7 +210,7 @@ public final class JUnitModel {
 				@Override
 				public void testFailed(TestElement testElement, Status status, String trace, String expected, String actual) {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testFailed(status.getOldCode(), testElement.getId(), testElement.getTestName(), trace);
 					}
 				}
@@ -217,7 +218,7 @@ public final class JUnitModel {
 				@Override
 				public void testEnded(TestCaseElement testCaseElement) {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testEnded(testCaseElement.getId(), testCaseElement.getTestName());
 					}
 				}
@@ -225,7 +226,7 @@ public final class JUnitModel {
 				@Override
 				public void testReran(TestCaseElement testCaseElement, Status status, String trace, String expectedResult, String actualResult) {
 					org.eclipse.jdt.junit.ITestRunListener[] testRunListeners= JUnitCorePlugin.getDefault().getTestRunListeners();
-					for (ITestRunListener testRunListener : testRunListeners) {
+					for (ITestRunListener testRunListener : testRunListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						testRunListener.testReran(testCaseElement.getId(), testCaseElement.getClassName(), testCaseElement.getTestMethodName(), status.getOldCode(), trace);
 					}
 				}
@@ -253,7 +254,7 @@ public final class JUnitModel {
 	 * Active test run sessions, youngest first.
 	 */
 	private final LinkedList<TestRunSession> fTestRunSessions= new LinkedList<>();
-	private final Map<TestRunSession, File> fImportedTestRunSources= new IdentityHashMap<>();
+	private final Map<TestRunSession, File> fImportedTestRunSources= new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 	private final ILaunchListener fLaunchListener= new JUnitLaunchListener();
 
 	/**
@@ -264,7 +265,7 @@ public final class JUnitModel {
 		launchManager.addLaunchListener(fLaunchListener);
 
 		List<TestRunSession> restoredSessions= TestRunSessionHistory.load(JUnitCorePlugin.getHistoryDirectory(), getMaxTestRunCount());
-		for (int i= restoredSessions.size() - 1; i >= 0; i--) {
+		for (int i= restoredSessions.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addTestRunSession(restoredSessions.get(i));
 		}
 
@@ -297,7 +298,7 @@ public final class JUnitModel {
 	 *         global list of active sessions. The list is sorted by age, youngest first.
 	 */
 	public synchronized List<TestRunSession> getTestRunSessions() {
-		return new ArrayList<>(fTestRunSessions);
+		return new ArrayList<>(fTestRunSessions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -324,9 +325,9 @@ public final class JUnitModel {
 		addTestRunSession(testRunSession, null);
 	}
 
-	private void addTestRunSession(TestRunSession testRunSession, File importedTestRunSource) {
+	private void addTestRunSession(TestRunSession testRunSession, File importedTestRunSource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(testRunSession);
-		ArrayList<TestRunSession> toRemove= new ArrayList<>();
+		ArrayList<TestRunSession> toRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		synchronized (this) {
 			Assert.isLegal(! fTestRunSessions.contains(testRunSession));
@@ -339,7 +340,7 @@ public final class JUnitModel {
 			int size= fTestRunSessions.size();
 			if (size > maxCount) {
 				List<TestRunSession> excess= fTestRunSessions.subList(maxCount, size);
-				for (Iterator<TestRunSession> iter= excess.iterator(); iter.hasNext();) {
+				for (Iterator<TestRunSession> iter= excess.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TestRunSession oldSession= iter.next();
 					if (!oldSession.isStarting() && !oldSession.isRunning() && !oldSession.isKeptAlive()) {
 						toRemove.add(oldSession);
@@ -350,7 +351,7 @@ public final class JUnitModel {
 			}
 		}
 
-		for (TestRunSession oldSession : toRemove) {
+		for (TestRunSession oldSession : toRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			notifyTestRunSessionRemoved(oldSession);
 			oldSession.removeSwapFile();
 		}
@@ -395,6 +396,8 @@ public final class JUnitModel {
 		return replacementSession;
 	}
 
+	private static final Pattern TRIMMED_URL_PATTERN = Pattern.compile("\r\n?|\n"); //$NON-NLS-1$
+
 	/**
 	 * Imports a test run session from the given URL.
 	 *
@@ -405,16 +408,17 @@ public final class JUnitModel {
 	 * @throws InterruptedException if the import was cancelled
 	 * @since 3.6
 	 */
-	public static TestRunSession importTestRunSession(String url, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+	public static TestRunSession importTestRunSession(String url, IProgressMonitor monitor) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		monitor.beginTask(ModelMessages.JUnitModel_importing_from_url, IProgressMonitor.UNKNOWN);
-		final String trimmedUrl= url.trim().replaceAll("\r\n?|\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		final String trimmedUrl= TRIMMED_URL_PATTERN.matcher(url.trim()).replaceAll(""); //$NON-NLS-1$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		final TestRunHandler handler= new TestRunHandler(monitor);
 
 		final CoreException[] exception= { null };
 		final TestRunSession[] session= { null };
 
 		Thread importThread= new Thread("JUnit URL importer") { //$NON-NLS-1$
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				try {
 					SAXParserFactory parserFactory= XmlProcessorFactoryJdtJunit.createSAXFactoryWithErrorOnDOCTYPE();
@@ -440,7 +444,7 @@ public final class JUnitModel {
 		};
 		importThread.start();
 
-		while (session[0] == null && exception[0] == null && !monitor.isCanceled()) {
+		while (session[0] == null && exception[0] == null && !monitor.isCanceled()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -485,7 +489,7 @@ public final class JUnitModel {
 	 * @throws CoreException if an error occurred
 	 */
 	public static void exportTestRunSession(TestRunSession testRunSession, File file) throws CoreException {
-		try (FileOutputStream out= new FileOutputStream(file)) {
+		try (FileOutputStream out= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			exportTestRunSession(testRunSession, out);
 		} catch (IOException | TransformerException e) {
 			throw new CoreException(org.eclipse.core.runtime.Status.error(
@@ -494,7 +498,7 @@ public final class JUnitModel {
 		}
 	}
 
-	public static void exportTestRunSession(TestRunSession testRunSession, OutputStream out)
+	public static void exportTestRunSession(TestRunSession testRunSession, OutputStream out) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws TransformerFactoryConfigurationError, TransformerException {
 
 		Transformer transformer= XmlProcessorFactoryJdtJunit.createTransformerFactoryWithErrorOnDOCTYPE().newTransformer();
@@ -518,7 +522,7 @@ public final class JUnitModel {
 		transformer.transform(source, result);
 	}
 
-	private boolean replaceTestRunSession(TestRunSession oldSession, TestRunSession newSession, File sourceFile) {
+	private boolean replaceTestRunSession(TestRunSession oldSession, TestRunSession newSession, File sourceFile) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(oldSession);
 		Assert.isNotNull(newSession);
 		boolean replaced;
@@ -565,13 +569,13 @@ public final class JUnitModel {
 			launchManager.removeLaunch(launch);
 		}
 
-		for (ITestRunSessionListener listener : fTestRunSessionListeners) {
+		for (ITestRunSessionListener listener : fTestRunSessionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.sessionRemoved(testRunSession);
 		}
 	}
 
 	private void notifyTestRunSessionAdded(TestRunSession testRunSession) {
-		for (ITestRunSessionListener listener : fTestRunSessionListeners) {
+		for (ITestRunSessionListener listener : fTestRunSessionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.sessionAdded(testRunSession);
 		}
 	}

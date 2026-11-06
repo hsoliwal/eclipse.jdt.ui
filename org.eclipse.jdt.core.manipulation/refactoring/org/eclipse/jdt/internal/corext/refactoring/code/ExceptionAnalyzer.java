@@ -29,7 +29,7 @@ import org.eclipse.jdt.internal.corext.refactoring.util.AbstractExceptionAnalyze
 
 	public static ITypeBinding[] perform(ASTNode[] statements) {
 		ExceptionAnalyzer analyzer= new ExceptionAnalyzer();
-		for (ASTNode statement : statements) {
+		for (ASTNode statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			statement.accept(analyzer);
 		}
 		List<ITypeBinding> exceptions= analyzer.getCurrentExceptions();

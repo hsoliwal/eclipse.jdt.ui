@@ -97,7 +97,7 @@ public class JavaTemplatesPage extends AbstractTemplatesPage {
 	/*
 	 * @see org.eclipse.ui.texteditor.templates.AbstractTemplatesPage#insertTemplate(org.eclipse.jface.text.templates.Template, org.eclipse.jface.text.IDocument)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void insertTemplate(Template template, IDocument document) {
 		if (!fJavaEditor.validateEditorInputState())
 			return;
@@ -174,7 +174,7 @@ public class JavaTemplatesPage extends AbstractTemplatesPage {
 	 */
 	@Override
 	protected boolean isValidTemplate(IDocument document, Template template, int offset, int length) {
-		for (String contextId : getContextTypeIds(document, offset)) {
+		for (String contextId : getContextTypeIds(document, offset)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contextId.equals(template.getContextTypeId())) {
 				DocumentTemplateContext context= getContext(document, template, offset, length);
 				return context.canEvaluate(template) || isTemplateAllowed(context, template);
@@ -183,7 +183,7 @@ public class JavaTemplatesPage extends AbstractTemplatesPage {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected SourceViewer createPatternViewer(Composite parent) {
 		IDocument document= new Document();
 		JavaTextTools tools= JavaPlugin.getDefault().getJavaTextTools();
@@ -229,7 +229,7 @@ public class JavaTemplatesPage extends AbstractTemplatesPage {
 	/*
 	 * @see org.eclipse.ui.texteditor.templates.TextEditorTemplatesPage#updatePatternViewer(org.eclipse.jface.text.templates.Template)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void updatePatternViewer(Template template) {
 		if (template == null) {
 			getPatternViewer().getDocument().set(""); //$NON-NLS-1$
@@ -243,11 +243,11 @@ public class JavaTemplatesPage extends AbstractTemplatesPage {
 
 		String start= null;
 		if ("javadoc".equals(contextId)) { //$NON-NLS-1$
-			start= "/**" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$
+			start= "/**" + doc.getLegalLineDelimiters()[0]; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else
 			start= ""; //$NON-NLS-1$
 
-		doc.set(start + template.getPattern());
+		doc.set(start + template.getPattern()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int startLen= start.length();
 		getPatternViewer().setDocument(doc, startLen, doc.getLength() - startLen);
 	}
@@ -339,7 +339,7 @@ public class JavaTemplatesPage extends AbstractTemplatesPage {
 	 * @param offset the offset
 	 * @return an array of valid context id
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String[] getContextTypeIds(IDocument document, int offset) {
 		try {
 			String partition= TextUtilities.getContentType(document, IJavaPartitions.JAVA_PARTITIONING, offset, true);

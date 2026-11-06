@@ -172,7 +172,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 	 * Creates a new promote temp to field refactoring.
 	 * @param declaration the variable declaration node to convert to a field
 	 */
-	public PromoteTempToFieldRefactoring(VariableDeclaration declaration) {
+	public PromoteTempToFieldRefactoring(VariableDeclaration declaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(declaration != null);
 		fTempDeclarationNode= declaration;
 		IVariableBinding resolveBinding= declaration.resolveBinding();
@@ -319,7 +319,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     /*
 	 * @see org.eclipse.jdt.internal.corext.refactoring.base.Refactoring#checkActivation(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		RefactoringStatus result= Checks.validateModifiesFiles(
 			ResourceUtil.getFiles(new ICompilationUnit[]{fCu}),
@@ -380,7 +380,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		if (suggestedNames.length > 0) {
 			if (fLinkedProposalModel != null) {
 				LinkedProposalPositionGroupCore nameGroup= fLinkedProposalModel.getPositionGroup(LINKED_NAME, true);
-				for (int i= 0; i < suggestedNames.length; i++) {
+				for (int i= 0; i < suggestedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					nameGroup.addProposal(suggestedNames[i], suggestedNames.length - i);
 				}
 			}
@@ -394,9 +394,9 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		final AbstractTypeDeclaration type= getEnclosingType();
 		if (type instanceof TypeDeclaration) {
 			FieldDeclaration[] fields= ((TypeDeclaration) type).getFields();
-			List<String> result= new ArrayList<>(fields.length);
-			for (FieldDeclaration field2 : fields) {
-				for (Iterator<VariableDeclarationFragment> iter= field2.fragments().iterator(); iter.hasNext();) {
+			List<String> result= new ArrayList<>(fields.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (FieldDeclaration field2 : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (Iterator<VariableDeclarationFragment> iter= field2.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment field= iter.next();
 					result.add(field.getName().getIdentifier());
 				}
@@ -418,7 +418,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 	    fInitializerUsesLocalTypes= ! localTypeAnalyer.getUsageOfEnclosingNodes().isEmpty();
     }
 
-    private RefactoringStatus checkTempTypeForLocalTypeUsage(){
+    private RefactoringStatus checkTempTypeForLocalTypeUsage(){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	VariableDeclarationStatement vds= getTempDeclarationStatement();
     	if (vds == null)
     		return RefactoringStatus.createFatalErrorStatus(RefactoringCoreMessages.PromoteTempToFieldRefactoring_cannot_promote);
@@ -477,12 +477,12 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     	}
     }
 
-    private RefactoringStatus checkClashesInConstructors() {
+    private RefactoringStatus checkClashesInConstructors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(fInitializeIn == INITIALIZE_IN_CONSTRUCTOR);
 		Assert.isTrue(!isDeclaredInAnonymousClass());
 		final AbstractTypeDeclaration declaration= (AbstractTypeDeclaration) getMethodDeclaration().getParent();
 		if (declaration instanceof TypeDeclaration) {
-			for (MethodDeclaration method : ((TypeDeclaration) declaration).getMethods()) {
+			for (MethodDeclaration method : ((TypeDeclaration) declaration).getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!method.isConstructor())
 					continue;
 				NameCollector nameCollector= new NameCollector(method) {
@@ -504,9 +504,9 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 	}
 
     private RefactoringStatus checkClashesWithExistingFields(){
-        for (FieldDeclaration declaration : getFieldDeclarations()) {
+        for (FieldDeclaration declaration : getFieldDeclarations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             VariableDeclarationFragment[] fragments= (VariableDeclarationFragment[]) declaration.fragments().toArray(new VariableDeclarationFragment[declaration.fragments().size()]);
-			for (VariableDeclarationFragment fragment : fragments) {
+			for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 if (fFieldName.equals(fragment.getName().getIdentifier())){
                 	//cannot conflict with more than 1 name
                 	RefactoringStatusContext context= JavaStatusContext.create(fCu, fragment);
@@ -519,8 +519,8 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 
     private FieldDeclaration[] getFieldDeclarations() {
     	List<BodyDeclaration> bodyDeclarations= ASTNodes.getBodyDeclarations(getMethodDeclaration().getParent());
-    	List<FieldDeclaration> fields= new ArrayList<>(1);
-    	for (BodyDeclaration bodyDeclaration : bodyDeclarations) {
+    	List<FieldDeclaration> fields= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+    	for (BodyDeclaration bodyDeclaration : bodyDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        Object each= bodyDeclaration;
 	        if (each instanceof FieldDeclaration)
 	        	fields.add((FieldDeclaration) each);
@@ -531,7 +531,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     /*
      * @see org.eclipse.jdt.internal.corext.refactoring.base.IRefactoring#createChange(org.eclipse.core.runtime.IProgressMonitor)
      */
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
     	pm.beginTask("", 1); //$NON-NLS-1$
     	try {
@@ -566,7 +566,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     	}
     }
 
-    private void addTempRenames(ASTRewrite rewrite) {
+    private void addTempRenames(ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	boolean noNameChange= fFieldName.equals(fTempDeclarationNode.getName().getIdentifier());
 		if (fLinkedProposalModel == null && noNameChange) {
 			return; // no changes needed
@@ -575,7 +575,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		analyzer.perform();
 
 		// no javadocs (refactoring not for parameters)
-		for (SimpleName occurence : analyzer.getReferenceNodes()) {
+		for (SimpleName occurence : analyzer.getReferenceNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (noNameChange) {
 				addLinkedName(rewrite, occurence, false);
 			} else {
@@ -586,7 +586,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		}
     }
 
-    private void addInitializersToConstructors(ASTRewrite rewrite) throws CoreException {
+    private void addInitializersToConstructors(ASTRewrite rewrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	Assert.isTrue(! isDeclaredInAnonymousClass());
     	final AbstractTypeDeclaration declaration= (AbstractTypeDeclaration)getMethodDeclaration().getParent();
     	final MethodDeclaration[] constructors= getAllConstructors(declaration);
@@ -604,7 +604,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     		int insertionIndex= computeInsertIndexForNewConstructor(declaration);
 			rewrite.getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertAt(newConstructor, insertionIndex, null);
     	} else {
-    		for (MethodDeclaration constructor : constructors) {
+    		for (MethodDeclaration constructor : constructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 if (shouldInsertTempInitialization(constructor))
                     addFieldInitializationToConstructor(rewrite, constructor);
             }
@@ -641,7 +641,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     }
 
     private int findFirstMethodIndex(AbstractTypeDeclaration typeDeclaration) {
-    	for (int i= 0, n= typeDeclaration.bodyDeclarations().size(); i < n; i++) {
+    	for (int i= 0, n= typeDeclaration.bodyDeclarations().size(); i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (typeDeclaration.bodyDeclarations().get(i) instanceof MethodDeclaration)
             	return i;
         }
@@ -670,8 +670,8 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     private static MethodDeclaration[] getAllConstructors(AbstractTypeDeclaration typeDeclaration) {
 		if (typeDeclaration instanceof TypeDeclaration) {
 			MethodDeclaration[] allMethods= ((TypeDeclaration) typeDeclaration).getMethods();
-			List<MethodDeclaration> result= new ArrayList<>(Math.min(allMethods.length, 1));
-			for (MethodDeclaration declaration : allMethods) {
+			List<MethodDeclaration> result= new ArrayList<>(Math.min(allMethods.length, 1)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (MethodDeclaration declaration : allMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (declaration.isConstructor())
 					result.add(declaration);
 			}
@@ -681,8 +681,8 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 	}
 
 
-	private ConvertLocalVariableDescriptor getRefactoringDescriptor() {
-		final Map<String, String> arguments= new HashMap<>();
+	private ConvertLocalVariableDescriptor getRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fCu.getJavaProject();
 		if (javaProject != null)
@@ -717,7 +717,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		final ConvertLocalVariableDescriptor descriptor= RefactoringSignatureDescriptorFactory.createConvertLocalVariableDescriptor(project, description, comment.asString(), arguments, RefactoringDescriptor.STRUCTURAL_CHANGE);
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCu));
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_NAME, fFieldName);
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.put(ATTRIBUTE_STATIC, Boolean.toString(fDeclareStatic));
 		arguments.put(ATTRIBUTE_FINAL, Boolean.toString(fDeclareFinal));
 		arguments.put(ATTRIBUTE_VISIBILITY, Integer.toString(fVisibility));
@@ -725,7 +725,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		return descriptor;
 	}
 
-    private void addLocalDeclarationSplit(ASTRewrite rewrite) {
+    private void addLocalDeclarationSplit(ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	VariableDeclarationStatement tempDeclarationStatement= getTempDeclarationStatement();
     	ASTNode parentStatement= tempDeclarationStatement.getParent();
 
@@ -753,7 +753,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 			return;
 		}
 
-        for (int i1= fragmentIndex, n = fragments.size(); i1 < n; i1++) {
+        for (int i1= fragmentIndex, n = fragments.size(); i1 < n; i1++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	VariableDeclarationFragment fragment= fragments.get(i1);
         	rewrite.remove(fragment, null);
         }
@@ -778,7 +778,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 				ASTNode modifiersCopy= modifiersRewrite.createCopyTarget(firstModifier, lastModifier);
 	        	statement.modifiers().add(modifiersCopy);
         	}
-        	for (int i= fragmentIndex + 2; i < fragments.size(); i++) {
+        	for (int i= fragmentIndex + 2; i < fragments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		VariableDeclarationFragment fragment= fragments.get(i);
                 VariableDeclarationFragment fragmentCopy= (VariableDeclarationFragment)rewrite.createCopyTarget(fragment);
                 statement.fragments().add(fragmentCopy);
@@ -840,7 +840,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		rewrite.getListRewrite(parent, descriptor).insertAt(declaration, insertIndex, null);
     }
 
-    private FieldDeclaration createNewFieldDeclaration(ASTRewrite rewrite) {
+    private FieldDeclaration createNewFieldDeclaration(ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= getAST();
 		VariableDeclarationFragment fragment= ast.newVariableDeclarationFragment();
 		SimpleName variableName= ast.newSimpleName(fFieldName);
@@ -884,8 +884,8 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
     }
 
     private static class LocalTypeAndVariableUsageAnalyzer extends HierarchicalASTVisitor{
-    	private final List<IBinding> fLocalDefinitions= new ArrayList<>(0); // List of IBinding (Variable and Type)
-    	private final List<SimpleName> fLocalReferencesToEnclosing= new ArrayList<>(0); // List of ASTNodes
+    	private final List<IBinding> fLocalDefinitions= new ArrayList<>(0); // List of IBinding (Variable and Type) //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+    	private final List<SimpleName> fLocalReferencesToEnclosing= new ArrayList<>(0); // List of ASTNodes //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private final List<ITypeBinding> fMethodTypeVariables;
 		private boolean fClassTypeVariablesUsed= false;
     	public LocalTypeAndVariableUsageAnalyzer(ITypeBinding[] methodTypeVariables) {
@@ -897,7 +897,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		public boolean getClassTypeVariablesUsed() {
 			return fClassTypeVariablesUsed;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			ITypeBinding typeBinding= node.resolveTypeBinding();
 			if (typeBinding != null && typeBinding.isLocal()) {
@@ -930,7 +930,7 @@ public class PromoteTempToFieldRefactoring extends Refactoring {
 		}
     }
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelfInitializing= true;
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {

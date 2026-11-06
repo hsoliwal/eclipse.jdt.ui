@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
-public class JavadocProjectContentProvider implements ITreeContentProvider {
+public class JavadocProjectContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	/*
 	 * @see ITreeContentProvider#getChildren(Object)
@@ -103,9 +103,9 @@ public class JavadocProjectContentProvider implements ITreeContentProvider {
 	}
 
 	private Object[] getPackageFragmentRoots(IJavaProject project) throws JavaModelException {
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 				if (root.getPath().equals(root.getJavaProject().getPath())) {
 					Object[] packageFragments= getPackageFragments(root);
@@ -119,9 +119,9 @@ public class JavadocProjectContentProvider implements ITreeContentProvider {
 	}
 
 	private Object[] getPackageFragments(IPackageFragmentRoot root) throws JavaModelException {
-		ArrayList<IJavaElement> packageFragments= new ArrayList<>();
+		ArrayList<IJavaElement> packageFragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IJavaElement child : root.getChildren()) {
+		for (IJavaElement child : root.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (((IPackageFragment) child).containsJavaResources()) {
 				packageFragments.add(child);
 			}

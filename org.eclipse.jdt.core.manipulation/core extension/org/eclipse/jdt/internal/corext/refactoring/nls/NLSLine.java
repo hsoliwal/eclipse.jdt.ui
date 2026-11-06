@@ -28,7 +28,7 @@ public class NLSLine {
 	public NLSLine(int lineNumber) {
 		fLineNumber= lineNumber;
 		Assert.isTrue(fLineNumber >= 0);
-		fElements= new ArrayList<>();
+		fElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public int getLineNumber() {
@@ -67,12 +67,12 @@ public class NLSLine {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder result= new StringBuilder();
-		result.append("Line: " + fLineNumber + "\n"); //$NON-NLS-2$ //$NON-NLS-1$
-		for (NLSElement nlsElement : fElements) {
-			result.append("\t"); //$NON-NLS-1$
-			result.append(nlsElement.toString());
-			result.append("\n"); //$NON-NLS-1$
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append("Line: " + fLineNumber + "\n"); //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (NLSElement nlsElement : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append("\t"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(nlsElement.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}

@@ -50,7 +50,7 @@ public class MethodOverrideTester {
 
 		public void addSubstitution(String typeVariable, String substitution, String erasure) {
 			if (fMap == null) {
-				fMap= new HashMap<>(3);
+				fMap= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 			fMap.put(typeVariable, new String[] { substitution, erasure });
 		}
@@ -115,7 +115,7 @@ public class MethodOverrideTester {
 	public IMethod findDeclaringMethod(IMethod overriding, boolean testVisibility) throws JavaModelException {
 		IMethod result= null;
 		IMethod overridden= findOverriddenMethod(overriding, testVisibility);
-		while (overridden != null) {
+		while (overridden != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= overridden;
 			overridden= findOverriddenMethod(result, testVisibility);
 		}
@@ -130,7 +130,7 @@ public class MethodOverrideTester {
 	 * @return a method that is directly overridden by the given method, or <code>null</code>
 	 * @throws JavaModelException if a problem occurs
 	 */
-	public IMethod findOverriddenMethod(IMethod overriding, boolean testVisibility) throws JavaModelException {
+	public IMethod findOverriddenMethod(IMethod overriding, boolean testVisibility) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int flags= overriding.getFlags();
 		if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overriding.isConstructor()) {
 			return null;
@@ -146,7 +146,7 @@ public class MethodOverrideTester {
 				}
 			}
 		}
-		for (IType intf : fHierarchy.getSuperInterfaces(type)) {
+		for (IType intf : fHierarchy.getSuperInterfaces(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod res= findOverriddenMethodInHierarchy(intf, overriding);
 			if (res != null) {
 				return res; // methods from interfaces are always public and therefore visible
@@ -164,10 +164,10 @@ public class MethodOverrideTester {
 	 * @throws JavaModelException if a problem occurs
 	 */
 	public IMethod findOverriddenMethodInHierarchy(IType type, IMethod overriding) throws JavaModelException {
-		return findOverriddenMethodInHierarchy(type, overriding, new HashSet<>());
+		return findOverriddenMethodInHierarchy(type, overriding, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	private IMethod findOverriddenMethodInHierarchy(IType type, IMethod overriding, Set<IType> visitedTypes) throws JavaModelException {
+	private IMethod findOverriddenMethodInHierarchy(IType type, IMethod overriding, Set<IType> visitedTypes) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!visitedTypes.add(type)) {
 			return null;
 		}
@@ -182,7 +182,7 @@ public class MethodOverrideTester {
 				return res;
 			}
 		}
-		for (IType superInterface : fHierarchy.getSuperInterfaces(type)) {
+		for (IType superInterface : fHierarchy.getSuperInterfaces(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod res= findOverriddenMethodInHierarchy(superInterface, overriding, visitedTypes);
 			if (res != null) {
 				return res;
@@ -206,7 +206,7 @@ public class MethodOverrideTester {
 			ans.addAll(findAllOverriddenMethodsInHierarchy(superClass, overriding));
 		}
 		IType[] superInterfaces= fHierarchy.getSuperInterfaces(type);
-		for (int i= 0; i < superInterfaces.length; i++) {
+		for (int i= 0; i < superInterfaces.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ans.addAll(findAllOverriddenMethodsInHierarchy(superInterfaces[i], overriding));
 		}
 		return ans;
@@ -225,7 +225,7 @@ public class MethodOverrideTester {
 		int flags= overriding.getFlags();
 		if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overriding.isConstructor())
 			return null;
-		for (IMethod overridden : overriddenType.getMethods()) {
+		for (IMethod overridden : overriddenType.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			flags= overridden.getFlags();
 			if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overridden.isConstructor())
 				continue;
@@ -245,12 +245,12 @@ public class MethodOverrideTester {
 	 * @throws JavaModelException if a problem occurs
 	 */
 	public Set<IMethod> findAllOverriddenMethodsInType(IType overriddenType, IMethod overriding) throws JavaModelException {
-		Set<IMethod> ans = new HashSet<>();
+		Set<IMethod> ans = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		int flags= overriding.getFlags();
 		if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overriding.isConstructor())
 			return ans;
 		IMethod[] overriddenMethods= overriddenType.getMethods();
-		for (int i= 0; i < overriddenMethods.length; i++) {
+		for (int i= 0; i < overriddenMethods.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod overridden= overriddenMethods[i];
 			flags= overridden.getFlags();
 			if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overridden.isConstructor())
@@ -274,7 +274,7 @@ public class MethodOverrideTester {
 		int flags= overridden.getFlags();
 		if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overridden.isConstructor())
 			return null;
-		for (IMethod overriding : overridingType.getMethods()) {
+		for (IMethod overriding : overridingType.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			flags= overriding.getFlags();
 			if (Flags.isPrivate(flags) || Flags.isStatic(flags) || overriding.isConstructor())
 				continue;
@@ -311,7 +311,7 @@ public class MethodOverrideTester {
 		return nParameters == 0 || hasCompatibleParameterTypes(overriding, overridden);
 	}
 
-	private boolean hasCompatibleTypeParameters(IMethod overriding, IMethod overridden) throws JavaModelException {
+	private boolean hasCompatibleTypeParameters(IMethod overriding, IMethod overridden) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeParameter[] overriddenTypeParameters= overridden.getTypeParameters();
 		ITypeParameter[] overridingTypeParameters= overriding.getTypeParameters();
 		int nOverridingTypeParameters= overridingTypeParameters.length;
@@ -320,7 +320,7 @@ public class MethodOverrideTester {
 		}
 		Substitutions overriddenSubst= getMethodSubstitions(overridden);
 		Substitutions overridingSubst= getMethodSubstitions(overriding);
-		for (int i= 0; i < nOverridingTypeParameters; i++) {
+		for (int i= 0; i < nOverridingTypeParameters; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String erasure1= overriddenSubst.getErasure(overriddenTypeParameters[i].getElementName());
 			String erasure2= overridingSubst.getErasure(overridingTypeParameters[i].getElementName());
 			if (erasure1 == null || !erasure1.equals(erasure2)) {
@@ -335,14 +335,14 @@ public class MethodOverrideTester {
 		return true;
 	}
 
-	private boolean hasCompatibleParameterTypes(IMethod overriding, IMethod overridden) throws JavaModelException {
+	private boolean hasCompatibleParameterTypes(IMethod overriding, IMethod overridden) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] overriddenParamTypes= overridden.getParameterTypes();
 		String[] overridingParamTypes= overriding.getParameterTypes();
 
 		String[] substitutedOverriding= new String[overridingParamTypes.length];
 		boolean testErasure= false;
 
-		for (int i= 0; i < overridingParamTypes.length; i++) {
+		for (int i= 0; i < overridingParamTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String overriddenParamSig= overriddenParamTypes[i];
 			String overriddenParamName= getSubstitutedTypeName(overriddenParamSig, overridden);
 			String overridingParamName= getSubstitutedTypeName(overridingParamTypes[i], overriding);
@@ -353,7 +353,7 @@ public class MethodOverrideTester {
 			}
 		}
 		if (testErasure) {
-			for (int i= 0; i < overridingParamTypes.length; i++) {
+			for (int i= 0; i < overridingParamTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String overriddenParamSig= overriddenParamTypes[i];
 				String overriddenParamName= getErasedTypeName(overriddenParamSig, overridden);
 				String overridingParamName= substitutedOverriding[i];
@@ -367,7 +367,7 @@ public class MethodOverrideTester {
 		return true;
 	}
 
-	private String getVariableSubstitution(IMember context, String variableName) throws JavaModelException {
+	private String getVariableSubstitution(IMember context, String variableName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType type;
 		if (context instanceof IMethod) {
 			String subst= getMethodSubstitions((IMethod) context).getSubstitution(variableName);
@@ -391,7 +391,7 @@ public class MethodOverrideTester {
 		return variableName; // not a type variable
 	}
 
-	private String getVariableErasure(IMember context, String variableName) throws JavaModelException {
+	private String getVariableErasure(IMember context, String variableName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType type;
 		if (context instanceof IMethod) {
 			String subst= getMethodSubstitions((IMethod) context).getErasure(variableName);
@@ -418,7 +418,7 @@ public class MethodOverrideTester {
 	/*
 	 * Returns the substitutions for a method's type parameters
 	 */
-	private Substitutions getMethodSubstitions(IMethod method) throws JavaModelException {
+	private Substitutions getMethodSubstitions(IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fMethodSubstitutions == null) {
 			fMethodSubstitutions= new LRUMap<>(3);
 		}
@@ -431,9 +431,9 @@ public class MethodOverrideTester {
 			} else {
 				IType instantiatedType= method.getDeclaringType();
 				s= new Substitutions();
-				for (int i= 0; i < typeParameters.length; i++) {
+				for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeParameter curr= typeParameters[i];
-					s.addSubstitution(curr.getElementName(), '+' + String.valueOf(i), getTypeParameterErasure(curr, instantiatedType));
+					s.addSubstitution(curr.getElementName(), '+' + String.valueOf(i), getTypeParameterErasure(curr, instantiatedType)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			fMethodSubstitutions.put(method, s);
@@ -446,7 +446,7 @@ public class MethodOverrideTester {
 	 */
 	private Substitutions getTypeSubstitions(IType type) throws JavaModelException {
 		if (fTypeVariableSubstitutions == null) {
-			fTypeVariableSubstitutions= new HashMap<>();
+			fTypeVariableSubstitutions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			computeSubstitutions(fFocusType, null, null);
 		}
 		Substitutions subst= fTypeVariableSubstitutions.get(type);
@@ -456,27 +456,27 @@ public class MethodOverrideTester {
 		return subst;
 	}
 
-	private void computeSubstitutions(IType instantiatedType, IType instantiatingType, String[] typeArguments) throws JavaModelException {
+	private void computeSubstitutions(IType instantiatedType, IType instantiatingType, String[] typeArguments) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Substitutions s= new Substitutions();
 		fTypeVariableSubstitutions.put(instantiatedType, s);
 
 		ITypeParameter[] typeParameters= instantiatedType.getTypeParameters();
 
 		if (instantiatingType == null) { // the focus type
-			for (ITypeParameter curr : typeParameters) {
+			for (ITypeParameter curr : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// use star to make type variables different from type refs
-				s.addSubstitution(curr.getElementName(), '*' + curr.getElementName(), getTypeParameterErasure(curr, instantiatedType));
+				s.addSubstitution(curr.getElementName(), '*' + curr.getElementName(), getTypeParameterErasure(curr, instantiatedType)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else {
 			if (typeParameters.length == typeArguments.length) {
-				for (int i= 0; i < typeParameters.length; i++) {
+				for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeParameter curr= typeParameters[i];
 					String substString= getSubstitutedTypeName(typeArguments[i], instantiatingType); // substitute in the context of the instantiatingType
 					String erasure= getErasedTypeName(typeArguments[i], instantiatingType); // get the erasure from the type argument
 					s.addSubstitution(curr.getElementName(), substString, erasure);
 				}
 			} else if (typeArguments.length == 0) { // raw type reference
-				for (ITypeParameter curr : typeParameters) {
+				for (ITypeParameter curr : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String erasure= getTypeParameterErasure(curr, instantiatedType);
 					s.addSubstitution(curr.getElementName(), erasure, erasure);
 				}
@@ -503,7 +503,7 @@ public class MethodOverrideTester {
 		if (nInterfaces > 0) {
 			IType[] superInterfaces= fHierarchy.getSuperInterfaces(instantiatedType);
 			if (superInterfaces.length == nInterfaces) {
-				for (int i= 0; i < nInterfaces; i++) {
+				for (int i= 0; i < nInterfaces; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String[] superTypeArguments= Signature.getTypeArguments(superInterfacesTypeSignature[i]);
 					IType superInterface= superInterfaces[i];
 					if (!fTypeVariableSubstitutions.containsKey(superInterface)) {
@@ -539,14 +539,14 @@ public class MethodOverrideTester {
 		return internalGetSubstitutedTypeName(typeSig, context, true, new StringBuffer()).toString();
 	}
 
-	private StringBuffer internalGetSubstitutedTypeName(String typeSig, IMember context, boolean erasure, StringBuffer buf) throws JavaModelException {
+	private StringBuffer internalGetSubstitutedTypeName(String typeSig, IMember context, boolean erasure, StringBuffer buf) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int sigKind= Signature.getTypeSignatureKind(typeSig);
 		switch (sigKind) {
 			case Signature.BASE_TYPE_SIGNATURE:
 				return buf.append(Signature.toString(typeSig));
 			case Signature.ARRAY_TYPE_SIGNATURE:
 				internalGetSubstitutedTypeName(Signature.getElementType(typeSig), context, erasure, buf);
-				for (int i= Signature.getArrayCount(typeSig); i > 0; i--) {
+				for (int i= Signature.getArrayCount(typeSig); i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					buf.append('[').append(']');
 				}
 				return buf;
@@ -570,7 +570,7 @@ public class MethodOverrideTester {
 					String[] typeArguments= Signature.getTypeArguments(typeSig);
 					if (typeArguments.length > 0) {
 						buf.append('<');
-						for (int i= 0; i < typeArguments.length; i++) {
+						for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (i > 0) {
 								buf.append(',');
 							}

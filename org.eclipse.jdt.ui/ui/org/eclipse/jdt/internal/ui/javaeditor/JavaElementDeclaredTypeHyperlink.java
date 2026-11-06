@@ -115,7 +115,7 @@ public class JavaElementDeclaredTypeHyperlink implements IHyperlink {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void open() {
 		String typeSignature= fTypeSig;
 		if (typeSignature == null) {
@@ -135,8 +135,8 @@ public class JavaElementDeclaredTypeHyperlink implements IHyperlink {
 				typeSignature= Signature.getTypeErasure(typeSignature);
 				break;
 			case Signature.UNION_TYPE_SIGNATURE:
-				ArrayList<IType> types= new ArrayList<>();
-				for (String typeBound : Signature.getUnionTypeBounds(typeSignature)) {
+				ArrayList<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (String typeBound : Signature.getUnionTypeBounds(typeSignature)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String typeErasure= Signature.getTypeErasure(typeBound);
 					IType type= getType(typeErasure);
 					if (type != null) {
@@ -163,7 +163,7 @@ public class JavaElementDeclaredTypeHyperlink implements IHyperlink {
 		openElementAndShowErrorInStatusLine();
 	}
 
-	private IType getType(String typeSignature) {
+	private IType getType(String typeSignature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String typeName= Signature.toString(typeSignature);
 
 		IJavaElement parent= fElement.getAncestor(IJavaElement.TYPE);

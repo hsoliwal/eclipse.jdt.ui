@@ -44,7 +44,7 @@ public class AddJavadocCommentProposalCore extends CUCorrectionProposalCore {
 		fComment= comment;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEdits(IDocument document, TextEdit rootEdit) throws CoreException {
 		try {
 			String lineDelimiter= TextUtilities.getDefaultLineDelimiter(document);

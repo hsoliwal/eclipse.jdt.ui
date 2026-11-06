@@ -155,7 +155,7 @@ public class TreeContentProviderTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimpleAdd() throws Exception {
 		IMethod method= SearchTestHelper.getMethod("junit.framework.TestCase", "getName", new String[0]);
 		addMatch(new Match(method, 0, 1));
@@ -181,7 +181,7 @@ public class TreeContentProviderTest {
 		assertNull(fProvider.getParent(project));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemove() throws Exception {
 		IMethod method= SearchTestHelper.getMethod("junit.framework.TestCase", "getName", new String[0]);
 		IType type= method.getDeclaringType();
@@ -202,7 +202,7 @@ public class TreeContentProviderTest {
 		assertEquals(0, fProvider.getElements(fResult).length);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveParentFirst() throws Exception {
 		IMethod method= SearchTestHelper.getMethod("junit.framework.TestCase", "getName", new String[0]);
 		IType type= method.getDeclaringType();
@@ -226,7 +226,7 @@ public class TreeContentProviderTest {
 		assertEquals(0, fProvider.getElements(fResult).length);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveParentLast() throws Exception {
 		IMethod method= SearchTestHelper.getMethod("junit.framework.TestCase", "getName", new String[0]);
 		IType type= method.getDeclaringType();

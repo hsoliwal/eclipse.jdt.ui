@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 public class NullTestUtils {
 	// note: use disableAnnotationBasedNullAnalysis, if the project is reused between test cases
-	public static void prepareNullDeclarationAnnotations(IPackageFragmentRoot sourceFolder) throws CoreException {
+	public static void prepareNullDeclarationAnnotations(IPackageFragmentRoot sourceFolder) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, String> options= sourceFolder.getJavaProject().getOptions(true);
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
 		options.put(JavaCore.COMPILER_NONNULL_ANNOTATION_NAME, "annots.NonNull");
@@ -62,7 +62,7 @@ public class NullTestUtils {
 	}
 
 	// note: use disableAnnotationBasedNullAnalysis, if the project is reused between test cases
-	public static void prepareNullTypeAnnotations(IPackageFragmentRoot sourceFolder) throws JavaModelException {
+	public static void prepareNullTypeAnnotations(IPackageFragmentRoot sourceFolder) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project=sourceFolder.getJavaProject();
 		Map<String, String> options= project.getOptions(false);
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);

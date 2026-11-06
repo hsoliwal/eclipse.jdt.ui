@@ -24,8 +24,8 @@ import org.eclipse.core.resources.IProject;
 public class RefactoringProcessors {
 
 	public static String[] getNatures(IProject[] projects) throws CoreException {
-		Set<String> result= new HashSet<>();
-		for (IProject project : projects) {
+		Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] pns= project.getDescription().getNatureIds();
 			Collections.addAll(result, pns);
 		}

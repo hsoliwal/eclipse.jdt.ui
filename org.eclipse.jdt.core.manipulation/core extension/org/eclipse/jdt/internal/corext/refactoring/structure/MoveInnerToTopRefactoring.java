@@ -157,9 +157,9 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 
 		private final ITypeBinding fCurrentType;
 
-		private final List<MethodInvocation> fMethodAccesses= new ArrayList<>(0);
+		private final List<MethodInvocation> fMethodAccesses= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		private final List<Name> fSimpleNames= new ArrayList<>(0);
+		private final List<Name> fSimpleNames= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		MemberAccessNodeCollector(ITypeBinding currType) {
 			Assert.isNotNull(currType);
@@ -181,7 +181,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(MethodInvocation node) {
 			Expression expression= node.getExpression();
 			if (expression == null) {
@@ -195,7 +195,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 				expression.accept(this);
 			}
 			List<Expression> arguments= node.arguments();
-			for (Expression argument : arguments) {
+			for (Expression argument : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				argument.accept(this);
 			}
 			return false;
@@ -238,7 +238,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 				return false;
 			}
 			ITypeBinding outer= fCurrentType.getDeclaringClass();
-			while (outer != null) {
+			while (outer != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Bindings.isSuperType(binding, outer, false)) {
 					return true;
 				}
@@ -263,7 +263,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			fGroup= group;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final ClassInstanceCreation node) {
 			Assert.isNotNull(node);
 			if (fCreateInstanceField) {
@@ -296,7 +296,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final SimpleType node) {
 			Assert.isNotNull(node);
 			if (!(node.getParent() instanceof ClassInstanceCreation)) {
@@ -305,7 +305,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 					final ITypeBinding declaring= binding.getDeclaringClass();
 					if (declaring != null && !Bindings.equals(declaring, fTypeBinding.getDeclaringClass()) && !Bindings.equals(binding, fTypeBinding) && fSourceRewrite.getRoot().findDeclaringNode(binding) != null && Modifier.isStatic(binding.getModifiers())) {
 						ITypeBinding temp= binding;
-						while (temp != null && temp.isMember()) {
+						while (temp != null && temp.isMember()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding declaringType= temp.getDeclaringClass();
 							if (Bindings.equals(declaringType, fTypeBinding)) {
 								return super.visit(node);
@@ -319,7 +319,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			return super.visit(node);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final ThisExpression node) {
 			Assert.isNotNull(node);
 			Name name= node.getQualifier();
@@ -343,7 +343,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		}
 	}
 
-	private static void addTypeParameters(final CompilationUnit unit, final IType type, final Map<String, ITypeBinding> map) throws JavaModelException {
+	private static void addTypeParameters(final CompilationUnit unit, final IType type, final Map<String, ITypeBinding> map) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(unit);
 		Assert.isNotNull(type);
 		Assert.isNotNull(map);
@@ -351,7 +351,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		if (declaration instanceof TypeDeclaration) {
 			ITypeBinding binding= null;
 			TypeParameter parameter= null;
-			for (final Iterator<TypeParameter> iterator= ((TypeDeclaration) declaration).typeParameters().iterator(); iterator.hasNext();) {
+			for (final Iterator<TypeParameter> iterator= ((TypeDeclaration) declaration).typeParameters().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameter= iterator.next();
 				binding= parameter.resolveBinding();
 				if (binding != null && !map.containsKey(binding.getKey()))
@@ -364,7 +364,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private static boolean containsNonStatic(MethodInvocation[] invocations) {
-		for (MethodInvocation invocation : invocations) {
+		for (MethodInvocation invocation : invocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isStatic(invocation))
 				return true;
 		}
@@ -372,7 +372,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private static boolean containsNonStatic(SimpleName[] fieldNames) {
-		for (SimpleName fieldName : fieldNames) {
+		for (SimpleName fieldName : fieldNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isStaticFieldName(fieldName))
 				return true;
 		}
@@ -385,7 +385,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 
 	private static AbstractTypeDeclaration findTypeDeclaration(IType enclosing, AbstractTypeDeclaration[] declarations) {
 		String typeName= enclosing.getElementName();
-		for (AbstractTypeDeclaration declaration : declarations) {
+		for (AbstractTypeDeclaration declaration : declarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (declaration.getName().getIdentifier().equals(typeName))
 				return declaration;
 		}
@@ -397,7 +397,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		types.add(type);
 		AbstractTypeDeclaration[] declarations= (AbstractTypeDeclaration[]) unit.types().toArray(new AbstractTypeDeclaration[unit.types().size()]);
 		AbstractTypeDeclaration declaration= null;
-		for (IType enclosing : types) {
+		for (IType enclosing : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			declaration= findTypeDeclaration(enclosing, declarations);
 			Assert.isNotNull(declaration);
 			declarations= getAbstractTypeDeclarations(declaration);
@@ -408,14 +408,14 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 
 	public static AbstractTypeDeclaration[] getAbstractTypeDeclarations(final AbstractTypeDeclaration declaration) {
 		int typeCount= 0;
-		for (Iterator<BodyDeclaration> iterator= declaration.bodyDeclarations().listIterator(); iterator.hasNext();) {
+		for (Iterator<BodyDeclaration> iterator= declaration.bodyDeclarations().listIterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (iterator.next() instanceof AbstractTypeDeclaration) {
 				typeCount++;
 			}
 		}
 		AbstractTypeDeclaration[] declarations= new AbstractTypeDeclaration[typeCount];
 		int next= 0;
-		for (final Iterator<BodyDeclaration> iterator= declaration.bodyDeclarations().listIterator(); iterator.hasNext();) {
+		for (final Iterator<BodyDeclaration> iterator= declaration.bodyDeclarations().listIterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration object= iterator.next();
 			if (object instanceof AbstractTypeDeclaration) {
 				declarations[next++]= (AbstractTypeDeclaration) object;
@@ -427,7 +427,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	private static List<IType> getDeclaringTypes(IType type) {
 		IType declaringType= type.getDeclaringType();
 		if (declaringType == null)
-			return new ArrayList<>(0);
+			return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<IType> result= getDeclaringTypes(declaringType);
 		result.add(declaringType);
 		return result;
@@ -436,8 +436,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	private static String[] getFieldNames(IType type) {
 		try {
 			IField[] fields= type.getFields();
-			List<String> result= new ArrayList<>(fields.length);
-			for (IField field : fields) {
+			List<String> result= new ArrayList<>(fields.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(field.getElementName());
 			}
 			return result.toArray(new String[result.size()]);
@@ -447,14 +447,14 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private static Set<ICompilationUnit> getMergedSet(Set<ICompilationUnit> s1, Set<ICompilationUnit> s2) {
-		Set<ICompilationUnit> result= new HashSet<>(s1);
+		Set<ICompilationUnit> result= new HashSet<>(s1); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		result.addAll(s2);
 		return result;
 	}
 
 	private static String[] getParameterNamesOfAllConstructors(IType type) throws JavaModelException {
-		Set<String> result= new HashSet<>();
-		for (IMethod constructor : JavaElementUtil.getAllConstructors(type)) {
+		Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethod constructor : JavaElementUtil.getAllConstructors(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(constructor.getParameterNames()));
 		}
 		return result.toArray(new String[result.size()]);
@@ -566,21 +566,21 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		rewrite.getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertFirst(newField, null);
 	}
 
-	private void addEnclosingInstanceTypeParameters(final ITypeBinding[] parameters, final AbstractTypeDeclaration declaration, final ASTRewrite rewrite) {
+	private void addEnclosingInstanceTypeParameters(final ITypeBinding[] parameters, final AbstractTypeDeclaration declaration, final ASTRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(parameters);
 		Assert.isNotNull(declaration);
 		Assert.isNotNull(rewrite);
 		if (declaration instanceof TypeDeclaration) {
 			final TypeDeclaration type= (TypeDeclaration) declaration;
 			final List<TypeParameter> existing= type.typeParameters();
-			final Set<String> names= new HashSet<>();
+			final Set<String> names= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			TypeParameter parameter= null;
-			for (final Iterator<TypeParameter> iterator= existing.iterator(); iterator.hasNext();) {
+			for (final Iterator<TypeParameter> iterator= existing.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameter= iterator.next();
 				names.add(parameter.getName().getIdentifier());
 			}
 			final ListRewrite rewriter= rewrite.getListRewrite(type, TypeDeclaration.TYPE_PARAMETERS_PROPERTY);
-			for (ITypeBinding parameter2 : parameters) {
+			for (ITypeBinding parameter2 : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String name= parameter2.getName();
 				if (!names.contains(name)) {
 					parameter= type.getAST().newTypeParameter();
@@ -591,20 +591,20 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		}
 	}
 
-	private void addImportsToTargetUnit(final ICompilationUnit targetUnit, final IProgressMonitor monitor) throws CoreException, JavaModelException {
+	private void addImportsToTargetUnit(final ICompilationUnit targetUnit, final IProgressMonitor monitor) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		monitor.beginTask("", 2); //$NON-NLS-1$
 		try {
 			ImportRewrite rewrite= StubUtility.createImportRewrite(targetUnit, true);
 			if (fTypeImports != null) {
 				ITypeBinding type= null;
-				for (final Iterator<ITypeBinding> iterator= fTypeImports.iterator(); iterator.hasNext();) {
+				for (final Iterator<ITypeBinding> iterator= fTypeImports.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					type= iterator.next();
 					rewrite.addImport(type);
 				}
 			}
 			if (fStaticImports != null) {
 				IBinding binding= null;
-				for (final Iterator<IBinding> iterator= fStaticImports.iterator(); iterator.hasNext();) {
+				for (final Iterator<IBinding> iterator= fStaticImports.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					binding= iterator.next();
 					rewrite.addStaticImport(binding);
 				}
@@ -618,7 +618,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		}
 	}
 
-	private void addInheritedTypeQualifications(final AbstractTypeDeclaration declaration, final CompilationUnitRewrite targetRewrite, final TextEditGroup group) {
+	private void addInheritedTypeQualifications(final AbstractTypeDeclaration declaration, final CompilationUnitRewrite targetRewrite, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(declaration);
 		Assert.isNotNull(targetRewrite);
 		final CompilationUnit unit= (CompilationUnit) declaration.getRoot();
@@ -636,7 +636,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			else if (declaration instanceof EnumDeclaration)
 				types= ((EnumDeclaration) declaration).superInterfaceTypes();
 			if (types != null) {
-				for (final Iterator<Type> iterator= types.iterator(); iterator.hasNext();) {
+				for (final Iterator<Type> iterator= types.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					type= iterator.next();
 					if (unit.findDeclaringNode(type.resolveBinding()) != null)
 						addTypeQualification(type, targetRewrite, group);
@@ -668,7 +668,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		}
 	}
 
-	private void addTypeQualification(final Type type, final CompilationUnitRewrite targetRewrite, final TextEditGroup group) {
+	private void addTypeQualification(final Type type, final CompilationUnitRewrite targetRewrite, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(type);
 		Assert.isNotNull(targetRewrite);
 		final ITypeBinding binding= type.resolveBinding();
@@ -691,8 +691,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	private RefactoringStatus checkConstructorParameterNames() {
 		RefactoringStatus result= new RefactoringStatus();
 		CompilationUnit cuNode= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(fType.getCompilationUnit(), false);
-		for (MethodDeclaration constructor : getConstructorDeclarationNodes(findTypeDeclaration(fType, cuNode))) {
-			for (Iterator<SingleVariableDeclaration> iter= constructor.parameters().iterator(); iter.hasNext();) {
+		for (MethodDeclaration constructor : getConstructorDeclarationNodes(findTypeDeclaration(fType, cuNode))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Iterator<SingleVariableDeclaration> iter= constructor.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration param= iter.next();
 				if (fEnclosingInstanceFieldName.equals(param.getName().getIdentifier())) {
 					String[] keys= new String[] { BasicElementLabels.getJavaElementName(param.getName().getIdentifier()), BasicElementLabels.getJavaElementName(fType.getElementName())};
@@ -719,7 +719,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		pm.beginTask("", 2);//$NON-NLS-1$
 		try {
@@ -768,10 +768,10 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			return createReadAccessExpressionForEnclosingInstance(node.getAST());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(final IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask(RefactoringCoreMessages.MoveInnerToTopRefactoring_creating_change, 1);
-		final Map<String, String> arguments= new HashMap<>();
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fType.getJavaProject();
 		if (javaProject != null)
@@ -803,13 +803,13 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		return result;
 	}
 
-	private TextChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException {
+	private TextChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(monitor);
 		Assert.isNotNull(status);
 		final TextChangeManager manager= new TextChangeManager();
 		try {
 			monitor.beginTask(RefactoringCoreMessages.MoveInnerToTopRefactoring_creating_preview, 4);
-			final Map<ICompilationUnit, CompilationUnitRewrite> rewrites= new HashMap<>(2);
+			final Map<ICompilationUnit, CompilationUnitRewrite> rewrites= new HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fSourceRewrite.clearASTAndImportRewrites();
 			rewrites.put(fSourceRewrite.getCu(), fSourceRewrite);
 			final MemberVisibilityAdjustor adjustor= new MemberVisibilityAdjustor(fType.getPackageFragment(), fType);
@@ -818,14 +818,14 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			adjustor.setFailureSeverity(RefactoringStatus.WARNING);
 			adjustor.setStatus(status);
 			adjustor.adjustVisibility(Progress.subMonitor(monitor, 1));
-			final Map<String, ITypeBinding> parameters= new LinkedHashMap<>();
+			final Map<String, ITypeBinding> parameters= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			addTypeParameters(fSourceRewrite.getRoot(), fType, parameters);
 			final ITypeBinding[] bindings= new ITypeBinding[parameters.size()];
 			parameters.values().toArray(bindings);
 			final Map<ICompilationUnit, SearchMatch[]> typeReferences= createTypeReferencesMapping(Progress.subMonitor(monitor, 1), status);
 			Map<ICompilationUnit, SearchMatch[]> constructorReferences= null;
 			if (JdtFlags.isStatic(fType))
-				constructorReferences= new HashMap<>(0);
+				constructorReferences= new HashMap<>(0); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			else
 				constructorReferences= createConstructorReferencesMapping(Progress.subMonitor(monitor, 1), status);
 			if (fCreateInstanceField) {
@@ -833,14 +833,14 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 				// to the top level type to allow this
 				IType type= fType;
 				ModifierKeyword keyword= null;
-				while ( (type= type.getDeclaringType()) != null) {
+				while ( (type= type.getDeclaringType()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((!adjustor.getAdjustments().containsKey(type)) && (Modifier.isPrivate(type.getFlags())))
 						adjustor.getAdjustments().put(type, new OutgoingMemberVisibilityAdjustment(type, keyword, RefactoringStatus.createWarningStatus(Messages.format(RefactoringCoreMessages.MemberVisibilityAdjustor_change_visibility_type_warning, new String[] { MemberVisibilityAdjustor.getLabel(type), MemberVisibilityAdjustor.getLabel(keyword) }), JavaStatusContext.create(type.getCompilationUnit(), type.getSourceRange()))));
 				}
 			}
 			monitor.worked(1);
 			ICompilationUnit inputCU= fType.getCompilationUnit();
-			for (ICompilationUnit unit : getMergedSet(typeReferences.keySet(), constructorReferences.keySet())) {
+			for (ICompilationUnit unit : getMergedSet(typeReferences.keySet(), constructorReferences.keySet())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final CompilationUnitRewrite targetRewrite= getCompilationUnitRewrite(unit);
 				createCompilationUnitRewrite(bindings, targetRewrite, typeReferences, constructorReferences, adjustor.getAdjustments().containsKey(fType), inputCU, unit, false, status, monitor);
 				if (unit.equals(inputCU)) {
@@ -878,7 +878,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		}
 	}
 
-	private void createCompilationUnitRewrite(final ITypeBinding[] parameters, final CompilationUnitRewrite targetRewrite, final Map<ICompilationUnit, SearchMatch[]> typeReferences, final Map<ICompilationUnit, SearchMatch[]> constructorReferences, boolean visibilityWasAdjusted, final ICompilationUnit sourceUnit, final ICompilationUnit targetUnit, final boolean remove, final RefactoringStatus status, final IProgressMonitor monitor) throws CoreException {
+	private void createCompilationUnitRewrite(final ITypeBinding[] parameters, final CompilationUnitRewrite targetRewrite, final Map<ICompilationUnit, SearchMatch[]> typeReferences, final Map<ICompilationUnit, SearchMatch[]> constructorReferences, boolean visibilityWasAdjusted, final ICompilationUnit sourceUnit, final ICompilationUnit targetUnit, final boolean remove, final RefactoringStatus status, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(parameters);
 		Assert.isNotNull(targetRewrite);
 		Assert.isNotNull(typeReferences);
@@ -900,8 +900,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 					addInheritedTypeQualifications(declaration, targetRewrite, qualifierGroup);
 					addEnclosingInstanceDeclaration(declaration, rewrite);
 				}
-				fTypeImports= new HashSet<>();
-				fStaticImports= new HashSet<>();
+				fTypeImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				fStaticImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				ImportRewriteUtil.collectImports(fType.getJavaProject(), declaration, fTypeImports, fStaticImports, false);
 				handleParametrizedTypeImports(fTypeImports);
 				removeEnclosingTypeImports(binding);
@@ -938,19 +938,19 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 				ModifierRewrite.create(rewrite, declaration).setModifiers(newFlags, groupMove);
 			}
 		}
-		for (ASTNode reference : getReferenceNodesIn(root, typeReferences, targetUnit))
+		for (ASTNode reference : getReferenceNodesIn(root, typeReferences, targetUnit)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateTypeReference(parameters, reference, targetRewrite, targetUnit);
-		for (ASTNode reference : getReferenceNodesIn(root, constructorReferences, targetUnit))
+		for (ASTNode reference : getReferenceNodesIn(root, constructorReferences, targetUnit)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updateConstructorReference(parameters, reference, targetRewrite, targetUnit);
 	}
 
 	private void removeEnclosingTypeImports(final ITypeBinding binding) {
 		if (binding != null && fTypeImports != null) {
 			Iterator<ITypeBinding> iterator= fTypeImports.iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding typeBinding=  iterator.next();
 				ITypeBinding parentBinding= typeBinding;
-				while (parentBinding != null) {
+				while (parentBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parentBinding == binding) {
 						iterator.remove();
 						break;
@@ -964,8 +964,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	private void handleParametrizedTypeImports(Collection<ITypeBinding> imports) {
 		if (imports != null) {
 			Iterator<ITypeBinding> iterator= imports.iterator();
-			Collection<ITypeBinding> additionalTypeImports= new HashSet<>();
-			while (iterator.hasNext()) {
+			Collection<ITypeBinding> additionalTypeImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding typeBinding=  iterator.next();
 				if (typeBinding.isParameterizedType()) {
 					addParametrizedTypeArgumentImports(additionalTypeImports, typeBinding);
@@ -981,7 +981,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			ITypeBinding basicType= typeBinding.getTypeDeclaration();
 			ITypeBinding[] typeArguments= typeBinding.getTypeArguments();
 			importsList.add(basicType);
-			for (ITypeBinding typeArgument : typeArguments) {
+			for (ITypeBinding typeArgument : typeArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (typeArgument.isParameterizedType()) {
 					addParametrizedTypeArgumentImports(importsList, typeArgument);
 				} else {
@@ -991,7 +991,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		}
 	}
 
-	private void createConstructor(final AbstractTypeDeclaration declaration, final ASTRewrite rewrite) throws CoreException {
+	private void createConstructor(final AbstractTypeDeclaration declaration, final ASTRewrite rewrite) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(declaration);
 		Assert.isNotNull(rewrite);
 		final AST ast= declaration.getAST();
@@ -1029,8 +1029,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 
 	// Map<ICompilationUnit, SearchMatch[]>
 	private Map<ICompilationUnit, SearchMatch[]> createConstructorReferencesMapping(IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
-		Map<ICompilationUnit, SearchMatch[]> result= new HashMap<>();
-		for (SearchResultGroup group : ConstructorReferenceFinder.getConstructorReferences(fType, pm, status)) {
+		Map<ICompilationUnit, SearchMatch[]> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (SearchResultGroup group : ConstructorReferenceFinder.getConstructorReferences(fType, pm, status)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= group.getCompilationUnit();
 			if (cu == null)
 				continue;
@@ -1039,7 +1039,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		return result;
 	}
 
-	private Expression createEnclosingInstanceCreationString(final ASTNode node, final ICompilationUnit cu) throws JavaModelException {
+	private Expression createEnclosingInstanceCreationString(final ASTNode node, final ICompilationUnit cu) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue((node instanceof ClassInstanceCreation) || (node instanceof SuperConstructorInvocation));
 		Assert.isNotNull(cu);
 		Expression expression= null;
@@ -1076,7 +1076,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		final Type type= ASTNodeFactory.newType(ast, fType.getDeclaringType().getTypeQualifiedName('.'));
 		if (parameters.length > 0) {
 			final ParameterizedType parameterized= ast.newParameterizedType(type);
-			for (ITypeParameter parameter : parameters)
+			for (ITypeParameter parameter : parameters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameterized.typeArguments().add(ast.newSimpleType(ast.newSimpleName(parameter.getElementName())));
 			return parameterized;
 		}
@@ -1118,7 +1118,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		return ast.newSimpleName(fEnclosingInstanceFieldName);
 	}
 
-	private String createSourceForNewCu(final ICompilationUnit unit, final IProgressMonitor monitor) throws CoreException {
+	private String createSourceForNewCu(final ICompilationUnit unit, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(unit);
 		Assert.isNotNull(monitor);
 		try {
@@ -1130,12 +1130,12 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 				fileComment= CodeGeneration.getFileComment(unit, separator);
 			String content= CodeGeneration.getCompilationUnitContent(unit, fileComment, null, block, separator);
 			if (content == null) {
-				final StringBuilder buffer= new StringBuilder();
+				final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (!fType.getPackageFragment().isDefaultPackage()) {
-					buffer.append("package ").append(fType.getPackageFragment().getElementName()).append(';'); //$NON-NLS-1$
+					buffer.append("package ").append(fType.getPackageFragment().getElementName()).append(';'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buffer.append(separator).append(separator);
-				buffer.append(block);
+				buffer.append(separator).append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(block); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				content= buffer.toString();
 			}
 			unit.getBuffer().setContents(content);
@@ -1146,7 +1146,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		return unit.getSource();
 	}
 
-	private Map<ICompilationUnit, SearchMatch[]> createTypeReferencesMapping(IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
+	private Map<ICompilationUnit, SearchMatch[]> createTypeReferencesMapping(IProgressMonitor pm, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SearchPattern pattern= SearchPattern.createPattern(fType, IJavaSearchConstants.ALL_OCCURRENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		if (pattern == null) {
 			return Map.of();
@@ -1156,8 +1156,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		engine.setScope(RefactoringScopeFactory.create(fType));
 		engine.setStatus(status);
 		engine.searchPattern(Progress.subMonitor(pm, 1));
-		Map<ICompilationUnit, SearchMatch[]> result= new HashMap<>();
-		for (SearchResultGroup group : (SearchResultGroup[]) engine.getResults()) {
+		Map<ICompilationUnit, SearchMatch[]> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (SearchResultGroup group : (SearchResultGroup[]) engine.getResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= group.getCompilationUnit();
 			if (cu == null)
 				continue;
@@ -1182,8 +1182,8 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 
 	private MethodDeclaration[] getConstructorDeclarationNodes(final AbstractTypeDeclaration declaration) {
 		if (declaration instanceof TypeDeclaration) {
-			final List<MethodDeclaration> result= new ArrayList<>(2);
-			for (MethodDeclaration declaration2 : ((TypeDeclaration) declaration).getMethods()) {
+			final List<MethodDeclaration> result= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (MethodDeclaration declaration2 : ((TypeDeclaration) declaration).getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (declaration2.isConstructor())
 					result.add(declaration2);
 			}
@@ -1217,7 +1217,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		String name= enclosingType.getElementName();
 		if (name.isEmpty())
 			return ""; //$NON-NLS-1$
-		return Character.toLowerCase(name.charAt(0)) + name.substring(1);
+		return Character.toLowerCase(name.charAt(0)) + name.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public IType getInputType() {
@@ -1258,7 +1258,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			raw= true;
 		if (parameters != null && parameters.length > 0 && !raw) {
 			final ParameterizedType type= ast.newParameterizedType(ast.newSimpleType(ast.newName(fQualifiedTypeName)));
-			for (ITypeBinding parameter : parameters)
+			for (ITypeBinding parameter : parameters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				type.typeArguments().add(ast.newSimpleType(ast.newSimpleName(parameter.getName())));
 			return type;
 		}
@@ -1273,7 +1273,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			raw= true;
 		if (parameters != null && parameters.length > 0 && !raw) {
 			final ParameterizedType type= ast.newParameterizedType(ast.newSimpleType(ast.newSimpleName(fType.getElementName())));
-			for (ITypeBinding parameter : parameters)
+			for (ITypeBinding parameter : parameters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				type.typeArguments().add(ast.newSimpleType(ast.newSimpleName(parameter.getName())));
 			return type;
 		}
@@ -1336,7 +1336,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		final AbstractTypeDeclaration declaration= ASTNodes.getParent(node, AbstractTypeDeclaration.class);
 		Assert.isNotNull(declaration);
 		ITypeBinding enclosing= declaration.resolveBinding();
-		while (enclosing != null) {
+		while (enclosing != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCorrespondingTypeBinding(enclosing, fType.getDeclaringType()))
 				return true;
 			enclosing= enclosing.getDeclaringClass();
@@ -1360,7 +1360,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private boolean isSubclassBindingOfEnclosingType(ITypeBinding binding) {
-		while (binding != null) {
+		while (binding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCorrespondingTypeBinding(binding, fType.getDeclaringType()))
 				return true;
 			binding= binding.getSuperclass();
@@ -1388,7 +1388,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private void modifyAccessToFieldsFromEnclosingInstance(CompilationUnitRewrite targetRewrite, SimpleName[] simpleNames, AbstractTypeDeclaration declaration) {
-		for (SimpleName simpleName : simpleNames) {
+		for (SimpleName simpleName : simpleNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IBinding binding= simpleName.resolveBinding();
 			if (binding instanceof IVariableBinding && !(simpleName.getParent() instanceof FieldAccess)) {
 				IVariableBinding variable= (IVariableBinding) binding;
@@ -1402,7 +1402,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private void modifyAccessToMethodsFromEnclosingInstance(CompilationUnitRewrite targetRewrite, MethodInvocation[] methodInvocations, AbstractTypeDeclaration declaration) {
-		for (MethodInvocation invocation : methodInvocations) {
+		for (MethodInvocation invocation : methodInvocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding binding= invocation.resolveMethodBinding();
 			if (binding != null) {
 				final Expression target= invocation.getExpression();
@@ -1420,7 +1420,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	}
 
 	private void modifyConstructors(AbstractTypeDeclaration declaration, ASTRewrite rewrite) throws CoreException {
-		for (MethodDeclaration declaration2 : getConstructorDeclarationNodes(declaration)) {
+		for (MethodDeclaration declaration2 : getConstructorDeclarationNodes(declaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isTrue(declaration2.isConstructor());
 			addParameterToConstructor(rewrite, declaration2);
 			setEnclosingInstanceFieldInConstructor(rewrite, declaration2);
@@ -1430,7 +1430,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	private void modifyInterfaceMemberModifiers(final ITypeBinding binding) {
 		Assert.isNotNull(binding);
 		ITypeBinding declaring= binding.getDeclaringClass();
-		while (declaring != null && !declaring.isInterface()) {
+		while (declaring != null && !declaring.isInterface()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			declaring= declaring.getDeclaringClass();
 		}
 		if (declaring != null) {
@@ -1447,7 +1447,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 		fCreateInstanceField= create;
 	}
 
-	private void setEnclosingInstanceFieldInConstructor(ASTRewrite rewrite, MethodDeclaration decl) throws JavaModelException {
+	private void setEnclosingInstanceFieldInConstructor(ASTRewrite rewrite, MethodDeclaration decl) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AST ast= decl.getAST();
 		final Block body= decl.getBody();
 		final List<Statement> statements= body.statements();
@@ -1510,7 +1510,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 	private void updateConstructorReference(ITypeBinding[] parameters, ParameterizedType type, CompilationUnitRewrite targetRewrite, ICompilationUnit cu, TextEditGroup group) throws CoreException {
 		final ListRewrite rewrite= targetRewrite.getASTRewrite().getListRewrite(type, ParameterizedType.TYPE_ARGUMENTS_PROPERTY);
 		TypeParameter parameter= null;
-		for (int index= type.typeArguments().size(); index < parameters.length; index++) {
+		for (int index= type.typeArguments().size(); index < parameters.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parameter= targetRewrite.getRoot().getAST().newTypeParameter();
 			parameter.setName(targetRewrite.getRoot().getAST().newSimpleName(parameters[index].getName()));
 			rewrite.insertLast(parameter, group);
@@ -1549,7 +1549,7 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			final ListRewrite rewrite= targetRewrite.getASTRewrite().getListRewrite(type, ParameterizedType.TYPE_ARGUMENTS_PROPERTY);
 			final AST ast= targetRewrite.getRoot().getAST();
 			Type simpleType= null;
-			for (int index= type.typeArguments().size(); index < parameters.length; index++) {
+			for (int index= type.typeArguments().size(); index < parameters.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				simpleType= ast.newSimpleType(ast.newSimpleName(parameters[index].getName()));
 				rewrite.insertLast(simpleType, group);
 			}
@@ -1569,21 +1569,21 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			return false;
 	}
 
-	private void updateReferenceInImport(ImportDeclaration enclosingImport, ASTNode node, CompilationUnitRewrite rewrite) {
+	private void updateReferenceInImport(ImportDeclaration enclosingImport, ASTNode node, CompilationUnitRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IBinding binding= enclosingImport.resolveBinding();
 		if (binding instanceof ITypeBinding) {
 			final ITypeBinding type= (ITypeBinding) binding;
 			final ImportRewrite rewriter= rewrite.getImportRewrite();
 			if (enclosingImport.isStatic()) {
 				final String oldImport= ASTNodes.asString(node);
-				final StringBuilder buffer= new StringBuilder(oldImport);
+				final StringBuilder buffer= new StringBuilder(oldImport); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				final String typeName= fType.getDeclaringType().getElementName();
 				final int index= buffer.indexOf(typeName);
 				if (index >= 0) {
 					buffer.delete(index, index + typeName.length() + 1);
 					final String newImport= buffer.toString();
 					if (enclosingImport.isOnDemand()) {
-						rewriter.removeStaticImport(oldImport + ".*"); //$NON-NLS-1$
+						rewriter.removeStaticImport(oldImport + ".*"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						rewriter.addStaticImport(newImport, "*", false); //$NON-NLS-1$
 					} else {
 						rewriter.removeStaticImport(oldImport);
@@ -1606,14 +1606,14 @@ public final class MoveInnerToTopRefactoring extends Refactoring {
 			final TextEditGroup group= rewrite.createGroupDescription(RefactoringCoreMessages.MoveInnerToTopRefactoring_update_type_reference);
 			updateReference(parameters, node, rewrite, group);
 			if (!fType.getPackageFragment().equals(cu.getParent())) {
-				final String name= fType.getPackageFragment().getElementName() + '.' + fType.getElementName();
+				final String name= fType.getPackageFragment().getElementName() + '.' + fType.getElementName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				rewrite.getImportRemover().registerAddedImport(name);
 				rewrite.getImportRewrite().addImport(name);
 			}
 		}
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);

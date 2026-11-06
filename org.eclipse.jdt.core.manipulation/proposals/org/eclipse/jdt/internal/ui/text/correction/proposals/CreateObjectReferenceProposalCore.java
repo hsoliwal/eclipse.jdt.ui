@@ -79,7 +79,7 @@ public class CreateObjectReferenceProposalCore extends LinkedCorrectionProposalC
 		return Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_createnew_reference_to_instance, new Object[] { varName, varClass });
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		AST ast= fSelectedNode.getAST();
 		ImportRewrite importRewrite= createImportRewrite((CompilationUnit) fSelectedNode.getRoot());
@@ -98,7 +98,7 @@ public class CreateObjectReferenceProposalCore extends LinkedCorrectionProposalC
 			newMethodInvocation.setExpression(ast.newName(findInstance.getName()));
 
 			List<Expression> arguments= oldMethodInvocation.arguments();
-			for (Expression argument : arguments) {
+			for (Expression argument : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newMethodInvocation.arguments().add(rewrite.createCopyTarget(argument));
 			}
 			rewrite.replace(expressionStatement.getExpression(), newMethodInvocation, null);
@@ -117,11 +117,11 @@ public class CreateObjectReferenceProposalCore extends LinkedCorrectionProposalC
 	/*
 	 * search local/class/superclass
 	 */
-	private IVariableBinding findReference(ASTNode node, Type type) {
+	private IVariableBinding findReference(ASTNode node, Type type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BodyDeclaration parent= ASTNodes.getParent(node, BodyDeclaration.class);
 		// search local block
 		Set<SimpleName> localVariableIdentifiers= ASTNodes.getLocalVariableIdentifiers(parent, true);
-		for (SimpleName name : localVariableIdentifiers) {
+		for (SimpleName name : localVariableIdentifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type2= ASTNodes.getType((VariableDeclaration) name.getParent());
 			if (type2 == null || type == null) {
 				return null;
@@ -148,7 +148,7 @@ public class CreateObjectReferenceProposalCore extends LinkedCorrectionProposalC
 		}
 		// search class hierarchy
 		List<IVariableBinding> visibleLocalVariablesInScope= getVisibleLocalVariablesInScope(fSelectedNode);
-		for (IVariableBinding binding : visibleLocalVariablesInScope) {
+		for (IVariableBinding binding : visibleLocalVariablesInScope) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// if we live in an static body, we must access a static reference
 			if (Modifier.isStatic(parent.getModifiers()) && !Modifier.isStatic(binding.getModifiers())) {
 				continue;
@@ -161,10 +161,10 @@ public class CreateObjectReferenceProposalCore extends LinkedCorrectionProposalC
 	}
 
 	private static List<IVariableBinding> getVisibleLocalVariablesInScope(ASTNode node) {
-		List<IVariableBinding> variableNames= new ArrayList<>();
+		List<IVariableBinding> variableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		CompilationUnit root= (CompilationUnit) node.getRoot();
 		IBinding[] bindings= new ScopeAnalyzer(root).getDeclarationsInScope(node.getStartPosition(), ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY);
-		for (IBinding binding : bindings) {
+		for (IBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			variableNames.add((IVariableBinding) binding);
 		}
 		return variableNames;

@@ -64,36 +64,36 @@ public final class AddAllMissingJavadocTagsProposalCore extends LinkedCorrection
 		return rewrite;
 	}
 
-	private void insertAllMissingMethodTags(ASTRewrite rewriter, MethodDeclaration methodDecl) {
+	private void insertAllMissingMethodTags(ASTRewrite rewriter, MethodDeclaration methodDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	 	AST ast= methodDecl.getAST();
 	 	Javadoc javadoc= methodDecl.getJavadoc();
 	 	ListRewrite tagsRewriter= rewriter.getListRewrite(javadoc, Javadoc.TAGS_PROPERTY);
 
 	 	List<TypeParameter> typeParams= methodDecl.typeParameters();
-	 	List<String> typeParamNames= new ArrayList<>();
-	 	for (int i= typeParams.size() - 1; i >= 0 ; i--) {
+	 	List<String> typeParamNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	 	for (int i= typeParams.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	 		TypeParameter decl= typeParams.get(i);
-	 		String name= '<' + decl.getName().getIdentifier() + '>';
+	 		String name= '<' + decl.getName().getIdentifier() + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	 		if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_PARAM, name) == null) {
 	 			TagElement newTag= ast.newTagElement();
 	 			newTag.setTagName(TagElement.TAG_PARAM);
 	 			TextElement text= ast.newTextElement();
 	 			text.setText(name);
 	 			newTag.fragments().add(text);
-				insertTabStop(rewriter, newTag.fragments(), "typeParam" + i); //$NON-NLS-1$
+				insertTabStop(rewriter, newTag.fragments(), "typeParam" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, JavadocTagsSubProcessorCore.getPreviousTypeParamNames(typeParams, decl));
 	 		}
 			typeParamNames.add(name);
 	 	}
 	 	List<SingleVariableDeclaration> params= methodDecl.parameters();
-	 	for (int i= params.size() - 1; i >= 0 ; i--) {
+	 	for (int i= params.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	 		SingleVariableDeclaration decl= params.get(i);
 	 		String name= decl.getName().getIdentifier();
 	 		if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_PARAM, name) == null) {
 	 			TagElement newTag= ast.newTagElement();
 	 			newTag.setTagName(TagElement.TAG_PARAM);
 	 			newTag.fragments().add(ast.newSimpleName(name));
-				insertTabStop(rewriter, newTag.fragments(), "methParam" + i); //$NON-NLS-1$
+				insertTabStop(rewriter, newTag.fragments(), "methParam" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	 			Set<String> sameKindLeadingNames= JavadocTagsSubProcessorCore.getPreviousParamNames(params, decl);
 	 			sameKindLeadingNames.addAll(typeParamNames);
 	 			JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, sameKindLeadingNames);
@@ -111,7 +111,7 @@ public final class AddAllMissingJavadocTagsProposalCore extends LinkedCorrection
 	 		}
 	 	}
 		List<Type> thrownExceptions= methodDecl.thrownExceptionTypes();
-	 	for (int i= thrownExceptions.size() - 1; i >= 0 ; i--) {
+	 	for (int i= thrownExceptions.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type exception= thrownExceptions.get(i);
 			ITypeBinding binding= exception.resolveBinding();
 	 		if (binding != null) {
@@ -122,41 +122,41 @@ public final class AddAllMissingJavadocTagsProposalCore extends LinkedCorrection
 					TextElement excNode= ast.newTextElement();
 					excNode.setText(ASTNodes.getQualifiedTypeName(exception));
 	 				newTag.fragments().add(excNode);
-					insertTabStop(rewriter, newTag.fragments(), "exception" + i); //$NON-NLS-1$
+					insertTabStop(rewriter, newTag.fragments(), "exception" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, JavadocTagsSubProcessorCore.getPreviousExceptionNames(thrownExceptions, exception));
 	 			}
 	 		}
 	 	}
 	}
 
-	private void insertAllMissingTypeTags(ASTRewrite rewriter, TypeDeclaration typeDecl) {
+	private void insertAllMissingTypeTags(ASTRewrite rewriter, TypeDeclaration typeDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= typeDecl.getAST();
 		Javadoc javadoc= typeDecl.getJavadoc();
 		ListRewrite tagsRewriter= rewriter.getListRewrite(javadoc, Javadoc.TAGS_PROPERTY);
 
 		List<TypeParameter> typeParams= typeDecl.typeParameters();
-		for (int i= typeParams.size() - 1; i >= 0; i--) {
+		for (int i= typeParams.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter decl= typeParams.get(i);
-			String name= '<' + decl.getName().getIdentifier() + '>';
+			String name= '<' + decl.getName().getIdentifier() + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_PARAM, name) == null) {
 				TagElement newTag= ast.newTagElement();
 				newTag.setTagName(TagElement.TAG_PARAM);
 				TextElement text= ast.newTextElement();
 				text.setText(name);
 				newTag.fragments().add(text);
-				insertTabStop(rewriter, newTag.fragments(), "typeParam" + i); //$NON-NLS-1$
+				insertTabStop(rewriter, newTag.fragments(), "typeParam" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, JavadocTagsSubProcessorCore.getPreviousTypeParamNames(typeParams, decl));
 			}
 		}
 	}
 
-	private void insertAllMissingRecordTypeTags(ASTRewrite rewriter, RecordDeclaration recDecl) {
+	private void insertAllMissingRecordTypeTags(ASTRewrite rewriter, RecordDeclaration recDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= recDecl.getAST();
 		Javadoc javadoc= recDecl.getJavadoc();
 		ListRewrite tagsRewriter= rewriter.getListRewrite(javadoc, Javadoc.TAGS_PROPERTY);
 
 		List<SingleVariableDeclaration> recComps= recDecl.recordComponents();
-		for (int i= recComps.size() - 1; i >= 0; i--) {
+		for (int i= recComps.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration decl= recComps.get(i);
 			String name= decl.getName().getIdentifier();
 			if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_PARAM, name) == null) {
@@ -165,22 +165,22 @@ public final class AddAllMissingJavadocTagsProposalCore extends LinkedCorrection
 				TextElement text= ast.newTextElement();
 				text.setText(name);
 				newTag.fragments().add(text);
-				insertTabStop(rewriter, newTag.fragments(), "recComps" + i); //$NON-NLS-1$
+				insertTabStop(rewriter, newTag.fragments(), "recComps" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, JavadocTagsSubProcessorCore.getPreviousParamNames(recComps, decl));
 			}
 		}
 
 		List<TypeParameter> typeParams= recDecl.typeParameters();
-		for (int i= typeParams.size() - 1; i >= 0; i--) {
+		for (int i= typeParams.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter decl= typeParams.get(i);
-			String name= '<' + decl.getName().getIdentifier() + '>';
+			String name= '<' + decl.getName().getIdentifier() + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (JavadocTagsSubProcessorCore.findTag(javadoc, TagElement.TAG_PARAM, name) == null) {
 				TagElement newTag= ast.newTagElement();
 				newTag.setTagName(TagElement.TAG_PARAM);
 				TextElement text= ast.newTextElement();
 				text.setText(name);
 				newTag.fragments().add(text);
-				insertTabStop(rewriter, newTag.fragments(), "typeParam" + i); //$NON-NLS-1$
+				insertTabStop(rewriter, newTag.fragments(), "typeParam" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, JavadocTagsSubProcessorCore.getPreviousTypeParamNames(typeParams, decl));
 			}
 		}

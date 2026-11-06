@@ -53,7 +53,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
  */
-public class InlineConstantAction extends SelectionDispatchAction {
+public class InlineConstantAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 

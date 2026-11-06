@@ -35,20 +35,20 @@ public class TestRunListeners {
 		}
 		@Override
 		public void sessionStarted(ITestRunSession session) {
-			fLog.add("sessionStarted-" + asString(session, 0));
+			fLog.add("sessionStarted-" + asString(session, 0)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		@Override
 		public void sessionFinished(ITestRunSession session) {
-			fLog.add("sessionFinished-" + asString(session, 0));
+			fLog.add("sessionFinished-" + asString(session, 0)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fLog.setDone();
 		}
 		@Override
 		public void testCaseStarted(ITestCaseElement testCaseElement) {
-			fLog.add("testCaseStarted-" + asString(testCaseElement, 0));
+			fLog.add("testCaseStarted-" + asString(testCaseElement, 0)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		@Override
 		public void testCaseFinished(ITestCaseElement testCaseElement) {
-			fLog.add("testCaseFinished-" + asString(testCaseElement, 0));
+			fLog.add("testCaseFinished-" + asString(testCaseElement, 0)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -68,7 +68,7 @@ public class TestRunListeners {
 		private void logElement(ITestElement elem, int indent) {
 			fLog.add(asString(elem, indent));
 			if (elem instanceof ITestElementContainer) {
-				for (ITestElement child : ((ITestElementContainer) elem).getChildren()) {
+				for (ITestElement child : ((ITestElementContainer) elem).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					logElement(child, indent + 1);
 				}
 			}
@@ -102,18 +102,18 @@ public class TestRunListeners {
 	}
 
 	public static String sessionAsString(String sessionName, ProgressState state, Result result, int indent) {
-		StringBuilder buf= new StringBuilder();
-		buf.append(startIndent(indent));
-		buf.append("sessionName: ").append(sessionName).append(separator(indent));
-		buf.append("state: ").append(state).append(separator(indent));
-		buf.append("result: ").append(result).append(separator(indent));
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(startIndent(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("sessionName: ").append(sessionName).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("state: ").append(state).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("result: ").append(result).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
 	private static StringBuffer separator(int indent) {
 		StringBuffer buf= new StringBuffer();
 		buf.append('\n');
-		for (int i= 0; i < indent + 1; i++) {
+		for (int i= 0; i < indent + 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buf.append("    ");
 		}
 		return buf;
@@ -121,37 +121,37 @@ public class TestRunListeners {
 
 	private static StringBuffer startIndent(int indent) {
 		StringBuffer buf= new StringBuffer();
-		for (int i= 0; i < indent; i++) {
+		for (int i= 0; i < indent; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buf.append("    ");
 		}
 		return buf;
 	}
 
 	public static String testCaseAsString(String methodName, String className, ProgressState state, Result result, FailureTrace trace, int indent) {
-		StringBuilder buf= new StringBuilder();
-		buf.append(startIndent(indent));
-		buf.append("testCaseMethod: ").append(methodName).append(separator(indent));
-		buf.append("class: ").append(className).append(separator(indent));
-		buf.append("state: ").append(state).append(separator(indent));
-		buf.append("result: ").append(result).append(separator(indent));
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(startIndent(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("testCaseMethod: ").append(methodName).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("class: ").append(className).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("state: ").append(state).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("result: ").append(result).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (trace != null) {
-			buf.append("exception: ").append(getExpection(trace.getTrace())).append(separator(indent));
-			buf.append("actual: ").append(trace.getActual()).append(separator(indent));
-			buf.append("expected: ").append(trace.getExpected()).append(separator(indent));
+			buf.append("exception: ").append(getExpection(trace.getTrace())).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("actual: ").append(trace.getActual()).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("expected: ").append(trace.getExpected()).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
 
 	public static String suiteAsString(String suiteName, ProgressState state, Result result, FailureTrace trace, int indent) {
-		StringBuilder buf= new StringBuilder();
-		buf.append(startIndent(indent));
-		buf.append("testSuiteClass: ").append(suiteName).append(separator(indent));
-		buf.append("state: ").append(state).append(separator(indent));
-		buf.append("result: ").append(result).append(separator(indent));
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(startIndent(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("testSuiteClass: ").append(suiteName).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("state: ").append(state).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("result: ").append(result).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (trace != null) {
-			buf.append("exception: ").append(getExpection(trace.getTrace())).append(separator(indent));
-			buf.append("actual: ").append(trace.getActual()).append(separator(indent));
-			buf.append("expected: ").append(trace.getExpected()).append(separator(indent));
+			buf.append("exception: ").append(getExpection(trace.getTrace())).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("actual: ").append(trace.getActual()).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("expected: ").append(trace.getExpected()).append(separator(indent)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -160,7 +160,7 @@ public class TestRunListeners {
 		if (trace == null) {
 			return "null";
 		}
-		for (int i= 0; i < trace.length(); i++) {
+		for (int i= 0; i < trace.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= trace.charAt(i);
 			if (!Character.isJavaIdentifierPart(ch) && ch != '.') {
 				return trace.substring(0, i);

@@ -57,7 +57,7 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeParameter;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 
-public class ASTViewContentProvider implements ITreeContentProvider {
+public class ASTViewContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	@Override
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -97,8 +97,8 @@ public class ASTViewContentProvider implements ITreeContentProvider {
 		return new Object[0];
 	}
 
-	private Object[] getNodeChildren(ASTNode node) {
-		ArrayList<Object> res= new ArrayList<>();
+	private Object[] getNodeChildren(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<Object> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (node instanceof Expression) {
 			Expression expression= (Expression) node;
@@ -143,8 +143,8 @@ public class ASTViewContentProvider implements ITreeContentProvider {
 					IMethodBinding binding= ((LambdaExpression) expression).resolveMethodBinding();
 					bindingAttribute= createBinding(expression, binding);
 				} catch (RuntimeException e) {
-					bindingAttribute= new Error(res, ">binding: Error: " + e.getMessage(), e);
-					ASTViewPlugin.log("Exception thrown in LambdaExpression#resolveMethodBinding() for \"" + expression + "\"", e);
+					bindingAttribute= new Error(res, ">binding: Error: " + e.getMessage(), e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					ASTViewPlugin.log("Exception thrown in LambdaExpression#resolveMethodBinding() for \"" + expression + "\"", e); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				res.add(bindingAttribute);
 			} else if (expression instanceof MethodReference) {
@@ -152,7 +152,7 @@ public class ASTViewContentProvider implements ITreeContentProvider {
 				res.add(createBinding(expression, binding));
 			}
 			// Expression attributes:
-			res.add(new GeneralAttribute(expression, "Boxing: " + expression.resolveBoxing() + "; Unboxing: " + expression.resolveUnboxing())); //$NON-NLS-1$ //$NON-NLS-2$
+			res.add(new GeneralAttribute(expression, "Boxing: " + expression.resolveBoxing() + "; Unboxing: " + expression.resolveUnboxing())); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			res.add(new GeneralAttribute(expression, "ConstantExpressionValue", expression.resolveConstantExpressionValue())); //$NON-NLS-1$
 
 		// references:
@@ -213,7 +213,7 @@ public class ASTViewContentProvider implements ITreeContentProvider {
 
 
 		List<StructuralPropertyDescriptor> list= node.structuralPropertiesForType();
-		for (StructuralPropertyDescriptor curr : list) {
+		for (StructuralPropertyDescriptor curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res.add(new NodeProperty(node, curr));
 		}
 

@@ -68,7 +68,7 @@ public class ASTFlattener extends GenericVisitor {
 
 	@Override
 	protected boolean visitNode(ASTNode node) {
-		Assert.isTrue(false, "No implementation to flatten node: " + node.toString()); //$NON-NLS-1$
+		Assert.isTrue(false, "No implementation to flatten node: " + node.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return false;
 	}
 
@@ -80,7 +80,7 @@ public class ASTFlattener extends GenericVisitor {
 	 * (element type: <code>IExtendedModifier</code>)
 	 */
 	private void printModifiers(List<IExtendedModifier> ext) {
-		for (IExtendedModifier iExtendedModifier : ext) {
+		for (IExtendedModifier iExtendedModifier : ext) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode p= (ASTNode) iExtendedModifier;
 			p.accept(this);
 			this.fBuffer.append(" ");//$NON-NLS-1$
@@ -89,10 +89,10 @@ public class ASTFlattener extends GenericVisitor {
 
 	private void printTypes(List<Type> types, String prefix) {
 		if (types.size() > 0) {
-			this.fBuffer.append(" " + prefix + " ");//$NON-NLS-1$ //$NON-NLS-2$
+			this.fBuffer.append(" " + prefix + " ");//$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Type type = types.get(0);
 			type.accept(this);
-			for (int i = 1, l = types.size(); i < l; ++i) {
+			for (int i = 1, l = types.size(); i < l; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.fBuffer.append(","); //$NON-NLS-1$
 				type = types.get(0);
 				type.accept(this);
@@ -104,7 +104,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append("::");//$NON-NLS-1$
 		if (!typeArguments.isEmpty()) {
 			this.fBuffer.append('<');
-			for (Iterator<Type> it = typeArguments.iterator(); it.hasNext(); ) {
+			for (Iterator<Type> it = typeArguments.iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type t = it.next();
 				t.accept(this);
 				if (it.hasNext()) {
@@ -122,7 +122,7 @@ public class ASTFlattener extends GenericVisitor {
 	}
 
 	void printAnnotationsList(List<? extends Annotation> annotations) {
-		for (Annotation annotation : annotations) {
+		for (Annotation annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			annotation.accept(this);
 			this.fBuffer.append(' ');
 		}
@@ -161,7 +161,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append("@interface ");//$NON-NLS-1$
 		node.getName().accept(this);
 		this.fBuffer.append(" {");//$NON-NLS-1$
-		for (Iterator<BodyDeclaration> it= node.bodyDeclarations().iterator(); it.hasNext();) {
+		for (Iterator<BodyDeclaration> it= node.bodyDeclarations().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration d= it.next();
 			d.accept(this);
 		}
@@ -198,7 +198,7 @@ public class ASTFlattener extends GenericVisitor {
 	public boolean visit(AnonymousClassDeclaration node) {
 		this.fBuffer.append("{");//$NON-NLS-1$
 		List<BodyDeclaration> bodyDeclarations= node.bodyDeclarations();
-		for (BodyDeclaration b : bodyDeclarations) {
+		for (BodyDeclaration b : bodyDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			b.accept(this);
 		}
 		this.fBuffer.append("}");//$NON-NLS-1$
@@ -220,14 +220,14 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(ArrayCreation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(ArrayCreation node) {
 		this.fBuffer.append("new ");//$NON-NLS-1$
 		ArrayType at= node.getType();
 		int dims= at.getDimensions();
 		Type elementType= at.getElementType();
 		elementType.accept(this);
-		for (Iterator<Expression> it= node.dimensions().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.dimensions().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			this.fBuffer.append("[");//$NON-NLS-1$
 			Expression e= it.next();
 			e.accept(this);
@@ -235,7 +235,7 @@ public class ASTFlattener extends GenericVisitor {
 			dims--;
 		}
 		// add empty "[]" for each extra array dimension
-		for (int i= 0; i < dims; i++) {
+		for (int i= 0; i < dims; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			this.fBuffer.append("[]");//$NON-NLS-1$
 		}
 		if (node.getInitializer() != null) {
@@ -250,7 +250,7 @@ public class ASTFlattener extends GenericVisitor {
 	@Override
 	public boolean visit(ArrayInitializer node) {
 		this.fBuffer.append("{");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.expressions().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.expressions().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -272,7 +272,7 @@ public class ASTFlattener extends GenericVisitor {
 		} else {
 			node.getElementType().accept(this);
 			List<Dimension> dimensions = node.dimensions();
-			for (Dimension dimension : dimensions) {
+			for (Dimension dimension : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dimension.accept(this);
 			}
 		}
@@ -311,7 +311,7 @@ public class ASTFlattener extends GenericVisitor {
 	@Override
 	public boolean visit(Block node) {
 		this.fBuffer.append("{");//$NON-NLS-1$
-		for (Iterator<Statement> it= node.statements().iterator(); it.hasNext();) {
+		for (Iterator<Statement> it= node.statements().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Statement s= it.next();
 			s.accept(this);
 		}
@@ -400,7 +400,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(ClassInstanceCreation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(ClassInstanceCreation node) {
 		if (node.getExpression() != null) {
 			node.getExpression().accept(this);
@@ -410,7 +410,7 @@ public class ASTFlattener extends GenericVisitor {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			if (!node.typeArguments().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) {
+				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -422,7 +422,7 @@ public class ASTFlattener extends GenericVisitor {
 			node.getType().accept(this);
 		}
 		this.fBuffer.append("(");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -439,7 +439,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(CompilationUnit)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(CompilationUnit node) {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS9) {
 			if (node.getModule() != null) {
@@ -449,11 +449,11 @@ public class ASTFlattener extends GenericVisitor {
 		if (node.getPackage() != null) {
 			node.getPackage().accept(this);
 		}
-		for (Iterator<ImportDeclaration> it= node.imports().iterator(); it.hasNext();) {
+		for (Iterator<ImportDeclaration> it= node.imports().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ImportDeclaration d= it.next();
 			d.accept(this);
 		}
-		for (Iterator<AbstractTypeDeclaration> it= node.types().iterator(); it.hasNext();) {
+		for (Iterator<AbstractTypeDeclaration> it= node.types().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AbstractTypeDeclaration d= it.next();
 			d.accept(this);
 		}
@@ -476,12 +476,12 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(ConstructorInvocation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(ConstructorInvocation node) {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			if (!node.typeArguments().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) {
+				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -492,7 +492,7 @@ public class ASTFlattener extends GenericVisitor {
 			}
 		}
 		this.fBuffer.append("this(");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -580,7 +580,7 @@ public class ASTFlattener extends GenericVisitor {
 	 * @see ASTVisitor#visit(EnumConstantDeclaration)
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(EnumConstantDeclaration node) {
 		if (node.getJavadoc() != null) {
 			node.getJavadoc().accept(this);
@@ -589,7 +589,7 @@ public class ASTFlattener extends GenericVisitor {
 		node.getName().accept(this);
 		if (!node.arguments().isEmpty()) {
 			this.fBuffer.append("(");//$NON-NLS-1$
-			for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) {
+			for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression e= it.next();
 				e.accept(this);
 				if (it.hasNext()) {
@@ -608,7 +608,7 @@ public class ASTFlattener extends GenericVisitor {
 	 * @see ASTVisitor#visit(EnumDeclaration)
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(EnumDeclaration node) {
 		if (node.getJavadoc() != null) {
 			node.getJavadoc().accept(this);
@@ -619,7 +619,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append(" ");//$NON-NLS-1$
 		if (!node.superInterfaceTypes().isEmpty()) {
 			this.fBuffer.append("implements ");//$NON-NLS-1$
-			for (Iterator<Type> it= node.superInterfaceTypes().iterator(); it.hasNext();) {
+			for (Iterator<Type> it= node.superInterfaceTypes().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type t= it.next();
 				t.accept(this);
 				if (it.hasNext()) {
@@ -629,7 +629,7 @@ public class ASTFlattener extends GenericVisitor {
 			this.fBuffer.append(" ");//$NON-NLS-1$
 		}
 		this.fBuffer.append("{");//$NON-NLS-1$
-		for (Iterator<EnumConstantDeclaration> it = node.enumConstants().iterator(); it.hasNext(); ) {
+		for (Iterator<EnumConstantDeclaration> it = node.enumConstants().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EnumConstantDeclaration d = it.next();
 			d.accept(this);
 			// enum constant declarations do not include punctuation
@@ -640,7 +640,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		if (!node.bodyDeclarations().isEmpty()) {
 			this.fBuffer.append("; ");//$NON-NLS-1$
-			for (Iterator<BodyDeclaration> it = node.bodyDeclarations().iterator(); it.hasNext(); ) {
+			for (Iterator<BodyDeclaration> it = node.bodyDeclarations().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				BodyDeclaration d = it.next();
 				d.accept(this);
 				// other body declarations include trailing punctuation
@@ -690,7 +690,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(FieldDeclaration)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(FieldDeclaration node) {
 		if (node.getJavadoc() != null) {
 			node.getJavadoc().accept(this);
@@ -700,7 +700,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		node.getType().accept(this);
 		this.fBuffer.append(" ");//$NON-NLS-1$
-		for (Iterator<VariableDeclarationFragment> it= node.fragments().iterator(); it.hasNext();) {
+		for (Iterator<VariableDeclarationFragment> it= node.fragments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment f= it.next();
 			f.accept(this);
 			if (it.hasNext()) {
@@ -714,10 +714,10 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(ForStatement)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(ForStatement node) {
 		this.fBuffer.append("for (");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.initializers().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.initializers().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 		}
@@ -726,7 +726,7 @@ public class ASTFlattener extends GenericVisitor {
 			node.getExpression().accept(this);
 		}
 		this.fBuffer.append("; ");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.updaters().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.updaters().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 		}
@@ -793,7 +793,7 @@ public class ASTFlattener extends GenericVisitor {
 		final List<Expression>extendedOperands = node.extendedOperands();
 		if (!extendedOperands.isEmpty()) {
 			this.fBuffer.append(' ');
-			for (Expression e : extendedOperands) {
+			for (Expression e : extendedOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.fBuffer.append(node.getOperator().toString()).append(' ');
 				e.accept(this);
 			}
@@ -840,7 +840,7 @@ public class ASTFlattener extends GenericVisitor {
 	 */
 	@Override
 	public boolean visit(IntersectionType node) {
-		for (Iterator<Type> it = node.types().iterator(); it.hasNext(); ) {
+		for (Iterator<Type> it = node.types().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type t = it.next();
 			t.accept(this);
 			if (it.hasNext()) {
@@ -856,7 +856,7 @@ public class ASTFlattener extends GenericVisitor {
 	@Override
 	public boolean visit(Javadoc node) {
 		this.fBuffer.append("/** ");//$NON-NLS-1$
-		for (Iterator<TagElement> it= node.tags().iterator(); it.hasNext();) {
+		for (Iterator<TagElement> it= node.tags().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode e= it.next();
 			e.accept(this);
 		}
@@ -894,7 +894,7 @@ public class ASTFlattener extends GenericVisitor {
 		boolean hasParentheses= node.hasParentheses();
 		if (hasParentheses)
 			this.fBuffer.append('(');
-		for (Iterator<? extends VariableDeclaration> it= node.parameters().iterator(); it.hasNext(); ) {
+		for (Iterator<? extends VariableDeclaration> it= node.parameters().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclaration v= it.next();
 			v.accept(this);
 			if (it.hasNext()) {
@@ -967,7 +967,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append("#");//$NON-NLS-1$
 		node.getName().accept(this);
 		this.fBuffer.append("(");//$NON-NLS-1$
-		for (Iterator<MethodRefParameter> it= node.parameters().iterator(); it.hasNext();) {
+		for (Iterator<MethodRefParameter> it= node.parameters().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MethodRefParameter e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -1000,7 +1000,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(MethodDeclaration)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(MethodDeclaration node) {
 		if (node.getJavadoc() != null) {
 			node.getJavadoc().accept(this);
@@ -1009,7 +1009,7 @@ public class ASTFlattener extends GenericVisitor {
 			printModifiers(node.modifiers());
 			if (!node.typeParameters().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<TypeParameter> it= node.typeParameters().iterator(); it.hasNext();) {
+				for (Iterator<TypeParameter> it= node.typeParameters().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TypeParameter t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -1046,7 +1046,7 @@ public class ASTFlattener extends GenericVisitor {
 				}
 			}
 		}
-		for (Iterator<SingleVariableDeclaration> it= node.parameters().iterator(); it.hasNext();) {
+		for (Iterator<SingleVariableDeclaration> it= node.parameters().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration v= it.next();
 			v.accept(this);
 			if (it.hasNext()) {
@@ -1056,18 +1056,18 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append(")");//$NON-NLS-1$
 		if (node.getAST().apiLevel() >= ASTHelper.JLS8) {
 			List<Dimension> dimensions = node.extraDimensions();
-			for (Dimension e : dimensions) {
+			for (Dimension e : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				e.accept(this);
 			}
 		} else {
-			for (int i= 0; i < node.getExtraDimensions(); i++) {
+			for (int i= 0; i < node.getExtraDimensions(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.fBuffer.append("[]"); //$NON-NLS-1$
 			}
 		}
 		List<? extends ASTNode> thrownExceptions= node.getAST().apiLevel() >= ASTHelper.JLS8 ? node.thrownExceptionTypes() : getThrownExceptions(node);
 		if (!thrownExceptions.isEmpty()) {
 			this.fBuffer.append(" throws ");//$NON-NLS-1$
-			for (Iterator<? extends ASTNode> it= thrownExceptions.iterator(); it.hasNext();) {
+			for (Iterator<? extends ASTNode> it= thrownExceptions.iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode n = it.next();
 				n.accept(this);
 				if (it.hasNext()) {
@@ -1087,7 +1087,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(MethodInvocation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(MethodInvocation node) {
 		if (node.getExpression() != null) {
 			node.getExpression().accept(this);
@@ -1096,7 +1096,7 @@ public class ASTFlattener extends GenericVisitor {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			if (!node.typeArguments().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) {
+				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -1108,7 +1108,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		node.getName().accept(this);
 		this.fBuffer.append("(");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -1141,7 +1141,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append(" "); //$NON-NLS-1$
 		node.getName().accept(this);
 		this.fBuffer.append(" {\n"); //$NON-NLS-1$
-		for (ModuleDirective stmt : (List<ModuleDirective>)node.moduleStatements()) {
+		for (ModuleDirective stmt : (List<ModuleDirective>)node.moduleStatements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			stmt.accept(this);
 		}
 		this.fBuffer.append("}"); //$NON-NLS-1$
@@ -1188,7 +1188,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append("@");//$NON-NLS-1$
 		node.getTypeName().accept(this);
 		this.fBuffer.append("(");//$NON-NLS-1$
-		for (Iterator<MemberValuePair> it= node.values().iterator(); it.hasNext();) {
+		for (Iterator<MemberValuePair> it= node.values().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MemberValuePair p= it.next();
 			p.accept(this);
 			if (it.hasNext()) {
@@ -1239,7 +1239,7 @@ public class ASTFlattener extends GenericVisitor {
 			if (node.getJavadoc() != null) {
 				node.getJavadoc().accept(this);
 			}
-			for (Iterator<Annotation> it= node.annotations().iterator(); it.hasNext();) {
+			for (Iterator<Annotation> it= node.annotations().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Annotation p= it.next();
 				p.accept(this);
 				this.fBuffer.append(" ");//$NON-NLS-1$
@@ -1259,7 +1259,7 @@ public class ASTFlattener extends GenericVisitor {
 	public boolean visit(ParameterizedType node) {
 		node.getType().accept(this);
 		this.fBuffer.append("<");//$NON-NLS-1$
-		for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) {
+		for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type t= it.next();
 			t.accept(this);
 			if (it.hasNext()) {
@@ -1356,7 +1356,7 @@ public class ASTFlattener extends GenericVisitor {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(RecordDeclaration node) {
 		if (node.getJavadoc() != null) {
 			node.getJavadoc().accept(this);
@@ -1368,7 +1368,7 @@ public class ASTFlattener extends GenericVisitor {
 
 		if (!node.typeParameters().isEmpty()) {
 			this.fBuffer.append("<");//$NON-NLS-1$
-			for (Iterator<TypeParameter> it = node.typeParameters().iterator(); it.hasNext(); ) {
+			for (Iterator<TypeParameter> it = node.typeParameters().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeParameter t = it.next();
 				t.accept(this);
 				if (it.hasNext()) {
@@ -1379,7 +1379,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		this.fBuffer.append(" ");//$NON-NLS-1$
 		this.fBuffer.append("(");//$NON-NLS-1$
-		for (Iterator<SingleVariableDeclaration> it = node.recordComponents().iterator(); it.hasNext(); ) {
+		for (Iterator<SingleVariableDeclaration> it = node.recordComponents().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration v = it.next();
 			v.accept(this);
 			if (it.hasNext()) {
@@ -1389,7 +1389,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append(")");//$NON-NLS-1$
 		if (!node.superInterfaceTypes().isEmpty()) {
 			this.fBuffer.append(" implements ");//$NON-NLS-1$
-			for (Iterator<Type> it = node.superInterfaceTypes().iterator(); it.hasNext(); ) {
+			for (Iterator<Type> it = node.superInterfaceTypes().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type t = it.next();
 				t.accept(this);
 				if (it.hasNext()) {
@@ -1401,7 +1401,7 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append("{");//$NON-NLS-1$
 		if (!node.bodyDeclarations().isEmpty()) {
 			this.fBuffer.append("\n");//$NON-NLS-1$
-			for (Iterator<BodyDeclaration> it = node.bodyDeclarations().iterator(); it.hasNext(); ) {
+			for (Iterator<BodyDeclaration> it = node.bodyDeclarations().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				BodyDeclaration d = it.next();
 				d.accept(this);
 				// other body declarations include trailing punctuation
@@ -1411,7 +1411,7 @@ public class ASTFlattener extends GenericVisitor {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(RecordPattern node) {
 		if (ASTHelper.isRecordPatternSupported(node.getAST())) {
 
@@ -1423,7 +1423,7 @@ public class ASTFlattener extends GenericVisitor {
 				this.fBuffer.append("(");//$NON-NLS-1$
 			}
 			int size = 1;
-			for (Pattern pattern : node.patterns()) {
+			for (Pattern pattern : node.patterns()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					visitPattern(pattern);
 					if (addBraces && size < node.patterns().size()) {
 						this.fBuffer.append(", ");//$NON-NLS-1$
@@ -1513,7 +1513,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(SingleVariableDeclaration)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(SingleVariableDeclaration node) {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			printModifiers(node.modifiers());
@@ -1533,11 +1533,11 @@ public class ASTFlattener extends GenericVisitor {
 		node.getName().accept(this);
 		if (node.getAST().apiLevel() >= ASTHelper.JLS8) {
 			List<Dimension> dimensions = node.extraDimensions();
-			for (Dimension e : dimensions) {
+			for (Dimension e : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				e.accept(this);
 			}
 		} else {
-			for (int i= 0; i < node.getExtraDimensions(); i++) {
+			for (int i= 0; i < node.getExtraDimensions(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.fBuffer.append("[]"); //$NON-NLS-1$
 			}
 		}
@@ -1560,7 +1560,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(SuperConstructorInvocation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(SuperConstructorInvocation node) {
 		if (node.getExpression() != null) {
 			node.getExpression().accept(this);
@@ -1569,7 +1569,7 @@ public class ASTFlattener extends GenericVisitor {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			if (!node.typeArguments().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) {
+				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -1580,7 +1580,7 @@ public class ASTFlattener extends GenericVisitor {
 			}
 		}
 		this.fBuffer.append("super(");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -1608,7 +1608,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(SuperMethodInvocation)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(SuperMethodInvocation node) {
 		if (node.getQualifier() != null) {
 			node.getQualifier().accept(this);
@@ -1618,7 +1618,7 @@ public class ASTFlattener extends GenericVisitor {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			if (!node.typeArguments().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) {
+				for (Iterator<Type> it= node.typeArguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -1630,7 +1630,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		node.getName().accept(this);
 		this.fBuffer.append("(");//$NON-NLS-1$
-		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) {
+		for (Iterator<Expression> it= node.arguments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression e= it.next();
 			e.accept(this);
 			if (it.hasNext()) {
@@ -1656,7 +1656,7 @@ public class ASTFlattener extends GenericVisitor {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(SwitchCase node) {
 		if (ASTHelper.isSwitchCaseExpressionsSupportedInAST(node.getAST())) {
 			if (node.isDefault() && !isCaseDefaultExpression(node)) {
@@ -1664,7 +1664,7 @@ public class ASTFlattener extends GenericVisitor {
 				this.fBuffer.append(node.isSwitchLabeledRule() ? " ->" : ":");//$NON-NLS-1$ //$NON-NLS-2$
 			} else {
 				this.fBuffer.append("case ");//$NON-NLS-1$
-				for (Iterator<Expression> it= node.expressions().iterator(); it.hasNext();) {
+				for (Iterator<Expression> it= node.expressions().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression t= it.next();
 					t.accept(this);
 					this.fBuffer.append(it.hasNext() ? ", " : //$NON-NLS-1$
@@ -1716,7 +1716,7 @@ public class ASTFlattener extends GenericVisitor {
 		return false;
 	}
 
-	private void visitSwitchNode(ASTNode node) {
+	private void visitSwitchNode(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		this.fBuffer.append("switch (");//$NON-NLS-1$
 		if (node instanceof SwitchExpression) {
 			((SwitchExpression) node).getExpression().accept(this);
@@ -1726,12 +1726,12 @@ public class ASTFlattener extends GenericVisitor {
 		this.fBuffer.append(") ");//$NON-NLS-1$
 		this.fBuffer.append("{\n");//$NON-NLS-1$
 		if (node instanceof SwitchExpression) {
-			for (Iterator<Statement> it= ((SwitchExpression) node).statements().iterator(); it.hasNext();) {
+			for (Iterator<Statement> it= ((SwitchExpression) node).statements().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement s= it.next();
 				s.accept(this);
 			}
 		} else if (node instanceof SwitchStatement) {
-			for (Iterator<Statement> it= ((SwitchStatement) node).statements().iterator(); it.hasNext();) {
+			for (Iterator<Statement> it= ((SwitchStatement) node).statements().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement s= it.next();
 				s.accept(this);
 			}
@@ -1755,7 +1755,7 @@ public class ASTFlattener extends GenericVisitor {
 	 * @see ASTVisitor#visit(TagElement)
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TagElement node) {
 		if (node.isNested()) {
 			// nested tags are always enclosed in braces
@@ -1770,7 +1770,7 @@ public class ASTFlattener extends GenericVisitor {
 			previousRequiresWhiteSpace= true;
 		}
 		boolean previousRequiresNewLine= false;
-		for (Iterator<? extends ASTNode> it= node.fragments().iterator(); it.hasNext();) {
+		for (Iterator<? extends ASTNode> it= node.fragments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode e= it.next();
 			// assume text elements include necessary leading and trailing whitespace
 			// but Name, MemberRef, MethodRef, and nested TagElement do not include white space
@@ -1787,7 +1787,7 @@ public class ASTFlattener extends GenericVisitor {
 			previousRequiresWhiteSpace= !currentIncludesWhiteSpace && !(e instanceof TagElement);
 		}
 		if (ASTHelper.isJavaDocCodeSnippetSupported(node.getAST())) {
-			for (Iterator<TagProperty> it = node.tagProperties().iterator(); it.hasNext(); ) {
+			for (Iterator<TagProperty> it = node.tagProperties().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TagProperty tagProperty = it.next();
 				tagProperty.accept(this);
 			}
@@ -1855,13 +1855,13 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(TryStatement)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TryStatement node) {
 		this.fBuffer.append("try ");//$NON-NLS-1$
 		if (node.getAST().apiLevel() >= ASTHelper.JLS4) {
 			if (!node.resources().isEmpty()) {
 				this.fBuffer.append("(");//$NON-NLS-1$
-				for (Iterator<Expression> it= node.resources().iterator(); it.hasNext();) {
+				for (Iterator<Expression> it= node.resources().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression var= it.next();
 					var.accept(this);
 					if (it.hasNext()) {
@@ -1873,7 +1873,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		node.getBody().accept(this);
 		this.fBuffer.append(" ");//$NON-NLS-1$
-		for (Iterator<CatchClause> it= node.catchClauses().iterator(); it.hasNext();) {
+		for (Iterator<CatchClause> it= node.catchClauses().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CatchClause cc= it.next();
 			cc.accept(this);
 		}
@@ -1887,7 +1887,7 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(TypeDeclaration)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TypeDeclaration node) {
 		if (node.getJavadoc() != null) {
 			node.getJavadoc().accept(this);
@@ -1900,7 +1900,7 @@ public class ASTFlattener extends GenericVisitor {
 		if (node.getAST().apiLevel() >= ASTHelper.JLS3) {
 			if (!node.typeParameters().isEmpty()) {
 				this.fBuffer.append("<");//$NON-NLS-1$
-				for (Iterator<TypeParameter> it= node.typeParameters().iterator(); it.hasNext();) {
+				for (Iterator<TypeParameter> it= node.typeParameters().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TypeParameter t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -1919,7 +1919,7 @@ public class ASTFlattener extends GenericVisitor {
 			}
 			if (!node.superInterfaceTypes().isEmpty()) {
 				this.fBuffer.append(node.isInterface() ? "extends " : "implements ");//$NON-NLS-2$//$NON-NLS-1$
-				for (Iterator<Type> it= node.superInterfaceTypes().iterator(); it.hasNext();) {
+				for (Iterator<Type> it= node.superInterfaceTypes().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type t= it.next();
 					t.accept(this);
 					if (it.hasNext()) {
@@ -1931,7 +1931,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		if (ASTHelper.isSealedTypeSupportedInAST(node.getAST()) && !node.permittedTypes().isEmpty()) {
 			this.fBuffer.append("permits ");//$NON-NLS-1$
-			for (Iterator<Type> it = node.permittedTypes().iterator(); it.hasNext(); ) {
+			for (Iterator<Type> it = node.permittedTypes().iterator(); it.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type t = it.next();
 				t.accept(this);
 				if (it.hasNext()) {
@@ -1942,7 +1942,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		this.fBuffer.append("{");//$NON-NLS-1$
 		BodyDeclaration prev= null;
-		for (Iterator<BodyDeclaration> it= node.bodyDeclarations().iterator(); it.hasNext();) {
+		for (Iterator<BodyDeclaration> it= node.bodyDeclarations().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration d= it.next();
 			if (prev instanceof EnumConstantDeclaration) {
 				// enum constant declarations do not include punctuation
@@ -2004,7 +2004,7 @@ public class ASTFlattener extends GenericVisitor {
 		node.getName().accept(this);
 		if (!node.typeBounds().isEmpty()) {
 			this.fBuffer.append(" extends ");//$NON-NLS-1$
-			for (Iterator<Type> it= node.typeBounds().iterator(); it.hasNext();) {
+			for (Iterator<Type> it= node.typeBounds().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type t= it.next();
 				t.accept(this);
 				if (it.hasNext()) {
@@ -2033,7 +2033,7 @@ public class ASTFlattener extends GenericVisitor {
 	 */
 	@Override
 	public boolean visit(UnionType node) {
-		for (Iterator<Type> it= node.types().iterator(); it.hasNext();) {
+		for (Iterator<Type> it= node.types().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type t= it.next();
 			t.accept(this);
 			if (it.hasNext()) {
@@ -2062,7 +2062,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		node.getType().accept(this);
 		this.fBuffer.append(" ");//$NON-NLS-1$
-		for (Iterator<VariableDeclarationFragment> it= node.fragments().iterator(); it.hasNext();) {
+		for (Iterator<VariableDeclarationFragment> it= node.fragments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment f= it.next();
 			f.accept(this);
 			if (it.hasNext()) {
@@ -2075,16 +2075,16 @@ public class ASTFlattener extends GenericVisitor {
 	/*
 	 * @see ASTVisitor#visit(VariableDeclarationFragment)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(VariableDeclarationFragment node) {
 		node.getName().accept(this);
 		if (node.getAST().apiLevel() >= ASTHelper.JLS8) {
 			List<Dimension> dimensions = node.extraDimensions();
-			for (Dimension e : dimensions) {
+			for (Dimension e : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				e.accept(this);
 			}
 		} else {
-			for (int i= 0; i < node.getExtraDimensions(); i++) {
+			for (int i= 0; i < node.getExtraDimensions(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				this.fBuffer.append("[]"); //$NON-NLS-1$
 			}
 		}
@@ -2105,7 +2105,7 @@ public class ASTFlattener extends GenericVisitor {
 		}
 		node.getType().accept(this);
 		this.fBuffer.append(" ");//$NON-NLS-1$
-		for (Iterator<VariableDeclarationFragment> it= node.fragments().iterator(); it.hasNext();) {
+		for (Iterator<VariableDeclarationFragment> it= node.fragments().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment f= it.next();
 			f.accept(this);
 			if (it.hasNext()) {

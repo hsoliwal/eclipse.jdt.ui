@@ -102,16 +102,16 @@ public class NLSElement {
 	}
 
 	public static String createTagText(int index) {
-		return TAG_PREFIX + index + TAG_POSTFIX;
+		return TAG_PREFIX + index + TAG_POSTFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public String getTagText() {
-		return TAG_PREFIX + (fIndex + 1) + TAG_POSTFIX;
+		return TAG_PREFIX + (fIndex + 1) + TAG_POSTFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public String toString() {
-		return fPosition + ": " + fValue + "    Tag position: " + //$NON-NLS-2$ //$NON-NLS-1$
+		return fPosition + ": " + fValue + "    Tag position: " + //$NON-NLS-2$ //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				(hasTag() ? fTagPosition.toString() : "no tag found"); //$NON-NLS-1$
 	}
 

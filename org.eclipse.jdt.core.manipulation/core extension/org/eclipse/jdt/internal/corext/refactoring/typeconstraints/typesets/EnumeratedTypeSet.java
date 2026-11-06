@@ -52,7 +52,7 @@ public class EnumeratedTypeSet extends TypeSet {
 	 */
 	public EnumeratedTypeSet(Iterator<TType> types, TypeSetEnvironment typeSetEnvironment) {
 		super(typeSetEnvironment);
-		while (types.hasNext()) {
+		while (types.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fMembers.add(types.next());
 		}
 		sCount++;
@@ -89,7 +89,7 @@ public class EnumeratedTypeSet extends TypeSet {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o instanceof EnumeratedTypeSet) {
@@ -103,11 +103,11 @@ public class EnumeratedTypeSet extends TypeSet {
 		} else if (o instanceof TypeSet) {
 			TypeSet other= (TypeSet) o;
 
-			for(Iterator<TType> otherIter= other.iterator(); otherIter.hasNext(); ) {
+			for(Iterator<TType> otherIter= other.iterator(); otherIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!fMembers.contains(otherIter.next()))
 					return false;
 			}
-			for (TType tType : fMembers) {
+			for (TType tType : fMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!other.contains(tType))
 					return false;
 			}
@@ -176,7 +176,7 @@ public class EnumeratedTypeSet extends TypeSet {
 	public static EnumeratedTypeSet makeArrayTypesForElements(Iterator<TType> elemTypes, TypeSetEnvironment typeSetEnvironment) {
 		EnumeratedTypeSet result= new EnumeratedTypeSet(typeSetEnvironment);
 
-		while (elemTypes.hasNext()) {
+		while (elemTypes.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= elemTypes.next();
 			result.add(TTypes.createArrayType(t, 1));
 		}
@@ -309,7 +309,7 @@ public class EnumeratedTypeSet extends TypeSet {
 		return fMembers.iterator().next();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TypeSet upperBound() {
 		if (fMembers.size() == 1)
 			return new SingletonTypeSet(fMembers.iterator().next(), getTypeSetEnvironment());
@@ -320,15 +320,15 @@ public class EnumeratedTypeSet extends TypeSet {
 
 		// Add to result each element of fMembers that has no proper supertype in fMembers
 		result.fMembers.addAll(fMembers);
-		for (TType t : fMembers) {
+		for (TType t : fMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (t.isArrayType()) {
 				ArrayType at= (ArrayType) t;
 				int numDims= at.getDimensions();
-				for(Iterator<TType> subIter=TTypes.getAllSubTypesIterator(at.getElementType()); subIter.hasNext(); ) {
+				for(Iterator<TType> subIter=TTypes.getAllSubTypesIterator(at.getElementType()); subIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.fMembers.remove(TTypes.createArrayType(subIter.next(), numDims));
 				}
 			} else {
-				for (Iterator<TType> iterator= TTypes.getAllSubTypesIterator(t); iterator.hasNext();) {
+				for (Iterator<TType> iterator= TTypes.getAllSubTypesIterator(t); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.fMembers.remove(iterator.next());
 				}
 			}
@@ -337,7 +337,7 @@ public class EnumeratedTypeSet extends TypeSet {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TypeSet lowerBound() {
 		if (fMembers.size() == 1)
 			return new SingletonTypeSet(fMembers.iterator().next(), getTypeSetEnvironment());
@@ -347,7 +347,7 @@ public class EnumeratedTypeSet extends TypeSet {
 		// Add to result each element of fMembers that has no proper subtype in fMembers
 		result.fMembers.addAll(fMembers);
 
-		for (TType t : fMembers) {
+		for (TType t : fMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// java.lang.Object is only in the lower bound if fMembers consists
 			// of only java.lang.Object, but that case is handled above.
 			if (t.equals(getJavaLangObject())) {
@@ -358,11 +358,11 @@ public class EnumeratedTypeSet extends TypeSet {
 			if (t instanceof ArrayType) {
 				ArrayType at= (ArrayType) t;
 				int numDims= at.getDimensions();
-				for(Iterator<TType> superIter=TTypes.getAllSuperTypesIterator(at.getElementType()); superIter.hasNext(); ) {
+				for(Iterator<TType> superIter=TTypes.getAllSuperTypesIterator(at.getElementType()); superIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.fMembers.remove(TTypes.createArrayType(superIter.next(), numDims));
 				}
 			} else {
-				for (Iterator<TType> iterator= TTypes.getAllSuperTypesIterator(t); iterator.hasNext();) {
+				for (Iterator<TType> iterator= TTypes.getAllSuperTypesIterator(t); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.fMembers.remove(iterator.next());
 				}
 			}
@@ -407,26 +407,26 @@ public class EnumeratedTypeSet extends TypeSet {
 	 */
 	private static final int sMaxElements= 10; // Integer.MAX_VALUE;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String toString() {
-		StringBuilder b= new StringBuilder();
-		b.append("{" + fID+ ":"); //$NON-NLS-1$ //$NON-NLS-2$
+		StringBuilder b= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		b.append("{" + fID+ ":"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isUniverse())
-			b.append(" <universe>"); //$NON-NLS-1$
+			b.append(" <universe>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else {
 			int count=0;
 			Iterator<TType> iter;
-			for(iter= iterator(); iter.hasNext() && count < sMaxElements; count++) {
+			for(iter= iterator(); iter.hasNext() && count < sMaxElements; count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType type= iter.next();
-				b.append(' ')
+				b.append(' ') //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				 .append(type.getPrettySignature());
 				if (iter.hasNext())
-					b.append(',');
+					b.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (iter.hasNext())
-				b.append(" ..."); //$NON-NLS-1$
+				b.append(" ..."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		b.append(" }"); //$NON-NLS-1$
+		b.append(" }"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return b.toString();
 	}
 

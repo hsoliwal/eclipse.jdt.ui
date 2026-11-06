@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
 
 
-public class AddGetterSetterTypeProposal extends ChangeCorrectionProposal { // public for tests
+public class AddGetterSetterTypeProposal extends ChangeCorrectionProposal { // public for tests //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private IType fType;
 
@@ -65,7 +65,7 @@ public class AddGetterSetterTypeProposal extends ChangeCorrectionProposal { // p
 
 	@Override
 	public void apply(IDocument document) {
-		Display.getDefault().syncExec(() -> {
+		Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			try {
 				IStructuredSelection selection= new StructuredSelection(fType);
 				IWorkbenchSite site= JavaPlugin.getActiveWorkbenchWindow().getActivePage().getActiveEditor().getSite();

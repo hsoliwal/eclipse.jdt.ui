@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.IBinding;
 
-public class ModifierChangeCorrectionProposal extends LinkedCorrectionProposal {
+public class ModifierChangeCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public ModifierChangeCorrectionProposal(String label, ICompilationUnit targetCU, IBinding binding, ASTNode node, int includedModifiers, int excludedModifiers, int relevance, Image image) {
 		super(label, targetCU, null, relevance, image, new ModifierChangeCorrectionProposalCore(label, targetCU, binding, node, includedModifiers, excludedModifiers, relevance));

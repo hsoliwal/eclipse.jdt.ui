@@ -179,7 +179,7 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 		measure(mode, createPerformanceMeter(), getWarmUpRuns(), getMeasuredRuns());
 	}
 
-	protected void measure(ScrollingMode mode, PerformanceMeter performanceMeter, int warmUpRuns, int measuredRuns) throws Exception {
+	protected void measure(ScrollingMode mode, PerformanceMeter performanceMeter, int warmUpRuns, int measuredRuns) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AbstractTextEditor editor= null;
 		try {
 			editor= openEditor(mode);
@@ -214,7 +214,7 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 
 	protected abstract String getEditor();
 
-	private void measure(final StyledText text, ScrollingMode mode, PerformanceMeter performanceMeter, int runs) {
+	private void measure(final StyledText text, ScrollingMode mode, PerformanceMeter performanceMeter, int runs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display= EditorTestHelper.getActiveDisplay();
 		final int numberOfLines= text.getLineCount();
 		final int visibleLinesInViewport= text.getClientArea().height / text.getLineHeight();
@@ -222,7 +222,7 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 
 		DisplayWaiter waiter= new DisplayWaiter(display, true);
 		try {
-			for (int i= 0; i < runs; i++) {
+			for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// 0: assert that we are at the top and the selection at 0
 				assertEquals("editor must be scrolled to the top before starting", 0, text.getTopIndex());
 				assertEquals("selection must be at (0,0) before starting", 0, text.getSelection().x);
@@ -231,7 +231,7 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 				long delay= 6000;
 				Timeout timeout= waiter.restart(delay);
 				performanceMeter.start();
-				for (int j= 0; j < operations && !timeout.hasTimedOut(); j++) {
+				for (int j= 0; j < operations && !timeout.hasTimedOut(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// avoid overhead: assertTrue(text.getTopIndex() + visibleLinesInViewport < numberOfLines - 1);
 					SWTEventHelper.pressKeyCodeCombination(display, mode.SCROLL_COMBO, false);
 					runEventQueue(display);
@@ -243,20 +243,20 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 				}
 				performanceMeter.stop();
 				waiter.hold();
-				assertFalse("Failed to receive event within " + delay + "ms.", timeout.hasTimedOut());
+				assertFalse("Failed to receive event within " + delay + "ms.", timeout.hasTimedOut()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				// 2: wait until the events have been swallowed
 				timeout= waiter.restart(10000);
-				while (!timeout.hasTimedOut() && text.getTopIndex() + visibleLinesInViewport < numberOfLines - 1) {
+				while (!timeout.hasTimedOut() && text.getTopIndex() + visibleLinesInViewport < numberOfLines - 1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					runEventQueue(display);
 				}
 				waiter.hold();
-				assertFalse("Never scrolled to the bottom within 10000ms.\nTopIndex: " + text.getTopIndex() + " visibleLines: " + visibleLinesInViewport + " totalLines: " + numberOfLines + " operations: " + operations, timeout.hasTimedOut());
+				assertFalse("Never scrolled to the bottom within 10000ms.\nTopIndex: " + text.getTopIndex() + " visibleLines: " + visibleLinesInViewport + " totalLines: " + numberOfLines + " operations: " + operations, timeout.hasTimedOut()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				// 3: go back home
 				timeout= waiter.restart(10000);
 				SWTEventHelper.pressKeyCodeCombination(display, mode.HOME_COMBO, false);
-				while (!timeout.hasTimedOut() && text.getTopIndex() != 0) {
+				while (!timeout.hasTimedOut() && text.getTopIndex() != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					runEventQueue(display);
 				}
 				waiter.hold();
@@ -269,14 +269,14 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 		}
 	}
 
-	private void measureHolding(final StyledText text, ScrollingMode mode, PerformanceMeter performanceMeter, int runs) {
+	private void measureHolding(final StyledText text, ScrollingMode mode, PerformanceMeter performanceMeter, int runs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display= EditorTestHelper.getActiveDisplay();
 		final int numberOfLines= text.getLineCount();
 		final int visibleLinesInViewport= text.getClientArea().height / text.getLineHeight();
 
 		DisplayWaiter waiter= new DisplayWaiter(display, true);
 		try {
-			for (int i= 0; i < runs; i++) {
+			for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// 0: assert that we are at the top and the selection at 0
 				assertEquals("editor must be scrolled to the top before starting", 0, text.getTopIndex());
 				assertEquals("selection must be at (0,0) before starting", 0, text.getSelection().x);
@@ -289,12 +289,12 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 
 				final int[] keyCodes= mode.SCROLL_COMBO;
 				// press keys
-				for (int keyCode : keyCodes) {
+				for (int keyCode : keyCodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SWTEventHelper.keyCodeDown(display, keyCode, false);
 				}
 
 				int topIndex= 0;
-				while (!timeout.hasTimedOut()) {
+				while (!timeout.hasTimedOut()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					runEventQueue(display);
 
 					final int currentTopIndex= text.getTopIndex();
@@ -319,18 +319,18 @@ public abstract class ScrollEditorTest extends TextPerformanceTestCase {
 				waiter.hold();
 
 				// lift keys in reverse order
-				for (int j= keyCodes.length - 1; j >= 0; j--) {
+				for (int j= keyCodes.length - 1; j >= 0; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SWTEventHelper.keyCodeUp(display, keyCodes[j], false);
 				}
 				runEventQueue(display);
 
 				performanceMeter.stop();
-				assertFalse("Never scrolled to the bottom, last event received " + delay + "ms ago, topIndex: " + text.getTopIndex(), timeout.hasTimedOut());
+				assertFalse("Never scrolled to the bottom, last event received " + delay + "ms ago, topIndex: " + text.getTopIndex(), timeout.hasTimedOut()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				// 2: go back home
 				timeout= waiter.restart(2000);
 				SWTEventHelper.pressKeyCodeCombination(display, mode.HOME_COMBO, false);
-				while (!timeout.hasTimedOut() && text.getTopIndex() != 0) {
+				while (!timeout.hasTimedOut() && text.getTopIndex() != 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					runEventQueue(display);
 				}
 				waiter.hold();

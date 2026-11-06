@@ -73,7 +73,7 @@ public class NLSAccessorFieldRenameParticipant extends RenameParticipant {
 		return NLSMessages.NLSAccessorFieldRenameParticipant_participantName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkConditions(IProgressMonitor pm, CheckConditionsContext context) throws OperationCanceledException {
 		if (pm == null)
 			pm= new NullProgressMonitor();
@@ -159,7 +159,7 @@ public class NLSAccessorFieldRenameParticipant extends RenameParticipant {
 	/*
 	 * Be conservative, for every unit this returns true an AST will to be created!
 	 */
-	private static boolean isPotentialNLSAccessor(ICompilationUnit unit) throws JavaModelException {
+	private static boolean isPotentialNLSAccessor(ICompilationUnit unit) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType type= unit.getTypes()[0];
 		if (!type.exists())
 			return false;
@@ -171,7 +171,7 @@ public class NLSAccessorFieldRenameParticipant extends RenameParticipant {
 		if (!importsOSGIUtil(unit))
 			return false;
 
-		for (IInitializer initializer : type.getInitializers()) {
+		for (IInitializer initializer : type.getInitializers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Modifier.isStatic(initializer.getFlags()))
 				return true;
 		}
@@ -180,7 +180,7 @@ public class NLSAccessorFieldRenameParticipant extends RenameParticipant {
 	}
 
 	private static IField getBundleNameField(IField[] fields) {
-		for (IField field : fields) {
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("BUNDLE_NAME".equals(field.getElementName())) { //$NON-NLS-1$
 				return field;
 			}
@@ -190,7 +190,7 @@ public class NLSAccessorFieldRenameParticipant extends RenameParticipant {
 	}
 
 	private static boolean importsOSGIUtil(ICompilationUnit unit) throws JavaModelException {
-		for (IImportDeclaration importDecl : unit.getImports()) {
+		for (IImportDeclaration importDecl : unit.getImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (importDecl.getElementName().startsWith("org.eclipse.osgi.util.")) { //$NON-NLS-1$
 				return true;
 			}

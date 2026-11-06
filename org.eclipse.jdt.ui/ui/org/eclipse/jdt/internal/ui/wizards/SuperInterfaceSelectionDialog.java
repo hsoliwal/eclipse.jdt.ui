@@ -130,11 +130,11 @@ public class SuperInterfaceSelectionDialog extends OpenTypeSelectionDialog {
 	/*
 	 * Adds selected interfaces to the list.
 	 */
-	private void addSelectedInterfaces() {
+	private void addSelectedInterfaces() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StructuredSelection selection= getSelectedItems();
 		if (selection == null)
 			return;
-		for (Object obj : selection) {
+		for (Object obj : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (obj instanceof TypeNameMatch) {
 				accessedHistoryItem(obj);
 				TypeNameMatch type= (TypeNameMatch) obj;
@@ -164,7 +164,7 @@ public class SuperInterfaceSelectionDialog extends OpenTypeSelectionDialog {
 		buttonPressed(ADD_ID);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleSelected(StructuredSelection selection) {
 		super.handleSelected(selection);
 
@@ -192,20 +192,20 @@ public class SuperInterfaceSelectionDialog extends OpenTypeSelectionDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, IJavaHelpContextIds.SUPER_INTERFACE_SELECTION_DIALOG);
 	}
 
-	public static String getNameWithTypeParameters(IType type) {
+	public static String getNameWithTypeParameters(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String superName= type.getFullyQualifiedName('.');
 		try {
 			ITypeParameter[] typeParameters= type.getTypeParameters();
 			if (typeParameters.length > 0) {
-				StringBuilder buf= new StringBuilder(superName);
-				buf.append('<');
-				for (int k= 0; k < typeParameters.length; k++) {
+				StringBuilder buf= new StringBuilder(superName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append('<'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				for (int k= 0; k < typeParameters.length; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (k != 0) {
-						buf.append(',').append(' ');
+						buf.append(',').append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append(typeParameters[k].getElementName());
+					buf.append(typeParameters[k].getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append('>');
+				buf.append('>'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return buf.toString();
 			}
 		} catch (JavaModelException e) {

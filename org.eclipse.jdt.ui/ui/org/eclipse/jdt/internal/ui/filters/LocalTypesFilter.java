@@ -20,7 +20,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.MemberFilter;
 /**
  * Filters local types
  */
-public class LocalTypesFilter extends MemberFilter {
+public class LocalTypesFilter extends MemberFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	public LocalTypesFilter() {
 		addFilter(MemberFilter.FILTER_LOCALTYPES);
 	}

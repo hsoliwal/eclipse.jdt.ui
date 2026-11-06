@@ -77,7 +77,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
 import org.eclipse.jdt.internal.ui.viewsupport.BasicElementLabels;
 
-public final class ConfigureWorkingSetAssignementAction extends SelectionDispatchAction {
+public final class ConfigureWorkingSetAssignementAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * A set of GrayedCheckedModelElements
@@ -87,7 +87,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		private ArrayList<GrayedCheckedModelElement> fElements;
 
 		public GrayedCheckedModel(GrayedCheckedModelElement[] elements) {
-			fElements= new ArrayList<>(Arrays.asList(elements));
+			fElements= new ArrayList<>(Arrays.asList(elements)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		public void addElement(GrayedCheckedModelElement element) {
@@ -99,8 +99,8 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		}
 
 		public GrayedCheckedModelElement[] getChecked() {
-			ArrayList<GrayedCheckedModelElement> result= new ArrayList<>();
-			for (GrayedCheckedModelElement element : fElements) {
+			ArrayList<GrayedCheckedModelElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (GrayedCheckedModelElement element : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.isChecked())
 					result.add(element);
 			}
@@ -108,8 +108,8 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		}
 
 		public GrayedCheckedModelElement[] getGrayed() {
-			ArrayList<GrayedCheckedModelElement> result= new ArrayList<>();
-			for (GrayedCheckedModelElement element : fElements) {
+			ArrayList<GrayedCheckedModelElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (GrayedCheckedModelElement element : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.isGrayed())
 					result.add(element);
 			}
@@ -117,13 +117,13 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		}
 
 		public void selectAll() {
-			for (GrayedCheckedModelElement fElement : fElements) {
+			for (GrayedCheckedModelElement fElement : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fElement.select();
 			}
 		}
 
 		public void deselectAll() {
-			for (GrayedCheckedModelElement fElement : fElements) {
+			for (GrayedCheckedModelElement fElement : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fElement.deselect();
 			}
 		}
@@ -215,7 +215,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		@Override
 		public void dispose() {
 			Iterator<Image> iterator= fIcons.values().iterator();
-			while (iterator.hasNext()) {
+			while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Image icon= iterator.next();
 				icon.dispose();
 			}
@@ -278,7 +278,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			}
 		}
 
-		private class Filter extends ViewerFilter {
+		private class Filter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -319,7 +319,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			setTitle(WorkingSetMessages.ConfigureWorkingSetAssignementAction_WorkingSetAssignments_title);
 			fModel= model;
 			fElements= elements;
-			fCreatedWorkingSets= new ArrayList<>();
+			fCreatedWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fSettings= JavaPlugin.getDefault().getDialogSettingsSection(DIALOG_SETTINGS_SECTION);
 			if (fSettings.get(SETTINGS_SHOW_VISIBLE_ONLY) == null) {
 				fSettings.put(SETTINGS_SHOW_VISIBLE_ONLY, true);
@@ -341,7 +341,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		public IWorkingSet[] getGrayed() {
 			GrayedCheckedModelElement[] grayed= fModel.getGrayed();
 			IWorkingSet[] result= new IWorkingSet[grayed.length];
-			for (int i= 0; i < grayed.length; i++) {
+			for (int i= 0; i < grayed.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= grayed[i].getWorkingSet();
 			}
 			return result;
@@ -350,13 +350,13 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		public IWorkingSet[] getSelection() {
 			GrayedCheckedModelElement[] checked= fModel.getChecked();
 			IWorkingSet[] result= new IWorkingSet[checked.length];
-			for (int i= 0; i < checked.length; i++) {
+			for (int i= 0; i < checked.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= checked[i].getWorkingSet();
 			}
 			return result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected Control createDialogArea(Composite parent) {
 			Composite composite= (Composite)super.createDialogArea(parent);
 
@@ -385,7 +385,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			return composite;
 		}
 
-		protected void createRightButtonBar(Composite parent) {
+		protected void createRightButtonBar(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite composite= new Composite(parent, SWT.NONE);
 			composite.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 			GridLayout layout= new GridLayout();
@@ -396,28 +396,28 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			Button selectAll= new Button(composite, SWT.PUSH);
 			selectAll.setText(WorkingSetMessages.ConfigureWorkingSetAssignementAction_SelectAll_button);
 			setButtonLayoutData(selectAll);
-			selectAll.addSelectionListener(new SelectionAdapter() {
+			selectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fTableViewer.setAllChecked(true);
 
 					fModel.selectAll();
 					fTableViewer.setGrayedElements(new Object[0]);
-					fTableViewer.refresh();
+					fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			});
 
 			Button deselectAll= new Button(composite, SWT.PUSH);
 			deselectAll.setText(WorkingSetMessages.ConfigureWorkingSetAssignementAction_DeselectAll_button);
 			setButtonLayoutData(deselectAll);
-			deselectAll.addSelectionListener(new SelectionAdapter() {
+			deselectAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fTableViewer.setAllChecked(false);
 
 					fModel.deselectAll();
 					fTableViewer.setGrayedElements(new Object[0]);
-					fTableViewer.refresh();
+					fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			});
 
@@ -427,8 +427,8 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			Button newWorkingSet= new Button(composite, SWT.PUSH);
 			newWorkingSet.setText(WorkingSetMessages.ConfigureWorkingSetAssignementAction_New_button);
 			setButtonLayoutData(newWorkingSet);
-			newWorkingSet.addSelectionListener(new SelectionAdapter() {
-				@Override
+			newWorkingSet.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void widgetSelected(SelectionEvent e) {
 					IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
 
@@ -451,10 +451,10 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			});
 		}
 
-		protected CheckboxTableViewer createTableViewer(Composite parent) {
+		protected CheckboxTableViewer createTableViewer(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			final CheckboxTableViewer result= CheckboxTableViewer.newCheckList(parent, SWT.BORDER | SWT.MULTI);
-			result.addCheckStateListener(event -> {
+			result.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 				GrayedCheckedModelElement element= (GrayedCheckedModelElement)event.getElement();
 				result.setGrayed(element, false);
 				if (event.getChecked()) {
@@ -469,21 +469,21 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			data.widthHint= convertWidthInCharsToPixels(50);
 			result.getTable().setLayoutData(data);
 
-			result.addFilter(new Filter());
-			result.setLabelProvider(new GrayedCheckedModelLabelProvider());
+			result.addFilter(new Filter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+			result.setLabelProvider(new GrayedCheckedModelLabelProvider()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			result.setComparator(new GrayedCheckModelElementSorter());
 			result.setContentProvider(new GrayedCheckedModelContentProvider());
 
-			result.setInput(fModel);
+			result.setInput(fModel); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			result.setCheckedElements(fModel.getChecked());
 			result.setGrayedElements((Object[]) fModel.getGrayed());
 
 			return result;
 		}
 
-		protected void addNewWorkingSet(IWorkingSet workingSet) {
+		protected void addNewWorkingSet(IWorkingSet workingSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int checkCount= 0;
-			for (IAdaptable element : fElements) {
+			for (IAdaptable element : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IAdaptable adapted= adapt(workingSet, element);
 				if (adapted != null && contains(workingSet, adapted)) {
 					checkCount++;
@@ -493,8 +493,8 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			GrayedCheckedModelElement element= new GrayedCheckedModelElement(workingSet, checkCount, fElements.length);
 			fModel.addElement(element);
 
-			fTableViewer.setInput(fModel);
-			fTableViewer.refresh();
+			fTableViewer.setInput(fModel); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 			fTableViewer.setCheckedElements(fModel.getChecked());
 			fTableViewer.setGrayedElements((Object[]) fModel.getGrayed());
@@ -502,7 +502,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			fTableViewer.setSelection(new StructuredSelection(element));
 		}
 
-		private void createShowVisibleOnly(Composite parent) {
+		private void createShowVisibleOnly(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			PackageExplorerPart activePart= getActivePackageExplorer();
 			if (fWorkingSetModel == null || activePart != null && activePart.getRootMode() == PackageExplorerPart.PROJECTS_AS_ROOTS)
 				return;
@@ -511,12 +511,12 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			showVisibleOnly.setText(WorkingSetMessages.ConfigureWorkingSetAssignementAction_OnlyShowVisible_check);
 			showVisibleOnly.setSelection(fShowVisibleOnly);
 			showVisibleOnly.setLayoutData(new GridData(SWT.LEAD, SWT.CENTER, true, false));
-			showVisibleOnly.addSelectionListener(new SelectionAdapter() {
+			showVisibleOnly.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fShowVisibleOnly= showVisibleOnly.getSelection();
 
-					fTableViewer.refresh();
+					fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 					fTableViewer.setCheckedElements(fModel.getChecked());
 					fTableViewer.setGrayedElements((Object[]) fModel.getGrayed());
@@ -526,12 +526,12 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 			Link ppwsLink= new Link(parent, SWT.NONE);
 			ppwsLink.setText(WorkingSetMessages.ConfigureWorkingSetAssignementAction_OnlyShowVisible_link);
 			ppwsLink.setLayoutData(new GridData(SWT.LEAD, SWT.CENTER, true, false));
-			ppwsLink.addSelectionListener(new SelectionAdapter() {
+			ppwsLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 
-					List<IWorkingSet> workingSets= new ArrayList<>(Arrays.asList(fWorkingSetModel.getAllWorkingSets()));
+					List<IWorkingSet> workingSets= new ArrayList<>(Arrays.asList(fWorkingSetModel.getAllWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					boolean isSortingEnabled= fWorkingSetModel.isSortingEnabled();
 					WorkingSetConfigurationDialog dialog= new WorkingSetConfigurationDialog(getShell(), workingSets.toArray(new IWorkingSet[workingSets.size()]), isSortingEnabled);
 					dialog.setSelection(fWorkingSetModel.getActiveWorkingSets());
@@ -557,8 +557,8 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		}
 
 		private void recalculateCheckedState(List<IWorkingSet> addedWorkingSets) {
-			Set<IWorkingSet> checkedWorkingSets= new HashSet<>();
-			for (GrayedCheckedModelElement element : fModel.getChecked()) {
+			Set<IWorkingSet> checkedWorkingSets= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (GrayedCheckedModelElement element : fModel.getChecked()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkedWorkingSets.add(element.getWorkingSet());
 			}
 
@@ -567,8 +567,8 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 
 			fModel= createGrayedCheckedModel(fElements, getAllWorkingSets(), checkedWorkingSets);
 
-			fTableViewer.setInput(fModel);
-			fTableViewer.refresh();
+			fTableViewer.setInput(fModel); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+			fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fTableViewer.setCheckedElements(fModel.getChecked());
 			fTableViewer.setGrayedElements((Object[]) fModel.getGrayed());
 		}
@@ -576,7 +576,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		@Override
 		protected void cancelPressed() {
 			IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
-			for (IWorkingSet fCreatedWorkingSet : fCreatedWorkingSets) {
+			for (IWorkingSet fCreatedWorkingSet : fCreatedWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				manager.removeWorkingSet(fCreatedWorkingSet);
 			}
 
@@ -613,7 +613,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		if (selection.isEmpty())
 			return false;
 
-		for (Object object : selection.toList()) {
+		for (Object object : selection.toList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(object instanceof IResource) && !(object instanceof IJavaElement))
 				return false;
 		}
@@ -622,9 +622,9 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 	}
 
 	private IAdaptable[] getSelectedElements(IStructuredSelection selection) {
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object object : selection.toList()) {
+		for (Object object : selection.toList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource || object instanceof IJavaElement) {
 				result.add(object);
 			}
@@ -633,7 +633,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		return result.toArray(new IAdaptable[result.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		IAdaptable[] elements= getSelectedElements(selection);
 		GrayedCheckedModel model= createGrayedCheckedModel(elements, getAllWorkingSets(), null);
@@ -657,14 +657,14 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		}
 	}
 
-	private static GrayedCheckedModel createGrayedCheckedModel(IAdaptable[] elements, IWorkingSet[] workingSets, Set<IWorkingSet> checkedWorkingSets) {
+	private static GrayedCheckedModel createGrayedCheckedModel(IAdaptable[] elements, IWorkingSet[] workingSets, Set<IWorkingSet> checkedWorkingSets) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GrayedCheckedModelElement[] result= new GrayedCheckedModelElement[workingSets.length];
 
-		for (int i= 0; i < workingSets.length; i++) {
+		for (int i= 0; i < workingSets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkingSet workingSet= workingSets[i];
 
 			int checkCount= 0;
-			for (IAdaptable element : elements) {
+			for (IAdaptable element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (checkedWorkingSets == null) {
 					IAdaptable adapted= adapt(workingSet, element);
 					if (adapted != null && contains(workingSet, adapted))
@@ -681,13 +681,13 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 		return new GrayedCheckedModel(result);
 	}
 
-	private void updateWorkingSets(IWorkingSet[] newWorkingSets, IWorkingSet[] grayedWorkingSets, IAdaptable[] elements) {
-		HashSet<IWorkingSet> selectedSets= new HashSet<>(Arrays.asList(newWorkingSets));
-		HashSet<IWorkingSet> grayedSets= new HashSet<>(Arrays.asList(grayedWorkingSets));
+	private void updateWorkingSets(IWorkingSet[] newWorkingSets, IWorkingSet[] grayedWorkingSets, IAdaptable[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<IWorkingSet> selectedSets= new HashSet<>(Arrays.asList(newWorkingSets)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<IWorkingSet> grayedSets= new HashSet<>(Arrays.asList(grayedWorkingSets)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (IWorkingSet workingSet : getAllWorkingSets()) {
+		for (IWorkingSet workingSet : getAllWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidWorkingSet(workingSet) && !selectedSets.contains(workingSet) && !grayedSets.contains(workingSet)) {
-				for (IAdaptable element : elements) {
+				for (IAdaptable element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IAdaptable adapted= adapt(workingSet, element);
 					if (adapted != null && contains(workingSet, adapted)) {
 						remove(workingSet, adapted);
@@ -695,10 +695,10 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 				}
 			}
 		}
-		for (IWorkingSet set : newWorkingSets) {
+		for (IWorkingSet set : newWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValidWorkingSet(set) && !grayedSets.contains(set)) {
 				boolean checkForYetHiddenWorkingSet= false;
-				for (IAdaptable element : elements) {
+				for (IAdaptable element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IAdaptable adapted= adapt(set, element);
 					if (adapted != null && !contains(set, adapted)) {
 						add(set, adapted);
@@ -708,7 +708,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 				if (checkForYetHiddenWorkingSet) {
 					IWorkingSet[] activeSets= getActiveWorkingSets();
 					if (activeSets != null) {
-						List<IWorkingSet> activeWorkingSets= new ArrayList<>(Arrays.asList(activeSets));
+						List<IWorkingSet> activeWorkingSets= new ArrayList<>(Arrays.asList(activeSets)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						if (!activeWorkingSets.contains(set))
 							activateWorkingSet(set);
 					}
@@ -789,7 +789,7 @@ public final class ConfigureWorkingSetAssignementAction extends SelectionDispatc
 	}
 
 	private static void remove(IWorkingSet workingSet, IAdaptable adaptedElement) {
-		HashSet<IAdaptable> set= new HashSet<>(Arrays.asList(workingSet.getElements()));
+		HashSet<IAdaptable> set= new HashSet<>(Arrays.asList(workingSet.getElements())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		set.remove(adaptedElement);
 		workingSet.setElements(set.toArray(new IAdaptable[set.size()]));
 	}

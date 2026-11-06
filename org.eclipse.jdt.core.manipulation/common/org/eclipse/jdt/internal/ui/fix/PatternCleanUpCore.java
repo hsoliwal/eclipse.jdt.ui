@@ -109,7 +109,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.PRECOMPILE_REGEX)) {
 			return """
@@ -130,14 +130,14 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.PRECOMPILE_REGEX)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
-		final Map<ASTNode, Set<String>> addedPatternFields= new HashMap<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final Map<ASTNode, Set<String>> addedPatternFields= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -184,7 +184,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 					return visitVariable(node.getType(), node.resolveBinding(), node.getExtraDimensions(), node.getInitializer());
 				}
 
-				private boolean visitVariable(final Type type, final IVariableBinding variableBinding, final int extraDimensions, final Expression initializer) {
+				private boolean visitVariable(final Type type, final IVariableBinding variableBinding, final int extraDimensions, final Expression initializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (ASTNodes.hasType(type.resolveBinding(), STRING_CLASS_NAME)
 							&& extraDimensions == 0
 							&& initializer != null) {
@@ -195,7 +195,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 						List<SimpleName> writes= varOccurrencesVisitor.getWrites();
 
 						if (writes.size() == 1 && reads.size() > 1) {
-							for (SimpleName simpleName : reads) {
+							for (SimpleName simpleName : reads) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (!isRegExUse(simpleName, initializer)) {
 									return true;
 								}
@@ -210,7 +210,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 					return true;
 				}
 
-				private boolean isRegExUse(final SimpleName simpleName, final Expression initializer) {
+				private boolean isRegExUse(final SimpleName simpleName, final Expression initializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (simpleName.getParent() instanceof MethodInvocation) {
 						MethodInvocation methodInvocation= (MethodInvocation) simpleName.getParent();
 
@@ -305,7 +305,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 			this.addedPatternFields= addedPatternFields;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -334,7 +334,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 				VariableDeclarationFragment newFragment= ast.newVariableDeclarationFragment();
 				Set<String> addedFields= addedPatternFields.get(typeDecl);
 				if (addedFields == null) {
-					addedFields= new HashSet<>();
+					addedFields= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					addedPatternFields.put(typeDecl, addedFields);
 				}
 				String newFieldName= getUniqueFieldName(addedFields);
@@ -353,7 +353,7 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 			    ASTNodes.replaceButKeepComment(rewrite, initializer, newCompileMethod, group);
 			}
 
-			for (SimpleName oldRegExUse : regExUses) {
+			for (SimpleName oldRegExUse : regExUses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MethodInvocation oldMethodInvocation= (MethodInvocation) oldRegExUse.getParent();
 				MethodInvocation newMethod= ast.newMethodInvocation();
 				newMethod.setExpression(ASTNodes.createMoveTarget(rewrite, oldRegExUse));
@@ -389,24 +389,24 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 			}
 		}
 
-		private String getUniqueFieldName(Set<String> usedPatternNames) {
+		private String getUniqueFieldName(Set<String> usedPatternNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<String> usedNames= getVisibleVariablesInScope(initializer);
-			String newPatternName= varName + "_pattern"; //$NON-NLS-1$
+			String newPatternName= varName + "_pattern"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String newName= newPatternName;
 			int i= 2;
 			boolean finished= false;
-			while (!finished) {
+			while (!finished) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				finished= true;
-				for (String usedName : usedNames) {
+				for (String usedName : usedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (usedName.equals(newName)) {
-						newName= newPatternName + i++;
+						newName= newPatternName + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						finished= false;
 						break;
 					}
 				}
-				for (String patternName : usedPatternNames) {
+				for (String patternName : usedPatternNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (patternName.equals(newName)) {
-						newName= newPatternName + i++;
+						newName= newPatternName + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						finished= false;
 						break;
 					}
@@ -416,11 +416,11 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 		}
 
 		private List<String> getVisibleVariablesInScope(ASTNode node) {
-			List<String> variableNames= new ArrayList<>();
+			List<String> variableNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			CompilationUnit root= (CompilationUnit) node.getRoot();
 			IBinding[] bindings= new ScopeAnalyzer(root).
 					getDeclarationsInScope(node.getStartPosition(), ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY);
-			for (IBinding binding : bindings) {
+			for (IBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variableNames.add(binding.getName());
 			}
 			return variableNames;
@@ -430,8 +430,8 @@ public class PatternCleanUpCore extends AbstractMultiFix {
 			List<BodyDeclaration> decls= typeDecl.bodyDeclarations();
 			boolean finished= false;
 			BodyDeclaration bodyDecl= (BodyDeclaration)ASTNodes.getFirstAncestorOrNull(initializer, MethodDeclaration.class, FieldDeclaration.class);
-			while (!finished) {
-				for (int i= 0; i < decls.size(); ++i) {
+			while (!finished) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int i= 0; i < decls.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (decls.get(i).equals(bodyDecl)) {
 						return i;
 					}

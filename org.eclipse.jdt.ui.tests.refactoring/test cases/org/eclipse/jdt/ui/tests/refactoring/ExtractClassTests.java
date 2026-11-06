@@ -77,9 +77,9 @@ public class ExtractClassTests extends GenericRefactoringTest {
 	}
 
 	private void checkAdditionalFile(String fileName) throws Exception, JavaModelException, IOException {
-		ICompilationUnit cu= fPack.getCompilationUnit(fileName + ".java");
+		ICompilationUnit cu= fPack.getCompilationUnit(fileName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(cu);
-		assertTrue(cu.getPath() + " does not exist", cu.exists());
+		assertTrue(cu.getPath() + " does not exist", cu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String actual= cu.getSource();
 		String expected= getFileContents(getOutputTestFileName(fileName));
 		assertEqualLines(expected, actual);
@@ -101,7 +101,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 	private IPackageFragment getSubPackage(String subDir) throws Exception {
 		IPackageFragment pack= getPackageP();
 		if (subDir != null) {
-			String packageName= pack.getElementName() + "." + subDir;
+			String packageName= pack.getElementName() + "." + subDir; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			pack= getRoot().getPackageFragment(packageName);
 			if (!pack.exists()) {
 				IPackageFragment create= getRoot().createPackageFragment(packageName, true, new NullProgressMonitor());
@@ -114,29 +114,29 @@ public class ExtractClassTests extends GenericRefactoringTest {
 	}
 
 	protected String getCUName() {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String name= getName();
 		if (name.startsWith("test"))
 			name= name.substring(4);
-		sb.append(Character.toUpperCase(name.charAt(0)) + name.substring(1));
+		sb.append(Character.toUpperCase(name.charAt(0)) + name.substring(1)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb.toString();
 	}
 
 	protected String getCUFileName() {
-		StringBuilder sb= new StringBuilder();
-		sb.append(getCUName());
-		sb.append(".java");
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		sb.append(getCUName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		sb.append(".java"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return sb.toString();
 	}
 
-	protected RefactoringStatus runRefactoring(boolean expectError) throws Exception {
+	protected RefactoringStatus runRefactoring(boolean expectError) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= performRefactoring(fDescriptor);
 		if (expectError) {
-			assertNotNull(status + "", status);
+			assertNotNull(status + "", status); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return status;
 		} else {
 			if (status!=null)
-				assertTrue(status+"",status.getEntryWithHighestSeverity().getSeverity() <= RefactoringStatus.WARNING);
+				assertTrue(status+"",status.getEntryWithHighestSeverity().getSeverity() <= RefactoringStatus.WARNING); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		String expected= getFileContents(getOutputTestFileName(getCUName()));
 		assertNotNull(expected);
@@ -151,7 +151,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 			if (packageName != null)
 				fPack= getRoot().getPackageFragment(packageName);
 			assertNotNull(fPack);
-			String parameterClassFile= fDescriptor.getClassName() + ".java";
+			String parameterClassFile= fDescriptor.getClassName() + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			ICompilationUnit unit= fPack.getCompilationUnit(parameterClassFile);
 			assertNotNull(unit);
 			assertTrue(unit.exists());
@@ -244,8 +244,8 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		RefactoringStatusEntry[] entries= status.getEntries();
 		//Warning for no IFields moved
 		assertEquals(1, entries.length);
-		for (RefactoringStatusEntry refactoringStatusEntry : entries) {
-			assertTrue("Status was:" + refactoringStatusEntry, refactoringStatusEntry.isFatalError());
+		for (RefactoringStatusEntry refactoringStatusEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue("Status was:" + refactoringStatusEntry, refactoringStatusEntry.isFatalError()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -264,7 +264,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		RefactoringStatusEntry[] entries= status.getEntries();
 		//Error for usage in Switch case
 		assertEquals(1, entries.length);
-		for (RefactoringStatusEntry refactoringStatusEntry : entries) {
+		for (RefactoringStatusEntry refactoringStatusEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(refactoringStatusEntry.isError());
 		}
 	}
@@ -278,7 +278,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		//Warning for transient
 		//Warning for volatile
 		assertEquals(2, entries.length);
-		for (RefactoringStatusEntry refactoringStatusEntry : entries) {
+		for (RefactoringStatusEntry refactoringStatusEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(refactoringStatusEntry.isWarning());
 		}
 	}
@@ -287,7 +287,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 	public void testUFOGetter() throws Exception {
 		fDescriptor.setType(setupType());
 		Field[] fields= ExtractClassDescriptor.getFields(fDescriptor.getType());
-		for (Field field : fields) {
+		for (Field field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("homePlanet".equals(field.getFieldName()))
 				field.setCreateField(false);
 		}
@@ -303,7 +303,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		IJavaProject javaProject= getRoot().getJavaProject();
 		Map<String, String> originalOptions= javaProject.getOptions(true);
 		try {
-			HashMap<String, String> newOptions= new HashMap<>(originalOptions);
+			HashMap<String, String> newOptions= new HashMap<>(originalOptions); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			newOptions.put(JavaCore.CODEASSIST_FIELD_PREFIXES, "f");
 			javaProject.setOptions(newOptions);
 			fDescriptor.setType(setupType());
@@ -369,7 +369,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		//Error for privateInner reference
 		//Error for OtherPackageProteced reference
 		assertEquals(2, entries.length);
-		for (RefactoringStatusEntry refactoringStatusEntry : entries) {
+		for (RefactoringStatusEntry refactoringStatusEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(refactoringStatusEntry.isError());
 		}
 	}
@@ -379,7 +379,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		IJavaProject javaProject= getRoot().getJavaProject();
 		Map<String, String> originalOptions= javaProject.getOptions(true);
 		try {
-			HashMap<String, String> newOptions= new HashMap<>(originalOptions);
+			HashMap<String, String> newOptions= new HashMap<>(originalOptions); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			newOptions.put(JavaCore.CODEASSIST_FIELD_PREFIXES, "f");
 			javaProject.setOptions(newOptions);
 			fDescriptor.setType(setupType());
@@ -424,7 +424,7 @@ public class ExtractClassTests extends GenericRefactoringTest {
 		RefactoringStatusEntry[] entries= status.getEntries();
 		//3*Warning for semantic change
 		assertEquals(3, entries.length);
-		for (RefactoringStatusEntry refactoringStatusEntry : entries) {
+		for (RefactoringStatusEntry refactoringStatusEntry : entries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(refactoringStatusEntry.isWarning());
 		}
 	}

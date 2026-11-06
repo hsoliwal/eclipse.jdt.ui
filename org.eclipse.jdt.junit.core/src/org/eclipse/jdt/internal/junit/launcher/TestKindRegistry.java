@@ -64,16 +64,16 @@ public class TestKindRegistry {
 		return fTestKinds;
 	}
 
-	private void loadKinds() {
+	private void loadKinds() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTestKinds != null)
 			return;
 
-		ArrayList<TestKind> items= new ArrayList<>();
-		for (IConfigurationElement configurationElement : getConfigurationElements()) {
+		ArrayList<TestKind> items= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement configurationElement : getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			items.add(new TestKind(configurationElement));
 		}
 
-		Collections.sort(items, (kind0, kind1) -> {
+		Collections.sort(items, (kind0, kind1) -> { //FLLDCIM: MARK — M16 SORT_LANE CALL
 			if (kind0.precedes(kind1))
 				return -1;
 			if (kind1.precedes(kind0))
@@ -84,9 +84,9 @@ public class TestKindRegistry {
 	}
 
 	public ArrayList<String> getDisplayNames() {
-		ArrayList<String> result = new ArrayList<>();
+		ArrayList<String> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ArrayList<TestKind> testTypes = getAllKinds();
-		for (ITestKind type : testTypes) {
+		for (ITestKind type : testTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(type.getDisplayName());
 		}
 		return result;
@@ -98,7 +98,7 @@ public class TestKindRegistry {
 	 */
 	public ITestKind getKind(String testKindId) {
 		if (testKindId != null) {
-			for (TestKind kind : getAllKinds()) {
+			for (TestKind kind : getAllKinds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (testKindId.equals(kind.getId()))
 					return kind;
 			}
@@ -106,7 +106,7 @@ public class TestKindRegistry {
 		return ITestKind.NULL;
 	}
 
-	public static String getContainerTestKindId(IJavaElement element) {
+	public static String getContainerTestKindId(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element != null) {
 			IJavaProject project= element.getJavaProject();
 			if (isRunWithJUnitPlatform(element)) {
@@ -130,7 +130,7 @@ public class TestKindRegistry {
 	 * @return <code>true</code> if the element is a test class annotated with
 	 *         <code>@RunWith(JUnitPlatform.class)</code>
 	 */
-	public static boolean isRunWithJUnitPlatform(IJavaElement element) {
+	public static boolean isRunWithJUnitPlatform(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof ICompilationUnit) {
 			element= ((ICompilationUnit) element).findPrimaryType();
 		}
@@ -143,7 +143,7 @@ public class TestKindRegistry {
 				}
 				if (runWithAnnotation.exists()) {
 					IMemberValuePair[] memberValuePairs= runWithAnnotation.getMemberValuePairs();
-					for (IMemberValuePair memberValuePair : memberValuePairs) {
+					for (IMemberValuePair memberValuePair : memberValuePairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ("value".equals(memberValuePair.getMemberName()) && "JUnitPlatform".equals(memberValuePair.getValue())) { //$NON-NLS-1$ //$NON-NLS-2$
 							return true;
 						}
@@ -161,8 +161,8 @@ public class TestKindRegistry {
 	}
 
 	private ArrayList<IConfigurationElement> getConfigurationElements() {
-		ArrayList<IConfigurationElement> items= new ArrayList<>();
-		for (IExtension extension : fPoint.getExtensions()) {
+		ArrayList<IConfigurationElement> items= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IExtension extension : fPoint.getExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Collections.addAll(items, extension.getConfigurationElements());
 		}
 		return items;
@@ -170,9 +170,9 @@ public class TestKindRegistry {
 
 	public String getAllKindIds() {
 		ArrayList<TestKind> allKinds= getAllKinds();
-		StringBuilder returnThis= new StringBuilder();
-		for (ITestKind kind : allKinds) {
-			returnThis.append("(").append(kind.getId()).append(")"); //$NON-NLS-1$ //$NON-NLS-2$
+		StringBuilder returnThis= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (ITestKind kind : allKinds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			returnThis.append("(").append(kind.getId()).append(")"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return returnThis.toString();
 	}

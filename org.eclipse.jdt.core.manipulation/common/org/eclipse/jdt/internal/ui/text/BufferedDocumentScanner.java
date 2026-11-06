@@ -97,7 +97,7 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 
 		String[] delimiters= document.getLegalLineDelimiters();
 		fDelimiters= new char[delimiters.length][];
-		for (int i= 0; i < delimiters.length; i++)
+		for (int i= 0; i < delimiters.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fDelimiters[i]= delimiters[i].toCharArray();
 
 		updateBuffer(offset);
@@ -107,7 +107,7 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 	/*
 	 * @see ICharacterScanner#read()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int read() {
 
 		if (fOffset == fBufferLength) {
@@ -123,19 +123,9 @@ public final class BufferedDocumentScanner implements ICharacterScanner {
 		try {
 			return fBuffer[fOffset++];
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			StringBuilder buf= new StringBuilder();
-			buf.append("Detailed state of 'BufferedDocumentScanner:'"); //$NON-NLS-1$
-			buf.append("\n\tfOffset= "); //$NON-NLS-1$
-			buf.append(fOffset);
-			buf.append("\n\tfBufferOffset= "); //$NON-NLS-1$
-			buf.append(fBufferOffset);
-			buf.append("\n\tfBufferLength= "); //$NON-NLS-1$
-			buf.append(fBufferLength);
-			buf.append("\n\tfRangeOffset= "); //$NON-NLS-1$
-			buf.append(fRangeOffset);
-			buf.append("\n\tfRangeLength= "); //$NON-NLS-1$
-			buf.append(fRangeLength);
-			JavaManipulationPlugin.logErrorMessage(buf.toString());
+			JavaManipulationPlugin.logErrorMessage("Detailed state of 'BufferedDocumentScanner:'" + "\n\tfOffset= " + fOffset + "\n\tfBufferOffset= " + fBufferOffset + "\n\tfBufferLength= " + fBufferLength + "\n\tfRangeOffset= " + fRangeOffset + "\n\tfRangeLength= " + fRangeLength); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			throw ex;
 		}
 	}

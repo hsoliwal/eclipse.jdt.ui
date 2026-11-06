@@ -83,8 +83,8 @@ public class ResourcesUtility {
 	 * Moved from org.eclipse.jdt.internal.corext.refactoring.util.ResourceUtil
 	 */
 	public static IFile[] getFiles(ICompilationUnit[] cus) {
-		List<IResource> files= new ArrayList<>(cus.length);
-		for (ICompilationUnit cu : cus) {
+		List<IResource> files= new ArrayList<>(cus.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= cu.getResource();
 			if (resource != null && resource.getType() == IResource.FILE)
 				files.add(resource);
@@ -130,7 +130,7 @@ public class ResourcesUtility {
 	/*
 	 * Adapted / moved from  org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathsBlock
 	 */
-	public static void createProject(IProject project, URI locationURI, IProgressMonitor monitor) throws CoreException {
+	public static void createProject(IProject project, URI locationURI, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, ManipulationsCommonUtilMessages.BuildPathsBlock_operationdesc_project, 2);
 		try {
 			if (!project.exists()) {

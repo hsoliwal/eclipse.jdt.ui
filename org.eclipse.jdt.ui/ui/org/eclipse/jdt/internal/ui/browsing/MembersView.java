@@ -53,7 +53,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.AppearanceAwareLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ProblemTreeViewer;
 
-public class MembersView extends JavaBrowsingPart implements IPropertyChangeListener {
+public class MembersView extends JavaBrowsingPart implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private MemberFilterActionGroup fMemberFilterActionGroup;
 	/**
@@ -173,7 +173,7 @@ public class MembersView extends JavaBrowsingPart implements IPropertyChangeList
 	 * @param 	element	the object to test
 	 * @return	<code>true</code> if the given element is a valid element
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean isValidElement(Object element) {
 		if (element instanceof IMember)
 			return super.isValidElement(((IMember)element).getDeclaringType());
@@ -202,7 +202,7 @@ public class MembersView extends JavaBrowsingPart implements IPropertyChangeList
 	 * @param je	the Java element which has the focus
 	 * @return the element to select
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement findElementToSelect(IJavaElement je) {
 		if (je == null)
 			return null;
@@ -241,7 +241,7 @@ public class MembersView extends JavaBrowsingPart implements IPropertyChangeList
 	 * @param 	je 	the Java element for which to search the closest input
 	 * @return	the closest Java element used as input for this part, or <code>null</code>
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement findInputForJavaElement(IJavaElement je) {
 		if (je == null || !je.exists() || (je.getJavaProject() != null && !je.getJavaProject().isOnClasspath(je)))
 			return null;
@@ -291,14 +291,14 @@ public class MembersView extends JavaBrowsingPart implements IPropertyChangeList
 		super.restoreState(memento);
 		fMemberFilterActionGroup.restoreState(memento);
 		getViewer().getControl().setRedraw(false);
-		getViewer().refresh();
+		getViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
  		getViewer().getControl().setRedraw(true);
 	}
 
 	@Override
 	protected void hookViewerListeners() {
 		super.hookViewerListeners();
-		getViewer().addDoubleClickListener(event -> {
+		getViewer().addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			TreeViewer viewer= (TreeViewer)getViewer();
 			Object element= ((IStructuredSelection)event.getSelection()).getFirstElement();
 			if (viewer.isExpandable(element))
@@ -326,7 +326,7 @@ public class MembersView extends JavaBrowsingPart implements IPropertyChangeList
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		if (MembersOrderPreferenceCacheCommon.isMemberOrderProperty(event.getProperty())) {
-			getViewer().refresh();
+			getViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 

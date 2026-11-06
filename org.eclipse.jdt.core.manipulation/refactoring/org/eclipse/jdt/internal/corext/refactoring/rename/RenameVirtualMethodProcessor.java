@@ -109,7 +109,7 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 
 	//------------ preconditions -------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor monitor) throws CoreException {
 		RefactoringStatus result= super.checkInitialConditions(monitor);
 		if (result.hasFatalError())
@@ -144,7 +144,7 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 		initialize(topmost);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext checkContext) throws CoreException {
 		try{
 			pm.beginTask("", 9); //$NON-NLS-1$
@@ -162,7 +162,7 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 				if (isSpecialCase())
 					result.addError(RefactoringCoreMessages.RenameMethodInInterfaceRefactoring_special_case);
 				pm.worked(1);
-				for (IMethod relatedMethod : relatedTypeDeclaresMethodName(Progress.subMonitor(pm, 1), method, name)) {
+				for (IMethod relatedMethod : relatedTypeDeclaresMethodName(Progress.subMonitor(pm, 1), method, name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					RefactoringStatusContext context= JavaStatusContext.create(relatedMethod);
 					result.addError(RefactoringCoreMessages.RenameMethodInInterfaceRefactoring_already_defined, context);
 				}
@@ -173,7 +173,7 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 						new String[]{ BasicElementLabels.getJavaElementName(method.getElementName()), "UnsatisfiedLinkError"})); //$NON-NLS-1$
 				}
 
-				for (IMethod hierarchyMethod : hierarchyDeclaresMethodName(Progress.subMonitor(pm, 1), hierarchy, method, name)) {
+				for (IMethod hierarchyMethod : hierarchyDeclaresMethodName(Progress.subMonitor(pm, 1), hierarchy, method, name)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					RefactoringStatusContext context= JavaStatusContext.create(hierarchyMethod);
 					if (Checks.compareParamTypes(method.getParameterTypes(), hierarchyMethod.getParameterTypes())) {
 						result.addError(Messages.format(
@@ -197,10 +197,10 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 
 	private IMethod[] relatedTypeDeclaresMethodName(IProgressMonitor pm, IMethod method, String newName) throws CoreException {
 		try{
-			Set<IMethod> result= new HashSet<>();
+			Set<IMethod> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			Set<IType> types= getRelatedTypes();
 			pm.beginTask("", types.size()); //$NON-NLS-1$
-			for (IType type : types) {
+			for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IMethod found= Checks.findMethod(method, type);
 				final IType declaring= found.getDeclaringType();
 				result.addAll(Arrays.asList(hierarchyDeclaresMethodName(Progress.subMonitor(pm, 1), declaring.newTypeHierarchy(Progress.subMonitor(pm, 1)), found, newName)));
@@ -211,7 +211,7 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 		}
 	}
 
-	private boolean isSpecialCase() throws CoreException {
+	private boolean isSpecialCase() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] noParams= new String[0];
 		String[] specialNames= new String[]{"toString", "toString", "toString", "toString", "equals", //$NON-NLS-5$ //$NON-NLS-4$ //$NON-NLS-3$ //$NON-NLS-2$ //$NON-NLS-1$
 											"equals", "getClass", "getClass", "hashCode", "notify", //$NON-NLS-5$ //$NON-NLS-4$ //$NON-NLS-3$ //$NON-NLS-2$ //$NON-NLS-1$
@@ -225,7 +225,7 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 												   Signature.SIG_INT, Signature.SIG_VOID, Signature.SIG_VOID, Signature.SIG_VOID,
 												   Signature.SIG_VOID, Signature.SIG_VOID};
 		Assert.isTrue((specialNames.length == specialParamTypes.length) && (specialParamTypes.length == specialReturnTypes.length));
-		for (int i= 0; i < specialNames.length; i++){
+		for (int i= 0; i < specialNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (specialNames[i].equals(getNewElementName())
 				&& Checks.compareParamTypes(getMethod().getParameterTypes(), specialParamTypes[i])
 				&& !specialReturnTypes[i].equals(getMethod().getReturnType())){
@@ -237,8 +237,8 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 
 	private Set<IType> getRelatedTypes() {
 		Set<IMethod> methods= getMethodsToRename();
-		Set<IType> result= new HashSet<>(methods.size());
-		for (IMethod method : methods) {
+		Set<IType> result= new HashSet<>(methods.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(method.getDeclaringType());
 		}
 		return result;
@@ -247,9 +247,9 @@ public class RenameVirtualMethodProcessor extends RenameMethodProcessor {
 	//---- Class checks -------------------------------------
 
 	private boolean classesDeclareOverridingNativeMethod(IType[] classes) throws CoreException {
-		for (IType type : classes) {
+		for (IType type : classes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!type.isAnonymous()) {
-				for (IMethod method : type.getMethods()) {
+				for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if ((!method.equals(getMethod())) && (JdtFlags.isNative(method)) && (null != Checks.findSimilarMethod(getMethod(), new IMethod[]{method}))) {
 						return true;
 					}

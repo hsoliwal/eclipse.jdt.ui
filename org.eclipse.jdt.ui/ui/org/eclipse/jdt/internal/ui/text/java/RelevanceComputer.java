@@ -23,7 +23,7 @@ public class RelevanceComputer {
 	 * @param proposal the proposal to compute the relevance for
 	 * @return the relevance for <code>proposal</code>
 	 */
-	public static int computeRelevance(CompletionProposal proposal) {
+	public static int computeRelevance(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int baseRelevance= proposal.getRelevance() * 16;
 		switch (proposal.getKind()) {
 			case CompletionProposal.PACKAGE_REF:

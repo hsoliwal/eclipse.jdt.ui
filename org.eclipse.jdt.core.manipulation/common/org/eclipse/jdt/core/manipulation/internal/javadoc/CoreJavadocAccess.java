@@ -119,7 +119,7 @@ public class CoreJavadocAccess {
 		return readHTMLContent(packageFragment);
 	}
 
-	protected String readHTMLContent(IPackageFragment packageFragment) throws CoreException {
+	protected String readHTMLContent(IPackageFragment packageFragment) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot root= (IPackageFragmentRoot) packageFragment.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 
 		//1==> Handle the case when the documentation is present in package-info.java or package-info.class file
@@ -151,7 +151,7 @@ public class CoreJavadocAccess {
 		else {
 			Object[] nonJavaResources= packageFragment.getNonJavaResources();
 			// 2.1 ==>If the package.html file is present in the source or directly in the binary jar
-			for (Object nonJavaResource : nonJavaResources) {
+			for (Object nonJavaResource : nonJavaResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (nonJavaResource instanceof IFile) {
 					IFile iFile= (IFile) nonJavaResource;
 					if (iFile.exists() && JavaModelUtil.PACKAGE_HTML.equals(iFile.getName())) {
@@ -162,7 +162,7 @@ public class CoreJavadocAccess {
 
 			// 2.2==>The file is present in a binary container
 			if (isBinary) {
-				for (Object nonJavaResource : nonJavaResources) {
+				for (Object nonJavaResource : nonJavaResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// The content is from an external binary class folder
 					if (nonJavaResource instanceof IJarEntryResource) {
 						IJarEntryResource jarEntryResource= (IJarEntryResource) nonJavaResource;
@@ -189,7 +189,7 @@ public class CoreJavadocAccess {
 
 
 	protected String getHTMLContentFromAttachedSource(IPackageFragmentRoot root, IPackageFragment packageFragment) throws CoreException {
-		String filePath= packageFragment.getElementName().replace('.', '/') + '/' + JavaModelUtil.PACKAGE_INFO_JAVA;
+		String filePath= packageFragment.getElementName().replace('.', '/') + '/' + JavaModelUtil.PACKAGE_INFO_JAVA; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String contents= CoreJavadocContentAccessUtility.getFileContentFromAttachedSource(root, filePath);
 		if (contents != null) {
 			Javadoc packageJavadocNode= CoreJavadocContentAccessUtility.getPackageJavadocNode(packageFragment, contents);
@@ -197,7 +197,7 @@ public class CoreJavadocAccess {
 				return this.fFactory.createJavadocAccess(packageFragment, packageJavadocNode, contents, null).toHTML();
 
 		}
-		filePath= packageFragment.getElementName().replace('.', '/') + '/' + JavaModelUtil.PACKAGE_HTML;
+		filePath= packageFragment.getElementName().replace('.', '/') + '/' + JavaModelUtil.PACKAGE_HTML; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return CoreJavadocContentAccessUtility.getFileContentFromAttachedSource(root, filePath);
 	}
 
@@ -214,7 +214,7 @@ public class CoreJavadocAccess {
 	 *         a Javadoc comment or if no source is available
 	 * @throws CoreException is thrown when the element's Javadoc cannot be accessed
 	 */
-	public String getHTMLContent(IJavaElement element, boolean useAttachedJavadoc) throws CoreException {
+	public String getHTMLContent(IJavaElement element, boolean useAttachedJavadoc) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IPackageFragment) {
 			return getHTMLContent((IPackageFragment) element);
 		}
@@ -267,12 +267,12 @@ public class CoreJavadocAccess {
 	record SuperclassReferenceMethodData(ArrayList<IMethod> superInterfaceMethods, IMethod superClassMethod) {
 	}
 
-	static SuperclassReferenceMethodData getSuperclassReferenceMethodData(final IMethod method) throws JavaModelException {
+	static SuperclassReferenceMethodData getSuperclassReferenceMethodData(final IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType type= method.getDeclaringType();
 		ITypeHierarchy hierarchy= SuperTypeHierarchyCache.getTypeHierarchy(type);
 		final MethodOverrideTester tester= SuperTypeHierarchyCache.getMethodOverrideTester(type);
 
-		final ArrayList<IMethod> superInterfaceMethods= new ArrayList<>();
+		final ArrayList<IMethod> superInterfaceMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final IMethod[] superClassMethod= { null };
 		new InheritDocVisitor() {
 			@Override
@@ -307,7 +307,7 @@ public class CoreJavadocAccess {
 		return createSuperMethodReferencesHTMLStaticImpl(superInterfaceMethods, superClassMethod);
 	}
 
-	static StringBuffer createSuperMethodReferencesHTMLStaticImpl(ArrayList<IMethod> superInterfaceMethods, IMethod superClassMethod){
+	static StringBuffer createSuperMethodReferencesHTMLStaticImpl(ArrayList<IMethod> superInterfaceMethods, IMethod superClassMethod){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasSuperInterfaceMethods= !superInterfaceMethods.isEmpty();
 		StringBuffer buf= new StringBuffer();
 		buf.append("<div>"); //$NON-NLS-1$
@@ -315,7 +315,7 @@ public class CoreJavadocAccess {
 			buf.append("<b>"); //$NON-NLS-1$
 			buf.append(JavaDocMessages.JavaDoc2HTMLTextReader_specified_by_section);
 			buf.append("</b> "); //$NON-NLS-1$
-			for (Iterator<IMethod> iter= superInterfaceMethods.iterator(); iter.hasNext();) {
+			for (Iterator<IMethod> iter= superInterfaceMethods.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethod overridden= iter.next();
 				buf.append(CoreJavadocContentAccessUtility.createMethodInTypeLinks(overridden));
 				if (iter.hasNext())
@@ -335,7 +335,7 @@ public class CoreJavadocAccess {
 	}
 
 
-	protected String getHTMLContentFromSource(IJavaElement element) throws JavaModelException {
+	protected String getHTMLContentFromSource(IJavaElement element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMember member;
 		if (element instanceof ILocalVariable) {
 			member= ((ILocalVariable) element).getDeclaringMember();
@@ -383,7 +383,7 @@ public class CoreJavadocAccess {
 		return content;
 	}
 
-	protected String getJavaFxPropertyDoc(IMember member) throws JavaModelException {
+	protected String getJavaFxPropertyDoc(IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// XXX: should not do this by default (but we don't have settings for Javadoc, see https://bugs.eclipse.org/424283 )
 		if (member instanceof IMethod) {
 			String name= member.getElementName();
@@ -394,7 +394,7 @@ public class CoreJavadocAccess {
 			if (isGetter || isBooleanGetter || isSetter) {
 				String propertyName= firstToLower(name.substring(isBooleanGetter ? 2 : 3));
 				IType type= member.getDeclaringType();
-				IMethod method= type.getMethod(propertyName + "Property", new String[0]); //$NON-NLS-1$
+				IMethod method= type.getMethod(propertyName + "Property", new String[0]); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				if (method.exists()) {
 					String content= getHTMLContentFromSource(method);
@@ -419,7 +419,7 @@ public class CoreJavadocAccess {
 		return String.valueOf(c);
 	}
 
-	protected String javadoc2HTML(IMember member, IJavaElement element, String rawJavadoc) {
+	protected String javadoc2HTML(IMember member, IJavaElement element, String rawJavadoc) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Javadoc javadoc= CoreJavadocContentAccessUtility.getJavadocNode(member, rawJavadoc);
 
 		if (javadoc == null) {
@@ -478,13 +478,13 @@ public class CoreJavadocAccess {
 	 * @return the inherited Javadoc from the Javadoc attachment, or <code>null</code> if none
 	 * @throws JavaModelException unexpected problem
 	 */
-	protected String findAttachedDocInHierarchy(final IMethod method) throws JavaModelException {
+	protected String findAttachedDocInHierarchy(final IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType type= method.getDeclaringType();
 		ITypeHierarchy hierarchy= SuperTypeHierarchyCache.getTypeHierarchy(type);
 		final MethodOverrideTester tester= SuperTypeHierarchyCache.getMethodOverrideTester(type);
 
 		return (String) new InheritDocVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public Object visit(IType currType) throws JavaModelException {
 				IMethod overridden= tester.findOverriddenMethodInType(currType, method);
 				if (overridden == null)
@@ -498,7 +498,7 @@ public class CoreJavadocAccess {
 						// Fix is to store the baseURL inside the doc content and later fetch it with #extractBaseURL(String).
 						String baseURL= CoreJavaDocLocations.getBaseURL(overridden, overridden.isBinary(), null);
 						if (baseURL != null) {
-							attachedJavadoc= BASE_URL_COMMENT_INTRO + baseURL + "\"--> " + attachedJavadoc; //$NON-NLS-1$
+							attachedJavadoc= BASE_URL_COMMENT_INTRO + baseURL + "\"--> " + attachedJavadoc; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
 						return attachedJavadoc;
 					}

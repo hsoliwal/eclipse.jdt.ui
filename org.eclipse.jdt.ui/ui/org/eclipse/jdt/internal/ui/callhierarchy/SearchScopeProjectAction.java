@@ -48,8 +48,8 @@ class SearchScopeProjectAction extends SearchScopeAction {
 			return null;
 		}
 
-		HashSet<IJavaProject> projects= new HashSet<>();
-		for (IMember member : members) {
+		HashSet<IJavaProject> projects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			projects.add(member.getJavaProject());
 		}
 		return SearchEngine.createJavaSearchScope(
@@ -66,8 +66,8 @@ class SearchScopeProjectAction extends SearchScopeAction {
 	public String getFullDescription(int includeMask) {
 		IMember[] members= fGroup.getView().getInputElements();
 		if (members != null) {
-			HashSet<String> projectNames= new HashSet<>();
-			for (IMember member : members) {
+			HashSet<String> projectNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				projectNames.add(member.getJavaProject().getElementName());
 			}
 			JavaSearchScopeFactory factory= JavaSearchScopeFactory.getInstance();

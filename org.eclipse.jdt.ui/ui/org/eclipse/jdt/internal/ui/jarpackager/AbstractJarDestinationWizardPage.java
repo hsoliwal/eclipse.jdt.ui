@@ -65,14 +65,14 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 
 	public AbstractJarDestinationWizardPage(String pageName, IStructuredSelection selection, JarPackageData jarPackage) {
 		super(pageName, selection);
-		fStoreDestinationNamesId= pageName + ".DESTINATION_NAMES_ID"; //$NON-NLS-1$
+		fStoreDestinationNamesId= pageName + ".DESTINATION_NAMES_ID"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fJarPackage= jarPackage;
 	}
 
 	/*
 	 * Overrides method from WizardExportPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createDestinationGroup(Composite parent) {
 
 		initializeDialogUnits(parent);
@@ -95,8 +95,8 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 		// destination name entry field
 		fDestinationNamesCombo= new Combo(destinationSelectionGroup, SWT.SINGLE | SWT.BORDER);
 		SWTUtil.setDefaultVisibleItemCount(fDestinationNamesCombo);
-		fDestinationNamesCombo.addListener(SWT.Modify, this);
-		fDestinationNamesCombo.addListener(SWT.Selection, this);
+		fDestinationNamesCombo.addListener(SWT.Modify, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		fDestinationNamesCombo.addListener(SWT.Selection, this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		GridData data= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		data.widthHint= SIZING_TEXT_FIELD_WIDTH;
 		data.horizontalSpan= label == null ? 2 : 1;
@@ -110,7 +110,7 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 		fDestinationBrowseButton.setText(JarPackagerMessages.JarPackageWizardPage_browseButton_text);
 		fDestinationBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 		SWTUtil.setButtonDimensionHint(fDestinationBrowseButton);
-		fDestinationBrowseButton.addSelectionListener(new SelectionAdapter() {
+		fDestinationBrowseButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDestinationBrowseButtonPressed();
@@ -122,7 +122,7 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 	 *	Open an appropriate destination browser so that the user can specify a source
 	 *	to import from
 	 */
-	protected void handleDestinationBrowseButtonPressed() {
+	protected void handleDestinationBrowseButtonPressed() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FileDialog dialog= new FileDialog(getContainer().getShell(), SWT.SAVE | SWT.SHEET);
 		dialog.setFilterExtensions(ArchiveFileFilter.JAR_ZIP_FILTER_EXTENSIONS);
 
@@ -173,10 +173,10 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 	 *	@return java.lang.String
 	 */
 	protected String getOutputSuffix() {
-		return "." + JarPackagerUtil.JAR_EXTENSION; //$NON-NLS-1$
+		return "." + JarPackagerUtil.JAR_EXTENSION; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreWidgetValues() {
 		// destination
 		if (fJarPackage.getJarLocation().isEmpty())
@@ -190,7 +190,7 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 				return; // ie.- no settings stored
 			if (!fDestinationNamesCombo.getText().equals(directoryNames[0]))
 				fDestinationNamesCombo.add(fDestinationNamesCombo.getText());
-			for (String directoryName : directoryNames) {
+			for (String directoryName : directoryNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDestinationNamesCombo.add(directoryName);
 			}
 		}
@@ -216,13 +216,13 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 	 * @return boolean
 	 */
 	protected boolean ensureTargetFileIsValid(File targetFile) {
-		if (targetFile.exists() && targetFile.isDirectory() && fDestinationNamesCombo.getText().length() > 0) {
+		if (targetFile.exists() && targetFile.isDirectory() && fDestinationNamesCombo.getText().length() > 0) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			setErrorMessage(JarPackagerMessages.JarPackageWizardPage_error_exportDestinationMustNotBeDirectory);
 			fDestinationNamesCombo.setFocus();
 			return false;
 		}
-		if (targetFile.exists()) {
-			if (!targetFile.canWrite()) {
+		if (targetFile.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			if (!targetFile.canWrite()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				setErrorMessage(JarPackagerMessages.JarPackageWizardPage_error_jarFileExistsAndNotWritable);
 				fDestinationNamesCombo.setFocus();
 				return false;
@@ -234,7 +234,7 @@ public abstract class AbstractJarDestinationWizardPage extends WizardExportResou
 	/*
 	 * Overrides method from WizardDataTransferPage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean validateDestinationGroup() {
 		if (fDestinationNamesCombo.getText().length() == 0) {
 			// Clear error

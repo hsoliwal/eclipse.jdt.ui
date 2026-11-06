@@ -63,7 +63,7 @@ public class JavadocWriter {
 		fJavaProjects= projects;
 	}
 
-	public Element createXML(JavadocOptionsManager store) throws ParserConfigurationException {
+	public Element createXML(JavadocOptionsManager store) throws ParserConfigurationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
 		factory.setValidating(false);
 		DocumentBuilder docBuilder= factory.newDocumentBuilder();
@@ -113,7 +113,7 @@ public class JavadocWriter {
 	}
 
 	//writes ant file, for now only worry about one project
-	private void xmlWriteJavadocStandardParams(JavadocOptionsManager store, Document document, Element xmlJavadocDesc) throws DOMException {
+	private void xmlWriteJavadocStandardParams(JavadocOptionsManager store, Document document, Element xmlJavadocDesc) throws DOMException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String destination= getPathString(Path.fromOSString(store.getDestination()));
 
@@ -135,8 +135,8 @@ public class JavadocWriter {
 
 
 		//set the packages and source files
-		List<String> packages= new ArrayList<>();
-		List<String> sourcefiles= new ArrayList<>();
+		List<String> packages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> sourcefiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		sortSourceElement(store.getSourceElements(), sourcefiles, packages);
 		if (!packages.isEmpty())
 			xmlJavadocDesc.setAttribute(JavadocOptionsManager.PACKAGENAMES, toSeparatedList(packages));
@@ -163,11 +163,11 @@ public class JavadocWriter {
 		String vmArgs= store.getVMParams();
 		String additionalArgs= store.getAdditionalParams();
 		if (vmArgs.length() + additionalArgs.length() > 0) {
-			String str= vmArgs + ' ' + additionalArgs;
+			String str= vmArgs + ' ' + additionalArgs; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			xmlJavadocDesc.setAttribute(JavadocOptionsManager.EXTRAOPTIONS, str);
 		}
 
-		for (String href : store.getHRefs()) {
+		for (String href : store.getHRefs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Element links= document.createElement("link"); //$NON-NLS-1$
 			xmlJavadocDesc.appendChild(links);
 			links.setAttribute(JavadocOptionsManager.HREF, href);
@@ -175,7 +175,7 @@ public class JavadocWriter {
 	}
 
 	private void sortSourceElement(IJavaElement[] iJavaElements, List<String> sourcefiles, List<String> packages) {
-		for (IJavaElement element : iJavaElements) {
+		for (IJavaElement element : iJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath p= element.getResource().getLocation();
 			if (p == null)
 				continue;
@@ -190,17 +190,17 @@ public class JavadocWriter {
 	}
 
 	private String getPathString(IPath[] paths) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (IPath path : paths) {
+		for (IPath path : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (buf.length() != 0) {
-				buf.append(File.pathSeparatorChar);
+				buf.append(File.pathSeparatorChar); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(getPathString(path));
+			buf.append(getPathString(path)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (buf.length() == 0) {
-			buf.append('.');
+			buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -214,7 +214,7 @@ public class JavadocWriter {
 	}
 
 	//make the path relative to the base path
-	private String getPathString(IPath fullPath) {
+	private String getPathString(IPath fullPath) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fBasePath == null || !hasSameDevice(fullPath, fBasePath)) {
 			return fullPath.toOSString();
 		}
@@ -222,7 +222,7 @@ public class JavadocWriter {
 		if (fBasePath.segmentCount() == matchingSegments) {
 			return getRelativePath(fullPath, matchingSegments);
 		}
-		for (IJavaProject javaProject : fJavaProjects) {
+		for (IJavaProject javaProject : fJavaProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject proj= javaProject.getProject();
 			IPath projLoc= proj.getLocation();
 			if (projLoc != null && projLoc.segmentCount() <= matchingSegments && projLoc.isPrefixOf(fullPath)) {
@@ -237,28 +237,28 @@ public class JavadocWriter {
 	}
 
 	private String getRelativePath(IPath fullPath, int matchingSegments) {
-		StringBuilder res= new StringBuilder();
+		StringBuilder res= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int backSegments= fBasePath.segmentCount() - matchingSegments;
-		while (backSegments > 0) {
-			res.append(".."); //$NON-NLS-1$
-			res.append(PATH_SEPARATOR);
+		while (backSegments > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			res.append(".."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			res.append(PATH_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			backSegments--;
 		}
 		int segCount= fullPath.segmentCount();
-		for (int i= matchingSegments; i < segCount; i++) {
+		for (int i= matchingSegments; i < segCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > matchingSegments) {
-				res.append(PATH_SEPARATOR);
+				res.append(PATH_SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			res.append(fullPath.segment(i));
+			res.append(fullPath.segment(i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return res.toString();
 	}
 
-	private void xmlWriteDoclet(JavadocOptionsManager store, Document document, Element xmlJavadocDesc) throws DOMException {
+	private void xmlWriteDoclet(JavadocOptionsManager store, Document document, Element xmlJavadocDesc) throws DOMException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		//set the packages and source files
-		List<String> packages= new ArrayList<>();
-		List<String> sourcefiles= new ArrayList<>();
+		List<String> packages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> sourcefiles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		sortSourceElement(store.getSourceElements(), sourcefiles, packages);
 		if (!packages.isEmpty())
 			xmlJavadocDesc.setAttribute(JavadocOptionsManager.PACKAGENAMES, toSeparatedList(packages));
@@ -286,16 +286,16 @@ public class JavadocWriter {
 	}
 
 	private String toSeparatedList(List<String> packages) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		Iterator<String> iter= packages.iterator();
 		int nAdded= 0;
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nAdded > 0) {
-				buf.append(',');
+				buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			nAdded++;
 			String curr= iter.next();
-			buf.append(curr);
+			buf.append(curr); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

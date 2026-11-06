@@ -27,7 +27,7 @@ import org.eclipse.ui.IWorkingSet;
 
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 
-public class RemoveWorkingSetElementAction extends SelectionDispatchAction {
+public class RemoveWorkingSetElementAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public RemoveWorkingSetElementAction(IWorkbenchSite site) {
 		super(site);
@@ -40,12 +40,12 @@ public class RemoveWorkingSetElementAction extends SelectionDispatchAction {
 		setEnabled(workingSet != null && !IWorkingSetIDs.OTHERS.equals(workingSet.getId()));
 	}
 
-	private IWorkingSet getWorkingSet(IStructuredSelection selection) {
+	private IWorkingSet getWorkingSet(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(selection instanceof ITreeSelection))
 			return null;
 		ITreeSelection treeSelection= (ITreeSelection)selection;
 		IWorkingSet result= null;
-		for (Object element : treeSelection.toList()) {
+		for (Object element : treeSelection.toList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TreePath[] paths= treeSelection.getPathsFor(element);
 			if (paths.length != 1)
 				return null;
@@ -70,8 +70,8 @@ public class RemoveWorkingSetElementAction extends SelectionDispatchAction {
 		IWorkingSet ws= getWorkingSet(selection);
 		if (ws == null)
 			return;
-		HashSet<IAdaptable> elements= new HashSet<>(Arrays.asList(ws.getElements()));
-		for (Object object : selection.toList()) {
+		HashSet<IAdaptable> elements= new HashSet<>(Arrays.asList(ws.getElements())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object object : selection.toList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IAdaptable) {
 				IAdaptable[] adaptedElements= ws.adaptElements(new IAdaptable[] {(IAdaptable)object});
 				if (adaptedElements.length == 1) {

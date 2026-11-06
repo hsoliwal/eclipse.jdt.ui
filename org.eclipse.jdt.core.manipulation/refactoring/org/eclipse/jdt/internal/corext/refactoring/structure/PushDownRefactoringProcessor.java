@@ -162,7 +162,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 
 		static IMember[] getMembers(MemberActionInfo[] infos) {
 			IMember[] result= new IMember[infos.length];
-			for (int i= 0; i < result.length; i++) {
+			for (int i= 0; i < result.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= infos[i].getMember();
 			}
 			return result;
@@ -281,16 +281,16 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 			RefactoringCoreMessages.PushDownRefactoring_category_name, RefactoringCoreMessages.PushDownRefactoring_category_description));
 
 	private static MemberActionInfo[] createInfosForAllPushableFieldsAndMethods(IType type) throws JavaModelException {
-		List<MemberActionInfo> result= new ArrayList<>();
-		for (IMember pushableMember : RefactoringAvailabilityTesterCore.getPushDownMembers(type)) {
+		List<MemberActionInfo> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMember pushableMember : RefactoringAvailabilityTesterCore.getPushDownMembers(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(MemberActionInfo.create(pushableMember, MemberActionInfo.NO_ACTION));
 		}
 		return result.toArray(new MemberActionInfo[result.size()]);
 	}
 
 	private static IMember[] getAbstractMembers(IMember[] members) throws JavaModelException {
-		List<IMember> result= new ArrayList<>(members.length);
-		for (IMember member : members) {
+		List<IMember> result= new ArrayList<>(members.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (JdtFlags.isAbstract(member))
 				result.add(member);
 		}
@@ -308,7 +308,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return rewrite;
 	}
 
-	private static IJavaElement[] getReferencingElementsFromSameClass(IMember member, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
+	private static IJavaElement[] getReferencingElementsFromSameClass(IMember member, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(member);
 		SearchPattern pattern= SearchPattern.createPattern(member,
 				IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
@@ -321,13 +321,13 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		engine.setScope(SearchEngine.createJavaSearchScope(new IJavaElement[] { declaringType }));
 		engine.setStatus(status);
 		engine.searchPattern(pm);
-		Set<IJavaElement> result= new HashSet<>(3);
+		Set<IJavaElement> result= new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ICompilationUnit cu= member.getCompilationUnit();
 		String source= cu.getSource();
 		CompilationUnit cuRoot= null;
-		for (SearchResultGroup group : (SearchResultGroup[]) engine.getResults()) {
+		for (SearchResultGroup group : (SearchResultGroup[]) engine.getResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			outer:
-			for (SearchMatch searchResult : group.getSearchResults()) {
+			for (SearchMatch searchResult : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (source.charAt(searchResult.getOffset() - 1) == '.') {
 					if (cuRoot == null) {
 						cuRoot= getCompilationUnitRoot(cu, source);
@@ -349,9 +349,9 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 									final TypeDeclaration thisType= ASTNodes.getFirstAncestorOrNull(methodInvocation, TypeDeclaration.class);
 									if (thisType != null) {
 										final String thisTypeName= thisType.getName().getFullyQualifiedName();
-										for (FieldDeclaration fieldDeclaration : thisType.getFields()) {
+										for (FieldDeclaration fieldDeclaration : thisType.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											List<VariableDeclarationFragment> fragments= fieldDeclaration.fragments();
-											for (VariableDeclarationFragment fragment : fragments) {
+											for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 												SimpleName name= fragment.getName();
 												if (name.getFullyQualifiedName().equals(referenceName)) {
 													Type fieldType= fieldDeclaration.getType();
@@ -377,7 +377,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return result.toArray(new IJavaElement[result.size()]);
 	}
 
-	private static IJavaElement[] getReferencingElementsFromProject(IMember member, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
+	private static IJavaElement[] getReferencingElementsFromProject(IMember member, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(member);
 		SearchPattern pattern= SearchPattern.createPattern(member,
 				IJavaSearchConstants.REFERENCES, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
@@ -390,13 +390,13 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		engine.setScope(SearchEngine.createJavaSearchScope(new IJavaElement[] { member.getJavaProject() }));
 		engine.setStatus(status);
 		engine.searchPattern(pm);
-		Set<IJavaElement> result= new HashSet<>(3);
+		Set<IJavaElement> result= new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ICompilationUnit cu= member.getCompilationUnit();
 		String source= cu.getSource();
 		CompilationUnit cuRoot= null;
-		for (SearchResultGroup group : (SearchResultGroup[]) engine.getResults()) {
+		for (SearchResultGroup group : (SearchResultGroup[]) engine.getResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			source= group.getCompilationUnit().getSource();
-			for (SearchMatch searchResult : group.getSearchResults()) {
+			for (SearchMatch searchResult : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (source.charAt(searchResult.getOffset() - 1) == '.') {
 					if (cuRoot == null) {
 						cuRoot= getCompilationUnitRoot(cu, source);
@@ -519,11 +519,11 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	private void addAllRequiredPushableMembers(List<IMember> queue, IMember member, IProgressMonitor monitor) throws JavaModelException {
 		SubMonitor sub= SubMonitor.convert(monitor,RefactoringCoreMessages.PushDownRefactoring_calculating_required, 2);
 		IMethod[] requiredMethods= ReferenceFinderUtil.getMethodsReferencedIn(new IJavaElement[] { member }, sub.newChild(1));
-		for (IMethod method : requiredMethods) {
+		for (IMethod method : requiredMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!MethodChecks.isVirtual(method) && (method.getDeclaringType().equals(getDeclaringType()) && !queue.contains(method) && RefactoringAvailabilityTesterCore.isPushDownAvailable(method)))
 				queue.add(method);
 		}
-		for (IField field : ReferenceFinderUtil.getFieldsReferencedIn(new IJavaElement[] { member }, sub.newChild(1))) {
+		for (IField field : ReferenceFinderUtil.getFieldsReferencedIn(new IJavaElement[] { member }, sub.newChild(1))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.getDeclaringType().equals(getDeclaringType()) && !queue.contains(field) && RefactoringAvailabilityTesterCore.isPushDownAvailable(field))
 				queue.add(field);
 		}
@@ -532,20 +532,20 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	private RefactoringStatus checkAbstractMembersInDestinationClasses(IMember[] membersToPushDown, IType[] destinationClassesForAbstract) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
 		IMember[] abstractMembersToPushDown= getAbstractMembers(membersToPushDown);
-		for (IType type : destinationClassesForAbstract) {
+		for (IType type : destinationClassesForAbstract) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.merge(MemberCheckUtil.checkMembersInDestinationType(abstractMembersToPushDown, type));
 		}
 		return result;
 	}
 
-	private RefactoringStatus checkAccessedFields(IType[] subclasses, IProgressMonitor pm) throws JavaModelException {
+	private RefactoringStatus checkAccessedFields(IType[] subclasses, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		IMember[] membersToPushDown= MemberActionInfo.getMembers(getInfosForMembersToBeCreatedInSubclassesOfDeclaringClass());
 		List<IMember> pushedDownList= Arrays.asList(membersToPushDown);
 		IField[] accessedFields= ReferenceFinderUtil.getFieldsReferencedIn(membersToPushDown, pm);
-		for (IType targetClass : subclasses) {
+		for (IType targetClass : subclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeHierarchy targetSupertypes= targetClass.newSupertypeHierarchy(null);
-			for (IField field : accessedFields) {
+			for (IField field : accessedFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean isAccessible= pushedDownList.contains(field) || canBeAccessedFrom(field, targetClass, targetSupertypes) || Flags.isEnum(field.getFlags());
 				if (!isAccessible) {
 					String message= Messages.format(RefactoringCoreMessages.PushDownRefactoring_field_not_accessible, new String[] { JavaElementLabelsCore.getTextLabel(field, JavaElementLabelsCore.ALL_FULLY_QUALIFIED), JavaElementLabelsCore.getTextLabel(targetClass, JavaElementLabelsCore.ALL_FULLY_QUALIFIED) });
@@ -557,14 +557,14 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return result;
 	}
 
-	private RefactoringStatus checkAccessedMethods(IType[] subclasses, IProgressMonitor pm) throws JavaModelException {
+	private RefactoringStatus checkAccessedMethods(IType[] subclasses, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		IMember[] membersToPushDown= MemberActionInfo.getMembers(getInfosForMembersToBeCreatedInSubclassesOfDeclaringClass());
 		List<IMember> pushedDownList= Arrays.asList(membersToPushDown);
 		IMethod[] accessedMethods= ReferenceFinderUtil.getMethodsReferencedIn(membersToPushDown, pm);
-		for (IType targetClass : subclasses) {
+		for (IType targetClass : subclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeHierarchy targetSupertypes= targetClass.newSupertypeHierarchy(null);
-			for (IMethod method : accessedMethods) {
+			for (IMethod method : accessedMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean isAccessible= pushedDownList.contains(method) || canBeAccessedFrom(method, targetClass, targetSupertypes);
 				if (!isAccessible) {
 					String message= Messages.format(RefactoringCoreMessages.PushDownRefactoring_method_not_accessible, new String[] { JavaElementLabelsCore.getTextLabel(method, JavaElementLabelsCore.ALL_FULLY_QUALIFIED), JavaElementLabelsCore.getTextLabel(targetClass, JavaElementLabelsCore.ALL_FULLY_QUALIFIED) });
@@ -579,9 +579,9 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	private RefactoringStatus checkAccessedTypes(IType[] subclasses, IProgressMonitor pm) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
 		IType[] accessedTypes= getTypesReferencedInMovedMembers(pm);
-		for (IType targetClass : subclasses) {
+		for (IType targetClass : subclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeHierarchy targetSupertypes= targetClass.newSupertypeHierarchy(null);
-			for (IType type : accessedTypes) {
+			for (IType type : accessedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!canBeAccessedFrom(type, targetClass, targetSupertypes)) {
 					String message= Messages.format(RefactoringCoreMessages.PushDownRefactoring_type_not_accessible, new String[] { JavaElementLabelsCore.getTextLabel(type, JavaElementLabelsCore.ALL_FULLY_QUALIFIED), JavaElementLabelsCore.getTextLabel(targetClass, JavaElementLabelsCore.ALL_FULLY_QUALIFIED) });
 					result.addError(message, JavaStatusContext.create(type));
@@ -603,7 +603,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor monitor, CheckConditionsContext context) throws CoreException, OperationCanceledException {
 		try {
 			SubMonitor subMon= SubMonitor.convert(monitor, RefactoringCoreMessages.PushDownRefactoring_checking, 5);
@@ -622,8 +622,8 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 				subMon.setWorkRemaining(1);
 			if (result.hasFatalError())
 				return result;
-			List<IMember> members= new ArrayList<>(fMemberInfos.length);
-			for (MemberActionInfo memberInfo : fMemberInfos) {
+			List<IMember> members= new ArrayList<>(fMemberInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (MemberActionInfo memberInfo : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (memberInfo.getAction() != MemberActionInfo.NO_ACTION) {
 					members.add(memberInfo.getMember());
 				}
@@ -641,7 +641,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor monitor) throws CoreException, OperationCanceledException {
 		try {
 			SubMonitor subMon= SubMonitor.convert(monitor, RefactoringCoreMessages.PushDownRefactoring_checking, 2);
@@ -657,7 +657,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 				return status;
 			fMemberInfos= createInfosForAllPushableFieldsAndMethods(getDeclaringType());
 			List<IMember> list= Arrays.asList(fMembersToMove);
-			for (MemberActionInfo info : fMemberInfos) {
+			for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (list.contains(info.getMember()))
 					info.setAction(MemberActionInfo.PUSH_DOWN_ACTION);
 			}
@@ -684,10 +684,10 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 
 	private RefactoringStatus checkNonAbstractMembersInDestinationClasses(IMember[] membersToPushDown, IType[] destinationClassesForNonAbstract) throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		List<IMember> list= new ArrayList<>(Arrays.asList(membersToPushDown)); // Arrays.asList does not support removing
+		List<IMember> list= new ArrayList<>(Arrays.asList(membersToPushDown)); // Arrays.asList does not support removing //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.removeAll(Arrays.asList(getAbstractMembers(membersToPushDown)));
 		IMember[] nonAbstractMembersToPushDown= list.toArray(new IMember[list.size()]);
-		for (IType type : destinationClassesForNonAbstract) {
+		for (IType type : destinationClassesForNonAbstract) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.merge(MemberCheckUtil.checkMembersInDestinationType(nonAbstractMembersToPushDown, type));
 		}
 		return result;
@@ -702,9 +702,9 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return new RefactoringStatus();
 	}
 
-	private RefactoringStatus checkReferencesToPushedDownMembers(IProgressMonitor monitor) throws JavaModelException {
-		List<IMember> fields= new ArrayList<>(fMemberInfos.length);
-		for (MemberActionInfo info : fMemberInfos) {
+	private RefactoringStatus checkReferencesToPushedDownMembers(IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IMember> fields= new ArrayList<>(fMemberInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isToBePushedDown())
 				fields.add(info.getMember());
 		}
@@ -712,9 +712,9 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		RefactoringStatus result= new RefactoringStatus();
 		List<IMember> movedMembers= Arrays.asList(MemberActionInfo.getMembers(getInfosForMembersToBeCreatedInSubclassesOfDeclaringClass()));
 		SubMonitor subMon= SubMonitor.convert(monitor, RefactoringCoreMessages.PushDownRefactoring_check_references, membersToPush.length);
-		for (IMember member : membersToPush) {
+		for (IMember member : membersToPush) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String label= createLabel(member);
-			for (IJavaElement element : getReferencingElementsFromProject(member, subMon.newChild(1), result)) {
+			for (IJavaElement element : getReferencingElementsFromProject(member, subMon.newChild(1), result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMember referencingMember= (IMember) element;
 				Object[] keys= { label, createLabel(referencingMember) };
 				String msg= member instanceof IField
@@ -722,7 +722,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 						: Messages.format(RefactoringCoreMessages.PushDownRefactoring_referenced, keys);
 				result.addError(msg, JavaStatusContext.create(referencingMember));
 			}
-			for (IJavaElement element : getReferencingElementsFromSameClass(member, subMon.newChild(1), result)) {
+			for (IJavaElement element : getReferencingElementsFromSameClass(member, subMon.newChild(1), result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (movedMembers.contains(element))
 					continue;
 				if (!(element instanceof IMember))
@@ -731,7 +731,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 				IMember elementMember= (IMember)element;
 				IType elementMemberType= elementMember.getDeclaringType();
 				boolean isMoveDestination= false;
-				for (IType destinationType : destinationTypes) {
+				for (IType destinationType : destinationTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (destinationType.getFullyQualifiedName().equals(elementMemberType.getFullyQualifiedName())) {
 						isMoveDestination= true;
 						break;
@@ -751,7 +751,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 
 	public void computeAdditionalRequiredMembersToPushDown(IProgressMonitor monitor) throws JavaModelException {
 		List<IMember> list= Arrays.asList(getAdditionalRequiredMembers(monitor));
-		for (MemberActionInfo info : fMemberInfos) {
+		for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (list.contains(info.getMember()))
 				info.setAction(MemberActionInfo.PUSH_DOWN_ACTION);
 		}
@@ -808,7 +808,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 			fDestinationTypes= destinationTypes;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(SimpleName node) {
 			if (node.getLocationInParent() != MethodInvocation.NAME_PROPERTY
 					&& node.getLocationInParent() != FieldAccess.NAME_PROPERTY) {
@@ -817,10 +817,10 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 					ITypeBinding typeBinding= varBinding.getDeclaringClass();
 					if (typeBinding != null && !typeBinding.getQualifiedName().equals(fDeclaringType.getFullyQualifiedName())) {
 						boolean mayNeedSuper= false;
-						for (IType destinationType : fDestinationTypes) {
+						for (IType destinationType : fDestinationTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							try {
 								IField[] fields= destinationType.getFields();
-								for (IField field : fields) {
+								for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (field.getElementName().equals(node.getFullyQualifiedName())) {
 										mayNeedSuper= true;
 										break;
@@ -832,7 +832,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 						}
 						if (mayNeedSuper) {
 							IType[] superTypes= fDeclaringTypeHierarchy.getAllSuperclasses(fDeclaringType);
-							for (IType superType : superTypes) {
+							for (IType superType : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (superType.getFullyQualifiedName().equals(typeBinding.getQualifiedName())) {
 									AST ast= fRewrite.getAST();
 									SuperFieldAccess superFieldAccess= ast.newSuperFieldAccess();
@@ -849,7 +849,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final boolean visit(MethodInvocation node) {
 			Expression exp= node.getExpression();
 			if (exp == null) {
@@ -858,10 +858,10 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 					ITypeBinding typeBinding= methodBinding.getDeclaringClass();
 					if (typeBinding != null && !typeBinding.getQualifiedName().equals(fDeclaringType.getFullyQualifiedName())) {
 						boolean mayNeedSuper= false;
-						for (IType destinationType : fDestinationTypes) {
+						for (IType destinationType : fDestinationTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							try {
 								IMethod[] methods= destinationType.getMethods();
-								for (IMethod method : methods) {
+								for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (method.getElementName().equals(node.getName().getFullyQualifiedName()) &&
 											method.getNumberOfParameters() == node.arguments().size()) {
 										mayNeedSuper= true;
@@ -874,7 +874,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 						}
 						if (mayNeedSuper) {
 							IType[] superTypes= fDeclaringTypeHierarchy.getAllSuperclasses(fDeclaringType);
-							for (IType superType : superTypes) {
+							for (IType superType : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (superType.getFullyQualifiedName().equals(typeBinding.getQualifiedName())) {
 									AST ast= fRewrite.getAST();
 									SuperMethodInvocation superMethodInvocation= ast.newSuperMethodInvocation();
@@ -903,7 +903,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private void copyBodyOfPushedDownMethod(ASTRewrite targetRewrite, IMethod method, MethodDeclaration oldMethod, MethodDeclaration newMethod, TypeVariableMaplet[] mapping) throws JavaModelException {
+	private void copyBodyOfPushedDownMethod(ASTRewrite targetRewrite, IMethod method, MethodDeclaration oldMethod, MethodDeclaration newMethod, TypeVariableMaplet[] mapping) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Block body= oldMethod.getBody();
 		if (body == null) {
 			newMethod.setBody(null);
@@ -927,12 +927,12 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private void copyMembers(Collection<MemberVisibilityAdjustor> adjustors, Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, Map<ICompilationUnit, CompilationUnitRewrite> rewrites, RefactoringStatus status, MemberActionInfo[] infos, IType[] destinations, CompilationUnitRewrite sourceRewriter, CompilationUnitRewrite unitRewriter, IProgressMonitor monitor) throws JavaModelException {
+	private void copyMembers(Collection<MemberVisibilityAdjustor> adjustors, Map<IMember, IncomingMemberVisibilityAdjustment> adjustments, Map<ICompilationUnit, CompilationUnitRewrite> rewrites, RefactoringStatus status, MemberActionInfo[] infos, IType[] destinations, CompilationUnitRewrite sourceRewriter, CompilationUnitRewrite unitRewriter, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			SubMonitor subMon= SubMonitor.convert(monitor, RefactoringCoreMessages.PushDownRefactoring_checking, destinations.length * infos.length);
 			IType type= null;
 			TypeVariableMaplet[] mapping= null;
-			for (IType destination : destinations) {
+			for (IType destination : destinations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				type= destination;
 				mapping= TypeVariableUtil.superTypeToInheritedType(getDeclaringType(), type);
 				if (unitRewriter.getCu().equals(type.getCompilationUnit())) {
@@ -940,7 +940,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 					MemberVisibilityAdjustor adjustor= null;
 					AbstractTypeDeclaration declaration= ASTNodeSearchUtil.getAbstractTypeDeclarationNode(type, unitRewriter.getRoot());
 					ImportRewriteContext context= new ContextSensitiveImportRewriteContext(declaration, unitRewriter.getImportRewrite());
-					for (int offset= infos.length - 1; offset >= 0; offset--) {
+					for (int offset= infos.length - 1; offset >= 0; offset--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						member= infos[offset].getMember();
 						adjustor= new MemberVisibilityAdjustor(type, member);
 						if (infos[offset].isNewMethodToBeDeclaredAbstract())
@@ -963,7 +963,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 								FieldDeclaration newField= createNewFieldDeclarationNode(infos[offset], sourceRewriter.getRoot(), mapping, unitRewriter.getASTRewrite(), oldField);
 								TextEditGroup group= unitRewriter.createCategorizedGroupDescription(RefactoringCoreMessages.HierarchyRefactoring_add_member, SET_PUSH_DOWN);
 								unitRewriter.getASTRewrite().getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertAt(newField, BodyDeclarationRewrite.getInsertionIndex(newField, declaration.bodyDeclarations()), group);
-								ImportRewriteUtil.addImports(unitRewriter, context, oldField.getParent(), new HashMap<>(), new HashMap<>(), false);
+								ImportRewriteUtil.addImports(unitRewriter, context, oldField.getParent(), new HashMap<>(), new HashMap<>(), false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 								replaceTargetSuperFieldReferences(declaration, member, unitRewriter.getASTRewrite(), group);
 							}
 						} else {
@@ -972,7 +972,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 								MethodDeclaration newMethod= createNewMethodDeclarationNode(infos[offset], mapping, unitRewriter, oldMethod);
 								TextEditGroup group= unitRewriter.createCategorizedGroupDescription(RefactoringCoreMessages.HierarchyRefactoring_add_member, SET_PUSH_DOWN);
 								unitRewriter.getASTRewrite().getListRewrite(declaration, declaration.getBodyDeclarationsProperty()).insertAt(newMethod, BodyDeclarationRewrite.getInsertionIndex(newMethod, declaration.bodyDeclarations()), group);
-								ImportRewriteUtil.addImports(unitRewriter, context, oldMethod, new HashMap<>(), new HashMap<>(), false);
+								ImportRewriteUtil.addImports(unitRewriter, context, oldMethod, new HashMap<>(), new HashMap<>(), false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 								replaceTargetSuperMethodInvocations(declaration, member, unitRewriter.getASTRewrite(), group);
 							}
 						}
@@ -984,9 +984,9 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private void replaceTargetSuperMethodInvocations(AbstractTypeDeclaration declaration, IMember member, ASTRewrite astRewrite, TextEditGroup group) {
+	private void replaceTargetSuperMethodInvocations(AbstractTypeDeclaration declaration, IMember member, ASTRewrite astRewrite, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTVisitor removeSuperMethodInvocationVisitor= new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(SuperMethodInvocation node) {
 				IMethodBinding binding= node.resolveMethodBinding();
 				if (binding != null) {
@@ -1016,7 +1016,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		declaration.accept(removeSuperMethodInvocationVisitor);
 	}
 
-	private void replaceTargetSuperFieldReferences(AbstractTypeDeclaration declaration, IMember member, ASTRewrite astRewrite, TextEditGroup group) {
+	private void replaceTargetSuperFieldReferences(AbstractTypeDeclaration declaration, IMember member, ASTRewrite astRewrite, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTVisitor removeSuperFieldVisitor= new ASTVisitor() {
 			@Override
 			public boolean visit(SuperFieldAccess node) {
@@ -1037,10 +1037,10 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		declaration.accept(removeSuperFieldVisitor);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		try {
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			String project= null;
 			final IType declaring= getDeclaringType();
 			final IJavaProject javaProject= declaring.getJavaProject();
@@ -1057,23 +1057,23 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 			final String header= fMembersToMove.length == 1 ? Messages.format(RefactoringCoreMessages.PushDownRefactoring_descriptor_description_full, new String[] { JavaElementLabelsCore.getElementLabel(fMembersToMove[0], JavaElementLabelsCore.ALL_FULLY_QUALIFIED), JavaElementLabelsCore.getElementLabel(declaring, JavaElementLabelsCore.ALL_FULLY_QUALIFIED) }) : Messages.format(RefactoringCoreMessages.PushDownRefactoring_descriptor_description, new String[] { JavaElementLabelsCore.getElementLabel(declaring, JavaElementLabelsCore.ALL_FULLY_QUALIFIED) });
 			final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(project, this, header);
 			final String[] settings= new String[fMembersToMove.length];
-			for (int index= 0; index < settings.length; index++)
+			for (int index= 0; index < settings.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				settings[index]= JavaElementLabelsCore.getElementLabel(fMembersToMove[index], JavaElementLabelsCore.ALL_FULLY_QUALIFIED);
 			comment.addSetting(JDTRefactoringDescriptorComment.createCompositeSetting(RefactoringCoreMessages.PushDownRefactoring_pushed_members_pattern, settings));
 			addSuperTypeSettings(comment, true);
 			final PushDownDescriptor descriptor= RefactoringSignatureDescriptorFactory.createPushDownDescriptor(project, description, comment.asString(), arguments, flags);
 			if (fCachedDeclaringType != null)
 				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCachedDeclaringType));
-			for (int index= 0; index < fMembersToMove.length; index++) {
-				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fMembersToMove[index]));
-				for (MemberActionInfo memberInfo : fMemberInfos) {
+			for (int index= 0; index < fMembersToMove.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1), JavaRefactoringDescriptorUtil.elementToHandle(project, fMembersToMove[index])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				for (MemberActionInfo memberInfo : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (memberInfo.getMember().equals(fMembersToMove[index])) {
 						switch (memberInfo.getAction()) {
 							case MemberActionInfo.PUSH_ABSTRACT_ACTION:
-								arguments.put(ATTRIBUTE_ABSTRACT + (index + 1), Boolean.TRUE.toString());
+								arguments.put(ATTRIBUTE_ABSTRACT + (index + 1), Boolean.TRUE.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								break;
 							case MemberActionInfo.PUSH_DOWN_ACTION:
-								arguments.put(ATTRIBUTE_PUSH + (index + 1), Boolean.TRUE.toString());
+								arguments.put(ATTRIBUTE_PUSH + (index + 1), Boolean.TRUE.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								break;
 						}
 					}
@@ -1086,43 +1086,43 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private TextEditBasedChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException {
+	private TextEditBasedChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(monitor);
 		Assert.isNotNull(status);
 		try {
 			SubMonitor subMon= SubMonitor.convert(monitor, RefactoringCoreMessages.PushDownRefactoring_checking, 6);
 			final ICompilationUnit source= getDeclaringType().getCompilationUnit();
 			final CompilationUnitRewrite sourceRewriter= new CompilationUnitRewrite(source);
-			final Map<ICompilationUnit, CompilationUnitRewrite> rewrites= new HashMap<>(2);
+			final Map<ICompilationUnit, CompilationUnitRewrite> rewrites= new HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			rewrites.put(source, sourceRewriter);
 			IType[] types= getHierarchyOfDeclaringClass(subMon.newChild(1)).getSubclasses(getDeclaringType());
-			final Set<ICompilationUnit> result= new HashSet<>(types.length + 1);
-			for (IType type : types) {
+			final Set<ICompilationUnit> result= new HashSet<>(types.length + 1); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= type.getCompilationUnit();
 				if (cu != null) { // subclasses can be in binaries
 					result.add(cu);
 				}
 			}
 			result.add(source);
-			final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments= new HashMap<>();
-			final List<MemberVisibilityAdjustor> adjustors= new ArrayList<>();
+			final Map<IMember, IncomingMemberVisibilityAdjustment> adjustments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			final List<MemberVisibilityAdjustor> adjustors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			CompilationUnitRewrite rewrite= null;
 			{
 				final SubMonitor sub= SubMonitor.convert(subMon.newChild(4), result.size() * 4);
-				for (ICompilationUnit unit : result) {
+				for (ICompilationUnit unit : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					rewrite= getCompilationUnitRewrite(rewrites, unit);
 					if (unit.equals(sourceRewriter.getCu())) {
 						final AbstractTypeDeclaration declaration= ASTNodeSearchUtil.getAbstractTypeDeclarationNode(getDeclaringType(), rewrite.getRoot());
 						if (!JdtFlags.isAbstract(getDeclaringType()) && getAbstractDeclarationInfos().length != 0)
 							ModifierRewrite.create(rewrite.getASTRewrite(), declaration).setModifiers((Modifier.ABSTRACT | declaration.getModifiers()), rewrite.createCategorizedGroupDescription(RefactoringCoreMessages.PushDownRefactoring_make_abstract, SET_PUSH_DOWN));
 						deleteDeclarationNodes(false, rewrite, Arrays.asList(getDeletableMembers()), SET_PUSH_DOWN);
-						for (MemberActionInfo method : getAbstractDeclarationInfos()) {
+						for (MemberActionInfo method : getAbstractDeclarationInfos()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							declareMethodAbstract(method, sourceRewriter, rewrite);
 						}
 					}
 					final IMember[] members= getAbstractMembers(getAbstractDestinations(sub.newChild(1)));
 					final IType[] classes= new IType[members.length];
-					for (int offset= 0; offset < members.length; offset++) {
+					for (int offset= 0; offset < members.length; offset++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						classes[offset]= (IType) members[offset];
 					}
 					copyMembers(adjustors, adjustments, rewrites, status, getAbstractMemberInfos(), classes, sourceRewriter, rewrite, sub.newChild(1));
@@ -1139,7 +1139,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 				adjustor.rewriteVisibility(subMon.newChild(1));
 			}
 			final TextEditBasedChangeManager manager= new TextEditBasedChangeManager();
-			for (Map.Entry<ICompilationUnit, CompilationUnitRewrite> entry : rewrites.entrySet()) {
+			for (Map.Entry<ICompilationUnit, CompilationUnitRewrite> entry : rewrites.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit unit= entry.getKey();
 				rewrite= entry.getValue();
 				if (rewrite != null)
@@ -1154,16 +1154,16 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	/*
 	 * Check if target method in subclass has '@Override' annotation, and if so removes it.
 	 */
-	private void removeOverrideAnnotation(Map<ICompilationUnit, CompilationUnitRewrite> rewrites) throws JavaModelException {
+	private void removeOverrideAnnotation(Map<ICompilationUnit, CompilationUnitRewrite> rewrites) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType[] subclasses= fCachedClassHierarchy.getSubclasses(fCachedDeclaringType);
 
-		for (IMember memberActionInfo : fMembersToMove) {
+		for (IMember memberActionInfo : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (memberActionInfo.getElementType() != IJavaElement.METHOD) {
 				continue;
 			}
 			IMethod method= (IMethod) memberActionInfo;
-			nextClass: for (IType iType : subclasses) {
-				for (IMethod iMethod : iType.getMethods()) {
+			nextClass: for (IType iType : subclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IMethod iMethod : iType.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (iMethod.isSimilar(method)) {
 						CompilationUnitRewrite rewrite= getCompilationUnitRewrite(rewrites, iType.getCompilationUnit());
 						MethodDeclaration methodDeclarationNode= ASTNodeSearchUtil.getMethodDeclarationNode(iMethod, rewrite.getRoot());
@@ -1171,7 +1171,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 							continue;
 						}
 						ListRewrite listRewrite= rewrite.getASTRewrite().getListRewrite(methodDeclarationNode, MethodDeclaration.MODIFIERS2_PROPERTY);
-						for (IExtendedModifier iExtendedModifier : (List<IExtendedModifier>) methodDeclarationNode.modifiers()) {
+						for (IExtendedModifier iExtendedModifier : (List<IExtendedModifier>) methodDeclarationNode.modifiers()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (iExtendedModifier.isAnnotation() &&
 									"Override".equals(((Annotation) iExtendedModifier).getTypeName().getFullyQualifiedName())) { //$NON-NLS-1$
 								listRewrite.remove((Annotation) iExtendedModifier, null);
@@ -1184,7 +1184,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		}
 	}
 
-	private FieldDeclaration createNewFieldDeclarationNode(MemberActionInfo info, CompilationUnit declaringCuNode, TypeVariableMaplet[] mapping, ASTRewrite rewrite, VariableDeclarationFragment oldFieldFragment) throws JavaModelException {
+	private FieldDeclaration createNewFieldDeclarationNode(MemberActionInfo info, CompilationUnit declaringCuNode, TypeVariableMaplet[] mapping, ASTRewrite rewrite, VariableDeclarationFragment oldFieldFragment) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(info.isFieldInfo());
 		IField field= (IField) info.getMember();
 		AST ast= rewrite.getAST();
@@ -1217,7 +1217,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return newField;
 	}
 
-	private MethodDeclaration createNewMethodDeclarationNode(MemberActionInfo info, TypeVariableMaplet[] mapping, CompilationUnitRewrite rewriter, MethodDeclaration oldMethod) throws JavaModelException {
+	private MethodDeclaration createNewMethodDeclarationNode(MemberActionInfo info, TypeVariableMaplet[] mapping, CompilationUnitRewrite rewriter, MethodDeclaration oldMethod) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(!info.isFieldInfo());
 		IMethod method= (IMethod) info.getMember();
 		ASTRewrite rewrite= rewriter.getASTRewrite();
@@ -1255,8 +1255,8 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private MemberActionInfo[] getAbstractDeclarationInfos() throws JavaModelException {
-		List<MemberActionInfo> result= new ArrayList<>(fMemberInfos.length);
-		for (MemberActionInfo info : fMemberInfos) {
+		List<MemberActionInfo> result= new ArrayList<>(fMemberInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isNewMethodToBeDeclaredAbstract())
 				result.add(info);
 		}
@@ -1265,8 +1265,8 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 
 	private IType[] getAbstractDestinations(IProgressMonitor monitor) throws JavaModelException {
 		IType[] allDirectSubclasses= getHierarchyOfDeclaringClass(monitor).getSubclasses(getDeclaringType());
-		List<IType> result= new ArrayList<>(allDirectSubclasses.length);
-		for (IType subclass : allDirectSubclasses) {
+		List<IType> result= new ArrayList<>(allDirectSubclasses.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType subclass : allDirectSubclasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (subclass.exists() && !subclass.isBinary() && !subclass.isReadOnly() && subclass.getCompilationUnit() != null && subclass.isStructureKnown())
 				result.add(subclass);
 		}
@@ -1274,23 +1274,23 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private MemberActionInfo[] getAbstractMemberInfos() throws JavaModelException {
-		List<MemberActionInfo> result= new ArrayList<>(fMemberInfos.length);
-		for (MemberActionInfo info : fMemberInfos) {
+		List<MemberActionInfo> result= new ArrayList<>(fMemberInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isToBeCreatedInSubclassesOfDeclaringClass() && JdtFlags.isAbstract(info.getMember()))
 				result.add(info);
 		}
 		return result.toArray(new MemberActionInfo[result.size()]);
 	}
 
-	public IMember[] getAdditionalRequiredMembers(IProgressMonitor monitor) throws JavaModelException {
+	public IMember[] getAdditionalRequiredMembers(IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMember[] members= MemberActionInfo.getMembers(getInfosForMembersToBeCreatedInSubclassesOfDeclaringClass());
-		List<IMember> queue= new ArrayList<>(Arrays.asList(members));
+		List<IMember> queue= new ArrayList<>(Arrays.asList(members)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SubMonitor submon= SubMonitor.convert(monitor, RefactoringCoreMessages.PushDownRefactoring_calculating_required, queue.size());
 		if (queue.isEmpty())
 			return new IMember[0];
 		int i= 0;
 		IMember current;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			current= queue.get(i);
 			addAllRequiredPushableMembers(queue, current, submon.newChild(1));
 			i++;
@@ -1304,8 +1304,8 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private IMember[] getDeletableMembers() {
-		List<IMember> result= new ArrayList<>(fMemberInfos.length);
-		for (MemberActionInfo info : fMemberInfos) {
+		List<IMember> result= new ArrayList<>(fMemberInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isToBeDeletedFromDeclaringClass())
 				result.add(info.getMember());
 		}
@@ -1313,8 +1313,8 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	}
 
 	private MemberActionInfo[] getAffectedMemberInfos() throws JavaModelException {
-		List<MemberActionInfo> result= new ArrayList<>(fMemberInfos.length);
-		for (MemberActionInfo info : fMemberInfos) {
+		List<MemberActionInfo> result= new ArrayList<>(fMemberInfos.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MemberActionInfo info : fMemberInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isToBeCreatedInSubclassesOfDeclaringClass() && !JdtFlags.isAbstract(info.getMember()))
 				result.add(info);
 		}
@@ -1345,7 +1345,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 	private MemberActionInfo[] getInfosForMembersToBeCreatedInSubclassesOfDeclaringClass() throws JavaModelException {
 		MemberActionInfo[] abs= getAbstractMemberInfos();
 		MemberActionInfo[] nonabs= getAffectedMemberInfos();
-		List<MemberActionInfo> result= new ArrayList<>(abs.length + nonabs.length);
+		List<MemberActionInfo> result= new ArrayList<>(abs.length + nonabs.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.addAll(Arrays.asList(abs));
 		result.addAll(Arrays.asList(nonabs));
 		return result.toArray(new MemberActionInfo[result.size()]);
@@ -1360,7 +1360,7 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 		return RefactoringCoreMessages.PushDownRefactoring_name;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -1370,24 +1370,24 @@ public final class PushDownRefactoringProcessor extends HierarchyProcessor {
 				fCachedDeclaringType= (IType) element;
 		}
 		int count= 1;
-		final List<IJavaElement> elements= new ArrayList<>();
-		final List<MemberActionInfo> infos= new ArrayList<>();
-		String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+		final List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final List<MemberActionInfo> infos= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final RefactoringStatus status= new RefactoringStatus();
-		while ((handle= extended.getAttribute(attribute)) != null) {
+		while ((handle= extended.getAttribute(attribute)) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
 			if (element == null || !element.exists())
 				status.merge(JavaRefactoringDescriptorUtil.createInputWarningStatus(element, getProcessorName(), IJavaRefactorings.PUSH_DOWN));
 			else
 				elements.add(element);
-			if (extended.getAttribute(ATTRIBUTE_ABSTRACT + count) != null)
+			if (extended.getAttribute(ATTRIBUTE_ABSTRACT + count) != null) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				infos.add(MemberActionInfo.create((IMember) element, MemberActionInfo.PUSH_ABSTRACT_ACTION));
-			else if (extended.getAttribute(ATTRIBUTE_PUSH + count) != null)
+			else if (extended.getAttribute(ATTRIBUTE_PUSH + count) != null) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				infos.add(MemberActionInfo.create((IMember) element, MemberActionInfo.PUSH_DOWN_ACTION));
 			else
 				infos.add(MemberActionInfo.create((IMember) element, MemberActionInfo.NO_ACTION));
 			count++;
-			attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+			attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fMembersToMove= elements.toArray(new IMember[elements.size()]);
 		fMemberInfos= infos.toArray(new MemberActionInfo[infos.size()]);

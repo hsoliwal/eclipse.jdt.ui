@@ -20,7 +20,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 
-public class NewLocalVariableCorrectionProposal extends LinkedCorrectionProposal {
+public class NewLocalVariableCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public NewLocalVariableCorrectionProposal(NewLocalVariableCorrectionProposalCore core, Image image) {
 		super(core.getName(), core.getCompilationUnit(), null, core.getRelevance(), image, core);

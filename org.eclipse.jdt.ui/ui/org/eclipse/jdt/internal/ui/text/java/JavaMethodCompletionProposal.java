@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.preferences.formatter.FormatterProfileManager;
 
 
-public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
+public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	/** Triggers for method proposals without parameters. Do not modify. */
 	protected final static char[] METHOD_TRIGGERS= new char[] { ';', ',', '.', '\t', '[' };
 	/** Triggers for method proposals. Do not modify. */
@@ -150,7 +150,7 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 	 *         otherwise
 	 * @since 3.9
 	 */
-	protected final boolean canAutomaticallyAppendSemicolon() {
+	protected final boolean canAutomaticallyAppendSemicolon() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fProposal.isConstructor() && CharOperation.equals(new char[] { Signature.C_VOID }, Signature.getReturnType(fProposal.getSignature()))) {
 			try {
 				// don't want to add semicolon if we are completing a method parameter
@@ -174,12 +174,12 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 	}
 
 	// Simple member parser to see if we are not in matched parentheses and thus might be in a parameter list
-	private boolean areParenthesesMatched(ICompilationUnit cu, IMember element) throws JavaModelException {
+	private boolean areParenthesesMatched(ICompilationUnit cu, IMember element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String source= cu.getSource();
 		ISourceRange sourceRange= element.getSourceRange();
 		int cnt= 0;
 		State state= State.NORMAL;
-		for (int i= sourceRange.getOffset(); i < getReplacementOffset(); ++i) {
+		for (int i= sourceRange.getOffset(); i < getReplacementOffset(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= source.charAt(i);
 			switch (c) {
 				case '/':
@@ -296,7 +296,7 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal#computeReplacementString()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String computeReplacementString() {
 		if (!hasArgumentList())
 			return super.computeReplacementString();
@@ -341,7 +341,7 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 	 * @param buffer the string buffer
 	 * @since 3.4
 	 */
-	protected void appendMethodNameReplacement(StringBuffer buffer) {
+	protected void appendMethodNameReplacement(StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProposal.getKind() == CompletionProposal.METHOD_REF_WITH_CASTED_RECEIVER) {
 			String coreCompletion= String.valueOf(fProposal.getCompletion());
 			String lineDelimiter= TextUtilities.getDefaultLineDelimiter(getTextViewer().getDocument());
@@ -374,7 +374,7 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal#computeSortString()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String computeSortString() {
 		/*
 		 * Lexicographical sort order:
@@ -386,12 +386,12 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 		char[] name= fProposal.getName();
 		char[] parameterList= Signature.toCharArray(fProposal.getSignature(), null, null, false, false);
 		int parameterCount= Signature.getParameterCount(fProposal.getSignature()) % 10; // we don't care about insane methods with >9 parameters
-		StringBuilder buf= new StringBuilder(name.length + 2 + parameterList.length);
+		StringBuilder buf= new StringBuilder(name.length + 2 + parameterList.length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buf.append(name);
-		buf.append('\0'); // separator
-		buf.append(parameterCount);
-		buf.append(parameterList);
+		buf.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('\0'); // separator //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(parameterCount); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(parameterList); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -410,7 +410,7 @@ public class JavaMethodCompletionProposal extends LazyJavaCompletionProposal {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.AbstractJavaCompletionProposal#isValidPrefix(java.lang.String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean isValidPrefix(String prefix) {
 		if (super.isValidPrefix(prefix))
 			return true;

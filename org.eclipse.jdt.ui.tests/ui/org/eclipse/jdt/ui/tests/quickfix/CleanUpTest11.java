@@ -51,7 +51,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseLocalVariableTypeInferenceInLambda1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -84,7 +84,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseLocalVariableTypeInferenceInLambda2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -119,7 +119,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseLocalVariableTypeInferenceInParamCallWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -161,7 +161,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseLocalVariableTypeInferenceInWildCardParamCallWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -187,7 +187,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseLocalVariableTypeInferenceInWildCardConstructorWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -213,7 +213,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseLocalVariableTypeInferenceInWildCardSuperCallsWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -258,7 +258,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1, cu2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseLocalVariableTypeInferenceInParamTypeDeclarationWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -292,7 +292,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseLocalVariableTypeInferenceInWildCardParamDeclarationWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -314,7 +314,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseLocalVariableTypeInferenceInParamFieldDeclarationWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -344,7 +344,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseLocalVariableTypeInferenceInWildCardParamFieldDeclarationWithLambda() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -364,7 +364,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseLocalVariableTypeInferenceWithMethodRef() throws Exception {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=570058
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -393,7 +393,7 @@ public class CleanUpTest11 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseStringIsBlank() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -567,10 +567,10 @@ public class CleanUpTest11 extends CleanUpTestCase {
 
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
-		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected }, new HashSet<>(Arrays.asList(FixMessages.UseStringIsBlankCleanUp_description)));
+		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected }, new HashSet<>(Arrays.asList(FixMessages.UseStringIsBlankCleanUp_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseStringIsBlank() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """

@@ -39,7 +39,7 @@ public class TreeRoot {
 	 * @since 3.7
 	 */
     void addRoots(MethodWrapper[] roots){
-		List<MethodWrapper>newRoots= new ArrayList<>(Arrays.asList(fRoots));
+		List<MethodWrapper>newRoots= new ArrayList<>(Arrays.asList(fRoots)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		newRoots.addAll(Arrays.asList(roots));
 
 		fRoots= newRoots.toArray(new MethodWrapper[newRoots.size()]);

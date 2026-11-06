@@ -200,7 +200,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 	/* non Java-doc
 	 * @see IRefactoring#createChange(IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		final String NN= ""; //$NON-NLS-1$
 		if (pm == null) pm= new NullProgressMonitor();
@@ -245,9 +245,9 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 		return fRootNode.getAST();
 	}
 
-	@SuppressWarnings("null")
+	@SuppressWarnings("null") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private void createTryWithResourcesStatement(org.eclipse.jdt.core.IBuffer buffer, String lineDelimiter) throws CoreException {
-		List<Statement> result= new ArrayList<>(1);
+		List<Statement> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean modifyExistingTry= false;
 		TryStatement tryStatement= null;
 		ITypeBinding[] exceptions= fAnalyzer.getExceptions(fAnalyzer.getSelection());
@@ -276,11 +276,11 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 		boolean selectedNodeRemoved= false;
 		ASTNode expressionStatement= null;
 		ASTNode replacementNode= null;
-		List<ASTNode> nodesInRange= new ArrayList<>();
+		List<ASTNode> nodesInRange= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (!modifyExistingTry) {
 			List<ASTNode> variableDeclarations= getSpecialVariableDeclarationStatements();
-			for (ASTNode node : fSelectedNodes) {
+			for (ASTNode node : fSelectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fAutoClosableNodes.contains(node)) {
 					continue;
 				}
@@ -290,14 +290,14 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 					// Create a copy and remove the initializer
 					VariableDeclarationStatement copy= (VariableDeclarationStatement)ASTNode.copySubtree(ast, statement);
 					List<IExtendedModifier> modifiers= copy.modifiers();
-					for (Iterator<IExtendedModifier> iter= modifiers.iterator(); iter.hasNext();) {
+					for (Iterator<IExtendedModifier> iter= modifiers.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IExtendedModifier modifier= iter.next();
 						if (modifier.isModifier() && Modifier.isFinal(((Modifier)modifier).getKeyword().toFlagValue())) {
 							iter.remove();
 						}
 					}
 					List<VariableDeclarationFragment> fragments= copy.fragments();
-					for (VariableDeclarationFragment fragment : fragments) {
+					for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fragment.setInitializer(null);
 					}
 
@@ -318,14 +318,14 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 						commentToken= Strings.trimTrailingTabsAndSpaces(commentToken);
 						Type type= statement.getType();
 						String typeName= buffer.getText(type.getStartPosition(), type.getLength());
-						copy.setType((Type)fRewriter.createStringPlaceholder(commentToken + typeName, type.getNodeType()));
+						copy.setType((Type)fRewriter.createStringPlaceholder(commentToken + typeName, type.getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 					result.add(copy);
 					// convert the fragments into expression statements
 					fragments= statement.fragments();
 					if (!fragments.isEmpty()) {
-						List<ExpressionStatement> newExpressionStatements= new ArrayList<>();
-						for (VariableDeclarationFragment fragment : fragments) {
+						List<ExpressionStatement> newExpressionStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Expression initializer= fragment.getInitializer();
 							if (initializer != null) {
 								Assignment assignment= ast.newAssignment();
@@ -361,8 +361,8 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 			}
 
 			ASTNode node= fSelectedNodes[0];
-			List<ASTNode> coveredStatements= new ArrayList<>();
-			for (ASTNode coveredNode : fSelectedNodes) {
+			List<ASTNode> coveredStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ASTNode coveredNode : fSelectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement statement= ASTResolving.findParentStatement(coveredNode);
 				if (statement == null) {
 					continue;
@@ -380,7 +380,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 				ASTNode lastSelectedNode= fSelectedNodes[fSelectedNodes.length - 1];
 				int end= lastSelectedNode.getStartPosition() + lastSelectedNode.getLength();
 
-				for (ASTNode astNode : fAutoClosableNodes) {
+				for (ASTNode astNode : fAutoClosableNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int endPosition= findEndPosition(astNode);
 					end= Math.max(end, endPosition);
 				}
@@ -389,9 +389,9 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 				nodesInRange= findNodesInRange(parentBodyDeclaration, start, end);
 				int oldEnd= end;
 				int newEnd= end;
-				while (true) {
+				while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newEnd= oldEnd;
-					for (ASTNode astNode : nodesInRange) {
+					for (ASTNode astNode : nodesInRange) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int endPosition= findEndPosition(astNode);
 						newEnd= Math.max(newEnd, endPosition);
 					}
@@ -416,9 +416,9 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 		// add required resource statements
 		CompilationUnit cu= (CompilationUnit)fSelectedNodes[0].getRoot();
 		AST ast= fSelectedNodes[0].getAST();
-		Set<String> resourceNameList= new HashSet<>();
-		List<ITypeBinding> allExceptions= new ArrayList<>(Arrays.asList(exceptions));
-		for (ASTNode coveredNode : fAutoClosableNodes) {
+		Set<String> resourceNameList= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<ITypeBinding> allExceptions= new ArrayList<>(Arrays.asList(exceptions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode coveredNode : fAutoClosableNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode findAncestor= ASTResolving.findAncestor(coveredNode, ASTNode.VARIABLE_DECLARATION_STATEMENT);
 			if (findAncestor == null) {
 				findAncestor= ASTResolving.findAncestor(coveredNode, ASTNode.ASSIGNMENT);
@@ -435,7 +435,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 				if (typeBinding != null) {
 					IMethodBinding close= findAutocloseMethod(typeBinding);
 					if (close != null) {
-						for (ITypeBinding exceptionType : close.getExceptionTypes()) {
+						for (ITypeBinding exceptionType : close.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!allExceptions.contains(exceptionType)) {
 								allExceptions.add(exceptionType);
 							}
@@ -444,7 +444,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 				}
 				String typeName= buffer.getText(type.getStartPosition(), type.getLength());
 
-				for (Object object : vds.fragments()) {
+				for (Object object : vds.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment variableDeclarationFragment= (VariableDeclarationFragment) object;
 					VariableDeclarationFragment newVariableDeclarationFragment= ast.newVariableDeclarationFragment();
 					SimpleName vdsName= variableDeclarationFragment.getName();
@@ -469,7 +469,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 					newVariableDeclarationFragment.setInitializer(newExpression);
 					VariableDeclarationExpression newVariableDeclarationExpression= ast.newVariableDeclarationExpression(newVariableDeclarationFragment);
 					newVariableDeclarationExpression.setType(
-							(Type) fRewriter.createStringPlaceholder(commentToken + typeName, type.getNodeType()));
+							(Type) fRewriter.createStringPlaceholder(commentToken + typeName, type.getNodeType())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					if (modifyExistingTry) {
 						if (enclosingTry.resources().isEmpty()) {
 							resourcesRewriter.insertFirst(newVariableDeclarationExpression, null);
@@ -493,14 +493,14 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 			}
 		}
 
-		List<ITypeBinding> mustRethrowList= new ArrayList<>();
+		List<ITypeBinding> mustRethrowList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<ITypeBinding> catchExceptions= fAnalyzer.calculateCatchesAndRethrows(ASTNodes.filterSubtypes(allExceptions), mustRethrowList);
 		List<ITypeBinding> filteredExceptions= ASTNodes.filterSubtypes(catchExceptions);
 		if (catchExceptions.size() > 0) {
 			LinkedProposalModelCore linkedProposalModel= new LinkedProposalModelCore();
 			int i= 0;
 			if (!modifyExistingTry) {
-				for (ITypeBinding mustThrow : mustRethrowList) {
+				for (ITypeBinding mustThrow : mustRethrowList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CatchClause newClause= ast.newCatchClause();
 					SingleVariableDeclaration newDecl= ast.newSingleVariableDeclaration();
 					newDecl.setName(ast.newSimpleName(name));
@@ -509,7 +509,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 					newClause.setException(newDecl);
 					ThrowStatement newThrowStatement= ast.newThrowStatement();
 					newThrowStatement.setExpression(ast.newSimpleName(name));
-					linkedProposalModel.getPositionGroup(GROUP_EXC_NAME + i, true).addPosition(fRewriter.track(decl.getName()), false);
+					linkedProposalModel.getPositionGroup(GROUP_EXC_NAME + i, true).addPosition(fRewriter.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					newClause.getBody().statements().add(newThrowStatement);
 					tryStatement.catchClauses().add(newClause);
 					++i;
@@ -517,16 +517,16 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 			}
 			UnionType unionType= getAST().newUnionType();
 			List<Type> types= unionType.types();
-			for (ITypeBinding exception : filteredExceptions) {
+			for (ITypeBinding exception : filteredExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type type= fImportRewrite.addImport(exception, getAST(), context, TypeLocation.EXCEPTION);
 				types.add(type);
-				fLinkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(fRewriter.track(type), i == 0);
+				fLinkedProposalModel.getPositionGroup(GROUP_EXC_TYPE + i, true).addPosition(fRewriter.track(type), i == 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				i++;
 			}
 
 			decl.setType(unionType);
 			catchClause.setException(decl);
-			fLinkedProposalModel.getPositionGroup(GROUP_EXC_NAME + 0, true).addPosition(fRewriter.track(decl.getName()), false);
+			fLinkedProposalModel.getPositionGroup(GROUP_EXC_NAME + 0, true).addPosition(fRewriter.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Statement st= getCatchBody("Exception", name, lineDelimiter); //$NON-NLS-1$
 			if (st != null) {
 				catchClause.getBody().statements().add(st);
@@ -573,14 +573,14 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 			fRewriter.replace(selectedNode, replacementNode, null);
 		} else if (modifyExistingTry) {
 			ListRewrite source= fRewriter.getListRewrite(enclosingTry.getBody(), Block.STATEMENTS_PROPERTY);
-			for (ASTNode node : fAutoClosableNodes) {
+			for (ASTNode node : fAutoClosableNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				source.remove(node, null);
 			}
 		} else {
 			ListRewrite source= fRewriter.getListRewrite(
 					fSelectedNodes[0].getParent(),
 					(ChildListPropertyDescriptor)fSelectedNodes[0].getLocationInParent());
-			List<ASTNode> nodes= new ArrayList<>(Arrays.asList(fSelectedNodes));
+			List<ASTNode> nodes= new ArrayList<>(Arrays.asList(fSelectedNodes)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (!nodesInRange.isEmpty()) {
 				nodes.addAll(nodesInRange);
 			}
@@ -592,7 +592,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 			}
 			if (index > 0) {
 				source.replace(fAutoClosableNodes.get(0), replacementNode, null);
-				for (int i= 1; i < index; ++i) {
+				for (int i= 1; i < index; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					source.remove(fAutoClosableNodes.get(i), null);
 				}
 			}
@@ -601,9 +601,9 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 	}
 
 	public static IMethodBinding findAutocloseMethod(ITypeBinding type) {
-		while (type != null) {
+		while (type != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding[] methods= type.getDeclaredMethods();
-			for (IMethodBinding method : methods) {
+			for (IMethodBinding method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ("close".equals(method.getName()) && method.getParameterTypes().length == 0) { //$NON-NLS-1$
 					return method;
 				}
@@ -616,7 +616,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 	private int findEndPosition(ASTNode node) {
 		int end= node.getStartPosition() + node.getLength();
 		Map<SimpleName, IVariableBinding> nodeSimpleNameBindings= fAnalyzer.getVariableStatementBinding(node);
-		List<SimpleName> nodeNames= new ArrayList<>(nodeSimpleNameBindings.keySet());
+		List<SimpleName> nodeNames= new ArrayList<>(nodeSimpleNameBindings.keySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (nodeNames.isEmpty()) {
 			return -1;
 		}
@@ -625,15 +625,15 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 		if (coveredNodeBindings.length == 0) {
 			return -1;
 		}
-		for (ASTNode astNode : coveredNodeBindings) {
+		for (ASTNode astNode : coveredNodeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			end= Math.max(end, (astNode.getStartPosition() + astNode.getLength()));
 		}
 		return end;
 	}
 
 	// find all nodes (statements) that are within the start/end positions
-	public static List<ASTNode> findNodesInRange(ASTNode astNode, final int start, final int end) {
-		List<ASTNode> nodesInRange= new ArrayList<>();
+	public static List<ASTNode> findNodesInRange(ASTNode astNode, final int start, final int end) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ASTNode> nodesInRange= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		astNode.accept(new ASTVisitor() {
 			int pre= start;
 
@@ -648,7 +648,7 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 				int post= postNode.getStartPosition() + postNode.getLength();
 				if (pre >= start && post <= end) {
 					Statement statement= ASTResolving.findParentStatement(postNode);
-					while (statement != null && statement.getParent() != astNode) {
+					while (statement != null && statement.getParent() != astNode) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ASTNode parent= statement.getParent();
 						if (parent == null) {
 							return;
@@ -666,8 +666,8 @@ public class SurroundWithTryWithResourcesRefactoringCore extends Refactoring {
 	}
 
 	private List<ASTNode> getSpecialVariableDeclarationStatements() {
-		List<ASTNode> result= new ArrayList<>(3);
-		for (VariableDeclaration local : fAnalyzer.getAffectedLocals()) {
+		List<ASTNode> result= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (VariableDeclaration local : fAnalyzer.getAffectedLocals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode parent= local.getParent();
 			if (parent instanceof VariableDeclarationStatement && !result.contains(parent))
 				result.add(parent);

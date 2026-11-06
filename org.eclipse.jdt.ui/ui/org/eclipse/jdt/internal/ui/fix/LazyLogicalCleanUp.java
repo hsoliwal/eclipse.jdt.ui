@@ -74,34 +74,34 @@ public class LazyLogicalCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isEnabled(CleanUpConstants.USE_LAZY_LOGICAL_OPERATOR)) {
-			bld.append("boolean b = isEnabled || isValid;\n"); //$NON-NLS-1$
-			bld.append("boolean b2 = isEnabled && isValid;\n"); //$NON-NLS-1$
+			bld.append("boolean b = isEnabled || isValid;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("boolean b2 = isEnabled && isValid;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("boolean b = isEnabled | isValid;\n"); //$NON-NLS-1$
-			bld.append("boolean b2 = isEnabled & isValid;\n"); //$NON-NLS-1$
+			bld.append("boolean b = isEnabled | isValid;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("boolean b2 = isEnabled & isValid;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.USE_LAZY_LOGICAL_OPERATOR)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(InfixExpression node) {
 				if (ASTNodes.hasOperator(node, InfixExpression.Operator.AND, InfixExpression.Operator.OR)) {
 					List<Expression> allOperands= ASTNodes.allOperands(node);
 					boolean isFirst= true;
 
-					for (Expression expression : allOperands) {
+					for (Expression expression : allOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!ASTNodes.hasType(expression, boolean.class.getSimpleName(), Boolean.class.getCanonicalName())) {
 							return true;
 						}
@@ -146,15 +146,15 @@ public class LazyLogicalCleanUp extends AbstractMultiFix {
 			this.node= node;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.CodeStyleCleanUp_LazyLogical_description, cuRewrite);
 			List<Expression> allOperands= ASTNodes.allOperands(node);
-			List<Expression> copyOfOperands= new ArrayList<>(allOperands.size());
+			List<Expression> copyOfOperands= new ArrayList<>(allOperands.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (Expression expression : allOperands) {
+			for (Expression expression : allOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				copyOfOperands.add((Expression) rewrite.createMoveTarget(expression));
 			}
 

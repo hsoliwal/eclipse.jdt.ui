@@ -64,7 +64,7 @@ import org.eclipse.jdt.internal.corext.refactoring.util.RefactoringASTParser;
 public class CompilationUnitRewrite {
 	//TODO: add RefactoringStatus fStatus;?
 	private ICompilationUnit fCu;
-	private List<TextEditGroup> fTextEditGroups= new ArrayList<>();
+	private List<TextEditGroup> fTextEditGroups= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private CompilationUnit fRoot; // lazily initialized
 	private ASTRewrite fRewrite; // lazily initialized
@@ -163,7 +163,7 @@ public class CompilationUnitRewrite {
 
 	public void clearASTRewrite() {
 		fRewrite= null;
-		fTextEditGroups= new ArrayList<>();
+		fTextEditGroups= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void clearImportRewrites() {
@@ -265,7 +265,7 @@ public class CompilationUnitRewrite {
 	 * @return a change combining the changes of this rewrite and the given rewrite, or <code>null</code> for an empty change
 	 * @throws CoreException when text buffer acquisition or import rewrite text edit creation fails
 	 */
-	public CompilationUnitChange attachChange(CompilationUnitChange cuChange, boolean generateGroups, IProgressMonitor monitor) throws CoreException {
+	public CompilationUnitChange attachChange(CompilationUnitChange cuChange, boolean generateGroups, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			boolean needsAstRewrite= fRewrite != null; // TODO: do we need something like ASTRewrite#hasChanges() here?
 			boolean needsImportRemoval= fImportRemover != null && fImportRemover.hasRemovedNodes();
@@ -295,7 +295,7 @@ public class CompilationUnitRewrite {
 				if (!isEmptyEdit(rewriteEdit)) {
 					multiEdit.addChild(rewriteEdit);
 					if (generateGroups) {
-						for (TextEditGroup group : fTextEditGroups) {
+						for (TextEditGroup group : fTextEditGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							cuChange.addTextEditGroup(group);
 						}
 					}
@@ -353,7 +353,7 @@ public class CompilationUnitRewrite {
 		return fRewrite;
 	}
 
-	public ImportRewrite getImportRewrite() {
+	public ImportRewrite getImportRewrite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fImportRewrite == null) {
 			// lazily initialized to avoid lengthy processing in checkInitialConditions(..)
 			try {
@@ -391,7 +391,7 @@ public class CompilationUnitRewrite {
 	}
 
 	private void clearGroupDescriptionEdits() {
-		for (TextEditGroup group : fTextEditGroups) {
+		for (TextEditGroup group : fTextEditGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			group.clearTextEdits();
 		}
 	}

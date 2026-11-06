@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
  *
  * @since 3.2
  */
-public class SourceCreationOperation extends AbstractCodeCreationOperation {
+public class SourceCreationOperation extends AbstractCodeCreationOperation { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/**
 	 * Creates a new source creation operation.
@@ -83,7 +83,7 @@ public class SourceCreationOperation extends AbstractCodeCreationOperation {
 				final IType type= ((IOrdinaryClassFile) file).getType();
 				if (type.isAnonymous() || type.isLocal() || type.isMember())
 					return;
-				createCompilationUnit(parent, type.getElementName() + JavaModelUtil.DEFAULT_CU_SUFFIX, source != null ? source : "", monitor); //$NON-NLS-1$
+				createCompilationUnit(parent, type.getElementName() + JavaModelUtil.DEFAULT_CU_SUFFIX, source != null ? source : "", monitor); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} finally {
 			monitor.done();

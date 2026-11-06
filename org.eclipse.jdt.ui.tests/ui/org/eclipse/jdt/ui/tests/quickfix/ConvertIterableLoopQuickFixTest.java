@@ -97,7 +97,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		fSourceFolder= null;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimplestSmokeCase() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -138,7 +138,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNextFromOtherClass() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -190,7 +190,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIteratorWithoutAssignment() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -230,7 +230,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIteratorWithParentMethodBinding() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -271,7 +271,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCommentRetainedOnIteratorRemoval() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -313,7 +313,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRawIterator() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -360,7 +360,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongInitializer() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -390,7 +390,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChildren() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -430,7 +430,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug553634() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -478,7 +478,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 	 * see https://bugs.eclipse.org/bugs/show_bug.cgi?id=553635
 	 * @throws Exception Any exception
 	 */
-	@Ignore("Bug 553635")
+	@Ignore("Bug 553635") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void testIndentation() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
@@ -521,7 +521,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumeration() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -562,7 +562,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSplitAssignment() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -604,7 +604,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndirectUsage() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -648,7 +648,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodCall1() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -697,7 +697,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodCall2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -746,7 +746,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNested() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -792,7 +792,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodCall3() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -841,7 +841,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoAssignment() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -886,7 +886,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOutsideAssignment1() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -913,7 +913,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOutsideAssignment2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test", false, null);
 		String sample= """
@@ -940,7 +940,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWildcard1() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("a", false, null);
 		String sample= """
@@ -978,7 +978,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWildcard2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("a", false, null);
 		String sample= """
@@ -1016,7 +1016,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug129508_1() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1039,7 +1039,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug129508_2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1062,7 +1062,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug129508_3() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1085,7 +1085,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug129508_4() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1108,7 +1108,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug110599() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("a", false, null);
 		String sample= """
@@ -1151,7 +1151,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug176595() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1174,7 +1174,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertNull(fConvertLoopProposal);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug176502() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1216,7 +1216,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug203693() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1263,7 +1263,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug194639() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1305,7 +1305,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongIteratorMethod() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1360,7 +1360,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWrongIteratorMethod_bug411588() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1430,7 +1430,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCorrectIteratorMethod() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1485,7 +1485,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test487429() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1538,7 +1538,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug510758_1() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -1566,7 +1566,7 @@ public final class ConvertIterableLoopQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug510758_2() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """

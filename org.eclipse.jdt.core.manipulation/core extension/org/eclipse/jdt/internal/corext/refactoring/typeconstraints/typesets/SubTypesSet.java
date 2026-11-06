@@ -59,7 +59,7 @@ public class SubTypesSet extends TypeSet {
 		return fUpperBounds.hashCode();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TypeSet specialCasesIntersectedWith(TypeSet s2) {
 		if (fUpperBounds.equals(s2))
 			return s2; // xsect(subTypes(A),A) = A
@@ -129,7 +129,7 @@ public class SubTypesSet extends TypeSet {
 		return fUpperBounds.isEmpty();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean contains(TType t) {
 		if (fEnumCache != null) return fEnumCache.contains(t);
 
@@ -140,7 +140,7 @@ public class SubTypesSet extends TypeSet {
 		// the given type is a subtype of any of those.
 		Iterator<TType> ubIter= fUpperBounds.upperBound().iterator();
 
-		for(; ubIter.hasNext(); ) {
+		for(; ubIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType ub= ubIter.next();
 
 			if (TTypes.canAssignTo(t, ub))
@@ -149,7 +149,7 @@ public class SubTypesSet extends TypeSet {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean containsAll(TypeSet s) {
 		if (fEnumCache != null) return fEnumCache.containsAll(s);
 
@@ -157,13 +157,13 @@ public class SubTypesSet extends TypeSet {
 			return true;
 
 		// Make sure all elements of s are contained in this set
-		for(Iterator<TType> sIter= s.iterator(); sIter.hasNext(); ) {
+		for(Iterator<TType> sIter= s.iterator(); sIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= sIter.next();
 			boolean found= false;
 
 			// Scan the "upper frontier", i.e. the upper bound set, and see whether
 			// 't' is a subtype of any of those.
-			for(Iterator<TType> ubIter= fUpperBounds /*.upperBound() */.iterator(); ubIter.hasNext(); ) {
+			for(Iterator<TType> ubIter= fUpperBounds /*.upperBound() */.iterator(); ubIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType ub= ubIter.next();
 
 				if (TTypes.canAssignTo(t, ub)) {
@@ -221,7 +221,7 @@ public class SubTypesSet extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "<" + fID + ": subTypes(" + fUpperBounds + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "<" + fID + ": subTypes(" + fUpperBounds + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -246,21 +246,21 @@ public class SubTypesSet extends TypeSet {
 
 	private EnumeratedTypeSet fEnumCache= null;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public EnumeratedTypeSet enumerate() {
 		if (fEnumCache == null) {
 			fEnumCache= new EnumeratedTypeSet(getTypeSetEnvironment());
 
-			for(Iterator<TType> iter= fUpperBounds.iterator(); iter.hasNext(); ) {
+			for(Iterator<TType> iter= fUpperBounds.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType ub= iter.next();
 
 				if (ub instanceof ArrayType) {
 					ArrayType at= (ArrayType) ub;
 					int numDims= at.getDimensions();
-					for(Iterator<TType> elemSubIter=TTypes.getAllSubTypesIterator(at.getElementType()); elemSubIter.hasNext(); )
+					for(Iterator<TType> elemSubIter=TTypes.getAllSubTypesIterator(at.getElementType()); elemSubIter.hasNext(); ) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fEnumCache.add(TTypes.createArrayType(elemSubIter.next(), numDims));
 				} else {
-					for (Iterator<TType> iterator= TTypes.getAllSubTypesIterator(ub); iterator.hasNext();) {
+					for (Iterator<TType> iterator= TTypes.getAllSubTypesIterator(ub); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fEnumCache.fMembers.add(iterator.next());
 					}
 				}

@@ -63,11 +63,11 @@ public class NLSSearchTestHelper {
 
 	private static void assertNumberResults(NLSSearchResult result, int expected) {
 		int is= result.getElements().length;
-		Assert.assertEquals("Expected number of results is " + expected + " but was " + is, expected, is);
+		Assert.assertEquals("Expected number of results is " + expected + " but was " + is, expected, is); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static void assertResultHasUndefinedKey(String key, IFile file, boolean isAccessor, NLSSearchResult result) throws CoreException {
-		for (Match match : result.getFileMatchAdapter().computeContainedMatches(result, file)) {
+		for (Match match : result.getFileMatchAdapter().computeContainedMatches(result, file)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (match.getElement() instanceof ICompilationUnit) {
 				ICompilationUnit unit= (ICompilationUnit)match.getElement();
 				String field= unit.getSource().substring(match.getOffset(), match.getOffset() + match.getLength());
@@ -76,11 +76,11 @@ public class NLSSearchTestHelper {
 			}
 		}
 
-		Assert.fail("No undefined key problem found for " + key + " in " + file.getName());
+		Assert.fail("No undefined key problem found for " + key + " in " + file.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private static void assertResultHasUnusedKey(String key, IFile file, boolean isAccessor, NLSSearchResult result) throws IOException, CoreException {
-		for (Match match : result.getFileMatchAdapter().computeContainedMatches(result, file)) {
+	private static void assertResultHasUnusedKey(String key, IFile file, boolean isAccessor, NLSSearchResult result) throws IOException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Match match : result.getFileMatchAdapter().computeContainedMatches(result, file)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (match.getElement() instanceof CompilationUnitEntry) {
 				ICompilationUnit unit= ((CompilationUnitEntry)match.getElement()).getCompilationUnit();
 				String field= unit.getSource().substring(match.getOffset(), match.getOffset() + match.getLength());
@@ -95,16 +95,16 @@ public class NLSSearchTestHelper {
 			}
 		}
 
-		Assert.fail("No unused key problem found for " + key + " in " + file.getName());
+		Assert.fail("No unused key problem found for " + key + " in " + file.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static String getContent(IFile entry) throws CoreException, IOException {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (InputStream contents= entry.getContents()) {
 			char ch= (char)contents.read();
 			int avilable= contents.available();
-			while (avilable > 0 && ch != -1) {
-				buf.append(ch);
+			while (avilable > 0 && ch != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				ch= (char)contents.read();
 				avilable--;
 			}
@@ -113,7 +113,7 @@ public class NLSSearchTestHelper {
 	}
 
 	private static void assertResultHasDuplicateKey(String key, IFile file, NLSSearchResult result) throws CoreException, IOException {
-		for (Match match : result.getFileMatchAdapter().computeContainedMatches(result, file)) {
+		for (Match match : result.getFileMatchAdapter().computeContainedMatches(result, file)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (match.getElement() instanceof FileEntry) {
 				FileEntry entry= (FileEntry)match.getElement();
 				String content= getContent(entry.getPropertiesFile());
@@ -123,6 +123,6 @@ public class NLSSearchTestHelper {
 			}
 		}
 
-		Assert.fail("No duplicate key problem found for " + key + " in " + file.getName());
+		Assert.fail("No duplicate key problem found for " + key + " in " + file.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

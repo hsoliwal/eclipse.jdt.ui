@@ -56,7 +56,7 @@ public class TreeHierarchyLayoutProblemsDecorator extends ProblemsLabelDecorator
 			return computePackageAdornmentFlags((IPackageFragment) element);
 		} else if (element instanceof LogicalPackage) {
 			int res= 0;
-			for (IPackageFragment fragment : ((LogicalPackage) element).getFragments()) {
+			for (IPackageFragment fragment : ((LogicalPackage) element).getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int flags= computePackageAdornmentFlags(fragment);
 				if (flags == JavaElementImageDescriptor.ERROR) {
 					return flags;

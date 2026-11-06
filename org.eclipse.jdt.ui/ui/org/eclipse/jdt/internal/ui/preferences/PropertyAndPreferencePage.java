@@ -93,7 +93,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 		return fData == null || !Boolean.TRUE.equals(fData.get(DATA_NO_LINK));
 	}
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Label createDescriptionLabel(Composite parent) {
 		fParentComposite= parent;
 		if (isProjectPreferencePage()) {
@@ -142,7 +142,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	/*
 	 * @see org.eclipse.jface.preference.IPreferencePage#createContents(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		Composite composite= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
@@ -168,8 +168,8 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	private Link createLink(Composite composite, String text) {
 		Link link= new Link(composite, SWT.NONE);
 		link.setFont(composite.getFont());
-		link.setText("<A>" + text + "</A>");  //$NON-NLS-1$//$NON-NLS-2$
-		link.addSelectionListener(new SelectionListener() {
+		link.setText("<A>" + text + "</A>");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		link.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				doLinkActivated((Link) e.widget);
@@ -200,18 +200,18 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 	 *
 	 * @param link the link
 	 */
-	final void doLinkActivated(Link link) {
+	final void doLinkActivated(Link link) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, Object> data= getData();
 		if (data == null)
-			data= new HashMap<>();
+			data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		data.put(DATA_NO_LINK, Boolean.TRUE);
 
 		if (isProjectPreferencePage()) {
 			openWorkspacePreferences(data);
 		} else {
-			HashSet<IJavaProject> projectsWithSpecifics= new HashSet<>();
+			HashSet<IJavaProject> projectsWithSpecifics= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			try {
-				for (IJavaProject curr : JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).getJavaProjects()) {
+				for (IJavaProject curr : JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (hasProjectSpecificOptions(curr.getProject())) {
 						projectsWithSpecifics.add(curr);
 					}

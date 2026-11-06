@@ -60,8 +60,8 @@ public class JspIndexParser extends AbstractJspParser implements IIndexer {
 		if (fInUseBean) {
 			if (fId != null && fClass != null) {
 
-				String s= JSP_TYPE_REF + "/" + fClass; //$NON-NLS-1$
-				System.out.println("  " + s); //$NON-NLS-1$
+				String s= JSP_TYPE_REF + "/" + fClass; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				System.out.println("  " + s); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fOutput.addRef(s, fFilePath);
 
 				fId= fClass= null;
@@ -70,7 +70,7 @@ public class JspIndexParser extends AbstractJspParser implements IIndexer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void index(IIndex indexerOutput) throws IOException {
 
 		String type= fFile.getFileExtension();

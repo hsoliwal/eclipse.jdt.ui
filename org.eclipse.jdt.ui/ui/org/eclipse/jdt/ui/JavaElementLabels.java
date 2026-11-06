@@ -404,7 +404,7 @@ public class JavaElementLabels {
 	 * @param flags the rendering flags
 	 * @return the label or the empty string if the object type is not supported
 	 */
-	public static String getTextLabel(Object obj, long flags) {
+	public static String getTextLabel(Object obj, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (obj instanceof IJavaElement) {
 			return getElementLabel((IJavaElement) obj, flags);
 
@@ -443,7 +443,7 @@ public class JavaElementLabels {
 	 *
 	 * @since 3.4
 	 */
-	public static StyledString getStyledTextLabel(Object obj, long flags) {
+	public static StyledString getStyledTextLabel(Object obj, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (obj instanceof IJavaElement) {
 			return getStyledElementLabel((IJavaElement) obj, flags);
 
@@ -847,7 +847,7 @@ public class JavaElementLabels {
 	 *
 	 * @since 3.4
 	 */
-	public static StyledString getStyledContainerEntryLabel(IPath containerPath, IJavaProject project) {
+	public static StyledString getStyledContainerEntryLabel(IPath containerPath, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathContainer container= JavaCore.getClasspathContainer(containerPath, project);
 			String description= null;

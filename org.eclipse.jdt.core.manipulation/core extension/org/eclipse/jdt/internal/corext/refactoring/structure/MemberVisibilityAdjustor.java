@@ -163,7 +163,7 @@ public final class MemberVisibilityAdjustor {
 		 * @param status the refactoring status, or <code>null</code>
 		 * @throws JavaModelException if an error occurs
 		 */
-		protected final void rewriteVisibility(final MemberVisibilityAdjustor adjustor, final ASTRewrite rewrite, final CompilationUnit root, final CategorizedTextEditGroup group, final RefactoringStatus status) throws JavaModelException {
+		protected final void rewriteVisibility(final MemberVisibilityAdjustor adjustor, final ASTRewrite rewrite, final CompilationUnit root, final CategorizedTextEditGroup group, final RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assert.isNotNull(adjustor);
 			Assert.isNotNull(rewrite);
 			Assert.isNotNull(root);
@@ -188,7 +188,7 @@ public final class MemberVisibilityAdjustor {
 		/*
 		 * @see org.eclipse.jdt.internal.corext.refactoring.structure.MemberVisibilityAdjustor.IVisibilityAdjustment#rewriteVisibility(org.eclipse.jdt.internal.corext.refactoring.structure.MemberVisibilityAdjustor, org.eclipse.core.runtime.IProgressMonitor)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteVisibility(final MemberVisibilityAdjustor adjustor, final IProgressMonitor monitor) throws JavaModelException {
 			Assert.isNotNull(adjustor);
 			Assert.isNotNull(monitor);
@@ -429,7 +429,7 @@ public final class MemberVisibilityAdjustor {
 	}
 
 	/** The map of members to visibility adjustments */
-	private Map<IMember, IncomingMemberVisibilityAdjustment> fAdjustments= new LinkedHashMap<>(); // LinkedHashMap to preserve order of generated warnings
+	private Map<IMember, IncomingMemberVisibilityAdjustment> fAdjustments= new LinkedHashMap<>(); // LinkedHashMap to preserve order of generated warnings //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 
 	/** Should incoming references be adjusted? */
 	private boolean fIncoming= true;
@@ -450,7 +450,7 @@ public final class MemberVisibilityAdjustor {
 	private ASTRewrite fRewrite= null;
 
 	/** The map of compilation units to compilation unit rewrites */
-	private Map<ICompilationUnit, CompilationUnitRewrite> fRewrites= new HashMap<>(3);
+	private Map<ICompilationUnit, CompilationUnitRewrite> fRewrites= new HashMap<>(3); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/** The root node of the AST rewrite for reference visibility adjustments, or <code>null</code> to use a compilation unit rewrite */
 	private CompilationUnit fRoot= null;
@@ -509,12 +509,12 @@ public final class MemberVisibilityAdjustor {
 	 * @param monitor the progress monitor to use
 	 * @throws JavaModelException if an error occurs
 	 */
-	private void adjustMemberVisibility(final IMember member, final IProgressMonitor monitor) throws JavaModelException {
+	private void adjustMemberVisibility(final IMember member, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (member instanceof IType) {
 			// recursively check accessibility of member type's members
 			final IJavaElement[] typeMembers= member.getChildren();
-			for (IJavaElement typeMember : typeMembers) {
+			for (IJavaElement typeMember : typeMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! (typeMember instanceof IInitializer))
 					adjustMemberVisibility((IMember) typeMember, monitor);
 			}
@@ -523,8 +523,8 @@ public final class MemberVisibilityAdjustor {
 		if (member.equals(fReferenced) || Modifier.isPublic(member.getFlags()))
 			return;
 
-		for (SearchResultGroup reference : findReferences(member, monitor)) {
-			for (SearchMatch searchResult : reference.getSearchResults()) {
+		for (SearchResultGroup reference : findReferences(member, monitor)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (SearchMatch searchResult : reference.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IJavaElement referenceToMember= (IJavaElement) searchResult.getElement();
 				if (fAdjustments.get(member) == null && referenceToMember instanceof IMember && !isInsideMovedMember(referenceToMember)) {
 					// check whether the member is still visible from the
@@ -543,7 +543,7 @@ public final class MemberVisibilityAdjustor {
 	 */
 	private boolean isInsideMovedMember(final IJavaElement element) {
 		IJavaElement current= element;
-		while ((current= current.getParent()) != null)
+		while ((current= current.getParent()) != null) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (current.equals(fReferenced))
 				return true;
 		return false;
@@ -583,13 +583,13 @@ public final class MemberVisibilityAdjustor {
 	 * @param monitor the progress monitor to use
 	 * @throws JavaModelException if the java elements could not be accessed
 	 */
-	private void adjustIncomingVisibility(final SearchResultGroup[] groups, final IProgressMonitor monitor) throws JavaModelException {
+	private void adjustIncomingVisibility(final SearchResultGroup[] groups, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", groups.length); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.MemberVisibilityAdjustor_checking);
 			boolean adjusted= false;
-			for (SearchResultGroup group : groups) {
-				for (SearchMatch match : group.getSearchResults()) {
+			for (SearchResultGroup group : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (SearchMatch match : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final Object element= match.getElement();
 					if (element instanceof IMember && !isInsideMovedMember((IMember) element)) {
 						// found one reference which is not inside the moved
@@ -672,7 +672,7 @@ public final class MemberVisibilityAdjustor {
 		try {
 			monitor.beginTask("", members.size()); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.MemberVisibilityAdjustor_checking);
-			for (IMember member : members) {
+			for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!member.isBinary() && !member.isReadOnly() && !isInsideMovedMember(member)) {
 					adjustOutgoingVisibilityChain(member, monitor);
 				}
@@ -707,14 +707,14 @@ public final class MemberVisibilityAdjustor {
 	 * @param monitor the progress monitor to us
 	 * @throws JavaModelException if the visibility could not be determined
 	 */
-	private void adjustOutgoingVisibility(final SearchResultGroup[] groups, final IProgressMonitor monitor) throws JavaModelException {
+	private void adjustOutgoingVisibility(final SearchResultGroup[] groups, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", groups.length); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.MemberVisibilityAdjustor_checking);
-			for (SearchResultGroup group : groups) {
+			for (SearchResultGroup group : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement element= JavaCore.create(group.getResource());
 				if (element instanceof ICompilationUnit) {
-					for (SearchMatch match : group.getSearchResults())
+					for (SearchMatch match : group.getSearchResults()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						adjustOutgoingVisibility(match, Progress.subMonitor(monitor, 1));
 				} // else if (element != null)
 				// fStatus.merge(RefactoringStatus.createStatus(fFailureSeverity, RefactoringCoreMessages.getFormattedString("MemberVisibilityAdjustor.binary.outgoing.project", new String[] { element.getJavaProject().getElementName(), getLabel(fReferenced)}), null, null, RefactoringStatusEntry.NO_CODE, null)); //$NON-NLS-1$
@@ -736,7 +736,7 @@ public final class MemberVisibilityAdjustor {
 	 * @param monitor the progress monitor to use
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void adjustVisibility(final IProgressMonitor monitor) throws JavaModelException {
+	public void adjustVisibility(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", 8); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.MemberVisibilityAdjustor_checking);
@@ -785,7 +785,7 @@ public final class MemberVisibilityAdjustor {
 	 * @return the visibility keyword corresponding to the threshold, or <code>null</code> for default visibility
 	 * @throws JavaModelException if the java elements could not be accessed
 	 */
-	public ModifierKeyword getVisibilityThreshold(final IJavaElement referencing, final IMember referenced, final IProgressMonitor monitor) throws JavaModelException {
+	public ModifierKeyword getVisibilityThreshold(final IJavaElement referencing, final IMember referenced, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(!(referencing instanceof IInitializer));
 		Assert.isTrue(!(referenced instanceof IInitializer));
 		ModifierKeyword keyword= ModifierKeyword.PUBLIC_KEYWORD;
@@ -900,7 +900,7 @@ public final class MemberVisibilityAdjustor {
 	 * @return the visibility keyword corresponding to the threshold, or <code>null</code> for default visibility
 	 * @throws JavaModelException if the java elements could not be accessed
 	 */
-	private ModifierKeyword computeOutgoingVisibilityThreshold(final IJavaElement referencing, final IMember referenced, final IProgressMonitor monitor) throws JavaModelException {
+	private ModifierKeyword computeOutgoingVisibilityThreshold(final IJavaElement referencing, final IMember referenced, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(referencing instanceof ICompilationUnit || referencing instanceof IType || referencing instanceof IPackageFragment);
 		Assert.isTrue(referenced instanceof IType || referenced instanceof IField || referenced instanceof IMethod);
 		ModifierKeyword keyword= ModifierKeyword.PUBLIC_KEYWORD;
@@ -1035,7 +1035,7 @@ public final class MemberVisibilityAdjustor {
 	 * @return the type hierarchy
 	 * @throws JavaModelException if the type hierarchy could not be created
 	 */
-	private ITypeHierarchy getTypeHierarchy(final IType type, final IProgressMonitor monitor) throws JavaModelException {
+	private ITypeHierarchy getTypeHierarchy(final IType type, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeHierarchy hierarchy= null;
 		try {
 			monitor.beginTask("", 1); //$NON-NLS-1$
@@ -1078,13 +1078,13 @@ public final class MemberVisibilityAdjustor {
 	 * @param monitor the progress monitor to use
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void rewriteVisibility(final ICompilationUnit unit, final IProgressMonitor monitor) throws JavaModelException {
+	public void rewriteVisibility(final ICompilationUnit unit, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", fAdjustments.size()); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.MemberVisibilityAdjustor_adjusting);
 			IMember member= null;
 			IVisibilityAdjustment adjustment= null;
-			for (final Iterator<IMember> iterator= fAdjustments.keySet().iterator(); iterator.hasNext();) {
+			for (final Iterator<IMember> iterator= fAdjustments.keySet().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				member= iterator.next();
 				if (unit.equals(member.getCompilationUnit())) {
 					adjustment= fAdjustments.get(member);
@@ -1104,13 +1104,13 @@ public final class MemberVisibilityAdjustor {
 	 * @param monitor the progress monitor to use
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void rewriteVisibility(final IProgressMonitor monitor) throws JavaModelException {
+	public void rewriteVisibility(final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask("", fAdjustments.size()); //$NON-NLS-1$
 			monitor.setTaskName(RefactoringCoreMessages.MemberVisibilityAdjustor_adjusting);
 			IMember member= null;
 			IVisibilityAdjustment adjustment= null;
-			for (final Iterator<IMember> iterator= fAdjustments.keySet().iterator(); iterator.hasNext();) {
+			for (final Iterator<IMember> iterator= fAdjustments.keySet().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				member= iterator.next();
 				adjustment= fAdjustments.get(member);
 				if (adjustment != null)
@@ -1261,14 +1261,14 @@ public final class MemberVisibilityAdjustor {
 	 * @return the visibility keyword corresponding to the threshold, or <code>null</code> for default visibility
 	 * @throws JavaModelException if the java elements could not be accessed
 	 */
-	private ModifierKeyword thresholdTypeToField(final IType referencing, final IField referenced, final IProgressMonitor monitor) throws JavaModelException {
+	private ModifierKeyword thresholdTypeToField(final IType referencing, final IField referenced, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ModifierKeyword keyword= ModifierKeyword.PUBLIC_KEYWORD;
 		final ICompilationUnit referencedUnit= referenced.getCompilationUnit();
 		if (referenced.getDeclaringType().equals(referencing))
 			keyword= ModifierKeyword.PRIVATE_KEYWORD;
 		else {
 			final ITypeHierarchy hierarchy= getTypeHierarchy(referencing, Progress.subMonitor(monitor, 1));
-			for (IType superType : hierarchy.getSupertypes(referencing)) {
+			for (IType superType : hierarchy.getSupertypes(referencing)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (superType.equals(referenced.getDeclaringType())) {
 					keyword= ModifierKeyword.PROTECTED_KEYWORD;
 					return keyword;
@@ -1292,18 +1292,18 @@ public final class MemberVisibilityAdjustor {
 	 * @return the visibility keyword corresponding to the threshold, or <code>null</code> for default visibility
 	 * @throws JavaModelException if the java elements could not be accessed
 	 */
-	private ModifierKeyword thresholdTypeToMethod(final IType referencing, final IMethod referenced, final IProgressMonitor monitor) throws JavaModelException {
+	private ModifierKeyword thresholdTypeToMethod(final IType referencing, final IMethod referenced, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit referencedUnit= referenced.getCompilationUnit();
 		ModifierKeyword keyword= ModifierKeyword.PUBLIC_KEYWORD;
 		IType tmp= referenced.getDeclaringType();
-		while (tmp != null) {
+		while (tmp != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tmp.equals(referencing)) {
 				return ModifierKeyword.PRIVATE_KEYWORD;
 			}
 			tmp= tmp.getDeclaringType();
 		}
 		final ITypeHierarchy hierarchy= getTypeHierarchy(referencing, Progress.subMonitor(monitor, 1));
-		for (IType superType : hierarchy.getSupertypes(referencing)) {
+		for (IType superType : hierarchy.getSupertypes(referencing)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (superType.equals(referenced.getDeclaringType())) {
 				return ModifierKeyword.PROTECTED_KEYWORD;
 			}
@@ -1311,11 +1311,11 @@ public final class MemberVisibilityAdjustor {
 		final ICompilationUnit typeUnit= referencing.getCompilationUnit();
 		if (referencedUnit != null && referencedUnit.equals(typeUnit)) {
 			IType referencedType= referenced.getDeclaringType();
-			while (referencedType.getDeclaringType() != null) {
+			while (referencedType.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				referencedType= referencedType.getDeclaringType();
 			}
 			IType referencingType= referencing;
-			while (referencingType.getDeclaringType() != null) {
+			while (referencingType.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				referencingType= referencingType.getDeclaringType();
 			}
 			if (!referencedType.getFullyQualifiedName().equals(referencingType.getFullyQualifiedName()))
@@ -1336,14 +1336,14 @@ public final class MemberVisibilityAdjustor {
 	 * @return the visibility keyword corresponding to the threshold, or <code>null</code> for default visibility
 	 * @throws JavaModelException if the java elements could not be accessed
 	 */
-	private ModifierKeyword thresholdTypeToType(final IType referencing, final IType referenced, final IProgressMonitor monitor) throws JavaModelException {
+	private ModifierKeyword thresholdTypeToType(final IType referencing, final IType referenced, final IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ModifierKeyword keyword= ModifierKeyword.PUBLIC_KEYWORD;
 		final ICompilationUnit referencedUnit= referenced.getCompilationUnit();
 		if (referencing.equals(referenced.getDeclaringType()))
 			keyword= ModifierKeyword.PRIVATE_KEYWORD;
 		else {
 			final ITypeHierarchy hierarchy= getTypeHierarchy(referencing, Progress.subMonitor(monitor, 1));
-			for (IType superType : hierarchy.getSupertypes(referencing)) {
+			for (IType superType : hierarchy.getSupertypes(referencing)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (superType.equals(referenced)) {
 					keyword= null;
 					return keyword;

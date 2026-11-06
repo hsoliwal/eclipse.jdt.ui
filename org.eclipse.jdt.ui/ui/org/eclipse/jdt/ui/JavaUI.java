@@ -359,7 +359,7 @@ public final class JavaUI {
 	 *
 	 * @since 2.0
 	 */
-	public static SelectionDialog createPackageDialog(Shell parent, IJavaProject project, int style, String filter) throws JavaModelException {
+	public static SelectionDialog createPackageDialog(Shell parent, IJavaProject project, int style, String filter) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue((style | IJavaElementSearchConstants.CONSIDER_BINARIES | IJavaElementSearchConstants.CONSIDER_REQUIRED_PROJECTS) ==
 			(IJavaElementSearchConstants.CONSIDER_BINARIES | IJavaElementSearchConstants.CONSIDER_REQUIRED_PROJECTS));
 
@@ -374,8 +374,8 @@ public final class JavaUI {
 		if ((style & IJavaElementSearchConstants.CONSIDER_BINARIES) != 0) {
 			consideredRoots= Arrays.asList(roots);
 		} else {
-			consideredRoots= new ArrayList<>(roots.length);
-			for (IPackageFragmentRoot root : roots) {
+			consideredRoots= new ArrayList<>(roots.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.getKind() != IPackageFragmentRoot.K_BINARY)
 					consideredRoots.add(root);
 			}
@@ -654,7 +654,7 @@ public final class JavaUI {
 	 *
 	 * @since 3.2
 	 */
-	public static SelectionDialog createTypeDialog(Shell parent, IRunnableContext context, IJavaSearchScope scope, int style,
+	public static SelectionDialog createTypeDialog(Shell parent, IRunnableContext context, IJavaSearchScope scope, int style, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean multipleSelection, String filter, TypeSelectionExtension extension) throws JavaModelException {
 		int elementKinds= 0;
 		switch (style) {
@@ -903,8 +903,8 @@ public final class JavaUI {
 	@Deprecated
 	public static org.eclipse.jdt.core.IWorkingCopy[] getSharedWorkingCopiesOnClasspath() {
 		org.eclipse.jdt.core.IWorkingCopy[] wcs= getSharedWorkingCopies();
-		List<org.eclipse.jdt.core.IWorkingCopy> result= new ArrayList<>(wcs.length);
-		for (IWorkingCopy wc : wcs) {
+		List<org.eclipse.jdt.core.IWorkingCopy> result= new ArrayList<>(wcs.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkingCopy wc : wcs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (wc instanceof IJavaElement) {
 				IJavaElement je= (IJavaElement)wc;
 				if (je.getJavaProject().isOnClasspath(je)) {

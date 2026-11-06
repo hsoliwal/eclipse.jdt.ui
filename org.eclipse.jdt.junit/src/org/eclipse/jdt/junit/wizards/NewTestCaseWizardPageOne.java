@@ -108,13 +108,13 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 
 
 	/** Field ID of the class under test field. */
-	public final static String CLASS_UNDER_TEST= PAGE_NAME + ".classundertest"; //$NON-NLS-1$
+	public final static String CLASS_UNDER_TEST= PAGE_NAME + ".classundertest"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Field ID of the JUnit version radio buttons
 	 * @since 3.2
 	 */
-	public final static String JUNIT4TOGGLE= PAGE_NAME + ".junit4toggle"; //$NON-NLS-1$
+	public final static String JUNIT4TOGGLE= PAGE_NAME + ".junit4toggle"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String COMPLIANCE_PAGE_ID= "org.eclipse.jdt.ui.propertyPages.CompliancePreferencePage"; //$NON-NLS-1$
 	private static final String BUILD_PATH_PAGE_ID= "org.eclipse.jdt.ui.propertyPages.BuildPathsPropertyPage"; //$NON-NLS-1$
@@ -129,11 +129,11 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	private final static String TEST_SUFFIX= "Test"; //$NON-NLS-1$
 	private final static String PREFIX= "test"; //$NON-NLS-1$
 
-	private final static String STORE_SETUP= PAGE_NAME + ".USE_SETUP";	//$NON-NLS-1$
-	private final static String STORE_TEARDOWN= PAGE_NAME + ".USE_TEARDOWN"; //$NON-NLS-1$
-	private final static String STORE_SETUP_CLASS= PAGE_NAME + ".USE_SETUPCLASS";	//$NON-NLS-1$
-	private final static String STORE_TEARDOWN_CLASS= PAGE_NAME + ".USE_TEARDOWNCLASS"; //$NON-NLS-1$
-	private final static String STORE_CONSTRUCTOR= PAGE_NAME + ".USE_CONSTRUCTOR"; //$NON-NLS-1$
+	private final static String STORE_SETUP= PAGE_NAME + ".USE_SETUP";	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_TEARDOWN= PAGE_NAME + ".USE_TEARDOWN"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_SETUP_CLASS= PAGE_NAME + ".USE_SETUPCLASS";	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_TEARDOWN_CLASS= PAGE_NAME + ".USE_TEARDOWNCLASS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private final static String STORE_CONSTRUCTOR= PAGE_NAME + ".USE_CONSTRUCTOR"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	private final static int IDX_SETUP_CLASS= 0;
@@ -210,7 +210,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 *
 	 * @since 3.1
 	 */
-	public NewTestCaseWizardPageOne(NewTestCaseWizardPageTwo page2) {
+	public NewTestCaseWizardPageOne(NewTestCaseWizardPageTwo page2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(true, PAGE_NAME);
 		fPage2= page2;
 
@@ -242,7 +242,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 * Initialized the page with the current selection
 	 * @param selection The selection
 	 */
-	public void init(IStructuredSelection selection) {
+	public void init(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement element= getInitialJavaElement(selection);
 
 		initContainerPage(element, true);
@@ -342,7 +342,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 * @param version the JUnit version
 	 * @since 3.11
 	 */
-	public void setJUnitVersion(JUnitVersion version) {
+	public void setJUnitVersion(JUnitVersion version) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		internalSetJUnit(version);
 		switch (fJUnitVersion) {
 			case VERSION_5:
@@ -429,7 +429,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		return superClass.equals(getJUnit3TestSuperclassName()) || "java.lang.Object".equals(superClass); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleFieldChanged(String fieldName) {
 		super.handleFieldChanged(fieldName);
 		if (CONTAINER.equals(fieldName)) {
@@ -467,7 +467,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -495,7 +495,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		//set default and focus
 		String classUnderTest= getClassUnderTestText();
 		if (classUnderTest.length() > 0) {
-			String typeName= getUniqueJavaTypeName(getPackageFragment(), Signature.getSimpleName(classUnderTest)+TEST_SUFFIX);
+			String typeName= getUniqueJavaTypeName(getPackageFragment(), Signature.getSimpleName(classUnderTest)+TEST_SUFFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			setTypeName(typeName, true);
 		}
 
@@ -526,7 +526,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 * @param composite the parent composite
 	 * @param nColumns number of columns to span
 	 */
-	protected void createClassUnderTestControls(Composite composite, int nColumns) {
+	protected void createClassUnderTestControls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label classUnderTestLabel= new Label(composite, SWT.LEFT | SWT.WRAP);
 		classUnderTestLabel.setFont(composite.getFont());
 		classUnderTestLabel.setText(WizardMessages.NewTestCaseWizardPageOne_class_to_test_label);
@@ -536,7 +536,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		fClassUnderTestControl.setEnabled(true);
 		fClassUnderTestControl.setFont(composite.getFont());
 		fClassUnderTestControl.setText(fClassUnderTestText);
-		fClassUnderTestControl.addModifyListener(modifyEvent -> internalSetClassUnderText(((Text) modifyEvent.widget).getText()));
+		fClassUnderTestControl.addModifyListener(modifyEvent -> internalSetClassUnderText(((Text) modifyEvent.widget).getText())); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		GridData gd= new GridData();
 		gd.horizontalAlignment= GridData.FILL;
 		gd.grabExcessHorizontalSpace= true;
@@ -546,7 +546,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		fClassUnderTestButton= new Button(composite, SWT.PUSH);
 		fClassUnderTestButton.setText(WizardMessages.NewTestCaseWizardPageOne_class_to_test_browse);
 		fClassUnderTestButton.setEnabled(getPackageFragmentRoot() != null);
-		fClassUnderTestButton.addSelectionListener(new SelectionListener() {
+		fClassUnderTestButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				classToTestButtonPressed();
@@ -575,7 +575,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 *
 	 * @since 3.2
 	 */
-	protected void createJUnit4Controls(Composite composite, int nColumns) {
+	protected void createJUnit4Controls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite inner= new Composite(composite, SWT.NONE);
 		inner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, nColumns, 1));
 		GridLayout layout= new GridLayout(3, false);
@@ -590,7 +590,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		fJUnit3Button.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, 1, 1));
 		fJUnit3Button.setSelection(version == JUnitVersion.VERSION_3);
 		fJUnit3Button.setEnabled(fIsJUnitEnabled);
-		fJUnit3Button.addSelectionListener(new SelectionAdapter() {
+		fJUnit3Button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -604,7 +604,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		fJUnit4Button.setSelection(version == JUnitVersion.VERSION_4);
 		fJUnit4Button.setEnabled(fIsJUnitEnabled);
 		fJUnit4Button.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, 1, 1));
-		fJUnit4Button.addSelectionListener(new SelectionAdapter() {
+		fJUnit4Button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -618,7 +618,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		fJUnit5Button.setSelection(version == JUnitVersion.VERSION_5);
 		fJUnit5Button.setEnabled(fIsJUnitEnabled);
 		fJUnit5Button.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, false, false, 1, 1));
-		fJUnit5Button.addSelectionListener(new SelectionAdapter() {
+		fJUnit5Button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (((Button) e.widget).getSelection()) {
@@ -637,7 +637,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 *
 	 * @since 3.2
 	 */
-	protected void createBuildPathConfigureControls(Composite composite, int nColumns) {
+	protected void createBuildPathConfigureControls(Composite composite, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite inner= new Composite(composite, SWT.NONE);
 		inner.setLayoutData(new GridData(GridData.FILL, GridData.FILL, false, false, nColumns, 1));
 		GridLayout layout= new GridLayout(2, false);
@@ -651,7 +651,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 
 		fLink= new Link(inner, SWT.WRAP);
 		fLink.setText("\n\n"); //$NON-NLS-1$
-		fLink.addSelectionListener(new SelectionAdapter() {
+		fLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				performBuildpathConfiguration(e.text);
@@ -663,7 +663,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		updateBuildPathMessage();
 	}
 
-	private void performBuildpathConfiguration(Object data) {
+	private void performBuildpathConfiguration(Object data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot root= getPackageFragmentRoot();
 		if (root == null) {
 			return; // should not happen. Link shouldn't be visible
@@ -672,27 +672,27 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 
 		if ("a3".equals(data)) { // add and configure JUnit 3 //$NON-NLS-1$
 			String id= BUILD_PATH_PAGE_ID;
-			Map<String, Object> input= new HashMap<>();
+			Map<String, Object> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			IClasspathEntry newEntry= BuildPathSupport.getJUnit3ClasspathEntry();
 			input.put(BUILD_PATH_KEY_ADD_ENTRY, newEntry);
 			input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 			PreferencesUtil.createPropertyDialogOn(getShell(), javaProject, id, new String[] { id }, input).open();
 		} else if ("a4".equals(data)) { // add and configure JUnit 4 //$NON-NLS-1$
 			String id= BUILD_PATH_PAGE_ID;
-			Map<String, Object> input= new HashMap<>();
+			Map<String, Object> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			IClasspathEntry newEntry= BuildPathSupport.getJUnit4ClasspathEntry();
 			input.put(BUILD_PATH_KEY_ADD_ENTRY, newEntry);
 			input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 			PreferencesUtil.createPropertyDialogOn(getShell(), javaProject, id, new String[] { id }, input).open();
 		} else if ("b".equals(data)) { // open build path //$NON-NLS-1$
 			String id= BUILD_PATH_PAGE_ID;
-			Map<String, Object> input= new HashMap<>();
+			Map<String, Object> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 			PreferencesUtil.createPropertyDialogOn(getShell(), javaProject, id, new String[] { id }, input).open();
 		} else if ("c".equals(data)) { // open compliance //$NON-NLS-1$
 			String buildPath= BUILD_PATH_PAGE_ID;
 			String complianceId= COMPLIANCE_PAGE_ID;
-			Map<String, Boolean> input= new HashMap<>();
+			Map<String, Boolean> input= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			input.put(BUILD_PATH_BLOCK, Boolean.TRUE);
 			input.put(KEY_NO_LINK, Boolean.TRUE);
 			PreferencesUtil.createPropertyDialogOn(getShell(), javaProject, complianceId, new String[] { buildPath, complianceId  }, data).open();
@@ -719,7 +719,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		}
 	}
 
-	private IType chooseClassToTestType() {
+	private IType chooseClassToTestType() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot root= getPackageFragmentRoot();
 		if (root == null)
 			return null;
@@ -758,7 +758,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus classUnderTestChanged() {
+	protected IStatus classUnderTestChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JUnitStatus status= new JUnitStatus();
 
 
@@ -838,7 +838,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		handleFieldChanged(CLASS_UNDER_TEST);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createTypeMembers(IType type, ImportsManager imports, IProgressMonitor monitor) throws CoreException {
 		if (fMethodStubsButtons.isSelected(IDX_CONSTRUCTOR))
 			createConstructor(type, imports);
@@ -871,7 +871,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 
 	}
 
-	private void createConstructor(IType type, ImportsManager imports) throws CoreException {
+	private void createConstructor(IType type, ImportsManager imports) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeHierarchy typeHierarchy= null;
 		IType[] superTypes= null;
 		String content;
@@ -879,7 +879,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		if (type.exists()) {
 			typeHierarchy= type.newSupertypeHierarchy(null);
 			superTypes= typeHierarchy.getAllSuperclasses(type);
-			for (IType superType : superTypes) {
+			for (IType superType : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (superType.exists()) {
 					IMethod constrMethod= superType.getMethod(superType.getElementName(), new String[] {"Ljava.lang.String;"}); //$NON-NLS-1$
 					if (constrMethod.exists() && constrMethod.isConstructor()) {
@@ -898,20 +898,20 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 			content= JUnitStubUtility.genStub(type.getCompilationUnit(), getTypeName(), methodTemplate, settings, null, imports);
 		} else {
 			final String delimiter= getLineDelimiter();
-			StringBuilder buffer= new StringBuilder(32);
-			buffer.append("public "); //$NON-NLS-1$
-			buffer.append(getTypeName());
-			buffer.append('(');
+			StringBuilder buffer= new StringBuilder(32); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buffer.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(getTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (fJUnitVersion == JUnitVersion.VERSION_3) {
-				buffer.append(imports.addImport("java.lang.String")).append(" name"); //$NON-NLS-1$ //$NON-NLS-2$
+				buffer.append(imports.addImport("java.lang.String")).append(" name"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buffer.append(") {"); //$NON-NLS-1$
-			buffer.append(delimiter);
+			buffer.append(") {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (fJUnitVersion == JUnitVersion.VERSION_3) {
-				buffer.append("super(name);").append(delimiter); //$NON-NLS-1$
+				buffer.append("super(name);").append(delimiter); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buffer.append('}');
-			buffer.append(delimiter);
+			buffer.append('}'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			content= buffer.toString();
 		}
 		type.createMethod(content, null, true, null);
@@ -923,7 +923,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		if (type.exists()) {
 			typeHierarchy= type.newSupertypeHierarchy(null);
 			superTypes= typeHierarchy.getAllSuperclasses(type);
-			for (IType superType : superTypes) {
+			for (IType superType : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (superType.exists()) {
 					IMethod testMethod= superType.getMethod(methodName, new String[] {});
 					if (testMethod.exists()) {
@@ -935,12 +935,12 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		return null;
 	}
 
-	private void createSetupStubs(IType type, String methodName, boolean isStatic, String annotationType, ImportsManager imports) throws CoreException {
+	private void createSetupStubs(IType type, String methodName, boolean isStatic, String annotationType, ImportsManager imports) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String content= null;
 		IMethod methodTemplate= findInHierarchy(type, methodName);
 		String annotation= null;
 		if (fJUnitVersion != JUnitVersion.VERSION_3) {
-			annotation= '@' + imports.addImport(annotationType);
+			annotation= '@' + imports.addImport(annotationType); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		GenStubSettings settings= JUnitStubUtility.getCodeGenerationSettings(type.getJavaProject());
@@ -952,32 +952,32 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 			content= JUnitStubUtility.genStub(type.getCompilationUnit(), getTypeName(), methodTemplate, settings, annotation, imports);
 		} else {
 			final String delimiter= getLineDelimiter();
-			StringBuilder buffer= new StringBuilder();
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (settings.createComments) {
 				String[] excSignature= { Signature.createTypeSignature("java.lang.Exception", true) }; //$NON-NLS-1$
 				String comment= CodeGeneration.getMethodComment(type.getCompilationUnit(), type.getElementName(), methodName, new String[0], excSignature, Signature.SIG_VOID, null, delimiter);
 				if (comment != null) {
-					buffer.append(comment);
+					buffer.append(comment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			if (annotation != null) {
-				buffer.append(annotation).append(delimiter);
+				buffer.append(annotation).append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			if (fJUnitVersion == JUnitVersion.VERSION_4) {
-				buffer.append("public "); //$NON-NLS-1$
+				buffer.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (fJUnitVersion == JUnitVersion.VERSION_3) {
-				buffer.append("protected "); //$NON-NLS-1$
+				buffer.append("protected "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			if (isStatic) {
-				buffer.append("static "); //$NON-NLS-1$
+				buffer.append("static "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buffer.append("void "); //$NON-NLS-1$
-			buffer.append(methodName);
-			buffer.append("() throws "); //$NON-NLS-1$
-			buffer.append(imports.addImport("java.lang.Exception")); //$NON-NLS-1$
-			buffer.append(" {}"); //$NON-NLS-1$
-			buffer.append(delimiter);
+			buffer.append("void "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(methodName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append("() throws "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(imports.addImport("java.lang.Exception")); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(" {}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			content= buffer.toString();
 		}
 		type.createMethod(content, null, false, null);
@@ -1005,26 +1005,26 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		createSetupStubs(type, "tearDownAfterClass", true, annotationType, imports); //$NON-NLS-1$
 	}
 
-	private void createTestMethodStubs(IType type, ImportsManager imports) throws CoreException {
+	private void createTestMethodStubs(IType type, ImportsManager imports) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethod[] methods= fPage2.getCheckedMethods();
 		if (methods.length == 0) {
 			if (fJUnitVersion != JUnitVersion.VERSION_3) {
-				List<String> names= new ArrayList<>();
+				List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				createTestMethod(type, imports, null, null, names);
 			}
 			return;
 		}
 		/* find overloaded methods */
 		IMethod[] allMethodsArray= fPage2.getAllMethods();
-		List<IMethod> allMethods= new ArrayList<>(Arrays.asList(allMethodsArray));
+		List<IMethod> allMethods= new ArrayList<>(Arrays.asList(allMethodsArray)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<IMethod> overloadedMethods= getOverloadedMethods(allMethods);
 
 		/* used when for example both sum and Sum methods are present. Then
 		 * sum -> testSum
 		 * Sum -> testSum1
 		 */
-		List<String> names= new ArrayList<>();
-		for (IMethod method : methods) {
+		List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createTestMethod(type, imports, method, overloadedMethods, names);
 		}
 	}
@@ -1040,7 +1040,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 * @throws CoreException if the element could not be created
 	 * @since 3.7
 	 */
-	private void createTestMethod(IType type, ImportsManager imports, IMethod method, List<IMethod> overloadedMethods, List<String> names) throws CoreException {
+	private void createTestMethod(IType type, ImportsManager imports, IMethod method, List<IMethod> overloadedMethods, List<String> names) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer buffer= new StringBuffer();
 		StringBuffer name;
 		if (method != null) {
@@ -1065,7 +1065,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		String testName= name.toString();
 		if (names.contains(testName)) {
 			int suffix= 1;
-			while (names.contains(testName + Integer.toString(suffix)))
+			while (names.contains(testName + Integer.toString(suffix))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				suffix++;
 			name.append(Integer.toString(suffix));
 		}
@@ -1099,7 +1099,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 
 	private void replaceIllegalCharacters(StringBuffer buffer) {
 		char character= 0;
-		for (int index= buffer.length() - 1; index >= 0; index--) {
+		for (int index= buffer.length() - 1; index >= 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			character= buffer.charAt(index);
 			if (Character.isWhitespace(character))
 				buffer.deleteCharAt(index);
@@ -1129,7 +1129,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		if (fPage2.isCreateTasks()) {
 			String todoTaskTag= JUnitStubUtility.getTodoTaskTag(targetCu.getJavaProject());
 			if (todoTaskTag != null) {
-				todoTask= " // " + todoTaskTag; //$NON-NLS-1$
+				todoTask= " // " + todoTaskTag; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		String message= WizardMessages.NewTestCaseWizardPageOne_not_yet_implemented_string;
@@ -1139,19 +1139,19 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	}
 
 	private void appendParameterNamesToMethodName(StringBuffer buffer, String[] parameters) {
-		for (String parameter : parameters) {
-			final StringBuilder buf= new StringBuilder(Signature.getSimpleName(Signature.toString(Signature.getElementType(parameter))));
+		for (String parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			final StringBuilder buf= new StringBuilder(Signature.getSimpleName(Signature.toString(Signature.getElementType(parameter)))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			final char character= buf.charAt(0);
 			if (buf.length() > 0 && !Character.isUpperCase(character))
 				buf.setCharAt(0, Character.toUpperCase(character));
 			buffer.append(buf.toString());
-			for (int j= 0, arrayCount= Signature.getArrayCount(parameter); j < arrayCount; j++) {
+			for (int j= 0, arrayCount= Signature.getArrayCount(parameter); j < arrayCount; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buffer.append("Array"); //$NON-NLS-1$
 			}
 		}
 	}
 
-	private void appendMethodComment(StringBuffer buffer, IMethod method) throws JavaModelException {
+	private void appendMethodComment(StringBuffer buffer, IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String delimiter= getLineDelimiter();
 		final StringBuffer buf= new StringBuffer("{@link "); //$NON-NLS-1$
 		JavaElementLabels.getTypeLabel(method.getDeclaringType(), JavaElementLabels.T_FULLY_QUALIFIED, buf);
@@ -1159,7 +1159,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		buf.append(method.getElementName());
 		buf.append('(');
 		String[] paramTypes= JUnitStubUtility.getParameterTypeNamesForSeeTag(method);
-		for (int i= 0; i < paramTypes.length; i++) {
+		for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0) {
 				buf.append(", "); //$NON-NLS-1$
 			}
@@ -1179,13 +1179,13 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	}
 
 
-	private List<IMethod> getOverloadedMethods(List<IMethod> allMethods) {
-		List<IMethod> overloadedMethods= new ArrayList<>();
-		for (int i= 0; i < allMethods.size(); i++) {
+	private List<IMethod> getOverloadedMethods(List<IMethod> allMethods) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IMethod> overloadedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < allMethods.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod current= allMethods.get(i);
 			String currentName= current.getElementName();
 			boolean currentAdded= false;
-			for (ListIterator<IMethod> iter= allMethods.listIterator(i+1); iter.hasNext(); ) {
+			for (ListIterator<IMethod> iter= allMethods.listIterator(i+1); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethod iterMethod= iter.next();
 				if (iterMethod.getElementName().equals(currentName)) {
 					//method is overloaded
@@ -1217,7 +1217,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 	 *
 	 * @return the status of the validation
 	 */
-	protected IStatus validateIfJUnitProject() {
+	protected IStatus validateIfJUnitProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JUnitStatus status= new JUnitStatus();
 		IPackageFragmentRoot root= getPackageFragmentRoot();
 		if (root != null) {
@@ -1258,7 +1258,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		return status;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IStatus superClassChanged() {
 		IStatus stat= super.superClassChanged();
 		if (stat.getSeverity() != IStatus.OK)
@@ -1300,7 +1300,7 @@ public class NewTestCaseWizardPageOne extends NewTypeWizardPage {
 		return super.canFlipToNextPage() && getClassUnderTest() != null;
 	}
 
-	private IType resolveClassNameToType(IJavaProject jproject, IPackageFragment pack, String classToTestName) throws JavaModelException {
+	private IType resolveClassNameToType(IJavaProject jproject, IPackageFragment pack, String classToTestName) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!jproject.exists()) {
 			return null;
 		}

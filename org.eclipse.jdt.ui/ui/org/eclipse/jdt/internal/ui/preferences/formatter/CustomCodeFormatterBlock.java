@@ -119,7 +119,7 @@ public class CustomCodeFormatterBlock extends Observable {
 		}
 	}
 
-	public void createContents(Composite parent, int numColumns) {
+	public void createContents(Composite parent, int numColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fFormatters.length <= 1) {
 			return; // No selector is needed since there is only one formatter.
 		}
@@ -136,13 +136,13 @@ public class CustomCodeFormatterBlock extends Observable {
 
 		fFormatterCombo= new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		fFormatterCombo.setFont(composite.getFont());
-		fFormatterCombo.addSelectionListener(new SelectionAdapter() {
+		fFormatterCombo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleFormatterChanged();
 			}
 		});
-		for (FormatterContribution formatter : fFormatters) {
+		for (FormatterContribution formatter : fFormatters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fFormatterCombo.add(formatter.fName);
 		}
 		initDefault();
@@ -158,7 +158,7 @@ public class CustomCodeFormatterBlock extends Observable {
 
 	private int getFormatterIndex(String formatterId) {
 		if (formatterId != null) {
-			for (int i= 0; i < fFormatters.length; i++) {
+			for (int i= 0; i < fFormatters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (formatterId.equals(fFormatters[i].fId)) {
 					return i;
 				}
@@ -184,20 +184,20 @@ public class CustomCodeFormatterBlock extends Observable {
 	}
 
 	private void initializeFormatters() {
-		ArrayList<FormatterContribution> formatters= new ArrayList<>();
+		ArrayList<FormatterContribution> formatters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IExtensionPoint point= Platform.getExtensionRegistry().getExtensionPoint(JavaCore.PLUGIN_ID, JavaCore.JAVA_FORMATTER_EXTENSION_POINT_ID);
 		if (point != null) {
 			IExtension[] exts= point.getExtensions();
-			for (IExtension ext : exts) {
+			for (IExtension ext : exts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IConfigurationElement[] elements= ext.getConfigurationElements();
-				for (IConfigurationElement element : elements) {
+				for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String name = element.getAttribute(ATTR_NAME);
 					String id= element.getAttribute(ATTR_ID);
 					formatters.add(new FormatterContribution(id, name));
 				}
 			}
 		}
-		Collections.sort(formatters, Comparator.comparing((FormatterContribution o1) -> o1.fName));
+		Collections.sort(formatters, Comparator.comparing((FormatterContribution o1) -> o1.fName)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		fFormatters= CollectionsUtil.toArray(formatters, FormatterContribution.class);
 	}
 }

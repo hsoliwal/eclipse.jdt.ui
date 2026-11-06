@@ -69,7 +69,7 @@ public abstract class OpenEditorAction extends Action {
 	/*
 	 * @see IAction#run()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IEditorPart editor= null;
 		try {
@@ -110,14 +110,14 @@ public abstract class OpenEditorAction extends Action {
 
 	protected abstract void reveal(ITextEditor editor);
 
-	protected final IType findType(final IJavaProject project, String className) {
+	protected final IType findType(final IJavaProject project, String className) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IType[] result= { null };
 		final String dottedName= className.replace('$', '.'); // for nested classes...
 		try {
-			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(monitor -> {
+			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					if (project != null) {
-						result[0]= internalFindType(project, dottedName, new HashSet<>(), monitor);
+						result[0]= internalFindType(project, dottedName, new HashSet<>(), monitor); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					}
 					if (result[0] == null) {
 						int lastDot= dottedName.lastIndexOf('.');
@@ -150,7 +150,7 @@ public abstract class OpenEditorAction extends Action {
 		return result[0];
 	}
 
-	private IType internalFindType(IJavaProject project, String className, Set<IJavaProject> visitedProjects, IProgressMonitor monitor) throws JavaModelException {
+	private IType internalFindType(IJavaProject project, String className, Set<IJavaProject> visitedProjects, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (visitedProjects.contains(project))
 				return null;
@@ -164,7 +164,7 @@ public abstract class OpenEditorAction extends Action {
 			String[] requiredProjectNames= project.getRequiredProjectNames();
 			IProgressMonitor reqMonitor= Progress.subMonitor(monitor, 1);
 			reqMonitor.beginTask("", requiredProjectNames.length); //$NON-NLS-1$
-			for (String requiredProjectName : requiredProjectNames) {
+			for (String requiredProjectName : requiredProjectNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaProject requiredProject= javaModel.getJavaProject(requiredProjectName);
 				if (requiredProject.exists()) {
 					type= internalFindType(requiredProject, className, visitedProjects, Progress.subMonitor(reqMonitor, 1));

@@ -69,7 +69,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		JavaProjectHelper.clear(fJProject1, j18p.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodLabelPolymorphicSignatureDeclaration() throws Exception {
 		IType methodHandle= fJProject1.findType("java.lang.invoke.MethodHandle");
 		IMethod invokeExact= methodHandle.getMethod("invokeExact", new String[] {
@@ -92,18 +92,18 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "invokeExact({{java.lang|Object}}...)");
 	}
 
-	private IJavaElement createInvokeReference(String invocation) throws CoreException, JavaModelException {
+	private IJavaElement createInvokeReference(String invocation) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
 		IPackageFragment pack1= sourceFolder.createPackageFragment("org.test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package org.test;\n");
-		buf.append("import java.lang.invoke.MethodHandle;\n");
-		buf.append("public class Test {\n");
-		buf.append("    void foo(MethodHandle mh) throws Throwable {\n");
-		buf.append("        " + invocation + ";\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package org.test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.lang.invoke.MethodHandle;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Test {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo(MethodHandle mh) throws Throwable {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        " + invocation + ";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String content= buf.toString();
 		ICompilationUnit cu= pack1.createCompilationUnit("Test.java", content, false, null);
 
@@ -221,7 +221,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "{{java.lang|Object}} invoke(char arg00, {{java.util|ArrayList}} arg01, {{java.lang|Void}} arg02)");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelLambda1() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -253,7 +253,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 //		assertLinkMatch(lab, "() -> {...} IntConsumer - org.test.C.c");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelLambda2() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -286,7 +286,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "accept(...) - {{org.test.C}}.{{org.test.C|c}}.() -> {...} {{java.util.function|Consumer}}");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnonymousClassInLambda1() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -311,7 +311,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "new Thread() {...} - {{org.test.C}}.{{org.test.C|c}}.() -> {...}");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLambdaInAnonymousClass1() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -341,7 +341,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 								"() -> {...} {{java.util.function|Consumer}}.{{java.util.function.Consumer|accept}}({{java.util.function.Consumer|T}})");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLambdaInInstanceInitializer() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -367,7 +367,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "{{java.lang|String}} s - {{org.test.C}}.{...}.() -> {...} {{java.util.function|Consumer}}.{{java.util.function.Consumer|accept}}({{java.util.function.Consumer|T}})");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotatedArrayDimension1() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -397,7 +397,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "{{java.lang|String}}[] @{{org.test|TAnn}}[] argss - {{org.test.C|test}}({{java.lang|String}}[][])");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotatedArrayDimension2() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -428,7 +428,7 @@ public class BindingLabels18Test extends AbstractBindingLabelsTest {
 		lab= getBindingLabel(thread, JavaElementLabels.ALL_DEFAULT | JavaElementLabels.F_PRE_TYPE_SIGNATURE | JavaElementLabels.F_POST_QUALIFIED);
 		assertLinkMatch(lab, "@{{org.test|TA1}} {{java.lang|String}} @{{org.test|TA2}}[] @{{org.test|TA3}}[] argss - {{org.test.C|test}}({{java.lang|String}}[][])");
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCaptureBinding18() throws CoreException {
 		IJavaProject javaProject= JavaProjectHelper.createJavaProject("P", "bin");
 		try {

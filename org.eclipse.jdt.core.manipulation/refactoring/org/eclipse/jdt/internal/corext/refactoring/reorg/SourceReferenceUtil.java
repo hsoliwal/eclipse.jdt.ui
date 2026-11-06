@@ -53,7 +53,7 @@ public class SourceReferenceUtil {
 	@SuppressWarnings("unlikely-arg-type")
 	private static boolean hasParentInSet(IJavaElement elem, Set<ISourceReference> set){
 		IJavaElement parent= elem.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (set.contains(parent))
 				return true;
 			parent= parent.getParent();
@@ -62,9 +62,9 @@ public class SourceReferenceUtil {
 	}
 
 	public static ISourceReference[] removeAllWithParentsSelected(ISourceReference[] elems){
-		Set<ISourceReference> set= new HashSet<>(Arrays.asList(elems));
-		List<ISourceReference> result= new ArrayList<>(elems.length);
-		for (ISourceReference elem : elems) {
+		Set<ISourceReference> set= new HashSet<>(Arrays.asList(elems)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<ISourceReference> result= new ArrayList<>(elems.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ISourceReference elem : elems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(elem instanceof IJavaElement)
 					|| !hasParentInSet(((IJavaElement)elem), set)) {
 				result.add(elem);

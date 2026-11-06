@@ -62,7 +62,7 @@ public abstract class ScrollVerticalRulerTest extends ScrollEditorTest {
 		return EditorTestHelper.TEXT_EDITOR_ID;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -79,7 +79,7 @@ public abstract class ScrollVerticalRulerTest extends ScrollEditorTest {
 		@SuppressWarnings("restriction")
 		MarkerAnnotationPreferences markerAnnotationPreferences= org.eclipse.ui.internal.editors.text.EditorsPlugin.getDefault().getMarkerAnnotationPreferences();
 		Iterator<AnnotationPreference> iterator= markerAnnotationPreferences.getAnnotationPreferences().iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AnnotationPreference pref= iterator.next();
 			String preferenceKey= pref.getVerticalRulerPreferenceKey();
 			if ("spellingIndicationInVerticalRuler".equals(preferenceKey)) {
@@ -90,7 +90,7 @@ public abstract class ScrollVerticalRulerTest extends ScrollEditorTest {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void tearDown() throws Exception {
 		PreferenceConstants.getPreferenceStore().setToDefault(PreferenceConstants.SPELLING_PROBLEMS_THRESHOLD);
 
@@ -102,7 +102,7 @@ public abstract class ScrollVerticalRulerTest extends ScrollEditorTest {
 		@SuppressWarnings("restriction")
 		MarkerAnnotationPreferences markerAnnotationPreferences= org.eclipse.ui.internal.editors.text.EditorsPlugin.getDefault().getMarkerAnnotationPreferences();
 		Iterator<AnnotationPreference> iterator= markerAnnotationPreferences.getAnnotationPreferences().iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AnnotationPreference pref= iterator.next();
 			String preferenceKey= pref.getVerticalRulerPreferenceKey();
 			if ("spellingIndicationInVerticalRuler".equals(preferenceKey)) {
@@ -150,14 +150,14 @@ public abstract class ScrollVerticalRulerTest extends ScrollEditorTest {
 
 		IAnnotationModel model= editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
 		int annotationCount= getAnnotationCount(model);
-		assertTrue("Expected annotation count is: " + getNumberOfAnnotations() + " but was: " + annotationCount, annotationCount >= getNumberOfAnnotations());
+		assertTrue("Expected annotation count is: " + getNumberOfAnnotations() + " but was: " + annotationCount, annotationCount >= getNumberOfAnnotations()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private int getAnnotationCount(IAnnotationModel model) {
 		int result= 0;
 
 		Iterator<Annotation> iterator= model.getAnnotationIterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			iterator.next();
 			result++;
 		}

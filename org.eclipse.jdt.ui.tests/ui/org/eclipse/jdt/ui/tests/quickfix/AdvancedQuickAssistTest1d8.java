@@ -80,7 +80,7 @@ public class AdvancedQuickAssistTest1d8 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToIfReturn1() throws Exception {
 		// 'if' in lambda body - positive cases
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -363,7 +363,7 @@ public class AdvancedQuickAssistTest1d8 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToIfReturn2() throws Exception {
 		// 'if' in lambda body - negative cases
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);

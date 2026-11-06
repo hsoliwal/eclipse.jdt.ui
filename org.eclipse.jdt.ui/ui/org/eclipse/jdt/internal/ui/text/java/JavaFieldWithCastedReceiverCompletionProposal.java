@@ -29,7 +29,7 @@ import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
  *
  * @since 3.4
  */
-public class JavaFieldWithCastedReceiverCompletionProposal extends JavaCompletionProposal {
+public class JavaFieldWithCastedReceiverCompletionProposal extends JavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private CompletionProposal fProposal;
 

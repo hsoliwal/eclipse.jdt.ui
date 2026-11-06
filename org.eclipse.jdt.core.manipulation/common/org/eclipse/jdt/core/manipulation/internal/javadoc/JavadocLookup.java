@@ -92,7 +92,7 @@ public class JavadocLookup {
 
 	public JavadocLookup(IType startingType, IJavadocContentFactory accessFactory) {
 		fStartingType= startingType;
-		fContentAccesses= new HashMap<>();
+		fContentAccesses= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fAccessFactory= accessFactory != null ? accessFactory : DEFAULT_FACTORY;
 	}
 
@@ -157,10 +157,10 @@ public class JavadocLookup {
 		return getInheritedDescription(method, contentAccess -> contentAccess.getExceptionDescription(simpleName));
 	}
 
-	private CharSequence getInheritedDescription(final IMethod method, final JavadocLookup.DescriptionGetter descriptionGetter) {
+	private CharSequence getInheritedDescription(final IMethod method, final JavadocLookup.DescriptionGetter descriptionGetter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			return (CharSequence) new InheritDocVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public Object visit(IType currType) throws JavaModelException {
 					IMethod overridden= getOverrideTester().findOverriddenMethodInType(currType, method);
 					if (overridden == null)
@@ -198,7 +198,7 @@ public class JavadocLookup {
 	 *         could be found in source
 	 * @throws JavaModelException unexpected problem
 	 */
-	private IJavadocAccess getJavadocContentAccess(IMethod method) throws JavaModelException {
+	private IJavadocAccess getJavadocContentAccess(IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object cached= fContentAccesses.get(method);
 		if (cached != null)
 			return (IJavadocAccess) cached;

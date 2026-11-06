@@ -37,19 +37,19 @@ public class PropertiesFileSpellCheckIterator extends SpellCheckIterator {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.spelling.SpellCheckIterator#next()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final String next() {
 		int previous= -1;
 		String token= nextToken();
-		while (fSuccessor != BreakIterator.DONE && (token == null || fContent.charAt(fNext) == '&')) {
+		while (fSuccessor != BreakIterator.DONE && (token == null || fContent.charAt(fNext) == '&')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (token != null) {
 				if (previous == -1)
 					previous= fPrevious;
 				String nextToken= nextToken();
 				if (nextToken != null)
-					token= token + nextToken.substring(1);
+					token= token + nextToken.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				else
-					token= token + '&';
+					token= token + '&'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else
 				token= nextToken();
 
@@ -62,8 +62,8 @@ public class PropertiesFileSpellCheckIterator extends SpellCheckIterator {
 			token= token.substring(1);
 
 			// Add characters in front of '&'
-			while (fPrevious > 0 && !Character.isWhitespace(fContent.charAt(fPrevious - 1)) && fContent.charAt(fPrevious - 1) != '=') {
-				token= fContent.charAt(fPrevious - 1) + token;
+			while (fPrevious > 0 && !Character.isWhitespace(fContent.charAt(fPrevious - 1)) && fContent.charAt(fPrevious - 1) != '=') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				token= fContent.charAt(fPrevious - 1) + token; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fPrevious--;
 			}
 

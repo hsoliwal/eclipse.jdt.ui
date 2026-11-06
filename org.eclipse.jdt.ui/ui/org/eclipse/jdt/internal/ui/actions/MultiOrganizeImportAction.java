@@ -30,7 +30,7 @@ import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.fix.ImportsCleanUp;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 
-public class MultiOrganizeImportAction extends CleanUpAction {
+public class MultiOrganizeImportAction extends CleanUpAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public MultiOrganizeImportAction(IWorkbenchSite site) {
 		super(site);

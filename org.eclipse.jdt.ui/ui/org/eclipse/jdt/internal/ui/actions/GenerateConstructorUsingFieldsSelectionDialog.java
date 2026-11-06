@@ -59,7 +59,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.BindingLabelProvider;
 
 public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionDialog {
 
-	class GenerateConstructorUsingFieldsTreeViewerAdapter implements ISelectionChangedListener, IDoubleClickListener {
+	class GenerateConstructorUsingFieldsTreeViewerAdapter implements ISelectionChangedListener, IDoubleClickListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		@Override
 		public void doubleClick(DoubleClickEvent event) {
@@ -110,7 +110,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 
 	private static final int UP_INDEX= 0;
 
-	public GenerateConstructorUsingFieldsSelectionDialog(Shell parent, ILabelProvider labelProvider, GenerateConstructorUsingFieldsContentProvider contentProvider, CompilationUnitEditor editor, IType type, IMethodBinding[] superConstructors) throws JavaModelException {
+	public GenerateConstructorUsingFieldsSelectionDialog(Shell parent, ILabelProvider labelProvider, GenerateConstructorUsingFieldsContentProvider contentProvider, CompilationUnitEditor editor, IType type, IMethodBinding[] superConstructors) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent, labelProvider, contentProvider, editor, type, true, true);
 		fTreeViewerAdapter= new GenerateConstructorUsingFieldsTreeViewerAdapter();
 
@@ -130,7 +130,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 			setVisibility(Modifier.PRIVATE);
 	}
 
-	Composite addSuperClassConstructorChoices(Composite composite) {
+	Composite addSuperClassConstructorChoices(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label label= new Label(composite, SWT.NONE);
 		label.setText(ActionMessages.GenerateConstructorUsingFieldsSelectionDialog_sort_constructor_choices_label);
 		GridData gd= new GridData(GridData.FILL_HORIZONTAL);
@@ -139,14 +139,14 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 		BindingLabelProvider provider= new BindingLabelProvider();
 		final Combo combo= new Combo(composite, SWT.READ_ONLY);
 		SWTUtil.setDefaultVisibleItemCount(combo);
-		for (IMethodBinding binding : fSuperConstructors) {
+		for (IMethodBinding binding : fSuperConstructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			combo.add(provider.getText(binding));
 		}
 
 		// TODO: Can we be a little more intelligent about guessing the super() ?
 		combo.setText(combo.getItem(0));
 		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		combo.addSelectionListener(new SelectionAdapter() {
+		combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -191,7 +191,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IJavaHelpContextIds.GENERATE_CONSTRUCTOR_USING_FIELDS_SELECTION_DIALOG);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -228,7 +228,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 		gd.widthHint= convertWidthInCharsToPixels(fWidth);
 		gd.heightHint= convertHeightInCharsToPixels(fHeight);
 		treeViewer.getControl().setLayoutData(gd);
-		treeViewer.addSelectionChangedListener(fTreeViewerAdapter);
+		treeViewer.addSelectionChangedListener(fTreeViewerAdapter); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		Composite buttonComposite= createSelectionButtons(inner);
 		gd= new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
@@ -272,7 +272,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 	protected Control createLinkControl(Composite composite) {
 		Link link= new Link(composite, SWT.WRAP);
 		link.setText(ActionMessages.GenerateConstructorUsingFieldsSelectionDialog_template_link_message);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				openCodeTempatePage(CodeTemplateContextType.CONSTRUCTORCOMMENT_ID);
@@ -286,7 +286,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 		return link;
 	}
 
-	protected Composite createOmitSuper(Composite composite) {
+	protected Composite createOmitSuper(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite omitSuperComposite= new Composite(composite, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		layout.marginHeight= 0;
@@ -297,7 +297,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 		fOmitSuperButton.setText(ActionMessages.GenerateConstructorUsingFieldsSelectionDialog_omit_super);
 		fOmitSuperButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 
-		fOmitSuperButton.addSelectionListener(new SelectionListener() {
+		fOmitSuperButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -370,7 +370,7 @@ public class GenerateConstructorUsingFieldsSelectionDialog extends SourceActionD
 	List<?> getElementList() {
 		IStructuredSelection selection= (IStructuredSelection) getTreeViewer().getSelection();
 		@SuppressWarnings("unchecked")
-		ArrayList<?> elementList= new ArrayList<>(selection.toList());
+		ArrayList<?> elementList= new ArrayList<>(selection.toList()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		return elementList;
 	}

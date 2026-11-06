@@ -153,7 +153,7 @@ public class NewTypeDropDownAction extends Action implements IMenuCreator, IWork
 	public Menu getMenu(Control parent) {
 		if (fMenu == null) {
 			fMenu= new Menu(parent);
-			for (OpenTypeWizardAction curr : getActionFromDescriptors()) {
+			for (OpenTypeWizardAction curr : getActionFromDescriptors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				curr.setShell(fWizardShell);
 				ActionContributionItem item= new ActionContributionItem(curr);
 				item.fill(fMenu, -1);
@@ -169,11 +169,11 @@ public class NewTypeDropDownAction extends Action implements IMenuCreator, IWork
 	}
 
 	public static OpenTypeWizardAction[] getActionFromDescriptors() {
-		ArrayList<OpenTypeWizardAction> containers= new ArrayList<>();
+		ArrayList<OpenTypeWizardAction> containers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(PlatformUI.PLUGIN_ID, PL_NEW);
 		if (extensionPoint != null) {
-			for (IConfigurationElement element : extensionPoint.getConfigurationElements()) {
+			for (IConfigurationElement element : extensionPoint.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (TAG_WIZARD.equals(element.getName()) && isJavaTypeWizard(element)) {
 					containers.add(new OpenTypeWizardAction(element));
 				}
@@ -183,8 +183,8 @@ public class NewTypeDropDownAction extends Action implements IMenuCreator, IWork
 	}
 
 	private static boolean isJavaTypeWizard(IConfigurationElement element) {
-		for (IConfigurationElement classElement : element.getChildren(TAG_CLASS)) {
-			for (IConfigurationElement curr : classElement.getChildren(TAG_PARAMETER)) {
+		for (IConfigurationElement classElement : element.getChildren(TAG_CLASS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IConfigurationElement curr : classElement.getChildren(TAG_PARAMETER)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ATT_JAVATYPE.equals(curr.getAttribute(TAG_NAME))) {
 					return Boolean.parseBoolean(curr.getAttribute(TAG_VALUE));
 				}

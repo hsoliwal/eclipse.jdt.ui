@@ -144,12 +144,12 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		/*
 		 * @see org.eclipse.ltk.core.refactoring.TextChange#perform(org.eclipse.core.runtime.IProgressMonitor)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Change perform(final IProgressMonitor pm) throws CoreException {
 			if (Display.getCurrent() == null) {
 				final Change[] result= new Change[1];
 				final CoreException[] exs= new CoreException[1];
-				Display.getDefault().syncExec(() -> {
+				Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					try {
 						result[0]= CleanUpChange.super.perform(pm);
 					} catch (CoreException e) {
@@ -256,14 +256,14 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		public CleanUpASTRequestor(List<ParseListElement> parseList, Hashtable<ICompilationUnit, List<CleanUpChange>> solutions, CleanUpRefactoringProgressMonitor monitor) {
 			fSolutions= solutions;
 			fMonitor= monitor;
-			fUndoneElements= new ArrayList<>();
+			fUndoneElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fCompilationUnitParseElementMap= new Hashtable<>(parseList.size());
-			for (ParseListElement element : parseList) {
+			for (ParseListElement element : parseList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCompilationUnitParseElementMap.put(element.getTarget().getCompilationUnit(), element);
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void acceptAST(ICompilationUnit source, CompilationUnit ast) {
 
 			fMonitor.subTask(fMonitor.getSubTaskMessage(source));
@@ -297,7 +297,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		}
 
 		private ICleanUp[] calculateSolutions(CleanUpContext context, ICleanUp[] cleanUps) {
-			List<ICleanUp>result= new ArrayList<>();
+			List<ICleanUp>result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			CleanUpChange solution;
 			try {
 				solution= calculateChange(context, cleanUps, result, null);
@@ -317,7 +317,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 
 			List<CleanUpChange> changes= fSolutions.get(primary);
 			if (changes == null) {
-				changes= new ArrayList<>();
+				changes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				fSolutions.put(primary, changes);
 			}
 			changes.add(solution);
@@ -334,17 +334,17 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		private final int fSize;
 		private int fIndex;
 
-		public CleanUpFixpointIterator(CleanUpTarget[] targets, ICleanUp[] cleanUps) {
+		public CleanUpFixpointIterator(CleanUpTarget[] targets, ICleanUp[] cleanUps) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fSolutions= new Hashtable<>(targets.length);
 			fWorkingCopies= new Hashtable<>();
 
-			fParseList= new ArrayList<>(targets.length);
-			for (CleanUpTarget target : targets) {
+			fParseList= new ArrayList<>(targets.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CleanUpTarget target : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fParseList.add(new ParseListElement(target, cleanUps));
 			}
 
 			fCleanUpOptions= new Hashtable<>();
-			for (ICleanUp cleanUp : cleanUps) {
+			for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CleanUpRequirements requirements= cleanUp.getRequirements();
 				Map<String, String> currentCleanUpOption= requirements.getCompilerOptions();
 				boolean needsSeparateOptions= requirements.requiresSeparateOptions();
@@ -362,12 +362,12 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 			return !fParseList.isEmpty();
 		}
 
-		public void next(IProgressMonitor monitor) throws CoreException {
-			List<ICompilationUnit> parseList= new ArrayList<>();
-			List<ICompilationUnit> sourceList= new ArrayList<>();
+		public void next(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			List<ICompilationUnit> parseList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<ICompilationUnit> sourceList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			try {
-				for (ParseListElement element : fParseList) {
+				for (ParseListElement element : fParseList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ICompilationUnit compilationUnit= element.getTarget().getCompilationUnit();
 					if (fSolutions.containsKey(compilationUnit)) {
 						if (fWorkingCopies.containsKey(compilationUnit)) {
@@ -415,7 +415,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 
 				fSeparateOptions.clear();
 
-				for (ICompilationUnit cu : sourceList) {
+				for (ICompilationUnit cu : sourceList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					monitor.worked(1);
 
 					requestor.acceptSource(cu);
@@ -442,7 +442,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		}
 
 		public void dispose() {
-			for (ICompilationUnit cu : fWorkingCopies.values()) {
+			for (ICompilationUnit cu : fWorkingCopies.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					cu.discardWorkingCopy();
 				} catch (JavaModelException e) {
@@ -453,7 +453,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		}
 
 		private boolean requiresAST(ICleanUp[] cleanUps) {
-			for (ICleanUp cleanUp : cleanUps) {
+			for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cleanUp.getRequirements().requiresAST()) {
 					return true;
 				}
@@ -461,11 +461,11 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 			return false;
 		}
 
-		public Change[] getResult() {
+		public Change[] getResult() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			Change[] result= new Change[fSolutions.size()];
 			int i=0;
-			for (Entry<ICompilationUnit, List<CleanUpChange>> entry : fSolutions.entrySet()) {
+			for (Entry<ICompilationUnit, List<CleanUpChange>> entry : fSolutions.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<CleanUpChange> changes= entry.getValue();
 				ICompilationUnit unit= entry.getKey();
 
@@ -482,7 +482,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 					result[i]= change;
 				} else {
 					MultiStateCompilationUnitChange mscuc= new MultiStateCompilationUnitChange(getChangeName(unit), unit);
-					for (CleanUpChange change : changes) {
+					for (CleanUpChange change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						mscuc.addChange(createGroupFreeChange(change));
 					}
 					mscuc.setSaveMode(saveMode);
@@ -504,7 +504,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 
 		private void applyChange(ICompilationUnit compilationUnit, List<CleanUpChange> changes) throws JavaModelException, CoreException {
 			IDocument document= new Document(changes.get(0).getCurrentContent(new NullProgressMonitor()));
-			for (CleanUpChange change : changes) {
+			for (CleanUpChange change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextEdit edit= change.getEdit().copy();
 
 				try {
@@ -539,7 +539,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 
 	public CleanUpRefactoring(String name) {
 		fName= name;
-		fCleanUps= new ArrayList<>();
+		fCleanUps= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fProjects= new Hashtable<>();
 		fUseOptionsFromProfile= false;
 	}
@@ -556,15 +556,15 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 
 		IJavaProject javaProject= target.getCompilationUnit().getJavaProject();
 		if (!fProjects.containsKey(javaProject))
-			fProjects.put(javaProject, new ArrayList<>());
+			fProjects.put(javaProject, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		List<CleanUpTarget> targets= fProjects.get(javaProject);
 		targets.add(target);
 	}
 
 	public CleanUpTarget[] getCleanUpTargets() {
-		List<CleanUpTarget> result= new ArrayList<>();
-		for (List<CleanUpTarget> projectTargets : fProjects.values()) {
+		List<CleanUpTarget> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (List<CleanUpTarget> projectTargets : fProjects.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(projectTargets);
 		}
 		return result.toArray(new CleanUpTarget[result.size()]);
@@ -572,7 +572,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 
 	public int getCleanUpTargetsSize() {
 		int result= 0;
-		for (List<CleanUpTarget> projectTargets : fProjects.values()) {
+		for (List<CleanUpTarget> projectTargets : fProjects.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result+= projectTargets.size();
 		}
 		return result;
@@ -627,7 +627,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		return fChange;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 
 		if (pm == null)
@@ -651,7 +651,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		try {
 			DynamicValidationStateChange change= new DynamicValidationStateChange(getName());
 			change.setSchedulingRule(getSchedulingRule());
-			for (Entry<IJavaProject, List<CleanUpTarget>> entry : fProjects.entrySet()) {
+			for (Entry<IJavaProject, List<CleanUpTarget>> entry : fProjects.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaProject project= entry.getKey();
 				List<CleanUpTarget> targetsList= entry.getValue();
 				CleanUpTarget[] targets= targetsList.toArray(new CleanUpTarget[targetsList.size()]);
@@ -667,13 +667,13 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 				result.merge(checkPostConditions(Progress.subMonitor(pm, cleanUps.length)));
 				if (result.hasFatalError())
 					return result;
-				for (Change c : changes) {
+				for (Change c : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					change.add(c);
 				}
 			}
 			fChange= change;
 
-			List<IResource> files= new ArrayList<>();
+			List<IResource> files= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			findFilesToBeModified(change, files);
 			result.merge(Checks.validateModifiesFiles(files.toArray(new IFile[files.size()]), getValidationContext(), pm));
 		} finally {
@@ -684,7 +684,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 	}
 
 	private void findFilesToBeModified(CompositeChange change, List<IResource> result) throws JavaModelException {
-		for (Change child : change.getChildren()) {
+		for (Change child : change.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof CompositeChange) {
 				findFilesToBeModified((CompositeChange)child, result);
 			} else if (child instanceof MultiStateCompilationUnitChange) {
@@ -702,7 +702,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		subMonitor.beginTask("", targets.length); //$NON-NLS-1$
 		subMonitor.subTask(Messages.format(FixMessages.CleanUpRefactoring_Parser_Startup_message, BasicElementLabels.getResourceName(project.getProject())));
 		try {
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				iter.next(subMonitor);
 			}
 
@@ -719,18 +719,18 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(FixMessages.CleanUpRefactoring_could_not_retrive_profile, BasicElementLabels.getResourceName(javaProject.getProject())));
 
 		CleanUpOptions cleanUpOptions= new MapCleanUpOptions(options);
-		for (ICleanUp cleanUp : cleanUps) {
+		for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cleanUp.setOptions(cleanUpOptions);
 		}
 
 		return new RefactoringStatus();
 	}
 
-	private RefactoringStatus checkPreConditions(IJavaProject javaProject, CleanUpTarget[] targets, IProgressMonitor monitor) throws CoreException {
+	private RefactoringStatus checkPreConditions(IJavaProject javaProject, CleanUpTarget[] targets, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 
 		ICompilationUnit[] compilationUnits= new ICompilationUnit[targets.length];
-		for (int i= 0; i < targets.length; i++) {
+		for (int i= 0; i < targets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			compilationUnits[i]= targets[i].getCompilationUnit();
 		}
 
@@ -738,7 +738,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		monitor.beginTask("", compilationUnits.length * cleanUps.length); //$NON-NLS-1$
 		monitor.subTask(Messages.format(FixMessages.CleanUpRefactoring_Initialize_message, BasicElementLabels.getResourceName(javaProject.getProject())));
 		try {
-			for (ICleanUp cleanUp : cleanUps) {
+			for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.merge(cleanUp.checkPreConditions(javaProject, compilationUnits, Progress.subMonitor(monitor, compilationUnits.length)));
 				if (result.hasFatalError())
 					return result;
@@ -757,7 +757,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		monitor.beginTask("", cleanUps.length); //$NON-NLS-1$
 		monitor.subTask(FixMessages.CleanUpRefactoring_checkingPostConditions_message);
 		try {
-			for (ICleanUp cleanUp : cleanUps) {
+			for (ICleanUp cleanUp : cleanUps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.merge(cleanUp.checkPostConditions(Progress.subMonitor(monitor, 1)));
 			}
 		} finally {
@@ -778,13 +778,13 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 		return buf.toString();
 	}
 
-	public static CleanUpChange calculateChange(CleanUpContext context, ICleanUp[] cleanUps, List<ICleanUp> undoneCleanUps, HashSet<ICleanUp> slowCleanUps) throws CoreException {
+	public static CleanUpChange calculateChange(CleanUpContext context, ICleanUp[] cleanUps, List<ICleanUp> undoneCleanUps, HashSet<ICleanUp> slowCleanUps) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (cleanUps.length == 0)
 			return null;
 
 		CleanUpChange solution= null;
 		int i= 0;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICleanUp cleanUp= cleanUps[i];
 			ICleanUpFix fix;
 			if (slowCleanUps != null) {
@@ -821,14 +821,14 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 			i++;
 		} while (i < cleanUps.length && (context.getAST() == null || !cleanUps[i].getRequirements().requiresFreshAST()));
 
-		for (; i < cleanUps.length; i++) {
+		for (; i < cleanUps.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			undoneCleanUps.add(cleanUps[i]);
 		}
 		return solution;
 	}
 
 	private static void copyChangeGroups(CompilationUnitChange target, CompilationUnitChange source) {
-		for (TextEditBasedChangeGroup changeGroup : source.getChangeGroups()) {
+		for (TextEditBasedChangeGroup changeGroup : source.getChangeGroups()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TextEditGroup textEditGroup= changeGroup.getTextEditGroup();
 			TextEditGroup newGroup;
 			if (textEditGroup instanceof CategorizedTextEditGroup) {
@@ -837,7 +837,7 @@ public class CleanUpRefactoring extends Refactoring implements IScheduledRefacto
 			} else {
 				newGroup= new TextEditGroup(textEditGroup.getName());
 			}
-			for (TextEdit textEdit : textEditGroup.getTextEdits()) {
+			for (TextEdit textEdit : textEditGroup.getTextEdits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newGroup.addTextEdit(textEdit);
 			}
 			target.addTextEditGroup(newGroup);

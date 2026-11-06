@@ -70,7 +70,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 	private List<ITypeBinding> fCaughtExceptions;
 
 	public ExceptionOccurrencesFinder() {
-		fResult= new ArrayList<>();
+		fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 		return initialize(root, NodeFinder.perform(root, offset, length));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String initialize(CompilationUnit root, ASTNode node) {
 		fASTRoot= root;
 		if (node == null)
@@ -140,7 +140,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 	}
 
 	private void performSearch() {
-		fCaughtExceptions= new ArrayList<>();
+		fCaughtExceptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fStart.accept(this);
 		if (fTryStatement != null) {
 			handleResourceDeclarations(fTryStatement);
@@ -150,15 +150,15 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 		}
 	}
 
-	private void handleResourceDeclarations(TryStatement tryStatement) {
+	private void handleResourceDeclarations(TryStatement tryStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Expression> resources= tryStatement.resources();
-		for (Expression expression : resources) {
+		for (Expression expression : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expression.accept(this);
 		}
 
 		//check if the exception is thrown as a result of resource#close()
 		boolean exitMarked= false;
-		for (Expression variable : resources) {
+		for (Expression variable : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding typeBinding= null;
 			if (variable instanceof VariableDeclarationExpression) {
 				typeBinding= ((VariableDeclarationExpression) variable).getType().resolveBinding();
@@ -168,13 +168,13 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 			if (typeBinding != null) {
 				IMethodBinding methodBinding= Bindings.findMethodInHierarchy(typeBinding, "close", new ITypeBinding[0]); //$NON-NLS-1$
 				if (methodBinding != null) {
-					for (ITypeBinding exceptionType : methodBinding.getExceptionTypes()) {
+					for (ITypeBinding exceptionType : methodBinding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (matches(exceptionType)) {
 							// a close() throws the caught exception
 							// mark name of resource
 							if (variable instanceof VariableDeclarationExpression) {
 								VariableDeclarationExpression varDeclExpr= (VariableDeclarationExpression) variable;
-								for (VariableDeclarationFragment fragment : (List<VariableDeclarationFragment>) varDeclExpr.fragments()) {
+								for (VariableDeclarationFragment fragment : (List<VariableDeclarationFragment>) varDeclExpr.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									SimpleName name= fragment.getName();
 									fResult.add(new OccurrenceLocation(name.getStartPosition(), name.getLength(), 0, fDescription));
 								}
@@ -277,12 +277,12 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(MethodDeclaration node) {
 		Javadoc javadoc= node.getJavadoc();
 		if (javadoc != null) {
 			List<TagElement> tags= javadoc.tags();
-			for (TagElement tag : tags) {
+			for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String tagName= tag.getTagName();
 				if (TagElement.TAG_EXCEPTION.equals(tagName) || TagElement.TAG_THROWS.equals(tagName)) {
 					ASTNode name= tag.fragments().isEmpty() ? null : (ASTNode) tag.fragments().get(0);
@@ -295,7 +295,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 			}
 		}
 		List<Type> thrownExceptionTypes= node.thrownExceptionTypes();
-		for (Type type : thrownExceptionTypes) {
+		for (Type type : thrownExceptionTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type != fSelectedNode && Bindings.equals(fException, type.resolveBinding())) {
 				fResult.add(new OccurrenceLocation(type.getStartPosition(), type.getLength(), 0, fDescription));
 			}
@@ -343,15 +343,15 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 		return super.visit(node);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TryStatement node) {
 		int currentSize= fCaughtExceptions.size();
 		List<CatchClause> catchClauses= node.catchClauses();
-		for (CatchClause catchClause : catchClauses) {
+		for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type= catchClause.getException().getType();
 			if (type instanceof UnionType) {
 				List<Type> types= ((UnionType) type).types();
-				for (Type type2 : types) {
+				for (Type type2 : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addCaughtException(type2);
 				}
 			} else {
@@ -364,12 +364,12 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 		handleResourceDeclarations(node);
 
 		int toRemove= fCaughtExceptions.size() - currentSize;
-		for (int i= toRemove; i > 0; i--) {
+		for (int i= toRemove; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fCaughtExceptions.remove(currentSize);
 		}
 
 		// visit catch and finally
-		for (CatchClause catchClause : catchClauses) {
+		for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			catchClause.accept(this);
 		}
 		if (node.getFinally() != null)
@@ -395,7 +395,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 	private boolean matches(IMethodBinding binding) {
 		if (binding == null)
 			return false;
-		for (ITypeBinding exception : binding.getExceptionTypes()) {
+		for (ITypeBinding exception : binding.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(matches(exception))
 				return true;
 		}
@@ -407,7 +407,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 			return false;
 		if (isCaught(exception))
 			return false;
-		while (exception != null) {
+		while (exception != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Bindings.equals(fException, exception))
 				return true;
 			exception= exception.getSuperclass();
@@ -416,7 +416,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 	}
 
 	private boolean isCaught(ITypeBinding binding) {
-		for (ITypeBinding catchException : fCaughtExceptions) {
+		for (ITypeBinding catchException : fCaughtExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (catches(catchException, binding))
 				return true;
 		}
@@ -424,7 +424,7 @@ public class ExceptionOccurrencesFinder extends ASTVisitor implements IOccurrenc
 	}
 
 	private boolean catches(ITypeBinding catchTypeBinding, ITypeBinding throwTypeBinding) {
-		while (throwTypeBinding != null) {
+		while (throwTypeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (throwTypeBinding == catchTypeBinding)
 				return true;
 			throwTypeBinding= throwTypeBinding.getSuperclass();

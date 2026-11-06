@@ -48,7 +48,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 
 public class VariablePathDialogField extends StringButtonDialogField {
 
-	public static class ChooseVariableDialog extends StatusDialog implements ISelectionChangedListener, IDoubleClickListener {
+	public static class ChooseVariableDialog extends StatusDialog implements ISelectionChangedListener, IDoubleClickListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 		private VariableBlock fVariableBlock;
 
 		public ChooseVariableDialog(Shell parent, String variableSelection) {
@@ -155,14 +155,14 @@ public class VariablePathDialogField extends StringButtonDialogField {
 	public int getNumberOfControls() {
 		return 4;
 	}
-	public Button getBrowseVariableControl(Composite parent) {
+	public Button getBrowseVariableControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fBrowseVariableButton == null) {
 			assertCompositeNotNull(parent);
 
 			fBrowseVariableButton= new Button(parent, SWT.PUSH);
 			fBrowseVariableButton.setText(fVariableButtonLabel);
 			fBrowseVariableButton.setEnabled(isEnabled());
-			fBrowseVariableButton.addSelectionListener(new SelectionListener() {
+			fBrowseVariableButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					chooseVariablePressed();

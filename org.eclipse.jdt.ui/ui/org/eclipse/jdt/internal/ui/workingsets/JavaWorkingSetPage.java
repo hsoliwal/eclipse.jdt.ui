@@ -102,7 +102,7 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(parent, IJavaHelpContextIds.JAVA_WORKING_SET_PAGE);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void configureTree(TreeViewer tree) {
 		tree.setContentProvider(new JavaWorkingSetPageContentProvider());
 
@@ -112,11 +112,11 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 				AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS | JavaElementImageProvider.SMALL_ICONS
 			);
 
-		tree.setLabelProvider(new DecoratingJavaLabelProvider(javaElementLabelProvider));
+		tree.setLabelProvider(new DecoratingJavaLabelProvider(javaElementLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		tree.setComparator(new JavaElementComparator());
-		tree.addFilter(new EmptyInnerPackageFilter());
+		tree.addFilter(new EmptyInnerPackageFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
-		tree.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()));
+		tree.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot())); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		if (getSelection() == null)
 			return;
@@ -126,7 +126,7 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 			try {
 				tree.getTree().setRedraw(false);
 
-				for (Object s : selection) {
+				for (Object s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					tree.expandToLevel(s, 0);
 				}
 				tree.setSelection(new StructuredSelection(selection));
@@ -144,11 +144,11 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 				AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS | JavaElementImageProvider.SMALL_ICONS
 			);
 
-		table.setLabelProvider(new DecoratingJavaLabelProvider(javaElementLabelProvider));
+		table.setLabelProvider(new DecoratingJavaLabelProvider(javaElementLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		table.setComparator(new JavaElementComparator());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object[] getInitialWorkingSetElements(IWorkingSet workingSet) {
 		Object[] elements;
 		if (workingSet == null) {
@@ -162,14 +162,14 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 
 		// Use closed project for elements in closed project and remove PackageFragmentRootContainer elements
 		int deletedElements= 0;
-		for (int i= 0; i < elements.length; i++) {
+		for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= elements[i];
 			if (element instanceof IResource) {
 				IProject project= ((IResource)element).getProject();
 				if (!project.isAccessible())
 					elements[i]= project;
 			} else if (element instanceof PackageFragmentRootContainer) {
-				for (int j= i; j < elements.length - 1; j++)
+				for (int j= i; j < elements.length - 1; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					elements[j]= elements[j + 1];
 				deletedElements++;
 			} else if (element instanceof IJavaElement) {
@@ -177,7 +177,7 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 				if (jProject != null && !jProject.getProject().isAccessible())
 					elements[i]= jProject.getProject();
 			} else if (!(element instanceof IAdaptable) || ((IAdaptable)element).getAdapter(IProject.class) == null) {
-				for (int j= i; j < elements.length - 1; j++)
+				for (int j= i; j < elements.length - 1; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					elements[j]= elements[j + 1];
 				deletedElements++;
 			}
@@ -191,7 +191,7 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 		return result;
 	}
 
-	private Object[] getInitialTreeSelection() {
+	private Object[] getInitialTreeSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Object[][] result= new Object[1][];
 		BusyIndicator.showWhile(getShell().getDisplay(), () -> {
 			IStructuredSelection selection= fInitialSelection;
@@ -213,7 +213,7 @@ public class JavaWorkingSetPage extends AbstractWorkingSetWizardPage {
 			}
 
 			Object[] elements= selection.toArray();
-			for (int i= 0; i < elements.length; i++) {
+			for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (elements[i] instanceof IResource) {
 					IJavaElement je= ((IResource)elements[i]).getAdapter(IJavaElement.class);
 					if (je != null && je.exists() &&  je.getJavaProject().isOnClasspath((IResource)elements[i]))

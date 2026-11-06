@@ -32,7 +32,7 @@ public class EventDrivenTestSuite extends TestSuite {
 		return new PerformanceTestSetup(new EventDrivenTestSuite());
 	}
 
-	public EventDrivenTestSuite() {
+	public EventDrivenTestSuite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		addTest(new DebugSetup(JavaNonInitialTypingTest.suite()));
 		addTest(new DebugSetup(TextNonInitialTypingTest.suite()));
 		addTest(new DebugSetup(ScrollJavaEditorTest.suite()));

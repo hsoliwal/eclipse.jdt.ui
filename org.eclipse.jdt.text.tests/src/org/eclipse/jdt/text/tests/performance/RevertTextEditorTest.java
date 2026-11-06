@@ -28,11 +28,11 @@ public class RevertTextEditorTest extends RevertEditorTest {
 
 	private static final Class<RevertTextEditorTest> THIS= RevertTextEditorTest.class;
 
-	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout";
+	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String ORIG_FILE= PREFIX + ".java";
+	private static final String ORIG_FILE= PREFIX + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String FILE= PREFIX + ".txt";
+	private static final String FILE= PREFIX + ".txt"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static Test suite() {
 		return new PerformanceTestSetup(new TestSuite(THIS));

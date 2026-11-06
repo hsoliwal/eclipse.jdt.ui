@@ -98,12 +98,12 @@ public class ImportsCleanUp extends AbstractCleanUp {
 
     @Override
 	public String getPreview() {
-    	StringBuilder buf= new StringBuilder();
+    	StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.ORGANIZE_IMPORTS)) {
-			buf.append("import org.model.Engine;\n"); //$NON-NLS-1$
+			buf.append("import org.model.Engine;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("import org.model.*;\n"); //$NON-NLS-1$
+			buf.append("import org.model.*;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return buf.toString();

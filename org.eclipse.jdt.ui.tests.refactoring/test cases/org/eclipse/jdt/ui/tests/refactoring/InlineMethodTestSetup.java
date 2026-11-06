@@ -55,7 +55,7 @@ public class InlineMethodTestSetup extends RefactoringTestSetup {
 	private IPackageFragment fOperator;
 	private IPackageFragment fWarning;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void before() throws Exception {
 		super.before();
 
@@ -151,18 +151,18 @@ public class InlineMethodTestSetup extends RefactoringTestSetup {
 
 	}
 
-	private static void copyFilesFromResources(IProject project, String pathInRoot, String filePattern) throws CoreException, IOException {
-		String[] folders= pathInRoot.split("/");
+	private static void copyFilesFromResources(IProject project, String pathInRoot, String filePattern) throws CoreException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String[] folders= pathInRoot.split("/"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		IFolder folder= project.getFolder(folders[0]);
 		folder.create(true, true, null);
-		for (int i= 1; i < folders.length; i++) {
+		for (int i= 1; i < folders.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			folder= folder.getFolder(folders[i]);
 			folder.create(true, true, null);
 		}
 
 		Bundle bundle= RefactoringTestPlugin.getDefault().getBundle();
-		Enumeration<URL> classUrls= bundle.findEntries("/resources/InlineMethodWorkspace/TestCases/" + pathInRoot, filePattern, false);
-		while (classUrls.hasMoreElements()) {
+		Enumeration<URL> classUrls= bundle.findEntries("/resources/InlineMethodWorkspace/TestCases/" + pathInRoot, filePattern, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		while (classUrls.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			URL classUrl= classUrls.nextElement();
 			String urlFile= classUrl.getFile();
 			String fileName= urlFile.substring(urlFile.lastIndexOf('/') + 1);

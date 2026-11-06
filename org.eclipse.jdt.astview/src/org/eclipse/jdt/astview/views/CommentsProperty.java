@@ -42,7 +42,7 @@ public class CommentsProperty extends ASTAttribute {
 	@Override
 	public String getLabel() {
 		List<Comment> commentList= fRoot.getCommentList();
-		return "> comments (" +  (commentList == null ? 0 : commentList.size()) + ")";  //$NON-NLS-1$//$NON-NLS-2$
+		return "> comments (" +  (commentList == null ? 0 : commentList.size()) + ")";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

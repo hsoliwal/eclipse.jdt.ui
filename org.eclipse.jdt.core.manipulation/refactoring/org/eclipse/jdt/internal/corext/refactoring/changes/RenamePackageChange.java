@@ -52,7 +52,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		return new Path(packageName.replace('.', IPath.SEPARATOR));
 	}
 
-	private Map<IResource, Long> fCompilationUnitStamps;
+	private Map<IResource, Long> fCompilationUnitStamps; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	private final boolean fRenameSubpackages;
 
@@ -61,7 +61,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		Assert.isTrue(!pack.isReadOnly(), "package must not be read only"); //$NON-NLS-1$
 	}
 
-	private RenamePackageChange(IPath resourcePath, String oldName, String newName, long stampToRestore, Map<IResource, Long> compilationUnitStamps, boolean renameSubpackages) {
+	private RenamePackageChange(IPath resourcePath, String oldName, String newName, long stampToRestore, Map<IResource, Long> compilationUnitStamps, boolean renameSubpackages) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
 		super(resourcePath, oldName, newName, stampToRestore);
 		fCompilationUnitStamps= compilationUnitStamps;
 		fRenameSubpackages= renameSubpackages;
@@ -69,8 +69,8 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		setValidationMethod(VALIDATE_NOT_DIRTY);
 	}
 
-	private void addStamps(Map<IResource, Long> stamps, ICompilationUnit[] units) {
-		for (ICompilationUnit unit : units) {
+	private void addStamps(Map<IResource, Long> stamps, ICompilationUnit[] units) { //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES PARAMETER
+		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= unit.getResource();
 			long stamp= IResource.NULL_STAMP;
 			if (resource != null && (stamp= resource.getModificationStamp()) != IResource.NULL_STAMP) {
@@ -98,11 +98,11 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		IPackageFragment pack= getPackage();
 		if (pack == null)
 			return new NullChange();
-		Map<IResource, Long> stamps= new HashMap<>();
+		Map<IResource, Long> stamps= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (!fRenameSubpackages) {
 			addStamps(stamps, pack.getCompilationUnits());
 		} else {
-			for (IPackageFragment currentPackage : JavaElementUtil.getPackageAndSubpackages(pack)) {
+			for (IPackageFragment currentPackage : JavaElementUtil.getPackageAndSubpackages(pack)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addStamps(stamps, currentPackage.getCompilationUnits());
 			}
 		}
@@ -111,7 +111,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		// not merge the source package into an existing target.
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void doRename(IProgressMonitor pm) throws CoreException {
 		IPackageFragment pack= getPackage();
 		if (pack == null)
@@ -132,7 +132,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 			// When renaming to subpackage (a -> a.b), do it inside-out:
 			boolean insideOut= getNewName().startsWith(getOldName());
 			try {
-				for (int i= 0; i < count; i++) {
+				for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPackageFragment currentPackage= allPackages[insideOut ? count - i - 1 : i];
 					renamePackage(currentPackage, SubMonitor.convert(pm, 1), createNewPath(currentPackage), getNewName(currentPackage));
 				}
@@ -150,7 +150,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 	}
 
 	private String getNewName(IPackageFragment subpackage) {
-		return getNewName() + subpackage.getElementName().substring(getOldName().length());
+		return getNewName() + subpackage.getElementName().substring(getOldName().length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IPackageFragment getPackage() {
@@ -161,7 +161,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		return fRenameSubpackages;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus isValid(IProgressMonitor pm) throws CoreException {
 		pm.beginTask("", 2); //$NON-NLS-1$
 		RefactoringStatus result;
@@ -179,7 +179,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 					IPackageFragment[] allPackages= JavaElementUtil.getPackageAndSubpackages(pack);
 					SubMonitor subPm= SubMonitor.convert(pm, 1);
 					subPm.beginTask("", allPackages.length); //$NON-NLS-1$
-					for (IPackageFragment pckg : allPackages) {
+					for (IPackageFragment pckg : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// don't check for read-only since we don't go through
 						// validate edit.
 						checkIfModifiable(result, pckg.getResource(), VALIDATE_NOT_DIRTY);
@@ -200,7 +200,7 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 	private void isValid(RefactoringStatus result, IPackageFragment pack, IProgressMonitor pm) throws JavaModelException {
 		ICompilationUnit[] units= pack.getCompilationUnits();
 		pm.beginTask("", units.length); //$NON-NLS-1$
-		for (ICompilationUnit unit : units) {
+		for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pm.subTask(Messages.format(RefactoringCoreMessages.RenamePackageChange_checking_change, JavaElementLabelsCore.getElementLabel(pack, JavaElementLabelsCore.ALL_DEFAULT)));
 			checkIfModifiable(result, unit.getResource(), VALIDATE_NOT_READ_ONLY | VALIDATE_NOT_DIRTY);
 			pm.worked(1);
@@ -208,14 +208,14 @@ public final class RenamePackageChange extends AbstractJavaElementRenameChange {
 		pm.done();
 	}
 
-	private void renamePackage(IPackageFragment pack, IProgressMonitor pm, IPath newPath, String newName) throws JavaModelException, CoreException {
+	private void renamePackage(IPackageFragment pack, IProgressMonitor pm, IPath newPath, String newName) throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (! pack.exists())
 			return; // happens if empty parent with single subpackage is renamed, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=199045
 		pack.rename(newName, false, pm);
 		if (fCompilationUnitStamps != null) {
 			IPackageFragment newPack= (IPackageFragment) JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getFolder(newPath));
 			if (newPack.exists()) {
-				for (ICompilationUnit unit : newPack.getCompilationUnits()) {
+				for (ICompilationUnit unit : newPack.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IResource resource= unit.getResource();
 					if (resource != null) {
 						Long stamp= fCompilationUnitStamps.get(resource);

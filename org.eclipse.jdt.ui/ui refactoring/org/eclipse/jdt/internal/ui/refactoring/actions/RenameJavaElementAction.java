@@ -63,7 +63,7 @@ import org.eclipse.jdt.internal.ui.text.correction.proposals.LinkedNamesAssistPr
 import org.eclipse.jdt.internal.ui.util.ASTHelper;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public class RenameJavaElementAction extends SelectionDispatchAction {
+public class RenameJavaElementAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -128,7 +128,7 @@ public class RenameJavaElementAction extends SelectionDispatchAction {
 
 	//---- text selection ------------------------------------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(ITextSelection selection) {
 		if (selection instanceof JavaTextSelection) {
 			try {
@@ -167,7 +167,7 @@ public class RenameJavaElementAction extends SelectionDispatchAction {
 		}
 	}
 
-	final public void doRun() {
+	final public void doRun() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RenameLinkedMode activeLinkedMode= RenameLinkedMode.getActiveLinkedMode();
 		if (activeLinkedMode != null) {
 			if (activeLinkedMode.isCaretInLinkedPosition()) {
@@ -249,7 +249,7 @@ public class RenameJavaElementAction extends SelectionDispatchAction {
 		}
 	}
 
-	private boolean isVarTypeSelection(ITextSelection textSelection) {
+	private boolean isVarTypeSelection(ITextSelection textSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (textSelection instanceof JavaTextSelection) {
 			ASTNode node= ((JavaTextSelection) textSelection).resolveCoveringNode();
 			if (node instanceof SimpleName && node.getAST().apiLevel() >= ASTHelper.JLS10 && ((SimpleName) node).isVar()) {
@@ -268,7 +268,7 @@ public class RenameJavaElementAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	private IField getField(ILocalVariable localVar) {
+	private IField getField(ILocalVariable localVar) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IField field= null;
 		if (localVar != null) {
 			IJavaElement parent= localVar.getParent();
@@ -301,7 +301,7 @@ public class RenameJavaElementAction extends SelectionDispatchAction {
 		return field;
 	}
 
-	private IField getRecordComponentToRename(IJavaElement element) {
+	private IField getRecordComponentToRename(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IField recCompField= null;
 		if (element != null) {
 			if (element.getElementType() == IJavaElement.LOCAL_VARIABLE) {
@@ -346,7 +346,7 @@ public class RenameJavaElementAction extends SelectionDispatchAction {
 								&& pType.isRecord()
 								&& !Flags.isStatic(mElem.getFlags())) {
 							IField[] fields= pType.getRecordComponents();
-							for (IField field : fields) {
+							for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (!Flags.isStatic(field.getFlags()) && mElem.getElementName().equals(field.getElementName())) {
 									recCompField= field;
 									break;

@@ -24,9 +24,9 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
 
-class JavaWorkingSetPageContentProvider extends StandardJavaElementContentProvider {
+class JavaWorkingSetPageContentProvider extends StandardJavaElementContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasChildren(Object element) {
 
 		if (element instanceof IProject && !((IProject)element).isAccessible())

@@ -30,11 +30,11 @@ import org.eclipse.jdt.core.JavaCore;
 
 public class JavaWorkingSetElementAdapter implements IWorkingSetElementAdapter {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAdaptable[] adaptElements(IWorkingSet ws, IAdaptable[] elements) {
-		ArrayList<Object> result= new ArrayList<>(elements.length);
+		ArrayList<Object> result= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IAdaptable curr : elements) {
+		for (IAdaptable curr : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof IJavaElement) {
 				result.add(curr);
 			} else if (curr instanceof IResource) {

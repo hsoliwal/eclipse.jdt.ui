@@ -45,7 +45,7 @@ public abstract class AbstractExceptionAnalyzer extends ASTVisitor {
 
 	protected AbstractExceptionAnalyzer() {
 		fTryStack= new Stack<>();
-		fCurrentExceptions= new ArrayList<>(1);
+		fCurrentExceptions= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fTryStack.push(fCurrentExceptions);
 	}
 
@@ -94,16 +94,16 @@ public abstract class AbstractExceptionAnalyzer extends ASTVisitor {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(TryStatement node) {
-		fCurrentExceptions= new ArrayList<>(1);
+		fCurrentExceptions= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fTryStack.push(fCurrentExceptions);
 
 		// visit try block
 		node.getBody().accept(this);
 
 		List<Expression> resources= node.resources();
-		for (Expression expression : resources) {
+		for (Expression expression : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expression.accept(this);
 		}
 
@@ -113,12 +113,12 @@ public abstract class AbstractExceptionAnalyzer extends ASTVisitor {
 			handleCatchArguments(catchClauses);
 		List<ITypeBinding> current= fTryStack.pop();
 		fCurrentExceptions= fTryStack.peek();
-		for (ITypeBinding typeBinding : current) {
+		for (ITypeBinding typeBinding : current) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addException(typeBinding, node.getAST());
 		}
 
 		// visit catch and finally
-		for (CatchClause catchClause : catchClauses) {
+		for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			catchClause.accept(this);
 		}
 		if (node.getFinally() != null)
@@ -147,7 +147,7 @@ public abstract class AbstractExceptionAnalyzer extends ASTVisitor {
 	protected void addExceptions(ITypeBinding[] exceptions, AST ast) {
 		if(exceptions == null)
 			return;
-		for (ITypeBinding exception : exceptions) {
+		for (ITypeBinding exception : exceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addException(exception, ast);
 		}
 	}
@@ -163,11 +163,11 @@ public abstract class AbstractExceptionAnalyzer extends ASTVisitor {
 	}
 
 	private void handleCatchArguments(List<CatchClause> catchClauses) {
-		for (CatchClause catchClause : catchClauses) {
+		for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type type= catchClause.getException().getType();
 			if (type instanceof UnionType) {
 				List<Type> types= ((UnionType) type).types();
-				for (Type type2 : types) {
+				for (Type type2 : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					removeCaughtExceptions(type2.resolveBinding());
 				}
 			} else {
@@ -179,14 +179,14 @@ public abstract class AbstractExceptionAnalyzer extends ASTVisitor {
 	private void removeCaughtExceptions(ITypeBinding catchTypeBinding) {
 		if (catchTypeBinding == null)
 			return;
-		for (ITypeBinding throwTypeBinding : new ArrayList<>(fCurrentExceptions)) {
+		for (ITypeBinding throwTypeBinding : new ArrayList<>(fCurrentExceptions)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (catches(catchTypeBinding, throwTypeBinding))
 				fCurrentExceptions.remove(throwTypeBinding);
 		}
 	}
 
 	private boolean catches(ITypeBinding catchTypeBinding, ITypeBinding throwTypeBinding) {
-		while(throwTypeBinding != null) {
+		while(throwTypeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (throwTypeBinding == catchTypeBinding)
 				return true;
 			throwTypeBinding= throwTypeBinding.getSuperclass();

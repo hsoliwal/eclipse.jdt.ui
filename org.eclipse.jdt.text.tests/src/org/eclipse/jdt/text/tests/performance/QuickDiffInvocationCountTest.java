@@ -44,7 +44,7 @@ public class QuickDiffInvocationCountTest extends TextPerformanceTestCase {
 
 	private static final Class<QuickDiffInvocationCountTest> THIS= QuickDiffInvocationCountTest.class;
 
-	private static final String FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/TableTree.java";
+	private static final String FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/TableTree.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private AbstractTextEditor fEditor;
 
@@ -56,7 +56,7 @@ public class QuickDiffInvocationCountTest extends TextPerformanceTestCase {
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -70,7 +70,7 @@ public class QuickDiffInvocationCountTest extends TextPerformanceTestCase {
 				viewer.getRewriteTarget().beginCompoundChange();
 			if (document instanceof IDocumentExtension4)
 				rewriteSession= ((IDocumentExtension4) document).startRewriteSession(DocumentRewriteSessionType.STRICTLY_SEQUENTIAL);
-			for (int i= 0; i < document.getNumberOfLines(); i += 2) {
+			for (int i= 0; i < document.getNumberOfLines(); i += 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				document.replace(document.getLineOffset(i), 0, " ");
 			}
 		} finally {

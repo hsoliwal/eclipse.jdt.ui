@@ -51,14 +51,14 @@ public class DefaultModulepathFixProcessor extends DefaultClasspathFixProcessor 
 
 	@Override
 	public ClasspathFixProposal[] getFixImportProposals(IJavaProject project, String missingType) throws CoreException {
-		ArrayList<DefaultClasspathFixProposal> res= new ArrayList<>();
+		ArrayList<DefaultClasspathFixProposal> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (missingType.startsWith(MODULE_SEARCH)) {
 			collectModuleProposals(project, missingType.substring(MODULE_SEARCH.length()), res);
 		}
 		return res.toArray(new ClasspathFixProposal[res.size()]);
 	}
 
-	private void collectModuleProposals(IJavaProject project, String name, Collection<DefaultClasspathFixProposal> proposals) throws CoreException {
+	private void collectModuleProposals(IJavaProject project, String name, Collection<DefaultClasspathFixProposal> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IModuleDescription currentModuleDescription= null;
 		if (JavaModelUtil.is9OrHigher(project)) {
@@ -72,7 +72,7 @@ public class DefaultModulepathFixProcessor extends DefaultClasspathFixProcessor 
 		}
 
 		IJavaSearchScope scope= SearchEngine.createWorkspaceScope();
-		ArrayList<IModuleDescription> res= new ArrayList<>();
+		ArrayList<IModuleDescription> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SearchRequestor requestor= new SearchRequestor() {
 			@Override
 			public void acceptSearchMatch(SearchMatch match) throws CoreException {
@@ -102,10 +102,10 @@ public class DefaultModulepathFixProcessor extends DefaultClasspathFixProcessor 
 		}
 
 
-		HashMap<IClasspathEntry, IModuleDescription> classPathEntryToModuleMap= new HashMap<>();
-		HashSet<IClasspathEntry> classpaths= new HashSet<>();
-		HashSet<String> typesWithModule= new HashSet<>();
-		for (IModuleDescription curr : res) {
+		HashMap<IClasspathEntry, IModuleDescription> classPathEntryToModuleMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashSet<IClasspathEntry> classpaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<String> typesWithModule= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IModuleDescription curr : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr != null) {
 				IPackageFragmentRoot root= (IPackageFragmentRoot) curr.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 				try {
@@ -128,8 +128,8 @@ public class DefaultModulepathFixProcessor extends DefaultClasspathFixProcessor 
 		}
 
 
-		HashSet<Object> addedClaspaths= new HashSet<>();
-		for (IModuleDescription curr : res) {
+		HashSet<Object> addedClaspaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IModuleDescription curr : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr != null) {
 				IPackageFragmentRoot root= (IPackageFragmentRoot) curr.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 				try {

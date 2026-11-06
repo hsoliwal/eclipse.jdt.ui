@@ -111,7 +111,7 @@ public class JavaReconcilingStrategy implements IReconcilingStrategy, IReconcili
 	 * @throws JavaModelException if the original Java element does not exist
 	 * @since 3.4
 	 */
-	private CompilationUnit reconcile(ICompilationUnit unit, boolean initialReconcile) throws JavaModelException {
+	private CompilationUnit reconcile(ICompilationUnit unit, boolean initialReconcile) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/* fix for missing cancel flag communication */
 		IProblemRequestorExtension extension= getProblemRequestorExtension();
 		if (extension != null) {

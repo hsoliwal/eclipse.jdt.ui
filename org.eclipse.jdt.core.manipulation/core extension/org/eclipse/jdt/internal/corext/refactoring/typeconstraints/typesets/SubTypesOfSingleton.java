@@ -48,7 +48,7 @@ public class SubTypesOfSingleton extends TypeSet {
 		return this; // makeClone();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TypeSet specialCasesIntersectedWith(TypeSet other) {
 		if (other.isSingleton() && other.anyMember().equals(fUpperBound))
 			return other;		// xsect(subTypes(A),A) = A
@@ -130,7 +130,7 @@ public class SubTypesOfSingleton extends TypeSet {
 		return TTypes.canAssignTo(t, fUpperBound);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean containsAll(TypeSet other) {
 		if (isUniverse())
 			return true;
@@ -145,7 +145,7 @@ public class SubTypesOfSingleton extends TypeSet {
 			SubTypesSet otherSub= (SubTypesSet) other;
 			TypeSet otherUpperBounds= otherSub.upperBound();
 
-			for(Iterator<TType> iter= otherUpperBounds.iterator(); iter.hasNext(); ) {
+			for(Iterator<TType> iter= otherUpperBounds.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType t= iter.next();
 				if (! TTypes.canAssignTo(t, fUpperBound))
 					return false;
@@ -153,7 +153,7 @@ public class SubTypesOfSingleton extends TypeSet {
 			return true;
 		}
 		// For now, no more tricks up my sleeve; get an iterator
-		for(Iterator<TType> iter= other.iterator(); iter.hasNext(); ) {
+		for(Iterator<TType> iter= other.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= iter.next();
 
 			if (! TTypes.canAssignTo(t, fUpperBound))
@@ -162,7 +162,7 @@ public class SubTypesOfSingleton extends TypeSet {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Iterator<TType> iterator() {
 		return enumerate().iterator();
 //		return new Iterator() {
@@ -240,6 +240,6 @@ public class SubTypesOfSingleton extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "<" + fID + ": subTypes(" + fUpperBound.getPrettySignature() + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "<" + fID + ": subTypes(" + fUpperBound.getPrettySignature() + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

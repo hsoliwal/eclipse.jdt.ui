@@ -45,39 +45,39 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 
 public final class CreatePackageInfoWithDefaultNullnessProposalCore extends ChangeCorrectionProposalCore {
-	public static CreatePackageInfoWithDefaultNullnessProposalCore createFor(int problemId, String name, IPackageFragment pack) throws CoreException {
+	public static CreatePackageInfoWithDefaultNullnessProposalCore createFor(int problemId, String name, IPackageFragment pack) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int relevance= IProposalRelevance.ADD_MISSING_NULLNESS_ANNOTATION;
 		String nonNullByDefaultAnnotationName= NullAnnotationsFixCore.getNonNullByDefaultAnnotationName(pack, false);
 
 		String lineDelimiter= StubUtility.getLineDelimiterUsed(pack.getJavaProject());
-		StringBuilder content= new StringBuilder();
+		StringBuilder content= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String fileComment= getFileComment(JavaModelUtil.PACKAGE_INFO_JAVA, pack, lineDelimiter);
 		String typeComment= getTypeComment(JavaModelUtil.PACKAGE_INFO_JAVA, pack, lineDelimiter);
 		if (fileComment != null) {
-			content.append(fileComment);
-			content.append(lineDelimiter);
+			content.append(fileComment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		if (typeComment != null) {
-			content.append(typeComment);
-			content.append(lineDelimiter);
+			content.append(typeComment); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else if (fileComment != null) {
 			// insert an empty file comment to avoid that the file comment becomes the type comment
-			content.append("/**"); //$NON-NLS-1$
-			content.append(lineDelimiter);
-			content.append(" *"); //$NON-NLS-1$
-			content.append(lineDelimiter);
-			content.append(" */"); //$NON-NLS-1$
-			content.append(lineDelimiter);
+			content.append("/**"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(" *"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(" */"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		content.append("@"); //$NON-NLS-1$
-		content.append(nonNullByDefaultAnnotationName);
-		content.append(lineDelimiter);
-		content.append("package "); //$NON-NLS-1$
-		content.append(pack.getElementName());
-		content.append(";"); //$NON-NLS-1$
-		content.append(lineDelimiter);
+		content.append("@"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		content.append(nonNullByDefaultAnnotationName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		content.append("package "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		content.append(pack.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		content.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		content.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String source= content.toString();
 
 		ICompilationUnit unit= pack.getCompilationUnit(JavaModelUtil.PACKAGE_INFO_JAVA);
@@ -107,7 +107,7 @@ public final class CreatePackageInfoWithDefaultNullnessProposalCore extends Chan
 		fUnit= unit;
 	}
 
-	public void resolve(MultiFixTarget[] problems, IProgressMonitor monitor) throws CoreException {
+	public void resolve(MultiFixTarget[] problems, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * if there are multiple problems for different source folders with the same package and they are in the same project,
 		 * only create a package-info.java in one of them. prefer main sources to test sources, for now by sorting by folder
@@ -116,19 +116,19 @@ public final class CreatePackageInfoWithDefaultNullnessProposalCore extends Chan
 		 * similar, if they are in different projects and one is on the classpath of the other, create it in the
 		 * project that cannot see the other.
 		 */
-		HashMap<String, ArrayList<MultiFixTarget>> packageToTarget= new HashMap<>();
-		ArrayList<IPackageFragment> removeList= new ArrayList<>();
-		for (MultiFixTarget problem : problems) {
+		HashMap<String, ArrayList<MultiFixTarget>> packageToTarget= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		ArrayList<IPackageFragment> removeList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MultiFixTarget problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment packageFragment= (IPackageFragment) problem.getCompilationUnit().getParent();
 			ArrayList<MultiFixTarget> list= packageToTarget.get(packageFragment.getElementName());
 			if (list == null) {
-				list= new ArrayList<>();
+				list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				list.add(problem);
 				packageToTarget.put(packageFragment.getElementName(), list);
 			} else {
 				IPackageFragmentRoot packageFragmentRoot= (IPackageFragmentRoot) packageFragment.getParent();
 				boolean needToAdd= true;
-				for (int i= 0; i < list.size(); i++) {
+				for (int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					MultiFixTarget previous= list.get(i);
 					IPackageFragmentRoot previousPackageFragmentRoot= (IPackageFragmentRoot) previous.getCompilationUnit().getParent().getParent();
 					if (Objects.equals(packageFragmentRoot.getJavaProject(), previousPackageFragmentRoot.getJavaProject())) {
@@ -155,9 +155,9 @@ public final class CreatePackageInfoWithDefaultNullnessProposalCore extends Chan
 			}
 		}
 		CompositeChange compositeChange= new CompositeChange(this.getName());
-		for (Entry<String, ArrayList<MultiFixTarget>> entry : packageToTarget.entrySet()) {
+		for (Entry<String, ArrayList<MultiFixTarget>> entry : packageToTarget.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ArrayList<MultiFixTarget> list= entry.getValue();
-			for (MultiFixTarget multiFixTarget : list) {
+			for (MultiFixTarget multiFixTarget : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CreatePackageInfoWithDefaultNullnessProposalCore createPackageInfoProposal= createFor(this.fProblemId, this.getName(),
 						(IPackageFragment) multiFixTarget.getCompilationUnit().getParent());
 				compositeChange.add(createPackageInfoProposal.getChange());
@@ -168,7 +168,7 @@ public final class CreatePackageInfoWithDefaultNullnessProposalCore extends Chan
 		operation.run(monitor);
 		// for package fragments on the removeList, a package-info.java has been created in another project on the classpath.
 		// in an incremental build, the markers are not deleted, so delete them here.
-		for (IPackageFragment packageFragment : removeList) {
+		for (IPackageFragment packageFragment : removeList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			packageFragment.getResource().deleteMarkers(IJavaModelMarker.JAVA_MODEL_PROBLEM_MARKER, false, IResource.DEPTH_ZERO);
 		}
 	}

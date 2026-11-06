@@ -94,7 +94,7 @@ public class NewModuleInfoWizard extends Wizard implements INewWizard {
 		addPage(fPage);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		IStatus status= fPage.getModuleNameStatus();
 		int severity= status.getSeverity();
@@ -136,7 +136,7 @@ public class NewModuleInfoWizard extends Wizard implements INewWizard {
 		if (activePage != null) {
 			final Display display= getDisplay();
 			if (display != null) {
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					try {
 						IDE.openEditor(activePage, file, true);
 					} catch (PartInitException e) {
@@ -160,10 +160,10 @@ public class NewModuleInfoWizard extends Wizard implements INewWizard {
 		InfoFilesUtil.createInfoJavaFile(MODULE_INFO_JAVA_FILENAME, fileContent.toString(), defaultPkg, fPage.isAddComments(), new NullProgressMonitor());
 	}
 
-	private String getModuleInfoFileContent(IPackageFragmentRoot[] packageFragmentRoots) throws CoreException {
-		HashSet<String> exportedPackages= new HashSet<>();
-		for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) {
-			for (IJavaElement child : packageFragmentRoot.getChildren()) {
+	private String getModuleInfoFileContent(IPackageFragmentRoot[] packageFragmentRoots) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<String> exportedPackages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IPackageFragmentRoot packageFragmentRoot : packageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IJavaElement child : packageFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof IPackageFragment) {
 					IPackageFragment pkgFragment= (IPackageFragment) child;
 					if (!pkgFragment.isDefaultPackage() && pkgFragment.getCompilationUnits().length != 0) {
@@ -175,32 +175,32 @@ public class NewModuleInfoWizard extends Wizard implements INewWizard {
 
 		String[] requiredModules= JavaCore.getReferencedModules(fProject);
 		String moduleName= fPage.getModuleNameText();
-		StringBuilder fileContent= new StringBuilder();
-		fileContent.append("module "); //$NON-NLS-1$
-		fileContent.append(moduleName);
-		fileContent.append(" {"); //$NON-NLS-1$
+		StringBuilder fileContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		fileContent.append("module "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileContent.append(moduleName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileContent.append(" {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		for (String exportedPkg : exportedPackages) {
-			fileContent.append("exports "); //$NON-NLS-1$
-			fileContent.append(exportedPkg);
-			fileContent.append(";"); //$NON-NLS-1$
+		for (String exportedPkg : exportedPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fileContent.append("exports "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			fileContent.append(exportedPkg); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			fileContent.append(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		for (String requiredModule : requiredModules) {
-			fileContent.append("requires "); //$NON-NLS-1$
-			fileContent.append(requiredModule);
-			fileContent.append(';');
+		for (String requiredModule : requiredModules) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fileContent.append("requires "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			fileContent.append(requiredModule); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			fileContent.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		fileContent.append('}');
+		fileContent.append('}'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return fileContent.toString();
 	}
 
-	private void convertClasspathToModulePath(IProgressMonitor monitor) throws JavaModelException {
+	private void convertClasspathToModulePath(IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean changed= false;
 		IClasspathEntry[] rawClasspath= this.fProject.getRawClasspath();
-		for (int i= 0; i < rawClasspath.length; i++) {
+		for (int i= 0; i < rawClasspath.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry entry= rawClasspath[i];
 			switch (entry.getEntryKind()) {
 				case IClasspathEntry.CPE_CONTAINER:
@@ -222,7 +222,7 @@ public class NewModuleInfoWizard extends Wizard implements INewWizard {
 	}
 
 	private IClasspathAttribute[] addModuleAttributeIfNeeded(IClasspathAttribute[] extraAttributes) {
-		for (int j= 0; j < extraAttributes.length; j++) {
+		for (int j= 0; j < extraAttributes.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathAttribute classpathAttribute= extraAttributes[j];
 			if (IClasspathAttribute.MODULE.equals(classpathAttribute.getName())) {
 				if (TRUE.equals(classpathAttribute.getValue())) {

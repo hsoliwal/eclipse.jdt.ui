@@ -44,7 +44,7 @@ class ClassFileMarkerRulerAction extends MarkerRulerAction {
 	/**
 	 * @see MarkerRulerAction#getResource()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IResource getResource() {
 
 		IResource resource= null;

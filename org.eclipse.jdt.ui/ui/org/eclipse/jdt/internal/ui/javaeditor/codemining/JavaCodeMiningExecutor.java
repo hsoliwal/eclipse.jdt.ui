@@ -61,7 +61,7 @@ public final class JavaCodeMiningExecutor {
 
 			@Override
 			public Thread newThread(Runnable r) {
-				Thread t= new Thread(r, "Java Code Mining Worker-" + counter.getAndIncrement()); //$NON-NLS-1$
+				Thread t= new Thread(r, "Java Code Mining Worker-" + counter.getAndIncrement()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				t.setDaemon(true);
 				t.setPriority(Thread.NORM_PRIORITY - 1);
 				return t;

@@ -38,7 +38,7 @@ import org.eclipse.swt.graphics.Point;
  * auxiliary methods for testing such as {@link #getChainElementNames()}. It may be extended to
  * track user click feedback to continuously improve chain completion.
  */
-public class ChainCompletionProposal implements IJavaCompletionProposal, ICompletionProposalExtension2,
+public class ChainCompletionProposal implements IJavaCompletionProposal, ICompletionProposalExtension2, //FLLDCIM: MARK — T30  IMPLEMENTS
 		ICompletionProposalExtension3, ICompletionProposalExtension4, ICompletionProposalExtension6 {
 
 	private static final int CHAIN_PROPOSAL_BOOST= 100;
@@ -54,7 +54,7 @@ public class ChainCompletionProposal implements IJavaCompletionProposal, IComple
 
 	public List<String> getChainElementNames() {
 		final List<String> b= new LinkedList<>();
-		for (final ChainElement edge : chain.getElements()) {
+		for (final ChainElement edge : chain.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IJavaElement elem= edge.getElement();
 			final char[] name= elem instanceof IMethod ? ((IMethod) elem).getElementName().toCharArray() : elem.getElementName().toCharArray();
 			b.add(String.valueOf(name));

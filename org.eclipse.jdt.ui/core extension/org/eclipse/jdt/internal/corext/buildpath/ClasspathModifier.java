@@ -69,7 +69,7 @@ public class ClasspathModifier {
 
 	private ClasspathModifier() {}
 
-	public static BuildpathDelta setOutputLocation(CPListElement elementToChange, IPath outputPath, boolean allowInvalidCP, CPJavaProject cpProject) {
+	public static BuildpathDelta setOutputLocation(CPListElement elementToChange, IPath outputPath, boolean allowInvalidCP, CPJavaProject cpProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BuildpathDelta result= new BuildpathDelta(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_EditOutput_tooltip);
 
 		IJavaProject javaProject= cpProject.getJavaProject();
@@ -90,7 +90,7 @@ public class ClasspathModifier {
 		}
 
 		if (outputPath != null)
-			exclude(outputPath, cpProject.getCPListElements(), new ArrayList<>(), cpProject.getJavaProject(), null);
+			exclude(outputPath, cpProject.getCPListElements(), new ArrayList<>(), cpProject.getJavaProject(), null); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IPath oldOutputLocation= (IPath)elementToChange.getAttribute(CPListElement.OUTPUT);
         if (oldOutputLocation != null && oldOutputLocation.segmentCount() > 1 && !oldOutputLocation.equals(cpProject.getDefaultOutputLocation())) {
@@ -108,7 +108,7 @@ public class ClasspathModifier {
 		return result;
 	}
 
-	public static IStatus checkSetOutputLocationPrecondition(CPListElement elementToChange, IPath outputPath, boolean allowInvalidCP, CPJavaProject cpProject) {
+	public static IStatus checkSetOutputLocationPrecondition(CPListElement elementToChange, IPath outputPath, boolean allowInvalidCP, CPJavaProject cpProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= cpProject.getJavaProject();
 		IProject project= javaProject.getProject();
 		IWorkspace workspace= project.getWorkspace();
@@ -143,7 +143,7 @@ public class ClasspathModifier {
 			result= new StatusInfo(IStatus.INFO, Messages.format(NewWizardMessages.OutputLocationDialog_removeProjectFromBP, BasicElementLabels.getPathLabel(cpProject.getDefaultOutputLocation(), false)));
 		}
 
-		exclude(outputPath, cpProject.getCPListElements(), new ArrayList<>(), cpProject.getJavaProject(), null);
+		exclude(outputPath, cpProject.getCPListElements(), new ArrayList<>(), cpProject.getJavaProject(), null); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IPath oldOutputLocation= (IPath)elementToChange.getAttribute(CPListElement.OUTPUT);
         if (oldOutputLocation != null && oldOutputLocation.segmentCount() > 1 && !oldOutputLocation.equals(cpProject.getDefaultOutputLocation())) {
@@ -191,15 +191,15 @@ public class ClasspathModifier {
 		return result;
 	}
 
-    public static IStatus checkAddExternalJarsPrecondition(IPath[] absolutePaths, CPJavaProject cpProject) {
+    public static IStatus checkAddExternalJarsPrecondition(IPath[] absolutePaths, CPJavaProject cpProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	IStatus result= StatusInfo.OK_STATUS;
 
     	IJavaProject javaProject= cpProject.getJavaProject();
 
-    	List<CPListElement> newEntries= new ArrayList<>();
-    	List<CPListElement> duplicateEntries= new ArrayList<>();
+    	List<CPListElement> newEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+    	List<CPListElement> duplicateEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
     	List<CPListElement> existingEntries= cpProject.getCPListElements();
-		for (IPath absolutePath : absolutePaths) {
+		for (IPath absolutePath : absolutePaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement newEntry= new CPListElement(javaProject, IClasspathEntry.CPE_LIBRARY, absolutePath, null);
 			if (existingEntries.contains(newEntry)) {
 				duplicateEntries.add(newEntry);
@@ -211,9 +211,9 @@ public class ClasspathModifier {
 		if (duplicateEntries.size() > 0) {
 			String message;
 			if (duplicateEntries.size() > 1) {
-				StringBuilder buf= new StringBuilder();
-				for (CPListElement dup : duplicateEntries) {
-					buf.append('\n').append(BasicElementLabels.getResourceName(dup.getPath().lastSegment()));
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				for (CPListElement dup : duplicateEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buf.append('\n').append(BasicElementLabels.getResourceName(dup.getPath().lastSegment())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				message= Messages.format(NewWizardMessages.AddArchiveToBuildpathAction_DuplicateArchivesInfo_message, buf.toString());
 			} else {
@@ -228,7 +228,7 @@ public class ClasspathModifier {
 		cpProject= cpProject.createWorkingCopy();
 		existingEntries= cpProject.getCPListElements();
 
-		for (CPListElement newEntry : newEntries) {
+		for (CPListElement newEntry : newEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			insertAtEndOfCategory(newEntry, existingEntries);
 		}
 
@@ -239,13 +239,13 @@ public class ClasspathModifier {
 		return result;
     }
 
-    public static BuildpathDelta addExternalJars(IPath[] absolutePaths, CPJavaProject cpProject) {
+    public static BuildpathDelta addExternalJars(IPath[] absolutePaths, CPJavaProject cpProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	BuildpathDelta result= new BuildpathDelta(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_AddJarCP_tooltip);
 
     	IJavaProject javaProject= cpProject.getJavaProject();
 
     	List<CPListElement> existingEntries= cpProject.getCPListElements();
-		for (IPath absolutePath : absolutePaths) {
+		for (IPath absolutePath : absolutePaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement newEntry= new CPListElement(javaProject, IClasspathEntry.CPE_LIBRARY, absolutePath, null);
 			if (!existingEntries.contains(newEntry)) {
 				insertAtEndOfCategory(newEntry, existingEntries);
@@ -258,7 +258,7 @@ public class ClasspathModifier {
 		return result;
     }
 
-    public static BuildpathDelta removeFromBuildpath(CPListElement[] toRemove, CPJavaProject cpProject) {
+    public static BuildpathDelta removeFromBuildpath(CPListElement[] toRemove, CPJavaProject cpProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
         IJavaProject javaProject= cpProject.getJavaProject();
 		IPath projectPath= javaProject.getPath();
@@ -267,7 +267,7 @@ public class ClasspathModifier {
     	List<CPListElement> existingEntries= cpProject.getCPListElements();
 		BuildpathDelta result= new BuildpathDelta(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_RemoveFromCP_tooltip);
 
-		for (CPListElement element : toRemove) {
+		for (CPListElement element : toRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			existingEntries.remove(element);
 			result.removeEntry(element);
 			IPath path= element.getPath();
@@ -289,7 +289,7 @@ public class ClasspathModifier {
     }
 
     private static boolean containsSourceFolders(CPJavaProject cpProject) {
-    	for (CPListElement element : cpProject.getCPListElements()) {
+    	for (CPListElement element : cpProject.getCPListElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getEntryKind() == IClasspathEntry.CPE_SOURCE)
 				return true;
 		}
@@ -297,7 +297,7 @@ public class ClasspathModifier {
     }
 
 	private static void include(CPJavaProject cpProject, IPath path) {
-	 	for (CPListElement element : cpProject.getCPListElements()) {
+	 	for (CPListElement element : cpProject.getCPListElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			element.removeFromExclusions(path);
 		}
     }
@@ -311,8 +311,8 @@ public class ClasspathModifier {
 	 * build path entries of the project
 	 */
 	public static List<CPListElement> getExistingEntries(IJavaProject project) throws JavaModelException {
-		ArrayList<CPListElement> newClassPath= new ArrayList<>();
-		for (IClasspathEntry entry : project.getRawClasspath()) {
+		ArrayList<CPListElement> newClassPath= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IClasspathEntry entry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newClassPath.add(CPListElement.createFromExisting(entry, project));
 		}
 		return newClassPath;
@@ -332,7 +332,7 @@ public class ClasspathModifier {
 	 */
 	public static CPListElement getClasspathEntry(List<CPListElement> elements, IPackageFragmentRoot root) throws JavaModelException {
 		IClasspathEntry entry= root.getRawClasspathEntry();
-		for (CPListElement element : elements) {
+		for (CPListElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getPath().equals(root.getPath()) && element.getEntryKind() == entry.getEntryKind())
 				return element;
 		}
@@ -368,12 +368,12 @@ public class ClasspathModifier {
 	 * @param monitor progress monitor, can be <code>null</code>
 	 * @return resolved fragment root, or <code>null</code> the resource is not (in) a source folder
 	 */
-	public static IPackageFragmentRoot getFragmentRoot(IResource resource, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	public static IPackageFragmentRoot getFragmentRoot(IResource resource, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement javaElem= null;
 		if (resource.getFullPath().equals(project.getPath()))
 			return project.getPackageFragmentRoot(resource);
 		IContainer container= resource.getParent();
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (container instanceof IFolder)
 				javaElem= JavaCore.create((IFolder) container);
 			if (container.getFullPath().equals(project.getPath())) {
@@ -404,7 +404,7 @@ public class ClasspathModifier {
 	 * is no such entry
 	 */
 	public static IClasspathEntry getClasspathEntryFor(IPath path, IJavaProject project, int entryKind) throws JavaModelException {
-		for (IClasspathEntry entry : project.getRawClasspath()) {
+		for (IClasspathEntry entry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entry.getPath().equals(path) && equalEntryKind(entry, entryKind))
 				return entry;
 		}
@@ -477,7 +477,7 @@ public class ClasspathModifier {
 	 * @return <code>true</code> if there is an excluded parent,
 	 * <code>false</code> otherwise
 	 */
-	public static boolean parentExcluded(IResource resource, IJavaProject project) throws JavaModelException {
+	public static boolean parentExcluded(IResource resource, IJavaProject project) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resource.getFullPath().equals(project.getPath()))
 			return false;
 		IPackageFragmentRoot root= getFragmentRoot(resource, project, null);
@@ -488,7 +488,7 @@ public class ClasspathModifier {
 		IClasspathEntry entry= root.getRawClasspathEntry();
 		if (entry == null)
 			return true; // there is no build path entry, this is equal to the fact that the parent is excluded
-		while (path.segmentCount() > 0) {
+		while (path.segmentCount() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contains(path, entry.getExclusionPatterns(), null))
 				return true;
 			path= path.removeLastSegments(1);
@@ -524,7 +524,7 @@ public class ClasspathModifier {
 		try {
 			IPackageFragmentRoot[] roots= project.getPackageFragmentRoots();
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_CheckOutputFolders, roots.length);
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (root.getRawClasspathEntry().getOutputLocation() != null) {
 					return true;
 				}
@@ -536,32 +536,32 @@ public class ClasspathModifier {
 		return false;
 	}
 
-	public static String escapeSpecialChars(String value) {
-		StringBuilder buf = new StringBuilder();
-		for (int i = 0; i < value.length(); i++) {
+	public static String escapeSpecialChars(String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < value.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c = value.charAt(i);
 
 			switch (c) {
 			case '&':
-				buf.append("&amp;"); //$NON-NLS-1$
+				buf.append("&amp;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '<':
-				buf.append("&lt;"); //$NON-NLS-1$
+				buf.append("&lt;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '>':
-				buf.append("&gt;"); //$NON-NLS-1$
+				buf.append("&gt;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '\'':
-				buf.append("&apos;"); //$NON-NLS-1$
+				buf.append("&apos;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '\"':
-				buf.append("&quot;"); //$NON-NLS-1$
+				buf.append("&quot;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case 160:
-				buf.append(" "); //$NON-NLS-1$
+				buf.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			default:
-				buf.append(c);
+				buf.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			}
 		}
@@ -720,7 +720,7 @@ public class ClasspathModifier {
 	 * entries of the project.
 	 * @return returns a <code>List</code> of <code>CPListElement</code> of modified elements, not null.
 	 */
-	public static List<CPListElement> removeFilters(IPath path, IJavaProject project, List<CPListElement> existingEntries) {
+	public static List<CPListElement> removeFilters(IPath path, IJavaProject project, List<CPListElement> existingEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (path == null)
 			return Collections.emptyList();
 
@@ -729,13 +729,13 @@ public class ClasspathModifier {
 			path= path.removeFirstSegments(projPath.segmentCount()).addTrailingSeparator();
 		}
 
-		List<CPListElement> result= new ArrayList<>();
-		for (CPListElement element : existingEntries) {
+		List<CPListElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CPListElement element : existingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean hasChange= false;
 			IPath[] exlusions= (IPath[])element.getAttribute(CPListElement.EXCLUSION);
 			if (exlusions != null) {
-				List<IPath> exlusionList= new ArrayList<>(exlusions.length);
-				for (IPath exlusion : exlusions) {
+				List<IPath> exlusionList= new ArrayList<>(exlusions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath exlusion : exlusions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!exlusion.equals(path)) {
 						exlusionList.add(exlusion);
 					} else {
@@ -746,8 +746,8 @@ public class ClasspathModifier {
 			}
 			IPath[] inclusions= (IPath[])element.getAttribute(CPListElement.INCLUSION);
 			if (inclusions != null) {
-				List<IPath> inclusionList= new ArrayList<>(inclusions.length);
-				for (IPath inclusion : inclusions) {
+				List<IPath> inclusionList= new ArrayList<>(inclusions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IPath inclusion : inclusions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!inclusion.equals(path)) {
 						inclusionList.add(inclusion);
 					} else {
@@ -774,7 +774,7 @@ public class ClasspathModifier {
 	 * @param monitor progress monitor, can be <code>null</code>
 	 * @return a <code>IResource</code> corresponding to the excluded element
 	 */
-	private static IResource exclude(String name, IPath fullPath, CPListElement entry, IJavaProject project, IProgressMonitor monitor) {
+	private static IResource exclude(String name, IPath fullPath, CPListElement entry, IJavaProject project, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		IResource result;
@@ -816,7 +816,7 @@ public class ClasspathModifier {
 	 * @param project the Java project
 	 * @param monitor progress monitor, can be <code>null</code>
 	 */
-	public static void exclude(IPath path, List<CPListElement> existingEntries, List<CPListElement> newEntries, IJavaProject project, IProgressMonitor monitor) {
+	public static void exclude(IPath path, List<CPListElement> existingEntries, List<CPListElement> newEntries, IJavaProject project, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
@@ -824,7 +824,7 @@ public class ClasspathModifier {
 			CPListElement elem= null;
 			CPListElement existingElem= null;
 			int i= 0;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 				IPath rootPath= path.removeLastSegments(i);
 
@@ -907,7 +907,7 @@ public class ClasspathModifier {
 	 * @param project the Java project
 	 * @param monitor progress monitor, can be <code>null</code>
 	 */
-	public static void resetFilters(IJavaElement element, CPListElement entry, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	public static void resetFilters(IJavaElement element, CPListElement entry, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
@@ -955,7 +955,7 @@ public class ClasspathModifier {
 	 * the second <code>CPListElement</code> parameter itself if there is no match.
 	 */
 	public static CPListElement getClasspathEntry(List<CPListElement> elements, CPListElement cpElement) {
-		for (CPListElement element : elements) {
+		for (CPListElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getPath().equals(cpElement.getPath()))
 				return element;
 		}
@@ -972,7 +972,7 @@ public class ClasspathModifier {
 	 * no match could be found
 	 */
 	public static CPListElement getListElement(IPath path, List<CPListElement> elements) {
-		for (CPListElement element : elements) {
+		for (CPListElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getEntryKind() == IClasspathEntry.CPE_SOURCE && element.getPath().equals(path)) {
 				return element;
 			}
@@ -980,7 +980,7 @@ public class ClasspathModifier {
 		return null;
 	}
 
-	public static void commitClassPath(List<CPListElement> newEntries, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	public static void commitClassPath(List<CPListElement> newEntries, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 
@@ -1001,7 +1001,7 @@ public class ClasspathModifier {
 		}
 	}
 
-    public static void commitClassPath(CPJavaProject cpProject, IProgressMonitor monitor) throws JavaModelException {
+    public static void commitClassPath(CPJavaProject cpProject, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 
@@ -1038,9 +1038,9 @@ public class ClasspathModifier {
 	 * @param project the Java project
 	 * @return a list of elements corresponding to the passed entries.
 	 */
-	public static List<?> getCorrespondingElements(List<?> entries, IJavaProject project) {
-		List<IAdaptable> result= new ArrayList<>();
-		for (int i= 0; i < entries.size(); i++) {
+	public static List<?> getCorrespondingElements(List<?> entries, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IAdaptable> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < entries.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= entries.get(i);
 			IPath path;
 			if (element instanceof IResource)
@@ -1084,7 +1084,7 @@ public class ClasspathModifier {
 	 * @return <code>true</code> if there is an occurrence, <code>
 	 * false</code> otherwise
 	 */
-	private static boolean contains(IPath path, IPath[] paths, IProgressMonitor monitor) {
+	private static boolean contains(IPath path, IPath[] paths, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		if (path == null)
@@ -1093,7 +1093,7 @@ public class ClasspathModifier {
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_ComparePaths, paths.length);
 			if (path.getFileExtension() == null)
 				path= new Path(completeName(path.toString()));
-			for (IPath p : paths) {
+			for (IPath p : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (p.equals(path)) {
 					return true;
 				}
@@ -1115,7 +1115,7 @@ public class ClasspathModifier {
 	 */
 	private static String completeName(String name) {
 		if (!JavaCore.isJavaLikeFileName(name)) {
-			name= name + "/"; //$NON-NLS-1$
+			name= name + "/"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			name= name.replace('.', '/');
 			return name;
 		}
@@ -1134,7 +1134,7 @@ public class ClasspathModifier {
 	 * @param monitor progress monitor, can be <code>null</code>
 	 * @return array which does not contain <code>path</code>
 	 */
-	private static IPath[] remove(IPath path, IPath[] paths, IProgressMonitor monitor) {
+	private static IPath[] remove(IPath path, IPath[] paths, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
@@ -1142,8 +1142,8 @@ public class ClasspathModifier {
 			if (!contains(path, paths, Progress.subMonitor(monitor, 5)))
 				return paths;
 
-			ArrayList<IPath> newPaths= new ArrayList<>();
-			for (IPath p : paths) {
+			ArrayList<IPath> newPaths= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPath p : paths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				monitor.worked(1);
 				if (!p.equals(path)) {
 					newPaths.add(p);
@@ -1175,8 +1175,8 @@ public class ClasspathModifier {
 	 * of <code>path</code> and which are on the build path
 	 */
 	private static List<Path> getFoldersOnCP(IPath path, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
-		List<Path> srcFolders= new ArrayList<>();
-		for (IClasspathEntry cpEntry : project.getRawClasspath()) {
+		List<Path> srcFolders= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IClasspathEntry cpEntry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath cpPath= cpEntry.getPath();
 			if (path.isPrefixOf(cpPath) && path.segmentCount() + 1 == cpPath.segmentCount())
 				srcFolders.add(new Path(completeName(cpPath.lastSegment())));
@@ -1213,7 +1213,7 @@ public class ClasspathModifier {
 	public static void setNewEntry(List<CPListElement> existingEntries, List<CPListElement> newEntries, IJavaProject project, IProgressMonitor monitor) throws CoreException {
 		try {
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_SetNewEntry, existingEntries.size());
-			for (CPListElement entry : newEntries) {
+			for (CPListElement entry : newEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				validateAndAddEntry(entry, existingEntries, project);
 				monitor.worked(1);
 			}
@@ -1232,7 +1232,7 @@ public class ClasspathModifier {
 	 */
 	private static IClasspathEntry[] convert(List<CPListElement> list) {
 		IClasspathEntry[] entries= new IClasspathEntry[list.size()];
-		for (int i= 0; i < list.size(); i++) {
+		for (int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement element= list.get(i);
 			entries[i]= element.getClasspathEntry();
 		}
@@ -1250,7 +1250,7 @@ public class ClasspathModifier {
 	 * @param project the Java project
 	 * @throws CoreException in case that validation fails
 	 */
-	private static void validateAndAddEntry(CPListElement entry, List<CPListElement> existingEntries, IJavaProject project) throws CoreException {
+	private static void validateAndAddEntry(CPListElement entry, List<CPListElement> existingEntries, IJavaProject project) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path= entry.getPath();
 		IPath projPath= project.getProject().getFullPath();
 		IWorkspaceRoot workspaceRoot= ResourcesPlugin.getWorkspace().getRoot();
@@ -1281,7 +1281,7 @@ public class ClasspathModifier {
 				}
 			}
 
-			for (CPListElement curr : existingEntries) {
+			for (CPListElement curr : existingEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					if (path.equals(curr.getPath()) && !project.getPath().equals(path)) {
 						rootStatus.setError(NewWizardMessages.NewSourceFolderWizardPage_error_AlreadyExisting);
@@ -1291,7 +1291,7 @@ public class ClasspathModifier {
 			}
 
 			if (!isExternal && !entry.getPath().equals(project.getPath()))
-				exclude(entry.getPath(), existingEntries, new ArrayList<>(), project, null);
+				exclude(entry.getPath(), existingEntries, new ArrayList<>(), project, null); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			IPath outputLocation= project.getOutputLocation();
 			insertAtEndOfCategory(entry, existingEntries);
@@ -1325,16 +1325,16 @@ public class ClasspathModifier {
 		}
 	}
 
-	private static void insertAtEndOfCategory(CPListElement entry, List<CPListElement> existingEntries) {
+	private static void insertAtEndOfCategory(CPListElement entry, List<CPListElement> existingEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= existingEntries.size();
 		CPListElement[] elements= existingEntries.toArray(new CPListElement[length]);
 		int i= 0;
-		while (i < length && elements[i].getClasspathEntry().getEntryKind() != entry.getClasspathEntry().getEntryKind()) {
+		while (i < length && elements[i].getClasspathEntry().getEntryKind() != entry.getClasspathEntry().getEntryKind()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 		}
 		if (i < length) {
 			i++;
-			while (i < length && elements[i].getClasspathEntry().getEntryKind() == entry.getClasspathEntry().getEntryKind()) {
+			while (i < length && elements[i].getClasspathEntry().getEntryKind() == entry.getClasspathEntry().getEntryKind()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 			}
 			existingEntries.add(i, entry);
@@ -1384,17 +1384,17 @@ public class ClasspathModifier {
 		return entry.getEntryKind() == kind;
 	}
 
-	public static OutputFolderValidator getValidator(final List<?> newElements, final IJavaProject project) throws JavaModelException {
+	public static OutputFolderValidator getValidator(final List<?> newElements, final IJavaProject project) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new OutputFolderValidator(newElements, project) {
 
 			@Override
 			public boolean validate(IPath outputLocation) {
-				for (Object newElement : newElements) {
+				for (Object newElement : newElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isInvalid(newElement, outputLocation))
 						return false;
 				}
 
-				for (IClasspathEntry entry : fEntries) {
+				for (IClasspathEntry entry : fEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isInvalid(entry, outputLocation))
 						return false;
 				}

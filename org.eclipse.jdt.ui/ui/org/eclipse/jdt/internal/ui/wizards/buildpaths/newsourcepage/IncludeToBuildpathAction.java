@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 
 //SelectedElements iff enabled: IResource
-public class IncludeToBuildpathAction extends BuildpathModifierAction {
+public class IncludeToBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 
@@ -72,7 +72,7 @@ public class IncludeToBuildpathAction extends BuildpathModifierAction {
 		setToolTipText(NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_Unexclude_tooltip);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getDetailedDescription() {
 		if (!isEnabled())
 			return null;
@@ -92,13 +92,13 @@ public class IncludeToBuildpathAction extends BuildpathModifierAction {
         return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IResource resource= (IResource)getSelectedElements().get(0);
 		final IJavaProject project= JavaCore.create(resource.getProject());
 
 		try {
-			final IRunnableWithProgress runnable= monitor -> {
+			final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					List<?> result= unExclude(getSelectedElements(), project, monitor);
 					selectAndReveal(new StructuredSelection(result));
@@ -117,14 +117,14 @@ public class IncludeToBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	protected List<?> unExclude(List<?> elements, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	protected List<?> unExclude(List<?> elements, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_Including, 2 * elements.size());
 
 			List<CPListElement> entries= ClasspathModifier.getExistingEntries(project);
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= (IResource) element;
 				IPackageFragmentRoot root= ClasspathModifier.getFragmentRoot(resource, project, Progress.subMonitor(monitor, 1));
 				if (root != null) {
@@ -146,13 +146,13 @@ public class IncludeToBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
 		if (elements.size() == 0)
 			return false;
 
 		try {
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IResource) {
 					IResource resource= (IResource)element;
 					IJavaProject project= JavaCore.create(resource.getProject());

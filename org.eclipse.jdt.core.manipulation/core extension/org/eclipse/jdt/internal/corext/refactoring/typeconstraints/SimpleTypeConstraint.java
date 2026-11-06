@@ -44,12 +44,12 @@ public final class SimpleTypeConstraint implements ITypeConstraint {
 
 	@Override
 	public  String toString(){
-		return getLeft().toString() + " " + fOperator.toString() + " " + getRight().toString(); //$NON-NLS-1$ //$NON-NLS-2$
+		return getLeft().toString() + " " + fOperator.toString() + " " + getRight().toString(); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public  String toResolvedString() {
-		return getLeft().toResolvedString() + " " + fOperator.toString() + " " + getRight().toResolvedString(); //$NON-NLS-1$ //$NON-NLS-2$
+		return getLeft().toResolvedString() + " " + fOperator.toString() + " " + getRight().toResolvedString(); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

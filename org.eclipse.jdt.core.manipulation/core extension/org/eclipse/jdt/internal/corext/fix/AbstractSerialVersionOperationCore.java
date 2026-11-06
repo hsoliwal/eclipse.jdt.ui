@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.text.edits.TextEditGroup;
 
 import org.eclipse.jdt.core.ICompilationUnit;
+
+import java.util.regex.Pattern;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -53,7 +55,7 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 	public static final long SERIAL_VALUE= 1;
 
 	/** The default serial id expression */
-	protected static final String DEFAULT_EXPRESSION= SERIAL_VALUE + LONG_SUFFIX;
+	protected static final String DEFAULT_EXPRESSION= SERIAL_VALUE + LONG_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** The name of the serial version field */
 	protected static final String NAME_FIELD= "serialVersionUID"; //$NON-NLS-1$
@@ -85,11 +87,13 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 	 */
 	protected abstract void addLinkedPositions(final ASTRewrite rewrite, final VariableDeclarationFragment fragment, final LinkedProposalModelCore positionGroups);
 
-	@Override
+	private static final Pattern REWRITE_AST_PATTERN = Pattern.compile("[/\\* \t\n]*"); //$NON-NLS-1$
+
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore positionGroups) throws CoreException {
 		final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 		VariableDeclarationFragment fragment= null;
-		for (ASTNode node : fNodes) {
+		for (ASTNode node : fNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final AST ast= node.getAST();
 
 			fragment= ast.newVariableDeclarationFragment();
@@ -125,7 +129,8 @@ public abstract class AbstractSerialVersionOperationCore extends CompilationUnit
 			}
 
 			final String comment= CodeGeneration.getFieldComment(fUnit, declaration.getType().toString(), NAME_FIELD, StubUtility.getLineDelimiterUsed(fUnit));
-			if (comment != null && comment.length() > 0 && !comment.matches("[/\\* \t\n]*")) { //$NON-NLS-1$
+			if (comment != null && comment.length() > 0 && !REWRITE_AST_PATTERN.matcher(comment).matches()) {
+			// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				final Javadoc doc= (Javadoc) rewrite.createStringPlaceholder(comment, ASTNode.JAVADOC);
 				declaration.setJavadoc(doc);
 			}

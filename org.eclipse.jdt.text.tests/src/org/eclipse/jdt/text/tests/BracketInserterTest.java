@@ -130,12 +130,12 @@ public class BracketInserterTest {
 		fProject= JavaProjectHelper.createJavaProject(testName, "bin");
 		fProject.setOption(JavaCore.COMPILER_SOURCE, sourceLevel);
 		JavaProjectHelper.addSourceContainer(fProject, SRC);
-		IPackageFragment fragment= fProject.findPackageFragment(new Path(SEP + testName + SEP + SRC));
+		IPackageFragment fragment= fProject.findPackageFragment(new Path(SEP + testName + SEP + SRC)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fragment.createCompilationUnit(CU_NAME, CU_CONTENTS, true, new NullProgressMonitor());
 	}
 
 	private void setUpEditor() {
-		fEditor= openJavaEditor(new Path(SEP + testName + SEP + SRC + SEP + CU_NAME));
+		fEditor= openJavaEditor(new Path(SEP + testName + SEP + SRC + SEP + CU_NAME)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(fEditor);
 		fTextWidget= fEditor.getViewer().getTextWidget();
 		assertNotNull(fTextWidget);
@@ -201,7 +201,7 @@ public class BracketInserterTest {
 		assertModel(true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeletingMultipleParenthesisInertion() throws BadLocationException {
 		setCaret(BODY_OFFSET);
 		type("((((");
@@ -257,7 +257,7 @@ public class BracketInserterTest {
 		assertFalse(LinkedModeModel.hasInstalledModel(fDocument));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultiplePeerEntry() throws BadLocationException {
 		setCaret(BODY_OFFSET);
 		type("((((");
@@ -281,7 +281,7 @@ public class BracketInserterTest {
 		assertFalse(LinkedModeModel.hasInstalledModel(fDocument));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExitOnTab() throws BadLocationException {
 		setCaret(BODY_OFFSET);
 		type("((((");
@@ -406,12 +406,12 @@ public class BracketInserterTest {
 		String PRE= "new ArrayList";
 		String POST= "String>();";
 
-		fDocument.replace(BODY_OFFSET, 0, PRE + POST);
+		fDocument.replace(BODY_OFFSET, 0, PRE + POST); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setCaret(BODY_OFFSET + PRE.length());
 
 		type('<');
 
-		assertEquals(PRE + '<' + POST, fDocument.get(BODY_OFFSET, PRE.length() + 1 + POST.length()));
+		assertEquals(PRE + '<' + POST, fDocument.get(BODY_OFFSET, PRE.length() + 1 + POST.length())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertFalse(LinkedModeModel.hasInstalledModel(fDocument));
 	}
 
@@ -420,12 +420,12 @@ public class BracketInserterTest {
 		String PRE= "new ArrayList";
 		String POST= "? extends Number>();";
 
-		fDocument.replace(BODY_OFFSET, 0, PRE + POST);
+		fDocument.replace(BODY_OFFSET, 0, PRE + POST); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setCaret(BODY_OFFSET + PRE.length());
 
 		type('<');
 
-		assertEquals(PRE + '<' + POST, fDocument.get(BODY_OFFSET, PRE.length() + 1 + POST.length()));
+		assertEquals(PRE + '<' + POST, fDocument.get(BODY_OFFSET, PRE.length() + 1 + POST.length())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertFalse(LinkedModeModel.hasInstalledModel(fDocument));
 	}
 
@@ -439,7 +439,7 @@ public class BracketInserterTest {
 
 		type('<');
 
-		assertEquals(PRE + "< ", fDocument.get(FIRST_COLUMN_OFFSET, PRE.length() + 2));
+		assertEquals(PRE + "< ", fDocument.get(FIRST_COLUMN_OFFSET, PRE.length() + 2)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertFalse(LinkedModeModel.hasInstalledModel(fDocument));
 	}
 
@@ -453,7 +453,7 @@ public class BracketInserterTest {
 
 		type('<');
 
-		assertEquals(PRE + "<>", fDocument.get(FIRST_COLUMN_OFFSET, PRE.length() + 2));
+		assertEquals(PRE + "<>", fDocument.get(FIRST_COLUMN_OFFSET, PRE.length() + 2)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertSingleLinkedPosition(FIRST_COLUMN_OFFSET + PRE.length() + 1);
 	}
 
@@ -474,7 +474,7 @@ public class BracketInserterTest {
 	 * @param characters the characters to type
 	 */
 	private void type(CharSequence characters) {
-		for (int i= 0; i < characters.length(); i++)
+		for (int i= 0; i < characters.length(); i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			type(characters.charAt(i), 0, 0);
 	}
 

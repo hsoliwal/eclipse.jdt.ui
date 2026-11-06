@@ -43,7 +43,7 @@ public class CoreTests {
 	}
 
 	public static void assertNumberOf(String name, int is, int expected) {
-		assertEquals("Wrong number of " + name + ", is: " + is + ", expected: " + expected, expected, is);
+		assertEquals("Wrong number of " + name + ", is: " + is + ", expected: " + expected, expected, is); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected ImportRewrite newImportsRewrite(ICompilationUnit cu, String[] order, int normalThreshold, int staticThreshold, boolean restoreExistingImports) throws CoreException {

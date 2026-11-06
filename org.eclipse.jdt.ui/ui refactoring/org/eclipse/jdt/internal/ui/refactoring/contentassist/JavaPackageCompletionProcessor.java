@@ -152,13 +152,13 @@ public class JavaPackageCompletionProcessor implements ISubjectControlContentAss
 		fFilter= filter;
 	}
 
-	private ICompletionProposal[] createPackagesProposals(int documentOffset, String input) {
-		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>();
+	private ICompletionProposal[] createPackagesProposals(int documentOffset, String input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<JavaCompletionProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String prefix= input.substring(0, documentOffset);
-		Set<String> names= fPackageFragmentRoots.length > 1 ? new HashSet<>() : null;
-		for (IPackageFragmentRoot packageFragmentRoot : fPackageFragmentRoots) {
+		Set<String> names= fPackageFragmentRoots.length > 1 ? new HashSet<>() : null; //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IPackageFragmentRoot packageFragmentRoot : fPackageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
-				for (IJavaElement packageFragment : packageFragmentRoot.getChildren()) {
+				for (IJavaElement packageFragment : packageFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPackageFragment pack= (IPackageFragment) packageFragment;
 					String packName= pack.getElementName();
 					if (packName.length() == 0 || ! packName.startsWith(prefix))

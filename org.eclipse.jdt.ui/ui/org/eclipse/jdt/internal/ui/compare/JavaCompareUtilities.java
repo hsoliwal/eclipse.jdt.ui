@@ -95,7 +95,7 @@ public class JavaCompareUtilities {
 		return dfltValue;
 	}
 
-	static ImageDescriptor getImageDescriptor(int type) {
+	static ImageDescriptor getImageDescriptor(int type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (type) {
 		case IJavaElement.INITIALIZER:
 		case IJavaElement.METHOD:
@@ -146,44 +146,44 @@ public class JavaCompareUtilities {
 	 * Returns a name for the given Java element that uses the same conventions
 	 * as the JavaNode name of a corresponding element.
 	 */
-	static String getJavaElementID(IJavaElement je) {
+	static String getJavaElementID(IJavaElement je) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (je instanceof IMember && ((IMember)je).isBinary())
 			return null;
 
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		switch (je.getElementType()) {
 		case IJavaElement.COMPILATION_UNIT:
-			sb.append(COMPILATIONUNIT);
+			sb.append(COMPILATIONUNIT); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.TYPE:
-			sb.append(TYPE);
-			sb.append(je.getElementName());
+			sb.append(TYPE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(je.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.FIELD:
-			sb.append(FIELD);
-			sb.append(je.getElementName());
+			sb.append(FIELD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(je.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.METHOD:
-			sb.append(METHOD);
-			sb.append(JavaElementLabels.getElementLabel(je, JavaElementLabels.M_PARAMETER_TYPES));
+			sb.append(METHOD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(JavaElementLabels.getElementLabel(je, JavaElementLabels.M_PARAMETER_TYPES)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.INITIALIZER:
 			String id= je.getHandleIdentifier();
 			int pos= id.lastIndexOf(INITIALIZER);
 			if (pos >= 0)
-				sb.append(id.substring(pos));
+				sb.append(id.substring(pos)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.PACKAGE_DECLARATION:
-			sb.append(PACKAGEDECLARATION);
+			sb.append(PACKAGEDECLARATION); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.IMPORT_CONTAINER:
-			sb.append(IMPORT_CONTAINER);
+			sb.append(IMPORT_CONTAINER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case IJavaElement.IMPORT_DECLARATION:
-			sb.append(IMPORTDECLARATION);
-			sb.append(je.getElementName());
+			sb.append(IMPORTDECLARATION); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(je.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		default:
 			return null;
@@ -195,41 +195,41 @@ public class JavaCompareUtilities {
 	 * Returns a name which identifies the given typed name.
 	 * The type is encoded as a single character at the beginning of the string.
 	 */
-	static String buildID(int type, String name) {
-		StringBuilder sb= new StringBuilder();
+	static String buildID(int type, String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		switch (type) {
 		case JavaNode.CU:
-			sb.append(COMPILATIONUNIT);
+			sb.append(COMPILATIONUNIT); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.CLASS:
 		case JavaNode.INTERFACE:
 		case JavaNode.ENUM:
 		case JavaNode.ANNOTATION:
-			sb.append(TYPE);
-			sb.append(name);
+			sb.append(TYPE); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.FIELD:
-			sb.append(FIELD);
-			sb.append(name);
+			sb.append(FIELD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.CONSTRUCTOR:
 		case JavaNode.METHOD:
-			sb.append(METHOD);
-			sb.append(name);
+			sb.append(METHOD); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.INIT:
-			sb.append(INITIALIZER);
-			sb.append(name);
+			sb.append(INITIALIZER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.PACKAGE:
-			sb.append(PACKAGEDECLARATION);
+			sb.append(PACKAGEDECLARATION); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.IMPORT:
-			sb.append(IMPORTDECLARATION);
-			sb.append(name);
+			sb.append(IMPORTDECLARATION); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			sb.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		case JavaNode.IMPORT_CONTAINER:
-			sb.append(IMPORT_CONTAINER);
+			sb.append(IMPORT_CONTAINER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		default:
 			Assert.isTrue(false);
@@ -281,7 +281,7 @@ public class JavaCompareUtilities {
 		PropertiesFileDocumentSetupParticipant.setupDocument(document);
 	}
 
-	public static String readString(IStreamContentAccessor sa) throws CoreException {
+	public static String readString(IStreamContentAccessor sa) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (InputStream is= sa.getContents()) {
 			if (is != null) {
 				String encoding= null;
@@ -316,7 +316,7 @@ public class JavaCompareUtilities {
 	/*
 	 * Initialize the given Action from a ResourceBundle.
 	 */
-	static void initAction(IAction a, ResourceBundle bundle, String prefix) {
+	static void initAction(IAction a, ResourceBundle bundle, String prefix) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String labelKey= "label"; //$NON-NLS-1$
 		String tooltipKey= "tooltip"; //$NON-NLS-1$
@@ -324,10 +324,10 @@ public class JavaCompareUtilities {
 		String descriptionKey= "description"; //$NON-NLS-1$
 
 		if (prefix != null && prefix.length() > 0) {
-			labelKey= prefix + labelKey;
-			tooltipKey= prefix + tooltipKey;
-			imageKey= prefix + imageKey;
-			descriptionKey= prefix + descriptionKey;
+			labelKey= prefix + labelKey; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			tooltipKey= prefix + tooltipKey; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			imageKey= prefix + imageKey; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			descriptionKey= prefix + descriptionKey; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		a.setText(getString(bundle, labelKey, labelKey));
@@ -342,11 +342,11 @@ public class JavaCompareUtilities {
 
 			if (relPath.indexOf('/') >= 0) {
 				String path= relPath.substring(1);
-				dPath= 'd' + path;
-				ePath= 'e' + path;
+				dPath= 'd' + path; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				ePath= 'e' + path; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				dPath= "dlcl16/" + relPath; //$NON-NLS-1$
-				ePath= "elcl16/" + relPath; //$NON-NLS-1$
+				dPath= "dlcl16/" + relPath; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				ePath= "elcl16/" + relPath; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			ImageDescriptor id= JavaCompareUtilities.getImageDescriptor(dPath);	// we set the disabled image first (see PR 1GDDE87)
@@ -359,26 +359,26 @@ public class JavaCompareUtilities {
 		}
 	}
 
-	static void initToggleAction(IAction a, ResourceBundle bundle, String prefix, boolean checked) {
+	static void initToggleAction(IAction a, ResourceBundle bundle, String prefix, boolean checked) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String tooltip= null;
 		if (checked)
-			tooltip= getString(bundle, prefix + "tooltip.checked", null);	//$NON-NLS-1$
+			tooltip= getString(bundle, prefix + "tooltip.checked", null);	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
-			tooltip= getString(bundle, prefix + "tooltip.unchecked", null);	//$NON-NLS-1$
+			tooltip= getString(bundle, prefix + "tooltip.unchecked", null);	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (tooltip == null)
-			tooltip= getString(bundle, prefix + "tooltip", null);	//$NON-NLS-1$
+			tooltip= getString(bundle, prefix + "tooltip", null);	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (tooltip != null)
 			a.setToolTipText(tooltip);
 
 		String description= null;
 		if (checked)
-			description= getString(bundle, prefix + "description.checked", null);	//$NON-NLS-1$
+			description= getString(bundle, prefix + "description.checked", null);	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
-			description= getString(bundle, prefix + "description.unchecked", null);	//$NON-NLS-1$
+			description= getString(bundle, prefix + "description.unchecked", null);	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (description == null)
-			description= getString(bundle, prefix + "description", null);	//$NON-NLS-1$
+			description= getString(bundle, prefix + "description", null);	//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (description != null)
 			a.setDescription(description);

@@ -49,7 +49,7 @@ class PullPushCheckboxTableViewer extends CheckboxTableViewer{
 	private void setCheckState(IMemberActionInfo[] infos) {
 		if (infos == null)
 			return;
-		for (IMemberActionInfo info : infos) {
+		for (IMemberActionInfo info : infos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setChecked(info, PullPushCheckboxTableViewer.getCheckState(info));
 		}
 	}
@@ -61,7 +61,7 @@ class PullPushCheckboxTableViewer extends CheckboxTableViewer{
 	@Override
 	public void refresh() {
 		int topIndex = getTable().getTopIndex();
-		super.refresh();
+		super.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		// XXX workaround for http://bugs.eclipse.org/bugs/show_bug.cgi?id=9390
 		setCheckState((IMemberActionInfo[])getInput());
 		if (topIndex < getTable().getItemCount())

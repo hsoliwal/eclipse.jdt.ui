@@ -70,7 +70,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class GenerateToStringAction extends GenerateMethodAbstractAction {
+public class GenerateToStringAction extends GenerateMethodAbstractAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static final String METHODNAME_TO_STRING= "toString"; //$NON-NLS-1$
 
@@ -93,7 +93,7 @@ public class GenerateToStringAction extends GenerateMethodAbstractAction {
 		public boolean foundFinalToString= false;
 
 		public ToStringInfo(ITypeBinding typeBinding) {
-			for (IMethodBinding declaredMethod : typeBinding.getDeclaredMethods()) {
+			for (IMethodBinding declaredMethod : typeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (METHODNAME_TO_STRING.equals(declaredMethod.getName()) && declaredMethod.getParameterTypes().length == 0) {
 					this.foundToString= true;
 					if (Modifier.isFinal(declaredMethod.getModifiers())) {
@@ -188,11 +188,11 @@ public class GenerateToStringAction extends GenerateMethodAbstractAction {
 		return settings;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	boolean generateCandidates() throws JavaModelException {
-		HashMap<IJavaElement, IVariableBinding> fieldsToBindings= new HashMap<>();
-		HashMap<IJavaElement, IVariableBinding> selectedFieldsToBindings= new HashMap<>();
-		for (IVariableBinding candidateField : fTypeBinding.getDeclaredFields()) {
+		HashMap<IJavaElement, IVariableBinding> fieldsToBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashMap<IJavaElement, IVariableBinding> selectedFieldsToBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IVariableBinding candidateField : fTypeBinding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Modifier.isStatic(candidateField.getModifiers())) {
 				fieldsToBindings.put(candidateField.getJavaElement(), candidateField);
 				if (!Modifier.isTransient(candidateField.getModifiers())) {
@@ -207,33 +207,33 @@ public class GenerateToStringAction extends GenerateMethodAbstractAction {
 		} else {
 			allFields= type.getFields();
 		}
-		fFields= new ArrayList<>();
+		fFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		populateMembers(fFields, allFields, fieldsToBindings);
-		fSelectedFields= new ArrayList<>();
+		fSelectedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		populateMembers(fSelectedFields, allFields, selectedFieldsToBindings);
 
-		HashMap<IJavaElement, IMethodBinding> methodsToBindings= new HashMap<>();
-		for (IMethodBinding candidateMethod : fTypeBinding.getDeclaredMethods()) {
+		HashMap<IJavaElement, IMethodBinding> methodsToBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IMethodBinding candidateMethod : fTypeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Modifier.isStatic(candidateMethod.getModifiers()) && candidateMethod.getParameterTypes().length == 0 && !"void".equals(candidateMethod.getReturnType().getName()) && !"toString".equals(candidateMethod.getName()) && !"clone".equals(candidateMethod.getName())) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				methodsToBindings.put(candidateMethod.getJavaElement(), candidateMethod);
 			}
 		}
-		fMethods= new ArrayList<>();
+		fMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		populateMembers(fMethods, type.getMethods(), methodsToBindings);
 
-		fInheritedFields= new ArrayList<>();
-		fInheritedMethods= new ArrayList<>();
+		fInheritedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fInheritedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ITypeBinding typeBinding= fTypeBinding;
-		while ((typeBinding= typeBinding.getSuperclass()) != null) {
+		while ((typeBinding= typeBinding.getSuperclass()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			type = (IType)typeBinding.getJavaElement();
-			for (IVariableBinding candidateField : typeBinding.getDeclaredFields()) {
+			for (IVariableBinding candidateField : typeBinding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Modifier.isPrivate(candidateField.getModifiers()) && !Modifier.isStatic(candidateField.getModifiers()) && !contains(fFields, candidateField) && !contains(fInheritedFields, candidateField)) {
 					fieldsToBindings.put(candidateField.getJavaElement(), candidateField);
 				}
 			}
 			populateMembers(fInheritedFields, type.getFields(), fieldsToBindings);
 
-			for (IMethodBinding candidateMethod : typeBinding.getDeclaredMethods()) {
+			for (IMethodBinding candidateMethod : typeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Modifier.isPrivate(candidateMethod.getModifiers()) && !Modifier.isStatic(candidateMethod.getModifiers()) && candidateMethod.getParameterTypes().length == 0 && !"void".equals(candidateMethod.getReturnType().getName()) && !contains(fMethods, candidateMethod) && !contains(fInheritedMethods, candidateMethod) && !"clone".equals(candidateMethod.getName())) { //$NON-NLS-1$ //$NON-NLS-2$
 					methodsToBindings.put(candidateMethod.getJavaElement(), candidateMethod);
 				}
@@ -254,7 +254,7 @@ public class GenerateToStringAction extends GenerateMethodAbstractAction {
 	 * @since 3.6
 	 */
 	private static <T extends IBinding> void populateMembers(List<T> result, IMember[] allMembers, HashMap<IJavaElement, T> membersToBindings) {
-		for (IMember member : allMembers) {
+		for (IMember member : allMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			T memberBinding= membersToBindings.remove(member);
 			if (memberBinding != null) {
 				result.add(memberBinding);
@@ -263,7 +263,7 @@ public class GenerateToStringAction extends GenerateMethodAbstractAction {
 	}
 
 	private static <T extends IBinding> boolean contains(List<T> inheritedFields, T member) {
-		for (T object : inheritedFields) {
+		for (T object : inheritedFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IVariableBinding && member instanceof IVariableBinding)
 				if (((IVariableBinding) object).getName().equals(((IVariableBinding) member).getName()))
 					return true;

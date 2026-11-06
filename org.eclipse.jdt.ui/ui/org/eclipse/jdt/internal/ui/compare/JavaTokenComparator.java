@@ -40,7 +40,7 @@ public class JavaTokenComparator implements ITokenComparator {
 	private int[] fLengths;
 	private boolean fIgnoreWhitespace;
 
-	public JavaTokenComparator(String text,boolean ignoreWhitespace) {
+	public JavaTokenComparator(String text,boolean ignoreWhitespace) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fIgnoreWhitespace = ignoreWhitespace;
 		Assert.isLegal(text != null);
 
@@ -56,7 +56,7 @@ public class JavaTokenComparator implements ITokenComparator {
 		int endPos= 0;
 		try {
 			int tokenType;
-			while ((tokenType= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) {
+			while ((tokenType= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int start= scanner.getCurrentTokenStartPosition();
 				int end= scanner.getCurrentTokenEndPosition()+1;
 				// Comments and strings should not be treated as a single token, see https://bugs.eclipse.org/78063
@@ -101,21 +101,21 @@ public class JavaTokenComparator implements ITokenComparator {
 		fStarts[fCount]= start;
 		fLengths[fCount]= length;
 		if (DEBUG)
-			System.out.println(fCount + " (" + start + "-" + length + ")>" + fText.substring(start, start + length) + "<"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			System.out.println(fCount + " (" + start + "-" + length + ")>" + fText.substring(start, start + length) + "<"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fCount++;
 	}
 
 	private void parseSubrange(int start, String text, boolean javaCode) {
 		if (DEBUG)
-			System.out.println("parsingText>" + text + "<(" + start + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			System.out.println("parsingText>" + text + "<(" + start + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		ITokenComparator subTokenizer= javaCode ? new JavaTokenComparator(text) : new TokenComparator(text);
 		int count= subTokenizer.getRangeCount();
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int subStart= subTokenizer.getTokenStart(i);
 			int subLength= subTokenizer.getTokenLength(i);
 			if (DEBUG)
-				System.out.println("   " + i + " (" + subStart + "-" + subLength + ")"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
+				System.out.println("   " + i + " (" + subStart + "-" + subLength + ")"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			recordTokenRange(start + subStart, subLength);
 		}
@@ -180,7 +180,7 @@ public class JavaTokenComparator implements ITokenComparator {
 	 * @param otherIndex the number of the token within the other comparator
 	 * @return <code>true</code> if the token are equal
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean rangesEqual(int thisIndex, IRangeComparator other, int otherIndex) {
 		if (other != null && getClass() == other.getClass()) {
 			JavaTokenComparator tc= (JavaTokenComparator) other;	// safe cast
@@ -221,7 +221,7 @@ public class JavaTokenComparator implements ITokenComparator {
 	 * @param other the other <code>IRangeComparator</code> to compare with
 	 * @return <code>true</code> to abort a token comparison
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean skipRangeComparison(int length, int maxLength, IRangeComparator other) {
 
 		if (getRangeCount() < 50 || other.getRangeCount() < 50)

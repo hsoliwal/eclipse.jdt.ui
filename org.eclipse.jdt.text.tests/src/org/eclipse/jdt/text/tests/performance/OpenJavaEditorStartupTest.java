@@ -61,7 +61,7 @@ public class OpenJavaEditorStartupTest extends StartupPerformanceTestCase {
 
 	private static final String SHORT_NAME= "Eclipse SDK startup with Java editor open in Java perspective";
 
-	private static final String FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout.java";
+	private static final String FILE= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static Test suite() {
 		return new PerformanceTestSetup(new Setup(new TestSuite(THIS)));

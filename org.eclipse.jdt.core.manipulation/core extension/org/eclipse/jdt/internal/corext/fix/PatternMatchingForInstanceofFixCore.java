@@ -86,7 +86,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 
 			private boolean result= true;
 
-			private final Set<String> excludedNames= new HashSet<>();
+			private final Set<String> excludedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			public InstanceofVisitor(final Block startNode) {
 				this.startNode= startNode;
@@ -104,7 +104,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 				return startNode == visited;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final InstanceofExpression visited) {
 				if (!ASTNodes.isPassive(visited.getLeftOperand())
 						|| visited.getRightOperand().resolveBinding() == null) {
@@ -114,7 +114,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 				boolean isPositiveCaseToAnalyze= true;
 				ASTNode currentNode= visited;
 
-				while (currentNode.getParent() != null
+				while (currentNode.getParent() != null //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						&& (!(currentNode.getParent() instanceof IfStatement)
 								|| currentNode.getLocationInParent() != IfStatement.EXPRESSION_PROPERTY)
 						&& (!(currentNode.getParent() instanceof ConditionalExpression)
@@ -182,7 +182,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 
 					final boolean isPositiveCaseToAnalyzeFinal= isPositiveCaseToAnalyze;
 					ASTVisitor expressionVisitor= new ASTVisitor() {
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public boolean visit(CastExpression node) {
 							if (node.getStartPosition() > visited.getStartPosition()) {
 								if (Objects.equals(getIdentifierName(node.getExpression()), getIdentifierName(visited.getLeftOperand()))) {
@@ -191,7 +191,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 										Expression exp= node;
 										InfixExpression infixExp= ASTNodes.getFirstAncestorOrNull(exp, InfixExpression.class);
 										InfixExpression originalInfixExp= ASTNodes.getFirstAncestorOrNull(visited, InfixExpression.class);
-										while (infixExp != null && infixExp != originalInfixExp) {
+										while (infixExp != null && infixExp != originalInfixExp) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											infixExp= ASTNodes.getFirstAncestorOrNull(infixExp, InfixExpression.class);
 										}
 										if (infixExp != null) {
@@ -200,7 +200,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 												return true;
 											}
 										}
-										while (exp.getLocationInParent() == ParenthesizedExpression.EXPRESSION_PROPERTY) {
+										while (exp.getLocationInParent() == ParenthesizedExpression.EXPRESSION_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 											exp= (Expression) node.getParent();
 										}
 										collector.addExpressionToReplace(exp);
@@ -237,7 +237,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 
 				String replacementName= null;
 
-				final List<Expression> expressionsToReplace= new ArrayList<>();
+				final List<Expression> expressionsToReplace= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				ConditionalCollector(InstanceofExpression visited, SimpleName name, Set<String> excludedNames) {
 					this.visited= visited;
@@ -253,12 +253,12 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 					return replacementName != null && !expressionsToReplace.isEmpty();
 				}
 
-				void addMatching(final CastExpression castExp, final SimpleName name) {
+				void addMatching(final CastExpression castExp, final SimpleName name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					Expression expressionToReplace= castExp;
 					ITypeBinding castBinding= castExp.resolveTypeBinding();
 					if (this.variableName.getIdentifier().equals(name.getIdentifier())
 							&& castBinding != null && castBinding.isEqualTo(visited.getRightOperand().resolveBinding())) {
-						while (expressionToReplace.getLocationInParent() == ParenthesizedExpression.EXPRESSION_PROPERTY) {
+						while (expressionToReplace.getLocationInParent() == ParenthesizedExpression.EXPRESSION_PROPERTY) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							expressionToReplace= (Expression) expressionToReplace.getParent();
 						}
 						if (replacementName == null) {
@@ -298,11 +298,11 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 
 				SimpleName variableName;
 
-				final List<VariableDeclarationStatement> statementsToRemove= new ArrayList<>();
+				final List<VariableDeclarationStatement> statementsToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				final List<VariableDeclarationStatement> statementsToConvert= new ArrayList<>();
+				final List<VariableDeclarationStatement> statementsToConvert= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-				final List<Expression> expressionsToReplace= new ArrayList<>();
+				final List<Expression> expressionsToReplace= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				ResultCollector(InstanceofExpression visited) {
 					this.visited= visited;
@@ -331,12 +331,12 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 					}
 				}
 
-				boolean collect(final Statement conditionalStatements) {
+				boolean collect(final Statement conditionalStatements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					List<Statement> statements= ASTNodes.asList(conditionalStatements);
 					boolean convertToAssignment= false;
 
 					if (!statements.isEmpty()) {
-						for (Statement statement : statements) {
+						for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (statement instanceof ExpressionStatement expressionStatement) {
 								Assignment assignment= ASTNodes.as(expressionStatement.getExpression(), Assignment.class);
 								if (assignment != null) {
@@ -403,7 +403,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 			this.replacementName= replacementName;
 		}
 
-		@SuppressWarnings("deprecation")
+		@SuppressWarnings("deprecation") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		@Override
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -425,7 +425,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 			ASTNodes.replaceButKeepComment(rewrite, nodeToComplete, newInstanceof, group);
 
 			ASTNodes.replaceButKeepComment(rewrite, nodeToComplete, newInstanceof, group);
-			for (Expression expressionToReplace : expressionsToReplace) {
+			for (Expression expressionToReplace : expressionsToReplace) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SimpleName name= ast.newSimpleName(replacementName);
 				rewrite.replace(expressionToReplace, name, group);
 			}
@@ -452,7 +452,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 			this.expressionToMove= expressionToMove;
 		}
 
-		@SuppressWarnings("deprecation")
+		@SuppressWarnings("deprecation") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		@Override
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -488,7 +488,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 
 			ASTNodes.replaceButKeepComment(rewrite, nodeToComplete, newInstanceof, group);
 
-			for (var statementToRemove : statementsToRemove) {
+			for (var statementToRemove : statementsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ASTNodes.canHaveSiblings(statementToRemove) || statementToRemove.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
 					ASTNodes.removeButKeepComment(rewrite, statementToRemove, group);
 				} else {
@@ -497,12 +497,12 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 				importRemover.registerRemovedNode(statementToRemove);
 			}
 
-			for (var expressionToReplace : expressionsToReplace) {
+			for (var expressionToReplace : expressionsToReplace) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				var newName= rewrite.createCopyTarget(expressionToMove);
 				rewrite.replace(expressionToReplace, newName, group);
 			}
 
-			for (var statementToConvert : statementsToConvert) {
+			for (var statementToConvert : statementsToConvert) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment fragment= ASTNodes.getUniqueFragment(statementToConvert);
 				var assignment= ast.newAssignment();
 				assignment.setLeftHandSide((Expression) ASTNode.copySubtree(ast, fragment.getName()));
@@ -515,7 +515,7 @@ public class PatternMatchingForInstanceofFixCore extends CompilationUnitRewriteO
 
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		PatternMatchingForInstanceofFinder finder= new PatternMatchingForInstanceofFinder(operations);
 		compilationUnit.accept(finder);
 

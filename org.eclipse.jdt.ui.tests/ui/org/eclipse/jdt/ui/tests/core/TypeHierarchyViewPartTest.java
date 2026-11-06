@@ -67,7 +67,7 @@ public class TypeHierarchyViewPartTest {
 	}
 
 	private void addAllCUs(IJavaElement[] children, List<IJavaElement> result) throws JavaModelException {
-		for (IJavaElement element : children) {
+		for (IJavaElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				result.add(element);
 			} else if (element instanceof IPackageFragmentRoot) {
@@ -80,10 +80,10 @@ public class TypeHierarchyViewPartTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeHierarchyViewPart() throws Exception {
 		// Given
-		List<IJavaElement> cus= new ArrayList<>();
+		List<IJavaElement> cus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addAllCUs(fJProject1.getChildren(), cus);
 		IJavaElement element= cus.get(0);
 		IJavaElement[] javaElements1= new IJavaElement[] {cus.get(0).getAncestor(IJavaElement.PACKAGE_FRAGMENT)};

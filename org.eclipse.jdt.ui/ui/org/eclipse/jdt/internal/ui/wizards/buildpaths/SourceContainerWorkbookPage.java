@@ -63,14 +63,14 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.TreeListDialogField;
 
 public class SourceContainerWorkbookPage extends BuildPathBasePage {
 
-	private class OpenBuildPathWizardAction extends AbstractOpenWizardAction implements IPropertyChangeListener {
+	private class OpenBuildPathWizardAction extends AbstractOpenWizardAction implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 		private final BuildPathWizard fWizard;
 		private final List<Object> fSelectedElements;
 
 		public OpenBuildPathWizardAction(BuildPathWizard wizard) {
 			fWizard= wizard;
-			addPropertyChangeListener(this);
+			addPropertyChangeListener(this); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 			fSelectedElements= fFoldersList.getSelectedElements();
 		}
 
@@ -145,7 +145,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 	private static final int IDX_EDIT= 3;
 	private static final int IDX_REMOVE= 4;
 
-	public SourceContainerWorkbookPage(ListDialogField<CPListElement> classPathList, StringDialogField outputLocationField) {
+	public SourceContainerWorkbookPage(ListDialogField<CPListElement> classPathList, StringDialogField outputLocationField) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fClassPathList= classPathList;
 
 		fOutputLocationField= outputLocationField;
@@ -183,20 +183,20 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		if (Display.getCurrent() != null) {
 			updateFoldersList();
 		} else {
-			Display.getDefault().asyncExec(this::updateFoldersList);
+			Display.getDefault().asyncExec(this::updateFoldersList); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
-	private void updateFoldersList() {
+	private void updateFoldersList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSWTControl == null || fSWTControl.isDisposed()) {
 			return;
 		}
 
-		ArrayList<CPListElement> folders= new ArrayList<>();
+		ArrayList<CPListElement> folders= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		boolean useFolderOutputs= false;
 		List<CPListElement> cpelements= fClassPathList.getElements();
-		for (CPListElement cpe : cpelements) {
+		for (CPListElement cpe : cpelements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cpe.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				folders.add(cpe);
 				boolean hasOutputFolder= (cpe.getAttribute(CPListElement.OUTPUT) != null);
@@ -209,7 +209,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		fFoldersList.setElements(folders);
 		fUseFolderOutputs.setSelection(useFolderOutputs);
 
-		for (CPListElement cpe : folders) {
+		for (CPListElement cpe : folders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath[] ePatterns= (IPath[]) cpe.getAttribute(CPListElement.EXCLUSION);
 			IPath[] iPatterns= (IPath[])cpe.getAttribute(CPListElement.INCLUSION);
 			boolean hasOutputFolder= (cpe.getAttribute(CPListElement.OUTPUT) != null);
@@ -219,7 +219,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control getControl(Composite parent) {
 		PixelConverter converter= new PixelConverter(parent);
 		Composite composite= new Composite(parent, SWT.NONE);
@@ -235,7 +235,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 
 		// expand
 		List<CPListElement> elements= fFoldersList.getElements();
-		for (CPListElement elem : elements) {
+		for (CPListElement elem : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath[] exclusionPatterns= (IPath[]) elem.getAttribute(CPListElement.EXCLUSION);
 			IPath[] inclusionPatterns= (IPath[]) elem.getAttribute(CPListElement.INCLUSION);
 			IPath output= (IPath) elem.getAttribute(CPListElement.OUTPUT);
@@ -320,7 +320,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	protected void sourcePageCustomButtonPressed(DialogField field, int index) {
+	protected void sourcePageCustomButtonPressed(DialogField field, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (field == fFoldersList) {
 			switch (index) {
 			case IDX_ADD:
@@ -357,10 +357,10 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private boolean hasFolders(IContainer container) {
+	private boolean hasFolders(IContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
-			for (IResource member : container.members()) {
+			for (IResource member : container.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (member instanceof IContainer) {
 					return true;
 				}
@@ -408,7 +408,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private void editAttributeEntry(CPListElementAttribute elem) {
+	private void editAttributeEntry(CPListElementAttribute elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key= elem.getKey();
 		switch (key) {
 			case CPListElement.OUTPUT: {
@@ -460,7 +460,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 	/**
 	 * @param field the dialog field
 	 */
-	protected void sourcePageSelectionChanged(DialogField field) {
+	protected void sourcePageSelectionChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Object> selected= fFoldersList.getSelectedElements();
 		boolean isIgnoreOptionalProblems= selected.size() == 1
 				&& selected.get(0) instanceof CPListElementAttribute
@@ -480,9 +480,9 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		fFoldersList.enableButton(IDX_ADD, noAttributes);
 	}
 
-	private void removeEntry() {
+	private void removeEntry() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Object> selElements= fFoldersList.getSelectedElements();
-		for (int i= selElements.size() - 1; i >= 0 ; i--) {
+		for (int i= selElements.size() - 1; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object elem= selElements.get(i);
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
@@ -503,10 +503,10 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 			fFoldersList.refresh();
 			fClassPathList.dialogFieldChanged(); // validate
 		} else {
-			for (Object object : selElements) {
+			for (Object object : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement element= (CPListElement)object;
 				if (element.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					for (CPListElement modified : ClasspathModifier.removeFilters(element.getPath(), fCurrJProject, fFoldersList.getElements())) {
+					for (CPListElement modified : ClasspathModifier.removeFilters(element.getPath(), fCurrJProject, fFoldersList.getElements())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fFoldersList.refresh(modified);
 						fFoldersList.expandElement(modified, 3);
 					}
@@ -516,11 +516,11 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		}
 	}
 
-	private boolean canRemove(List<Object> selElements) {
+	private boolean canRemove(List<Object> selElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selElements.isEmpty()) {
 			return false;
 		}
-		for (Object elem : selElements) {
+		for (Object elem : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof CPListElementAttribute) {
 				CPListElementAttribute attrib= (CPListElementAttribute) elem;
 				String key= attrib.getKey();
@@ -548,7 +548,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		return true;
 	}
 
-	private boolean canEdit(List<Object> selElements) {
+	private boolean canEdit(List<Object> selElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selElements.size() != 1) {
 			return false;
 		}
@@ -571,7 +571,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		return false;
 	}
 
-	private void sourcePageDialogFieldChanged(DialogField field) {
+	private void sourcePageDialogFieldChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCurrJProject == null) {
 			// not initialized
 			return;
@@ -580,7 +580,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		if (field == fUseFolderOutputs) {
 			if (!fUseFolderOutputs.isSelected()) {
 				int nFolders= fFoldersList.getSize();
-				for (int i= 0; i < nFolders; i++) {
+				for (int i= 0; i < nFolders; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					CPListElement cpe= fFoldersList.getElement(i);
 					cpe.setAttribute(CPListElement.OUTPUT, null);
 				}
@@ -594,7 +594,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 	}
 
 
-	private void updateClasspathList() {
+	private void updateClasspathList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<CPListElement> srcelements= fFoldersList.getElements();
 
 		List<CPListElement> cpelements= fClassPathList.getElements();
@@ -602,7 +602,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		// backwards, as entries will be deleted
 		int lastRemovePos= nEntries;
 		int afterLastSourcePos= 0;
-		for (int i= nEntries - 1; i >= 0; i--) {
+		for (int i= nEntries - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement cpe= cpelements.get(i);
 			int kind= cpe.getEntryKind();
 			if (isEntryKind(kind)) {
@@ -640,7 +640,7 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 	public void setSelection(List<?> selElements, boolean expand) {
 		fFoldersList.selectElements(new StructuredSelection(selElements));
 		if (expand) {
-			for (Object selElement : selElements) {
+			for (Object selElement : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fFoldersList.expandElement(selElement, 1);
 			}
 		}
@@ -651,15 +651,15 @@ public class SourceContainerWorkbookPage extends BuildPathBasePage {
 		return kind == IClasspathEntry.CPE_SOURCE;
 	}
 
-	private void refresh(List<CPListElement> insertedElements, List<?> removedElements, List<CPListElement> modifiedElements, IPath outputLocation) {
+	private void refresh(List<CPListElement> insertedElements, List<?> removedElements, List<CPListElement> modifiedElements, IPath outputLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fFoldersList.addElements(insertedElements);
-		for (CPListElement element : insertedElements) {
+		for (CPListElement element : insertedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fFoldersList.expandElement(element, 3);
 		}
 
 		fFoldersList.removeElements(removedElements);
 
-		for (CPListElement element : modifiedElements) {
+		for (CPListElement element : modifiedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fFoldersList.refresh(element);
 			fFoldersList.expandElement(element, 3);
 		}

@@ -40,7 +40,7 @@ import org.eclipse.jdt.internal.ui.jarimport.JarImportWizard;
  *
  * @since 3.2
  */
-public class JarImportWizardAction extends Action implements IObjectActionDelegate, ISelectionChangedListener {
+public class JarImportWizardAction extends Action implements IObjectActionDelegate, ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/** The wizard height */
 	public static final int SIZING_WIZARD_HEIGHT= 520;
@@ -73,7 +73,7 @@ public class JarImportWizardAction extends Action implements IObjectActionDelega
 		dialog.open();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		fSelection= null;
 		if (selection instanceof IStructuredSelection) {

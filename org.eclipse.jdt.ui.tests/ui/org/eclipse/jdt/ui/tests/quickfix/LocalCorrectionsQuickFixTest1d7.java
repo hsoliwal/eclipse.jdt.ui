@@ -56,7 +56,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -87,7 +87,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionUnionType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -192,7 +192,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtSuperException() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -288,7 +288,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtSuperExceptionUnionType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -396,7 +396,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionTryWithResources1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -485,7 +485,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionTryWithResources2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -574,7 +574,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionTryWithResources3() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -739,7 +739,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4, preview5 }, new String[] { expected1, expected2, expected3, expected4, expected5 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionTryWithResources4() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=351464
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -842,7 +842,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionTryWithResources5() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=139231
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -904,7 +904,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUncaughtExceptionTryWithResources6() throws Exception {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=478714
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1079,7 +1079,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4, preview5 }, new String[] { expected1, expected2, expected3, expected4, expected5 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCaughtException1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1141,7 +1141,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCaughtException2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1203,7 +1203,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUnneededCatchBlockTryWithResources() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1278,7 +1278,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantTypeArguments1() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1312,7 +1312,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantTypeArguments2() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1346,7 +1346,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantTypeArguments3() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -1382,7 +1382,7 @@ public class LocalCorrectionsQuickFixTest1d7 extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRemoveRedundantTypeArguments4() throws Exception {
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);

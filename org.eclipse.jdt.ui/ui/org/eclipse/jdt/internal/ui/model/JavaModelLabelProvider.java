@@ -38,7 +38,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
  *
  * @since 3.2
  */
-public final class JavaModelLabelProvider extends AppearanceAwareLabelProvider {
+public final class JavaModelLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/** The name of the settings folder */
 	private static final String NAME_SETTINGS_FOLDER= ".settings"; //$NON-NLS-1$
@@ -88,7 +88,7 @@ public final class JavaModelLabelProvider extends AppearanceAwareLabelProvider {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage(final Object element) {
 		if (element instanceof IFolder) {
 			final IFolder folder= (IFolder) element;
@@ -111,7 +111,7 @@ public final class JavaModelLabelProvider extends AppearanceAwareLabelProvider {
 		return image;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getText(final Object element) {
 		if (element instanceof IFolder) {
 			final IFolder folder= (IFolder) element;

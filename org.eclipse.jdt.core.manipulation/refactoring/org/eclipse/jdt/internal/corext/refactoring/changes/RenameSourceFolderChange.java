@@ -35,7 +35,7 @@ import org.eclipse.jdt.internal.core.manipulation.util.BasicElementLabels;
 
 public final class RenameSourceFolderChange extends AbstractJavaElementRenameChange {
 
-	private static RefactoringStatus checkIfModifiable(IPackageFragmentRoot root) throws CoreException {
+	private static RefactoringStatus checkIfModifiable(IPackageFragmentRoot root) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		if (root == null) {
 			result.addFatalError(RefactoringCoreMessages.DynamicValidationStateChange_workspace_changed);

@@ -103,7 +103,7 @@ public class ASTNodeFactory {
 	 * @return the parenthesized expression of the provided expression to return or this expression
 	 *         itself
 	 */
-	public static Expression parenthesizeIfNeeded(AST ast, Expression expression) {
+	public static Expression parenthesizeIfNeeded(AST ast, Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (expression.getNodeType()) {
 		case ASTNode.ANNOTATION_TYPE_DECLARATION:
 		case ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION:
@@ -214,7 +214,7 @@ public class ASTNodeFactory {
 	 * @param unWrap True if the expression being negated should remove parentheses of result
 	 * @return the negated expression, as move or copy
 	 */
-	public static Expression negateAndUnwrap(final AST ast, final ASTRewrite rewrite, final Expression booleanExpression,
+	public static Expression negateAndUnwrap(final AST ast, final ASTRewrite rewrite, final Expression booleanExpression, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean isMove, final boolean unWrap) {
 		Expression unparenthesedExpression= ASTNodes.getUnparenthesedExpression(booleanExpression);
 
@@ -265,16 +265,16 @@ public class ASTNodeFactory {
 		return not(ast, (Expression) rewrite.createCopyTarget(unparenthesedExpression));
 	}
 
-	private static Expression getNegatedOperation(final AST ast, final ASTRewrite rewrite, final InfixExpression booleanOperation, final InfixExpression.Operator negatedOperator,
+	private static Expression getNegatedOperation(final AST ast, final ASTRewrite rewrite, final InfixExpression booleanOperation, final InfixExpression.Operator negatedOperator, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean isMove, final boolean unWrap) {
 		List<Expression> allOperands= ASTNodes.allOperands(booleanOperation);
 		List<Expression> allTargetOperands;
 
 		if (ASTNodes.hasOperator(booleanOperation, InfixExpression.Operator.CONDITIONAL_AND, InfixExpression.Operator.CONDITIONAL_OR, InfixExpression.Operator.AND,
 				InfixExpression.Operator.OR)) {
-			allTargetOperands= new ArrayList<>(allOperands.size());
+			allTargetOperands= new ArrayList<>(allOperands.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (Expression booleanOperand : allOperands) {
+			for (Expression booleanOperand : allOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression negatedOperand= negate(ast, rewrite, booleanOperand, isMove);
 
 				if (negatedOperand != null) {
@@ -291,9 +291,9 @@ public class ASTNodeFactory {
 		} else if (isMove) {
 			allTargetOperands= ASTNodes.createMoveTarget(rewrite, allOperands);
 		} else {
-			allTargetOperands= new ArrayList<>(allOperands.size());
+			allTargetOperands= new ArrayList<>(allOperands.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (Expression anOperand : allOperands) {
+			for (Expression anOperand : allOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				allTargetOperands.add((Expression) rewrite.createCopyTarget(anOperand));
 			}
 		}
@@ -314,9 +314,9 @@ public class ASTNodeFactory {
 	}
 
 	public static ASTNode newStatement(AST ast, String content) {
-		StringBuilder buffer= new StringBuilder(STATEMENT_HEADER);
-		buffer.append(content);
-		buffer.append(STATEMENT_FOOTER);
+		StringBuilder buffer= new StringBuilder(STATEMENT_HEADER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(content); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(STATEMENT_FOOTER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ASTParser p= ASTParser.newParser(ast.apiLevel());
 		p.setSource(buffer.toString().toCharArray());
 		CompilationUnit root= (CompilationUnit) p.createAST(null);
@@ -330,9 +330,9 @@ public class ASTNodeFactory {
 	}
 
 	public static TypeParameter newTypeParameter(AST ast, String content) {
-		StringBuilder buffer= new StringBuilder(TYPEPARAM_HEADER);
-		buffer.append(content);
-		buffer.append(TYPEPARAM_FOOTER);
+		StringBuilder buffer= new StringBuilder(TYPEPARAM_HEADER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(content); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(TYPEPARAM_FOOTER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ASTParser p= ASTParser.newParser(ast.apiLevel());
 		p.setSource(buffer.toString().toCharArray());
 		CompilationUnit root= (CompilationUnit) p.createAST(null);
@@ -347,9 +347,9 @@ public class ASTNodeFactory {
 
 
 	public static Type newType(AST ast, String content) {
-		StringBuilder buffer= new StringBuilder(TYPE_HEADER);
-		buffer.append(content);
-		buffer.append(TYPE_FOOTER);
+		StringBuilder buffer= new StringBuilder(TYPE_HEADER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(content); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(TYPE_FOOTER); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ASTParser p= ASTParser.newParser(ast.apiLevel());
 		p.setSource(buffer.toString().toCharArray());
 		CompilationUnit root= (CompilationUnit) p.createAST(null);
@@ -406,7 +406,7 @@ public class ASTNodeFactory {
 	 *
 	 * @since 3.7.1
 	 */
-	public static Type newType(AST ast, VariableDeclaration declaration, ImportRewrite importRewrite, ImportRewriteContext context) {
+	public static Type newType(AST ast, VariableDeclaration declaration, ImportRewrite importRewrite, ImportRewriteContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (declaration instanceof VariableDeclarationFragment && declaration.getParent() instanceof LambdaExpression) {
 			return newType((LambdaExpression) declaration.getParent(), (VariableDeclarationFragment) declaration, ast, importRewrite, context);
 		}
@@ -450,7 +450,7 @@ public class ASTNodeFactory {
 		return type;
 	}
 
-	private static Type newType(LambdaExpression lambdaExpression, VariableDeclarationFragment declaration, AST ast, ImportRewrite importRewrite, ImportRewriteContext context) {
+	private static Type newType(LambdaExpression lambdaExpression, VariableDeclarationFragment declaration, AST ast, ImportRewrite importRewrite, ImportRewriteContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding method= lambdaExpression.resolveMethodBinding();
 		if (method != null) {
 			ITypeBinding[] parameterTypes= method.getParameterTypes();
@@ -469,7 +469,7 @@ public class ASTNodeFactory {
 		return ast.newSimpleType(ast.newSimpleName("Object")); //$NON-NLS-1$
 	}
 
-	public static Type newNonVarType(AST ast, VariableDeclaration declaration, ImportRewrite importRewrite, ImportRewriteContext context) {
+	public static Type newNonVarType(AST ast, VariableDeclaration declaration, ImportRewrite importRewrite, ImportRewriteContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (declaration.getAST().apiLevel() < ASTHelper.JLS10) {
 			return newType(ast, declaration, importRewrite, context);
 		}
@@ -546,7 +546,7 @@ public class ASTNodeFactory {
 	 * the Null-literal for reference types, a boolean-literal for a boolean type, a number
 	 * literal for primitive types or <code>null</code> if the type is void.
 	 */
-	public static Expression newDefaultExpression(AST ast, Type type, int extraDimensions) {
+	public static Expression newDefaultExpression(AST ast, Type type, int extraDimensions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (extraDimensions == 0 && type.isPrimitiveType()) {
 			PrimitiveType primitiveType= (PrimitiveType) type;
 			if (primitiveType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
@@ -589,7 +589,7 @@ public class ASTNodeFactory {
 	 * the Null-literal for reference types, a boolean-literal for a boolean type, a number
 	 * literal for primitive types or <code>null</code> if the type is void.
 	 */
-	public static Expression newDefaultExpression(AST ast, Type type, ITypeBinding importedTypeBinding, int extraDimensions) {
+	public static Expression newDefaultExpression(AST ast, Type type, ITypeBinding importedTypeBinding, int extraDimensions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (extraDimensions == 0 && type.isPrimitiveType()) {
 			PrimitiveType primitiveType= (PrimitiveType) type;
 			if (primitiveType.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
@@ -625,7 +625,7 @@ public class ASTNodeFactory {
 	 * the Null-literal for reference types, a boolean-literal for a boolean type, a number
 	 * literal for primitive types or <code>null</code> if the type is void.
 	 */
-	public static Expression newDefaultExpression(AST ast, ITypeBinding type) {
+	public static Expression newDefaultExpression(AST ast, ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isPrimitive()) {
 			String name= type.getName();
 			boolean nomatch= false;
@@ -672,8 +672,8 @@ public class ASTNodeFactory {
 	 * @return Returns a list of nodes of type {@link Modifier}.
 	 */
 	public static List<Modifier> newModifiers(AST ast, List<? extends IExtendedModifier> modifierNodes) {
-		List<Modifier> res= new ArrayList<>(modifierNodes.size());
-		for (int i= 0; i < modifierNodes.size(); i++) {
+		List<Modifier> res= new ArrayList<>(modifierNodes.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < modifierNodes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object curr= modifierNodes.get(i);
 			if (curr instanceof Modifier) {
 				res.add(ast.newModifier(((Modifier) curr).getKeyword()));
@@ -706,11 +706,11 @@ public class ASTNodeFactory {
 		if (typeBinding.isParameterizedType()) {
 			Type baseType= newCreationType(ast, typeBinding.getTypeDeclaration(), importRewrite, importContext);
 			IAnnotationBinding[] typeAnnotations= importContext.removeRedundantTypeAnnotations(typeBinding.getTypeAnnotations(), TypeLocation.NEW, typeBinding);
-			for (IAnnotationBinding typeAnnotation : typeAnnotations) {
+			for (IAnnotationBinding typeAnnotation : typeAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((AnnotatableType)baseType).annotations().add(importRewrite.addAnnotation(typeAnnotation, ast, importContext));
 			}
 			ParameterizedType parameterizedType= ast.newParameterizedType(baseType);
-			for (ITypeBinding typeArgument : typeBinding.getTypeArguments()) {
+			for (ITypeBinding typeArgument : typeBinding.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				typeArgument= StubUtility2Core.replaceWildcardsAndCaptures(typeArgument);
 				parameterizedType.typeArguments().add(importRewrite.addImport(typeArgument, ast, importContext, TypeLocation.TYPE_ARGUMENT));
 			}

@@ -320,7 +320,7 @@ public final class RenameCompilationUnitProcessor extends JavaRenameProcessor im
 
 	// --- preconditions ----------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		if (fRenameTypeProcessor != null && ! fCu.isStructureKnown()){
 			fRenameTypeProcessor= null;
@@ -340,7 +340,7 @@ public final class RenameCompilationUnitProcessor extends JavaRenameProcessor im
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		try{
 			if (fWillRenameType && (!fCu.isStructureKnown())){
@@ -383,7 +383,7 @@ public final class RenameCompilationUnitProcessor extends JavaRenameProcessor im
 	private IType getTypeWithTheSameName() {
 		try {
 			String name= getSimpleCUName();
-			for (IType topLevelType : fCu.getTypes()) {
+			for (IType topLevelType : fCu.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (name.equals(topLevelType.getElementName())) {
 					return topLevelType;
 				}
@@ -410,7 +410,7 @@ public final class RenameCompilationUnitProcessor extends JavaRenameProcessor im
 		return fileName.substring(0, fileName.lastIndexOf(".")); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		// renaming the file is taken care of in renameTypeRefactoring
 		if (fWillRenameType)
@@ -463,7 +463,7 @@ public final class RenameCompilationUnitProcessor extends JavaRenameProcessor im
 		return super.postCreateChange(participantChanges, pm);
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle == null) {
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT));

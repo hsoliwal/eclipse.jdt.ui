@@ -91,7 +91,7 @@ public class OccurrencesSearchGroup extends ActionGroup  {
 	 *
 	 * @since 3.4
 	 */
-	public OccurrencesSearchGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider) {
+	public OccurrencesSearchGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSite= site;
 		fGroupId= IContextMenuConstants.GROUP_SEARCH;
 
@@ -130,7 +130,7 @@ public class OccurrencesSearchGroup extends ActionGroup  {
 	 *
 	 * @noreference This constructor is not intended to be referenced by clients.
 	 */
-	public OccurrencesSearchGroup(JavaEditor editor) {
+	public OccurrencesSearchGroup(JavaEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fEditor= editor;
 		fSite= fEditor.getSite();
 		fGroupId= ITextEditorActionConstants.GROUP_FIND;
@@ -168,7 +168,7 @@ public class OccurrencesSearchGroup extends ActionGroup  {
 
 	private void registerAction(SelectionDispatchAction action, ISelectionProvider provider, ISelection selection, ISelectionProvider specialSelectionProvider) {
 		action.update(selection);
-		provider.addSelectionChangedListener(action);
+		provider.addSelectionChangedListener(action); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		if (specialSelectionProvider != null)
 			action.setSpecialSelectionProvider(specialSelectionProvider);
 	}
@@ -176,14 +176,14 @@ public class OccurrencesSearchGroup extends ActionGroup  {
 	/*
 	 * Method declared on ActionGroup.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fillContextMenu(IMenuManager manager) {
 		String menuText= SearchMessages.group_occurrences;
 		MenuManager javaSearchMM= new MenuManager(menuText, IContextMenuConstants.GROUP_SEARCH);
 		javaSearchMM.setActionDefinitionId(IJavaEditorActionDefinitionIds.SEARCH_OCCURRENCES_IN_FILE_QUICK_MENU);
 		javaSearchMM.add(new Action() {
 		});
-		javaSearchMM.addMenuListener(new IMenuListener() {
+		javaSearchMM.addMenuListener(new IMenuListener() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuAboutToShow(IMenuManager mm) {
 				mm.removeAll();
@@ -211,7 +211,7 @@ public class OccurrencesSearchGroup extends ActionGroup  {
 		manager.appendToGroup(fGroupId, javaSearchMM);
 	}
 
-	private void updateActionsInJavaEditor() {
+	private void updateActionsInJavaEditor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEditor == null)
 			return;
 

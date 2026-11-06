@@ -46,7 +46,7 @@ public class ProjectRenameParticipant extends JUnitRenameParticipant {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createChangeForConfig(JUnitRenameParticipant.ChangeList changeList, LaunchConfigurationContainer config) throws CoreException {
 
 		changeList.addAttributeChangeIfNeeded(config, IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, fProject.getElementName(), getNewName());
@@ -60,7 +60,7 @@ public class ProjectRenameParticipant extends JUnitRenameParticipant {
 		IJavaElement potentialMatch= javaElement;
 
 		// TODO: spike!
-		while (!potentialMatch.getHandleIdentifier().equals(fProject.getHandleIdentifier())) {
+		while (!potentialMatch.getHandleIdentifier().equals(fProject.getHandleIdentifier())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			potentialMatch= potentialMatch.getParent();
 			if (potentialMatch == null)
 				return;

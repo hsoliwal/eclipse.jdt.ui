@@ -45,13 +45,13 @@ public class NlsRefactoringTestHelper {
 
     NullProgressMonitor fNpm;
 
-    private HashMap<String, IAdaptable> fWorkSpaceElements = new HashMap<>();
+    private HashMap<String, IAdaptable> fWorkSpaceElements = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
     private final IJavaProject fJavaProject;
 
     public NlsRefactoringTestHelper(IJavaProject javaProject) throws Exception {
         fJavaProject = javaProject;
         fNpm = new NullProgressMonitor();
-        fWorkSpaceElements = new HashMap<>();
+        fWorkSpaceElements = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
         setupTestSpace();
     }
 
@@ -59,7 +59,7 @@ public class NlsRefactoringTestHelper {
         return new ByteArrayInputStream(input.getBytes());
     }
 
-    private void setupTestSpace() throws Exception {
+    private void setupTestSpace() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fWorkSpaceElements.put(fJavaProject.getPath().toString(), fJavaProject);
 
         createPackageFragmentRoot(fJavaProject, "src1");

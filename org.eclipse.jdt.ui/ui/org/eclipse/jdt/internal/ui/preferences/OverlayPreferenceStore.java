@@ -51,7 +51,7 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 		}
 	}
 
-	private class PropertyListener implements IPropertyChangeListener {
+	private class PropertyListener implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 		/*
 		 * @see IPropertyChangeListener#propertyChange(PropertyChangeEvent)
@@ -80,7 +80,7 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 	}
 
 	private OverlayKey findOverlayKey(String key) {
-		for (OverlayKey fOverlayKey : fOverlayKeys) {
+		for (OverlayKey fOverlayKey : fOverlayKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fOverlayKey.fKey.equals(key)) {
 				return fOverlayKey;
 			}
@@ -92,7 +92,7 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 		return (findOverlayKey(key) != null);
 	}
 
-	private void propagateProperty(IPreferenceStore orgin, OverlayKey key, IPreferenceStore target) {
+	private void propagateProperty(IPreferenceStore orgin, OverlayKey key, IPreferenceStore target) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (orgin.isDefault(key.fKey)) {
 			if (!target.isDefault(key.fKey))
@@ -147,12 +147,12 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 	}
 
 	public void propagate() {
-		for (OverlayKey fOverlayKey : fOverlayKeys) {
+		for (OverlayKey fOverlayKey : fOverlayKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			propagateProperty(fStore, fOverlayKey, fParent);
 		}
 	}
 
-	private void loadProperty(IPreferenceStore orgin, OverlayKey key, IPreferenceStore target, boolean forceInitialization) {
+	private void loadProperty(IPreferenceStore orgin, OverlayKey key, IPreferenceStore target, boolean forceInitialization) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TypeDescriptor d= key.fDescriptor;
 		if (BOOLEAN == d) {
 
@@ -200,7 +200,7 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 	}
 
 	public void load() {
-		for (OverlayKey fOverlayKey : fOverlayKeys) {
+		for (OverlayKey fOverlayKey : fOverlayKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			loadProperty(fParent, fOverlayKey, fStore, true);
 		}
 
@@ -209,7 +209,7 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 	}
 
 	public void loadDefaults() {
-		for (OverlayKey fOverlayKey : fOverlayKeys) {
+		for (OverlayKey fOverlayKey : fOverlayKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setToDefault(fOverlayKey.fKey);
 		}
 	}
@@ -505,17 +505,17 @@ public class OverlayPreferenceStore  implements IPreferenceStore {
 	 *
 	 * @since 3.0
 	 */
-	public void addKeys(OverlayKey[] keys) {
+	public void addKeys(OverlayKey[] keys) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(!fLoaded);
 		Assert.isNotNull(keys);
 
 		int overlayKeysLength= fOverlayKeys.length;
 		OverlayKey[] result= new OverlayKey[keys.length + overlayKeysLength];
 
-		for (int i= 0, length= overlayKeysLength; i < length; i++)
+		for (int i= 0, length= overlayKeysLength; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= fOverlayKeys[i];
 
-		for (int i= 0, length= keys.length; i < length; i++)
+		for (int i= 0, length= keys.length; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[overlayKeysLength + i]= keys[i];
 
 		fOverlayKeys= result;

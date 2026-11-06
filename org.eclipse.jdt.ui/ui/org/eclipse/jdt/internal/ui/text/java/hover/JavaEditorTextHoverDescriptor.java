@@ -91,7 +91,7 @@ public class JavaEditorTextHoverDescriptor {
 
 		int stateMask= 0;
 		StringTokenizer modifierTokenizer= new StringTokenizer(modifiers, ",;.:+-* "); //$NON-NLS-1$
-		while (modifierTokenizer.hasMoreTokens()) {
+		while (modifierTokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int modifier= EditorUtility.findLocalizedModifier(modifierTokenizer.nextToken());
 			if (modifier == 0 || (stateMask & modifier) == modifier)
 				return -1;
@@ -195,8 +195,8 @@ public class JavaEditorTextHoverDescriptor {
 	}
 
 	private static JavaEditorTextHoverDescriptor[] createDescriptors(IConfigurationElement[] elements) {
-		List<JavaEditorTextHoverDescriptor> result= new ArrayList<>(elements.length);
-		for (IConfigurationElement element : elements) {
+		List<JavaEditorTextHoverDescriptor> result= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (HOVER_TAG.equals(element.getName())) {
 				JavaEditorTextHoverDescriptor desc= new JavaEditorTextHoverDescriptor(element);
 				result.add(desc);
@@ -205,13 +205,13 @@ public class JavaEditorTextHoverDescriptor {
 		return result.toArray(new JavaEditorTextHoverDescriptor[result.size()]);
 	}
 
-	private static void initializeFromPreferences(JavaEditorTextHoverDescriptor[] hovers) {
+	private static void initializeFromPreferences(JavaEditorTextHoverDescriptor[] hovers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String compiledTextHoverModifiers= JavaPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIERS);
 
 		StringTokenizer tokenizer= new StringTokenizer(compiledTextHoverModifiers, VALUE_SEPARATOR);
-		HashMap<String, String> idToModifier= new HashMap<>(tokenizer.countTokens() / 2);
+		HashMap<String, String> idToModifier= new HashMap<>(tokenizer.countTokens() / 2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= tokenizer.nextToken();
 			if (tokenizer.hasMoreTokens())
 				idToModifier.put(id, tokenizer.nextToken());
@@ -220,15 +220,15 @@ public class JavaEditorTextHoverDescriptor {
 		String compiledTextHoverModifierMasks= JavaPlugin.getDefault().getPreferenceStore().getString(PreferenceConstants.EDITOR_TEXT_HOVER_MODIFIER_MASKS);
 
 		tokenizer= new StringTokenizer(compiledTextHoverModifierMasks, VALUE_SEPARATOR);
-		HashMap<String, String> idToModifierMask= new HashMap<>(tokenizer.countTokens() / 2);
+		HashMap<String, String> idToModifierMask= new HashMap<>(tokenizer.countTokens() / 2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= tokenizer.nextToken();
 			if (tokenizer.hasMoreTokens())
 				idToModifierMask.put(id, tokenizer.nextToken());
 		}
 
-		for (JavaEditorTextHoverDescriptor hover : hovers) {
+		for (JavaEditorTextHoverDescriptor hover : hovers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String modifierString= idToModifier.get(hover.getId());
 			boolean enabled= true;
 			if (modifierString == null)

@@ -65,7 +65,7 @@ public class BytecodeOutlinePlugin extends AbstractUIPlugin {
 			message = Messages.BytecodeOutline_Error;
 		}
 		if (error != null) {
-			message += " " + error.getMessage(); //$NON-NLS-1$
+			message += " " + error.getMessage(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		MessageDialog.openError(shell, Messages.BytecodeOutline_Title, message);
 		getDefault().getLog().log(new Status(IStatus.ERROR, "org.eclipse.jdt.bcoview", 0, message, error)); //$NON-NLS-1$

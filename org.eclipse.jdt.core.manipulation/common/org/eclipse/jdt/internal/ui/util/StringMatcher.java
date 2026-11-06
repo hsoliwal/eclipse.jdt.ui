@@ -94,7 +94,7 @@ public class StringMatcher {
 	 * Note that for pattern like "*abc*" with leading and trailing stars, position of "abc"
 	 * is returned. For a pattern like"*??*" in text "abcdf", (1,3) is returned
 	 */
-	public StringMatcher.Position find(String text, int start, int end) {
+	public StringMatcher.Position find(String text, int start, int end) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (text == null)
 			throw new IllegalArgumentException();
 
@@ -121,7 +121,7 @@ public class StringMatcher {
 		int curPos= start;
 		int matchStart= -1;
 		int i;
-		for (i= 0; i < segCount && curPos < end; ++i) {
+		for (i= 0; i < segCount && curPos < end; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String current= fSegments[i];
 			int nextMatch= regExpPosIn(text, curPos, end, current);
 			if (nextMatch < 0 )
@@ -150,7 +150,7 @@ public class StringMatcher {
 	 * @param start marks the starting position (inclusive) of the substring
 	 * @param end marks the ending index (exclusive) of the substring
 	 */
-	public boolean match(String text, int start, int end) {
+	public boolean match(String text, int start, int end) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (null == text)
 			throw new IllegalArgumentException();
 
@@ -195,7 +195,7 @@ public class StringMatcher {
 			return tCurPos == end;
 		}
 		/* process middle segments */
-		while (i < segCount) {
+		while (i < segCount) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			current= fSegments[i];
 			int currentMatch;
 			int k= current.indexOf(fSingleWildCard);
@@ -232,7 +232,7 @@ public class StringMatcher {
 	/**
 	 * Parses the given pattern into segments seperated by wildcard '*' characters.
 	 */
-	private void parseWildCards() {
+	private void parseWildCards() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(fPattern.startsWith("*"))//$NON-NLS-1$
 			fHasLeadingStar= true;
 		if(fPattern.endsWith("*")) {//$NON-NLS-1$
@@ -245,22 +245,22 @@ public class StringMatcher {
 		Vector<String> temp= new Vector<>();
 
 		int pos= 0;
-		StringBuilder buf= new StringBuilder();
-		while (pos < fLength) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		while (pos < fLength) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= fPattern.charAt(pos++);
 			switch (c) {
 				case '\\':
 					if (pos >= fLength) {
-						buf.append(c);
+						buf.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else {
 						char next= fPattern.charAt(pos++);
 						/* if it's an escape sequence */
 						if (next == '*' || next == '?' || next == '\\') {
-							buf.append(next);
+							buf.append(next); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
 							/* not an escape sequence, just insert literally */
-							buf.append(c);
-							buf.append(next);
+							buf.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buf.append(next); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 				break;
@@ -274,10 +274,10 @@ public class StringMatcher {
 				break;
 				case '?':
 					/* append special character representing single match wildcard */
-					buf.append(fSingleWildCard);
+					buf.append(fSingleWildCard); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 				default:
-					buf.append(c);
+					buf.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 
@@ -306,7 +306,7 @@ public class StringMatcher {
 			return i;
 		}
 
-		for (int i= start; i <= max; ++i) {
+		for (int i= start; i <= max; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (text.regionMatches(true, i, fPattern, 0, fLength))
 				return i;
 		}
@@ -324,7 +324,7 @@ public class StringMatcher {
 		int plen= p.length();
 
 		int max= end - plen;
-		for (int i= start; i <= max; ++i) {
+		for (int i= start; i <= max; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (regExpRegionMatches(text, i, p, 0, plen))
 				return i;
 		}
@@ -332,8 +332,8 @@ public class StringMatcher {
 	}
 
 
-	protected boolean regExpRegionMatches(String text, int tStart, String p, int pStart, int plen) {
-		while (plen-- > 0) {
+	protected boolean regExpRegionMatches(String text, int tStart, String p, int pStart, int plen) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (plen-- > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char tchar= text.charAt(tStart++);
 			char pchar= p.charAt(pStart++);
 
@@ -365,7 +365,7 @@ public class StringMatcher {
 	 * @param p a string that has no wildcard
 	 * @return the starting index in the text of the pattern , or -1 if not found
 	 */
-	protected int textPosIn(String text, int start, int end, String p) {
+	protected int textPosIn(String text, int start, int end, String p) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int plen= p.length();
 		int max= end - plen;
@@ -377,7 +377,7 @@ public class StringMatcher {
 			return i;
 		}
 
-		for (int i= start; i <= max; ++i) {
+		for (int i= start; i <= max; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (text.regionMatches(true, i, p, 0, plen))
 				return i;
 		}

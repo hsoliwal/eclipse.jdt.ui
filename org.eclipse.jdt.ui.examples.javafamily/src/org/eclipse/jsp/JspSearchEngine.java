@@ -23,12 +23,12 @@ public class JspSearchEngine {
 
 	public static void search(final IJavaSearchResultCollector collector, final IIndexQuery query, IProgressMonitor pm) {
 
-		System.out.println("JspSearchEngine.search: " + query); //$NON-NLS-1$
+		System.out.println("JspSearchEngine.search: " + query); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		JspUIPlugin.getDefault().search(
 			query,
 			(resource, start, length) -> {
-				System.out.println("  accept: " + resource); //$NON-NLS-1$
+				System.out.println("  accept: " + resource); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				collector.accept(resource, start, start+length, null, 999);
 			},
 			pm

@@ -109,16 +109,16 @@ public class ContributedJavadocWizardPage extends NewElementWizardPage implement
 
 	@Override
 	public String[] getConfiguredJavadocOptions() {
-		ArrayList<String> vmArgs= new ArrayList<>();
-		ArrayList<String> toolArgs= new ArrayList<>();
+		ArrayList<String> vmArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<String> toolArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fStore.getArgumentArray(vmArgs, toolArgs);
 		return toolArgs.toArray(new String[toolArgs.size()]);
 	}
 
 	@Override
 	public String[] getConfiguredVMOptions() {
-		ArrayList<String> vmArgs= new ArrayList<>();
-		ArrayList<String> toolArgs= new ArrayList<>();
+		ArrayList<String> vmArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<String> toolArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fStore.getArgumentArray(vmArgs, toolArgs);
 		return vmArgs.toArray(new String[vmArgs.size()]);
 	}
@@ -159,14 +159,14 @@ public class ContributedJavadocWizardPage extends NewElementWizardPage implement
 	}
 
 	public static ContributedJavadocWizardPage[] getContributedPages(JavadocOptionsManager store) {
-		ArrayList<ContributedJavadocWizardPage> pages= new ArrayList<>();
+		ArrayList<ContributedJavadocWizardPage> pages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IConfigurationElement curr : Platform.getExtensionRegistry().getConfigurationElementsFor(JavaUI.ID_PLUGIN, ATT_EXTENSION)) {
+		for (IConfigurationElement curr : Platform.getExtensionRegistry().getConfigurationElementsFor(JavaUI.ID_PLUGIN, ATT_EXTENSION)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= curr.getAttribute(ATT_ID);
 			String description= curr.getAttribute(ATT_DESCRIPTION);
 			String pageClassName= curr.getAttribute(ATT_PAGE_CLASS);
 			if (id == null || description == null || pageClassName == null) {
-				JavaPlugin.logErrorMessage("Invalid extension " + curr.toString()); //$NON-NLS-1$
+				JavaPlugin.logErrorMessage("Invalid extension " + curr.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				continue;
 			}
 			pages.add(new ContributedJavadocWizardPage(curr, store));

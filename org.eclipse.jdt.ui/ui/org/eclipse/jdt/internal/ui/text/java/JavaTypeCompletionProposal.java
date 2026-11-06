@@ -42,7 +42,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 /**
  * If passed compilation unit is not null, the replacement string will be seen as a qualified type name.
   */
-public class JavaTypeCompletionProposal extends JavaCompletionProposal {
+public class JavaTypeCompletionProposal extends JavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	protected final ICompilationUnit fCompilationUnit;
 
@@ -95,7 +95,7 @@ public class JavaTypeCompletionProposal extends JavaCompletionProposal {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 		try {
 			ImportRewrite impRewrite= null;

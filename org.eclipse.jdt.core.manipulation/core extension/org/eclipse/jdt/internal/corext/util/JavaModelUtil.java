@@ -167,7 +167,7 @@ public final class JavaModelUtil {
 	 * @throws JavaModelException thrown when the cu can not be accessed
 	 */
 	public static IType findTypeInCompilationUnit(ICompilationUnit cu, String typeQualifiedName) throws JavaModelException {
-		for (IType type : cu.getAllTypes()) {
+		for (IType type : cu.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String currName= type.getTypeQualifiedName('.');
 			if (typeQualifiedName.equals(currName)) {
 				return type;
@@ -215,15 +215,15 @@ public final class JavaModelUtil {
 	 * @return the concatenated name
 	 */
 	public static String concatenateName(String name1, String name2) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (name1 != null && name1.length() > 0) {
-			buf.append(name1);
+			buf.append(name1); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (name2 != null && name2.length() > 0) {
 			if (buf.length() > 0) {
-				buf.append('.');
+				buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(name2);
+			buf.append(name2); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -236,15 +236,15 @@ public final class JavaModelUtil {
 	 * @return the concatenated string
 	 */
 	public static String concatenateName(char[] name1, char[] name2) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (name1 != null && name1.length > 0) {
-			buf.append(name1);
+			buf.append(name1); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (name2 != null && name2.length > 0) {
 			if (buf.length() > 0) {
-				buf.append('.');
+				buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(name2);
+			buf.append(name2); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -280,7 +280,7 @@ public final class JavaModelUtil {
 	 * @return returns <code>true</code> if the member is visible from the package
 	 * @throws JavaModelException thrown when the member can not be accessed
 	 */
-	public static boolean isVisible(IMember member, IPackageFragment pack) throws JavaModelException {
+	public static boolean isVisible(IMember member, IPackageFragment pack) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int type= member.getElementType();
 		if  (type == IJavaElement.INITIALIZER ||  (type == IJavaElement.METHOD && member.getElementName().startsWith("<"))) { //$NON-NLS-1$
@@ -307,7 +307,7 @@ public final class JavaModelUtil {
 	 * @return returns <code>true</code> if the member is visible from the package
 	 * @throws JavaModelException thrown when the member can not be accessed
 	 */
-	public static boolean isVisibleInHierarchy(IMember member, IPackageFragment pack) throws JavaModelException {
+	public static boolean isVisibleInHierarchy(IMember member, IPackageFragment pack) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int type= member.getElementType();
 		if  (type == IJavaElement.INITIALIZER ||  (type == IJavaElement.METHOD && member.getElementName().startsWith("<"))) { //$NON-NLS-1$
 			return false;
@@ -350,7 +350,7 @@ public final class JavaModelUtil {
 	 * @throws JavaModelException thrown when the type can not be accessed
 	 */
 	public static IMethod findMethod(String name, String[] paramTypes, boolean isConstructor, IType type) throws JavaModelException {
-		for (IMethod method : type.getMethods()) {
+		for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSameMethodSignature(name, paramTypes, isConstructor, method)) {
 				return method;
 			}
@@ -372,7 +372,7 @@ public final class JavaModelUtil {
 	 * @return The first found method or <code>null</code>, if nothing found
 	 * @throws JavaModelException thrown when the type can not be accessed
 	 */
-	public static IMethod findMethodInHierarchy(ITypeHierarchy hierarchy, IType type, String name, String[] paramTypes, boolean isConstructor) throws JavaModelException {
+	public static IMethod findMethodInHierarchy(ITypeHierarchy hierarchy, IType type, String name, String[] paramTypes, boolean isConstructor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethod method= findMethod(name, paramTypes, isConstructor, type);
 		if (method != null) {
 			return method;
@@ -385,7 +385,7 @@ public final class JavaModelUtil {
 			}
 		}
 		if (!isConstructor) {
-			for (IType superInterface : hierarchy.getSuperInterfaces(type)) {
+			for (IType superInterface : hierarchy.getSuperInterfaces(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethod res= findMethodInHierarchy(hierarchy, superInterface, name, paramTypes, false);
 				if (res != null) {
 					return res;
@@ -408,12 +408,12 @@ public final class JavaModelUtil {
 	 * @return Returns <code>true</code> if the method has the given name and parameter types and constructor state.
 	 * @throws JavaModelException thrown when the method can not be accessed
 	 */
-	public static boolean isSameMethodSignature(String name, String[] paramTypes, boolean isConstructor, IMethod curr) throws JavaModelException {
+	public static boolean isSameMethodSignature(String name, String[] paramTypes, boolean isConstructor, IMethod curr) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isConstructor || name.equals(curr.getElementName())) {
 			if (isConstructor == curr.isConstructor()) {
 				String[] currParamTypes= curr.getParameterTypes();
 				if (paramTypes.length == currParamTypes.length) {
-					for (int i= 0; i < paramTypes.length; i++) {
+					for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String t1= Signature.getSimpleName(Signature.toString(paramTypes[i]));
 						String t2= Signature.getSimpleName(Signature.toString(currParamTypes[i]));
 						if (!t1.equals(t2)) {
@@ -444,7 +444,7 @@ public final class JavaModelUtil {
 	 * @throws JavaModelException thrown when the type can not be accessed
 	 */
 	public static boolean hasMainMethod(IType type) throws JavaModelException {
-		for (IMethod method : type.getMethods()) {
+		for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.isMainMethodCandidate()) {
 				return true;
 			}
@@ -492,7 +492,7 @@ public final class JavaModelUtil {
 	 * @return returns the fully qualified type name or build-in-type name. if a unresolved type couldn't be resolved null is returned
 	 * @throws JavaModelException thrown when the type can not be accessed
 	 */
-	public static String getResolvedTypeName(String refTypeSig, IType declaringType, char enclosingTypeSeparator) throws JavaModelException {
+	public static String getResolvedTypeName(String refTypeSig, IType declaringType, char enclosingTypeSeparator) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int arrayCount= Signature.getArrayCount(refTypeSig);
 		char type= refTypeSig.charAt(arrayCount);
 		if (type == Signature.C_UNRESOLVED) {
@@ -566,7 +566,7 @@ public final class JavaModelUtil {
 		return false;
 	}
 
-	public static IType[] getAllSuperTypes(IType type, IProgressMonitor pm) throws JavaModelException {
+	public static IType[] getAllSuperTypes(IType type, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// workaround for 23656
 			IType[] superTypes= SuperTypeHierarchyCache.getTypeHierarchy(type).getAllSupertypes(type);
@@ -593,7 +593,7 @@ public final class JavaModelUtil {
 			return true;
 		}
 		if (Flags.isInterface(hierarchy.getCachedFlags(possibleSuperType))) {
-			for (IType curr : hierarchy.getSuperInterfaces(type)) {
+			for (IType curr : hierarchy.getSuperInterfaces(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (possibleSuperType.equals(curr) || isSuperType(hierarchy, possibleSuperType, curr)) {
 					return true;
 				}
@@ -604,7 +604,7 @@ public final class JavaModelUtil {
 
 	public static boolean isExcludedPath(IPath resourcePath, IPath[] exclusionPatterns) {
 		char[] path = resourcePath.toString().toCharArray();
-		for (IPath exclusionPattern : exclusionPatterns) {
+		for (IPath exclusionPattern : exclusionPatterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char[] pattern= exclusionPattern.toString().toCharArray();
 			if (CharOperation.pathMatch(pattern, path, true, '/')) {
 				return true;
@@ -626,7 +626,7 @@ public final class JavaModelUtil {
 	public static boolean isExcluded(IPath resourcePath, char[][] exclusionPatterns) {
 		if (exclusionPatterns == null) return false;
 		char[] path = resourcePath.toString().toCharArray();
-		for (char[] exclusionPattern : exclusionPatterns)
+		for (char[] exclusionPattern : exclusionPatterns) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (CharOperation.pathMatch(exclusionPattern, path, true, '/'))
 				return true;
 		return false;
@@ -675,7 +675,7 @@ public final class JavaModelUtil {
 	 * <code>null</code> if the container can not be modified.
 	 */
 	public static IClasspathEntry findEntryInContainer(IClasspathContainer container, IPath libPath) {
-		for (IClasspathEntry curr : container.getClasspathEntries()) {
+		for (IClasspathEntry curr : container.getClasspathEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry resolved= JavaCore.getResolvedClasspathEntry(curr);
 			if (resolved != null && libPath.equals(resolved.getPath())) {
 				return curr; // return the real entry
@@ -720,18 +720,18 @@ public final class JavaModelUtil {
 	 *             accessing its corresponding resource
 	 */
 	public static ICompilationUnit[] getAllCompilationUnits(IJavaElement[] javaElements) throws JavaModelException {
-		HashSet<ICompilationUnit> result= new HashSet<>();
-		for (IJavaElement javaElement : javaElements) {
+		HashSet<ICompilationUnit> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addAllCus(result, javaElement);
 		}
 		return result.toArray(new ICompilationUnit[result.size()]);
 	}
 
-	private static void addAllCus(HashSet<ICompilationUnit> collector, IJavaElement javaElement) throws JavaModelException {
+	private static void addAllCus(HashSet<ICompilationUnit> collector, IJavaElement javaElement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (javaElement.getElementType()) {
 			case IJavaElement.JAVA_PROJECT:
 				IJavaProject javaProject= (IJavaProject) javaElement;
-				for (IPackageFragmentRoot packageFragmentRoot : javaProject.getPackageFragmentRoots()) {
+				for (IPackageFragmentRoot packageFragmentRoot : javaProject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addAllCus(collector, packageFragmentRoot);
 				}
 				return;
@@ -741,7 +741,7 @@ public final class JavaModelUtil {
 				IPackageFragmentRoot packageFragmentRoot= (IPackageFragmentRoot) javaElement;
 				if (packageFragmentRoot.getKind() != IPackageFragmentRoot.K_SOURCE)
 					return;
-				for (IJavaElement packageFragment : packageFragmentRoot.getChildren()) {
+				for (IJavaElement packageFragment : packageFragmentRoot.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addAllCus(collector, packageFragment);
 				}
 				return;
@@ -1083,7 +1083,7 @@ public final class JavaModelUtil {
 		return !isVersionLessThan(compliance, JavaCore.latestSupportedJavaVersion());
 	}
 
-	public static String getCompilerCompliance(IVMInstall2 vMInstall, String defaultCompliance) {
+	public static String getCompilerCompliance(IVMInstall2 vMInstall, String defaultCompliance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String version= vMInstall.getJavaVersion();
 		if (version == null) {
 			return defaultCompliance;
@@ -1131,7 +1131,7 @@ public final class JavaModelUtil {
 		return JavaCore.isJavaSourceVersionSupportedByCompiler(version) ? defaultCompliance : JavaModelUtil.VERSION_LATEST;
 	}
 
-	public static String getExecutionEnvironmentCompliance(IExecutionEnvironment executionEnvironment) {
+	public static String getExecutionEnvironmentCompliance(IExecutionEnvironment executionEnvironment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, String> complianceOptions= executionEnvironment.getComplianceOptions();
 		if (complianceOptions != null) {
 			String compliance= complianceOptions.get(JavaCore.COMPILER_COMPLIANCE);
@@ -1201,7 +1201,7 @@ public final class JavaModelUtil {
 		String oldName = cu.getElementName();
 		int i = oldName.lastIndexOf('.');
 		if (i != -1) {
-			return newMainName + oldName.substring(i);
+			return newMainName + oldName.substring(i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			return newMainName;
 		}
@@ -1284,7 +1284,7 @@ public final class JavaModelUtil {
 	 * @since 3.14
 	 */
 	public static boolean containsOrdinaryCompilationUnit(IPackageFragment fragment) throws JavaModelException {
-		for (IJavaElement child : fragment.getChildren()) {
+		for (IJavaElement child : fragment.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof ITypeRoot && !isModuleInfo((ITypeRoot) child))
 				return true;
 		}

@@ -55,7 +55,7 @@ public class PatternMatcher {
 		return fMatchKind;
 	}
 
-	public boolean matches(String text) {
+	public boolean matches(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (fMatchKind) {
 			case SearchPattern.R_PATTERN_MATCH:
 				return fStringMatcher.match(text);
@@ -74,7 +74,7 @@ public class PatternMatcher {
 		}
 	}
 
-	private void initializePatternAndMatchKind(String pattern) {
+	private void initializePatternAndMatchKind(String pattern) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= pattern.length();
 		if (length == 0) {
 			fMatchKind= SearchPattern.R_EXACT_MATCH;
@@ -94,7 +94,7 @@ public class PatternMatcher {
 					fPattern= pattern;
 					break;
 				default:
-					fPattern= pattern + ANY_STRING;
+					fPattern= pattern + ANY_STRING; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return;
 		}

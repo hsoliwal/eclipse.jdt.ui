@@ -35,7 +35,7 @@ public class NewTestSourceFolderWizardPage extends AbstractNewFolderWizardPage {
 
 	@Override
 	protected IClasspathEntry createNewClassPathEntry(IPath path, IPath[] inclusionPatterns, IPath[] exclusionPatterns,IPath newOutputPath, IClasspathAttribute[] attributes) {
-		List<IClasspathAttribute> new_attributes = new ArrayList<>(Arrays.asList(attributes));
+		List<IClasspathAttribute> new_attributes = new ArrayList<>(Arrays.asList(attributes)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		new_attributes.add(JavaCore.newClasspathAttribute(IClasspathAttribute.TEST, "true")); //$NON-NLS-1$
 		IClasspathAttribute[] new_attributes_array = new IClasspathAttribute[new_attributes.size()];
 		new_attributes.toArray(new_attributes_array);

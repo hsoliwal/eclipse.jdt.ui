@@ -51,16 +51,16 @@ public class RenameTempTests extends GenericRefactoringTest{
 	}
 
 	private String getSimpleTestFileName(boolean canRename, boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canRename)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getTestFileName(boolean canRename, boolean input){
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canRename ? "canRename/": "cannotRename/");
-		return fileName.append(getSimpleTestFileName(canRename, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canRename ? "canRename/": "cannotRename/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canRename, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	//------------
@@ -76,7 +76,7 @@ public class RenameTempTests extends GenericRefactoringTest{
 		return new SourceRange(offset, end - offset);
 	}
 
-	private void helper1(String newName, boolean updateReferences, ISourceRange selection, ICompilationUnit cu) throws Exception {
+	private void helper1(String newName, boolean updateReferences, ISourceRange selection, ICompilationUnit cu) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] elements= cu.codeSelect(selection.getOffset(), selection.getLength());
 		assertEquals(1, elements.length);
 		assertTrue(elements[0].getClass().toString(), elements[0] instanceof ILocalVariable);
@@ -97,7 +97,7 @@ public class RenameTempTests extends GenericRefactoringTest{
 		IPackageFragment pack= (IPackageFragment) cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect renaming", getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 
@@ -123,7 +123,7 @@ public class RenameTempTests extends GenericRefactoringTest{
 		assertEquals(0, elements.length);
 	}
 
-	private void failTestHelper(String newName, boolean updateReferences, ICompilationUnit cu, ISourceRange selection) throws Exception {
+	private void failTestHelper(String newName, boolean updateReferences, ICompilationUnit cu, ISourceRange selection) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] elements= cu.codeSelect(selection.getOffset(), selection.getLength());
 		assertEquals(1, elements.length);
 		assertTrue(elements[0].getClass().toString(), elements[0] instanceof ILocalVariable);

@@ -68,7 +68,7 @@ public class SearchLeakTest extends LeakTestCase {
 		assertInstanceCount(JavaSearchResult.class, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSearchResultEditorClose() throws Exception {
 		assertInstanceCount(TextEditor.class, true, 0);
 

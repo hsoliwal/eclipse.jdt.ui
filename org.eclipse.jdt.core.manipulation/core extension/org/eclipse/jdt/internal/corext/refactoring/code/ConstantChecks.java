@@ -158,7 +158,7 @@ public class ConstantChecks {
 		public boolean visit(SimpleName node) {
 			return visitName(node);
 		}
-		private boolean visitName(Name name) {
+		private boolean visitName(Name name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IBinding binding= name.resolveBinding();
 			if(binding == null) {
 				/* If the binding is null because of compile errors etc.,

@@ -34,7 +34,7 @@ public class QualifiedNameSearchResult {
 	private Map<IFile, TextChange> fChanges;
 
 	public QualifiedNameSearchResult() {
-		fChanges= new HashMap<>();
+		fChanges= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	}
 
 	public TextChange getChange(IFile file) {
@@ -64,7 +64,7 @@ public class QualifiedNameSearchResult {
 		CompositeChange result= new CompositeChange(RefactoringCoreMessages.QualifiedNameSearchResult_change_name);
 		result.markAsSynthetic();
 		List<IFile> files= Arrays.asList(alreadyTouchedFiles);
-		for (TextChange textChange : values) {
+		for (TextChange textChange : values) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TextFileChange change= (TextFileChange)textChange;
 			if (!files.contains(change.getFile())) {
 				result.add(change);

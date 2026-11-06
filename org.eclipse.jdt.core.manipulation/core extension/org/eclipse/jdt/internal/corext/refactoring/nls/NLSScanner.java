@@ -61,8 +61,8 @@ public class NLSScanner {
 		return scan(scanner, s.toCharArray());
 	}
 
-	private static NLSLine[] scan(IScanner scanner, char[] content) throws InvalidInputException, BadLocationException {
-		List<NLSLine> lines= new ArrayList<>();
+	private static NLSLine[] scan(IScanner scanner, char[] content) throws InvalidInputException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<NLSLine> lines= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		scanner.setSource(content);
 		int token= scanner.getNextToken();
 		int currentLineNr= -1;
@@ -78,7 +78,7 @@ public class NLSScanner {
 		LinkedList<int[]> insideAnnotation= new LinkedList<>();
 		int defaultCounter= 0; // counting up tokens starting with 'default'
 
-		while (token != ITerminalSymbols.TokenNameEOF) {
+		while (token != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (token) {
 				// don't NLS inside annotation arguments and after 'default'
 				case ITerminalSymbols.TokenNameAT:
@@ -203,16 +203,16 @@ public class NLSScanner {
 		}
 		NLSLine[] result= lines.toArray(new NLSLine[lines.size()]);
 		IDocument document= new Document(String.valueOf(scanner.getSource()));
-		for (NLSLine element : result) {
+		for (NLSLine element : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setTagPositions(document, element);
 		}
 		return result;
 	}
 
-	private static void parseTags(NLSLine line, IScanner scanner) {
+	private static void parseTags(NLSLine line, IScanner scanner) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String s= new String(scanner.getCurrentTokenSource());
 		int pos= s.indexOf(NLSElement.TAG_PREFIX);
-		while (pos != -1) {
+		while (pos != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int start= pos + NLSElement.TAG_PREFIX_LENGTH;
 			int end= s.indexOf(NLSElement.TAG_POSTFIX, start);
 			if (end < 0)
@@ -239,7 +239,7 @@ public class NLSScanner {
 		IRegion info= document.getLineInformation(line.getLineNumber());
 		int defaultValue= info.getOffset() + info.getLength();
 		NLSElement[] elements= line.getElements();
-		for (int i= 0; i < elements.length; i++) {
+		for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSElement element= elements[i];
 			if (!element.hasTag()) {
 				element.setTagPosition(computeInsertOffset(elements, i, defaultValue), 0);
@@ -259,7 +259,7 @@ public class NLSScanner {
 
 	private static NLSElement findPreviousTagged(int startIndex, NLSElement[] elements){
 		int i= startIndex - 1;
-		while (i >= 0){
+		while (i >= 0){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements[i].hasTag())
 				return elements[i];
 			i--;
@@ -269,7 +269,7 @@ public class NLSScanner {
 
 	private static NLSElement findNextTagged(int startIndex, NLSElement[] elements){
 		int i= startIndex + 1;
-		while (i < elements.length){
+		while (i < elements.length){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements[i].hasTag())
 				return elements[i];
 			i++;

@@ -69,7 +69,7 @@ public class JavaDocIndentStrategyTest extends TextPerformanceTestCase implement
 
 		@Override
 		protected String getFile() {
-			return "/" + PROJECT + "/src/" + FILE;
+			return "/" + PROJECT + "/src/" + FILE; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -140,7 +140,7 @@ public class JavaDocIndentStrategyTest extends TextPerformanceTestCase implement
 	private void measureJavaDocIndentStrategy(int destOffset, PerformanceMeter performanceMeter, int runs) throws Exception {
 		IDocument document= EditorTestHelper.getDocument(fEditor);
 		Display display= EditorTestHelper.getActiveDisplay();
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dirty(document);
 			fEditor.selectAndReveal(destOffset, 0);
 			EditorTestHelper.joinReconciler(EditorTestHelper.getSourceViewer(fEditor), 0, 10000, 100);

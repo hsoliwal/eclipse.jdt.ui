@@ -32,10 +32,10 @@ public class ProgressImages {
 		if (isLoaded())
 			return;
 
-		for (int i= 0; i < PROGRESS_STEPS; i++) {
-			String okname= BASE+OK+Integer.toString(i+1)+".svg"; //$NON-NLS-1$
+		for (int i= 0; i < PROGRESS_STEPS; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String okname= BASE+OK+Integer.toString(i+1)+".svg"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fOKImages[i]= createImage(okname);
-			String failurename= BASE+FAILURE+Integer.toString(i+1)+".svg"; //$NON-NLS-1$
+			String failurename= BASE+FAILURE+Integer.toString(i+1)+".svg"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fFailureImages[i]= createImage(failurename);
 		}
 	}
@@ -48,7 +48,7 @@ public class ProgressImages {
 		if (!isLoaded())
 			return;
 
-		for (int i= 0; i < PROGRESS_STEPS; i++) {
+		for (int i= 0; i < PROGRESS_STEPS; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fOKImages[i].dispose();
 			fOKImages[i]= null;
 			fFailureImages[i].dispose();

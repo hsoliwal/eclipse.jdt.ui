@@ -58,7 +58,7 @@ public class ReplaceDeprecatedFieldFixCore extends CompilationUnitRewriteOperati
 			this.fReplacement= name;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			AST ast= cuRewrite.getAST();
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
@@ -91,7 +91,7 @@ public class ReplaceDeprecatedFieldFixCore extends CompilationUnitRewriteOperati
 			int lastDot= fReplacement.lastIndexOf('.');
 			if (lastDot > 0) {
 				int startIndex= lastDot - 1;
-				while (startIndex >= 0 && Character.isJavaIdentifierPart(fReplacement.charAt(startIndex))) {
+				while (startIndex >= 0 && Character.isJavaIdentifierPart(fReplacement.charAt(startIndex))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					--startIndex;
 				}
 				simpleNameQualifierIndex= startIndex + 1;
@@ -104,7 +104,7 @@ public class ReplaceDeprecatedFieldFixCore extends CompilationUnitRewriteOperati
 					}
 				}
 				IImportDeclaration[] importDecls= cuRewrite.getCu().getImports();
-				for (IImportDeclaration importDecl : importDecls) {
+				for (IImportDeclaration importDecl : importDecls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String elementName= importDecl.getElementName();
 					if (!importDecl.isOnDemand()) {
 						int elementLastDot= elementName.lastIndexOf('.');

@@ -51,11 +51,11 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 		int index= 0;
 		int offset= 0;
 
-		while (index < fgHTMLProposals.length) {
+		while (index < fgHTMLProposals.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			tag= IHtmlTagConstants.HTML_GENERAL_TAGS[offset];
-			fgHTMLProposals[index++]= IHtmlTagConstants.HTML_TAG_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX;
-			fgHTMLProposals[index++]= IHtmlTagConstants.HTML_CLOSE_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX;
+			fgHTMLProposals[index++]= IHtmlTagConstants.HTML_TAG_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			fgHTMLProposals[index++]= IHtmlTagConstants.HTML_CLOSE_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			offset++;
 		}
 	}
@@ -78,7 +78,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 		int currPos= pos - 1;
 		if (currPos > lineBeginPos) {
 			try {
-				while (currPos > lineBeginPos && isWordPart(doc.getChar(currPos))) {
+				while (currPos > lineBeginPos && isWordPart(doc.getChar(currPos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					currPos--;
 				}
 				return currPos;
@@ -91,7 +91,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 
 	private static int findClosingCharacter(IDocument doc, int pos, int end, char endChar) throws BadLocationException {
 		int curr= pos;
-		while (curr < end && (doc.getChar(curr) != endChar)) {
+		while (curr < end && (doc.getChar(curr) != endChar)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			curr++;
 		}
 		if (curr < end) {
@@ -121,7 +121,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 	 * @see org.eclipse.jdt.ui.text.java.IJavaCompletionProposalComputer#computeCompletionProposals(org.eclipse.jdt.ui.text.java.ContentAssistInvocationContext, org.eclipse.core.runtime.IProgressMonitor)
 	 * @since 3.2
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
 		if (!(context instanceof JavadocContentAssistInvocationContext))
 			return Collections.emptyList();
@@ -141,7 +141,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 		}
 
 		try {
-			fResult= new ArrayList<>(100);
+			fResult= new ArrayList<>(100); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			evalProposals();
 			return fResult;
 		} finally {
@@ -149,7 +149,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 		}
 	}
 
-	private void evalProposals() {
+	private void evalProposals() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 
 			IRegion info= fDocument.getLineInformationOfOffset(fCurrentPos);
@@ -187,8 +187,8 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 	}
 
 	private void addAllTags(String prefix) {
-		String htmlPrefix= "<" + prefix; //$NON-NLS-1$
-		for (String curr : fgHTMLProposals) {
+		String htmlPrefix= "<" + prefix; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (String curr : fgHTMLProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (prefixMatches(htmlPrefix, curr)) {
 				fResult.add(createCompletion(curr, prefix, new StyledString(curr), JavaPluginImages.get(JavaPluginImages.IMG_OBJS_HTMLTAG), 0));
 			}
@@ -196,7 +196,7 @@ public class HTMLTagCompletionProposalComputer implements IJavaCompletionProposa
 	}
 
 	private void addProposals(String prefix, String[] choices, String imageName) {
-		for (String curr : choices) {
+		for (String curr : choices) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (prefixMatches(prefix, curr)) {
 				fResult.add(createCompletion(curr, prefix, new StyledString(curr), JavaPluginImages.get(imageName), 0));
 			}

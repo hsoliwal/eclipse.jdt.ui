@@ -17,7 +17,7 @@ package org.eclipse.jdt.astview.views;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
-public class NonRelevantFilter extends ViewerFilter {
+public class NonRelevantFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private boolean fShowNonRelevant;
 

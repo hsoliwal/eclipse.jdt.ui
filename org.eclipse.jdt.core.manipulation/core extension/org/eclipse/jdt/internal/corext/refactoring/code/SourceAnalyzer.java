@@ -81,7 +81,7 @@ class SourceAnalyzer  {
 		private List<SimpleName> fReferences;
 		public NameData(String n) {
 			fName= n;
-			fReferences= new ArrayList<>(2);
+			fReferences= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		public String getName() {
 			return fName;
@@ -243,7 +243,7 @@ class SourceAnalyzer  {
 			}
 			return true;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(MethodInvocation node) {
 			Expression receiver= node.getExpression();
 			if (receiver == null && !isStaticallyImported(node.getName())) {
@@ -253,7 +253,7 @@ class SourceAnalyzer  {
 					IMethodBinding methodBinding= node.resolveMethodBinding();
 					if (methodBinding != null) {
 						ITypeBinding typeBinding= methodBinding.getDeclaringClass();
-						while (typeBinding != null && typeBinding.isMember()) {
+						while (typeBinding != null && typeBinding.isMember()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							typeBinding= typeBinding.getDeclaringClass();
 						}
 						if (typeBinding != null && !typeBinding.isLocal()) {
@@ -306,7 +306,7 @@ class SourceAnalyzer  {
 				addNameReference(node.getName());
 			return true;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			addReferencesToName(node);
 			IBinding binding= node.resolveBinding();
@@ -327,7 +327,7 @@ class SourceAnalyzer  {
 								fImplicitReceivers.add(node);
 							} else if (fLocalTypeCounter > 0) {
 								ITypeBinding typeBinding= vb.getDeclaringClass();
-								while (typeBinding != null && typeBinding.isMember()) {
+								while (typeBinding != null && typeBinding.isMember()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									typeBinding= typeBinding.getDeclaringClass();
 								}
 								if (typeBinding != null && !typeBinding.isLocal()) {
@@ -421,7 +421,7 @@ class SourceAnalyzer  {
 			return checkBindingAccess(binding);
 		}
 
-		private boolean checkBindingAccess(IBinding binding) {
+		private boolean checkBindingAccess(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (binding != null) {
 				int modifiers= binding.getModifiers();
 				boolean isPublic= Modifier.isPublic(modifiers);
@@ -485,7 +485,7 @@ class SourceAnalyzer  {
 		return fInterruptedExecutionFlow;
 	}
 
-	public RefactoringStatus checkActivation() throws JavaModelException {
+	public RefactoringStatus checkActivation() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		if (!fTypeRoot.isStructureKnown()) {
 			result.addFatalError(
@@ -524,8 +524,8 @@ class SourceAnalyzer  {
 		result.merge(analyzer.status);
 		if (!result.hasFatalError()) {
 			List<SingleVariableDeclaration> parameters= fDeclaration.parameters();
-			fParameters= new HashMap<>(parameters.size() * 2);
-			for (SingleVariableDeclaration element : parameters) {
+			fParameters= new HashMap<>(parameters.size() * 2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (SingleVariableDeclaration element : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IVariableBinding binding= element.resolveBinding();
 				if (binding == null) {
 					result.addFatalError(
@@ -535,11 +535,11 @@ class SourceAnalyzer  {
 				}
 				fParameters.put(binding, (ParameterData) element.getProperty(ParameterData.PROPERTY));
 			}
-			fNames= new HashMap<>();
-			fImplicitReceivers= new ArrayList<>(2);
+			fNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			fImplicitReceivers= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			fTypeParameterReferences= new ArrayList<>(0);
-			fTypeParameterMapping= new HashMap<>();
+			fTypeParameterReferences= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fTypeParameterMapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			ITypeBinding declaringType= declarationBinding.getDeclaringClass();
 			if (declaringType == null) {
 				result.addFatalError(
@@ -547,16 +547,16 @@ class SourceAnalyzer  {
 					JavaStatusContext.create(fTypeRoot));
 				return result;
 			}
-			for (ITypeBinding typeParameter : declaringType.getTypeParameters()) {
+			for (ITypeBinding typeParameter : declaringType.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				NameData data= new NameData(typeParameter.getName());
 				fTypeParameterReferences.add(data);
 				fTypeParameterMapping.put(typeParameter, data);
 			}
 
-			fMethodTypeParameterReferences= new ArrayList<>(0);
-			fMethodTypeParameterMapping= new HashMap<>();
+			fMethodTypeParameterReferences= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fMethodTypeParameterMapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			IMethodBinding method= declarationBinding;
-			for (ITypeBinding typeParameter : method.getTypeParameters()) {
+			for (ITypeBinding typeParameter : method.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				NameData data= new NameData(typeParameter.getName());
 				fMethodTypeParameterReferences.add(data);
 				fMethodTypeParameterMapping.put(typeParameter, data);
@@ -572,12 +572,12 @@ class SourceAnalyzer  {
 		return result;
 	}
 
-	public void initialize() {
+	public void initialize() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Block body= fDeclaration.getBody();
 		// first collect the static imports. This is necessary to not mark
 		// static imported fields and methods as implicit visible.
-		fTypesToImport= new ArrayList<>();
-		fStaticsToImport= new ArrayList<>();
+		fTypesToImport= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fStaticsToImport= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ImportReferencesCollector.collect(body, fTypeRoot.getJavaProject(), null, fTypesToImport, fStaticsToImport);
 
 		// Now collect implicit references and name references
@@ -590,7 +590,7 @@ class SourceAnalyzer  {
 		InOutFlowAnalyzer flowAnalyzer= new InOutFlowAnalyzer(context);
 		FlowInfo info= flowAnalyzer.perform(getStatements());
 
-		for (Iterator<SingleVariableDeclaration> iter= fDeclaration.parameters().iterator(); iter.hasNext();) {
+		for (Iterator<SingleVariableDeclaration> iter= fDeclaration.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration element= iter.next();
 			IVariableBinding binding= element.resolveBinding();
 			ParameterData data= (ParameterData)element.getProperty(ParameterData.PROPERTY);

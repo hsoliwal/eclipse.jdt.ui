@@ -71,7 +71,7 @@ public class TestRunSessionSerializationTests3 extends AbstractTestRunSessionSer
 
 	@Test
 	public void testImportAntSuite() throws Exception {
-		Path testsPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "ant/result/TESTS-TestSuites.xml");
+		Path testsPath= new Path(JUnitWorkspaceTestSetup.getProjectPath() + "ant/result/TESTS-TestSuites.xml"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		File testsFile= JavaTestPlugin.getDefault().getFileInPlugin(testsPath);
 		JUnitModel.importTestRunSession(testsFile); // no contents check for now...
 	}

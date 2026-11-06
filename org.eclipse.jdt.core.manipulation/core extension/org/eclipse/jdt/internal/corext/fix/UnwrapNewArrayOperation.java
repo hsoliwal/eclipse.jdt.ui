@@ -53,7 +53,7 @@ public class UnwrapNewArrayOperation extends CompilationUnitRewriteOperation {
 		this.call= call;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
 		List<Expression> expressionsInArray= node != null && node.getInitializer() != null && node.getInitializer().expressions() != null ?
@@ -66,7 +66,7 @@ public class UnwrapNewArrayOperation extends CompilationUnitRewriteOperation {
 		boolean commented= false;
 		List<Comment> comments= root.getCommentList();
 		int callExtendedEnd= root.getExtendedStartPosition(call) + root.getExtendedLength(call);
-		for (Comment comment : comments) {
+		for (Comment comment : comments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comment.getStartPosition() > call.getStartPosition() &&
 					comment.getStartPosition() < callExtendedEnd) {
 				commented= true;
@@ -89,7 +89,7 @@ public class UnwrapNewArrayOperation extends CompilationUnitRewriteOperation {
 			}
 
 			if (node.getInitializer() != null && node.getInitializer().expressions() != null) {
-				for (int i= 1; i < expressionsInArray.size(); i++) {
+				for (int i= 1; i < expressionsInArray.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					listRewrite.insertLast(ASTNodes.createMoveTarget(rewrite, expressionsInArray.get(i)), group);
 				}
 
@@ -104,7 +104,7 @@ public class UnwrapNewArrayOperation extends CompilationUnitRewriteOperation {
 		} else {
 			// to avoid replacing/calculating non-NLS markers, simply remove the array declaration and it's braces
 			// from the original call
-			StringBuilder buf= new StringBuilder();
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			CompilationUnit comp= (CompilationUnit)call.getRoot();
 			int nodeStart= comp.getExtendedStartPosition(call);
 			int nodeEnd= comp.getExtendedStartPosition(call) + comp.getExtendedLength(call);
@@ -114,22 +114,22 @@ public class UnwrapNewArrayOperation extends CompilationUnitRewriteOperation {
 			IBuffer cuBuffer= cu.getBuffer();
 			String arrayStartString= cuBuffer.getText(arrayStart, arrayExpressionStart - arrayStart);
 			int index= arrayStartString.indexOf('{') + 1;
-			while (index < arrayStartString.length() && (arrayStartString.charAt(index) == ' ' || arrayStartString.charAt(index) == '\t')) {
+			while (index < arrayStartString.length() && (arrayStartString.charAt(index) == ' ' || arrayStartString.charAt(index) == '\t')) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				++index;
 			}
 			arrayExpressionStart= arrayStart + index;
 			int arrayInitializerEnd= node.getInitializer().getStartPosition() + node.getInitializer().getLength();
-			buf.append(cuBuffer.getText(nodeStart, arrayStart - nodeStart));
+			buf.append(cuBuffer.getText(nodeStart, arrayStart - nodeStart)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			int currentLine= root.getLineNumber(arrayExpressionStart);
 			int currentPos= arrayExpressionStart;
 			int nextLinePos= root.getPosition(++currentLine, 0);
 			String tab= getTab(cu);
 			String prepend= ""; //$NON-NLS-1$
-			while (nextLinePos < arrayInitializerEnd) {
-				buf.append(prepend);
-				buf.append(cuBuffer.getText(currentPos, nextLinePos - currentPos));
+			while (nextLinePos < arrayInitializerEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(prepend); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(cuBuffer.getText(currentPos, nextLinePos - currentPos)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				currentPos= nextLinePos;
-				while (cuBuffer.getChar(currentPos) == '\t' || cuBuffer.getChar(currentPos) == ' ') {
+				while (cuBuffer.getChar(currentPos) == '\t' || cuBuffer.getChar(currentPos) == ' ') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					++currentPos;
 				}
 				nextLinePos= root.getPosition(++currentLine,  0);
@@ -139,11 +139,11 @@ public class UnwrapNewArrayOperation extends CompilationUnitRewriteOperation {
 				Expression lastExpression= expressionList.get(expressionList.size() - 1);
 				int lastExpressionEnd= root.getExtendedStartPosition(lastExpression) + root.getExtendedLength(lastExpression);
 				if (root.getLineNumber(arrayInitializerEnd) == root.getLineNumber(lastExpressionEnd)) {
-					buf.append(prepend);
+					buf.append(prepend); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append(cuBuffer.getText(currentPos, arrayInitializerEnd - currentPos - 1));
+				buf.append(cuBuffer.getText(currentPos, arrayInitializerEnd - currentPos - 1)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(cuBuffer.getText(arrayInitializerEnd, nodeEnd - arrayInitializerEnd));
+			buf.append(cuBuffer.getText(arrayInitializerEnd, nodeEnd - arrayInitializerEnd)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			ASTNode replacementNode= null;
 			if (call instanceof ClassInstanceCreation) {

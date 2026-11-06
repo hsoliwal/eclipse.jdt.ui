@@ -61,7 +61,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	@Rule
 	public ProjectTestSetup pts= new ProjectTestSetup();
 
-	public void runOperation(IType type, IField[] fields, IMethod superConstructor, IJavaElement insertBefore, boolean createComments, boolean omitSuper, int visibility) throws CoreException {
+	public void runOperation(IType type, IField[] fields, IMethod superConstructor, IJavaElement insertBefore, boolean createComments, boolean omitSuper, int visibility) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringASTParser parser= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL);
 		CompilationUnit unit= parser.parse(type.getCompilationUnit(), true);
@@ -69,7 +69,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 		ITypeBinding typeBinding= ASTNodes.getTypeBinding(unit, type);
 
 		IVariableBinding[] bindings= new IVariableBinding[fields.length];
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(fields[i].exists());
 			VariableDeclarationFragment frag= ASTNodeSearchUtil.getFieldDeclarationFragmentNode(fields[i], unit);
 			bindings[i]= frag.resolveBinding();
@@ -104,10 +104,10 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 
 	private void runIt(String topLevelTypeName, String[] fieldNames, IMethod superConstructor, String source, String destination) throws Exception {
 
-		ICompilationUnit a= fPackageP.createCompilationUnit(topLevelTypeName + ".java", source, true, null);
+		ICompilationUnit a= fPackageP.createCompilationUnit(topLevelTypeName + ".java", source, true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IType type= a.getType(topLevelTypeName);
 		IField[] fields= new IField[fieldNames.length];
-		for (int i= 0; i < fieldNames.length; i++)
+		for (int i= 0; i < fieldNames.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fields[i]= type.getField(fieldNames[i]);
 
 		runOperation(type, fields, superConstructor);
@@ -125,7 +125,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Tests simple constructor generation with one field
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test01() throws Exception {
 
 		runIt("A",
@@ -158,7 +158,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Tests adding two fields with identically named classes from different packages
 	 */
-	@Ignore("see bug 113052 (import issue)")
+	@Ignore("see bug 113052 (import issue)") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void test02() throws Exception {
 
@@ -212,7 +212,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Ensure field ordering stays constant
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test03() throws Exception {
 
 		runIt("A", new String[] { "firstField", "secondField", "beforeHandThirdField" },
@@ -253,7 +253,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Test insertion between two methods
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test04() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -292,7 +292,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Without comments
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test05() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -322,7 +322,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * With a different modifier
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test06() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -352,7 +352,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Omitting the super constructor
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test07() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -381,7 +381,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Type variables; generic types in fields
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test08() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -430,7 +430,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Enums
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test09() throws Exception {
 
 		runIt("A", new String[] { "field1" },
@@ -461,7 +461,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Final uninitialized fields
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test10() throws Exception {
 
 		runIt("A", new String[] { "field1" },
@@ -491,7 +491,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Verify JDT code conventions are followed, see bug 111801
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test11() throws Exception {
 
 		runIt("A", new String[] { "startDate", "endDate" },
@@ -529,7 +529,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Name clashing fun with super constructors
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test12() throws Exception {
 
 		ICompilationUnit unit= fPackageP.createCompilationUnit("SuperA.java", "package p;\r\n" +
@@ -578,7 +578,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Generic types in parameters of super constructor
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test13() throws Exception {
 
 		ICompilationUnit unit= fPackageP.createCompilationUnit("SuperA.java", "package p;\r\n" +
@@ -629,7 +629,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 	/**
 	 * Inner types
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test14() throws Exception {
 
 		ICompilationUnit unit= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -666,7 +666,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 			}""", unit.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test15() throws Exception {
 
 		ICompilationUnit unit= fPackageP.createCompilationUnit("A.java", """
@@ -702,7 +702,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 				"}\r\n" +
 				"", unit.getSource());
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test16() throws Exception {  // https://bugs.eclipse.org/bugs/show_bug.cgi?id=552556
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -725,7 +725,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 			}""", a.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertAt1() throws Exception {
 		String originalContent= """
 			package p;
@@ -757,7 +757,7 @@ public class GenerateConstructorUsingFieldsTest extends SourceTestCase {
 				}""";
 
 		// try to insert the new constructor after every member and at the end
-		for (int i= 0; i < NUM_MEMBERS + 1; i++) {
+		for (int i= 0; i < NUM_MEMBERS + 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			ICompilationUnit unit= null;
 			try {

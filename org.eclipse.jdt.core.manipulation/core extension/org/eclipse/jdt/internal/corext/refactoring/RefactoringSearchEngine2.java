@@ -80,10 +80,10 @@ public final class RefactoringSearchEngine2 {
 	private class RefactoringCompilationUnitCollector extends RefactoringSearchCollector {
 
 		/** The collected compilation units */
-		private final Set<ICompilationUnit> fCollectedUnits= new HashSet<>();
+		private final Set<ICompilationUnit> fCollectedUnits= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		/** The inaccurate matches */
-		private final Set<SearchMatch> fInaccurateMatches= new HashSet<>();
+		private final Set<SearchMatch> fInaccurateMatches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		@Override
 		public final void acceptSearchMatch(final SearchMatch match) throws CoreException {
@@ -144,15 +144,15 @@ public final class RefactoringSearchEngine2 {
 	private class RefactoringSearchMatchCollector extends RefactoringSearchCollector {
 
 		/** The binary resources */
-		private final Set<IResource> fBinaryResources= new HashSet<>();
+		private final Set<IResource> fBinaryResources= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		/** The collected matches */
-		private final List<SearchMatch> fCollectedMatches= new ArrayList<>();
+		private final List<SearchMatch> fCollectedMatches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		/** The inaccurate matches */
-		private final Set<SearchMatch> fInaccurateMatches= new HashSet<>();
+		private final Set<SearchMatch> fInaccurateMatches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public final void acceptSearchMatch(final SearchMatch match) throws CoreException {
 			final SearchMatch accepted= fRequestor.acceptSearchMatch(match);
 			if (accepted != null) {
@@ -281,13 +281,13 @@ public final class RefactoringSearchEngine2 {
 			final Collection<?> collection= getCollector().getCollectedMatches();
 			final ICompilationUnit[] units= new ICompilationUnit[collection.size()];
 			int index= 0;
-			for (final Iterator<?> iterator= collection.iterator(); iterator.hasNext(); index++)
+			for (final Iterator<?> iterator= collection.iterator(); iterator.hasNext(); index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				units[index]= (ICompilationUnit) iterator.next();
 			return units;
 		} else {
 			final SearchResultGroup[] groups= getGroupedMatches();
 			final ICompilationUnit[] units= new ICompilationUnit[groups.length];
-			for (int index= 0; index < groups.length; index++)
+			for (int index= 0; index < groups.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				units[index]= groups[index].getCompilationUnit();
 			return units;
 		}
@@ -302,15 +302,15 @@ public final class RefactoringSearchEngine2 {
 	 * <code>&lt;IJavaProject, Collection&lt;SearchResultGroup&gt;&gt;</code> if granularity is {@link #GRANULARITY_SEARCH_MATCH} or
 	 * <code>&lt;IJavaProject, Collection&lt;ICompilationUnit&gt;&gt;</code> if it is {@link #GRANULARITY_COMPILATION_UNIT}).
 	 */
-	public Map<IJavaProject, ? extends Set<?>> getAffectedProjects() {
+	public Map<IJavaProject, ? extends Set<?>> getAffectedProjects() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fGranularity == GRANULARITY_COMPILATION_UNIT) {
-			final Map<IJavaProject, Set<ICompilationUnit>> map= new HashMap<>();
-			for (ICompilationUnit unit : getAffectedCompilationUnits()) {
+			final Map<IJavaProject, Set<ICompilationUnit>> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (ICompilationUnit unit : getAffectedCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaProject project= unit.getJavaProject();
 				if (project != null) {
 					Set<ICompilationUnit> set= map.get(project);
 					if (set == null) {
-						set= new HashSet<>();
+						set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						map.put(project, set);
 					}
 					set.add(unit);
@@ -318,15 +318,15 @@ public final class RefactoringSearchEngine2 {
 			}
 			return map;
 		} else {
-			final Map<IJavaProject, Set<SearchResultGroup>> map= new HashMap<>();
-			for (SearchResultGroup group : getGroupedMatches()) {
+			final Map<IJavaProject, Set<SearchResultGroup>> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (SearchResultGroup group : getGroupedMatches()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit unit= group.getCompilationUnit();
 				if (unit != null) {
 					IJavaProject project= unit.getJavaProject();
 					if (project != null) {
 						Set<SearchResultGroup> set= map.get(project);
 						if (set == null) {
-							set= new HashSet<>();
+							set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 							map.put(project, set);
 						}
 						set.add(group);
@@ -359,22 +359,22 @@ public final class RefactoringSearchEngine2 {
 	 *
 	 * @return the found search matches
 	 */
-	private SearchResultGroup[] getGroupedMatches() {
-		final Map<IResource, List<SearchMatch>> grouped= new HashMap<>();
+	private SearchResultGroup[] getGroupedMatches() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<IResource, List<SearchMatch>> grouped= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		List<SearchMatch> matches= null;
 		IResource resource= null;
 		SearchMatch match= null;
-		for (Object name : getSearchMatches()) {
+		for (Object name : getSearchMatches()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			match= (SearchMatch) name;
 			resource= match.getResource();
 			if (!grouped.containsKey(resource))
-				grouped.put(resource, new ArrayList<>(4));
+				grouped.put(resource, new ArrayList<>(4)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			matches= grouped.get(resource);
 			matches.add(match);
 		}
 		if (fBinary) {
 			final Collection<IResource> collection= getCollector().getBinaryResources();
-			for (final Iterator<IResource> iterator= grouped.keySet().iterator(); iterator.hasNext();) {
+			for (final Iterator<IResource> iterator= grouped.keySet().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				resource= iterator.next();
 				if (collection.contains(resource))
 					iterator.remove();
@@ -382,7 +382,7 @@ public final class RefactoringSearchEngine2 {
 		}
 		final SearchResultGroup[] result= new SearchResultGroup[grouped.size()];
 		int index= 0;
-		for (final Iterator<IResource> iterator= grouped.keySet().iterator(); iterator.hasNext();) {
+		for (final Iterator<IResource> iterator= grouped.keySet().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resource= iterator.next();
 			matches= grouped.get(resource);
 			result[index++]= new SearchResultGroup(resource, matches.toArray(new SearchMatch[matches.size()]));
@@ -432,7 +432,7 @@ public final class RefactoringSearchEngine2 {
 			results= new LinkedList<>(getCollector().getCollectedMatches());
 			final Collection<SearchMatch> collection= getCollector().getInaccurateMatches();
 			SearchMatch match= null;
-			for (final Iterator<?> iterator= results.iterator(); iterator.hasNext();) {
+			for (final Iterator<?> iterator= results.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				match= (SearchMatch) iterator.next();
 				if (collection.contains(match))
 					iterator.remove();
@@ -462,7 +462,7 @@ public final class RefactoringSearchEngine2 {
 			results= new LinkedList<>(getSearchMatches());
 			final Collection<IResource> collection= getCollector().getBinaryResources();
 			SearchMatch match= null;
-			for (final Iterator<?> iterator= results.iterator(); iterator.hasNext();) {
+			for (final Iterator<?> iterator= results.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				match= (SearchMatch) iterator.next();
 				if (collection.contains(match.getResource()))
 					iterator.remove();
@@ -480,7 +480,7 @@ public final class RefactoringSearchEngine2 {
 	 * @param monitor the progress monitor, or <code>null</code>
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void searchPattern(IProgressMonitor monitor) throws JavaModelException {
+	public void searchPattern(IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(fPattern);
 		if (monitor == null)
 			monitor=  new NullProgressMonitor();
@@ -509,7 +509,7 @@ public final class RefactoringSearchEngine2 {
 	 * @param monitor the progress monitor, or <code>null</code>
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void searchReferencedFields(final IJavaElement element, IProgressMonitor monitor) throws JavaModelException {
+	public void searchReferencedFields(final IJavaElement element, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(element);
 		if (monitor == null)
 			monitor=  new NullProgressMonitor();
@@ -538,7 +538,7 @@ public final class RefactoringSearchEngine2 {
 	 * @param monitor the progress monitor, or <code>null</code>
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void searchReferencedMethods(final IJavaElement element, IProgressMonitor monitor) throws JavaModelException {
+	public void searchReferencedMethods(final IJavaElement element, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(element);
 		if (monitor == null)
 			monitor=  new NullProgressMonitor();
@@ -567,7 +567,7 @@ public final class RefactoringSearchEngine2 {
 	 * @param monitor the progress monitor, or <code>null</code>
 	 * @throws JavaModelException if an error occurs during search
 	 */
-	public void searchReferencedTypes(final IJavaElement element, IProgressMonitor monitor) throws JavaModelException {
+	public void searchReferencedTypes(final IJavaElement element, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(element);
 		if (monitor == null)
 			monitor=  new NullProgressMonitor();
@@ -677,7 +677,7 @@ public final class RefactoringSearchEngine2 {
 		SearchPattern pattern= SearchPattern.createPattern(elements[0], limitTo, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		Assert.isNotNull(pattern);
 		IJavaElement element= null;
-		for (int index= 1; index < elements.length; index++) {
+		for (int index= 1; index < elements.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			element= elements[index];
 			SearchPattern searchPattern= SearchPattern.createPattern(element, limitTo, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 			if (searchPattern == null) {

@@ -49,7 +49,7 @@ public class StringFormatGenerator extends AbstractToStringGenerator {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		arguments= new ArrayList<>();
+		arguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		buffer= new StringBuffer();
 	}
 

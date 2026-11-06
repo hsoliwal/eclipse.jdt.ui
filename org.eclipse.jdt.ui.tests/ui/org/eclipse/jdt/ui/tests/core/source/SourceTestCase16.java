@@ -65,7 +65,7 @@ public class SourceTestCase16 {
 
 	protected IPackageFragmentRoot fRoot;
 
-	private void initCodeTemplates() {
+	private void initCodeTemplates() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.TAB);
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE, "4");
@@ -139,7 +139,7 @@ public class SourceTestCase16 {
 	}
 
 	protected void printTestDisabledMessage(String explanation) {
-		System.out.println("\n" + getClass().getName() + "::" + getName() + " disabled (" + explanation + ")");
+		System.out.println("\n" + getClass().getName() + "::" + getName() + " disabled (" + explanation + ")"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getName() {

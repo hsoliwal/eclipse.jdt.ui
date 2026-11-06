@@ -59,7 +59,7 @@ public class SefTests extends AbstractJunit4SelectionTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java";
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	protected void performTest(IPackageFragment packageFragment, String id, String outputFolder, String fieldName) throws Exception {
@@ -98,7 +98,7 @@ public class SefTests extends AbstractJunit4SelectionTestCase {
 
 	private static IField getField(ICompilationUnit unit, String fieldName) throws Exception {
 		IField result= null;
-		for (IType type : unit.getAllTypes()) {
+		for (IType type : unit.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= type.getField(fieldName);
 			if (result != null && result.exists())
 				break;
@@ -314,7 +314,7 @@ public class SefTests extends AbstractJunit4SelectionTestCase {
 		SelfEncapsulateFieldRefactoring refactoring= ((Checks.checkAvailability(field).hasFatalError() || !RefactoringAvailabilityTester.isSelfEncapsulateAvailable(field)) ? null : new SelfEncapsulateFieldRefactoring(field));
 		performTest(provider, refactoring, COMPARE_WITH_OUTPUT, getProofedContent("static_out", getName()), false);
 		String refContentOut= getProofedContent("static_ref_out", referenceName);
-		refContentOut= refContentOut.replaceAll("import static static_out", "import static static_in");
+		refContentOut= refContentOut.replaceAll("import static static_out", "import static static_in"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		compareSource(reference.getSource(), refContentOut);
 	}
 

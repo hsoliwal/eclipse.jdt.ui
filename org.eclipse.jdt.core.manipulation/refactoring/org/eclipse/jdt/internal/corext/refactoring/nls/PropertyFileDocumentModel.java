@@ -61,7 +61,7 @@ public class PropertyFileDocumentModel {
 	 * @return the pair with the key or <b>null</b> if no such pair.
 	 */
 	public KeyValuePair getKeyValuePair(String key) {
-		for (KeyValuePairModell keyValuePair : fKeyValuePairs) {
+		for (KeyValuePairModell keyValuePair : fKeyValuePairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keyValuePair.getKey().equals(key)) {
 				return keyValuePair;
 			}
@@ -69,7 +69,7 @@ public class PropertyFileDocumentModel {
 		return null;
 	}
 
-	private InsertEdit insert(KeyValuePair keyValuePair) {
+	private InsertEdit insert(KeyValuePair keyValuePair) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		KeyValuePairModell keyValuePairModell = new KeyValuePairModell(keyValuePair);
 		int index = findInsertPosition(keyValuePairModell);
 		KeyValuePairModell insertHere = fKeyValuePairs.get(index);
@@ -96,7 +96,7 @@ public class PropertyFileDocumentModel {
 			}
 		}
 
-		String text= extra + keyValuePairModell.getKeyValueText();
+		String text= extra + keyValuePairModell.getKeyValueText(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		keyValuePairModell.fOffset= offset;
 		keyValuePairModell.fLength= text.length();
 		fKeyValuePairs.add(index, keyValuePairModell);
@@ -112,10 +112,10 @@ public class PropertyFileDocumentModel {
 	 */
 	public void insert(KeyValuePair[] keyValuePairs, TextChange change) {
 
-		ArrayList<KeyValuePair> sorted= new ArrayList<>(Arrays.asList(keyValuePairs));
-		Collections.sort(sorted, (p1, p2) -> Collator.getInstance().compare(p1.fKey, p2.fKey));
+		ArrayList<KeyValuePair> sorted= new ArrayList<>(Arrays.asList(keyValuePairs)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Collections.sort(sorted, (p1, p2) -> Collator.getInstance().compare(p1.fKey, p2.fKey)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
-		for (KeyValuePair curr : sorted) {
+		for (KeyValuePair curr : sorted) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			InsertEdit insertEdit= insert(curr);
 
 			String message= Messages.format(NLSMessages.NLSPropertyFileModifier_add_entry, BasicElementLabels.getJavaElementName(curr.getKey()));
@@ -124,7 +124,7 @@ public class PropertyFileDocumentModel {
 	}
 
 	public DeleteEdit remove(String key) {
-		for (KeyValuePairModell keyValuePair : fKeyValuePairs) {
+		for (KeyValuePairModell keyValuePair : fKeyValuePairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keyValuePair.fKey.equals(key)) {
 				return new DeleteEdit(keyValuePair.fOffset, keyValuePair.getLength());
 			}
@@ -133,7 +133,7 @@ public class PropertyFileDocumentModel {
 	}
 
 	public ReplaceEdit replace(KeyValuePair toReplace, KeyValuePair replaceWith) {
-		for (KeyValuePairModell keyValuePair : fKeyValuePairs) {
+		for (KeyValuePairModell keyValuePair : fKeyValuePairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (keyValuePair.fKey.equals(toReplace.getKey())) {
 				String newText= new KeyValuePairModell(replaceWith).getKeyValueText();
 				return new ReplaceEdit(keyValuePair.fOffset, keyValuePair.getLength(), newText);
@@ -143,8 +143,8 @@ public class PropertyFileDocumentModel {
 	}
 
 	private int findInsertPosition(KeyValuePairModell keyValuePair) {
-		ArrayList<String> keys= new ArrayList<>();
-		for (KeyValuePairModell keyValuePairmodel : fKeyValuePairs) {
+		ArrayList<String> keys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (KeyValuePairModell keyValuePairmodel : fKeyValuePairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			KeyValuePairModell element= keyValuePairmodel;
 			if (! (element instanceof LastKeyValuePair))
 				keys.add(element.getKey());
@@ -158,14 +158,14 @@ public class PropertyFileDocumentModel {
 		return insertIndex;
 	}
 
-	private void parsePropertyDocument(IDocument document) {
-		fKeyValuePairs = new ArrayList<>();
+	private void parsePropertyDocument(IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		fKeyValuePairs = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		SimpleLineReader reader = new SimpleLineReader(document);
 		int offset = 0;
 		String line = reader.readLine();
 		int leadingWhiteSpaces = 0;
-		while (line != null) {
+		while (line != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!SimpleLineReader.isCommentOrWhiteSpace(line)) {
 				int idx = getIndexOfSeparationCharacter(line);
 				if (idx != -1) {
@@ -194,7 +194,7 @@ public class PropertyFileDocumentModel {
 		fKeyValuePairs.add(lastKeyValuePair);
 	}
 
-	private int getIndexOfSeparationCharacter(String line) {
+	private int getIndexOfSeparationCharacter(String line) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int minIndex = -1;
 		int indexOfEven = line.indexOf('=');
 		int indexOfColumn = line.indexOf(':');
@@ -214,11 +214,11 @@ public class PropertyFileDocumentModel {
 	}
 
 	public static String escape(String s, boolean escapeCommentCharsAndLeadingWhitespaces) {
-		StringBuilder sb= new StringBuilder(s.length());
+		StringBuilder sb= new StringBuilder(s.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int length= s.length();
-		for (int i= 0; i < length; i++){
+		for (int i= 0; i < length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= s.charAt(i);
-			sb.append(PropertiesFileEscapes.escape(c));
+			sb.append(PropertiesFileEscapes.escape(c)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if(!escapeCommentCharsAndLeadingWhitespaces)
 			return sb.toString();
@@ -226,18 +226,18 @@ public class PropertyFileDocumentModel {
 	}
 
 	private static String escapeCommentChars(String string) {
-		StringBuilder sb = new StringBuilder(string.length() + 5);
-		for (int i = 0; i < string.length(); i++) {
+		StringBuilder sb = new StringBuilder(string.length() + 5); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < string.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		  char c = string.charAt(i);
 		  switch (c) {
 		  case '!':
-			sb.append("\\!"); //$NON-NLS-1$
+			sb.append("\\!"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		  case '#':
-			sb.append("\\#"); //$NON-NLS-1$
+			sb.append("\\#"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			break;
 		  default:
-			sb.append(c);
+			sb.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		  }
 		}
 		return sb.toString();
@@ -245,12 +245,12 @@ public class PropertyFileDocumentModel {
 
 	private static String escapeLeadingWhiteSpaces(String str) {
 		int firstNonWhiteSpace= findFirstNonWhiteSpace(str);
-		StringBuilder buf= new StringBuilder(firstNonWhiteSpace);
-		for (int i = 0; i < firstNonWhiteSpace; i++) {
-			buf.append('\\');
-			buf.append(str.charAt(i));
+		StringBuilder buf= new StringBuilder(firstNonWhiteSpace); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i = 0; i < firstNonWhiteSpace; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append('\\'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(str.charAt(i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(str.substring(firstNonWhiteSpace));
+		buf.append(str.substring(firstNonWhiteSpace)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -259,7 +259,7 @@ public class PropertyFileDocumentModel {
 	 * @return the first non whitespace character, the length if only whitespace characters
 	 */
 	private static int findFirstNonWhiteSpace(String s) {
-		for (int i = 0; i < s.length(); i++) {
+		for (int i = 0; i < s.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Character.isWhitespace(s.charAt(i)))
 				return i;
 		}
@@ -288,7 +288,7 @@ public class PropertyFileDocumentModel {
 		}
 
 		private String getKeyValueText() {
-			return fKey + '=' + fValue;
+			return fKey + '=' + fValue; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

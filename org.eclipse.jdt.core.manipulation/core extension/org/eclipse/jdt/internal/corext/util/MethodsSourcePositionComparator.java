@@ -59,7 +59,7 @@ public class MethodsSourcePositionComparator implements Comparator<IMethodBindin
 		fTypeBinding= typeBinding;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(IMethodBinding firstMethodBinding, IMethodBinding secondMethodBinding) {
 		if (firstMethodBinding == null || secondMethodBinding == null) {
 			return 0;
@@ -80,7 +80,7 @@ public class MethodsSourcePositionComparator implements Comparator<IMethodBindin
 
 		ITypeBinding type= fTypeBinding;
 		int count= 0, firstCount= -1, secondCount= -1;
-		while ((type= type.getSuperclass()) != null) {
+		while ((type= type.getSuperclass()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (firstMethodType.equals(type)) {
 				firstCount= count;
 			}
@@ -100,7 +100,7 @@ public class MethodsSourcePositionComparator implements Comparator<IMethodBindin
 		}
 
 		ITypeBinding[] interfaces= fTypeBinding.getInterfaces();
-		for (ITypeBinding interface1 : interfaces) {
+		for (ITypeBinding interface1 : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (firstMethodType.equals(interface1)) {
 				return 1;
 			}
@@ -111,7 +111,7 @@ public class MethodsSourcePositionComparator implements Comparator<IMethodBindin
 		return 0;
 	}
 
-	private int compareInTheSameType(IMethodBinding firstMethodBinding, IMethodBinding secondMethodBinding) {
+	private int compareInTheSameType(IMethodBinding firstMethodBinding, IMethodBinding secondMethodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IMethod firstMethod= (IMethod)firstMethodBinding.getJavaElement();
 			IMethod secondMethod= (IMethod)secondMethodBinding.getJavaElement();

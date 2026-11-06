@@ -50,7 +50,7 @@ public class NewContainerDialog extends StatusDialog {
 	private IPath[] fExistingFolders;
 	private IProject fCurrProject;
 
-	public NewContainerDialog(Shell parent, String title, IProject project, IPath[] existingFolders, CPListElement entryToEdit) {
+	public NewContainerDialog(Shell parent, String title, IProject project, IPath[] existingFolders, CPListElement entryToEdit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		setTitle(title);
 
@@ -75,7 +75,7 @@ public class NewContainerDialog extends StatusDialog {
 		fContainerDialogField.setLabelText(message);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite)super.createDialogArea(parent);
 
@@ -117,7 +117,7 @@ public class NewContainerDialog extends StatusDialog {
 		updateStatus(fContainerFieldStatus);
 	}
 
-	protected void checkIfPathValid() {
+	protected void checkIfPathValid() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fFolder= null;
 
 		String pathStr= fContainerDialogField.getText();
@@ -143,7 +143,7 @@ public class NewContainerDialog extends StatusDialog {
 	}
 
 	private boolean isFolderExisting(IFolder folder) {
-		for (IPath existingFolder : fExistingFolders) {
+		for (IPath existingFolder : fExistingFolders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (folder.getFullPath().equals(existingFolder)) {
 				return true;
 			}

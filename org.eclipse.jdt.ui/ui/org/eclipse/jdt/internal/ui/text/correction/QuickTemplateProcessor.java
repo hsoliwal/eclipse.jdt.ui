@@ -73,13 +73,13 @@ import org.eclipse.jdt.internal.ui.text.template.contentassist.TemplateProposal;
  */
 public class QuickTemplateProcessor implements IQuickAssistProcessor {
 
-	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$
-	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	public QuickTemplateProcessor() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasAssists(IInvocationContext context) throws CoreException {
 		ICompilationUnit cu= context.getCompilationUnit();
 		IDocument document= getDocument(cu);
@@ -100,7 +100,7 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IJavaCompletionProposal[] getAssists(IInvocationContext context, IProblemLocation[] locations) throws CoreException {
 		if (locations != null && locations.length > 0) {
 			return new IJavaCompletionProposal[0];
@@ -151,7 +151,7 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 				}
 			}
 
-			ArrayList<IJavaCompletionProposal> resultingCollections= new ArrayList<>();
+			ArrayList<IJavaCompletionProposal> resultingCollections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectSurroundTemplates(document, cu, offset, length, resultingCollections, contextId);
 			sort(resultingCollections);
 			return resultingCollections.toArray(new IJavaCompletionProposal[resultingCollections.size()]);
@@ -161,7 +161,7 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 	}
 
 	private void sort(ArrayList<IJavaCompletionProposal> proposals) {
-		Collections.sort(proposals, (p1, p2) -> Collator.getInstance().compare(p1.getDisplayString(), p2.getDisplayString()));
+		Collections.sort(proposals, (p1, p2) -> Collator.getInstance().compare(p1.getDisplayString(), p2.getDisplayString())); //FLLDCIM: MARK — M16 SORT_LANE CALL
 	}
 
 	private IDocument getDocument(ICompilationUnit cu) throws JavaModelException {
@@ -173,7 +173,7 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 		return document;
 	}
 
-	private void collectSurroundTemplates(IDocument document, ICompilationUnit cu, int offset, int length, Collection<IJavaCompletionProposal> result, String contextId) throws BadLocationException, CoreException {
+	private void collectSurroundTemplates(IDocument document, ICompilationUnit cu, int offset, int length, Collection<IJavaCompletionProposal> result, String contextId) throws BadLocationException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnitContextType contextType= (CompilationUnitContextType) JavaPlugin.getDefault().getTemplateContextRegistry().getContextType(contextId);
 		CompilationUnitContext context= (CompilationUnitContext) contextType.createContext(document, offset, length, cu);
 		context.setVariable("selection", document.get(offset, length)); //$NON-NLS-1$
@@ -187,7 +187,7 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 		ASTNode[] selectedNodes= SurroundWith.getValidSelectedNodes(invocationContext);
 
 		Template[] templates= JavaPlugin.getDefault().getTemplateStore().getTemplates();
-		for (Template currentTemplate : templates) {
+		for (Template currentTemplate : templates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canEvaluate(context, currentTemplate)) {
 
 				if (selectedNodes != null) {
@@ -198,7 +198,7 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 					proposal.setDisplayString(StyledCellLabelProvider.styleDecoratedString(decorated, StyledString.QUALIFIER_STYLER, new StyledString(currentTemplate.getName())));
 					result.add(proposal);
 				} else {
-					TemplateProposal proposal= new TemplateProposal(currentTemplate, context, region, JavaPluginImages.get(JavaPluginImages.IMG_OBJS_TEMPLATE)) {
+					TemplateProposal proposal= new TemplateProposal(currentTemplate, context, region, JavaPluginImages.get(JavaPluginImages.IMG_OBJS_TEMPLATE)) { //FLLDCIM: MARK — T30  ANONYMOUS
 						@Override
 						public boolean validate(IDocument doc, int off, DocumentEvent event) {
 							return false;
@@ -215,13 +215,13 @@ public class QuickTemplateProcessor implements IQuickAssistProcessor {
 
 	private boolean canEvaluate(TemplateContext context, Template template) {
 		String contextId= context.getContextType().getId();
-		Matcher wordSelectionMatcher= $_WORD_SELECTION_PATTERN.matcher(template.getPattern());
-		Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template.getPattern());
+		Matcher wordSelectionMatcher= $_WORD_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (JavaDocContextType.ID.equals(contextId)) {
-			if (!template.matches("", contextId) || !lineSelectionMatcher.find() && !wordSelectionMatcher.find()) //$NON-NLS-1$
+			if (!template.matches("", contextId) || !lineSelectionMatcher.find() && !wordSelectionMatcher.find()) //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				return false;
 		} else {
-			if (template.matches("", JavaDocContextType.ID) || !lineSelectionMatcher.find() //$NON-NLS-1$
+			if (template.matches("", JavaDocContextType.ID) || !lineSelectionMatcher.find() //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 					|| template.matches("", JavaContextType.ID_EMPTY)) //$NON-NLS-1$
 				return false;
 		}

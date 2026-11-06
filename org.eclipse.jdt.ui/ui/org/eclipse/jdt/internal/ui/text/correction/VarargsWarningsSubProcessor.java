@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.ui.text.correction.proposals.LinkedCorrectionPro
 
 public class VarargsWarningsSubProcessor extends VarargsWarningsBaseSubProcessor<ICommandAccess> {
 
-	private static class AddSafeVarargsProposal extends LinkedCorrectionProposal {
+	private static class AddSafeVarargsProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 		public AddSafeVarargsProposal(String label, ICompilationUnit cu, MethodDeclaration methodDeclaration, IMethodBinding methodBinding, int relevance) {
 			super(label, cu, null, relevance, JavaPluginImages.get(JavaPluginImages.IMG_OBJS_JAVADOCTAG), new AddSafeVarargsProposalCore(label, cu, methodDeclaration, methodBinding, relevance));
 		}

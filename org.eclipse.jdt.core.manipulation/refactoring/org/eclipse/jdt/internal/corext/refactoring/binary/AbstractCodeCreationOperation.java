@@ -45,7 +45,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @since 3.2
  */
-public abstract class AbstractCodeCreationOperation implements IWorkspaceRunnable {
+public abstract class AbstractCodeCreationOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/** The URI where to output the stubs */
 	protected final URI fOutputURI;
@@ -82,7 +82,7 @@ public abstract class AbstractCodeCreationOperation implements IWorkspaceRunnabl
 	 * @throws CoreException
 	 *             if an error occurs while creating the compilation unit
 	 */
-	protected void createCompilationUnit(final IFileStore store, final String name, final String content, final IProgressMonitor monitor) throws CoreException {
+	protected void createCompilationUnit(final IFileStore store, final String name, final String content, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		OutputStream stream= null;
 		try {
 			stream= new BufferedOutputStream(store.getChild(name).openOutputStream(EFS.NONE, Progress.subMonitor(monitor, 1)));
@@ -139,14 +139,14 @@ public abstract class AbstractCodeCreationOperation implements IWorkspaceRunnabl
 	 */
 	protected abstract void run(IClassFile file, IFileStore parent, IProgressMonitor monitor) throws CoreException;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		monitor.beginTask(getOperationLabel(), 100 * fPackages.size());
 		try {
-			final StringBuilder builder= new StringBuilder(128);
-			for (IPackageFragment fragment : fPackages) {
+			final StringBuilder builder= new StringBuilder(128); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (IPackageFragment fragment : fPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IProgressMonitor subMonitor= Progress.subMonitor(monitor, 100);
 				final IClassFile[] files= fragment.getClassFiles(); // safe, but implies this operation cannot create module-info CU, which it probably should.
 				final int size= files.length;
@@ -156,9 +156,9 @@ public abstract class AbstractCodeCreationOperation implements IWorkspaceRunnabl
 				if (!"".equals(name)) { //$NON-NLS-1$
 					final String pack= name;
 					builder.setLength(0);
-					builder.append(name);
+					builder.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					final int length= builder.length();
-					for (int index= 0; index < length; index++) {
+					for (int index= 0; index < length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (builder.charAt(index) == '.')
 							builder.setCharAt(index, '/');
 					}
@@ -170,7 +170,7 @@ public abstract class AbstractCodeCreationOperation implements IWorkspaceRunnabl
 				final IProgressMonitor subsubMonitor= Progress.subMonitor(subMonitor, 30);
 				try {
 					subsubMonitor.beginTask(getOperationLabel(), size * 100);
-					for (IClassFile file : files) {
+					for (IClassFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (subMonitor.isCanceled())
 							throw new OperationCanceledException();
 						run(file, store, Progress.subMonitor(subsubMonitor, 100));

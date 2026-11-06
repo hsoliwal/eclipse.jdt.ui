@@ -61,7 +61,7 @@ public class ImportOrganizeTest16 extends ImportOrganizeTest {
 		JavaProjectHelper.clear(fJProject1, j16p.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordParameters() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -86,7 +86,7 @@ public class ImportOrganizeTest16 extends ImportOrganizeTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedRecordIssue890() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/890
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -110,7 +110,7 @@ public class ImportOrganizeTest16 extends ImportOrganizeTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOrganizeImportsModuleInfo() throws Exception {
 		IEclipsePreferences node= new ProjectScope(fJProject1.getProject()).getNode(JavaManipulation.getPreferenceNodeId());
 		node.put(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS, "org.junit.Assert.*");
@@ -130,16 +130,16 @@ public class ImportOrganizeTest16 extends ImportOrganizeTest {
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pack1", false, null);
 		ICompilationUnit cu= pack1.createCompilationUnit("module-info.java", str, false, null);
 
-		StringBuilder buf= new StringBuilder();
-		buf.append("import foo.bar.MyDriverAction;\n");
-		buf.append("\n");
-		buf.append("import java.sql.DriverAction;\n");
-		buf.append("\n");
-		buf.append("module mymodule.nine {\n");
-		buf.append("    requires java.sql;\n");
-		buf.append("    exports foo.bar;\n");
-		buf.append("    provides DriverAction with MyDriverAction;\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("import foo.bar.MyDriverAction;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.sql.DriverAction;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("module mymodule.nine {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    requires java.sql;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    exports foo.bar;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    provides DriverAction with MyDriverAction;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		String[] order= new String[0];
 		IChooseImportQuery query= createQuery("E", new String[] {}, new int[] {});

@@ -282,7 +282,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return fExcludedVariableNames;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask("", 7); //$NON-NLS-1$
@@ -338,7 +338,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		fAllStaticFinalCheckPerformed= true;
 	}
 
-	private RefactoringStatus checkSelection(IProgressMonitor pm) throws JavaModelException {
+	private RefactoringStatus checkSelection(IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			pm.beginTask("", 2); //$NON-NLS-1$
 
@@ -391,7 +391,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 	}
 
 	//	 !!! -- same as in ExtractTempRefactoring
-	private boolean isLiteralNodeSelected() throws JavaModelException {
+	private boolean isLiteralNodeSelected() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IExpressionFragment fragment= getSelectedExpression();
 		if (fragment == null)
 			return false;
@@ -410,7 +410,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		}
 	}
 
-	private RefactoringStatus checkExpression() throws JavaModelException {
+	private RefactoringStatus checkExpression() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		result.merge(checkExpressionBinding());
 		if(result.hasFatalError())
@@ -458,7 +458,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 	// !! similar to ExtractTempRefactoring equivalent
 	public String getConstantSignaturePreview() throws JavaModelException {
 		String space= " "; //$NON-NLS-1$
-		return getVisibility() + space + MODIFIER + space + getConstantTypeName() + space + fConstantName;
+		return getVisibility() + space + MODIFIER + space + getConstantTypeName() + space + fConstantName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public CompilationUnitChange createTextChange(IProgressMonitor pm) throws CoreException {
@@ -467,7 +467,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return fCuRewrite.createChange(RefactoringCoreMessages.ExtractConstantRefactoring_change_name, true, pm);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		pm.beginTask(RefactoringCoreMessages.ExtractConstantRefactoring_checking_preconditions, 2);
 
@@ -491,7 +491,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		}
 	}
 
-	private void createConstantDeclaration() throws CoreException {
+	private void createConstantDeclaration() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Type type= getConstantType();
 
 		IExpressionFragment fragment= getSelectedExpression();
@@ -537,7 +537,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 			if (nameSuggestions.length > 0 && !nameSuggestions[0].equals(fConstantName)) {
 				nameGroup.addProposal(fConstantName, nameSuggestions.length + 1);
 			}
-			for (int i= 0; i < nameSuggestions.length; i++) {
+			for (int i= 0; i < nameSuggestions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nameGroup.addProposal(nameSuggestions[i], nameSuggestions.length - i);
 			}
 
@@ -547,7 +547,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 			ITypeBinding typeBinding= guessBindingForReference(fragment.getAssociatedExpression());
 			if (typeBinding != null) {
 				ITypeBinding[] relaxingTypes= ASTResolving.getNarrowingTypes(ast, typeBinding);
-				for (int i= 0; i < relaxingTypes.length; i++) {
+				for (int i= 0; i < relaxingTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					typeGroup.addProposal(relaxingTypes[i], fCuRewrite.getCu(), relaxingTypes.length - i);
 				}
 			}
@@ -576,8 +576,8 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return fChange;
 	}
 
-	private ExtractConstantDescriptor createRefactoringDescriptor() {
-		final Map<String, String> arguments= new HashMap<>();
+	private ExtractConstantDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		String project= null;
 		IJavaProject javaProject= fCu.getJavaProject();
 		if (javaProject != null)
@@ -602,7 +602,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 			comment.addSetting(RefactoringCoreMessages.ExtractConstantRefactoring_qualify_references);
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCu));
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_NAME, fConstantName);
-		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		arguments.put(ATTRIBUTE_REPLACE, Boolean.toString(fReplaceAllOccurrences));
 		arguments.put(ATTRIBUTE_QUALIFY, Boolean.toString(fQualifyReferencesWithDeclaringClassName));
 		arguments.put(ATTRIBUTE_VISIBILITY, Integer.toString(JdtFlags.getVisibilityCode(fVisibility)));
@@ -611,11 +611,11 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return descriptor;
 	}
 
-	private void replaceExpressionsWithConstant() throws JavaModelException {
+	private void replaceExpressionsWithConstant() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite astRewrite= fCuRewrite.getASTRewrite();
 		AST ast= astRewrite.getAST();
 
-		for (IASTFragment fragment : getFragmentsToReplace()) {
+		for (IASTFragment fragment : getFragmentsToReplace()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= fragment.getAssociatedNode();
 			boolean inTypeDeclarationAnnotation= isInTypeDeclarationAnnotation(node);
 			if (inTypeDeclarationAnnotation && JdtFlags.VISIBILITY_STRING_PRIVATE == getVisibility())
@@ -643,14 +643,14 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return enclosingAnnotation != null && enclosingAnnotation.getParent() == getContainingTypeDeclarationNode();
 	}
 
-	private void computeConstantDeclarationLocation() throws JavaModelException {
+	private void computeConstantDeclarationLocation() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isDeclarationLocationComputed())
 			return;
 
 		BodyDeclaration lastStaticDependency= null;
 		Iterator<BodyDeclaration> decls= getContainingTypeDeclarationNode().bodyDeclarations().iterator();
 
-		while (decls.hasNext()) {
+		while (decls.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration decl= decls.next();
 
 			int modifiers;
@@ -675,7 +675,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 	}
 
 	/* bd is a static field declaration or static initializer */
-	private static boolean depends(IExpressionFragment selected, BodyDeclaration bd) {
+	private static boolean depends(IExpressionFragment selected, BodyDeclaration bd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/* We currently consider selected to depend on bd only if db includes a declaration
 		 * of a static field on which selected depends.
 		 *
@@ -691,7 +691,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 
 		if(bd instanceof FieldDeclaration) {
 			FieldDeclaration fieldDecl = (FieldDeclaration) bd;
-			for(Iterator<VariableDeclarationFragment> fragments = fieldDecl.fragments().iterator(); fragments.hasNext();) {
+			for(Iterator<VariableDeclarationFragment> fragments = fieldDecl.fragments().iterator(); fragments.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment fragment = fragments.next();
 				SimpleName staticFieldName = fragment.getName();
 				if(selected.getSubFragmentsMatching(ASTFragmentFactory.createFragmentForFullSubtree(staticFieldName)).length != 0)
@@ -721,7 +721,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return ASTNodes.asString(getConstantType());
 	}
 
-	private static boolean isStaticFieldOrStaticInitializer(BodyDeclaration node) {
+	private static boolean isStaticFieldOrStaticInitializer(BodyDeclaration node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if(node instanceof MethodDeclaration || node instanceof AbstractTypeDeclaration)
 			return false;
 
@@ -744,10 +744,10 @@ public class ExtractConstantRefactoring extends Refactoring {
 	/*
 	 * Elements returned by next() are BodyDeclaration or Annotation instances.
 	 */
-	private Iterator<ASTNode> getReplacementScope() throws JavaModelException {
+	private Iterator<ASTNode> getReplacementScope() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean declPredecessorReached= false;
 
-		Collection<ASTNode> scope= new ArrayList<>();
+		Collection<ASTNode> scope= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		AbstractTypeDeclaration containingType= getContainingTypeDeclarationNode();
 		if (containingType instanceof EnumDeclaration) {
@@ -756,14 +756,14 @@ public class ExtractConstantRefactoring extends Refactoring {
 			scope.addAll(enumDeclaration.enumConstants());
 		}
 
-		for (Iterator<IExtendedModifier> iter= containingType.modifiers().iterator(); iter.hasNext();) {
+		for (Iterator<IExtendedModifier> iter= containingType.modifiers().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IExtendedModifier modifier= iter.next();
 			if (modifier instanceof Annotation) {
 				scope.add((ASTNode) modifier);
 			}
 		}
 
-		for (Iterator<BodyDeclaration> bodyDeclarations = containingType.bodyDeclarations().iterator(); bodyDeclarations.hasNext();) {
+		for (Iterator<BodyDeclaration> bodyDeclarations = containingType.bodyDeclarations().iterator(); bodyDeclarations.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		    BodyDeclaration bodyDeclaration= bodyDeclarations.next();
 
 		    if(bodyDeclaration == getNodeToInsertConstantDeclarationAfter())
@@ -776,10 +776,10 @@ public class ExtractConstantRefactoring extends Refactoring {
 	}
 
 	private IASTFragment[] getFragmentsToReplace() throws JavaModelException {
-		List<IASTFragment> toReplace = new ArrayList<>();
+		List<IASTFragment> toReplace = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fReplaceAllOccurrences) {
 			Iterator<ASTNode> replacementScope = getReplacementScope();
-			while(replacementScope.hasNext()) {
+			while(replacementScope.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode scope= replacementScope.next();
 				IASTFragment[] allMatches= ASTFragmentFactory.createFragmentForFullSubtree(scope).getSubFragmentsMatching(getSelectedExpression());
 				IASTFragment[] replaceableMatches = retainOnlyReplacableMatches(allMatches);
@@ -792,8 +792,8 @@ public class ExtractConstantRefactoring extends Refactoring {
 
 	// !! - like one in ExtractTempRefactoring
 	private static IASTFragment[] retainOnlyReplacableMatches(IASTFragment[] allMatches) {
-		List<IASTFragment> result= new ArrayList<>(allMatches.length);
-		for (IASTFragment match : allMatches) {
+		List<IASTFragment> result= new ArrayList<>(allMatches.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IASTFragment match : allMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (canReplace(match)) {
 				result.add(match);
 			}
@@ -802,7 +802,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 	}
 
 	// !! - like one in ExtractTempRefactoring
-	private static boolean canReplace(IASTFragment fragment) {
+	private static boolean canReplace(IASTFragment fragment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= fragment.getAssociatedNode();
 		ASTNode parent= node.getParent();
 		if (parent instanceof VariableDeclarationFragment) {
@@ -860,7 +860,7 @@ public class ExtractConstantRefactoring extends Refactoring {
 		return result;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {
 			int offset= -1;

@@ -72,7 +72,7 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 			this.moveDown= moveDown;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			rewrite.setTargetSourceRangeComputer(new TargetSourceRangeComputer() {
@@ -139,7 +139,7 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 			}
 		}
 
-		private boolean canMoveUp() {
+		private boolean canMoveUp() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!ASTNodes.isPassiveWithoutFallingThrough(overridingAssignment.getRightHandSide())) {
 				return false;
 			}
@@ -175,12 +175,12 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 			int nameEnd= fragment.getName().getStartPosition() + fragment.getName().getLength();
 			String declarationText= cu.getBuffer().getText(declaration.getStartPosition(), nameEnd-declaration.getStartPosition());
 			ASTRewrite astRewrite= cuRewrite.getASTRewrite();
-			ASTNode replacementNode= astRewrite.createStringPlaceholder(declarationText+";", ASTNode.VARIABLE_DECLARATION_STATEMENT); //$NON-NLS-1$
+			ASTNode replacementNode= astRewrite.createStringPlaceholder(declarationText+";", ASTNode.VARIABLE_DECLARATION_STATEMENT); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			declaration.setProperty(IGNORE_LEADING_COMMENT, Boolean.TRUE);
 			astRewrite.replace(declaration, replacementNode, group);
 		}
 
-		private void moveUp(final CompilationUnitRewrite cuRewrite, TextEditGroup group) throws JavaModelException {
+		private void moveUp(final CompilationUnitRewrite cuRewrite, TextEditGroup group) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ICompilationUnit cu= cuRewrite.getCu();
 
 			Expression rhs= overridingAssignment.getRightHandSide();
@@ -192,10 +192,10 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 				Hashtable<String, String> options= JavaCore.getOptions();
 				String spaceBeforeAssignment= options.get(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_BEFORE_ASSIGNMENT_OPERATOR) == JavaCore.INSERT ? " " : ""; //$NON-NLS-1$ //$NON-NLS-2$
 				String spaceAfterAssignment= options.get(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_AFTER_ASSIGNMENT_OPERATOR) == JavaCore.INSERT ? " " : ""; //$NON-NLS-1$ //$NON-NLS-2$
-				targetText= declarationText + spaceBeforeAssignment + "=" + spaceAfterAssignment + rhsText; //$NON-NLS-1$
+				targetText= declarationText + spaceBeforeAssignment + "=" + spaceAfterAssignment + rhsText; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				String declarationText= cu.getBuffer().getText(declaration.getStartPosition(), fragment.getInitializer().getStartPosition() - declaration.getStartPosition());
-				targetText= declarationText + rhsText;
+				targetText= declarationText + rhsText; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			ASTRewrite astRewrite= cuRewrite.getASTRewrite();
 			ASTNode replacementNode= astRewrite.createStringPlaceholder(targetText, ASTNode.VARIABLE_DECLARATION_STATEMENT);
@@ -204,7 +204,7 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 			astRewrite.remove(overridingAssignment.getParent(), group);
 		}
 
-		private void moveDown(final CompilationUnitRewrite cuRewrite, TextEditGroup group) throws JavaModelException {
+		private void moveDown(final CompilationUnitRewrite cuRewrite, TextEditGroup group) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ICompilationUnit cu= cuRewrite.getCu();
 
 			Expression rhs= overridingAssignment.getRightHandSide();
@@ -218,9 +218,9 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 				Hashtable<String, String> options= JavaCore.getOptions();
 				String spaceBeforeAssignment= options.get(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_BEFORE_ASSIGNMENT_OPERATOR) == JavaCore.INSERT ? " " : ""; //$NON-NLS-1$ //$NON-NLS-2$
 				String spaceAfterAssignment= options.get(DefaultCodeFormatterConstants.FORMATTER_INSERT_SPACE_AFTER_ASSIGNMENT_OPERATOR) == JavaCore.INSERT ? " " : ""; //$NON-NLS-1$ //$NON-NLS-2$
-				declarationText= declarationText + spaceBeforeAssignment + "=" + spaceAfterAssignment; //$NON-NLS-1$
+				declarationText= declarationText + spaceBeforeAssignment + "=" + spaceAfterAssignment; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
-			String targetText= declarationText + rhsText;
+			String targetText= declarationText + rhsText; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			ASTRewrite astRewrite= cuRewrite.getASTRewrite();
 			ASTNode replacementNode= astRewrite.createStringPlaceholder(targetText, ASTNode.VARIABLE_DECLARATION_STATEMENT);
 			overridingAssignment.getParent().setProperty(IGNORE_LEADING_COMMENT, Boolean.TRUE);
@@ -237,12 +237,12 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 		}
 	}
 
-	public static ICleanUpFix createCleanUp(final CompilationUnit unit, boolean canMoveDecl) {
+	public static ICleanUpFix createCleanUp(final CompilationUnit unit, boolean canMoveDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final VariableDeclarationStatement node) {
 				VariableDeclarationFragment fragment= ASTNodes.getUniqueFragment(node);
 
@@ -257,7 +257,7 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 						Assignment overridingAssignment= null;
 
 						boolean shouldMoveDown= true;
-						while (stmtToInspect != null) {
+						while (stmtToInspect != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							VarDefinitionsUsesVisitor varDefinitionsUsesVisitor= new VarDefinitionsUsesVisitor(variable, stmtToInspect, true);
 							if (!varDefinitionsUsesVisitor.getReads().isEmpty()) {
 								return true;
@@ -303,7 +303,7 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 			 * @param node ASTNode
 			 * @return true if node's statement does not share lines with other statements otherwise false
 			 */
-			private boolean doesNotShareLines(ASTNode node) {
+			private boolean doesNotShareLines(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Statement stmt= null;
 				if (node instanceof Statement) {
 					stmt= (Statement)node;
@@ -318,7 +318,7 @@ public class OverriddenAssignmentFixCore extends CompilationUnitRewriteOperation
 				Statement prevStmt= ASTNodes.getPreviousSibling(stmt);
 				if (prevStmt == null) {
 					ASTNode parent= stmt.getParent();
-					while (parent != null && parent instanceof Block) {
+					while (parent != null && parent instanceof Block) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						parent= parent.getParent();
 					}
 					if (parent instanceof Statement) {

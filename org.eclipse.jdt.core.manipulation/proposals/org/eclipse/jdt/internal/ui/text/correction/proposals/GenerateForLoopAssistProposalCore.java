@@ -71,7 +71,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	private ITypeBinding fExpressionType;
 	private int fLoopTypeToGenerate= -1;
 
-	public GenerateForLoopAssistProposalCore(ICompilationUnit cu, ExpressionStatement currentStatement, int loopTypeToGenerate) {
+	public GenerateForLoopAssistProposalCore(ICompilationUnit cu, ExpressionStatement currentStatement, int loopTypeToGenerate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", cu, null, IProposalRelevance.GENERATE_FOR_LOOP); //$NON-NLS-1$
 		fCurrentStatement= currentStatement;
 		fCurrentExpression= fCurrentStatement.getExpression();
@@ -96,7 +96,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 
 		AST ast= fCurrentStatement.getAST();
@@ -130,7 +130,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @param ast the {@link AST} instance to rewrite the loop to
 	 * @return the complete {@link ASTRewrite} object
 	 */
-	private ASTRewrite generateForEachRewrite(AST ast) {
+	private ASTRewrite generateForEachRewrite(AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		EnhancedForStatement loopStatement= ast.newEnhancedForStatement();
 
@@ -164,7 +164,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @param ast the {@link AST} instance to rewrite the loop to
 	 * @return the complete {@link ASTRewrite} object
 	 */
-	private ASTRewrite generateIteratorBasedForRewrite(AST ast) {
+	private ASTRewrite generateIteratorBasedForRewrite(AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite rewrite= ASTRewrite.create(ast);
 		ForStatement loopStatement= ast.newForStatement();
 
@@ -230,7 +230,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @return an {@link Assignment}, which retrieves the next element of the {@link Iterable} using
 	 *         the active {@link Iterator}
 	 */
-	private Assignment getIteratorBasedForBodyAssignment(ASTRewrite rewrite, ITypeBinding loopOverType, SimpleName loopVariableName) {
+	private Assignment getIteratorBasedForBodyAssignment(ASTRewrite rewrite, ITypeBinding loopOverType, SimpleName loopVariableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		Assignment assignResolvedVariable= ast.newAssignment();
 
@@ -261,7 +261,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @param ast the current {@link AST} instance to generate the {@link ASTRewrite} for
 	 * @return an applicable {@link ASTRewrite} instance
 	 */
-	private ASTRewrite generateForRewrite(AST ast) {
+	private ASTRewrite generateForRewrite(AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite rewrite= ASTRewrite.create(ast);
 
 		ForStatement loopStatement= ast.newForStatement();
@@ -294,7 +294,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @return a completed {@link Assignment} containing the mentioned declaration and
 	 *         initialization
 	 */
-	private Assignment getForBodyAssignment(ASTRewrite rewrite, SimpleName loopVariableName) {
+	private Assignment getForBodyAssignment(ASTRewrite rewrite, SimpleName loopVariableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		ITypeBinding loopOverType= extractType(ast);
 
@@ -396,7 +396,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @param ast the current {@link AST} instance to generate the {@link ASTRewrite} for
 	 * @return an applicable {@link ASTRewrite} instance
 	 */
-	private ASTRewrite generateIndexBasedForRewrite(AST ast) {
+	private ASTRewrite generateIndexBasedForRewrite(AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTRewrite rewrite= ASTRewrite.create(ast);
 
 		ForStatement loopStatement= ast.newForStatement();
@@ -430,7 +430,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 * @return a completed {@link Assignment} containing the mentioned declaration and
 	 *         initialization
 	 */
-	private Expression getIndexBasedForBodyAssignment(ASTRewrite rewrite, SimpleName loopVariableName) {
+	private Expression getIndexBasedForBodyAssignment(ASTRewrite rewrite, SimpleName loopVariableName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		ITypeBinding loopOverType= extractType(ast);
 
@@ -473,7 +473,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 		AST ast= rewrite.getAST();
 		String[] nameProposals= getVariableNameProposals(basename, excludedName);
 		SimpleName forDeclarationName= ast.newSimpleName(nameProposals.length > 0 ? nameProposals[0] : basename);
-		for (String nameProposal : nameProposals) {
+		for (String nameProposal : nameProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addLinkedPositionProposal(forDeclarationName.getIdentifier(), nameProposal);
 		}
 
@@ -504,7 +504,7 @@ public class GenerateForLoopAssistProposalCore extends LinkedCorrectionProposalC
 	 */
 	private String[] getVariableNameProposals(String basename, String excludedName) {
 		ASTNode surroundingBlock= fCurrentStatement.getParent();
-		while (!(surroundingBlock instanceof Block)) {
+		while (!(surroundingBlock instanceof Block)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			surroundingBlock= surroundingBlock.getParent();
 		}
 		Collection<String> localUsedNames= new ScopeAnalyzer((CompilationUnit) fCurrentExpression.getRoot()).getUsedVariableNames(surroundingBlock.getStartPosition(), surroundingBlock.getLength());

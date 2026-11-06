@@ -50,9 +50,9 @@ public class CopyModifications extends RefactoringModifications {
 	private List<IParticipantDescriptorFilter> fParticipantDescriptorFilter;
 
 	public CopyModifications() {
-		fCopies= new ArrayList<>();
-		fCopyArguments= new ArrayList<>();
-		fParticipantDescriptorFilter= new ArrayList<>();
+		fCopies= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fCopyArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fParticipantDescriptorFilter= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void copy(IResource resource, CopyArguments args) {
@@ -91,7 +91,7 @@ public class CopyModifications extends RefactoringModifications {
 		}
 	}
 
-	public void copy(IPackageFragment pack, CopyArguments javaArgs, CopyArguments resourceArgs) throws CoreException {
+	public void copy(IPackageFragment pack, CopyArguments javaArgs, CopyArguments resourceArgs) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		add(pack, javaArgs, null);
 		ResourceMapping mapping= JavaElementResourceMapping.create(pack);
 		if (mapping != null) {
@@ -114,7 +114,7 @@ public class CopyModifications extends RefactoringModifications {
 			IContainer resourceDestination= (IContainer) newPack.getResource();
 			createIncludingParents(resourceDestination);
 			CopyArguments arguments= new CopyArguments(resourceDestination, resourceArgs.getExecutionLog());
-			for (IResource toCopy : collectResourcesOfInterest(pack)) {
+			for (IResource toCopy : collectResourcesOfInterest(pack)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getResourceModifications().addCopyDelta(toCopy, arguments);
 			}
 		}
@@ -133,7 +133,7 @@ public class CopyModifications extends RefactoringModifications {
 
 	@Override
 	public void buildDelta(IResourceChangeDescriptionFactory builder) {
-		for (int i= 0; i < fCopies.size(); i++) {
+		for (int i= 0; i < fCopies.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= fCopies.get(i);
 			if (element instanceof IResource) {
 				ResourceModifications.buildCopyDelta(builder, (IResource) element, (CopyArguments) fCopyArguments.get(i));
@@ -144,8 +144,8 @@ public class CopyModifications extends RefactoringModifications {
 
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status, RefactoringProcessor owner, String[] natures, SharableParticipants shared) {
-		List<RefactoringParticipant> result= new ArrayList<>();
-		for (int i= 0; i < fCopies.size(); i++) {
+		List<RefactoringParticipant> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < fCopies.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(ParticipantManager.loadCopyParticipants(status,
 				owner, fCopies.get(i),
 				(CopyArguments) fCopyArguments.get(i),

@@ -56,7 +56,7 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 	private IPreferenceStore fStore;
 	private OverlayPreferenceStore fOverlayStore;
 	private OverlayKey[] fKeys;
-	private Map<Button, String> fCheckBoxes= new HashMap<>();
+	private Map<Button, String> fCheckBoxes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private SelectionListener fCheckBoxListener= new SelectionListener() {
 		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -67,12 +67,12 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 			fOverlayStore.setValue(fCheckBoxes.get(button), button.getSelection());
 		}
 	};
-	private Map<Text, String> fStringInputs= new HashMap<>();
-	private ModifyListener fModifyListener = e -> {
+	private Map<Text, String> fStringInputs= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private ModifyListener fModifyListener = e -> { //FLLDCIM: MARK — T02  LAMBDA
 		Text text = (Text)e.widget;
 		fOverlayStore.setValue(fStringInputs.get(text), text.getText());
 	};
-	private List<SelectionListener> fMasterSlaveListeners= new ArrayList<>();
+	private List<SelectionListener> fMasterSlaveListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 
 
@@ -93,7 +93,7 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 	}
 
 	private OverlayKey[] createKeys() {
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_FOLDING_JAVADOC));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_FOLDING_INNERTYPES));
@@ -111,7 +111,7 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.folding.IJavaFoldingPreferences#createControl(org.eclipse.swt.widgets.Group)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createControl(Composite composite) {
 		fOverlayStore.load();
 		fOverlayStore.start();
@@ -179,7 +179,7 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 		};
-		master.addSelectionListener(listener);
+		master.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		fMasterSlaveListeners.add(listener);
 	}
 
@@ -195,14 +195,14 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 		gd.horizontalSpan= horizontalSpan;
 		gd.grabExcessVerticalSpace= false;
 		checkBox.setLayoutData(gd);
-		checkBox.addSelectionListener(fCheckBoxListener);
+		checkBox.addSelectionListener(fCheckBoxListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fCheckBoxes.put(checkBox, key);
 
 		return checkBox;
 	}
 
-	private Text addStringInput(Composite parent, String label, String key) {
+	private Text addStringInput(Composite parent, String label, String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label labelElement = new Label(parent, SWT.LEFT);
 		labelElement.setText(label);
 		GridData labelGridData= new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -212,7 +212,7 @@ public class DefaultJavaFoldingPreferenceBlock implements IScopedJavaFoldingPref
 
 		Text textInput = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		textInput.setText(label);
-		textInput.addModifyListener(fModifyListener);
+		textInput.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		GridData textGridData= new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		textGridData.horizontalSpan= 1;

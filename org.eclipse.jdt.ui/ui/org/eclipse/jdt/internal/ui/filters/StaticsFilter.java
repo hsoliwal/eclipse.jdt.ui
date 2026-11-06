@@ -21,7 +21,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.MemberFilter;
  *
  * @since 3.0
  */
-public class StaticsFilter extends MemberFilter {
+public class StaticsFilter extends MemberFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	public StaticsFilter() {
 		addFilter(MemberFilter.FILTER_STATIC);
 	}

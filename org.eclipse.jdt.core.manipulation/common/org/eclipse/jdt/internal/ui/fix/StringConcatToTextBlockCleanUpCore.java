@@ -66,37 +66,37 @@ public class StringConcatToTextBlockCleanUpCore extends AbstractCleanUp {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.STRINGCONCAT_TO_TEXTBLOCK)) {
-			bld.append("String buf = \"\"\"\n"); //$NON-NLS-1$
-			bld.append("    public class A {\n"); //$NON-NLS-1$
-			bld.append("        public void foo() {\n"); //$NON-NLS-1$
-			bld.append("        }\n"); //$NON-NLS-1$
-			bld.append("    }\n"); //$NON-NLS-1$
-			bld.append("    \"\"\";\n"); //$NON-NLS-1$
+			bld.append("String buf = \"\"\"\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    public class A {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("        public void foo() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("        }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    \"\"\";\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("String buf = \"\" +\n"); //$NON-NLS-1$
-			bld.append("    \"public class A {\" +\n"); //$NON-NLS-1$
-			bld.append("    \"    public void foo() {\" +\n"); //$NON-NLS-1$
-			bld.append("    \"    }\" + \n"); //$NON-NLS-1$
-			bld.append("    \"}\";\n"); //$NON-NLS-1$
+			bld.append("String buf = \"\" +\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    \"public class A {\" +\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    \"    public void foo() {\" +\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    \"    }\" + \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    \"}\";\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		bld.append("\n"); //$NON-NLS-1$
+		bld.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.STRINGCONCAT_TO_TEXTBLOCK) && isEnabled(CleanUpConstants.STRINGCONCAT_STRINGBUFFER_STRINGBUILDER)) {
-			bld.append("String k = \"\"\"\n"); //$NON-NLS-1$
-			bld.append("    public void foo() {\n"); //$NON-NLS-1$
-			bld.append("        return null;\n"); //$NON-NLS-1$
-			bld.append("    }\n"); //$NON-NLS-1$
-			bld.append("    \"\"\";\n"); //$NON-NLS-1$
+			bld.append("String k = \"\"\"\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    public void foo() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("        return null;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    \"\"\";\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("StringBuffer buf= new StringBuffer();\n"); //$NON-NLS-1$
-			bld.append("buf.append(\"public void foo() {\\n\");\n"); //$NON-NLS-1$
-			bld.append("buf.append(\"    return null;\\n\");\n"); //$NON-NLS-1$
-			bld.append("buf.append(\"}\\n\");\n"); //$NON-NLS-1$
-			bld.append("String k = buf.toString();\n"); //$NON-NLS-1$
+			bld.append("StringBuffer buf= new StringBuffer();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("buf.append(\"public void foo() {\\n\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("buf.append(\"    return null;\\n\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("buf.append(\"}\\n\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("String k = buf.toString();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();

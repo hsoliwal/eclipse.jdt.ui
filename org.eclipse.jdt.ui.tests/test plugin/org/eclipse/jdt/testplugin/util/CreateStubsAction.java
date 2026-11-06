@@ -125,7 +125,7 @@ public final class CreateStubsAction implements IObjectActionDelegate {
 		MessageDialog.openInformation(shell, CREATE_STUBS_DIALOG_TITLE, msg);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		ISelection selection= fTargetPart.getSite().getSelectionProvider().getSelection();
 		if (!(selection instanceof IStructuredSelection structuredSelection)) {
@@ -149,21 +149,21 @@ public final class CreateStubsAction implements IObjectActionDelegate {
 			JavaTestPlugin.getDefault().getDialogSettings().put(SETTINGS_ID_STUBS_PROJECT, name);
 			long start= System.currentTimeMillis();
 
-			ArrayList<String> defaultPackages= new ArrayList<>(Arrays.asList(DEFAULT_PACKAGES));
+			ArrayList<String> defaultPackages= new ArrayList<>(Arrays.asList(DEFAULT_PACKAGES)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			ProgressMonitorDialog progressMonitorDialog= new ProgressMonitorDialog(shell);
-			progressMonitorDialog.run(true, true, monitor -> {
+			progressMonitorDialog.run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					createJavaProject(name);
 					IFolder target = ResourcesPlugin.getWorkspace().getRoot().getProject(inputDialog.getValue()).getFolder("src"); //$NON-NLS-1$
-					List<IPackageFragment> packageFragments= new ArrayList<>();
+					List<IPackageFragment> packageFragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 					boolean checkCompletionOfDefaultPackages= false;
-					for (Object sel : structuredSelection.toList()) {
+					for (Object sel : structuredSelection.toList()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (sel instanceof IPackageFragment packageFragment) {
 							packageFragments.add(packageFragment);
 						} else if (sel instanceof IPackageFragmentRoot root) {
-							for (Iterator<String> iter= defaultPackages.iterator(); iter.hasNext();) {
+							for (Iterator<String> iter= defaultPackages.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								String packName= iter.next();
 								IPackageFragment packageFragment = root.getPackageFragment(packName);
 								if (packageFragment.exists()) {
@@ -186,9 +186,9 @@ public final class CreateStubsAction implements IObjectActionDelegate {
 			IProject project= ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 			long end= System.currentTimeMillis();
-			StringBuilder message= new StringBuilder("Took ").append((end - start) / 1000).append("s to create the stubs");
+			StringBuilder message= new StringBuilder("Took ").append((end - start) / 1000).append("s to create the stubs"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (!defaultPackages.isEmpty() ) {
-				message.append("\n\nNo stubs generated for packages: ").append(defaultPackages.toString());
+				message.append("\n\nNo stubs generated for packages: ").append(defaultPackages.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			MessageDialog.openInformation(fTargetPart.getSite().getShell(), CREATE_STUBS_DIALOG_TITLE, message.toString());
 		} catch (InterruptedException e) {

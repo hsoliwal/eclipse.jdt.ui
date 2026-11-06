@@ -48,7 +48,7 @@ public class TemplateUtils {
 	 * @throws BadLocationException in case the position is invalid in the compilation unit
 	 * @throws TemplateException in case the evaluation fails
 	 */
-	public static String evaluateTemplate(Template template, ICompilationUnit compilationUnit, int position) throws CoreException, BadLocationException, TemplateException {
+	public static String evaluateTemplate(Template template, ICompilationUnit compilationUnit, int position) throws CoreException, BadLocationException, TemplateException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		TemplateContextType contextType= JavaPlugin.getDefault().getTemplateContextRegistry().getContextType(template.getContextTypeId());
 		if (!(contextType instanceof CompilationUnitContextType))

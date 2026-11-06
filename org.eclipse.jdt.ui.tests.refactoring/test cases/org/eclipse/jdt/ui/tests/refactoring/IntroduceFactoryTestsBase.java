@@ -75,9 +75,9 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 		String	testName = getName();
 		int		usIdx=  testName.indexOf('_');
 		int		endIdx= (usIdx >= 0) ? usIdx : testName.length();
-		String	fileName = (input ? (testName.substring(4, endIdx) + "_in") : testName.substring(4));
+		String	fileName = (input ? (testName.substring(4, endIdx) + "_in") : testName.substring(4)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		return fileName + ".java";
+		return fileName + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -90,10 +90,10 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	 * @return the test file name
 	 */
 	private String getTestFileName(boolean positive, boolean input) {
-		String path= TEST_PATH_PREFIX + getRefactoringPath();
+		String path= TEST_PATH_PREFIX + getRefactoringPath(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		path += (positive ? "positive/": "negative/");
-		return path + getSimpleTestFileName(input);
+		return path + getSimpleTestFileName(input); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -126,11 +126,11 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	private String getBugTestFileName(IJavaProject project, IPackageFragment pack, String fileName, boolean input) {
 		String testName= getName();
 		String testNumber= testName.substring("test".length());//$NON-NLS-1$
-		String path= TEST_PATH_PREFIX + getRefactoringPath() + "Bugzilla/" + testNumber + "/" +
-									(project == null ? "" : project.getElementName() + "/") +
-									(pack == getPackageP() ? "" : pack.getElementName() + "/");
+		String path= TEST_PATH_PREFIX + getRefactoringPath() + "Bugzilla/" + testNumber + "/" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+									(project == null ? "" : project.getElementName() + "/") + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+									(pack == getPackageP() ? "" : pack.getElementName() + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		return path + fileName + (input ? "" : "_out") + ".java";//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return path + fileName + (input ? "" : "_out") + ".java";//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 		throws Exception
 	{
 		String	fileName= getBugTestFileName(project, pack, baseName, input);
-		String	cuName= baseName + (input ? "" : "_out") + ".java";
+		String	cuName= baseName + (input ? "" : "_out") + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return createCU(pack, cuName, getFileContents(fileName));
 	}
@@ -171,7 +171,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 		return new SourceRange(begin, end-begin);
 	}
 
-	private void doSingleUnitTest(boolean protectConstructor, ICompilationUnit cu, String outputFileName) throws Exception, JavaModelException, IOException {
+	private void doSingleUnitTest(boolean protectConstructor, ICompilationUnit cu, String outputFileName) throws Exception, JavaModelException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceRange		selection= findSelectionInSource(cu.getSource());
 		IntroduceFactoryRefactoring	ref= new IntroduceFactoryRefactoring(cu, selection.getOffset(), selection.getLength());
 
@@ -188,21 +188,21 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 
 			String newSource = cu.getSource();
 
-			System.err.println("!!!Precondition failed for " + getName() + "!!!");
-			System.err.println("Compile-time error: " + checkInputResult.toString());
+			System.err.println("!!!Precondition failed for " + getName() + "!!!"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.err.println("Compile-time error: " + checkInputResult.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.err.println("Offending source:");
 			System.err.print(newSource);
-			fail("precondition was supposed to pass but was " + checkInputResult.toString());
+			fail("precondition was supposed to pass but was " + checkInputResult.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		performChange(ref, false);
 
 		String newSource = cu.getSource();
 
-		assertEqualLines(getName() + ": ", getFileContents(outputFileName), newSource);
+		assertEqualLines(getName() + ": ", getFileContents(outputFileName), newSource); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void doSingleUnitTestWithWarning(boolean protectConstructor, ICompilationUnit cu, String outputFileName) throws Exception, JavaModelException, IOException {
+	private void doSingleUnitTestWithWarning(boolean protectConstructor, ICompilationUnit cu, String outputFileName) throws Exception, JavaModelException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceRange selection= findSelectionInSource(cu.getSource());
 		IntroduceFactoryRefactoring ref= new IntroduceFactoryRefactoring(cu, selection.getOffset(), selection.getLength());
 
@@ -219,7 +219,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 
 		String newSource= cu.getSource();
 
-		assertEqualLines(getName() + ": ", getFileContents(outputFileName), newSource);
+		assertEqualLines(getName() + ": ", getFileContents(outputFileName), newSource); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -269,7 +269,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	 * @param factoryMethodName the name to use for the generated factory method
 	 * @param factoryClassName the name of the factory class
 	 */
-	void namesHelper(String factoryMethodName, String factoryClassName)
+	void namesHelper(String factoryMethodName, String factoryClassName) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		throws Exception
 	{
 		ICompilationUnit	cu= createCUForSimpleTest(getPackageP(), true, true);
@@ -287,13 +287,13 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 
 		RefactoringStatus	checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
 
-		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK());
+		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		performChange(ref, false);
 
 		String newSource = cu.getSource();
 
-		assertEqualLines(getName() + ": ", getFileContents(getTestFileName(true, false)), newSource);
+		assertEqualLines(getName() + ": ", getFileContents(getTestFileName(true, false)), newSource); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -306,12 +306,12 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	 * @return the ICompilationUnit for the newly-created unit
 	 */
 	private ICompilationUnit createCUFromFileName(String fileName, IPackageFragment pack) throws Exception {
-		String fullName = TEST_PATH_PREFIX + getRefactoringPath() + "positive/" + fileName + "_in.java";
+		String fullName = TEST_PATH_PREFIX + getRefactoringPath() + "positive/" + fileName + "_in.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		return createCU(pack, fileName + "_in.java", getFileContents(fullName));
+		return createCU(pack, fileName + "_in.java", getFileContents(fullName)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void doMultiUnitTest(ICompilationUnit[] CUs, String testPath, String[] outputFileBaseNames, String factoryClassName) throws Exception, JavaModelException, IOException {
+	private void doMultiUnitTest(ICompilationUnit[] CUs, String testPath, String[] outputFileBaseNames, String factoryClassName) throws Exception, JavaModelException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceRange selection= findSelectionInSource(CUs[0].getSource());
 		IntroduceFactoryRefactoring	ref= new IntroduceFactoryRefactoring(CUs[0], selection.getOffset(), selection.getLength());
 
@@ -324,20 +324,20 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 
 		RefactoringStatus	checkInputResult= ref.checkFinalConditions(new NullProgressMonitor());
 
-		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK());
+		assertTrue("precondition was supposed to pass but was " + checkInputResult.toString(), checkInputResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		performChange(ref, false);
 
 		String	testName= getName();
 
-		for (int i = 0; i < CUs.length; i++) {
+		for (int i = 0; i < CUs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int optIdx= testName.indexOf("_");
 			String testOptions= (optIdx >= 0) ? testName.substring(optIdx) : "";
-			String outFileName= testPath + outputFileBaseNames[i] + testOptions + "_out.java";
+			String outFileName= testPath + outputFileBaseNames[i] + testOptions + "_out.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String xformedSrc= CUs[i].getSource();
 			String expectedSrc= getFileContents(outFileName);
 
-			assertEqualLines(getName() + ": ", expectedSrc, xformedSrc);
+			assertEqualLines(getName() + ": ", expectedSrc, xformedSrc); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -356,10 +356,10 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 		IPackageFragment	pkg= getPackageP();
 		ICompilationUnit	CUs[]= new ICompilationUnit[inputFileBaseNames.length];
 
-		for (int i = 0; i < inputFileBaseNames.length; i++)
+		for (int i = 0; i < inputFileBaseNames.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CUs[i] = createCUFromFileName(inputFileBaseNames[i], pkg);
 
-		String	testPath= TEST_PATH_PREFIX + getRefactoringPath() + "positive/";
+		String	testPath= TEST_PATH_PREFIX + getRefactoringPath() + "positive/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		doMultiUnitTest(CUs, testPath, inputFileBaseNames, null);
 	}
@@ -380,7 +380,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	{
 		ICompilationUnit CUs[]= new ICompilationUnit[inputFileBaseNames.length];
 
-		for(int i= 0; i < inputFileBaseNames.length; i++) {
+		for(int i= 0; i < inputFileBaseNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int pkgEnd= inputFileBaseNames[i].lastIndexOf('/')+1;
 			boolean explicitPkg= (pkgEnd > 0);
 			IPackageFragment pkg= explicitPkg ? getRoot().createPackageFragment(inputFileBaseNames[i].substring(0, pkgEnd-1), true, new NullProgressMonitor()) : getPackageP();
@@ -390,15 +390,15 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 
 		String	testName= getName();
 		String	testNumber= testName.substring("test".length());
-		String	testPath= TEST_PATH_PREFIX + getRefactoringPath() + "Bugzilla/" + testNumber + "/";
+		String	testPath= TEST_PATH_PREFIX + getRefactoringPath() + "Bugzilla/" + testNumber + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		doMultiUnitTest(CUs, testPath, inputFileBaseNames, factoryClassName);
 	}
 
-	void multiProjectBugHelper(String[] inputFileBaseNames, String[] dependencies) throws Exception {
+	void multiProjectBugHelper(String[] inputFileBaseNames, String[] dependencies) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, Set<String>> projName2PkgNames= collectProjectPackages(inputFileBaseNames);
-		Map<String, IJavaProject> projName2Project= new HashMap<>();
-		Map<IJavaProject, IPackageFragmentRoot> proj2PkgRoot= new HashMap<>();
+		Map<String, IJavaProject> projName2Project= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		Map<IJavaProject, IPackageFragmentRoot> proj2PkgRoot= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		try {
 			createProjectPackageStructure(projName2PkgNames, projName2Project, proj2PkgRoot);
@@ -409,12 +409,12 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 
 			String testName= getName();
 			String testNumber= testName.substring("test".length());
-			String testPath= TEST_PATH_PREFIX + getRefactoringPath() + "Bugzilla/" + testNumber + "/";
+			String testPath= TEST_PATH_PREFIX + getRefactoringPath() + "Bugzilla/" + testNumber + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			doMultiUnitTest(CUs, testPath, inputFileBaseNames, null);
 
 		} finally {
-			for (IJavaProject project : proj2PkgRoot.keySet()) {
+			for (IJavaProject project : proj2PkgRoot.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (project.exists()) {
 					try {
 						project.getProject().delete(true, null);
@@ -427,10 +427,10 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 		}
 	}
 
-	private ICompilationUnit[] createCUs(String[] inputFileBaseNames, Map<String, IJavaProject> projName2Project, Map<IJavaProject, IPackageFragmentRoot> proj2PkgRoot) throws Exception {
+	private ICompilationUnit[] createCUs(String[] inputFileBaseNames, Map<String, IJavaProject> projName2Project, Map<IJavaProject, IPackageFragmentRoot> proj2PkgRoot) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit CUs[]= new ICompilationUnit[inputFileBaseNames.length];
 
-		for(int i= 0; i < inputFileBaseNames.length; i++) {
+		for(int i= 0; i < inputFileBaseNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String filePath= inputFileBaseNames[i];
 
 			int projEnd= filePath.indexOf('/');
@@ -450,7 +450,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	}
 
 	private void addProjectDependencies(String[] dependencies, Map<String, IJavaProject> projName2Project) throws JavaModelException {
-		for (String dependency : dependencies) {
+		for (String dependency : dependencies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// dependent:provider
 			int colonIdx= dependency.indexOf(':');
 			String depName= dependency.substring(0, colonIdx);
@@ -462,24 +462,24 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 	}
 
 	private void createProjectPackageStructure(Map<String, Set<String>> projName2PkgNames, Map<String, IJavaProject> projName2Project, Map<IJavaProject, IPackageFragmentRoot> proj2PkgRoot) throws CoreException, JavaModelException {
-		for (Map.Entry<String, Set<String>> entry : projName2PkgNames.entrySet()) {
+		for (Map.Entry<String, Set<String>> entry : projName2PkgNames.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String projName = entry.getKey();
 			IJavaProject project= JavaProjectHelper.createJavaProject(projName, "bin");
 			IPackageFragmentRoot root= JavaProjectHelper.addSourceContainer(project, CONTAINER);
 			JavaProjectHelper.addRTJar(project);
-			Set<IPackageFragment> pkgs= new HashSet<>();
+			Set<IPackageFragment> pkgs= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			projName2Project.put(projName, project);
 			proj2PkgRoot.put(project, root);
-			for (String pkgName : entry.getValue()) {
+			for (String pkgName : entry.getValue()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pkgs.add(root.createPackageFragment(pkgName, true, null));
 			}
 		}
 	}
 
 	private Map<String, Set<String>> collectProjectPackages(String[] inputFileBaseNames) {
-		Map<String, Set<String>> proj2Pkgs= new HashMap<>();
+		Map<String, Set<String>> proj2Pkgs= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (String filePath : inputFileBaseNames) {
+		for (String filePath : inputFileBaseNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int projEnd= filePath.indexOf('/');
 			String projName= filePath.substring(0, projEnd);
 			String pkgName= filePath.substring(projEnd+1, filePath.lastIndexOf('/'));
@@ -487,7 +487,7 @@ public class IntroduceFactoryTestsBase extends GenericRefactoringTest {
 			Set<String> projPkgs= proj2Pkgs.get(projName);
 
 			if (projPkgs == null)
-				proj2Pkgs.put(projName, projPkgs= new HashSet<>());
+				proj2Pkgs.put(projName, projPkgs= new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			projPkgs.add(pkgName);
 		}
 		return proj2Pkgs;

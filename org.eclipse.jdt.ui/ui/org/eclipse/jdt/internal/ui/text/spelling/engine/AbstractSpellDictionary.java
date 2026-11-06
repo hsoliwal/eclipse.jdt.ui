@@ -112,7 +112,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 	private IPhoneticDistanceAlgorithm fDistanceAlgorithm= new DefaultPhoneticDistanceAlgorithm();
 
 	/** The mapping from phonetic hashes to word lists */
-	private final Map<ByteArrayWrapper, Object> fHashBuckets= new HashMap<>(getInitialSize(), LOAD_FACTOR);
+	private final Map<ByteArrayWrapper, Object> fHashBuckets= new HashMap<>(getInitialSize(), LOAD_FACTOR); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/** The phonetic hash provider */
 	private IPhoneticHashProvider fHashProvider= new DefaultPhoneticHashProvider();
@@ -172,16 +172,16 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 	 *                   Array of close hashes to find the matches
 	 * @return Set of ranked words with bounded distance to the specified word
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected final Set<RankedWordProposal> getCandidates(final String word, final boolean sentence, final ArrayList<String> hashs) {
 
 		int distance= 0;
 		String hash= null;
 
-		final StringBuilder buffer= new StringBuilder(BUFFER_CAPACITY);
-		final HashSet<RankedWordProposal> result= new HashSet<>(BUCKET_CAPACITY * hashs.size());
+		final StringBuilder buffer= new StringBuilder(BUFFER_CAPACITY); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		final HashSet<RankedWordProposal> result= new HashSet<>(BUCKET_CAPACITY * hashs.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (String hash2 : hashs) {
+		for (String hash2 : hashs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			hash= hash2;
 
@@ -201,17 +201,17 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 					distance= fDistanceAlgorithm.getDistance(word, candidate);
 					if (distance < DISTANCE_THRESHOLD) {
 						buffer.setLength(0);
-						buffer.append(candidate);
+						buffer.append(candidate); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						if (sentence)
 							buffer.setCharAt(0, Character.toUpperCase(buffer.charAt(0)));
 						result.add(new RankedWordProposal(buffer.toString(), -distance));
 					}
 					continue;
 				}
-				candidateList= new ArrayList<>((ArrayList<byte[]>)candidates);
+				candidateList= new ArrayList<>((ArrayList<byte[]>)candidates); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			int candidateSize= Math.min(500, candidateList.size()); // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=195357
-			for (int offset= 0; offset < candidateSize; offset++) {
+			for (int offset= 0; offset < candidateSize; offset++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				String candidate;
 				try {
@@ -225,7 +225,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 				if (distance < DISTANCE_THRESHOLD) {
 
 					buffer.setLength(0);
-					buffer.append(candidate);
+					buffer.append(candidate); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 					if (sentence)
 						buffer.setCharAt(0, Character.toUpperCase(buffer.charAt(0)));
@@ -250,13 +250,13 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 	 *                   Set of ranked words with smallest possible distance to the
 	 *                   specified word
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected final void getCandidates(final String word, final boolean sentence, final Set<RankedWordProposal> result) {
 
 		int distance= 0;
 		int minimum= Integer.MAX_VALUE;
 
-		StringBuilder buffer= new StringBuilder(BUFFER_CAPACITY);
+		StringBuilder buffer= new StringBuilder(BUFFER_CAPACITY); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ArrayList<byte[]> candidateList;
 		synchronized(fHashBuckets) {
 			final Object candidates= getCandidates(fHashProvider.getHash(word));
@@ -271,18 +271,18 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 					return;
 				}
 				distance= fDistanceAlgorithm.getDistance(word, candidate);
-				buffer.append(candidate);
+				buffer.append(candidate); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (sentence)
 					buffer.setCharAt(0, Character.toUpperCase(buffer.charAt(0)));
 				result.add(new RankedWordProposal(buffer.toString(), -distance));
 				return;
 			}
 
-			candidateList= new ArrayList<>((ArrayList<byte[]>)candidates);
+			candidateList= new ArrayList<>((ArrayList<byte[]>)candidates); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
-		final ArrayList<RankedWordProposal> matches= new ArrayList<>(candidateList.size());
+		final ArrayList<RankedWordProposal> matches= new ArrayList<>(candidateList.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (byte[] element : candidateList) {
+		for (byte[] element : candidateList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String candidate;
 			try {
 				candidate= new String(element, UTF_8);
@@ -298,7 +298,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 					matches.clear();
 
 				buffer.setLength(0);
-				buffer.append(candidate);
+				buffer.append(candidate); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 				if (sentence)
 					buffer.setCharAt(0, Character.toUpperCase(buffer.charAt(0)));
@@ -339,7 +339,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 		return fHashProvider;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Set<RankedWordProposal> getProposals(final String word, final boolean sentence) {
 
 		try {
@@ -359,7 +359,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 		final String hash= fHashProvider.getHash(word);
 		final char[] mutators= fHashProvider.getMutators();
 
-		final ArrayList<String> neighborhood= new ArrayList<>((word.length() + 1) * (mutators.length + 2));
+		final ArrayList<String> neighborhood= new ArrayList<>((word.length() + 1) * (mutators.length + 2)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		neighborhood.add(hash);
 
 		final Set<RankedWordProposal> candidates= getCandidates(word, sentence, neighborhood);
@@ -369,7 +369,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 		char next= 0;
 
 		char[] characters= word.toCharArray();
-		for (int index= 0; index < word.length() - 1; index++) {
+		for (int index= 0; index < word.length() - 1; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			next= characters[index];
 			previous= characters[index + 1];
@@ -383,14 +383,14 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 			characters[index + 1]= previous;
 		}
 
-		final String sentinel= word + " "; //$NON-NLS-1$
+		final String sentinel= word + " "; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		characters= sentinel.toCharArray();
 		int offset= characters.length - 1;
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
-			for (char mutator : mutators) {
+			for (char mutator : mutators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				characters[offset]= mutator;
 				neighborhood.add(fHashProvider.getHash(new String(characters)));
@@ -406,10 +406,10 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 		char mutated= 0;
 		characters= word.toCharArray();
 
-		for (int index= 0; index < word.length(); index++) {
+		for (int index= 0; index < word.length(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			mutated= characters[index];
-			for (char mutator2 : mutators) {
+			for (char mutator2 : mutators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				characters[index]= mutator2;
 				neighborhood.add(fHashProvider.getHash(new String(characters)));
@@ -425,7 +425,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 		next= characters[characters.length - 1];
 		offset= deleted.length;
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			neighborhood.add(fHashProvider.getHash(new String(characters)));
 			if (offset == 0)
@@ -464,7 +464,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 	 * @param word
 	 *                   The word to hash in the dictionary
 	 */
-	protected final void hashWord(final String word) {
+	protected final void hashWord(final String word) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final String hash= fHashProvider.getHash(word);
 		ByteArrayWrapper hashBytes;
@@ -487,7 +487,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 				ArrayList<byte[]> bucketList= (ArrayList<byte[]>)bucket;
 				bucketList.add(wordBytes);
 			} else {
-				ArrayList<Object> list= new ArrayList<>(BUCKET_CAPACITY);
+				ArrayList<Object> list= new ArrayList<>(BUCKET_CAPACITY); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				list.add(bucket);
 				list.add(wordBytes);
 				fHashBuckets.put(hashBytes, list);
@@ -495,7 +495,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public boolean isCorrect(String word) {
 		word= stripNonLetters(word);
@@ -531,7 +531,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 					return true;
 				return false;
 			}
-			candidateList= new ArrayList<>((ArrayList<byte[]>)candidates);
+			candidateList= new ArrayList<>((ArrayList<byte[]>)candidates); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		byte[] wordBytes;
 		byte[] lowercaseWordBytes;
@@ -542,7 +542,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 			JavaPlugin.log(e);
 			return false;
 		}
-		for (byte[] candidate : candidateList) {
+		for (byte[] candidate : candidateList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Arrays.equals(candidate, wordBytes) || Arrays.equals(candidate, lowercaseWordBytes)) {
 				return true;
 			}
@@ -571,12 +571,12 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 
 		int i= 0;
 		int j= word.length() - 1;
-		while (i <= j && !Character.isLetter(word.charAt(i)))
+		while (i <= j && !Character.isLetter(word.charAt(i))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 		if (i > j)
 			return ""; //$NON-NLS-1$
 
-		while (j > i && !Character.isLetter(word.charAt(j)))
+		while (j > i && !Character.isLetter(word.charAt(j))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			j--;
 
 		return word.substring(i, j+1);
@@ -595,7 +595,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 	 * @return <code>true</code> iff the word list could be loaded, <code>false</code>
 	 *               otherwise
 	 */
-	protected synchronized boolean load(final URL url) {
+	protected synchronized boolean load(final URL url) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 if (!fMustLoad)
 			 return fLoaded;
 
@@ -614,7 +614,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 					try (final BufferedReader reader= new BufferedReader(new InputStreamReader(stream, decoder))) {
 
 						boolean doRead= true;
-						while (doRead) {
+						while (doRead) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							try {
 								word= reader.readLine();
 							} catch (MalformedInputException ex) {
@@ -677,7 +677,7 @@ public abstract class AbstractSpellDictionary implements ISpellDictionary {
 	private void compact() {
 		synchronized(fHashBuckets) {
 			Iterator<Object> iter= fHashBuckets.values().iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= iter.next();
 				if (element instanceof ArrayList)
 					((ArrayList<?>)element).trimToSize();

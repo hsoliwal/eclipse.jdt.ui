@@ -60,7 +60,7 @@ public class CompilationUnitEditorActionContributor extends BasicCompilationUnit
 	/*
 	 * @see IEditorActionBarContributor#setActiveEditor(IEditorPart)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setActiveEditor(IEditorPart part) {
 		super.setActiveEditor(part);
 

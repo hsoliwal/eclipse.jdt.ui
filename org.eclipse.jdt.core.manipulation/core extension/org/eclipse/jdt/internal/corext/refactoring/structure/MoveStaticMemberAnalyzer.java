@@ -66,7 +66,7 @@ import org.eclipse.jdt.internal.corext.refactoring.util.JavaStatusContext;
 		fMembers= members;
 		fSource= source;
 		fTarget= target;
-		fProcessed= new HashSet<>();
+		fProcessed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	public RefactoringStatus getStatus() {
@@ -159,7 +159,7 @@ import org.eclipse.jdt.internal.corext.refactoring.util.JavaStatusContext;
 		fProcessed.add(node.getName());
 	}
 
-	private void rewriteName(Name name, ITypeBinding type) {
+	private void rewriteName(Name name, ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST creator= name.getAST();
 		boolean fullyQualified= false;
 		if (name instanceof QualifiedName) {
@@ -211,7 +211,7 @@ import org.eclipse.jdt.internal.corext.refactoring.util.JavaStatusContext;
 	protected boolean isMovedMember(IBinding binding) {
 		if (binding == null)
 			return false;
-		for (IBinding member : fMembers) {
+		for (IBinding member : fMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Bindings.equalDeclarations(member, binding))
 				return true;
 		}

@@ -158,7 +158,7 @@ public class JavaElementLabelComposerCore {
 	 * @param element the element to render
 	 * @param flags the rendering flags.
 	 */
-	public void appendElementLabel(IJavaElement element, long flags) {
+	public void appendElementLabel(IJavaElement element, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int type= element.getElementType();
 		IPackageFragmentRoot root= null;
 
@@ -242,7 +242,7 @@ public class JavaElementLabelComposerCore {
 	 * @param method the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'M_' are considered.
 	 */
-	public void appendMethodLabel(IMethod method, long flags) {
+	public void appendMethodLabel(IMethod method, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			BindingKey resolvedKey= getFlag(flags, JavaElementLabelsCore.USE_RESOLVED) && method.isResolved() ? new BindingKey(method.getKey()) : null;
 			String resolvedSig= (resolvedKey != null) ? resolvedKey.toSignature() : null;
@@ -303,7 +303,7 @@ public class JavaElementLabelComposerCore {
 		}
 	}
 
-	protected void appendMethodPrependedTypeParams(IMethod method, long flags, BindingKey resolvedKey, String resolvedSignature) throws JavaModelException {
+	protected void appendMethodPrependedTypeParams(IMethod method, long flags, BindingKey resolvedKey, String resolvedSignature) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resolvedKey != null) {
 			if (resolvedKey.isParameterizedMethod()) {
 				String[] typeArgRefs= resolvedKey.getTypeArguments();
@@ -364,7 +364,7 @@ public class JavaElementLabelComposerCore {
 		fBuffer.append(')');
 	}
 
-	protected void appendMethodParamsList(IMethod method, long flags, String resolvedSignature) throws JavaModelException {
+	protected void appendMethodParamsList(IMethod method, long flags, String resolvedSignature) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] declaredParameterTypes= method.getParameterTypes();
 		String[] types= null;
 		int nParams= 0;
@@ -415,18 +415,18 @@ public class JavaElementLabelComposerCore {
 			annotatedParameters= method.getParameters();
 		}
 
-		for (int i= 0; i < nParams; i++) {
+		for (int i= 0; i < nParams; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IAnnotation[] annotations= null;
 			if (annotatedParameters != null && i < annotatedParameters.length) {
 				annotations= annotatedParameters[i].getAnnotations();
 			}
 			String type= types == null ? null : types[i];
-			String name= names == null ? null : (isPolymorphic ? names[0] + i : names[i]);
+			String name= names == null ? null : (isPolymorphic ? names[0] + i : names[i]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			appendMethodParam(method, flags, annotations, type, name, renderVarargs, (i == nParams - 1));
 		}
 	}
 
-	protected void appendMethodParam(IMethod method, long flags, IAnnotation[] annotations, String paramSignature, String name, boolean renderVarargs, boolean isLast) throws JavaModelException {
+	protected void appendMethodParam(IMethod method, long flags, IAnnotation[] annotations, String paramSignature, String name, boolean renderVarargs, boolean isLast) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (annotations != null) {
 			appendAnnotationLabels(annotations, flags);
 		}
@@ -435,7 +435,7 @@ public class JavaElementLabelComposerCore {
 			if (renderVarargs && isLast) {
 				int newDim= Signature.getArrayCount(paramSignature) - 1;
 				appendMethodParamTypeSignature(method, flags, Signature.getElementType(paramSignature));
-				for (int k= 0; k < newDim; k++) {
+				for (int k= 0; k < newDim; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fBuffer.append('[').append(']');
 				}
 				fBuffer.append(JavaElementLabelsCore.ELLIPSIS_STRING);
@@ -471,7 +471,7 @@ public class JavaElementLabelComposerCore {
 		}
 		if (types.length > 0) {
 			fBuffer.append(" throws "); //$NON-NLS-1$
-			for (int i= 0; i < types.length; i++) {
+			for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					fBuffer.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -480,7 +480,7 @@ public class JavaElementLabelComposerCore {
 		}
 	}
 
-	protected void appendMethodAppendedTypeParams(IMethod method, long flags, BindingKey resolvedKey, String resolvedSignature) throws JavaModelException {
+	protected void appendMethodAppendedTypeParams(IMethod method, long flags, BindingKey resolvedKey, String resolvedSignature) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int offset= fBuffer.length();
 		if (resolvedKey != null) {
 			if (resolvedKey.isParameterizedMethod()) {
@@ -534,13 +534,13 @@ public class JavaElementLabelComposerCore {
 
 
 	protected void appendAnnotationLabels(IAnnotation[] annotations, long flags) throws JavaModelException {
-		for (IAnnotation annotation : annotations) {
+		for (IAnnotation annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendAnnotationLabel(annotation, flags);
 			fBuffer.append(' ');
 		}
 	}
 
-	public void appendAnnotationLabel(IAnnotation annotation, long flags) throws JavaModelException {
+	public void appendAnnotationLabel(IAnnotation annotation, long flags) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBuffer.append('@');
 		appendTypeSignatureLabel(annotation, Signature.createTypeSignature(annotation.getElementName(), false), flags);
 		IMemberValuePair[] memberValuePairs= annotation.getMemberValuePairs();
@@ -548,7 +548,7 @@ public class JavaElementLabelComposerCore {
 			return;
 		}
 		fBuffer.append('(');
-		for (int i= 0; i < memberValuePairs.length; i++) {
+		for (int i= 0; i < memberValuePairs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
 				fBuffer.append(JavaElementLabelsCore.COMMA_STRING);
 			}
@@ -560,12 +560,12 @@ public class JavaElementLabelComposerCore {
 		fBuffer.append(')');
 	}
 
-	public void appendAnnotationValue(IAnnotation annotation, Object value, int valueKind, long flags) throws JavaModelException {
+	public void appendAnnotationValue(IAnnotation annotation, Object value, int valueKind, long flags) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Note: To be bug-compatible with Javadoc from Java 5/6/7, we currently don't escape HTML tags in String-valued annotations.
 		if (value instanceof Object[]) {
 			fBuffer.append('{');
 			Object[] values= (Object[]) value;
-			for (int j= 0; j < values.length; j++) {
+			for (int j= 0; j < values.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (j > 0) {
 					fBuffer.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -618,7 +618,7 @@ public class JavaElementLabelComposerCore {
 	protected void appendTypeParametersLabels(ITypeParameter[] typeParameters, long flags) throws JavaModelException {
 		if (typeParameters.length > 0) {
 			appendLT();
-			for (int i = 0; i < typeParameters.length; i++) {
+			for (int i = 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					fBuffer.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -634,7 +634,7 @@ public class JavaElementLabelComposerCore {
 	 * @param field the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'F_' are considered.
 	 */
-	public void appendFieldLabel(IField field, long flags) {
+	public void appendFieldLabel(IField field, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 
 			if (getFlag(flags, JavaElementLabelsCore.F_PRE_TYPE_SIGNATURE) && field.exists() && !Flags.isEnum(field.getFlags())) {
@@ -691,7 +691,7 @@ public class JavaElementLabelComposerCore {
 	 * @param localVariable the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'F_' are considered.
 	 */
-	public void appendLocalVariableLabel(ILocalVariable localVariable, long flags) {
+	public void appendLocalVariableLabel(ILocalVariable localVariable, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getFlag(flags, JavaElementLabelsCore.F_PRE_TYPE_SIGNATURE)) {
 			appendTypeSignatureLabel(localVariable, localVariable.getTypeSignature(), flags);
 			fBuffer.append(' ');
@@ -750,7 +750,7 @@ public class JavaElementLabelComposerCore {
 			if (bounds.length > 0 &&
 					(bounds.length != 1 || !"Ljava.lang.Object;".equals(bounds[0]))) { //$NON-NLS-1$
 				fBuffer.append(" extends "); //$NON-NLS-1$
-				for (int j= 0; j < bounds.length; j++) {
+				for (int j= 0; j < bounds.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (j > 0) {
 						fBuffer.append(" & "); //$NON-NLS-1$
 					}
@@ -766,7 +766,7 @@ public class JavaElementLabelComposerCore {
 	 * @param initializer the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'I_' are considered.
 	 */
-	public void appendInitializerLabel(IInitializer initializer, long flags) {
+	public void appendInitializerLabel(IInitializer initializer, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// qualification
 		if (getFlag(flags, JavaElementLabelsCore.I_FULLY_QUALIFIED)) {
 			appendTypeLabel(initializer.getDeclaringType(), JavaElementLabelsCore.T_FULLY_QUALIFIED | (flags & QUALIFIER_FLAGS));
@@ -785,7 +785,7 @@ public class JavaElementLabelComposerCore {
 		}
 	}
 
-	protected void appendTypeSignatureLabel(IJavaElement enclosingElement, String typeSig, long flags) {
+	protected void appendTypeSignatureLabel(IJavaElement enclosingElement, String typeSig, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int sigKind= Signature.getTypeSignatureKind(typeSig);
 		switch (sigKind) {
 			case Signature.BASE_TYPE_SIGNATURE:
@@ -793,7 +793,7 @@ public class JavaElementLabelComposerCore {
 				break;
 			case Signature.ARRAY_TYPE_SIGNATURE:
 				appendTypeSignatureLabel(enclosingElement, Signature.getElementType(typeSig), flags);
-				for (int dim= Signature.getArrayCount(typeSig); dim > 0; dim--) {
+				for (int dim= Signature.getArrayCount(typeSig); dim > 0; dim--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fBuffer.append('[').append(']');
 				}
 				break;
@@ -841,7 +841,7 @@ public class JavaElementLabelComposerCore {
 	}
 
 	private void appendTypeBoundsSignaturesLabel(IJavaElement enclosingElement, String[] typeArgsSig, long flags, boolean isIntersection) {
-		for (int i = 0; i < typeArgsSig.length; i++) {
+		for (int i = 0; i < typeArgsSig.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0) {
 				if (isIntersection) {
 					fBuffer.append(" & "); //$NON-NLS-1$
@@ -881,7 +881,7 @@ public class JavaElementLabelComposerCore {
 	protected void appendTypeArgumentSignaturesLabel(IJavaElement enclosingElement, String[] typeArgsSig, long flags) {
 		if (typeArgsSig.length > 0) {
 			appendLT();
-			for (int i = 0; i < typeArgsSig.length; i++) {
+			for (int i = 0; i < typeArgsSig.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					fBuffer.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -900,7 +900,7 @@ public class JavaElementLabelComposerCore {
 	protected void appendTypeParameterSignaturesLabel(String[] typeParamSigs, long flags) {
 		if (typeParamSigs.length > 0) {
 			appendLT();
-			for (int i = 0; i < typeParamSigs.length; i++) {
+			for (int i = 0; i < typeParamSigs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					fBuffer.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -957,7 +957,7 @@ public class JavaElementLabelComposerCore {
 	 * @param type the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'T_' are considered.
 	 */
-	public void appendTypeLabel(IType type, long flags) {
+	public void appendTypeLabel(IType type, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (getFlag(flags, JavaElementLabelsCore.T_FULLY_QUALIFIED)) {
 			IPackageFragment pack= type.getPackageFragment();
@@ -987,7 +987,7 @@ public class JavaElementLabelComposerCore {
 			try {
 				String[] superInterfaceSignatures= type.getSuperInterfaceTypeSignatures();
 				if (superInterfaceSignatures.length > 0) {
-					typeName= typeName + ' ' + getSimpleTypeName(type, superInterfaceSignatures[0]);
+					typeName= typeName + ' ' + getSimpleTypeName(type, superInterfaceSignatures[0]); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} catch (JavaModelException e) {
 				//ignore
@@ -1004,7 +1004,7 @@ public class JavaElementLabelComposerCore {
 			if (isAnonymous) {
 				try {
 					if (parent instanceof IField && type.isEnum()) {
-						typeName= '{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}';
+						typeName= '{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else {
 						String supertypeName= null;
 						String[] superInterfaceSignatures= type.getSuperInterfaceTypeSignatures();
@@ -1068,7 +1068,7 @@ public class JavaElementLabelComposerCore {
 				String tqn= type.getTypeQualifiedName();
 				int lastDollar= tqn.lastIndexOf('$');
 				if (lastDollar != 1) {
-					String declaringTypeCF= tqn.substring(0, lastDollar) + ".class"; //$NON-NLS-1$
+					String declaringTypeCF= tqn.substring(0, lastDollar) + ".class"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					declaringType= type.getPackageFragment().getOrdinaryClassFile(declaringTypeCF).getType();
 					try {
 						ISourceRange typeSourceRange= type.getSourceRange();
@@ -1120,7 +1120,7 @@ public class JavaElementLabelComposerCore {
 	 * @param declaration the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'D_' are considered.
 	 */
-	public void appendDeclarationLabel(IJavaElement declaration, long flags) {
+	public void appendDeclarationLabel(IJavaElement declaration, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getFlag(flags, JavaElementLabelsCore.D_QUALIFIED)) {
 			IJavaElement openable= (IJavaElement) declaration.getOpenable();
 			if (openable != null) {
@@ -1153,7 +1153,7 @@ public class JavaElementLabelComposerCore {
 	 * @param classFile the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'CF_' are considered.
 	 */
-	public void appendClassFileLabel(IClassFile classFile, long flags) {
+	public void appendClassFileLabel(IClassFile classFile, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getFlag(flags, JavaElementLabelsCore.CF_QUALIFIED)) {
 			IPackageFragment pack= (IPackageFragment) classFile.getParent();
 			if (!pack.isDefaultPackage()) {
@@ -1179,7 +1179,7 @@ public class JavaElementLabelComposerCore {
 	 * @param cu the element to render
 	 * @param flags the rendering flags. Flags with names starting with 'CU_' are considered.
 	 */
-	public void appendCompilationUnitLabel(ICompilationUnit cu, long flags) {
+	public void appendCompilationUnitLabel(ICompilationUnit cu, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getFlag(flags, JavaElementLabelsCore.CU_QUALIFIED)) {
 			IPackageFragment pack= (IPackageFragment) cu.getParent();
 			if (!pack.isDefaultPackage()) {
@@ -1205,7 +1205,7 @@ public class JavaElementLabelComposerCore {
 	 * @param pack the element to render
 	 * @param flags the rendering flags. Flags with names starting with P_' are considered.
 	 */
-	public void appendPackageFragmentLabel(IPackageFragment pack, long flags) {
+	public void appendPackageFragmentLabel(IPackageFragment pack, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getFlag(flags, JavaElementLabelsCore.P_QUALIFIED)) {
 			appendPackageFragmentRootLabel((IPackageFragmentRoot) pack.getParent(), JavaElementLabelsCore.ROOT_QUALIFIED);
 			fBuffer.append('/');
@@ -1242,7 +1242,7 @@ public class JavaElementLabelComposerCore {
 		// core does nothing for this
 	}
 
-	protected void appendCompressedPackageFragment(String elementName) {
+	protected void appendCompressedPackageFragment(String elementName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		refreshPackageNamePattern();
 		if (fgPkgNameLength < 0) {
 			fBuffer.append(elementName);
@@ -1251,7 +1251,7 @@ public class JavaElementLabelComposerCore {
 		String name= elementName;
 		int start= 0;
 		int dot= name.indexOf('.', start);
-		while (dot > 0) {
+		while (dot > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (dot - start > fgPkgNameLength-1) {
 				fBuffer.append(fgPkgNamePrefix);
 				if (fgPkgNameChars > 0)
@@ -1310,7 +1310,7 @@ public class JavaElementLabelComposerCore {
 		}
 	}
 
-	private boolean appendVariableLabel(IPackageFragmentRoot root, long flags) {
+	private boolean appendVariableLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IClasspathEntry rawEntry= root.getRawClasspathEntry();
 			if (rawEntry.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
@@ -1350,7 +1350,7 @@ public class JavaElementLabelComposerCore {
 		return false;
 	}
 
-	private void appendExternalArchiveLabel(IPackageFragmentRoot root, long flags) {
+	private void appendExternalArchiveLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path;
 		IClasspathEntry classpathEntry= null;
 		try {
@@ -1386,7 +1386,7 @@ public class JavaElementLabelComposerCore {
 		}
 	}
 
-	private void appendInternalArchiveLabel(IPackageFragmentRoot root, long flags) {
+	private void appendInternalArchiveLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= root.getResource();
 		boolean rootQualified= getFlag(flags, JavaElementLabelsCore.ROOT_QUALIFIED);
 		if (rootQualified) {
@@ -1414,7 +1414,7 @@ public class JavaElementLabelComposerCore {
 		}
 	}
 
-	private void appendFolderLabel(IPackageFragmentRoot root, long flags) {
+	private void appendFolderLabel(IPackageFragmentRoot root, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= root.getResource();
 		if (resource == null) {
 			appendExternalArchiveLabel(root, flags);

@@ -119,7 +119,7 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 	 *
 	 * value: {@link AppendMethodInformation} - information about corresponding method
 	 */
-	private HashMap<String, AppendMethodInformation> appendMethodSpecificTypes= new HashMap<>();
+	private HashMap<String, AppendMethodInformation> appendMethodSpecificTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	@Override
 	public RefactoringStatus checkConditions() {
@@ -142,7 +142,7 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 		tidyAppendsMethodsMap();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public MethodDeclaration generateToStringMethod() throws CoreException {
 		initialize();
 
@@ -162,7 +162,7 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 		/* expression for accumulating chained calls */
 		Expression expression= null;
 
-		for (int i= 0; i < getContext().getSelectedMembers().length; i++) {
+		for (int i= 0; i < getContext().getSelectedMembers().length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			//builder.append("member", member);
 			MethodInvocation appendInvocation= createAppendMethodForMember(getContext().getSelectedMembers()[i]);
 			if (getContext().isSkipNulls() && !getMemberType(getContext().getSelectedMembers()[i]).isPrimitive()) {
@@ -207,12 +207,12 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 	 * Searches through methods with proper name and for each argument type remembers the best
 	 * option
 	 */
-	private void fillAppendMethodsMap() {
+	private void fillAppendMethodsMap() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaProject javaProject= getContext().getTypeBinding().getJavaElement().getJavaProject();
 			IType type= javaProject.findType(getContext().getCustomBuilderClass());
-			for (IType type2 : type.newSupertypeHierarchy(null).getAllClasses()) {
-				for (IMethod method : type2.getMethods()) {
+			for (IType type2 : type.newSupertypeHierarchy(null).getAllClasses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IMethod method : type2.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!Flags.isPublic(method.getFlags()) || !method.getElementName().equals(getContext().getCustomBuilderAppendMethod()))
 						continue;
 					String[] parameterTypes= method.getParameterTypes();
@@ -261,7 +261,7 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 	private void tidyAppendsMethodsMap() {
 		int objectParametersType= appendMethodSpecificTypes.get("java.lang.Object").methodType; //$NON-NLS-1$
 		Set<Map.Entry<String, AppendMethodInformation>> entrySet= appendMethodSpecificTypes.entrySet();
-		for (Iterator<Map.Entry<String, AppendMethodInformation>> iterator= entrySet.iterator(); iterator.hasNext();) {
+		for (Iterator<Map.Entry<String, AppendMethodInformation>> iterator= entrySet.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Map.Entry<String, AppendMethodInformation> entry= iterator.next();
 			if (entry.getValue().methodType < objectParametersType) {
 				iterator.remove();
@@ -269,7 +269,7 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 		}
 	}
 
-	private MethodInvocation createAppendMethodForMember(Object member) {
+	private MethodInvocation createAppendMethodForMember(Object member) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding memberType= getMemberType(member);
 		String memberTypeName= memberType.getQualifiedName();
 
@@ -279,7 +279,7 @@ public class CustomBuilderGenerator extends AbstractToStringGenerator {
 			memberType= fAst.resolveWellKnownType(memberTypeName);
 			ami= appendMethodSpecificTypes.get(memberTypeName);
 		}
-		while (ami == null) {
+		while (ami == null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding oldMemberType= memberType;
 			memberType= oldMemberType.getSuperclass();
 			if (memberType != null)

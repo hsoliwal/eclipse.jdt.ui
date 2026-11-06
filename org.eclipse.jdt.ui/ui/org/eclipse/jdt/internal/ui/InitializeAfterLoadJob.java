@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.jdt.ui.JavaUI;
 
-public class InitializeAfterLoadJob extends UIJob {
+public class InitializeAfterLoadJob extends UIJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private final static class RealJob extends Job {
 		public RealJob(String name) {

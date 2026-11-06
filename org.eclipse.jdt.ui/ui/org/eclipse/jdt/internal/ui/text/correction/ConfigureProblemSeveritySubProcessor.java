@@ -39,15 +39,15 @@ public class ConfigureProblemSeveritySubProcessor {
 		return JavaCore.getOptionForConfigurableSeverity(problemId) != null;
 	}
 
-	public static void addConfigureProblemSeverityProposal(final IInvocationContext context, final IProblemLocation problem, Collection<ICommandAccess> proposals) {
+	public static void addConfigureProblemSeverityProposal(final IInvocationContext context, final IProblemLocation problem, Collection<ICommandAccess> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int problemId= problem.getProblemId();
 
 		String optionId= JavaCore.getOptionForConfigurableSeverity(problemId);
 		if (optionId == null)
 			return;
 
-		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(CorrectionMessages.ConfigureProblemSeveritySubProcessor_name, null, IProposalRelevance.CONFIGURE_PROBLEM_SEVERITY,
-				JavaPluginImages.get(JavaPluginImages.IMG_CONFIGURE_PROBLEM_SEVERITIES)) {
+		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(CorrectionMessages.ConfigureProblemSeveritySubProcessor_name, null, IProposalRelevance.CONFIGURE_PROBLEM_SEVERITY, //FLLDCIM: MARK — T30  ANONYMOUS
+				JavaPluginImages.get(JavaPluginImages.IMG_CONFIGURE_PROBLEM_SEVERITIES)) { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 
 			@Override
@@ -69,7 +69,7 @@ public class ConfigureProblemSeveritySubProcessor {
 			@Override
 			public String getAdditionalProposalInfo(IProgressMonitor monitor) {
 				String problemMsg= ""; //$NON-NLS-1$
-				for (IProblem iProblem : context.getASTRoot().getProblems()) {
+				for (IProblem iProblem : context.getASTRoot().getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (problem.getProblemId() == iProblem.getID()
 							&& problem.getOffset() == iProblem.getSourceStart()
 							&& problem.getLength() == iProblem.getSourceEnd() - iProblem.getSourceStart() + 1) {

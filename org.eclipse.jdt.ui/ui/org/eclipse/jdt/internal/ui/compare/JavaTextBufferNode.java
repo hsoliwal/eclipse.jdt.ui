@@ -85,7 +85,7 @@ class JavaTextBufferNode implements ITypedElement, IEncodedStreamContentAccessor
 		return fFile;
 	}
 
-	static final ITypedElement[] buildEditions(ITypedElement target, IFile file) {
+	static final ITypedElement[] buildEditions(ITypedElement target, IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// setup array of editions
 		IFileState[] states= null;
@@ -103,7 +103,7 @@ class JavaTextBufferNode implements ITypedElement, IEncodedStreamContentAccessor
 		ITypedElement[] editions= new ITypedElement[count];
 		editions[0]= new ResourceNode(file);
 		if (states != null)
-			for (int i= 0; i < states.length; i++)
+			for (int i= 0; i < states.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				editions[i+1]= new HistoryItem(target, states[i]);
 		return editions;
 	}
@@ -112,7 +112,7 @@ class JavaTextBufferNode implements ITypedElement, IEncodedStreamContentAccessor
 	 * Returns the corresponding place holder type for the given element.
 	 * @return a place holder type (see ASTRewrite) or -1 if there is no corresponding placeholder
 	 */
-	static final int getPlaceHolderType(ITypedElement element) {
+	static final int getPlaceHolderType(ITypedElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (element instanceof DocumentRangeNode) {
 			JavaNode jn= (JavaNode) element;

@@ -113,7 +113,7 @@ public class ProblemTableViewer extends TableViewer implements ResourceToItemsMa
 	/*
 	 * @see ContentViewer#handleLabelProviderChanged(LabelProviderChangedEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleLabelProviderChanged(LabelProviderChangedEvent event) {
 		if (event instanceof ProblemsLabelChangedEvent) {
 			ProblemsLabelChangedEvent e= (ProblemsLabelChangedEvent) event;
@@ -124,8 +124,8 @@ public class ProblemTableViewer extends TableViewer implements ResourceToItemsMa
 
 		Object[] changed= event.getElements();
 		if (changed != null && !fResourceToItemsMapper.isEmpty()) {
-			ArrayList<Object> others= new ArrayList<>(changed.length);
-			for (Object curr : changed) {
+			ArrayList<Object> others= new ArrayList<>(changed.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object curr : changed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof IResource) {
 					fResourceToItemsMapper.resourceChanged((IResource) curr);
 				} else {

@@ -78,13 +78,13 @@ public class TextPerformanceTestCase extends TestCase {
 	private static final String OVERRIDE_MEASURED_RUNS_OPTION= "/debug/performance/OverrideMeasuredRuns";
 
 	/** <code>true</code> iff the number of runs should be overridden */
-	private static final boolean OVERRIDE_RUNS= Boolean.toString(true).equals(Platform.getDebugOption(PLUGIN_ID + OVERRIDE_RUNS_OPTION));
+	private static final boolean OVERRIDE_RUNS= Boolean.toString(true).equals(Platform.getDebugOption(PLUGIN_ID + OVERRIDE_RUNS_OPTION)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** overridden number of warm-up runs */
-	private static final int OVERRIDE_WARM_UP_RUNS= intValueOf(Platform.getDebugOption(PLUGIN_ID + OVERRIDE_WARM_UP_RUNS_OPTION), 2);
+	private static final int OVERRIDE_WARM_UP_RUNS= intValueOf(Platform.getDebugOption(PLUGIN_ID + OVERRIDE_WARM_UP_RUNS_OPTION), 2); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** overridden number of measured runs */
-	private static final int OVERRIDE_MEASURED_RUNS= intValueOf(Platform.getDebugOption(PLUGIN_ID + OVERRIDE_MEASURED_RUNS_OPTION), 2);
+	private static final int OVERRIDE_MEASURED_RUNS= intValueOf(Platform.getDebugOption(PLUGIN_ID + OVERRIDE_MEASURED_RUNS_OPTION), 2); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** custom number of warm-up runs */
 	private int fCustomWarmUpRuns= -1;
@@ -128,7 +128,7 @@ public class TextPerformanceTestCase extends TestCase {
 		EditorsUI.getPreferenceStore().putValue(SpellingService.PREFERENCE_SPELLING_ENABLED, IPreferenceStore.FALSE);
 
 		if (DEBUG)
-			System.out.println(DATE_FORMAT.format(Instant.now()) + ": " + getClass().getName() + "." + getName());
+			System.out.println(DATE_FORMAT.format(Instant.now()) + ": " + getClass().getName() + "." + getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*
@@ -139,7 +139,7 @@ public class TextPerformanceTestCase extends TestCase {
 		super.tearDown();
 		EditorsUI.getPreferenceStore().setToDefault(SpellingService.PREFERENCE_SPELLING_ENABLED);
 		if (fPerformanceMeters != null)
-			for (PerformanceMeter performanceMeter : fPerformanceMeters)
+			for (PerformanceMeter performanceMeter : fPerformanceMeters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				performanceMeter.dispose();
 
 //		if (DEBUG)
@@ -230,7 +230,7 @@ public class TextPerformanceTestCase extends TestCase {
 	 * @return the created performance meter
 	 */
 	protected final PerformanceMeter createPerformanceMeter(String subScenarioId) {
-		return internalCreatePerformanceMeter(getBaseScenarioId() + subScenarioId);
+		return internalCreatePerformanceMeter(getBaseScenarioId() + subScenarioId); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -326,7 +326,7 @@ public class TextPerformanceTestCase extends TestCase {
 	 * @return the created performance meter
 	 */
 	protected final InvocationCountPerformanceMeter createInvocationCountPerformanceMeter(String subScenarioId, Method[] methods) {
-		InvocationCountPerformanceMeter performanceMeter= new InvocationCountPerformanceMeter(getBaseScenarioId() + subScenarioId, methods);
+		InvocationCountPerformanceMeter performanceMeter= new InvocationCountPerformanceMeter(getBaseScenarioId() + subScenarioId, methods); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		addPerformanceMeter(performanceMeter);
 		return performanceMeter;
 	}
@@ -354,7 +354,7 @@ public class TextPerformanceTestCase extends TestCase {
 	 * @return the created performance meter
 	 */
 	protected final InvocationCountPerformanceMeter createInvocationCountPerformanceMeter(String subScenarioId, Constructor<?>[] constructors) {
-		InvocationCountPerformanceMeter performanceMeter= new InvocationCountPerformanceMeter(getBaseScenarioId() + subScenarioId, constructors);
+		InvocationCountPerformanceMeter performanceMeter= new InvocationCountPerformanceMeter(getBaseScenarioId() + subScenarioId, constructors); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		addPerformanceMeter(performanceMeter);
 		return performanceMeter;
 	}
@@ -365,7 +365,7 @@ public class TextPerformanceTestCase extends TestCase {
 	 */
 	protected final void commitAllMeasurements() {
 		if (fPerformanceMeters != null)
-			for (PerformanceMeter performanceMeter : fPerformanceMeters)
+			for (PerformanceMeter performanceMeter : fPerformanceMeters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				performanceMeter.commit();
 	}
 
@@ -389,7 +389,7 @@ public class TextPerformanceTestCase extends TestCase {
 	 */
 	protected final void assertAllPerformance() {
 		if (fPerformanceMeters != null)
-			for (PerformanceMeter performanceMeter : fPerformanceMeters)
+			for (PerformanceMeter performanceMeter : fPerformanceMeters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertPerformance(performanceMeter);
 	}
 
@@ -444,7 +444,7 @@ public class TextPerformanceTestCase extends TestCase {
 	 */
 	private void addPerformanceMeter(PerformanceMeter performanceMeter) {
 		if (fPerformanceMeters == null)
-			fPerformanceMeters= new ArrayList<>();
+			fPerformanceMeters= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fPerformanceMeters.add(performanceMeter);
 	}
 

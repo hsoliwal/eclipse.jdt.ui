@@ -35,7 +35,7 @@ public abstract class AbstractTypeVariable extends TType {
 			}
 		} else {
 			fBounds= new TType[bounds.length];
-			for (int i= 0; i < bounds.length; i++) {
+			for (int i= 0; i < bounds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fBounds[i]= getEnvironment().create(bounds[i]);
 			}
 		}
@@ -66,7 +66,7 @@ public abstract class AbstractTypeVariable extends TType {
 	protected final boolean checkAssignmentBound(TType rhs) {
 		if (fBounds.length == 0)
 			return true;
-		for (TType bound : fBounds) {
+		for (TType bound : fBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (rhs.canAssignTo(bound)) {
 				return true;
 			}
@@ -77,7 +77,7 @@ public abstract class AbstractTypeVariable extends TType {
 	protected final boolean canAssignOneBoundTo(TType lhs) {
 		if (fBounds.length == 0)
 			return lhs.isJavaLangObject();
-		for (TType bound : fBounds) {
+		for (TType bound : fBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bound.canAssignTo(lhs)) {
 				return true;
 			}

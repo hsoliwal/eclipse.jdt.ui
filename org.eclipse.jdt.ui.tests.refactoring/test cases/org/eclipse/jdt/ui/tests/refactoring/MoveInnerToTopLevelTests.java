@@ -72,7 +72,7 @@ public class MoveInnerToTopLevelTests extends GenericRefactoringTest {
 	public void before() throws Exception {
 		StubUtility.setCodeTemplate(CodeTemplateContextType.FIELDCOMMENT_ID, FIELD_COMMENT, null);
 		StubUtility.setCodeTemplate(CodeTemplateContextType.NEWTYPE_ID,
-			"${package_declaration}" +
+			"${package_declaration}" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.getProperty("line.separator", "\n") +
 			"${type_declaration}", null);
 
@@ -115,12 +115,12 @@ public class MoveInnerToTopLevelTests extends GenericRefactoringTest {
 		validatePassingTest(className, clas, cuNames, packageNames, enclosingInstanceName, makeFinal, possible, mandatory, createFieldIfPossible);
 	}
 
-	private void validatePassingTest(String className, IType clas, String[] cuNames, String[] packageNames, String enclosingInstanceName, boolean makeFinal, boolean possible, boolean mandatory, boolean createFieldIfPossible) throws JavaModelException, CoreException, Exception, IOException {
+	private void validatePassingTest(String className, IType clas, String[] cuNames, String[] packageNames, String enclosingInstanceName, boolean makeFinal, boolean possible, boolean mandatory, boolean createFieldIfPossible) throws JavaModelException, CoreException, Exception, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertTrue("should be enabled", RefactoringAvailabilityTester.isMoveInnerAvailable(clas));
 		MoveInnerToTopRefactoring ref= ((RefactoringAvailabilityTester.isMoveInnerAvailable(clas)) ? new MoveInnerToTopRefactoring(clas, JavaPreferencesSettings.getCodeGenerationSettings(clas.getJavaProject())) : null);
 		assertNotNull("Move to inner refactoring should be available", ref);
 		RefactoringStatus preconditionResult= ref.checkInitialConditions(new NullProgressMonitor());
-		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK());
+		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		assertEquals("reference creation possible", possible, ref.isCreatingInstanceFieldPossible());
 		assertEquals("reference creation mandatory", mandatory, ref.isCreatingInstanceFieldMandatory());
@@ -132,7 +132,7 @@ public class MoveInnerToTopLevelTests extends GenericRefactoringTest {
 		}
 		ref.setMarkInstanceFieldAsFinal(makeFinal);
 		ICompilationUnit[] cus= new ICompilationUnit[cuNames.length];
-		for (int i= 0; i < cuNames.length; i++) {
+		for (int i= 0; i < cuNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cuNames[i].equals(clas.getCompilationUnit().findPrimaryType().getElementName()))
 				cus[i]= clas.getCompilationUnit();
 			else
@@ -143,12 +143,12 @@ public class MoveInnerToTopLevelTests extends GenericRefactoringTest {
 		assertFalse("precondition was supposed to pass", checkInputResult.hasError());
 		performChange(ref, false);
 
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String actual= cus[i].getSource();
 			String expected= getFileContents(getOutputTestFileName(cuNames[i]));
 			assertEqualLines(cus[i].getElementName(), expected, actual);
 		}
-		ICompilationUnit newCu= clas.getPackageFragment().getCompilationUnit(className + ".java");
+		ICompilationUnit newCu= clas.getPackageFragment().getCompilationUnit(className + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String expected= getFileContents(getOutputTestFileName(className));
 		String actual= newCu.getSource();
 		assertEqualLines("new Cu:", expected, actual);
@@ -159,7 +159,7 @@ public class MoveInnerToTopLevelTests extends GenericRefactoringTest {
 		validatePassingTest(parentClassName, className, "p", cuNames, packageNames, enclosingInstanceName, false, possible, mandatory, true);
 	}
 
-	private void validateFailingTest(String parentClassName, String className, String[] cuNames, String[] packageNames, String enclosingInstanceName, int expectedSeverity) throws Exception {
+	private void validateFailingTest(String parentClassName, String className, String[] cuNames, String[] packageNames, String enclosingInstanceName, int expectedSeverity) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType parentClas= getClassFromTestFile(getPackageP(), parentClassName);
 		Thread.sleep(800); // its magic..
 		IType clas= parentClas.getType(className);
@@ -176,7 +176,7 @@ public class MoveInnerToTopLevelTests extends GenericRefactoringTest {
 		}
 		ref.setMarkInstanceFieldAsFinal(false);
 		ICompilationUnit[] cus= new ICompilationUnit[cuNames.length];
-		for (int i= 0; i < cuNames.length; i++) {
+		for (int i= 0; i < cuNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cuNames[i].equals(clas.getCompilationUnit().findPrimaryType().getElementName()))
 				cus[i]= clas.getCompilationUnit();
 			else

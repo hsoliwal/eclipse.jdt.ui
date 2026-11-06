@@ -53,16 +53,16 @@ public class ConvertToRecordTests extends GenericRefactoringTest {
 	}
 
 	protected String getSimpleTestFileName(boolean canConvert, boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canConvert)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	protected String getTestFileName(boolean canConvert, boolean input){
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canConvert ? "canConvert/": "cannotConvert/");
-		return fileName.append(getSimpleTestFileName(canConvert, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canConvert ? "canConvert/": "cannotConvert/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canConvert, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	protected ICompilationUnit createCUfromTestFile(IPackageFragment pack, boolean canConvert, boolean input) throws Exception {
@@ -84,7 +84,7 @@ public class ConvertToRecordTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect conversion", getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 

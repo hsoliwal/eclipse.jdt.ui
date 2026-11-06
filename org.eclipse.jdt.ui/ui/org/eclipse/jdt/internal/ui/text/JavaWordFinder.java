@@ -21,7 +21,7 @@ import org.eclipse.jface.text.Region;
 
 public class JavaWordFinder {
 
-	public static IRegion findWord(IDocument document, int offset) {
+	public static IRegion findWord(IDocument document, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int start= -2;
 		int end= -1;
@@ -30,7 +30,7 @@ public class JavaWordFinder {
 			int pos= offset;
 			char c;
 
-			while (pos >= 0) {
+			while (pos >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				c= document.getChar(pos);
 				if (!Character.isJavaIdentifierPart(c) && !Character.isSurrogate(c)) {
 					break;
@@ -42,7 +42,7 @@ public class JavaWordFinder {
 			pos= offset;
 			int length= document.getLength();
 
-			while (pos < length) {
+			while (pos < length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				c= document.getChar(pos);
 				if (!Character.isJavaIdentifierPart(c) && !Character.isSurrogate(c)) {
 					break;

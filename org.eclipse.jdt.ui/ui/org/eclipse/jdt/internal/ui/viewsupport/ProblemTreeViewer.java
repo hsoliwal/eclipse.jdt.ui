@@ -118,7 +118,7 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 		if (filter instanceof JavaViewerFilter) {
 			((JavaViewerFilter) filter).filteringStart();
 		}
-		super.addFilter(filter);
+		super.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	@Override
@@ -132,13 +132,13 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 	@Override
 	public void setFilters(ViewerFilter... filters) {
 		ViewerFilter[] oldFilters= getFilters();
-		for (ViewerFilter curr : filters) {
+		for (ViewerFilter curr : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof JavaViewerFilter && !findAndRemove(oldFilters, curr)) {
 				((JavaViewerFilter) curr).filteringStart();
 			}
 		}
     	endFilterSessions(oldFilters);
-		super.setFilters(filters);
+		super.setFilters(filters); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 	}
 
 	private boolean findAndRemove(ViewerFilter[] filters, ViewerFilter filter) {
-		for (int i= 0; i < filters.length; i++) {
+		for (int i= 0; i < filters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (filters[i] == filter) {
 				filters[i]= null;
 				return true;
@@ -158,7 +158,7 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 	}
 
 	private void endFilterSessions(ViewerFilter[] filters) {
-		for (ViewerFilter curr : filters) {
+		for (ViewerFilter curr : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof JavaViewerFilter) {
 				((JavaViewerFilter) curr).filteringEnd();
 			}
@@ -175,7 +175,7 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 	/*
 	 * @see ContentViewer#handleLabelProviderChanged(LabelProviderChangedEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handleLabelProviderChanged(LabelProviderChangedEvent event) {
 		if (event instanceof ProblemsLabelChangedEvent) {
 			ProblemsLabelChangedEvent e= (ProblemsLabelChangedEvent) event;
@@ -186,8 +186,8 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 		Object[] changed= addAditionalProblemParents(event.getElements());
 
 		if (changed != null && !fResourceToItemsMapper.isEmpty()) {
-			ArrayList<Object> others= new ArrayList<>();
-			for (Object curr : changed) {
+			ArrayList<Object> others= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object curr : changed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof IResource) {
 					fResourceToItemsMapper.resourceChanged((IResource) curr);
 				} else {
@@ -255,9 +255,9 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 		if (!hasFilters() || elements.length == 0) {
 			return elements;
 		}
-		List<Object> list= new ArrayList<>(elements.length);
+		List<Object> list= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ViewerFilter[] filters = getFilters();
-		for (Object object : elements) {
+		for (Object object : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isFiltered(object, parent, filters)) {
 				list.add(object);
 			}
@@ -273,7 +273,7 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 			return true;
 		}
 		ViewerFilter[] filters = getFilters();
-		for (Object object : elements) {
+		for (Object object : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isFiltered(object, parent, filters)) {
 				return true;
 			}
@@ -291,7 +291,7 @@ public class ProblemTreeViewer extends TreeViewer implements ResourceToItemsMapp
 	 * @return true if the element is filtered
 	 */
 	protected boolean isFiltered(Object object, Object parent, ViewerFilter[] filters) {
-		for (ViewerFilter filter : filters) {
+		for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!filter.select(this, parent, object))
 				return true;
 		}

@@ -141,18 +141,18 @@ public class AnnotationExpandHover implements IAnnotationHover, IAnnotationHover
 		return null;
 	}
 
-	protected Object getHoverInfoForLine(ISourceViewer viewer, int line) {
+	protected Object getHoverInfoForLine(ISourceViewer viewer, int line) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAnnotationModel model= viewer.getAnnotationModel();
 		IDocument document= viewer.getDocument();
 
 		if (model == null)
 			return null;
 
-		List<Annotation> exact= new ArrayList<>();
-		HashMap<Position, Object> messagesAtPosition= new HashMap<>();
+		List<Annotation> exact= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashMap<Position, Object> messagesAtPosition= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		Iterator<Annotation> e= model.getAnnotationIterator();
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annotation= e.next();
 			Position position= model.getPosition(annotation);
 			if (position == null)
@@ -185,7 +185,7 @@ public class AnnotationExpandHover implements IAnnotationHover, IAnnotationHover
 		return input;
 	}
 
-	protected void sort(List<Annotation> exact, final IAnnotationModel model) {
+	protected void sort(List<Annotation> exact, final IAnnotationModel model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class AnnotationComparator implements Comparator<Annotation> {
 
 			/*
@@ -205,7 +205,7 @@ public class AnnotationExpandHover implements IAnnotationHover, IAnnotationHover
 			}
 		}
 
-		Collections.sort(exact, new AnnotationComparator());
+		Collections.sort(exact, new AnnotationComparator()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 	}
 
@@ -217,7 +217,7 @@ public class AnnotationExpandHover implements IAnnotationHover, IAnnotationHover
 		return IAnnotationAccessExtension.DEFAULT_LAYER;
 	}
 
-	protected boolean isDuplicateMessage(Map<Position, Object> messagesAtPosition, Position position, String message) {
+	protected boolean isDuplicateMessage(Map<Position, Object> messagesAtPosition, Position position, String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (message == null)
 			return false;
 
@@ -233,7 +233,7 @@ public class AnnotationExpandHover implements IAnnotationHover, IAnnotationHover
 					return true;
 				messages.add(message);
 			} else {
-				ArrayList<Object> messages= new ArrayList<>();
+				ArrayList<Object> messages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				messages.add(value);
 				messages.add(message);
 				messagesAtPosition.put(position, messages);
@@ -243,7 +243,7 @@ public class AnnotationExpandHover implements IAnnotationHover, IAnnotationHover
 		return false;
 	}
 
-	protected void setLastRulerMouseLocation(ISourceViewer viewer, int line) {
+	protected void setLastRulerMouseLocation(ISourceViewer viewer, int line) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// set last mouse activity in order to get the correct context menu
 		if (fCompositeRuler != null) {
 			StyledText st= viewer.getTextWidget();

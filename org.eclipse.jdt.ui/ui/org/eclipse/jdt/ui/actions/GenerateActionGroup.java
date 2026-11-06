@@ -164,7 +164,7 @@ public class GenerateActionGroup extends ActionGroup {
 	 *
 	 * @noreference This constructor is not intended to be referenced by clients.
 	 */
-	public GenerateActionGroup(CompilationUnitEditor editor, String groupName) {
+	public GenerateActionGroup(CompilationUnitEditor editor, String groupName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSite= editor.getSite();
 		fSelectionProvider= fSite.getSelectionProvider();
 		fEditor= editor;
@@ -267,7 +267,7 @@ public class GenerateActionGroup extends ActionGroup {
 	 *
 	 * @since 3.4
 	 */
-	public GenerateActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) {
+	public GenerateActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSite= site;
 		fSelectionProvider= selectionProvider == null ? fSite.getSelectionProvider() : selectionProvider;
 		ISelection selection= fSelectionProvider.getSelection();
@@ -364,7 +364,7 @@ public class GenerateActionGroup extends ActionGroup {
 				fCleanUp
 		};
 
-		for (SelectionDispatchAction action : actions) {
+		for (SelectionDispatchAction action : actions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			registerSelectionListener(fSelectionProvider, action);
 			if (selectionProvider != null) {
 				action.setSpecialSelectionProvider(fSelectionProvider);
@@ -389,8 +389,8 @@ public class GenerateActionGroup extends ActionGroup {
 
 	private void registerSelectionListener(ISelectionProvider provider, ISelectionChangedListener listener) {
 		if (fRegisteredSelectionListeners == null)
-			fRegisteredSelectionListeners= new ArrayList<>(20);
-		provider.addSelectionChangedListener(listener);
+			fRegisteredSelectionListeners= new ArrayList<>(20); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		provider.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		fRegisteredSelectionListeners.add(listener);
 	}
 
@@ -440,7 +440,7 @@ public class GenerateActionGroup extends ActionGroup {
 		}
 	}
 
-	private int fillEditorSubMenu(IMenuManager source) {
+	private int fillEditorSubMenu(IMenuManager source) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int added= 0;
 		source.add(new Separator(GROUP_COMMENT));
 		added+= addEditorAction(source, "ToggleComment"); //$NON-NLS-1$
@@ -470,7 +470,7 @@ public class GenerateActionGroup extends ActionGroup {
 		return added;
 	}
 
-	private int fillViewSubMenu(IMenuManager source) {
+	private int fillViewSubMenu(IMenuManager source) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int added= 0;
 		source.add(new Separator(GROUP_COMMENT));
 		added+= addAction(source, fAddJavaDocStub);
@@ -500,7 +500,7 @@ public class GenerateActionGroup extends ActionGroup {
 	public void dispose() {
 		if (fRegisteredSelectionListeners != null) {
 			ISelectionProvider provider= fSelectionProvider;
-			for (ISelectionChangedListener listener : fRegisteredSelectionListeners) {
+			for (ISelectionChangedListener listener : fRegisteredSelectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				provider.removeSelectionChangedListener(listener);
 			}
 		}
@@ -512,7 +512,7 @@ public class GenerateActionGroup extends ActionGroup {
 		super.dispose();
 	}
 
-	private void setGlobalActionHandlers(IActionBars actionBar) {
+	private void setGlobalActionHandlers(IActionBars actionBar) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		actionBar.setGlobalActionHandler(JdtActionConstants.ADD_IMPORT, fAddImport);
 		actionBar.setGlobalActionHandler(JdtActionConstants.OVERRIDE_METHODS, fOverrideMethods);
 		actionBar.setGlobalActionHandler(JdtActionConstants.GENERATE_GETTER_SETTER, fAddGetterSetter);

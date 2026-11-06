@@ -66,7 +66,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenProjectAction extends SelectionDispatchAction implements IResourceChangeListener {
+public class OpenProjectAction extends SelectionDispatchAction implements IResourceChangeListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private int CLOSED_PROJECTS_SELECTED= 1;
 	private int OTHER_ELEMENTS_SELECTED= 2;
@@ -97,7 +97,7 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 		IResourceDelta delta = event.getDelta();
 		if (delta != null) {
 			IResourceDelta[] projDeltas = delta.getAffectedChildren(IResourceDelta.CHANGED);
-			for (IResourceDelta projDelta : projDeltas) {
+			for (IResourceDelta projDelta : projDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ((projDelta.getFlags() & IResourceDelta.OPEN) != 0) {
 					setEnabled(hasClosedProjectsInWorkspace());
 					return;
@@ -117,16 +117,16 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 		internalRun(null);
 	}
 
-	private int evaluateSelection(IStructuredSelection selection, List<Object> allClosedProjects) {
+	private int evaluateSelection(IStructuredSelection selection, List<Object> allClosedProjects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int selectionStatus = 0;
-		for (Object curr : selection.toArray()) {
+		for (Object curr : selection.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isClosedProject(curr)) {
 				if (allClosedProjects != null)
 					allClosedProjects.add(curr);
 				selectionStatus |= CLOSED_PROJECTS_SELECTED;
 			} else {
 				if (curr instanceof IWorkingSet) {
-					for (IAdaptable element : ((IWorkingSet) curr).getElements()) {
+					for (IAdaptable element : ((IWorkingSet) curr).getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isClosedProject(element)) {
 							if (allClosedProjects != null)
 								allClosedProjects.add(element);
@@ -155,7 +155,7 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 
 	@Override
 	public void run(IStructuredSelection selection) {
-		List<Object> allClosedProjects= new ArrayList<>();
+		List<Object> allClosedProjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int selectionStatus= evaluateSelection(selection, allClosedProjects);
 		if ((selectionStatus & CLOSED_PROJECTS_SELECTED) != 0) { // selection contains closed projects
 			fWorkbenchAction.selectionChanged(new StructuredSelection(allClosedProjects));
@@ -165,7 +165,7 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 		}
 	}
 
-	private void internalRun(List<?> initialSelection) {
+	private void internalRun(List<?> initialSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ListSelectionDialog dialog= ListSelectionDialog.of(getClosedProjectsInWorkspace()).contentProvider(ArrayContentProvider.getInstance()).labelProvider(new JavaElementLabelProvider()).message(ActionMessages.OpenProjectAction_dialog_message).create(getShell());
 		dialog.setTitle(ActionMessages.OpenProjectAction_dialog_title);
 		if (initialSelection != null && !initialSelection.isEmpty()) {
@@ -185,11 +185,11 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 		}
 	}
 
-	private IWorkspaceRunnable createRunnable(final Object[] projects) {
-		return monitor -> {
+	private IWorkspaceRunnable createRunnable(final Object[] projects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			monitor.beginTask("", projects.length); //$NON-NLS-1$
 			MultiStatus errorStatus= null;
-			for (Object p : projects) {
+			for (Object p : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IProject project= (IProject) p;
 				try {
 					project.open(IResource.BACKGROUND_REFRESH, Progress.subMonitor(monitor, 1));
@@ -206,8 +206,8 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 	}
 
 	private Object[] getClosedProjectsInWorkspace() {
-		List<IProject> result= new ArrayList<>(5);
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		List<IProject> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isOpen())
 				result.add(project);
 		}
@@ -215,7 +215,7 @@ public class OpenProjectAction extends SelectionDispatchAction implements IResou
 	}
 
 	private boolean hasClosedProjectsInWorkspace() {
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isOpen()) {
 				return true;
 			}

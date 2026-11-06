@@ -66,7 +66,7 @@ public class JavaCommentScanner extends AbstractJavaScanner{
 		 * Uppercase words
 		 * @since 3.0
 		 */
-		private Map<CharacterBuffer, IToken> fUppercaseWords= new HashMap<>();
+		private Map<CharacterBuffer, IToken> fUppercaseWords= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		/**
 		 * <code>true</code> if task tag detection is case-sensitive.
 		 * @since 3.0
@@ -93,7 +93,7 @@ public class JavaCommentScanner extends AbstractJavaScanner{
 		}
 
 		public synchronized void addTaskTags(String value) {
-			for (String task : split(value, ",")) { //$NON-NLS-1$
+			for (String task : split(value, ",")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (task.length() > 0) {
 					addWord(task, fToken);
 				}
@@ -105,7 +105,7 @@ public class JavaCommentScanner extends AbstractJavaScanner{
 			int size= tokenizer.countTokens();
 			String[] tokens= new String[size];
 			int i= 0;
-			while (i < size)
+			while (i < size) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				tokens[i++]= tokenizer.nextToken();
 			return tokens;
 		}
@@ -133,7 +133,7 @@ public class JavaCommentScanner extends AbstractJavaScanner{
 				return super.evaluate(scanner, word);
 
 			fBuffer.clear();
-			for (int i= 0, n= word.length(); i < n; i++)
+			for (int i= 0, n= word.length(); i < n; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fBuffer.append(Character.toUpperCase(word.charAt(i)));
 
 			IToken token= fUppercaseWords.get(fBuffer);
@@ -217,13 +217,13 @@ public class JavaCommentScanner extends AbstractJavaScanner{
 	 */
 	@Override
 	protected List<IRule> createRules() {
-		List<IRule> list= new ArrayList<>();
+		List<IRule> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Token defaultToken= getToken(fDefaultTokenProperty);
 
 		List<WordMatcher> matchers= createMatchers();
 		if (matchers.size() > 0) {
 			CombinedWordRule combinedWordRule= new CombinedWordRule(new AtJavaIdentifierDetector(), defaultToken);
-			for (WordMatcher matcher : matchers)
+			for (WordMatcher matcher : matchers) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				combinedWordRule.addWordMatcher(matcher);
 			list.add(combinedWordRule);
 		}
@@ -238,8 +238,8 @@ public class JavaCommentScanner extends AbstractJavaScanner{
 	 *
 	 * @return the list of word matchers
 	 */
-	protected List<WordMatcher> createMatchers() {
-		List<WordMatcher> list= new ArrayList<>();
+	protected List<WordMatcher> createMatchers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<WordMatcher> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add rule for Task Tags.
 		boolean isCaseSensitive= true;

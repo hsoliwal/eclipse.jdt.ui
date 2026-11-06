@@ -64,7 +64,7 @@ public class ReorgMoveStarter {
 		return new ReorgMoveStarter(processor);
 	}
 
-	public boolean run(Shell parent) throws InterruptedException, InvocationTargetException {
+	public boolean run(Shell parent) throws InterruptedException, InvocationTargetException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Refactoring ref= new MoveRefactoring(fMoveProcessor);
 		if (fMoveProcessor.hasAllInputSet()) {
 			IRunnableContext context= PlatformUI.getWorkbench().getActiveWorkbenchWindow();

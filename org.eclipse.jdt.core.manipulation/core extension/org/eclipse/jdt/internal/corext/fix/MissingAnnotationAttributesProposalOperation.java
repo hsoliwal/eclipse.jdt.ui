@@ -51,7 +51,7 @@ public class MissingAnnotationAttributesProposalOperation extends CompilationUni
 		Assert.isNotNull(annotation.resolveTypeBinding());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
 
@@ -71,11 +71,11 @@ public class MissingAnnotationAttributesProposalOperation extends CompilationUni
 
 	}
 
-	private void addMissingAtributes(ITypeBinding binding, ListRewrite listRewriter, CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) {
-		Set<String> implementedAttribs= new HashSet<>();
+	private void addMissingAtributes(ITypeBinding binding, ListRewrite listRewriter, CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<String> implementedAttribs= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (fAnnotation instanceof NormalAnnotation) {
 			List<MemberValuePair> list= ((NormalAnnotation) fAnnotation).values();
-			for (MemberValuePair curr : list) {
+			for (MemberValuePair curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				implementedAttribs.add(curr.getName().getIdentifier());
 			}
 		} else if (fAnnotation instanceof SingleMemberAnnotation) {
@@ -90,7 +90,7 @@ public class MissingAnnotationAttributesProposalOperation extends CompilationUni
 		}
 
 		IMethodBinding[] declaredMethods= binding.getDeclaredMethods();
-		for (int i= 0; i < declaredMethods.length; i++) {
+		for (int i= 0; i < declaredMethods.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding curr= declaredMethods[i];
 			if (!implementedAttribs.contains(curr.getName()) && curr.getDefaultValue() == null) {
 				MemberValuePair pair= ast.newMemberValuePair();
@@ -98,13 +98,13 @@ public class MissingAnnotationAttributesProposalOperation extends CompilationUni
 				pair.setValue(newDefaultExpression(ast, curr.getReturnType(), context, cuRewrite.getImportRewrite()));
 				listRewriter.insertLast(pair, null);
 
-				linkedModel.getPositionGroup("val_name_" + i, true).addPosition(rewriter.track(pair.getName()), false); //$NON-NLS-1$
-				linkedModel.getPositionGroup("val_type_" + i, true).addPosition(rewriter.track(pair.getValue()), false); //$NON-NLS-1$
+				linkedModel.getPositionGroup("val_name_" + i, true).addPosition(rewriter.track(pair.getName()), false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				linkedModel.getPositionGroup("val_type_" + i, true).addPosition(rewriter.track(pair.getValue()), false); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
-	private Expression newDefaultExpression(AST ast, ITypeBinding type, ImportRewriteContext context, ImportRewrite importRewrite) {
+	private Expression newDefaultExpression(AST ast, ITypeBinding type, ImportRewriteContext context, ImportRewrite importRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isPrimitive()) {
 			String name= type.getName();
 			if ("boolean".equals(name)) { //$NON-NLS-1$

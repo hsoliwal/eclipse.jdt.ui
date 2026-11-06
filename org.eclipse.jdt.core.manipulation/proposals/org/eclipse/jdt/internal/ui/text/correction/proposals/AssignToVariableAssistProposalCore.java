@@ -115,13 +115,13 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 	private VariableDeclarationFragment fExistingFragment;
 	private final boolean fAddFinal;
 
-	public AssignToVariableAssistProposalCore(ICompilationUnit cu, int variableKind, ExpressionStatement node, ITypeBinding typeBinding, int relevance, boolean addFinal) {
+	public AssignToVariableAssistProposalCore(ICompilationUnit cu, int variableKind, ExpressionStatement node, ITypeBinding typeBinding, int relevance, boolean addFinal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", cu, null, relevance); //$NON-NLS-1$
 
 		fCUnit= cu;
 		fVariableKind= variableKind;
 		fParamNames = null;
-		fNodesToAssign= new ArrayList<>();
+		fNodesToAssign= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fNodesToAssign.add(node);
 		fAddFinal= addFinal;
 
@@ -136,12 +136,12 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		createImportRewrite((CompilationUnit) node.getRoot());
 	}
 
-	public AssignToVariableAssistProposalCore(ICompilationUnit cu, SingleVariableDeclaration parameter, VariableDeclarationFragment existingFragment, ITypeBinding typeBinding, int relevance, boolean addFinal) {
+	public AssignToVariableAssistProposalCore(ICompilationUnit cu, SingleVariableDeclaration parameter, VariableDeclarationFragment existingFragment, ITypeBinding typeBinding, int relevance, boolean addFinal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", cu, null, relevance); //$NON-NLS-1$
 
 		fCUnit= cu;
 		fVariableKind= AssignToVariableAssistProposalCore.FIELD;
-		fNodesToAssign= new ArrayList<>();
+		fNodesToAssign= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fNodesToAssign.add(parameter);
 		fParamNames= null;
 		fTypeBinding= typeBinding;
@@ -160,10 +160,10 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 
 		fCUnit= cu;
 		fVariableKind= AssignToVariableAssistProposalCore.FIELD;
-		fNodesToAssign= new ArrayList<>();
+		fNodesToAssign= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fNodesToAssign.addAll(parameters);
 		fTypeBinding= null;
-		fParamNames= new ArrayList<>();
+		fParamNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fAddFinal= addFinal;
 		populateNames(parameters);
 		setDisplayName(CorrectionMessages.AssignToVariableAssistProposal_assignallparamstofields_description);
@@ -185,7 +185,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 
 	private void populateNames(List<SingleVariableDeclaration> parameters) {
 		if (parameters != null && parameters.size() > 0) {
-			for (SingleVariableDeclaration param : parameters) {
+			for (SingleVariableDeclaration param : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (param.getName() != null) {
 					fParamNames.add(param.getName().getIdentifier());
 				}
@@ -193,7 +193,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		}
 	}
 
-	private ASTRewrite doAddLocal() throws CoreException {
+	private ASTRewrite doAddLocal() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode nodeToAssign= fNodesToAssign.get(0);
 		Expression expression= ((ExpressionStatement) nodeToAssign).getExpression();
 		AST ast= nodeToAssign.getAST();
@@ -203,7 +203,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		ImportRewrite importRewrite= createImportRewrite((CompilationUnit) nodeToAssign.getRoot());
 
 		String[] varNames= suggestLocalVariableNames(fTypeBinding, expression);
-		for (String varName : varNames) {
+		for (String varName : varNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addLinkedPositionProposal(AssignToVariableAssistProposalCore.KEY_NAME, varName);
 		}
 
@@ -274,13 +274,13 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 			String name= scope.createName(varName, false);
 			decl.setName(ast.newSimpleName(name));
 			ITypeBinding[] exceptions= 	ExceptionAnalyzer.perform(expression.getParent(), selection, false);
-			List<ITypeBinding> allExceptions= new ArrayList<>(Arrays.asList(exceptions));
-			List<ITypeBinding> mustRethrowList= new ArrayList<>();
+			List<ITypeBinding> allExceptions= new ArrayList<>(Arrays.asList(exceptions)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<ITypeBinding> mustRethrowList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			if (fTypeBinding != null) {
 				IMethodBinding close= SurroundWithTryWithResourcesRefactoringCore.findAutocloseMethod(fTypeBinding);
 				if (close != null) {
-					for (ITypeBinding exceptionType : close.getExceptionTypes()) {
+					for (ITypeBinding exceptionType : close.getExceptionTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!allExceptions.contains(exceptionType)) {
 							allExceptions.add(exceptionType);
 						}
@@ -293,7 +293,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 				LinkedProposalModelCore linkedProposalModel= createProposalModel();
 				int i= 0;
 				if (tryStatement != null) {
-					for (ITypeBinding mustThrow : mustRethrowList) {
+					for (ITypeBinding mustThrow : mustRethrowList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						CatchClause newClause= ast.newCatchClause();
 						SingleVariableDeclaration newDecl= ast.newSingleVariableDeclaration();
 						newDecl.setName(ast.newSimpleName(name));
@@ -302,7 +302,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 						newClause.setException(newDecl);
 						ThrowStatement newThrowStatement= ast.newThrowStatement();
 						newThrowStatement.setExpression(ast.newSimpleName(name));
-						linkedProposalModel.getPositionGroup(AssignToVariableAssistProposalCore.GROUP_EXC_NAME + i, true).addPosition(rewrite.track(decl.getName()), false);
+						linkedProposalModel.getPositionGroup(AssignToVariableAssistProposalCore.GROUP_EXC_NAME + i, true).addPosition(rewrite.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						newClause.getBody().statements().add(newThrowStatement);
 						tryStatement.catchClauses().add(newClause);
 						++i;
@@ -311,15 +311,15 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 				List<ITypeBinding> filteredExceptions= ASTNodes.filterSubtypes(catchExceptions);
 				UnionType unionType= ast.newUnionType();
 				List<Type> types= unionType.types();
-				for (ITypeBinding exception : filteredExceptions) {
+				for (ITypeBinding exception : filteredExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Type importType= importRewrite.addImport(exception, ast, context, TypeLocation.EXCEPTION);
 					types.add(importType);
-					linkedProposalModel.getPositionGroup(AssignToVariableAssistProposalCore.GROUP_EXC_TYPE + i, true).addPosition(rewrite.track(type), i == 0);
+					linkedProposalModel.getPositionGroup(AssignToVariableAssistProposalCore.GROUP_EXC_TYPE + i, true).addPosition(rewrite.track(type), i == 0); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					i++;
 				}
 				decl.setType(unionType);
 				catchClause.setException(decl);
-				linkedProposalModel.getPositionGroup(AssignToVariableAssistProposalCore.GROUP_EXC_NAME + 0, true).addPosition(rewrite.track(decl.getName()), false);
+				linkedProposalModel.getPositionGroup(AssignToVariableAssistProposalCore.GROUP_EXC_NAME + 0, true).addPosition(rewrite.track(decl.getName()), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				Statement st= getCatchBody(rewrite, expression, "Exception", name, fCUnit.findRecommendedLineSeparator()); //$NON-NLS-1$
 				if (st != null) {
 					catchClause.getBody().statements().add(st);
@@ -370,7 +370,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		return false;
 	}
 
-	private ASTRewrite doAddField(ASTRewrite rewrite, ASTNode nodeToAssign, ITypeBinding typeBinding, int index) {
+	private ASTRewrite doAddField(ASTRewrite rewrite, ASTNode nodeToAssign, ITypeBinding typeBinding, int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isParamToField= nodeToAssign.getNodeType() == ASTNode.SINGLE_VARIABLE_DECLARATION;
 
 		ASTNode newTypeDecl= ASTResolving.findParentType(nodeToAssign);
@@ -405,19 +405,19 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		if (isStatic) {
 			modifiers |= Modifier.STATIC;
 		} else if (isConstructorParam) {
-			String saveActionsKey= SaveParticipantPreferenceConfigurationConstants.EDITOR_SAVE_PARTICIPANT_PREFIX + SaveParticipantPreferenceConfigurationConstants.POSTSAVELISTENER_ID;
+			String saveActionsKey= SaveParticipantPreferenceConfigurationConstants.EDITOR_SAVE_PARTICIPANT_PREFIX + SaveParticipantPreferenceConfigurationConstants.POSTSAVELISTENER_ID; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			IScopeContext[] scopes= { InstanceScope.INSTANCE, new ProjectScope(project.getProject()) };
 			boolean safeActionsEnabled= Platform.getPreferencesService().getBoolean(JavaManipulation.getPreferenceNodeId(), saveActionsKey, false, scopes);
 			String prefix = CleanUpPreferenceUtilCore.SAVE_PARTICIPANT_KEY_PREFIX;
 			if (safeActionsEnabled
-					&& CleanUpOptions.TRUE.equals(JavaManipulation.getPreference(prefix + CleanUpConstants.CLEANUP_ON_SAVE_ADDITIONAL_OPTIONS, project))
-					&& CleanUpOptions.TRUE.equals(JavaManipulation.getPreference(prefix + CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL, project))
-					&& CleanUpOptions.TRUE.equals(JavaManipulation.getPreference(prefix + CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_PRIVATE_FIELDS, project))
+					&& CleanUpOptions.TRUE.equals(JavaManipulation.getPreference(prefix + CleanUpConstants.CLEANUP_ON_SAVE_ADDITIONAL_OPTIONS, project)) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					&& CleanUpOptions.TRUE.equals(JavaManipulation.getPreference(prefix + CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL, project)) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					&& CleanUpOptions.TRUE.equals(JavaManipulation.getPreference(prefix + CleanUpConstants.VARIABLE_DECLARATIONS_USE_FINAL_PRIVATE_FIELDS, project)) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					) {
 				int constructors= 0;
 				if (newTypeDecl instanceof AbstractTypeDeclaration) {
 					List<BodyDeclaration> bodyDeclarations= ((AbstractTypeDeclaration) newTypeDecl).bodyDeclarations();
-					for (BodyDeclaration decl : bodyDeclarations) {
+					for (BodyDeclaration decl : bodyDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (decl instanceof MethodDeclaration && ((MethodDeclaration) decl).isConstructor()) {
 							constructors++;
 						}
@@ -471,16 +471,16 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 			selectionNode= nodeToAssign;
 		}
 
-		addLinkedPosition(rewrite.track(newDeclFrag.getName()), false, AssignToVariableAssistProposalCore.KEY_NAME + index);
+		addLinkedPosition(rewrite.track(newDeclFrag.getName()), false, AssignToVariableAssistProposalCore.KEY_NAME + index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (!isParamToField) {
 			FieldDeclaration fieldDeclaration= (FieldDeclaration) newDeclFrag.getParent();
 			addLinkedPosition(rewrite.track(fieldDeclaration.getType()), false, AssignToVariableAssistProposalCore.KEY_TYPE);
 		}
-		addLinkedPosition(rewrite.track(accessName), true, AssignToVariableAssistProposalCore.KEY_NAME + index);
+		addLinkedPosition(rewrite.track(accessName), true, AssignToVariableAssistProposalCore.KEY_NAME + index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IVariableBinding variableBinding= newDeclFrag.resolveBinding();
 		if (variableBinding != null) {
-			for (SimpleName linkedNode : LinkedNodeFinder.findByBinding(nodeToAssign.getRoot(), variableBinding)) {
-				addLinkedPosition(rewrite.track(linkedNode), false, AssignToVariableAssistProposalCore.KEY_NAME + index);
+			for (SimpleName linkedNode : LinkedNodeFinder.findByBinding(nodeToAssign.getRoot(), variableBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				addLinkedPosition(rewrite.track(linkedNode), false, AssignToVariableAssistProposalCore.KEY_NAME + index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		setEndPosition(rewrite.track(selectionNode));
@@ -489,7 +489,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 	}
 
 	private ASTRewrite doAddAllFields(ASTRewrite rewrite) {
-		for (int i= 0; rewrite != null && i < fNodesToAssign.size(); i++) {
+		for (int i= 0; rewrite != null && i < fNodesToAssign.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode nodeToAssign= fNodesToAssign.get(i);
 			ITypeBinding typeBinding= ((SingleVariableDeclaration) nodeToAssign).resolveBinding().getType();
 			rewrite= doAddField(rewrite, nodeToAssign, typeBinding, i);
@@ -497,7 +497,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		return rewrite;
 	}
 
-	private VariableDeclarationFragment addFieldDeclaration(ASTRewrite rewrite, ASTNode newTypeDecl, int modifiers, Expression expression, ASTNode nodeToAssign, ITypeBinding typeBinding,
+	private VariableDeclarationFragment addFieldDeclaration(ASTRewrite rewrite, ASTNode newTypeDecl, int modifiers, Expression expression, ASTNode nodeToAssign, ITypeBinding typeBinding, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int index) {
 		if (fExistingFragment != null) {
 			return fExistingFragment;
@@ -507,8 +507,8 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		List<BodyDeclaration> decls= ASTNodes.getBodyDeclarations(newTypeDecl);
 		AST ast= newTypeDecl.getAST();
 		String[] varNames= suggestFieldNames(typeBinding, expression, modifiers, nodeToAssign);
-		for (String varName : varNames) {
-			addLinkedPositionProposal(AssignToVariableAssistProposalCore.KEY_NAME + index, varName);
+		for (String varName : varNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			addLinkedPositionProposal(AssignToVariableAssistProposalCore.KEY_NAME + index, varName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		String varName= varNames[0];
 
@@ -517,11 +517,11 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 
 		FieldDeclaration newDecl= ast.newFieldDeclaration(newDeclFrag);
 
-		Type type= evaluateType(ast, nodeToAssign, typeBinding, AssignToVariableAssistProposalCore.KEY_TYPE + index, TypeLocation.FIELD);
+		Type type= evaluateType(ast, nodeToAssign, typeBinding, AssignToVariableAssistProposalCore.KEY_TYPE + index, TypeLocation.FIELD); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		newDecl.setType(type);
 		newDecl.modifiers().addAll(ASTNodeFactory.newModifiers(ast, modifiers));
 
-		ModifierCorrectionSubProcessorCore.installLinkedVisibilityProposals(getLinkedProposalModel(), rewrite, newDecl.modifiers(), false, ModifierCorrectionSubProcessorCore.KEY_MODIFIER + index);
+		ModifierCorrectionSubProcessorCore.installLinkedVisibilityProposals(getLinkedProposalModel(), rewrite, newDecl.modifiers(), false, ModifierCorrectionSubProcessorCore.KEY_MODIFIER + index); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		int insertIndex= findFieldInsertIndex(decls, nodeToAssign.getStartPosition()) + index;
 		rewrite.getListRewrite(newTypeDecl, property).insertAt(newDecl, insertIndex, null);
@@ -530,7 +530,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 	}
 
 	private Type evaluateType(AST ast, ASTNode nodeToAssign, ITypeBinding typeBinding, String groupID, TypeLocation location) {
-		for (ITypeBinding proposal : ASTResolving.getRelaxingTypes(ast, typeBinding)) {
+		for (ITypeBinding proposal : ASTResolving.getRelaxingTypes(ast, typeBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fVariableKind != AssignToVariableAssistProposalCore.TRY_WITH_RESOURCES || Bindings.findTypeInHierarchy(proposal, "java.lang.AutoCloseable") != null) { //$NON-NLS-1$
 				addLinkedPositionProposal(groupID, proposal);
 			}
@@ -556,7 +556,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		Collection<String> usedVarNames = Arrays.asList(ASTResolving.getUsedVariableNames(nodeToAssign));
 		Collection<String> additionalVarNames= getRemainingParamNamed(nodeToAssign);
 		if (additionalVarNames != null) {
-			usedVarNames = new ArrayList<>(Arrays.asList(ASTResolving.getUsedVariableNames(nodeToAssign)));
+			usedVarNames = new ArrayList<>(Arrays.asList(ASTResolving.getUsedVariableNames(nodeToAssign))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			usedVarNames.addAll(additionalVarNames);
 		}
 		return usedVarNames;
@@ -565,7 +565,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 	private ArrayList<String> getRemainingParamNamed(ASTNode nodeToAssign) {
 		ArrayList<String> paramNames = null;
 		if (fParamNames != null) {
-			paramNames = new ArrayList<>();
+			paramNames = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			paramNames.addAll(fParamNames);
 			if (nodeToAssign instanceof SingleVariableDeclaration
 					&& ((SingleVariableDeclaration)nodeToAssign).getName() != null) {
@@ -578,17 +578,17 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 		return paramNames;
 	}
 
-	private int findAssignmentInsertIndex(List<Statement> statements, ASTNode nodeToAssign) {
+	private int findAssignmentInsertIndex(List<Statement> statements, ASTNode nodeToAssign) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		HashSet<String> paramsBefore= new HashSet<>();
+		HashSet<String> paramsBefore= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		List<SingleVariableDeclaration> params = ((MethodDeclaration) nodeToAssign.getParent()).parameters();
-		for (int i = 0; i < params.size() && (params.get(i) != nodeToAssign); i++) {
+		for (int i = 0; i < params.size() && (params.get(i) != nodeToAssign); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration decl= params.get(i);
 			paramsBefore.add(decl.getName().getIdentifier());
 		}
 
 		int i= 0;
-		for (i = 0; i < statements.size(); i++) {
+		for (i = 0; i < statements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Statement curr= statements.get(i);
 			switch (curr.getNodeType()) {
 				case ASTNode.CONSTRUCTOR_INVOCATION:
@@ -617,7 +617,7 @@ public class AssignToVariableAssistProposalCore extends LinkedCorrectionProposal
 	}
 
 	private int findFieldInsertIndex(List<BodyDeclaration> decls, int currPos) {
-		for (int i= decls.size() - 1; i >= 0; i--) {
+		for (int i= decls.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode curr= decls.get(i);
 			if (curr instanceof FieldDeclaration && currPos > curr.getStartPosition() + curr.getLength()) {
 				return i + 1;

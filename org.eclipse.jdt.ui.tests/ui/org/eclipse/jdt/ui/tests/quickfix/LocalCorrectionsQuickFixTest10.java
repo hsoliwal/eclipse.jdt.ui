@@ -56,7 +56,7 @@ public class LocalCorrectionsQuickFixTest10 extends QuickFixTest {
 
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -86,7 +86,7 @@ public class LocalCorrectionsQuickFixTest10 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testTypeParametersToRawTypeReferenceIssue765() throws Exception {
             Hashtable<String, String> options= JavaCore.getOptions();
             options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);
@@ -124,7 +124,7 @@ public class LocalCorrectionsQuickFixTest10 extends QuickFixTest {
     		assertProposalExists(proposals, "Add @SuppressWarnings 'unchecked' to 'f()'");
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testTypeParametersToRawTypeReferenceIssue774() throws Exception {
             Hashtable<String, String> options= JavaCore.getOptions();
             options.put(JavaCore.COMPILER_PB_RAW_TYPE_REFERENCE, JavaCore.WARNING);

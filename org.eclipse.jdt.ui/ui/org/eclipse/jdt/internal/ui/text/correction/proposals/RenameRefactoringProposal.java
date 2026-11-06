@@ -42,7 +42,7 @@ import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 /**
  * A quick assist proposal that starts the Rename refactoring.
  */
-public class RenameRefactoringProposal implements IJavaCompletionProposal, ICompletionProposalExtension6, ICommandAccess {
+public class RenameRefactoringProposal implements IJavaCompletionProposal, ICompletionProposalExtension6, ICommandAccess { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final String fLabel;
 	private int fRelevance;

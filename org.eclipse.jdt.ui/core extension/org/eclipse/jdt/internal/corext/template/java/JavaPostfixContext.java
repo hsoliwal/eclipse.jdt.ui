@@ -94,9 +94,9 @@ public class JavaPostfixContext extends JavaContext {
 
 	private static final String ID_SEPARATOR= "��"; //$NON-NLS-1$
 
-	private static final Pattern INNER_EXPRESSION_PATTERN= Pattern.compile("\\$\\{([a-zA-Z]*):" + InnerExpressionResolver.INNER_EXPRESSION_VAR + "\\(([^\\$|\\{|\\}]*)\\)\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Pattern INNER_EXPRESSION_PATTERN= Pattern.compile("\\$\\{([a-zA-Z]*):" + InnerExpressionResolver.INNER_EXPRESSION_VAR + "\\(([^\\$|\\{|\\}]*)\\)\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-	private static final Pattern CLASS_NAME_PATTERN= Pattern.compile("[a-zA-Z0-9$_\\.]+"); //$NON-NLS-1$
+	private static final Pattern CLASS_NAME_PATTERN= Pattern.compile("[a-zA-Z0-9$_\\.]+"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private ASTNode selectedNode;
 
@@ -131,8 +131,8 @@ public class JavaPostfixContext extends JavaContext {
 		super(type, document, offset, length, compilationUnit);
 
 		completionCtx= context;
-		nodeRegions= new HashMap<>();
-		variableOutOfRangeOffsets= new HashMap<>();
+		nodeRegions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		variableOutOfRangeOffsets= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		nodeRegions.put(currentNode, calculateNodeRegion(currentNode));
 		nodeRegions.put(parentNode, calculateNodeRegion(parentNode));
 		selectedNode= findBestASTNodeSelection(currentNode);
@@ -150,7 +150,7 @@ public class JavaPostfixContext extends JavaContext {
 	 * @param currentNode The {@link ASTNode} of the completion.
 	 * @return An {@link ASTNode} of the key set of {@link #nodeRegions}.
 	 */
-	private ASTNode findBestASTNodeSelection(ASTNode currentNode) {
+	private ASTNode findBestASTNodeSelection(ASTNode currentNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// This implementation takes the longest ASTNode by means of string length
 		// which doesn't exceed the completion position.
 		// If future extensions of the postfix implementation inject more than two ASTNodes
@@ -164,7 +164,7 @@ public class JavaPostfixContext extends JavaContext {
 		Set<ASTNode> nodes= nodeRegions.keySet();
 		int tokenLength= (completionCtx != null && completionCtx.getToken() != null) ? completionCtx.getToken().length : 0;
 		int invOffset= completionCtx != null ? completionCtx.getOffset() - tokenLength - 1 : getCompletionOffset();
-		for (ASTNode n : nodes) {
+		for (ASTNode n : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int end= getNodeBegin(n) + getNodeLength(n);
 			if (end > currMax && end <= invOffset) {
 				currMax= end;
@@ -189,7 +189,7 @@ public class JavaPostfixContext extends JavaContext {
 	 * @return a {@link TextEdit} which represents the changes which would be made, or
 	 *         <code>null</code> if the field can not be created.
 	 */
-	public TextEdit addField(String type, String varName, boolean publicField, boolean staticField, boolean finalField, String value) {
+	public TextEdit addField(String type, String varName, boolean publicField, boolean staticField, boolean finalField, String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isReadOnly())
 			return null;
 
@@ -211,7 +211,7 @@ public class JavaPostfixContext extends JavaContext {
 		return te;
 	}
 
-	private VariableDeclarationFragment addFieldDeclaration(ASTRewrite rewrite, ASTNode newTypeDecl, int modifiers, String varName, String qualifiedName, String value) {
+	private VariableDeclarationFragment addFieldDeclaration(ASTRewrite rewrite, ASTNode newTypeDecl, int modifiers, String varName, String qualifiedName, String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ChildListPropertyDescriptor property= ASTNodes.getBodyDeclarationsProperty(newTypeDecl);
 		List<BodyDeclaration> decls= ASTNodes.getBodyDeclarations(newTypeDecl);
 		AST ast= newTypeDecl.getAST();
@@ -248,11 +248,11 @@ public class JavaPostfixContext extends JavaContext {
 	 * @param className fully qualified name of a generic type name
 	 * @return returns unqualified name of the generic type
 	 */
-	public String addImportGenericClass(String className) {
-		Matcher m= CLASS_NAME_PATTERN.matcher(className);
-		List<String> classNames= new ArrayList<>();
-		Map<String, String> classNameMapping= new HashMap<>();
-		while (m.find()) {
+	public String addImportGenericClass(String className) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Matcher m= CLASS_NAME_PATTERN.matcher(className); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		List<String> classNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Map<String, String> classNameMapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		while (m.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			classNames.add(className.substring(m.start(), m.end()));
 		}
 		/*
@@ -269,13 +269,13 @@ public class JavaPostfixContext extends JavaContext {
 		 * 3. importing all class names and map the fully qualified identifier with the resolved identifier of the class
 		 * 4. replace the unique identifiers with the mapped values
 		 */
-		Collections.sort(classNames, (arg0, arg1) -> arg1.length() - arg0.length());
-		for (int i= 0; i < classNames.size(); i++) {
-			className= className.replace(classNames.get(i), ID_SEPARATOR + i + ID_SEPARATOR);
+		Collections.sort(classNames, (arg0, arg1) -> arg1.length() - arg0.length()); //FLLDCIM: MARK — M16 SORT_LANE CALL
+		for (int i= 0; i < classNames.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			className= className.replace(classNames.get(i), ID_SEPARATOR + i + ID_SEPARATOR); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			classNameMapping.put(classNames.get(i), addImport(classNames.get(i)));
 		}
-		for (int i= 0; i < classNames.size(); i++) {
-			className= className.replace(ID_SEPARATOR + i + ID_SEPARATOR, classNameMapping.get(classNames.get(i)));
+		for (int i= 0; i < classNames.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			className= className.replace(ID_SEPARATOR + i + ID_SEPARATOR, classNameMapping.get(classNames.get(i))); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return className;
 	}
@@ -310,7 +310,7 @@ public class JavaPostfixContext extends JavaContext {
 	/*
 	 * @see TemplateContext#canEvaluate(Template templates)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean canEvaluate(Template template) {
 		if (!template.getContextTypeId().equals(JavaPostfixContext.CONTEXT_TYPE_ID))
 			return false;
@@ -329,12 +329,12 @@ public class JavaPostfixContext extends JavaContext {
 		// For this purpose we have to resolve the inner_expression variable of the template
 		// This approach is much faster then delegating this to the existing TemplateTranslator class
 		// (Maybe this hard-coded dependency to the inner expression variable is a little bit weird)
-		Matcher matcher= INNER_EXPRESSION_PATTERN.matcher(template.getPattern());
+		Matcher matcher= INNER_EXPRESSION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		boolean result= true;
 
-		while (matcher.find()) {
-			String[] types= matcher.group(2).split(","); //$NON-NLS-1$
-			for (String s : types) {
+		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			String[] types= matcher.group(2).split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			for (String s : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Arrays.asList(InnerExpressionResolver.FLAGS).contains(s)) {
 					result= false;
 					if (this.isNodeResolvingTo(selectedNode, s.trim()) == true) {
@@ -359,7 +359,7 @@ public class JavaPostfixContext extends JavaContext {
 		return (Expression) astNode;
 	}
 
-	private Type createType(String typeSig, AST ast) {
+	private Type createType(String typeSig, AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int sigKind= Signature.getTypeSignatureKind(typeSig);
 		switch (sigKind) {
 			case Signature.BASE_TYPE_SIGNATURE:
@@ -380,7 +380,7 @@ public class JavaPostfixContext extends JavaContext {
 				if (typeArguments.length > 0) {
 					ParameterizedType type= ast.newParameterizedType(baseType);
 					List<Type> argNodes= type.typeArguments();
-					for (String curr : typeArguments) {
+					for (String curr : typeArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (containsNestedCapture(curr)) {
 							argNodes.add(ast.newWildcardType());
 						} else {
@@ -413,7 +413,7 @@ public class JavaPostfixContext extends JavaContext {
 
 		// After the template buffer has been created we are able to add out of range offsets
 		// This is not possible beforehand as it will result in an exception!
-		for (TemplateVariable tv : result.getVariables()) {
+		for (TemplateVariable tv : result.getVariables()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int[] outOfRangeOffsets= variableOutOfRangeOffsets.get(tv);
 			if (outOfRangeOffsets != null && outOfRangeOffsets.length > 0) {
 				int[] offsets= tv.getOffsets();
@@ -426,7 +426,7 @@ public class JavaPostfixContext extends JavaContext {
 	}
 
 	private int findFieldInsertIndex(List<BodyDeclaration> decls, int currPos, int modifiers) {
-		for (int i= decls.size() - 1; i >= 0; i--) {
+		for (int i= decls.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode curr= decls.get(i);
 			if (curr instanceof FieldDeclaration && currPos > curr.getStartPosition() + curr.getLength()
 					&& ((FieldDeclaration) curr).getModifiers() == modifiers) {
@@ -486,7 +486,7 @@ public class JavaPostfixContext extends JavaContext {
 			return node.getParent().getStartPosition();
 		} else if (node instanceof Name) {
 			ASTNode n= node;
-			while (n.getParent() instanceof QualifiedName) {
+			while (n.getParent() instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				n= n.getParent();
 			}
 			return n.getStartPosition();
@@ -604,7 +604,7 @@ public class JavaPostfixContext extends JavaContext {
 		}
 	}
 
-	private ITypeBinding resolveNodeToBinding(ASTNode node) {
+	private ITypeBinding resolveNodeToBinding(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node instanceof StringLiteral) {
 			return ((StringLiteral) node).resolveTypeBinding();
 		}
@@ -697,7 +697,7 @@ public class JavaPostfixContext extends JavaContext {
 		}
 		String result= b.getQualifiedName();
 		if (result.isEmpty() && b.isCapture()) {
-			for (ITypeBinding tb : b.getTypeBounds()) {
+			for (ITypeBinding tb : b.getTypeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result= tb.getQualifiedName();
 				if (!result.isEmpty()) {
 					return result;
@@ -717,7 +717,7 @@ public class JavaPostfixContext extends JavaContext {
 	 *         superclass/superinterfaces resolves to the given signature, <code>false</code>
 	 *         otherwise.
 	 */
-	private boolean resolvesReferenceBindingTo(ITypeBinding sb, String signature) {
+	private boolean resolvesReferenceBindingTo(ITypeBinding sb, String signature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (sb == null) {
 			return false;
 		}
@@ -728,20 +728,20 @@ public class JavaPostfixContext extends JavaContext {
 			return true;
 		}
 
-		List<ITypeBinding> bindings= new ArrayList<>();
+		List<ITypeBinding> bindings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Collections.addAll(bindings, sb.getInterfaces());
 		bindings.add(sb.getSuperclass());
 		boolean result= false;
 		Iterator<ITypeBinding> it= bindings.iterator();
-		while (it.hasNext() && result == false) {
+		while (it.hasNext() && result == false) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= resolvesReferenceBindingTo(it.next(), signature);
 		}
 		return result;
 	}
 
-	public String[] suggestFieldName(String type, String[] excludes, boolean staticField, boolean finalField) throws IllegalArgumentException {
+	public String[] suggestFieldName(String type, String[] excludes, boolean staticField, boolean finalField) throws IllegalArgumentException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int dim= 0;
-		while (type.endsWith("[]")) { //$NON-NLS-1$
+		while (type.endsWith("[]")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dim++;
 			type= type.substring(0, type.length() - 2);
 		}
@@ -774,7 +774,7 @@ public class JavaPostfixContext extends JavaContext {
 
 	@Override
 	public String[] suggestVariableNames(String type) throws IllegalArgumentException {
-		List<String> res= new ArrayList<>();
+		List<String> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (selectedNode instanceof Expression) {
 			ITypeBinding tb= resolveNodeToBinding(selectedNode);
 			List<String> excludes= Arrays.asList(computeExcludes());

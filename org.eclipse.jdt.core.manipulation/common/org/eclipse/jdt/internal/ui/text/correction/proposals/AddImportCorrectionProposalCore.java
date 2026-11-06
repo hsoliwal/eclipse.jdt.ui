@@ -51,14 +51,14 @@ public class AddImportCorrectionProposalCore extends ASTRewriteCorrectionProposa
 	}
 
 	public String getQualifiedTypeName() {
-		return fQualifierName + '.' + fTypeName;
+		return fQualifierName + '.' + fTypeName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public AddModuleRequiresCorrectionProposalCore getAdditionalProposal() {
 		return fAdditionalProposal;
 	}
 
-	public AddModuleRequiresCorrectionProposalCore getAdditionalChangeCorrectionProposal() {
+	public AddModuleRequiresCorrectionProposalCore getAdditionalChangeCorrectionProposal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= getCompilationUnit();
 		AddModuleRequiresCorrectionProposalCore additionalChangeCorrectionProposal= null;
 		IJavaProject currentJavaProject= cu.getJavaProject();

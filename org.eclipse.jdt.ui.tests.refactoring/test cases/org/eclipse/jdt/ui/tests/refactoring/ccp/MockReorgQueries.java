@@ -30,7 +30,7 @@ import org.eclipse.jdt.internal.corext.refactoring.reorg.INewNameQuery;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.IReorgQueries;
 
 public class MockReorgQueries implements IReorgQueries, INewNameQueries {
-	private final List<Integer> fQueriesRun= new ArrayList<>();
+	private final List<Integer> fQueriesRun= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 	@Override
 	public IConfirmQuery createYesNoQuery(String queryTitle, boolean allowCancel, int queryID) {
@@ -85,22 +85,22 @@ public class MockReorgQueries implements IReorgQueries, INewNameQueries {
 
 	@Override
 	public INewNameQuery createNewCompilationUnitNameQuery(ICompilationUnit cu, String initialSuggestedName) throws OperationCanceledException {
-		return new NewNameQuery(initialSuggestedName + '1');
+		return new NewNameQuery(initialSuggestedName + '1'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public INewNameQuery createNewPackageFragmentRootNameQuery(IPackageFragmentRoot root, String initialSuggestedName) throws OperationCanceledException {
-		return new NewNameQuery(initialSuggestedName + '1');
+		return new NewNameQuery(initialSuggestedName + '1'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public INewNameQuery createNewPackageNameQuery(IPackageFragment pack, String initialSuggestedName) throws OperationCanceledException {
-		return new NewNameQuery(initialSuggestedName + '1');
+		return new NewNameQuery(initialSuggestedName + '1'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public INewNameQuery createNewResourceNameQuery(IResource res, String initialSuggestedName) throws OperationCanceledException {
-		return new NewNameQuery(initialSuggestedName + '1');
+		return new NewNameQuery(initialSuggestedName + '1'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

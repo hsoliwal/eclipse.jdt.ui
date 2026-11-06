@@ -78,7 +78,7 @@ final class CompletionProposalComputerDescriptor {
 	/** Set of Java partition types. */
 	private static final Set<String> PARTITION_SET;
 	/** The name of the performance event used to trace extensions. */
-	private static final String PERFORMANCE_EVENT= JavaPlugin.getPluginId() + "/perf/content_assist/extensions"; //$NON-NLS-1$
+	private static final String PERFORMANCE_EVENT= JavaPlugin.getPluginId() + "/perf/content_assist/extensions"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * If <code>true</code>, execution time of extensions is measured and the data forwarded to
 	 * core's {@link PerformanceStats} service.
@@ -99,7 +99,7 @@ final class CompletionProposalComputerDescriptor {
 	private static final String SESSION_ENDED= "sessionEnded()"; //$NON-NLS-1$
 
 	static {
-		Set<String> partitions= new HashSet<>();
+		Set<String> partitions= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		partitions.add(IDocument.DEFAULT_CONTENT_TYPE);
 		partitions.add(IJavaPartitions.JAVA_DOC);
 		partitions.add(IJavaPartitions.JAVA_MULTI_LINE_COMMENT);
@@ -172,7 +172,7 @@ final class CompletionProposalComputerDescriptor {
 	 * @throws InvalidRegistryObjectException if this extension is no longer valid
 	 * @throws CoreException if the extension contains invalid values
 	 */
-	CompletionProposalComputerDescriptor(IConfigurationElement element, CompletionProposalComputerRegistry registry, List<CompletionProposalCategory> categories) throws InvalidRegistryObjectException, CoreException {
+	CompletionProposalComputerDescriptor(IConfigurationElement element, CompletionProposalComputerRegistry registry, List<CompletionProposalCategory> categories) throws InvalidRegistryObjectException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(registry != null);
 		Assert.isLegal(element != null);
 
@@ -188,12 +188,12 @@ final class CompletionProposalComputerDescriptor {
 		else
 			fName= name;
 
-		Set<String> partitions= new HashSet<>();
+		Set<String> partitions= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IConfigurationElement[] children= element.getChildren(PARTITION);
 		if (children.length == 0) {
 			fPartitions= PARTITION_SET; // add to all partition types if no partition is configured
 		} else {
-			for (IConfigurationElement child : children) {
+			for (IConfigurationElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String type= child.getAttribute(TYPE);
 				checkNotNull(type, TYPE);
 				partitions.add(type);
@@ -217,7 +217,7 @@ final class CompletionProposalComputerDescriptor {
 		if (categoryId == null)
 			categoryId= DEFAULT_CATEGORY_ID;
 		CompletionProposalCategory category= null;
-		for (CompletionProposalCategory cat : categories) {
+		for (CompletionProposalCategory cat : categories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cat.getId().equals(categoryId)) {
 				category= cat;
 				break;
@@ -338,7 +338,7 @@ final class CompletionProposalComputerDescriptor {
 	 * @return the list of computed completion proposals (element type:
 	 *         {@link org.eclipse.jface.text.contentassist.ICompletionProposal})
 	 */
-	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
+	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isEnabled())
 			return Collections.emptyList();
 
@@ -392,7 +392,7 @@ final class CompletionProposalComputerDescriptor {
 	 * @return the list of computed context information objects (element type:
 	 *         {@link org.eclipse.jface.text.contentassist.IContextInformation})
 	 */
-	public List<IContextInformation> computeContextInformation(ContentAssistInvocationContext context, IProgressMonitor monitor) {
+	public List<IContextInformation> computeContextInformation(ContentAssistInvocationContext context, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isEnabled())
 			return Collections.emptyList();
 
@@ -435,7 +435,7 @@ final class CompletionProposalComputerDescriptor {
 	 * is <strong>not</strong> filtered by partition type.
 	 * </em></p>
 	 */
-	public void sessionStarted() {
+	public void sessionStarted() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isEnabled())
 			return;
 
@@ -469,7 +469,7 @@ final class CompletionProposalComputerDescriptor {
 	 * is <strong>not</strong> filtered by partition type.
 	 * </em></p>
 	 */
-	public void sessionEnded() {
+	public void sessionEnded() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isEnabled())
 			return;
 
@@ -511,7 +511,7 @@ final class CompletionProposalComputerDescriptor {
 		return stats;
 	}
 
-	private void stopMeter(final PerformanceStats stats, String operation) {
+	private void stopMeter(final PerformanceStats stats, String operation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (MEASURE_PERFORMANCE) {
 			stats.endRun();
 			if (stats.isFailure()) {
@@ -534,35 +534,35 @@ final class CompletionProposalComputerDescriptor {
 		// extension has become invalid - log & disable
 		String blame= createBlameMessage();
 		String reason= JavaTextMessages.CompletionProposalComputerDescriptor_reason_invalid;
-		return new Status(IStatus.INFO, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, x); //$NON-NLS-1$
+		return new Status(IStatus.INFO, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, x); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IStatus createExceptionStatus(CoreException x) {
 		// unable to instantiate the extension - log
 		String blame= createBlameMessage();
 		String reason= JavaTextMessages.CompletionProposalComputerDescriptor_reason_instantiation;
-		return new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, x); //$NON-NLS-1$
+		return new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, x); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IStatus createExceptionStatus(RuntimeException x) {
 		// misbehaving extension - log
 		String blame= createBlameMessage();
 		String reason= JavaTextMessages.CompletionProposalComputerDescriptor_reason_runtime_ex;
-		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, x); //$NON-NLS-1$
+		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, x); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IStatus createAPIViolationStatus(String operation) {
 		String blame= createBlameMessage();
 		Object[] args= {operation};
 		String reason= Messages.format(JavaTextMessages.CompletionProposalComputerDescriptor_reason_API, args);
-		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, null); //$NON-NLS-1$
+		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IStatus createPerformanceStatus(String operation) {
 		String blame= createBlameMessage();
 		Object[] args= {operation};
 		String reason= Messages.format(JavaTextMessages.CompletionProposalComputerDescriptor_reason_performance, args);
-		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, null); //$NON-NLS-1$
+		return new Status(IStatus.WARNING, JavaPlugin.getPluginId(), IStatus.OK, blame + " " + reason, null); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String createBlameMessage() {

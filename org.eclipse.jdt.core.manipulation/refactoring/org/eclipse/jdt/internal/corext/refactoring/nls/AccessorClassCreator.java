@@ -95,7 +95,7 @@ public class AccessorClassCreator {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 	}
 
-	private String getUnformattedSource(IProgressMonitor pm) throws CoreException {
+	private String getUnformattedSource(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit newCu= null;
 		try {
 			newCu= fAccessorPackage.getCompilationUnit(fAccessorPath.lastSegment()).getWorkingCopy(null);
@@ -110,18 +110,18 @@ public class AccessorClassCreator {
 			String classContent= createClass(lineDelim);
 			String cuContent= CodeGeneration.getCompilationUnitContent(newCu, fileComment, typeComment, classContent, lineDelim);
 			if (cuContent == null) {
-				StringBuilder buf= new StringBuilder();
+				StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (fileComment != null) {
-					buf.append(fileComment).append(lineDelim);
+					buf.append(fileComment).append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				if (!fAccessorPackage.isDefaultPackage()) {
-					buf.append("package ").append(fAccessorPackage.getElementName()).append(';'); //$NON-NLS-1$
+					buf.append("package ").append(fAccessorPackage.getElementName()).append(';'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append(lineDelim).append(lineDelim);
+				buf.append(lineDelim).append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (typeComment != null) {
-					buf.append(typeComment).append(lineDelim);
+					buf.append(typeComment).append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
-				buf.append(classContent);
+				buf.append(classContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				cuContent= buf.toString();
 			}
 
@@ -147,45 +147,45 @@ public class AccessorClassCreator {
 		JavaModelUtil.applyEdit(newCu, edit, false, null);
 	}
 
-	private String createClass(String lineDelim) throws CoreException {
+	private String createClass(String lineDelim) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fIsEclipseNLS) {
 			MembersOrderPreferenceCacheCommon sortOrder= JavaManipulationPlugin.getDefault().getMembersOrderPreferenceCacheCommon();
 			int constructorIdx= sortOrder.getCategoryIndex(MembersOrderPreferenceCacheCommon.CONSTRUCTORS_INDEX);
 			int fieldIdx= sortOrder.getCategoryIndex(MembersOrderPreferenceCacheCommon.STATIC_FIELDS_INDEX);
 			int initIdx= sortOrder.getCategoryIndex(MembersOrderPreferenceCacheCommon.STATIC_INIT_INDEX);
 
-			String constructor= createConstructor(lineDelim) + lineDelim;
-			String initializer= createStaticInitializer(lineDelim) + lineDelim;
-			String fields= createStaticFields() + lineDelim;
+			String constructor= createConstructor(lineDelim) + lineDelim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String initializer= createStaticInitializer(lineDelim) + lineDelim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String fields= createStaticFields() + lineDelim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-			StringBuilder result= new StringBuilder();
-			result.append("public class ").append(fAccessorClassName).append(" extends NLS {"); //$NON-NLS-1$ //$NON-NLS-2$
-			result.append("private static final String ").append(NLSRefactoring.BUNDLE_NAME_FIELD).append(" = ").append(getBundleNameFieldValue()).append("; "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			result.append(NLSElement.createTagText(1)).append(lineDelim);
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append("public class ").append(fAccessorClassName).append(" extends NLS {"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append("private static final String ").append(NLSRefactoring.BUNDLE_NAME_FIELD).append(" = ").append(getBundleNameFieldValue()).append("; "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(NLSElement.createTagText(1)).append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (constructorIdx < fieldIdx) {
 				if (fieldIdx < initIdx) {
-					result.append(constructor);
-					result.append(fields);
-					result.append(initializer);
+					result.append(constructor); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(fields); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(initializer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					result.append(constructor);
-					result.append(initializer);
-					result.append(fields);
+					result.append(constructor); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(initializer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(fields); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			} else {
 				if (constructorIdx < initIdx) {
-					result.append(fields);
-					result.append(constructor);
-					result.append(initializer);
+					result.append(fields); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(constructor); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(initializer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					result.append(fields);
-					result.append(initializer);
-					result.append(constructor);
+					result.append(fields); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(initializer); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					result.append(constructor); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 
-			result.append('}').append(lineDelim);
+			result.append('}').append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return result.toString();
 		} else {
@@ -193,26 +193,26 @@ public class AccessorClassCreator {
 			int constructorIdx= sortOrder.getCategoryIndex(MembersOrderPreferenceCacheCommon.CONSTRUCTORS_INDEX);
 			int methodIdx= sortOrder.getCategoryIndex(MembersOrderPreferenceCacheCommon.METHOD_INDEX);
 
-			String constructor= lineDelim	+ createConstructor(lineDelim);
-			String method= lineDelim + createGetStringMethod(lineDelim);
+			String constructor= lineDelim	+ createConstructor(lineDelim); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String method= lineDelim + createGetStringMethod(lineDelim); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-			StringBuilder result= new StringBuilder();
-			result.append("public class ").append(fAccessorClassName).append(" {"); //$NON-NLS-1$ //$NON-NLS-2$
-			result.append("private static final String ").append(NLSRefactoring.BUNDLE_NAME_FIELD); //$NON-NLS-1$
-			result.append(" = ").append(getBundleNameFieldValue()).append("; ").append(NLSElement.createTagText(1)).append(lineDelim); //$NON-NLS-1$ //$NON-NLS-2$
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append("public class ").append(fAccessorClassName).append(" {"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append("private static final String ").append(NLSRefactoring.BUNDLE_NAME_FIELD); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(" = ").append(getBundleNameFieldValue()).append("; ").append(NLSElement.createTagText(1)).append(lineDelim); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-			result.append(lineDelim).append("private static final ResourceBundle ").append(getResourceBundleConstantName()); //$NON-NLS-1$
-			result.append("= ResourceBundle.getBundle(").append(NLSRefactoring.BUNDLE_NAME_FIELD).append(");").append(lineDelim); //$NON-NLS-1$ //$NON-NLS-2$
+			result.append(lineDelim).append("private static final ResourceBundle ").append(getResourceBundleConstantName()); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append("= ResourceBundle.getBundle(").append(NLSRefactoring.BUNDLE_NAME_FIELD).append(");").append(lineDelim); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (constructorIdx < methodIdx) {
-				result.append(constructor);
-				result.append(method);
+				result.append(constructor); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(method); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				result.append(method);
-				result.append(constructor);
+				result.append(method); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(constructor); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
-			result.append(lineDelim).append('}').append(lineDelim);
+			result.append(lineDelim).append('}').append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return result.toString();
 		}
@@ -222,73 +222,73 @@ public class AccessorClassCreator {
 		IPath resourceBundleContainerPath= fResourceBundlePath.removeLastSegments(1);
 		IPath accessorContainerPath= fAccessorPath.removeLastSegments(1);
 		if (JavaModelUtil.is9OrHigher(fCu.getJavaProject()) && Objects.equals(accessorContainerPath, resourceBundleContainerPath)) {
-			return fAccessorClassName + ".class.getPackageName() + \"." + getPropertyFileNameWithoutExtension() + "\""; //$NON-NLS-1$ //$NON-NLS-2$
+			return fAccessorClassName + ".class.getPackageName() + \"." + getPropertyFileNameWithoutExtension() + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		return "\"" + getResourceBundleName() + "\""; //$NON-NLS-1$//$NON-NLS-2$
+		return "\"" + getResourceBundleName() + "\""; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getResourceBundleConstantName() {
 		return "RESOURCE_BUNDLE";//$NON-NLS-1$
 	}
 
-	private String createStaticFields() {
-		HashSet<String> added= new HashSet<>();
-		List<NLSSubstitution> subs= new ArrayList<>();
-		for (NLSSubstitution substitution : fNLSSubstitutions) {
+	private String createStaticFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<String> added= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<NLSSubstitution> subs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (NLSSubstitution substitution : fNLSSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int newState= substitution.getState();
 			if ((substitution.hasStateChanged() || substitution.isAccessorRename())&& newState == NLSSubstitution.EXTERNALIZED) {
 				if (added.add(substitution.getKey()))
 					subs.add(substitution);
 			}
 		}
-		Collections.sort(subs, new Comparator<NLSSubstitution>() {
+		Collections.sort(subs, new Comparator<NLSSubstitution>() { //FLLDCIM: MARK — M16 SORT_LANE CALL
 			private Collator fCollator= Collator.getInstance();
 			@Override
 			public int compare(NLSSubstitution s0, NLSSubstitution s1) {
 				return fCollator.compare(s0.getKey(), s1.getKey());
 			}
 		});
-		StringBuilder buf= new StringBuilder();
-		for (NLSSubstitution element : subs) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (NLSSubstitution element : subs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendStaticField(buf, element);
 		}
 		return buf.toString();
 	}
 
 	private void appendStaticField(StringBuilder buf, NLSSubstitution substitution) {
-		buf.append("public static String "); //$NON-NLS-1$
-		buf.append(substitution.getKey());
-		buf.append(';');
+		buf.append("public static String "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(substitution.getKey()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
-	private String createGetStringMethod(String lineDelim) {
-		StringBuilder result= new StringBuilder();
+	private String createGetStringMethod(String lineDelim) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		result.append("public static String "); //$NON-NLS-1$
+		result.append("public static String "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		int i= fSubstitutionPattern.indexOf(NLSRefactoring.KEY);
 		if (i != -1) {
-			result.append(fSubstitutionPattern.substring(0, i));
-			result.append("String key"); //$NON-NLS-1$
-			result.append(fSubstitutionPattern.substring(i + NLSRefactoring.KEY.length()));
+			result.append(fSubstitutionPattern.substring(0, i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append("String key"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fSubstitutionPattern.substring(i + NLSRefactoring.KEY.length())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
 			//fallback
-			result.append("getString(String key)"); //$NON-NLS-1$
+			result.append("getString(String key)"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append('{').append(lineDelim);
+		result.append('{').append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		result.append("try {").append(lineDelim) //$NON-NLS-1$
+		result.append("try {").append(lineDelim) //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				.append("return ") //$NON-NLS-1$
 				.append(getResourceBundleConstantName()).append(".getString(key);").append(lineDelim) //$NON-NLS-1$
 				.append("} catch (MissingResourceException e) {").append(lineDelim) //$NON-NLS-1$
 				.append("return '!' + key + '!';").append(lineDelim) //$NON-NLS-1$
 				.append("}"); //$NON-NLS-1$
 
-		result.append(lineDelim).append('}');
+		result.append(lineDelim).append('}'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
 	private String createStaticInitializer(String lineDelim) {
-		return "static {" //$NON-NLS-1$
+		return "static {" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		+ lineDelim
 		+ "// initialize resource bundle" //$NON-NLS-1$
 		+ lineDelim
@@ -298,7 +298,7 @@ public class AccessorClassCreator {
 	}
 
 	private String createConstructor(String lineDelim) {
-		return "private " + fAccessorClassName + "(){" + //$NON-NLS-2$//$NON-NLS-1$
+		return "private " + fAccessorClassName + "(){" + //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				lineDelim + '}';
 	}
 
@@ -335,7 +335,7 @@ public class AccessorClassCreator {
 			IJavaElement el= JavaCore.create(res);
 			if (el instanceof IPackageFragment) {
 				IPackageFragment p= (IPackageFragment) el;
-				return p.getElementName() + '.' + getPropertyFileNameWithoutExtension();
+				return p.getElementName() + '.' + getPropertyFileNameWithoutExtension(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else
 				if ((el instanceof IPackageFragmentRoot) || (el instanceof IJavaProject)) {
 					return getPropertyFileNameWithoutExtension();

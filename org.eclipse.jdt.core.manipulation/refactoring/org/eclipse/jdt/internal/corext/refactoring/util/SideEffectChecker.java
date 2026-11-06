@@ -69,7 +69,7 @@ public class SideEffectChecker extends ASTVisitor {
 
 	private String fEnclosingMethodSignature;
 
-	static private HashSet<String> MARKEDMETHODSET= new HashSet<>();
+	static private HashSet<String> MARKEDMETHODSET= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	static {
 		String[] methodNames= { "java.lang.System.currentTimeMillis", "java.lang.System.nanoTime", //$NON-NLS-1$ //$NON-NLS-2$
 				"java.io.PrintStream.print", "java.io.PrintStream.printf", //$NON-NLS-1$ //$NON-NLS-2$
@@ -82,7 +82,7 @@ public class SideEffectChecker extends ASTVisitor {
 		return fSideEffect;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean preVisit2(ASTNode node) {
 		if (hasSideEffect()) {
 			return false;
@@ -115,10 +115,10 @@ public class SideEffectChecker extends ASTVisitor {
 	private String getQualifiedName(IMethodBinding imb) {
 		if (imb == null || imb.getDeclaringClass() == null)
 			return null;
-		return imb.getDeclaringClass().getQualifiedName() + "." + imb.getName(); //$NON-NLS-1$
+		return imb.getDeclaringClass().getQualifiedName() + "." + imb.getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private MethodDeclaration findFunctionDefinition(ITypeBinding iTypeBinding, IMethodBinding methodBinding) {
+	private MethodDeclaration findFunctionDefinition(ITypeBinding iTypeBinding, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (methodBinding == null || iTypeBinding == null) {
 			fSideEffect= true;
 			return null;
@@ -142,9 +142,9 @@ public class SideEffectChecker extends ASTVisitor {
 				return null;
 			}
 
-			ArrayList<IType> iTypes= new ArrayList<>();
+			ArrayList<IType> iTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			findTypes(it, ith, iTypes);
-			for (IType t : iTypes) {
+			for (IType t : iTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethod tmp= JavaModelUtil.findMethod(iMethod.getElementName(),
 						iMethod.getParameterTypes(), false, t);
 				if (tmp != null) {
@@ -180,13 +180,13 @@ public class SideEffectChecker extends ASTVisitor {
 	private static void findTypes(IType it, ITypeHierarchy ith, ArrayList<IType> iTypes) {
 		iTypes.add(it);
 
-		for (IType i : ith.getAllSubtypes(it)) {
+		for (IType i : ith.getAllSubtypes(it)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			iTypes.add(i);
 		}
 		return;
 	}
 
-	private boolean selfModied(ASTNode node) {
+	private boolean selfModied(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node instanceof Assignment) {
 			Assignment node2= (Assignment) node;
 			ASTMatcher match= new ASTMatcher();
@@ -245,7 +245,7 @@ public class SideEffectChecker extends ASTVisitor {
 			updateNoTemp= false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean preVisit2(ASTNode node) {
 			if (updateNoTemp == true) {
 				return false;
@@ -291,7 +291,7 @@ public class SideEffectChecker extends ASTVisitor {
 			return super.preVisit2(node);
 		}
 
-		private boolean isNoTemp(Expression e) {
+		private boolean isNoTemp(Expression e) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IVariableBinding ivb= null;
 			Expression expr= getOriginalExpression(e);
 			if (expr instanceof SimpleName) {
@@ -320,7 +320,7 @@ public class SideEffectChecker extends ASTVisitor {
 	}
 
 	private Expression getOriginalExpression(Expression expr) {
-		while (expr instanceof ParenthesizedExpression || expr instanceof CastExpression) {
+		while (expr instanceof ParenthesizedExpression || expr instanceof CastExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expr instanceof ParenthesizedExpression) {
 				ParenthesizedExpression pe= (ParenthesizedExpression) expr;
 				expr= pe.getExpression();

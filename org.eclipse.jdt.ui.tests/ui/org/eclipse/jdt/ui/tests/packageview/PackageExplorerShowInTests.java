@@ -79,7 +79,7 @@ public class PackageExplorerShowInTests {
 ////////////TODO: should also test non-UI part of tryToReveal(..) ///////////////////////////////
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCU() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject, "src");
 		IPackageFragment pack= sourceFolder.createPackageFragment("p", true, null);
@@ -119,7 +119,7 @@ public class PackageExplorerShowInTests {
 		assertEquals(fJProject, selection.getFirstElement());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUAdaptedCU() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject, "src");
 		IPackageFragment pack= sourceFolder.createPackageFragment("p", true, null);
@@ -142,7 +142,7 @@ public class PackageExplorerShowInTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUAdaptedResource() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject, "src");
 		IPackageFragment pack= sourceFolder.createPackageFragment("p", true, null);
@@ -164,7 +164,7 @@ public class PackageExplorerShowInTests {
 		assertEquals(cu, selection.getFirstElement());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUNotOnClasspath() throws Exception {
 		IFolder folder= fJProject.getProject().getFolder("folder");
 		folder.create(true, true, null);

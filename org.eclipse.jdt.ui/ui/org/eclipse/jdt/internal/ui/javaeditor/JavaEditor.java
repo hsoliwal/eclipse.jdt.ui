@@ -258,7 +258,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * Internal implementation class for a change listener.
 	 * @since 3.0
 	 */
-	protected abstract static class AbstractSelectionChangedListener implements ISelectionChangedListener  {
+	protected abstract static class AbstractSelectionChangedListener implements ISelectionChangedListener  { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		/**
 		 * Installs this selection changed listener with the given selection provider. If
@@ -274,9 +274,9 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 
 			if (selectionProvider instanceof IPostSelectionProvider)  {
 				IPostSelectionProvider provider= (IPostSelectionProvider) selectionProvider;
-				provider.addPostSelectionChangedListener(this);
+				provider.addPostSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			} else  {
-				selectionProvider.addSelectionChangedListener(this);
+				selectionProvider.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			}
 		}
 
@@ -303,7 +303,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 *
 	 * @since 3.0
 	 */
-	private class EditorSelectionChangedListener extends AbstractSelectionChangedListener {
+	private class EditorSelectionChangedListener extends AbstractSelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		/*
 		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
@@ -337,7 +337,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			@Override
 			public void preferenceChange(final IEclipsePreferences.PreferenceChangeEvent event) {
 				if (Display.getCurrent() == null) {
-					Display.getDefault().asyncExec(() -> firePropertyChangeEvent(event.getKey(), event.getOldValue(), event.getNewValue()));
+					Display.getDefault().asyncExec(() -> firePropertyChangeEvent(event.getKey(), event.getOldValue(), event.getNewValue())); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				} else {
 					firePropertyChangeEvent(event.getKey(), event.getOldValue(), event.getNewValue());
 				}
@@ -392,7 +392,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		@Override
 		public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
 			PropertyChangeEvent event= new PropertyChangeEvent(this, name, oldValue, newValue);
-			for (IPropertyChangeListener listener : fListeners) {
+			for (IPropertyChangeListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.propertyChange(event);
 			}
 		}
@@ -550,7 +550,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 *
 	 * @since 3.0
 	 */
-	class OccurrencesFinderJobCanceler implements IDocumentListener, ITextInputListener {
+	class OccurrencesFinderJobCanceler implements IDocumentListener, ITextInputListener { //FLLDCIM: MARK — T28  IMPLEMENTS
 
 		public void install() {
 			ISourceViewer sourceViewer= getSourceViewer();
@@ -585,7 +585,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void documentAboutToBeChanged(DocumentEvent event) {
 			if (fOccurrencesFinderJob != null)
 				fOccurrencesFinderJob.doCancel();
@@ -659,14 +659,14 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			int index= super.getLineStartPosition(document, line, length, offset);
 			if (IJavaPartitions.JAVA_DOC.equals(type) || IJavaPartitions.JAVA_MULTI_LINE_COMMENT.equals(type)) {
 				if (index < length - 1 && line.charAt(index) == '*' && line.charAt(index + 1) != '/') {
-					do {
+					do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						++index;
 					} while (index < length && Character.isWhitespace(line.charAt(index)));
 				}
 			} else {
 				if (index < length - 1 && line.charAt(index) == '/' && line.charAt(index + 1) == '/') {
 					index++;
-					do {
+					do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						++index;
 					} while (index < length && Character.isWhitespace(line.charAt(index)));
 				}
@@ -696,7 +696,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			// Check whether we are in a java code partition and the preference is enabled
 			final IPreferenceStore store= getPreferenceStore();
@@ -732,11 +732,11 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		 * @param position the current position
 		 * @return the next position
 		 */
-		protected int findNextPosition(int position) {
+		protected int findNextPosition(int position) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ISourceViewer viewer= getSourceViewer();
 			int widget= -1;
 			int next= position;
-			while (next != BreakIterator.DONE && widget == -1) { // XXX: optimize
+			while (next != BreakIterator.DONE && widget == -1) { // XXX: optimize //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				next= fIterator.following(next);
 				if (next != BreakIterator.DONE)
 					widget= modelOffset2WidgetOffset(viewer, next);
@@ -788,7 +788,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.NextSubWordAction#setCaretPosition(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setCaretPosition(final int position) {
 			getTextWidget().setCaretOffset(modelOffset2WidgetOffset(getSourceViewer(), position));
 		}
@@ -811,7 +811,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.NextSubWordAction#setCaretPosition(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setCaretPosition(final int position) {
 			if (!validateEditorInputState())
 				return;
@@ -950,11 +950,11 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		 * @param position the current position
 		 * @return the previous position
 		 */
-		protected int findPreviousPosition(int position) {
+		protected int findPreviousPosition(int position) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ISourceViewer viewer= getSourceViewer();
 			int widget= -1;
 			int previous= position;
-			while (previous != BreakIterator.DONE && widget == -1) { // XXX: optimize
+			while (previous != BreakIterator.DONE && widget == -1) { // XXX: optimize //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				previous= fIterator.preceding(previous);
 				if (previous != BreakIterator.DONE)
 					widget= modelOffset2WidgetOffset(viewer, previous);
@@ -1006,7 +1006,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.PreviousSubWordAction#setCaretPosition(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setCaretPosition(final int position) {
 			getTextWidget().setCaretOffset(modelOffset2WidgetOffset(getSourceViewer(), position));
 		}
@@ -1029,7 +1029,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.PreviousSubWordAction#setCaretPosition(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setCaretPosition(int position) {
 			if (!validateEditorInputState())
 				return;
@@ -1272,7 +1272,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 *
 	 * @since 3.1
 	 */
-	private final class ToggleFoldingRunner implements IPartListener2 {
+	private final class ToggleFoldingRunner implements IPartListener2 { //FLLDCIM: MARK — T20  IMPLEMENTS
 		/**
 		 * The workbench page we registered the part listener with, or
 		 * <code>null</code>.
@@ -1300,7 +1300,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		 * when the editor becomes visible, or cancels an already registered
 		 * runner.
 		 */
-		public void runWhenNextVisible() {
+		public void runWhenNextVisible() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// if there is one already: toggling twice is the identity
 			if (fFoldingRunner != null) {
 				fFoldingRunner.cancel();
@@ -1385,7 +1385,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		 */
 		@Override
 		public void addSelectionChangedListener(ISelectionChangedListener listener) {
-			super.addSelectionChangedListener(listener);
+			super.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			if (getSourceViewer() != null)
 				fSelectionListeners.add(listener);
 		}
@@ -1393,7 +1393,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ISelection getSelection() {
 			if (fInvalidSelection != null)
 				return fInvalidSelection;
@@ -1440,7 +1440,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		 */
 		@Override
 		public void addPostSelectionChangedListener(ISelectionChangedListener listener) {
-			super.addPostSelectionChangedListener(listener);
+			super.addPostSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			if (getSourceViewer() != null && getSourceViewer().getSelectionProvider() instanceof IPostSelectionProvider)
 				fPostSelectionListeners.add(listener);
 		}
@@ -1472,11 +1472,11 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			fInvalidSelection= new TextSelection(0, 0);
 
 			SelectionChangedEvent event= new SelectionChangedEvent(this, fInvalidSelection);
-			for (ISelectionChangedListener listener : fSelectionListeners) {
+			for (ISelectionChangedListener listener : fSelectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.selectionChanged(event);
 			}
 
-			for (ISelectionChangedListener listener : fPostSelectionListeners) {
+			for (ISelectionChangedListener listener : fPostSelectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.selectionChanged(event);
 			}
 		}
@@ -1489,11 +1489,11 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 
 			SelectionChangedEvent event= new SelectionChangedEvent(this, fValidSelection);
 
-			for (ISelectionChangedListener listener : fSelectionListeners) {
+			for (ISelectionChangedListener listener : fSelectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.selectionChanged(event);
 			}
 
-			for (ISelectionChangedListener listener : fPostSelectionListeners) {
+			for (ISelectionChangedListener listener : fPostSelectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.selectionChanged(event);
 			}
 		}
@@ -1549,7 +1549,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @deprecated As of 3.5
 	 */
 	@Deprecated
-	protected AbstractSelectionChangedListener fOutlineSelectionChangedListener= new AbstractSelectionChangedListener() {
+	protected AbstractSelectionChangedListener fOutlineSelectionChangedListener= new AbstractSelectionChangedListener() { //FLLDCIM: MARK — T04  ANONYMOUS
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 		}
@@ -1812,7 +1812,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#initializeKeyBindingScopes()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initializeKeyBindingScopes() {
 		setKeyBindingScopes(new String[] { "org.eclipse.jdt.ui.javaEditorScope" });  //$NON-NLS-1$
 	}
@@ -1885,7 +1885,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			MarkerAnnotationPreferences markerAnnotationPreferences= getAdapter(MarkerAnnotationPreferences.class);
 			if (markerAnnotationPreferences != null) {
 				Iterator<AnnotationPreference> e= markerAnnotationPreferences.getAnnotationPreferences().iterator();
-				while (e.hasNext()) {
+				while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					AnnotationPreference annotationPreference= e.next();
 					Object annotationType= annotationPreference.getAnnotationType();
 					if (annotationType instanceof String)
@@ -1940,7 +1940,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		IPerspectiveDescriptor perspective= getSite().getPage().getPerspective();
 		if (perspective == null)
 			return null;
-		return JavaEditor.EDITOR_SHOW_BREADCRUMB + "." + perspective.getId(); //$NON-NLS-1$
+		return JavaEditor.EDITOR_SHOW_BREADCRUMB + "." + perspective.getId(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -1961,14 +1961,14 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 *
 	 * @since 3.4
 	 */
-	private void showBreadcrumb() {
+	private void showBreadcrumb() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fBreadcrumb == null)
 			return;
 
 		if (fBreadcrumbComposite.isDisposed()) {
 			// not expected
 			SWT.error(SWT.ERROR_WIDGET_DISPOSED, null,
-					". Editor not properly disposed; please report scenario to <https://bugs.eclipse.org/446203>. Editor input: " //$NON-NLS-1$
+					". Editor not properly disposed; please report scenario to <https://bugs.eclipse.org/446203>. Editor input: " //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ getInputJavaElement());
 		}
 		if (fBreadcrumbComposite.getChildren().length == 0) {
@@ -2053,7 +2053,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @since 3.0
 	 */
 	private IPreferenceStore createCombinedPreferenceStore(IEditorInput input) {
-		List<IPreferenceStore> stores= new ArrayList<>(3);
+		List<IPreferenceStore> stores= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaProject project= EditorUtility.getJavaProject(input);
 		if (project != null) {
@@ -2090,7 +2090,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see AbstractTextEditor#editorContextMenuAboutToShow
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void editorContextMenuAboutToShow(IMenuManager menu) {
 
 		super.editorContextMenuAboutToShow(menu);
@@ -2186,7 +2186,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		return JavaCore.callReadOnly(() -> getAdapterCached(required));
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private <T> T getAdapterCached(Class<T> required) {
 
 		if (IContentOutlinePage.class.equals(required)) {
@@ -2277,7 +2277,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		fSelectionChangedViaGotoAnnotation= false;
 	}
 
-	protected void setSelection(ISourceReference reference, boolean moveCursor) {
+	protected void setSelection(ISourceReference reference, boolean moveCursor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getSelectionProvider() == null)
 			return;
 
@@ -2367,7 +2367,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		super.setFocus();
 	}
 
-	public void setSelection(IJavaElement element) {
+	public void setSelection(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (element == null || element instanceof ICompilationUnit || element instanceof IClassFile) {
 			/*
@@ -2389,12 +2389,12 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		}
 	}
 
-	protected void doSelectionChanged(ISelection selection) {
+	protected void doSelectionChanged(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ISourceReference reference= null;
 
 		Iterator<?> iter= ((IStructuredSelection) selection).iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object o= iter.next();
 			if (o instanceof ISourceReference) {
 				reference= (ISourceReference) o;
@@ -2435,13 +2435,13 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see AbstractTextEditor#adjustHighlightRange(int, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void adjustHighlightRange(int offset, int length) {
 
 		try {
 
 			IJavaElement element= getElementAt(offset, false);
-			while (element instanceof ISourceReference) {
+			while (element instanceof ISourceReference) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ISourceRange range= ((ISourceReference) element).getSourceRange();
 				if (range != null && offset < range.getOffset() + range.getLength() && range.getOffset() < offset + length) {
 
@@ -2494,7 +2494,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see StatusTextEditor#getStatusHeader(IStatus)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String getStatusHeader(IStatus status) {
 		if (fEncodingSupport != null) {
 			String message= fEncodingSupport.getStatusHeader(status);
@@ -2555,7 +2555,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		internalDoSetInput(input);
 	}
 
-	private void internalDoSetInput(IEditorInput input) throws CoreException {
+	private void internalDoSetInput(IEditorInput input) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceViewer sourceViewer= getSourceViewer();
 		JavaSourceViewer javaSourceViewer= null;
 		if (sourceViewer instanceof JavaSourceViewer)
@@ -2587,7 +2587,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#setPreferenceStore(org.eclipse.jface.preference.IPreferenceStore)
 	 * @since 3.0
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setPreferenceStore(IPreferenceStore store) {
 		super.setPreferenceStore(store);
 		SourceViewerConfiguration sourceViewerConfiguration= getSourceViewerConfiguration();
@@ -2616,7 +2616,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see IWorkbenchPart#dispose()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 
 		if (fProjectionModelUpdater != null) {
@@ -2680,7 +2680,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		fSelectionProvider= null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createActions() {
 		installEncodingSupport();
 
@@ -2840,7 +2840,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see AbstractTextEditor#handlePreferenceStoreChanged(PropertyChangeEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void handlePreferenceStoreChanged(PropertyChangeEvent event) {
 
 		final String property= event.getProperty();
@@ -3037,10 +3037,10 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * Update the hovering behavior depending on the preferences.
 	 */
-	private void updateHoverBehavior() {
+	private void updateHoverBehavior() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SourceViewerConfiguration configuration= getSourceViewerConfiguration();
 
-		for (String t : configuration.getConfiguredContentTypes(getSourceViewer())) {
+		for (String t : configuration.getConfiguredContentTypes(getSourceViewer())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISourceViewer sourceViewer= getSourceViewer();
 			if (sourceViewer instanceof ITextViewerExtension2) {
 				// Remove existing hovers
@@ -3049,7 +3049,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 				int[] stateMasks= configuration.getConfiguredTextHoverStateMasks(getSourceViewer(), t);
 
 				if (stateMasks != null) {
-					for (int stateMask : stateMasks) {
+					for (int stateMask : stateMasks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ITextHover textHover= configuration.getTextHover(sourceViewer, t, stateMask);
 						((ITextViewerExtension2)sourceViewer).setTextHover(textHover, t, stateMask);
 					}
@@ -3065,7 +3065,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider#getViewPartInput()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getViewPartInput() {
 		return getEditorInput().getAdapter(IJavaElement.class);
 	}
@@ -3161,7 +3161,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		if (annotation instanceof IJavaAnnotation) {
 			Iterator<IJavaAnnotation> e= ((IJavaAnnotation) annotation).getOverlaidIterator();
 			if (e != null) {
-				while (e.hasNext()) {
+				while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object o= e.next();
 					if (o instanceof MarkerAnnotation) {
 						super.updateMarkerViews((MarkerAnnotation)o);
@@ -3218,7 +3218,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see Job#run(org.eclipse.core.runtime.IProgressMonitor)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus run(IProgressMonitor progressMonitor) {
 			if (isCanceled(progressMonitor))
 				return Status.CANCEL_STATUS;
@@ -3241,8 +3241,8 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 
 			// Add occurrence annotations
 			int length= fLocations.length;
-			Map<Annotation, Position> annotationMap= new HashMap<>(length);
-			for (OccurrenceLocation location : fLocations) {
+			Map<Annotation, Position> annotationMap= new HashMap<>(length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (OccurrenceLocation location : fLocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				if (isCanceled(progressMonitor))
 					return Status.CANCEL_STATUS;
@@ -3264,7 +3264,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 				} else {
 					removeOccurrenceAnnotations();
 					Iterator<Entry<Annotation, Position>> iter= annotationMap.entrySet().iterator();
-					while (iter.hasNext()) {
+					while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Entry<Annotation, Position> mapEntry= iter.next();
 						annotationModel.addAnnotation(mapEntry.getKey(), mapEntry.getValue());
 					}
@@ -3288,7 +3288,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @param astRoot the compilation unit AST
 	 * @since 3.0
 	 */
-	protected void updateOccurrenceAnnotations(ITextSelection selection, CompilationUnit astRoot) {
+	protected void updateOccurrenceAnnotations(ITextSelection selection, CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fOccurrencesFinderJob != null)
 			fOccurrencesFinderJob.cancel();
@@ -3374,10 +3374,10 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		fOccurrencesFinderJob.run(new NullProgressMonitor());
 	}
 
-	protected void installOccurrencesFinder(boolean forceUpdate) {
+	protected void installOccurrencesFinder(boolean forceUpdate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fMarkOccurrenceAnnotations= true;
 
-		fPostSelectionListenerWithAST= (_, selection, astRoot) -> updateOccurrenceAnnotations(selection, astRoot);
+		fPostSelectionListenerWithAST= (unused, selection, astRoot) -> updateOccurrenceAnnotations(selection, astRoot);
 		SelectionListenerWithASTManager.getDefault().addListener(this, fPostSelectionListenerWithAST);
 		if (forceUpdate && getSelectionProvider() != null) {
 			fForcedMarkOccurrencesSelection= getSelectionProvider().getSelection();
@@ -3398,7 +3398,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		}
 	}
 
-	protected void uninstallOccurrencesFinder() {
+	protected void uninstallOccurrencesFinder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fMarkOccurrenceAnnotations= false;
 
 		if (fOccurrencesFinderJob != null) {
@@ -3434,7 +3434,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		return store != null && key != null && store.getBoolean(key);
 	}
 
-	boolean markOccurrencesOfType(IBinding binding) {
+	boolean markOccurrencesOfType(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (binding == null)
 			return false;
@@ -3467,7 +3467,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		return false;
 	}
 
-	void removeOccurrenceAnnotations() {
+	void removeOccurrenceAnnotations() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDocumentProvider documentProvider= getDocumentProvider();
 		IAnnotationModel annotationModel= documentProvider == null ? null : documentProvider.getAnnotationModel(getEditorInput());
 		if (annotationModel == null) {
@@ -3487,7 +3487,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			if (annotationModel instanceof IAnnotationModelExtension) {
 				((IAnnotationModelExtension)annotationModel).replaceAnnotations(fOccurrenceAnnotations, null);
 			} else {
-				for (Annotation fOccurrenceAnnotation : fOccurrenceAnnotations)
+				for (Annotation fOccurrenceAnnotation : fOccurrenceAnnotations) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					annotationModel.removeAnnotation(fOccurrenceAnnotation);
 			}
 			fOccurrenceAnnotations= null;
@@ -3501,7 +3501,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		}
 	}
 
-	protected void installOverrideIndicator(boolean provideAST) {
+	protected void installOverrideIndicator(boolean provideAST) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		uninstallOverrideIndicator();
 		IAnnotationModel model= getDocumentProvider().getAnnotationModel(getEditorInput());
 		final ITypeRoot inputElement= getInputJavaElement();
@@ -3699,7 +3699,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/**
 	 * Jumps to the matching bracket.
 	 */
-	public void gotoMatchingBracket() {
+	public void gotoMatchingBracket() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ISourceViewer sourceViewer= getSourceViewer();
 		IDocument document= sourceViewer.getDocument();
@@ -3779,11 +3779,11 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	}
 
 	private void initializePreviousSelectionList() {
-		fPreviousSelections= new ArrayList<>(3);
+		fPreviousSelections= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private static boolean isOpeningBracket(char character) {
-		for (int i= 0; i < BRACKETS.length; i+= 2) {
+		for (int i= 0; i < BRACKETS.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (character == BRACKETS[i])
 				return true;
 		}
@@ -3791,7 +3791,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	}
 
 	private static boolean isClosingBracket(char character) {
-		for (int i= 1; i < BRACKETS.length; i+= 2) {
+		for (int i= 1; i < BRACKETS.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (character == BRACKETS[i])
 				return true;
 		}
@@ -3801,7 +3801,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * Copy of org.eclipse.jface.text.source.DefaultCharacterPairMatcher.getOffsetAdjustment(IDocument, int, int)
 	 */
-	private static int getOffsetAdjustment(IDocument document, int offset, int length) {
+	private static int getOffsetAdjustment(IDocument document, int offset, int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (length == 0 || Math.abs(length) > 1)
 			return 0;
 		try {
@@ -3836,7 +3836,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		return new Region(viewerSelection.x, viewerSelection.y);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ISelectionProvider getSelectionProvider() {
 		return fSelectionProvider;
 	}
@@ -3896,7 +3896,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			return null;
 
 		Iterator<Annotation> e= new JavaAnnotationIterator(model.getAnnotationIterator(), true);
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation a= e.next();
 			if ((a instanceof IJavaAnnotation) && ((IJavaAnnotation)a).hasOverlay() || !isNavigationTarget(a))
 				continue;
@@ -3960,7 +3960,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @return the found annotation or <code>null</code>
 	 * @since 3.0
 	 */
-	private Annotation getAnnotation(int offset, int length) {
+	private Annotation getAnnotation(int offset, int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAnnotationModel model= getDocumentProvider().getAnnotationModel(getEditorInput());
 		if (model == null)
 			return null;
@@ -3972,7 +3972,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			parent= model.getAnnotationIterator();
 
 		Iterator<Annotation> e= new JavaAnnotationIterator(parent, false);
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation a= e.next();
 			Position p= model.getPosition(a);
 			if (p != null && p.overlapsWith(offset, length))
@@ -3999,7 +3999,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @return the computed source reference
 	 * @since 3.0
 	 */
-	protected ISourceReference computeHighlightRangeSourceReference() {
+	protected ISourceReference computeHighlightRangeSourceReference() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISourceViewer sourceViewer= getSourceViewer();
 		if (sourceViewer == null)
 			return null;
@@ -4055,7 +4055,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createChangeHover()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected LineChangeHover createChangeHover() {
 		return new JavaChangeHover(IJavaPartitions.JAVA_PARTITIONING, getOrientation());
 	}
@@ -4063,7 +4063,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#createNavigationActions()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createNavigationActions() {
 		super.createNavigationActions();
 
@@ -4108,7 +4108,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			return super.createAnnotationRulerColumn(ruler);
 
 		AnnotationRulerColumn column= new AnnotationRulerColumn(VERTICAL_RULER_WIDTH, getAnnotationAccess());
-		column.setHover(new JavaExpandHover(ruler, getAnnotationAccess(), new IDoubleClickListener() {
+		column.setHover(new JavaExpandHover(ruler, getAnnotationAccess(), new IDoubleClickListener() { //FLLDCIM: MARK — T05  ANONYMOUS
 
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
@@ -4148,7 +4148,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#performRevert()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performRevert() {
 		ProjectionViewer projectionViewer= (ProjectionViewer) getSourceViewer();
 		projectionViewer.setRedraw(false);
@@ -4177,7 +4177,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#rulerContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void rulerContextMenuAboutToShow(IMenuManager menu) {
 		super.rulerContextMenuAboutToShow(menu);
 		IMenuManager foldingMenu= new MenuManager(JavaEditorMessages.Editor_FoldingMenu_name, "projection"); //$NON-NLS-1$

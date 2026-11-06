@@ -63,7 +63,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 	private IJavaProject fJProject1;
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -101,7 +101,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		CompositeChange change= (CompositeChange)refactoring.createChange(null);
 		Change[] children= change.getChildren();
 		String[] previews= new String[children.length];
-		for (int i= 0; i < children.length; i++) {
+		for (int i= 0; i < children.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			FussyProgressMonitor testMonitor2= new FussyProgressMonitor();
 			previews[i]= ((TextEditBasedChange)children[i]).getPreviewContent(testMonitor2);
 			testMonitor2.assertUsedUp();
@@ -117,7 +117,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 	    return new CodeStyleCleanUpCore(options);
     }
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest01() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -150,7 +150,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest02() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -183,7 +183,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest03() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -216,7 +216,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest04() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -269,7 +269,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest05() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -320,7 +320,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest06() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -371,7 +371,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest07() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -423,7 +423,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest08() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -481,7 +481,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest09() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -540,7 +540,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest10() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -583,7 +583,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest11() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -626,7 +626,7 @@ public class ChangeNonStaticToStaticTest extends QuickFixTest {
 		assertRefactoringResultAsExpected(refactoring, new String[] {expected1});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonStaticAccessTest12() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """

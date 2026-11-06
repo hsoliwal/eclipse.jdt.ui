@@ -37,7 +37,7 @@ public class NewSearchResultCollector extends SearchRequestor {
 		fIgnorePotentials= ignorePotentials;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void acceptSearchMatch(SearchMatch match) throws CoreException {
 		IJavaElement enclosingElement= (IJavaElement) match.getElement();
 		if (enclosingElement != null) {

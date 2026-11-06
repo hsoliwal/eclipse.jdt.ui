@@ -24,7 +24,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
  */
 public class BCOPreferenceInitializer extends AbstractPreferenceInitializer {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = BytecodeOutlinePlugin.getDefault().getPreferenceStore();
 		store.setDefault(BCOConstants.LINK_VIEW_TO_EDITOR, true);

@@ -60,7 +60,7 @@ public class ReplaceQualifiedTypeFixCore extends CompilationUnitRewriteOperation
 
 		public ReplaceQualifiedTypeVisitor(QualifiedName qualifiedName, ITypeBinding sourceTypeBinding, String fullQualifiedName, String className) {
 			this.fullQualifiedName= fullQualifiedName;
-			this.searchResults= new ArrayList<>();
+			this.searchResults= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			this.qualifiedName= qualifiedName;
 			this.sourceTypeBinding= sourceTypeBinding;
 			this.className= className;
@@ -100,7 +100,7 @@ public class ReplaceQualifiedTypeFixCore extends CompilationUnitRewriteOperation
 				}
 				checkTypeBinding(binding);
 				declVisit(binding.getSuperclass());
-				for (ITypeBinding curInterface : binding.getInterfaces()) {
+				for (ITypeBinding curInterface : binding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkTypeBinding(curInterface);
 					declVisit(curInterface.getSuperclass());
 				}
@@ -112,7 +112,7 @@ public class ReplaceQualifiedTypeFixCore extends CompilationUnitRewriteOperation
 				throw new AbortSearchException();
 			}
 			ITypeBinding[] bindings= typeBinding.getDeclaredTypes();
-			for (ITypeBinding binding : bindings) {
+			for (ITypeBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Modifier.isProtected(binding.getModifiers()) || Modifier.isPublic(binding.getModifiers())) {
 					if (binding.getName().equals(className) && !binding.getQualifiedName().equals(fullQualifiedName)) {
 						throw new AbortSearchException();
@@ -144,7 +144,7 @@ public class ReplaceQualifiedTypeFixCore extends CompilationUnitRewriteOperation
 		super(name, compilationUnit, operation);
 	}
 
-	public static ReplaceQualifiedTypeFixCore createReplaceType(CompilationUnit compilationUnit, ASTNode node, IImportDeclaration[] imports) {
+	public static ReplaceQualifiedTypeFixCore createReplaceType(CompilationUnit compilationUnit, ASTNode node, IImportDeclaration[] imports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode rootNode= node.getRoot();
 		QualifiedName qualifiedNode= (QualifiedName) (node);
 		String className= qualifiedNode.getName().getFullyQualifiedName();
@@ -157,7 +157,7 @@ public class ReplaceQualifiedTypeFixCore extends CompilationUnitRewriteOperation
 		if (qualifiedNode.resolveBinding() instanceof IVariableBinding) {
 			return null;
 		}
-		for (IImportDeclaration cur_import : imports) {
+		for (IImportDeclaration cur_import : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String fullString= cur_import.getElementName();
 			if (cur_import.isOnDemand()) {
 				String onDemandImport= fullString.substring(0, cur_import.getElementName().length() - 2);
@@ -208,13 +208,13 @@ public class ReplaceQualifiedTypeFixCore extends CompilationUnitRewriteOperation
 			this.isImportStatic= isImportStatic;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			TextEditGroup group= createTextEditGroup(CorrectionMessages.QuickAssistProcessor_replaceQualifiedName_description, cuRewrite);
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 			ImportRemover iRemover= cuRewrite.getImportRemover();
-			for (QualifiedName itemToModify : itemsToModify) {
+			for (QualifiedName itemToModify : itemsToModify) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SimpleName newItem= ast.newSimpleName(className.getFullyQualifiedName());
 				iRemover.registerRemovedNode(itemToModify);
 				ASTNodes.replaceButKeepComment(rewrite, itemToModify, newItem, group);

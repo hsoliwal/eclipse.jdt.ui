@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.corext.buildpath.IBuildpathModifierListener;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
-public abstract class BuildpathModifierAction extends Action implements ISelectionChangedListener {
+public abstract class BuildpathModifierAction extends Action implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public static final int ADD_SEL_SF_TO_BP= 0;
 	public static final int REMOVE_FROM_BP= 1;
@@ -81,8 +81,8 @@ public abstract class BuildpathModifierAction extends Action implements ISelecti
 
 		fSite= site;
 		fSelectionTarget= selectionTarget;
-		fSelectedElements= new ArrayList<>();
-		fListeners= new ArrayList<>();
+		fSelectedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		setId(Integer.toString(id));
     }
@@ -124,7 +124,7 @@ public abstract class BuildpathModifierAction extends Action implements ISelecti
 	}
 
 	protected void informListeners(BuildpathDelta delta) {
-		for (IBuildpathModifierListener iBuildpathModifierListener : fListeners) {
+		for (IBuildpathModifierListener iBuildpathModifierListener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	        iBuildpathModifierListener.buildpathChanged(delta);
         }
 	}
@@ -149,7 +149,7 @@ public abstract class BuildpathModifierAction extends Action implements ISelecti
 		}
 	}
 
-	protected void selectAndReveal(final ISelection selection) {
+	protected void selectAndReveal(final ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSelectionTarget != null)
 			fSelectionTarget.selectReveal(selection);
 
@@ -162,20 +162,20 @@ public abstract class BuildpathModifierAction extends Action implements ISelecti
 			return;
 
 		// get all the view and editor parts
-		List<IWorkbenchPart> parts= new ArrayList<>();
-		for (IWorkbenchPartReference ref : page.getViewReferences()) {
+		List<IWorkbenchPart> parts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkbenchPartReference ref : page.getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part= ref.getPart(false);
 			if (part != null)
 				parts.add(part);
 		}
-		for (IWorkbenchPartReference ref : page.getEditorReferences()) {
+		for (IWorkbenchPartReference ref : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ref.getPart(false) != null) {
 				parts.add(ref.getPart(false));
 			}
 		}
 
 		Iterator<IWorkbenchPart> itr= parts.iterator();
-		while (itr.hasNext()) {
+		while (itr.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWorkbenchPart part= itr.next();
 
 			// get the part's ISetSelectionTarget implementation
@@ -188,7 +188,7 @@ public abstract class BuildpathModifierAction extends Action implements ISelecti
 			if (target != null) {
 				// select and reveal resource
 				final ISetSelectionTarget finalTarget= target;
-				page.getWorkbenchWindow().getShell().getDisplay().asyncExec(() -> finalTarget.selectReveal(selection));
+				page.getWorkbenchWindow().getShell().getDisplay().asyncExec(() -> finalTarget.selectReveal(selection)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}

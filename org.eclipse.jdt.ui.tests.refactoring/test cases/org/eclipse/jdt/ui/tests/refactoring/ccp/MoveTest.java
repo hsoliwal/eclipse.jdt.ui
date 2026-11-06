@@ -208,7 +208,7 @@ public class MoveTest extends GenericRefactoringTest {
 		if (severity == RefactoringStatus.INFO) // see ReorgPolicyFactory.MoveFilesFoldersAndCusPolicy.verifyDestination(..)
 			return;
 
-		assertEquals("destination was expected to be valid: " + status.getMessageMatchingSeverity(severity), RefactoringStatus.OK, severity);
+		assertEquals("destination was expected to be valid: " + status.getMessageMatchingSeverity(severity), RefactoringStatus.OK, severity); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void verifyInvalidDestination(JavaMoveProcessor ref, Object destination) throws Exception {
@@ -816,7 +816,7 @@ public class MoveTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_methodToCu() throws Exception {
 		ICompilationUnit cu= getPackageP().createCompilationUnit("A.java", "package p;class A{void foo(){/*impl*/}}", false, new NullProgressMonitor());
 		ICompilationUnit cu1= getPackageP().createCompilationUnit("B.java", "package p;class B{}", false, new NullProgressMonitor());
@@ -938,7 +938,7 @@ public class MoveTest extends GenericRefactoringTest {
 		verifyInvalidDestination(ref, destination);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToOtherPackage() throws Exception {
 		IPackageFragment otherPackage= getRoot().createPackageFragment("otherPackage", true, new NullProgressMonitor());
 		String oldSource= "package p;class A{void foo(){}class Inner{}}";
@@ -968,7 +968,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(otherPackage.getResource(), processor.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuFromRootIssue649() throws Exception {
 		IPackageFragment otherPackage= getRoot().createPackageFragment("otherPackage", true, new NullProgressMonitor());
 		String oldSource= "//Comment1\n//Comment2\nclass A{void foo(){}class Inner{}}";
@@ -999,7 +999,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(otherPackage.getResource(), processor.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToOtherPackageBug549674() throws Exception {
 		ParticipantTesting.reset();
 
@@ -1067,7 +1067,7 @@ public class MoveTest extends GenericRefactoringTest {
 				});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToOtherPackageBug21008() throws Exception {
 		ParticipantTesting.reset();
 
@@ -1131,7 +1131,7 @@ public class MoveTest extends GenericRefactoringTest {
 				});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToOtherPackageWithMultiRoot() throws Exception {
 		ParticipantTesting.reset();
 		//regression test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=47788
@@ -1170,7 +1170,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(otherPackage.getResource(), processor.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToOtherPackageWithMultiRootBug109145() throws Exception {
 		ParticipantTesting.reset();
 
@@ -1226,7 +1226,7 @@ public class MoveTest extends GenericRefactoringTest {
 				new MoveArguments(destination, processor.getUpdateReferences()), new MoveArguments(destination.getResource(), processor.getUpdateReferences()) });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToRoot() throws Exception {
 		ParticipantTesting.reset();
 		String newSource= "package p;class A{void foo(){}class Inner{}}";
@@ -1257,7 +1257,7 @@ public class MoveTest extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_no_cuFromRoot() throws Exception {
 		//import statement with type from default package - only <= java 1.3
 		IJavaProject javaProject= getRoot().getJavaProject();
@@ -1298,7 +1298,7 @@ public class MoveTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToProject() throws Exception {
 		ParticipantTesting.reset();
 		String oldSource= "package p;class A{void foo(){}class Inner{}}";
@@ -1328,7 +1328,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(project.getResource(), ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToSimpleProject() throws Exception {
 		ParticipantTesting.reset();
 		String oldSource= "package p;class A{void foo(){}class Inner{}}";
@@ -1364,7 +1364,7 @@ public class MoveTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToFileInDifferentPackage() throws Exception {
 		ParticipantTesting.reset();
 		ICompilationUnit cu1= getPackageP().createCompilationUnit("A.java", "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -1402,7 +1402,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(otherPackage.getResource(), ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_cuToFolder() throws Exception {
 		ParticipantTesting.reset();
 		ICompilationUnit cu1= getPackageP().createCompilationUnit("A.java", "package p;class A{void foo(){}class Inner{}}", false, new NullProgressMonitor());
@@ -1439,7 +1439,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(folder, ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_fileToSiblingFolder() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1473,7 +1473,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(folder, ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_fileToCu() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1505,7 +1505,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(getPackageP().getResource(), ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_fileToPackage() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1551,7 +1551,7 @@ public class MoveTest extends GenericRefactoringTest {
 		verifyInvalidDestination(ref, destination);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_fileToRoot() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1595,7 +1595,7 @@ public class MoveTest extends GenericRefactoringTest {
 		verifyInvalidDestination(ref, destination);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_folderToSiblingFolder() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1639,7 +1639,7 @@ public class MoveTest extends GenericRefactoringTest {
 		verifyInvalidDestination(ref, destination);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_folderToSiblingRoot() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1666,7 +1666,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(getRoot().getResource(), ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_folderToPackage() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1685,7 +1685,7 @@ public class MoveTest extends GenericRefactoringTest {
 		RefactoringStatus status= performRefactoring(ref, true);
 		assertNull(status);
 		assertFalse("folder not moved", folder.exists());
-		IPackageFragment newPackage= getRoot().getPackageFragment(getPackageP().getElementName() + "." + folder.getName());
+		IPackageFragment newPackage= getRoot().getPackageFragment(getPackageP().getElementName() + "." + folder.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("new package does not exist after", newPackage.exists());
 		ParticipantTesting.testMove(
 				handles,
@@ -1693,7 +1693,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(getPackageP().getResource(), ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_folderToFileInAnotherFolder() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1725,7 +1725,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(otherFolder, ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_folderToCu() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1746,7 +1746,7 @@ public class MoveTest extends GenericRefactoringTest {
 		RefactoringStatus status= performRefactoring(ref, true);
 		assertNull(status);
 		assertFalse("folder not moved", folder.exists());
-		IPackageFragment newPackage= getRoot().getPackageFragment(getPackageP().getElementName() + "." + folder.getName());
+		IPackageFragment newPackage= getRoot().getPackageFragment(getPackageP().getElementName() + "." + folder.getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue("new package does not exist after", newPackage.exists());
 		ParticipantTesting.testMove(
 				handles,
@@ -1754,7 +1754,7 @@ public class MoveTest extends GenericRefactoringTest {
 						new MoveArguments(cu.getParent().getResource(), ref.getUpdateReferences())});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_folderToSimpleProject() throws Exception {
 		ParticipantTesting.reset();
 		IProject superFolder= rts.getProject().getProject();
@@ -1789,7 +1789,7 @@ public class MoveTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_yes_sourceFolderToOtherProject() throws Exception {
 		ParticipantTesting.reset();
 		IJavaProject otherJavaProject= JavaProjectHelper.createJavaProject("other", "bin");
@@ -1905,7 +1905,7 @@ public class MoveTest extends GenericRefactoringTest {
 		assertIsParent(superFolder, folder);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDestination_bug196303() throws Exception {
 		IProject superFolder= rts.getProject().getProject();
 		IFolder folder1= superFolder.getFolder("bar");
@@ -1984,7 +1984,7 @@ public class MoveTest extends GenericRefactoringTest {
 		assertTrue(child.getParent().equals(parent));
 	}
 
-	public void move(IJavaElement[] javaElements, IResource[] resources, IResource destination, IJavaElement javaDestination, int location, boolean confirmAll, boolean providesUndo) throws Exception {
+	public void move(IJavaElement[] javaElements, IResource[] resources, IResource destination, IJavaElement javaDestination, int location, boolean confirmAll, boolean providesUndo) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertNotNull(javaElements);
 		assertNotNull(resources);
 		assertTrue((destination != null || javaDestination != null) && (destination == null || javaDestination == null));
@@ -1994,7 +1994,7 @@ public class MoveTest extends GenericRefactoringTest {
 		} else {
 			assertTrue(destination.exists());
 		}
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(resource.exists());
 		}
 
@@ -2022,6 +2022,6 @@ public class MoveTest extends GenericRefactoringTest {
 	}
 
 	private void compareContents(String cuName) throws JavaModelException, IOException {
-		assertEqualLines(cuName, getFileContents(getOutputTestFileName(cuName)), getPackageP().getCompilationUnit(cuName + ".java").getSource());
+		assertEqualLines(cuName, getFileContents(getOutputTestFileName(cuName)), getPackageP().getCompilationUnit(cuName + ".java").getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

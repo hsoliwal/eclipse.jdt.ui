@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
 
-public class TrayContentProvider implements ITreeContentProvider {
+public class TrayContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	public static final int DEFAULT_CHILDREN_COUNT= 7;
 
@@ -34,9 +34,9 @@ public class TrayContentProvider implements ITreeContentProvider {
 	/*
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object parentElement) {
-		ArrayList<ExceptionAttribute> result= new ArrayList<>();
+		ArrayList<ExceptionAttribute> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (parentElement instanceof ExceptionAttribute)
 			return EMPTY;
 
@@ -58,7 +58,7 @@ public class TrayContentProvider implements ITreeContentProvider {
 		return result.toArray();
 	}
 
-	private void addObjectComparisons(ArrayList<ExceptionAttribute> result, Object trayElement) {
+	private void addObjectComparisons(ArrayList<ExceptionAttribute> result, Object trayElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class IdentityProperty extends DynamicAttributeProperty {
 			public IdentityProperty(Object parent) {
 				super(parent, "* == this: ");
@@ -85,7 +85,7 @@ public class TrayContentProvider implements ITreeContentProvider {
 		result.add(new EqualsProperty(trayElement));
 	}
 
-	private void addBindingComparisons(ArrayList<ExceptionAttribute> result, Binding trayElement) {
+	private void addBindingComparisons(ArrayList<ExceptionAttribute> result, Binding trayElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class IsEqualToProperty extends DynamicBindingProperty {
 			public IsEqualToProperty(Binding parent) {
 				super(parent);
@@ -127,7 +127,7 @@ public class TrayContentProvider implements ITreeContentProvider {
 		result.add(new KeysEqualProperty(trayElement));
 	}
 
-	private void addTypeBindingComparions(ArrayList<ExceptionAttribute> result, Binding trayElement) {
+	private void addTypeBindingComparions(ArrayList<ExceptionAttribute> result, Binding trayElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class IsSubTypeCompatibleProperty extends DynamicBindingProperty {
 			public IsSubTypeCompatibleProperty(Binding parent) {
 				super(parent);
@@ -192,7 +192,7 @@ public class TrayContentProvider implements ITreeContentProvider {
 		result.add(new IsAssignmentCompatibleProperty(trayElement));
 	}
 
-	private void addMethodBindingComparions(ArrayList<ExceptionAttribute> result, Binding trayElement) {
+	private void addMethodBindingComparions(ArrayList<ExceptionAttribute> result, Binding trayElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class OverridesProperty extends DynamicBindingProperty {
 			public OverridesProperty(Binding parent) {
 				super(parent);

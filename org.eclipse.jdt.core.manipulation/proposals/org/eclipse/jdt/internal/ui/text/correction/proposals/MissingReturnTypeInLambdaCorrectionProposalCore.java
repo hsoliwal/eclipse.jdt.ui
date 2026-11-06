@@ -80,7 +80,7 @@ public class MissingReturnTypeInLambdaCorrectionProposalCore extends MissingRetu
 		return lambdaExpression;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Expression computeProposals(AST ast, ITypeBinding returnBinding, int returnOffset, CompilationUnit root, Expression result) {
 		ScopeAnalyzer analyzer= new ScopeAnalyzer(root);
 		org.eclipse.jdt.core.dom.NodeFinder finder= new org.eclipse.jdt.core.dom.NodeFinder(root, returnOffset, 0);
@@ -88,7 +88,7 @@ public class MissingReturnTypeInLambdaCorrectionProposalCore extends MissingRetu
 		IVariableBinding varDeclFragBinding= null;
 		if (varDeclFrag != null)
 			varDeclFragBinding= ((VariableDeclarationFragment) varDeclFrag).resolveBinding();
-		for (IBinding binding : analyzer.getDeclarationsInScope(returnOffset, ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY)) {
+		for (IBinding binding : analyzer.getDeclarationsInScope(returnOffset, ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding curr= (IVariableBinding) binding;
 			ITypeBinding type= curr.getType();
 			// Bindings are compared to make sure that a lambda does not return a variable which is yet to be initialised.

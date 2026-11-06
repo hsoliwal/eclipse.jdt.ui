@@ -161,7 +161,7 @@ public class TypeSelectionDialog2 extends SelectionStatusDialog {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IJavaHelpContextIds.TYPE_SELECTION_DIALOG2);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite area= (Composite)super.createDialogArea(parent);
 		fContent= new TypeSelectionComponent(area, SWT.NONE, getMessage(),
@@ -188,14 +188,14 @@ public class TypeSelectionDialog2 extends SelectionStatusDialog {
 		okPressed();
 	}
 
-	protected void handleWidgetSelected(TypeNameMatch[] selection) {
+	protected void handleWidgetSelected(TypeNameMatch[] selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus status= null;
 		if (selection.length == 0) {
 	    	status= new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.ERROR, "",null); //$NON-NLS-1$
 	    } else {
 		    if (fValidator != null) {
-				List jElements= new ArrayList();
-				for (TypeNameMatch typeInfo : selection) {
+				List jElements= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (TypeNameMatch typeInfo : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IType type= typeInfo.getType();
 					if (type != null) {
 						jElements.add(type);
@@ -214,7 +214,7 @@ public class TypeSelectionDialog2 extends SelectionStatusDialog {
     	updateStatus(status);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
 		try {
 			ensureConsistency();
@@ -263,7 +263,7 @@ public class TypeSelectionDialog2 extends SelectionStatusDialog {
 		fTitle= title;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void computeResult() {
 		TypeNameMatch[] selected= fContent.getSelection();
 		if (selected == null || selected.length == 0) {
@@ -277,8 +277,8 @@ public class TypeSelectionDialog2 extends SelectionStatusDialog {
 		}
 
 		OpenTypeHistory history= OpenTypeHistory.getInstance();
-		List result= new ArrayList(selected.length);
-		for (TypeNameMatch typeInfo : selected) {
+		List result= new ArrayList(selected.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TypeNameMatch typeInfo : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType type= typeInfo.getType();
 			if (!type.exists()) {
 				String title= JavaUIMessages.TypeSelectionDialog_errorTitle;
@@ -296,11 +296,11 @@ public class TypeSelectionDialog2 extends SelectionStatusDialog {
 		setResult(result);
 	}
 
-	private void ensureConsistency() throws InvocationTargetException, InterruptedException {
+	private void ensureConsistency() throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// we only have to ensure history consistency here since the search engine
 		// takes care of working copies.
-		class ConsistencyRunnable implements IRunnableWithProgress {
-			@Override
+		class ConsistencyRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				if (fgFirstTime) {
 					// Join the initialize after load job.

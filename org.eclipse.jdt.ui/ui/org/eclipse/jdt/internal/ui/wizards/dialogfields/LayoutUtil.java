@@ -29,7 +29,7 @@ public class LayoutUtil {
 	 */
 	public static int getNumberOfColumns(DialogField[] editors) {
 		int nCulumns= 0;
-		for (DialogField editor : editors) {
+		for (DialogField editor : editors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nCulumns= Math.max(editor.getNumberOfControls(), nCulumns);
 		}
 		return nCulumns;
@@ -49,10 +49,10 @@ public class LayoutUtil {
 	 * @param marginWidth The margin width to be used by the composite
 	 * @param marginHeight The margin height to be used by the composite
 	 */
-	public static void doDefaultLayout(Composite parent, DialogField[] editors, boolean labelOnTop, int marginWidth, int marginHeight) {
+	public static void doDefaultLayout(Composite parent, DialogField[] editors, boolean labelOnTop, int marginWidth, int marginHeight) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nCulumns= getNumberOfColumns(editors);
 		Control[][] controls= new Control[editors.length][];
-		for (int i= 0; i < editors.length; i++) {
+		for (int i= 0; i < editors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			controls[i]= editors[i].doFillIntoGrid(parent, nCulumns);
 		}
 		if (labelOnTop) {
@@ -76,7 +76,7 @@ public class LayoutUtil {
 	}
 
 	private static void modifyLabelSpans(Control[][] controls, int nCulumns) {
-		for (Control[] control : controls) {
+		for (Control[] control : controls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setHorizontalSpan(control[0], nCulumns);
 		}
 	}

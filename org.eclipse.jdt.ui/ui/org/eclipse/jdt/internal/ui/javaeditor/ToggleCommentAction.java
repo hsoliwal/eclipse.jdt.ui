@@ -76,7 +76,7 @@ public final class ToggleCommentAction extends TextEditorAction {
 	 * Implementation of the <code>IAction</code> prototype. Checks if the selected
 	 * lines are all commented or not and uncomments/comments them respectively.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		if (fOperationTarget == null || fDocumentPartitioning == null || fPrefixesMap == null)
 			return;
@@ -114,7 +114,7 @@ public final class ToggleCommentAction extends TextEditorAction {
 	 * @param selection Selection to check
 	 * @return <code>true</code> iff all selected lines are commented
 	 */
-	private boolean isSelectionCommented(ISelection selection) {
+	private boolean isSelectionCommented(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(selection instanceof ITextSelection))
 			return false;
 
@@ -130,7 +130,7 @@ public final class ToggleCommentAction extends TextEditorAction {
 			ITypedRegion[] regions= TextUtilities.computePartitioning(document, fDocumentPartitioning, block.getOffset(), block.getLength(), false);
 
 			int[] lines= new int[regions.length * 2]; // [startline, endline, startline, endline, ...]
-			for (int i= 0, j= 0; i < regions.length; i++, j+= 2) {
+			for (int i= 0, j= 0; i < regions.length; i++, j+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// start line of region
 				lines[j]= getFirstCompleteLineOfRegion(regions[i], document);
 				// end line of region
@@ -142,7 +142,7 @@ public final class ToggleCommentAction extends TextEditorAction {
 			}
 
 			// Perform the check
-			for (int i= 0, j= 0; i < regions.length; i++, j += 2) {
+			for (int i= 0, j= 0; i < regions.length; i++, j += 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String[] prefixes= fPrefixesMap.get(regions[i].getType());
 				if (prefixes != null && prefixes.length > 0 && lines[j] >= 0 && lines[j + 1] >= 0)
 					if (!isBlockCommented(lines[j], lines[j + 1], prefixes, document))
@@ -189,7 +189,7 @@ public final class ToggleCommentAction extends TextEditorAction {
 	 * @param document The document
 	 * @return the first line whose start index is in the given range, -1 if there is no such line
 	 */
-	private int getFirstCompleteLineOfRegion(IRegion region, IDocument document) {
+	private int getFirstCompleteLineOfRegion(IRegion region, IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 
@@ -226,12 +226,12 @@ public final class ToggleCommentAction extends TextEditorAction {
 	 *             of the <code>prefixes</code>, ignoring whitespace at the
 	 *             begin of line
 	 */
-	private boolean isBlockCommented(int startLine, int endLine, String[] prefixes, IDocument document) {
+	private boolean isBlockCommented(int startLine, int endLine, String[] prefixes, IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 
 			// check for occurrences of prefixes in the given lines
-			for (int i= startLine; i <= endLine; i++) {
+			for (int i= startLine; i <= endLine; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				IRegion line= document.getLineInformation(i);
 				String text= document.get(line.getOffset(), line.getLength());
@@ -292,23 +292,23 @@ public final class ToggleCommentAction extends TextEditorAction {
 		fOperationTarget= null;
 	}
 
-	public void configure(ISourceViewer sourceViewer, SourceViewerConfiguration configuration) {
+	public void configure(ISourceViewer sourceViewer, SourceViewerConfiguration configuration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPrefixesMap= null;
 
 		String[] types= configuration.getConfiguredContentTypes(sourceViewer);
-		Map<String, String[]> prefixesMap= new HashMap<>(types.length);
-		for (String type : types) {
+		Map<String, String[]> prefixesMap= new HashMap<>(types.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] prefixes= configuration.getDefaultPrefixes(sourceViewer, type);
 			if (prefixes != null && prefixes.length > 0) {
 				int emptyPrefixes= 0;
-				for (String prefix : prefixes) {
+				for (String prefix : prefixes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (prefix.length() == 0) {
 						emptyPrefixes++;
 					}
 				}
 				if (emptyPrefixes > 0) {
 					String[] nonemptyPrefixes= new String[prefixes.length - emptyPrefixes];
-					for (int j= 0, k= 0; j < prefixes.length; j++) {
+					for (int j= 0, k= 0; j < prefixes.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String prefix= prefixes[j];
 						if (prefix.length() != 0) {
 							nonemptyPrefixes[k]= prefix;

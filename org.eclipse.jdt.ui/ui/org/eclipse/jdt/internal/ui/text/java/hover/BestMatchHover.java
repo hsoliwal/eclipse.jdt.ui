@@ -57,11 +57,11 @@ public class BestMatchHover extends AbstractJavaEditorTextHover {
 	private void installTextHovers() {
 
 		// initialize lists - indicates that the initialization happened
-		fTextHoverSpecifications= new ArrayList<>(2);
-		fInstantiatedTextHovers= new ArrayList<>(2);
+		fTextHoverSpecifications= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fInstantiatedTextHovers= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// populate list
-		for (JavaEditorTextHoverDescriptor hoverDesc : JavaPlugin.getDefault().getJavaEditorTextHoverDescriptors()) {
+		for (JavaEditorTextHoverDescriptor hoverDesc : JavaPlugin.getDefault().getJavaEditorTextHoverDescriptors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// ensure that we don't add ourselves to the list
 			if (!PreferenceConstants.ID_BESTMATCH_HOVER.equals(hoverDesc.getId())) {
 				fTextHoverSpecifications.add(hoverDesc);
@@ -69,13 +69,13 @@ public class BestMatchHover extends AbstractJavaEditorTextHover {
 		}
 	}
 
-	private void checkTextHovers() {
+	private void checkTextHovers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTextHoverSpecifications == null)
 			return;
 
 		boolean done= true;
 
-		for (int i= 0; i < fTextHoverSpecifications.size(); i++) {
+		for (int i= 0; i < fTextHoverSpecifications.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaEditorTextHoverDescriptor spec= fTextHoverSpecifications.get(i);
 			if (spec == null)
 				continue;
@@ -100,7 +100,7 @@ public class BestMatchHover extends AbstractJavaEditorTextHover {
 	/*
 	 * @see ITextHover#getHoverInfo(ITextViewer, IRegion)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {
 
 		checkTextHovers();
@@ -109,7 +109,7 @@ public class BestMatchHover extends AbstractJavaEditorTextHover {
 		if (fInstantiatedTextHovers == null)
 			return null;
 
-		for (ITextHover hover : fInstantiatedTextHovers) {
+		for (ITextHover hover : fInstantiatedTextHovers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hover == null)
 				continue;
 
@@ -148,7 +148,7 @@ public class BestMatchHover extends AbstractJavaEditorTextHover {
 	 * @see ITextHoverExtension2#getHoverInfo2(ITextViewer, IRegion)
 	 * @since 3.8
 	 */
-	public Object getHoverInfo2(ITextViewer textViewer, IRegion hoverRegion, boolean forInformationProvider) {
+	public Object getHoverInfo2(ITextViewer textViewer, IRegion hoverRegion, boolean forInformationProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		checkTextHovers();
 		fBestHover= null;
@@ -156,7 +156,7 @@ public class BestMatchHover extends AbstractJavaEditorTextHover {
 		if (fInstantiatedTextHovers == null)
 			return null;
 
-		for (IJavaEditorTextHover hover : fInstantiatedTextHovers) {
+		for (IJavaEditorTextHover hover : fInstantiatedTextHovers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hover == null)
 				continue;
 

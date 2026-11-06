@@ -64,9 +64,9 @@ public class NullAnnotationsCleanUpCore extends AbstractMultiFix {
 		if (compilationUnit == null)
 			return null;
 		IProblemLocation[] locations= null;
-		ArrayList<IProblemLocation> filteredLocations= new ArrayList<>();
+		ArrayList<IProblemLocation> filteredLocations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (problems != null) {
-			for (IProblemLocation problem : problems) {
+			for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problem.getProblemId() == this.handledProblemID) {
 					filteredLocations.add(problem);
 				}
@@ -89,9 +89,9 @@ public class NullAnnotationsCleanUpCore extends AbstractMultiFix {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		switch (this.handledProblemID) {
 			case IProblem.NonNullLocalVariableComparisonYieldsFalse:
 			case IProblem.RedundantNullCheckOnNonNullLocalVariable:
@@ -144,7 +144,7 @@ public class NullAnnotationsCleanUpCore extends AbstractMultiFix {
 	@Override
 	public int computeNumberOfFixes(CompilationUnit compilationUnit) {
 		int result= 0;
-		for (IProblem problem : compilationUnit.getProblems()) {
+		for (IProblem problem : compilationUnit.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int id= problem.getID();
 			if (id == this.handledProblemID) {
 				// FIXME search specifically: return param (which??)

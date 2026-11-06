@@ -98,7 +98,7 @@ public class ComboDialogField extends DialogField {
 	 * @param parent The parent composite or <code>null</code> when the widget has
 	 * already been created.
 	 */
-	public Combo getComboControl(Composite parent) {
+	public Combo getComboControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fComboControl == null) {
 			assertCompositeNotNull(parent);
 			fModifyListener= this::doModifyText;
@@ -122,8 +122,8 @@ public class ComboDialogField extends DialogField {
 			}
 			fComboControl.setFont(parent.getFont());
 			SWTUtil.setDefaultVisibleItemCount(fComboControl);
-			fComboControl.addModifyListener(fModifyListener);
-			fComboControl.addSelectionListener(selectionListener);
+			fComboControl.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			fComboControl.addSelectionListener(selectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			fComboControl.setEnabled(isEnabled());
 		}
 		return fComboControl;
@@ -223,7 +223,7 @@ public class ComboDialogField extends DialogField {
 	 * Selects an item.
 	 */
 	public boolean selectItem(String name) {
-		for (int i= 0; i < fItems.length; i++) {
+		for (int i= 0; i < fItems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fItems[i].equals(name)) {
 				return selectItem(i);
 			}
@@ -245,7 +245,7 @@ public class ComboDialogField extends DialogField {
 		if (isOkToUse(fComboControl)) {
 			fComboControl.removeModifyListener(fModifyListener);
 			fComboControl.setText(text);
-			fComboControl.addModifyListener(fModifyListener);
+			fComboControl.addModifyListener(fModifyListener); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 		}
 	}
 

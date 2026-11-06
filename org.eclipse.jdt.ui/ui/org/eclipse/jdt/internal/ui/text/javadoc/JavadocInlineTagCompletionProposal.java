@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal;
  *
  * @since 3.2
  */
-public class JavadocInlineTagCompletionProposal extends LazyJavaCompletionProposal {
+public class JavadocInlineTagCompletionProposal extends LazyJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	/** Triggers for types in javadoc. Do not modify. */
 	protected static final char[] JDOC_INLINE_TAG_TRIGGERS= new char[] { '#', '}', ' ' };
 
@@ -85,7 +85,7 @@ public class JavadocInlineTagCompletionProposal extends LazyJavaCompletionPropos
 		return super.isPrefix(pattern, string);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
 		StyledString styledDisplayString= new StyledString();
 		styledDisplayString.append(getStyledDisplayString());
@@ -107,7 +107,7 @@ public class JavadocInlineTagCompletionProposal extends LazyJavaCompletionPropos
 						Strings.markMatchingRegions(styledDisplayString, 0, new int[] { 0, 1 }, boldStylerProvider.getBoldStyler());
 					}
 					Strings.markMatchingRegions(styledDisplayString, 0, new int[] { 1, 1 }, boldStylerProvider.getBoldStyler());
-					for (int i= 0; i < matchingRegions.length; i+= 2) {
+					for (int i= 0; i < matchingRegions.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						matchingRegions[i]+= 2;
 					}
 				}

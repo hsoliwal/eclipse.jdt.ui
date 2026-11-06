@@ -95,7 +95,7 @@ public class JavaExpandHover extends AnnotationExpandHover {
 	/*
 	 * @see org.eclipse.ui.internal.texteditor.AnnotationExpandHover#getHoverInfoForLine(org.eclipse.jface.text.source.ISourceViewer, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object getHoverInfoForLine(final ISourceViewer viewer, final int line) {
 		final boolean showTemporaryProblems= PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.EDITOR_CORRECTION_INDICATION);
 		IAnnotationModel model= viewer.getAnnotationModel();
@@ -104,11 +104,11 @@ public class JavaExpandHover extends AnnotationExpandHover {
 		if (model == null)
 			return null;
 
-		List<Annotation> exact= new ArrayList<>();
-		HashMap<Position, Object> messagesAtPosition= new HashMap<>();
+		List<Annotation> exact= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		HashMap<Position, Object> messagesAtPosition= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		Iterator<Annotation> e= model.getAnnotationIterator();
-		while (e.hasNext()) {
+		while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annotation= e.next();
 
 			if (fAnnotationAccess instanceof IAnnotationAccessExtension)
@@ -164,7 +164,7 @@ public class JavaExpandHover extends AnnotationExpandHover {
 		return input;
 	}
 
-	private boolean isIncluded(IJavaAnnotation annotation, boolean showTemporaryProblems) {
+	private boolean isIncluded(IJavaAnnotation annotation, boolean showTemporaryProblems) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// XXX: see https://bugs.eclipse.org/bugs/show_bug.cgi?id=138601
 		if (annotation instanceof ProblemAnnotation && JavaMarkerAnnotation.TASK_ANNOTATION_TYPE.equals(annotation.getType()))

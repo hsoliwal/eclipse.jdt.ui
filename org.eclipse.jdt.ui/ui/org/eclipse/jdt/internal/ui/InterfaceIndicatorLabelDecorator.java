@@ -128,7 +128,7 @@ public class InterfaceIndicatorLabelDecorator extends AbstractJavaElementLabelDe
 		}
 	}
 
-	private void addOverlays(Object element, IDecoration decoration) throws JavaModelException {
+	private void addOverlays(Object element, IDecoration decoration) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof ICompilationUnit && !JavaModelUtil.isModuleInfo((ICompilationUnit) element)) {
 			ICompilationUnit unit= (ICompilationUnit) element;
 			if (unit.isOpen()) {
@@ -152,7 +152,7 @@ public class InterfaceIndicatorLabelDecorator extends AbstractJavaElementLabelDe
 		}
 	}
 
-	private void addOverlaysWithSearchEngine(ITypeRoot element, String typeName, IDecoration decoration) {
+	private void addOverlaysWithSearchEngine(ITypeRoot element, String typeName, IDecoration decoration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SearchEngine engine= new SearchEngine();
 		IJavaSearchScope scope= SearchEngine.createJavaSearchScope(new IJavaElement[] { element });
 
@@ -185,7 +185,7 @@ public class InterfaceIndicatorLabelDecorator extends AbstractJavaElementLabelDe
 
 	}
 
-	private void addOverlaysFromFlags(int flags, IDecoration decoration) {
+	private void addOverlaysFromFlags(int flags, IDecoration decoration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImageDescriptor type;
 		if (Flags.isAnnotation(flags)) {
 			type= JavaPluginImages.DESC_OVR_ANNOTATION;
@@ -218,7 +218,7 @@ public class InterfaceIndicatorLabelDecorator extends AbstractJavaElementLabelDe
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void processDelta(IJavaElementDelta delta, List<IJavaElement> result) {
 		IJavaElement elem= delta.getElement();
 

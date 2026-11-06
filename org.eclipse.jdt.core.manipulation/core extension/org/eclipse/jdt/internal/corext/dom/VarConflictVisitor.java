@@ -38,9 +38,9 @@ public class VarConflictVisitor extends InterruptibleVisitor {
 	 */
 	public VarConflictVisitor(final Set<SimpleName> localVariables, final boolean includeInnerScopes) {
 		this.includeInnerScopes= includeInnerScopes;
-		this.localVariableIds= new HashSet<>(localVariables.size());
+		this.localVariableIds= new HashSet<>(localVariables.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (SimpleName localVariable : localVariables) {
+		for (SimpleName localVariable : localVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			this.localVariableIds.add(localVariable.getIdentifier());
 		}
 	}

@@ -58,9 +58,9 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class PullUpAction extends SelectionDispatchAction {
+public class PullUpAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
-	private static IMember[] getSelectedMembers(IStructuredSelection selection) {
+	private static IMember[] getSelectedMembers(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.isEmpty())
 			return null;
 		if (selection.size() == 1) {
@@ -72,11 +72,11 @@ public class PullUpAction extends SelectionDispatchAction {
 				JavaPlugin.log(exception);
 			}
 		}
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(name instanceof IMember))
 				return null;
 		}
-		Set<Object> memberSet= new HashSet<>(Arrays.asList(selection.toArray()));
+		Set<Object> memberSet= new HashSet<>(Arrays.asList(selection.toArray())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		return memberSet.toArray(new IMember[memberSet.size()]);
 	}
 

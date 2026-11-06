@@ -28,7 +28,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 
-public class ConstructorFromSuperclassProposal extends LinkedCorrectionProposal {
+public class ConstructorFromSuperclassProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static Image getProposalImage() {
 		return JavaPlugin.getImageDescriptorRegistry().get(

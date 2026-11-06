@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
  */
 public class JunitPreferenceInitializer extends AbstractPreferenceInitializer {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initializeDefaultPreferences() {
 		IEclipsePreferences prefs= DefaultScope.INSTANCE.getNode(JUnitCorePlugin.CORE_PLUGIN_ID);
 

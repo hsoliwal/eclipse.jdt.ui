@@ -44,7 +44,7 @@ public class ConfigureWorkingSetAction extends Action {
 
 	@Override
 	public void run() {
-		List<IWorkingSet> workingSets= new ArrayList<>(Arrays.asList(fWorkingSetModel.getAllWorkingSets()));
+		List<IWorkingSet> workingSets= new ArrayList<>(Arrays.asList(fWorkingSetModel.getAllWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkingSet[] activeWorkingSets;
 		if (fWorkingSetModel.needsConfiguration()) {
 			activeWorkingSets= fWorkingSetModel.getAllWorkingSets();

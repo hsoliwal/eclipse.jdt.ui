@@ -98,7 +98,7 @@ public abstract class AbstractAnnotateAssistTests extends QuickFixTest {
 		if (!(element instanceof ISourceReference)) {
 			return null;
 		}
-		assertNotNull("Should be child of a classfile: "+element, element.getAncestor(IJavaElement.CLASS_FILE));
+		assertNotNull("Should be child of a classfile: "+element, element.getAncestor(IJavaElement.CLASS_FILE)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IEditorPart part= EditorUtility.openInSpecificEditor(element, JavaUI.ID_CF_EDITOR, activate);
 		if (reveal && part != null) {
 			EditorUtility.revealInEditor(part, element);
@@ -106,7 +106,7 @@ public abstract class AbstractAnnotateAssistTests extends QuickFixTest {
 		return (JavaEditor) part;
 	}
 
-	public List<ICompletionProposal> collectAnnotateProposals(JavaEditor javaEditor, int offset) throws CoreException {
+	public List<ICompletionProposal> collectAnnotateProposals(JavaEditor javaEditor, int offset) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (javaEditor instanceof ClassFileEditor) {
 			JavaSourceViewer viewer= (JavaSourceViewer)javaEditor.getViewer();
 			viewer.setSelection(new TextSelection(offset, 0));
@@ -120,7 +120,7 @@ public abstract class AbstractAnnotateAssistTests extends QuickFixTest {
 				ICompilationUnit cu= classFile.getWorkingCopy((WorkingCopyOwner) null, null);
 				String cuString = cu.toString();
 				cu.discardWorkingCopy();
-				Assert.assertNotNull("cu=" + cuString + " source=" + classFile.getSource(), proposals);
+				Assert.assertNotNull("cu=" + cuString + " source=" + classFile.getSource(), proposals); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			List<ICompletionProposal> list= Arrays.asList(proposals);
 			return list;
@@ -139,10 +139,10 @@ public abstract class AbstractAnnotateAssistTests extends QuickFixTest {
 	{
 		IProject project= createLibrary(javaProject, jarName, sourceZipName, pathAndContents, compliance, classFileFilter);
 
-		String projectPath= '/' + project.getName() + '/';
+		String projectPath= '/' + project.getName() + '/'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IClasspathEntry entry= JavaCore.newLibraryEntry(
-				new Path(projectPath + jarName),
-				sourceZipName == null ? null : new Path(projectPath + sourceZipName),
+				new Path(projectPath + jarName), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				sourceZipName == null ? null : new Path(projectPath + sourceZipName), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				null,
 				ClasspathEntry.getAccessRules(null, null),
 				new IClasspathAttribute[] { JavaCore.newClasspathAttribute(EXTERNAL_ANNOTATION_PATH, annotationpath)},
@@ -159,11 +159,11 @@ public abstract class AbstractAnnotateAssistTests extends QuickFixTest {
 	{
 		IProject project= javaProject.getProject();
 		String projectLocation= project.getLocation().toOSString();
-		String jarPath= projectLocation + File.separator + jarName;
+		String jarPath= projectLocation + File.separator + jarName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String[] claspath= new String[] { javaProject.getResolvedClasspath(true)[0].getPath().toOSString() };
 		JarUtil.createJar(pathAndContents, null, jarPath, claspath, compliance, null, classFileFilter);
 		if (pathAndContents != null && pathAndContents.length != 0) {
-			String sourceZipPath= projectLocation + File.separator + sourceZipName;
+			String sourceZipPath= projectLocation + File.separator + sourceZipName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			JarUtil.createSourceZip(pathAndContents, sourceZipPath);
 		}
 		project.refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -181,7 +181,7 @@ public abstract class AbstractAnnotateAssistTests extends QuickFixTest {
 	protected static String copyToString(InputStream in) throws Exception {
 		try (ByteArrayOutputStream out= new ByteArrayOutputStream()) {
 			int read= in.read();
-			while (read != -1) {
+			while (read != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				out.write(read);
 				read= in.read();
 			}

@@ -67,7 +67,7 @@ public class PrimitiveRatherThanWrapperOperation extends CompilationUnitRewriteO
 		this.parsingMethodName= parsingMethodName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
 		AST ast= cuRewrite.getRoot().getAST();
@@ -119,11 +119,11 @@ public class PrimitiveRatherThanWrapperOperation extends CompilationUnitRewriteO
 			}
 		}
 
-		for (MethodInvocation primitiveValueMethod : primitiveValueMethods) {
+		for (MethodInvocation primitiveValueMethod : primitiveValueMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rewrite.replace(primitiveValueMethod, ASTNodes.createMoveTarget(rewrite, primitiveValueMethod.getExpression()), group);
 		}
 
-		for (MethodInvocation toStringMethod : toStringMethods) {
+		for (MethodInvocation toStringMethod : toStringMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type wrapperType= (Type) rewrite.createCopyTarget(visited.getType());
 
 			ListRewrite targetListRewrite= rewrite.getListRewrite(toStringMethod, MethodInvocation.ARGUMENTS_PROPERTY);
@@ -131,7 +131,7 @@ public class PrimitiveRatherThanWrapperOperation extends CompilationUnitRewriteO
 			rewrite.set(toStringMethod, MethodInvocation.EXPRESSION_PROPERTY, wrapperType, group);
 		}
 
-		for (MethodInvocation compareToMethod : compareToMethods) {
+		for (MethodInvocation compareToMethod : compareToMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type wrapperType= (Type) rewrite.createCopyTarget(visited.getType());
 
 			ListRewrite targetListRewrite= rewrite.getListRewrite(compareToMethod, MethodInvocation.ARGUMENTS_PROPERTY);

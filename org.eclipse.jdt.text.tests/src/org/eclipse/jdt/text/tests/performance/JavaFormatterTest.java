@@ -75,7 +75,7 @@ public class JavaFormatterTest extends TextPerformanceTestCase {
 
 	private void measure(PerformanceMeter performanceMeter, int runs) throws CoreException {
 		IAction format= fEditor.getAction("Format");
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fEditor.selectAndReveal(0, 0);
 			performanceMeter.start();
 			runAction(format);

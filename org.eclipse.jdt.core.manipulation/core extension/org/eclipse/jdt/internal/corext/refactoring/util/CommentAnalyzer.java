@@ -38,14 +38,14 @@ public class CommentAnalyzer {
 		return result;
 	}
 
-	private void check(RefactoringStatus result, Selection selection, IScanner scanner, int start, int end) {
+	private void check(RefactoringStatus result, Selection selection, IScanner scanner, int start, int end) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[] characters= scanner.getSource();
 		selection= adjustSelection(characters, selection, end);
 		scanner.resetTo(start, end);
 
 		int token= 0;
 		try {
-			loop: while (token != ITerminalSymbols.TokenNameEOF) {
+			loop: while (token != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				token= scanner.getNextToken();
 				switch(token) {
 					case ITerminalSymbols.TokenNameCOMMENT_LINE:
@@ -77,7 +77,7 @@ public class CommentAnalyzer {
 
 	private Selection adjustSelection(char[] characters, Selection selection, int end) {
 		int newEnd= selection.getInclusiveEnd();
-		for(int i= selection.getExclusiveEnd(); i <= end; i++) {
+		for(int i= selection.getExclusiveEnd(); i <= end; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= characters[i];
 			if (ch != '\n' && ch != '\r')
 				break;
@@ -94,11 +94,11 @@ public class CommentAnalyzer {
 	public static String normalizeReference(String reference) {
 		IScanner scanner= ToolFactory.createScanner(false, false, false, false);
 		scanner.setSource(reference.toCharArray());
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try {
 			int tokenType= scanner.getNextToken();
-			while (tokenType != ITerminalSymbols.TokenNameEOF) {
-				sb.append(scanner.getRawTokenSource());
+			while (tokenType != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				sb.append(scanner.getRawTokenSource()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				tokenType= scanner.getNextToken();
 			}
 		} catch (InvalidInputException e) {

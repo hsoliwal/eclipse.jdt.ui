@@ -47,7 +47,7 @@ public class JavaHeuristicScannerTest {
 	private JavaIndenter fScanner;
 	private JavaHeuristicScanner fHeuristicScanner;
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() {
 		if (JavaCore.getPlugin() != null) {
 			Hashtable<String, String> options= JavaCore.getDefaultOptions();
@@ -880,27 +880,27 @@ public class JavaHeuristicScannerTest {
 	/*
 	 * @since 3.2
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testClassInstanceCreationHeuristic() throws Exception {
 	    fDocument.set("   method(new java.util.ArrayList<String>(10), foo, new int[])");
 
-	    for (int offset= 0; offset < 15; offset++)
+	    for (int offset= 0; offset < 15; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertFalse(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 15; offset < 19; offset++)
+	    for (int offset= 15; offset < 19; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertTrue(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 19; offset < 20; offset++)
+	    for (int offset= 19; offset < 20; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertFalse(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 20; offset < 24; offset++)
+	    for (int offset= 20; offset < 24; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertTrue(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 24; offset < 25; offset++)
+	    for (int offset= 24; offset < 25; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertFalse(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 25; offset < 34; offset++)
+	    for (int offset= 25; offset < 34; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertTrue(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 34; offset < 57; offset++)
+	    for (int offset= 34; offset < 57; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertFalse(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 57; offset < 60; offset++)
+	    for (int offset= 57; offset < 60; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertTrue(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
-	    for (int offset= 60; offset < 63; offset++)
+	    for (int offset= 60; offset < 63; offset++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	    	assertFalse(fHeuristicScanner.looksLikeClassInstanceCreationBackward(offset, JavaHeuristicScanner.UNBOUND));
     }
 
@@ -946,7 +946,7 @@ public class JavaHeuristicScannerTest {
 		assertEquals("		", indent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testContinuationIndentationOfForStatement() throws Exception {
 		fDocument.set("""
 				for (int i = (2 * 2); i < array.length; i++) {
@@ -1060,7 +1060,7 @@ public class JavaHeuristicScannerTest {
 		assertEquals("\t", indent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndentationAfterIfTryCatch() throws Exception {
 		fDocument.set("""
 				public class Bug237081 {
@@ -1093,7 +1093,7 @@ public class JavaHeuristicScannerTest {
 		assertEquals("\t\t\t", indent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testContinuationIndentationOfBrackets() throws Exception {
 		fDocument.set("\tprivate void helper2(boolean[] booleans) {\n\t}");
 
@@ -1115,7 +1115,7 @@ public class JavaHeuristicScannerTest {
 		assertEquals("\t\t\t", indent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testContinuationIndentationOfStrings1() throws Exception {
 		fDocument.set(
 				"	String[] i = new String[] {\n" + //0-28
@@ -1220,7 +1220,7 @@ public class JavaHeuristicScannerTest {
 		assertEquals("\t\t\t", indent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIndentationTryWithResources() throws Exception {
 		String s= """
 			class A {
@@ -1249,19 +1249,19 @@ public class JavaHeuristicScannerTest {
 		assertEquals("\t\t\t", indent);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDefaultMethod1() {
-		StringBuilder buf= new StringBuilder();
-		buf.append("interface I {\n");
-		buf.append("			default void foo (int a) {\n");
-		buf.append("		switch(a) {\n");
-		buf.append("		case 0: \n");
-		buf.append("			break;\n");
-		buf.append("	default : \n");
-		buf.append("			System.out.println(\"default\");\n");
-		buf.append("		}\n");
-		buf.append("	}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("interface I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			default void foo (int a) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		switch(a) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		case 0: \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			break;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	default : \n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("			System.out.println(\"default\");\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("		}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("	}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		fDocument.set(buf.toString());
 
 		int offset= buf.indexOf("default void");
@@ -1275,12 +1275,12 @@ public class JavaHeuristicScannerTest {
 
 	@Test
 	public void testDefaultMethod2() {
-		StringBuilder buf= new StringBuilder();
-		buf.append("interface I {\n");
-		buf.append("    default String name() {\n");
-		buf.append("        return \"unnamed\";\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("interface I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    default String name() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return \"unnamed\";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		fDocument.set(buf.toString());
 
 		int offset= buf.indexOf("default String");

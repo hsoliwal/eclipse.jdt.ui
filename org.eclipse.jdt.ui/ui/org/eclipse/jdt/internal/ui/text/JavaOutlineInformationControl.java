@@ -91,7 +91,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.MemberFilter;
  *
  * @since 2.1
  */
-public class JavaOutlineInformationControl extends AbstractInformationControl {
+public class JavaOutlineInformationControl extends AbstractInformationControl { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 	private KeyAdapter fKeyAdapter;
 	private OutlineContentProvider fOutlineContentProvider;
@@ -105,7 +105,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 	private LexicalSortingAction fLexicalSortingAction;
 	private SortByDefiningTypeAction fSortByDefiningTypeAction;
 	private ShowOnlyMainTypeAction fShowOnlyMainTypeAction;
-	private Map<IType, ITypeHierarchy> fTypeHierarchies= new HashMap<>();
+	private Map<IType, ITypeHierarchy> fTypeHierarchies= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Category filter action group.
@@ -114,7 +114,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 	private CategoryFilterActionGroup fCategoryFilterActionGroup;
 	private String fPattern;
 
-	private class OutlineLabelProvider extends AppearanceAwareLabelProvider {
+	private class OutlineLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 		private boolean fShowDefiningType;
 
@@ -125,7 +125,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 		/*
 		 * @see ILabelProvider#getText
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getText(Object element) {
 			// XXX: This method is NOT USED any more since this is an IStyledLabelProvider.
 			// Furthermore, we have no idea what fShowDefiningType is supposed to do if inherited members are shown...
@@ -135,10 +135,9 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 				try {
 					IType type= getDefiningType(element);
 					if (type != null) {
-						StringBuilder buf= new StringBuilder(super.getText(type));
-						buf.append(JavaElementLabels.CONCAT_STRING);
-						buf.append(text);
-						return buf.toString();
+						return super.getText(type) + JavaElementLabels.CONCAT_STRING + text;
+						// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					}
 				} catch (JavaModelException e) {
 					// go with the simple label
@@ -150,7 +149,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider#getForeground(java.lang.Object)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Color getForeground(Object element) {
 			if (fOutlineContentProvider.isShowingInheritedMembers()) {
 				if (element instanceof IJavaElement) {
@@ -161,7 +160,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 							return null;
 						}
 					} else {
-						do {
+						do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							je= je.getAncestor(IJavaElement.CLASS_FILE);
 							if (fInput.equals(je) || je == null || !(je instanceof IOrdinaryClassFile)) {
 								return null;
@@ -179,7 +178,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 			fShowDefiningType= showDefiningType;
 		}
 
-		private IType getDefiningType(Object element) throws JavaModelException {
+		private IType getDefiningType(Object element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int kind= ((IJavaElement) element).getElementType();
 
 			if (kind != IJavaElement.METHOD && kind != IJavaElement.FIELD && kind != IJavaElement.INITIALIZER) {
@@ -232,7 +231,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 			int unfilteredChildren= result.length;
 			ViewerFilter[] filters= getFilters();
 			if (filters != null) {
-				for (ViewerFilter filter : filters) {
+				for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parent instanceof TreePath) {
 						result= filter.filter(this, (TreePath) parent, result);
 					} else {
@@ -277,7 +276,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 	}
 
 
-	private class OutlineContentProvider extends StandardJavaElementContentProvider implements ITreePathContentProvider {
+	private class OutlineContentProvider extends StandardJavaElementContentProvider implements ITreePathContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private boolean fShowInheritedMembers;
 
@@ -300,7 +299,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 
 			tree.setRedraw(false);
 			fShowInheritedMembers= !fShowInheritedMembers;
-			getTreeViewer().refresh();
+			getTreeViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			getTreeViewer().expandToLevel(2);
 
 			// reveal selection
@@ -328,7 +327,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 			return getChildren(new TreePath(new Object[] { element }));
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object[] getChildren(TreePath parentPath) {
 			Object element= parentPath.getLastSegment();
 			if (fShowOnlyMainType) {
@@ -345,7 +344,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 				if (type.getDeclaringType() == null || type.equals(fInitiallySelectedType)) {
 					// Avoid endless loops, see https://bugs.eclipse.org/395202 :
 					// Cut off children of types that are shown repeatedly.
-					for (int i= 0; i < parentPath.getSegmentCount() - 1; i++) {
+					for (int i= 0; i < parentPath.getSegmentCount() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (type.equals(parentPath.getSegment(i))) {
 							return super.getChildren(element);
 						}
@@ -353,8 +352,8 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 
 					ITypeHierarchy th= getSuperTypeHierarchy(type);
 					if (th != null) {
-						List<Object> children= new ArrayList<>(Arrays.asList(super.getChildren(type)));
-						for (IType superClass : th.getAllSupertypes(type))
+						List<Object> children= new ArrayList<>(Arrays.asList(super.getChildren(type))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						for (IType superClass : th.getAllSupertypes(type)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							children.addAll(Arrays.asList(super.getChildren(superClass)));
 						return children.toArray();
 					}
@@ -410,14 +409,14 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 			setTopLevelTypeOnly(!fShowOnlyMainType);
 		}
 
-		private void setTopLevelTypeOnly(boolean show) {
+		private void setTopLevelTypeOnly(boolean show) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fShowOnlyMainType= show;
 			setChecked(show);
 
 			Tree tree= fOutlineViewer.getTree();
 			tree.setRedraw(false);
 
-			fOutlineViewer.refresh(false);
+			fOutlineViewer.refresh(false); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (!fShowOnlyMainType)
 				fOutlineViewer.expandToLevel(2);
 
@@ -491,7 +490,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 
 		private void valueChanged(final boolean on, boolean store) {
 			setChecked(on);
-			BusyIndicator.showWhile(fOutlineViewer.getControl().getDisplay(), () -> fOutlineViewer.refresh(false));
+			BusyIndicator.showWhile(fOutlineViewer.getControl().getDisplay(), () -> fOutlineViewer.refresh(false)); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 			if (store)
 				getDialogSettings().put(STORE_LEXICAL_SORTING_CHECKED, on);
@@ -536,7 +535,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 				getDialogSettings().put(STORE_SORT_BY_DEFINING_TYPE_CHECKED, isChecked());
 
 				setMatcherString(fPattern, false);
-				fOutlineViewer.refresh(true);
+				fOutlineViewer.refresh(true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 				// reveal selection
 				Object selectedElement= getSelectedElement();
@@ -561,11 +560,11 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 	@Override
 	protected Text createFilterText(Composite parent) {
 		Text text= super.createFilterText(parent);
-		text.addKeyListener(getKeyAdapter());
+		text.addKeyListener(getKeyAdapter()); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		return text;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TreeViewer createTreeViewer(Composite parent, int style) {
 		Tree tree= new Tree(parent, SWT.SINGLE | (style & ~SWT.MULTI));
 		GridData gd= new GridData(GridData.FILL_BOTH);
@@ -576,11 +575,11 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 		WorkbenchViewerSetup.setupViewer(treeViewer);
 
 		// Hard-coded filters
-		treeViewer.addFilter(new NamePatternFilter());
-		treeViewer.addFilter(new MemberFilter());
+		treeViewer.addFilter(new NamePatternFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		treeViewer.addFilter(new MemberFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		fInnerLabelProvider= new OutlineLabelProvider();
-		treeViewer.setLabelProvider(new DecoratingJavaLabelProvider(fInnerLabelProvider));
+		treeViewer.setLabelProvider(new DecoratingJavaLabelProvider(fInnerLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		fLexicalSortingAction= new LexicalSortingAction(treeViewer);
 		fSortByDefiningTypeAction= new SortByDefiningTypeAction(treeViewer);
@@ -594,7 +593,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 		treeViewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
 
 
-		treeViewer.getTree().addKeyListener(getKeyAdapter());
+		treeViewer.getTree().addKeyListener(getKeyAdapter()); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 		return treeViewer;
 	}
@@ -640,7 +639,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 		fCategoryFilterActionGroup.setInput(getInputForCategories());
 	}
 
-	private KeyAdapter getKeyAdapter() {
+	private KeyAdapter getKeyAdapter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fKeyAdapter == null) {
 			fKeyAdapter= new KeyAdapter() {
 				@Override
@@ -650,7 +649,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 					TriggerSequence[] sequences= getInvokingCommandKeySequences();
 					if (sequences == null)
 						return;
-					for (TriggerSequence sequence : sequences) {
+					for (TriggerSequence sequence : sequences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (sequence.equals(keySequence)) {
 							e.doit= false;
 							toggleShowInheritedMembers();
@@ -699,7 +698,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 		super.setMatcherString(pattern, update);
 	}
 
-	private IJavaElement[] getInputForCategories() {
+	private IJavaElement[] getInputForCategories() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInput == null)
 			return new IJavaElement[0];
 
@@ -708,7 +707,7 @@ public class JavaOutlineInformationControl extends AbstractInformationControl {
 			if (p instanceof ITypeRoot) {
 				p= ((ITypeRoot)p).findPrimaryType();
 			}
-			while (p != null && !(p instanceof IType)) {
+			while (p != null && !(p instanceof IType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				p= p.getParent();
 			}
 			if (p == null)

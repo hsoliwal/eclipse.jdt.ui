@@ -60,7 +60,7 @@ public abstract class RefactoringModifications {
 	}
 
 	protected void createIncludingParents(IContainer container) {
-		while (container != null
+		while (container != null //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				&& !container.exists()
 				&& !getResourceModifications().willExist(container)) {
 			getResourceModifications().addCreate(container);
@@ -68,20 +68,20 @@ public abstract class RefactoringModifications {
 		}
 	}
 
-	protected IResource[] collectResourcesOfInterest(IPackageFragment source) throws CoreException {
+	protected IResource[] collectResourcesOfInterest(IPackageFragment source) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] children = source.getChildren();
 		int childOfInterest = IJavaElement.COMPILATION_UNIT;
 		if (source.getKind() == IPackageFragmentRoot.K_BINARY) {
 			childOfInterest = IJavaElement.CLASS_FILE;
 		}
-		ArrayList<IResource> result = new ArrayList<>(children.length);
-		for (IJavaElement child : children) {
+		ArrayList<IResource> result = new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.getElementType() == childOfInterest && child.getResource() != null) {
 				result.add(child.getResource());
 			}
 		}
 		// Gather non-java resources
-		for (Object element : source.getNonJavaResources()) {
+		for (Object element : source.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource) {
 				result.add((IResource) element);
 			}

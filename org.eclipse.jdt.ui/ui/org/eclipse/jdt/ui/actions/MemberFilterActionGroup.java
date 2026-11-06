@@ -118,7 +118,7 @@ public class MemberFilterActionGroup extends ActionGroup {
 	 *
 	 * @since 3.0
 	 */
-	public MemberFilterActionGroup(StructuredViewer viewer, String viewerId, boolean inViewMenu, int availableFilters) {
+	public MemberFilterActionGroup(StructuredViewer viewer, String viewerId, boolean inViewMenu, int availableFilters) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fViewer= viewer;
 		fViewerId= viewerId;
@@ -128,7 +128,7 @@ public class MemberFilterActionGroup extends ActionGroup {
 		fFilter= new MemberFilter();
 
 		String title, helpContext;
-		ArrayList<MemberFilterAction> actions= new ArrayList<>(4);
+		ArrayList<MemberFilterAction> actions= new ArrayList<>(4); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// fields
 		int filterProperty= FILTER_FIELDS;
@@ -197,11 +197,11 @@ public class MemberFilterActionGroup extends ActionGroup {
 		// order corresponds to order in toolbar
 		fFilterActions= actions.toArray(new MemberFilterAction[actions.size()]);
 
-		fViewer.addFilter(fFilter);
+		fViewer.addFilter(fFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	private String getPreferenceKey(int filterProperty) {
-		return "MemberFilterActionGroup." + fViewerId + '.' + String.valueOf(filterProperty); //$NON-NLS-1$
+		return "MemberFilterActionGroup." + fViewerId + '.' + String.valueOf(filterProperty); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -218,18 +218,18 @@ public class MemberFilterActionGroup extends ActionGroup {
 		setMemberFilters(new int[] {filterProperty}, new boolean[] {set}, true);
 	}
 
-	private void setMemberFilters(int[] propertyKeys, boolean[] propertyValues, boolean refresh) {
+	private void setMemberFilters(int[] propertyKeys, boolean[] propertyValues, boolean refresh) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (propertyKeys.length == 0)
 			return;
 		Assert.isTrue(propertyKeys.length == propertyValues.length);
 
-		for (int i= 0; i < propertyKeys.length; i++) {
+		for (int i= 0; i < propertyKeys.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int filterProperty= propertyKeys[i];
 			boolean set= propertyValues[i];
 
 			IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 			boolean found= false;
-			for (MemberFilterAction fFilterAction : fFilterActions) {
+			for (MemberFilterAction fFilterAction : fFilterActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int currProperty= fFilterAction.getFilterProperty();
 				if (currProperty == filterProperty) {
 					fFilterAction.setChecked(set);
@@ -247,7 +247,7 @@ public class MemberFilterActionGroup extends ActionGroup {
 		}
 		if (refresh) {
 			fViewer.getControl().setRedraw(false);
-			BusyIndicator.showWhile(fViewer.getControl().getDisplay(), () -> fViewer.refresh());
+			BusyIndicator.showWhile(fViewer.getControl().getDisplay(), () -> fViewer.refresh()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fViewer.getControl().setRedraw(true);
 		}
 	}
@@ -311,7 +311,7 @@ public class MemberFilterActionGroup extends ActionGroup {
 	public void contributeToToolBar(IToolBarManager tbm) {
 		if (fInViewMenu)
 			return;
-		for (MemberFilterAction fFilterAction : fFilterActions) {
+		for (MemberFilterAction fFilterAction : fFilterActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tbm.add(fFilterAction);
 		}
 	}
@@ -327,11 +327,11 @@ public class MemberFilterActionGroup extends ActionGroup {
 			return;
 		final String filters= "filters"; //$NON-NLS-1$
 		if (menu.find(filters) != null) {
-			for (MemberFilterAction action : fFilterActions) {
+			for (MemberFilterAction action : fFilterActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				menu.prependToGroup(filters, action);
 			}
 		} else {
-			for (MemberFilterAction action : fFilterActions) {
+			for (MemberFilterAction action : fFilterActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				menu.add(action);
 			}
 		}

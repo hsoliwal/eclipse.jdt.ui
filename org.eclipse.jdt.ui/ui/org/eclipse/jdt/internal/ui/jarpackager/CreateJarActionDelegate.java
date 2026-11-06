@@ -47,7 +47,7 @@ public class CreateJarActionDelegate extends JarPackageActionDelegate {
 	/*
 	 * @see IActionDelegate
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		IFile[] descriptions= getDescriptionFiles(getSelection());
 		MultiStatus mergedStatus;
@@ -82,8 +82,8 @@ public class CreateJarActionDelegate extends JarPackageActionDelegate {
 	}
 
 	private JarPackageData[] readJarPackages(IFile[] descriptions, MultiStatus readStatus) {
-		List<JarPackageData> jarPackagesList= new ArrayList<>(descriptions.length);
-		for (IFile description : descriptions) {
+		List<JarPackageData> jarPackagesList= new ArrayList<>(descriptions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IFile description : descriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JarPackageData jarPackage= readJarPackage(description, readStatus);
 			if (jarPackage != null)
 				jarPackagesList.add(jarPackage);
@@ -115,7 +115,7 @@ public class CreateJarActionDelegate extends JarPackageActionDelegate {
 	 * @param readStatus status
 	 * @return returns the read the JAR package spec
 	 */
-	protected JarPackageData readJarPackage(IFile description, MultiStatus readStatus) {
+	protected JarPackageData readJarPackage(IFile description, MultiStatus readStatus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(description.isAccessible());
 		Assert.isNotNull(description.getFileExtension());
 		Assert.isLegal(JarPackagerUtil.DESCRIPTION_EXTENSION.equals(description.getFileExtension()));

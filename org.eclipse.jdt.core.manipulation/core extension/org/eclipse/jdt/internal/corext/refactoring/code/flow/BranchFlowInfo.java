@@ -22,7 +22,7 @@ class BranchFlowInfo extends FlowInfo {
 
 	public BranchFlowInfo(SimpleName label) {
 		super(NO_RETURN);
-		fBranches= new HashSet<>(2);
+		fBranches= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fBranches.add(makeString(label));
 	}
 }

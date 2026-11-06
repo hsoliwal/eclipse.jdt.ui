@@ -64,7 +64,7 @@ public class NewDefiningMethodProposalCore extends AbstractMethodCorrectionPropo
 		return fParamNames;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addNewParameters(ASTRewrite rewrite, List<String> takenNames, List<SingleVariableDeclaration> params, ImportRewriteContext context) throws CoreException {
 		AST ast= rewrite.getAST();
 		getInvocationNode();
@@ -74,7 +74,7 @@ public class NewDefiningMethodProposalCore extends AbstractMethodCorrectionPropo
 		IJavaProject project= getCompilationUnit().getJavaProject();
 		String[][] paramNames= StubUtility.suggestArgumentNamesWithProposals(project, fParamNames);
 
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding curr= bindings[i];
 
 			String[] proposedNames= paramNames[i];
@@ -86,10 +86,10 @@ public class NewDefiningMethodProposalCore extends AbstractMethodCorrectionPropo
 
 			params.add(newParam);
 
-			String groupId= "arg_name_" + i; //$NON-NLS-1$
+			String groupId= "arg_name_" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			addLinkedPosition(rewrite.track(newParam.getName()), false, groupId);
 
-			for (String proposedName : proposedNames) {
+			for (String proposedName : proposedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addLinkedPositionProposal(groupId, proposedName);
 			}
 		}
@@ -157,24 +157,24 @@ public class NewDefiningMethodProposalCore extends AbstractMethodCorrectionPropo
 		AST ast= rewrite.getAST();
 		ImportRewrite importRewrite= getImportRewrite();
 		ITypeBinding[] bindings= fMethod.getExceptionTypes();
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type newType= importRewrite.addImport(bindings[i], ast, context, TypeLocation.EXCEPTION);
 			exceptions.add(newType);
 
-			addLinkedPosition(rewrite.track(newType), false, "exc_type_" + i); //$NON-NLS-1$
+			addLinkedPosition(rewrite.track(newType), false, "exc_type_" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	@Override
 	protected void addNewTypeParameters(ASTRewrite rewrite, List<String> takenNames, List<TypeParameter> typeParameters, ImportRewriteContext context) throws CoreException {
 		AST ast= rewrite.getAST();
-		for (ITypeBinding current : fMethod.getTypeParameters()) {
+		for (ITypeBinding current : fMethod.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter newTypeParameter= ast.newTypeParameter();
 			newTypeParameter.setName(ast.newSimpleName(current.getName()));
 			ITypeBinding[] typeBounds= current.getTypeBounds();
 			if (typeBounds.length != 1 || !"java.lang.Object".equals(typeBounds[0].getQualifiedName())) {//$NON-NLS-1$
 				List<Type> newTypeBounds= newTypeParameter.typeBounds();
-				for (ITypeBinding typeBound : typeBounds) {
+				for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newTypeBounds.add(getImportRewrite().addImport(typeBound, ast, context, TypeLocation.TYPE_BOUND));
 				}
 			}

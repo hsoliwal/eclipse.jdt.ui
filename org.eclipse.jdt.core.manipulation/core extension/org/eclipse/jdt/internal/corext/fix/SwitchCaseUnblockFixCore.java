@@ -66,7 +66,7 @@ public class SwitchCaseUnblockFixCore extends CompilationUnitRewriteOperationsFi
 		CompilationUnit root= (CompilationUnit) block.getRoot();
 
 		ASTNode parent= block.getParent();
-		List<Statement> statements= new ArrayList<>();
+		List<Statement> statements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (parent instanceof SwitchStatement switchStatement) {
 			statements= switchStatement.statements();
 		} else if (parent instanceof SwitchExpression switchExpression) {

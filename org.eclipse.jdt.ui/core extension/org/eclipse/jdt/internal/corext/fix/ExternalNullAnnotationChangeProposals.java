@@ -101,7 +101,7 @@ public class ExternalNullAnnotationChangeProposals {
 
 	static final String CONSTRUCTOR_SELECTOR= "<init>"; //$NON-NLS-1$
 
-	static abstract class SignatureAnnotationChangeProposal implements IJavaCompletionProposal, ICommandAccess {
+	static abstract class SignatureAnnotationChangeProposal implements IJavaCompletionProposal, ICommandAccess { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		protected String fLabel;
 
@@ -125,7 +125,7 @@ public class ExternalNullAnnotationChangeProposals {
 
 
 		/* return true if the operation is available. */
-		protected boolean initializeOperation(ICompilationUnit cu, ITypeBinding declaringClass, String selector,
+		protected boolean initializeOperation(ICompilationUnit cu, ITypeBinding declaringClass, String selector, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				String plainSignature, String annotatedSignature, String label, MergeStrategy mergeStrategy) {
 			IJavaProject project= (IJavaProject) cu.getAncestor(IJavaElement.JAVA_PROJECT);
 			IFile file= null;
@@ -201,57 +201,57 @@ public class ExternalNullAnnotationChangeProposals {
 
 		@Override
 		public String getAdditionalProposalInfo() {
-			StringBuilder buffer= new StringBuilder();
-			buffer.append("<dl>"); //$NON-NLS-1$
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buffer.append("<dl>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (fSelector != null)
-				buffer.append("<dt>").append(getHtmlRepresentation(fSelector)).append("</dt>"); //$NON-NLS-1$ //$NON-NLS-2$
+				buffer.append("<dt>").append(getHtmlRepresentation(fSelector)).append("</dt>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			else
-				buffer.append("<dt>class ").append(getHtmlRepresentation(fAffectedTypeName)).append("</dt>"); //$NON-NLS-1$ //$NON-NLS-2$
-			buffer.append("<dd>").append(getHtmlRepresentation(fSignature)).append("</dd>"); //$NON-NLS-1$ //$NON-NLS-2$
-			buffer.append("<dd>").append(getFullAnnotatedSignatureHTML()).append("</dd>"); //$NON-NLS-1$ //$NON-NLS-2$
-			buffer.append("</dl>"); //$NON-NLS-1$
+				buffer.append("<dt>class ").append(getHtmlRepresentation(fAffectedTypeName)).append("</dt>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append("<dd>").append(getHtmlRepresentation(fSignature)).append("</dd>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append("<dd>").append(getFullAnnotatedSignatureHTML()).append("</dd>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append("</dl>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return buffer.toString();
 		}
 
-		protected String getFullAnnotatedSignatureHTML() {
+		protected String getFullAnnotatedSignatureHTML() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] parts= fDryRun;
 
 			// search the difference:
 			int pos= 0;
-			while (pos < parts[1].length() && pos < parts[2].length()) {
+			while (pos < parts[1].length() && pos < parts[2].length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parts[1].charAt(pos) != parts[2].charAt(pos))
 					break;
 				pos++;
 			}
 
 			// prefix up-to the difference:
-			StringBuilder buf= new StringBuilder();
-			buf.append(getHtmlRepresentation(parts[0]));
-			buf.append(getHtmlRepresentation(parts[2].substring(0, pos)));
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append(getHtmlRepresentation(parts[0])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(getHtmlRepresentation(parts[2].substring(0, pos))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			// highlight the difference:
 			switch (parts[2].charAt(pos)) {
 				case NULLABLE:
 				case NONNULL:
 					// added annotation in parts[2]: bold:
-					buf.append("<b>").append(parts[2].charAt(pos)).append("</b>"); //$NON-NLS-1$ //$NON-NLS-2$
+					buf.append("<b>").append(parts[2].charAt(pos)).append("</b>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				default:
 					// removed annotation in parts[1]: strike:
-					buf.append("<del>").append(parts[1].charAt(pos)).append("</del>"); //$NON-NLS-1$ //$NON-NLS-2$
+					buf.append("<del>").append(parts[1].charAt(pos)).append("</del>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					pos--; // char in parts[2] is not yet consumed
 			}
 
 			// everything else:
-			buf.append(getHtmlRepresentation(parts[2].substring(pos + 1)));
-			buf.append(getHtmlRepresentation(parts[3]));
+			buf.append(getHtmlRepresentation(parts[2].substring(pos + 1))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(getHtmlRepresentation(parts[3])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return buf.toString();
 		}
 
 		protected abstract void doAnnotateMember(IProgressMonitor monitor) throws CoreException, UnsupportedEncodingException, IOException;
 	}
 
-	static class ReturnAnnotationRewriteProposal extends SignatureAnnotationChangeProposal {
+	static class ReturnAnnotationRewriteProposal extends SignatureAnnotationChangeProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		@Override
 		protected void dryRun() {
@@ -264,7 +264,7 @@ public class ExternalNullAnnotationChangeProposals {
 		}
 	}
 
-	static class ParameterAnnotationRewriteProposal extends SignatureAnnotationChangeProposal {
+	static class ParameterAnnotationRewriteProposal extends SignatureAnnotationChangeProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		int fParamIdx;
 
@@ -283,7 +283,7 @@ public class ExternalNullAnnotationChangeProposals {
 		}
 	}
 
-	static class FieldAnnotationRewriteProposal extends SignatureAnnotationChangeProposal {
+	static class FieldAnnotationRewriteProposal extends SignatureAnnotationChangeProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		@Override
 		protected void dryRun() {
@@ -296,7 +296,7 @@ public class ExternalNullAnnotationChangeProposals {
 		}
 	}
 
-	static class TypeParameterAnnotationRewriteProposal extends SignatureAnnotationChangeProposal {
+	static class TypeParameterAnnotationRewriteProposal extends SignatureAnnotationChangeProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		int fParamIdx;
 
@@ -321,23 +321,23 @@ public class ExternalNullAnnotationChangeProposals {
 		MissingBindingException(ASTNode/*Type or TypeParameter or MethodDeclaration*/ node) {
 			fNode= node;
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public String getMessage() {
 			// check if compilation may have been aborted due to classpath trouble / unreportable problem:
 			ASTNode cu= ASTNodes.getParent(fNode, ASTNode.COMPILATION_UNIT);
 			if (cu instanceof CompilationUnit) {
-				for (IProblem problem : ((CompilationUnit) cu).getProblems()) {
+				for (IProblem problem : ((CompilationUnit) cu).getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (problem.getID() == IProblem.IsClassPathCorrect || problem.getOriginatingFileName() == null)
 						return problem.getMessage();
 				}
 			}
 			switch (fNode.getNodeType()) {
 				case ASTNode.METHOD_DECLARATION:
-					return "Could not resolve method "+fNode.toString(); //$NON-NLS-1$
+					return "Could not resolve method "+fNode.toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
-					return "Could not resolve field "+fNode.toString(); //$NON-NLS-1$
+					return "Could not resolve field "+fNode.toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				default:
-					return "Could not resolve type "+fNode.toString(); //$NON-NLS-1$
+					return "Could not resolve type "+fNode.toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -373,7 +373,7 @@ public class ExternalNullAnnotationChangeProposals {
 	}
 
 	/* Quick assist on class file, propose changes on any type detail. */
-	public static void collectExternalAnnotationProposals(ICompilationUnit cu, ASTNode coveringNode, int offset, List<IJavaCompletionProposal> resultingCollection) {
+	public static void collectExternalAnnotationProposals(ICompilationUnit cu, ASTNode coveringNode, int offset, List<IJavaCompletionProposal> resultingCollection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IJavaProject javaProject= cu.getJavaProject();
 		if (JavaCore.DISABLED.equals(javaProject.getOption(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, true)))
@@ -423,7 +423,7 @@ public class ExternalNullAnnotationChangeProposals {
 			}
 		} else {
 			// annotating 'normal' type?
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (coveringNode instanceof Type || coveringNode instanceof TypeParameter) {
 					inner= coveringNode;
 					break;
@@ -436,12 +436,12 @@ public class ExternalNullAnnotationChangeProposals {
 				return; // cannot be annotated
 			outer= inner;
 			ASTNode next;
-			while (((next= outer.getParent()) instanceof Type) || (next instanceof TypeParameter))
+			while (((next= outer.getParent()) instanceof Type) || (next instanceof TypeParameter)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				outer= next;
 		}
 		// may still need to detect varags:
 		ASTNode currentNode = coveringNode;
-		while (variable == null && currentNode instanceof Type) {
+		while (variable == null && currentNode instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currentNode = currentNode.getParent();
 			if (currentNode instanceof SingleVariableDeclaration) {
 				variable = (SingleVariableDeclaration) currentNode;
@@ -462,7 +462,7 @@ public class ExternalNullAnnotationChangeProposals {
 				rendererRemove.addDimension(annotateVarargs);
 			}
 		}
-		for (int i= 0; i < extraDims; i++) {
+		for (int i= 0; i < extraDims; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rendererNonNull.addDimension(i == outerExtraDims);
 			rendererNullable.addDimension(i == outerExtraDims);
 			rendererRemove.addDimension(i == outerExtraDims);
@@ -510,12 +510,12 @@ public class ExternalNullAnnotationChangeProposals {
 						rendererNonNull, rendererNullable, rendererRemove, creator, resultingCollection);
 			}
 		} catch (MissingBindingException mbe) {
-			JavaPlugin.log(JavaUIStatus.createError(IStatus.ERROR, "Error during computation of Annotate proposals: "+mbe.getMessage(), mbe)); //$NON-NLS-1$
+			JavaPlugin.log(JavaUIStatus.createError(IStatus.ERROR, "Error during computation of Annotate proposals: "+mbe.getMessage(), mbe)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 	}
 
-	public static boolean hasAnnotationPathInWorkspace(IJavaProject javaProject, IJavaElement element) {
+	public static boolean hasAnnotationPathInWorkspace(IJavaProject javaProject, IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot root= (IPackageFragmentRoot) element.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 		if (root != null) {
 			try {
@@ -627,7 +627,7 @@ public class ExternalNullAnnotationChangeProposals {
 	}
 
 	/* Create one proposal from each of the three given renderers. */
-	static void createProposalsForType(ICompilationUnit cu, ASTNode type, int dims,
+	static void createProposalsForType(ICompilationUnit cu, ASTNode type, int dims, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int outerDims, boolean annotateVarargs, int offset,
 			TypeRenderer rendererNonNull, TypeRenderer rendererNullable, TypeRenderer rendererRemove, ProposalCreator creator, List<IJavaCompletionProposal> resultingCollection) {
 		SignatureAnnotationChangeProposal operation;
@@ -652,38 +652,38 @@ public class ExternalNullAnnotationChangeProposals {
 			resultingCollection.add(operation);
 	}
 
-	static String getAddAnnotationLabel(String annotationName, ASTNode type, int dims, int outerDims, boolean annotateVarargs, int offset) {
+	static String getAddAnnotationLabel(String annotationName, ASTNode type, int dims, int outerDims, boolean annotateVarargs, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuilder left= null;
 		StringBuilder dimsRight= null;
 		if (type.getNodeType() == ASTNode.ARRAY_TYPE) {
 			// find the insertion point using the text offset:
 			ArrayType arrayType= (ArrayType) type;
-			left= new StringBuilder(arrayType.getElementType().toString());
-			dimsRight= new StringBuilder();
-			for (Object dimension2 : arrayType.dimensions()) {
+			left= new StringBuilder(arrayType.getElementType().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			dimsRight= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (Object dimension2 : arrayType.dimensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Dimension dimension= (Dimension) dimension2;
 				if (dimension.getStartPosition() + dimension.getLength() <= offset)
-					left.append("[]"); //$NON-NLS-1$
+					left.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				else
-					dimsRight.append("[]"); //$NON-NLS-1$
+					dimsRight.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else if (dims > 0) {
 			// find then insertion point using the dimension counts:
-			left= new StringBuilder(type.toString());
-			dimsRight= new StringBuilder();
-			for (int i= 0; i < dims; i++) {
+			left= new StringBuilder(type.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			dimsRight= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i= 0; i < dims; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i < outerDims)
-					left.append("[]"); //$NON-NLS-1$
+					left.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				else
-					dimsRight.append("[]"); //$NON-NLS-1$
+					dimsRight.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else if (annotateVarargs) {
-			left = new StringBuilder(type.toString());
-			dimsRight = new StringBuilder();
+			left = new StringBuilder(type.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			dimsRight = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}
 		if (left != null && dimsRight != null) {
 			if (annotateVarargs)
-				dimsRight.append("..."); //$NON-NLS-1$
+				dimsRight.append("..."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// need to assemble special format with annotation attached to the selected dimension:
 			return Messages.format(FixMessages.ExternalNullAnnotationChangeProposals_add_nullness_array_annotation,
 					new String[] { left.toString(), annotationName, dimsRight.toString() });
@@ -695,11 +695,11 @@ public class ExternalNullAnnotationChangeProposals {
 	static String type2String(ASTNode type, int offset) {
 		if (type.getNodeType() == ASTNode.ARRAY_TYPE) {
 			ArrayType arrayType= (ArrayType) type;
-			StringBuilder buf= new StringBuilder(arrayType.getElementType().toString());
-			for (Object dimension2 : arrayType.dimensions()) {
+			StringBuilder buf= new StringBuilder(arrayType.getElementType().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (Object dimension2 : arrayType.dimensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Dimension dimension= (Dimension) dimension2;
 				if (dimension.getStartPosition() + dimension.getLength() > offset)
-					buf.append("[]"); //$NON-NLS-1$
+					buf.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return buf.toString();
 		}
@@ -743,7 +743,7 @@ public class ExternalNullAnnotationChangeProposals {
 		/* Renders a type parameter list in angle brackets. */
 		public void visitTypeParameters(@SuppressWarnings("rawtypes") List parameters) {
 			fBuffer.append('<');
-			for (Object p : parameters)
+			for (Object p : parameters) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((TypeParameter) p).accept(this);
 			fBuffer.append('>');
 		}
@@ -755,7 +755,7 @@ public class ExternalNullAnnotationChangeProposals {
 				fBuffer.append(fAnnotation);
 			fBuffer.append(binaryName(resolveBinding(type)));
 			fBuffer.append('<');
-			for (Object arg : type.typeArguments())
+			for (Object arg : type.typeArguments()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				((Type) arg).accept(this);
 			fBuffer.append('>');
 			fBuffer.append(';');
@@ -783,7 +783,7 @@ public class ExternalNullAnnotationChangeProposals {
 		public boolean visit(ArrayType array) {
 			List<?> dimensions= array.dimensions();
 			boolean annotated= false;
-			for (Object dimension2 : dimensions) {
+			for (Object dimension2 : dimensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fBuffer.append('[');
 				Dimension dimension= (Dimension) dimension2;
 				if (!annotated && array == fFocusType && dimension.getStartPosition() + dimension.getLength() > fOffset) {
@@ -795,13 +795,13 @@ public class ExternalNullAnnotationChangeProposals {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(TypeParameter parameter) {
 			if (parameter == fFocusType)
 				fBuffer.append(fAnnotation);
 			fBuffer.append(parameter.getName().getIdentifier());
 			Type classBound= null;
-			for (Object bound : parameter.typeBounds()) {
+			for (Object bound : parameter.typeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type typeBound= (Type) bound;
 				if (resolveBinding(typeBound).isClass()) {
 					classBound= typeBound;
@@ -814,7 +814,7 @@ public class ExternalNullAnnotationChangeProposals {
 				classBound.accept(this);
 				boundAdded= true;
 			}
-			for (Object bound : parameter.typeBounds()) {
+			for (Object bound : parameter.typeBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (bound == classBound)
 					continue;
 				Type typeBound= (Type) bound;

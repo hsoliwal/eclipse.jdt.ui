@@ -94,21 +94,21 @@ public class EvaluateNullableCleanUpCore extends AbstractMultiFix implements ICl
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.EVALUATE_NULLABLE)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final InfixExpression visited) {
 				if (ASTNodes.hasOperator(visited, InfixExpression.Operator.CONDITIONAL_AND)) {
 					List<Expression> operands= ASTNodes.allOperands(visited);
 
-					for (int i= 0; i < operands.size() - 1; i++) {
+					for (int i= 0; i < operands.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Expression nullCheckedExpression= ASTNodes.getNullCheckedExpression(operands.get(i));
 
 						if (nullCheckedExpression != null && isNullCheckRedundant(nullCheckedExpression, operands.get(i + 1))) {
@@ -136,7 +136,7 @@ public class EvaluateNullableCleanUpCore extends AbstractMultiFix implements ICl
 			 * @param nextExpression The expression of evaluation
 			 * @return True if null check is redundant
 			 */
-			private boolean isNullCheckRedundant(final Expression nullCheckedExpression, final Expression nextExpression) {
+			private boolean isNullCheckRedundant(final Expression nullCheckedExpression, final Expression nextExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (nullCheckedExpression != null
 						&& ASTNodes.isPassive(nullCheckedExpression)) {
 					if (nextExpression instanceof InstanceofExpression) {

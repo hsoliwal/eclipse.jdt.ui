@@ -81,7 +81,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	 * @param d the document to work on
 	 * @param c the command to deal with
 	 */
-	private void indentAfterNewLine(IDocument d, DocumentCommand c) {
+	private void indentAfterNewLine(IDocument d, DocumentCommand c) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int offset= c.offset;
 		if (offset == -1 || d.getLength() == 0)
@@ -95,24 +95,24 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 			int firstNonWS= findEndOfWhiteSpace(d, lineOffset, offset);
 			Assert.isTrue(firstNonWS >= lineOffset, "indentation must not be negative"); //$NON-NLS-1$
 
-			StringBuilder buf= new StringBuilder(c.text);
+			StringBuilder buf= new StringBuilder(c.text); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			IRegion prefix= findPrefixRange(d, line);
 			String indentation= d.get(prefix.getOffset(), prefix.getLength());
 			int lengthToAdd= Math.min(offset - prefix.getOffset(), prefix.getLength());
 
-			buf.append(indentation.substring(0, lengthToAdd));
+			buf.append(indentation.substring(0, lengthToAdd)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			if (firstNonWS < offset) {
 				boolean useMarkdown= false;
 				if (d.getChar(firstNonWS) == '/') {
 					// Javadoc/markdown started on this line
 					if (d.getChar(firstNonWS+1) == '/') {
-						buf.append("/// "); //$NON-NLS-1$
+						buf.append("/// "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						useMarkdown= true;
 						if (handleMarkdownCodeFence(d, c, lineOffset, offset, indentation, buf))
 							return;
 					} else {
-						buf.append(" * "); //$NON-NLS-1$
+						buf.append(" * "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 
 					if (isPreferenceTrue(PreferenceConstants.EDITOR_CLOSE_JAVADOCS) && isNewComment(d, offset)) {
@@ -123,7 +123,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 						int eolOffset= lineOffset + line.getLength();
 						int replacementLength= eolOffset - p;
 						String restOfLine= d.get(p, replacementLength);
-						String endTag= lineDelimiter + indentation + " */"; //$NON-NLS-1$
+						String endTag= lineDelimiter + indentation + " */"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 						if (isPreferenceTrue(PreferenceConstants.EDITOR_ADD_JAVADOC_TAGS)) {
 							// we need to close the comment before computing
@@ -137,18 +137,18 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 								try {
 									JavaModelUtil.reconcile(unit);
 									String string= createJavaDocTags(d, c, indentation, lineDelimiter, unit, useMarkdown);
-									buf.append(restOfLine);
+									buf.append(restOfLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 									// only add tags if they are non-empty - the empty line has already been added above.
 									if (string != null && !"*".equals(string.trim())) //$NON-NLS-1$
-										buf.append(string);
+										buf.append(string); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								} catch (CoreException e) {
 									// ignore
 								}
 							}
 						} else {
 							c.length= replacementLength;
-							buf.append(restOfLine);
-							buf.append(endTag);
+							buf.append(restOfLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+							buf.append(endTag); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 
@@ -165,7 +165,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 		}
 	}
 
-	private boolean handleMarkdownCodeFence(IDocument d, DocumentCommand c, int lineOffset, int offset, String indentation, StringBuilder buf) {
+	private boolean handleMarkdownCodeFence(IDocument d, DocumentCommand c, int lineOffset, int offset, String indentation, StringBuilder buf) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (!isPreferenceTrue(PreferenceConstants.EDITOR_CLOSE_FENCED_CODE_BLOCK))
 				return false;
@@ -192,9 +192,9 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 			c.shiftsCaret= false;
 			c.caretOffset= c.offset + buf.length();
 
-			buf.append(delimiter);
-			buf.append(indentation);
-			buf.append("/// ```"); //$NON-NLS-1$
+			buf.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(indentation); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("/// ```"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			c.text= buf.toString();
 
@@ -235,7 +235,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 		int indentEnd= findEndOfWhiteSpace(document, lineOffset, lineEnd);
 		if (indentEnd < lineEnd && document.getChar(indentEnd) == '*') {
 			indentEnd++;
-			while (indentEnd < lineEnd && document.getChar(indentEnd) == ' ')
+			while (indentEnd < lineEnd && document.getChar(indentEnd) == ' ') //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				indentEnd++;
 		}
 		return new Region(lineOffset, indentEnd - lineOffset);
@@ -253,7 +253,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	 * @throws CoreException if accessing the Java model fails
 	 * @throws BadLocationException if accessing the document fails
 	 */
-	private String createJavaDocTags(IDocument document, DocumentCommand command, String indentation,
+	private String createJavaDocTags(IDocument document, DocumentCommand command, String indentation, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String lineDelimiter, ICompilationUnit unit, boolean useMarkdown)
 		throws CoreException, BadLocationException
 	{
@@ -286,7 +286,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	 * @param lineDelimiter the line delimiter
 	 * @return a trimmed version of <code>comment</code>
 	 */
-	private String prepareTemplateComment(String comment, String indentation, IJavaProject project, String lineDelimiter) {
+	private String prepareTemplateComment(String comment, String indentation, IJavaProject project, String lineDelimiter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//	trim comment start and end if any
 		if (comment.endsWith("*/")) //$NON-NLS-1$
 			comment= comment.substring(0, comment.length() - 2);
@@ -301,7 +301,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 		// trim leading spaces, but not new lines
 		int nonSpace= 0;
 		int len= comment.length();
-		while (nonSpace < len && Character.getType(comment.charAt(nonSpace)) == Character.SPACE_SEPARATOR)
+		while (nonSpace < len && Character.getType(comment.charAt(nonSpace)) == Character.SPACE_SEPARATOR) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nonSpace++;
 		comment= comment.substring(nonSpace);
 
@@ -415,7 +415,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	 * @param commandOffset the command offset
 	 * @return <code>true</code> if the comment should be closed, <code>false</code> if not
 	 */
-	private boolean isNewComment(IDocument document, int commandOffset) {
+	private boolean isNewComment(IDocument document, int commandOffset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		try {
 			int lineIndex= document.getLineOfOffset(commandOffset) + 1;
@@ -465,14 +465,14 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	 * @param comment The comment block, can be partial when creating new javadoc comment
 	 * @return Return true if comment has a proper block comment ending
 	 */
-	private boolean hasBlockComment(String comment) {
+	private boolean hasBlockComment(String comment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// return early if block does not contain block comment ending '*/'
 		if (comment.indexOf("*/", 2) == -1) { //$NON-NLS-1$
 			return false;
 		}
 
 		boolean lineCommentHidesBlockComment= false;
-		for (String line : Strings.convertIntoLines(comment)) {
+		for (String line : Strings.convertIntoLines(comment)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int blockCommentIndex= line.indexOf("*/"); //$NON-NLS-1$
 			int lineCommentIndex= line.indexOf("//"); //$NON-NLS-1$
 			if (lineCommentIndex != -1 && blockCommentIndex != -1) {
@@ -484,7 +484,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 		return lineCommentHidesBlockComment == false;
 	}
 
-	private boolean isBlockCommentsInsideString(String comment) {
+	private boolean isBlockCommentsInsideString(String comment) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// return early if block does not contain block comment ending '*/' or '"' (String) token
 		if (comment.indexOf("*/") == -1 || comment.indexOf("\"") == -1) { //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
@@ -492,7 +492,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 
 		boolean allBlockCommentsInsideString= true;
 		boolean stringStart= false;
-		for (int i= 0; i < comment.length(); i++) {
+		for (int i= 0; i < comment.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= comment.charAt(i);
 			if (c == '"' && !stringStart) {
 				stringStart= true;
@@ -533,7 +533,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	/*
 	 * @see IAutoIndentStrategy#customizeDocumentCommand
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 
 		if (!isSmartMode())
@@ -576,7 +576,7 @@ public class JavaDocAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy
 	 * might return <code>null</code> on error.
 	 * @return the compilation unit represented by the document
 	 */
-	private static ICompilationUnit getCompilationUnit() {
+	private static ICompilationUnit getCompilationUnit() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IWorkbenchWindow window= JavaPlugin.getActiveWorkbenchWindow();
 		if (window == null)

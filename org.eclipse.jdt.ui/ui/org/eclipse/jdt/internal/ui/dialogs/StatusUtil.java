@@ -48,7 +48,7 @@ public class StatusUtil {
 	 */
 	public static IStatus getMostSevere(IStatus[] status) {
 		IStatus max= null;
-		for (IStatus curr : status) {
+		for (IStatus curr : status) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.matches(IStatus.ERROR)) {
 				return curr;
 			}
@@ -64,7 +64,7 @@ public class StatusUtil {
 	 * @param page the dialog page
 	 * @param status the status to apply
 	 */
-	public static void applyToStatusLine(DialogPage page, IStatus status) {
+	public static void applyToStatusLine(DialogPage page, IStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String message= status.getMessage();
 		if (message != null && message.length() == 0) {
 			message= null;

@@ -46,7 +46,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 			String label= fHistory.getText(element);
 		    if (accelerator < 10) {
 		    		//add the numerical accelerator
-			    label= new StringBuilder().append('&').append(accelerator).append(' ').append(label).toString();
+			    label= new StringBuilder().append('&').append(accelerator).append(' ').append(label).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			setText(label);
@@ -67,15 +67,15 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 			return null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Menu getMenu(Control parent) {
 			if (fMenu != null) {
 				fMenu.dispose();
 			}
 			final MenuManager manager= new MenuManager();
 			manager.setRemoveAllWhenShown(true);
-			manager.addMenuListener(new IMenuListener() {
-				@Override
+			manager.addMenuListener(new IMenuListener() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void menuAboutToShow(IMenuManager manager2) {
 					if (fHistory == null) {
 						return;
@@ -99,14 +99,14 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 					fHistory.addMenuEntries(manager);
 				}
 
-				private boolean addEntryMenuItems(IMenuManager manager2, List<E> entries) {
+				private boolean addEntryMenuItems(IMenuManager manager2, List<E> entries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (entries.isEmpty()) {
 						return false;
 					}
 
 					boolean checkOthers= true;
 					int min= Math.min(entries.size(), RESULTS_IN_DROP_DOWN);
-					for (int i= 0; i < min; i++) {
+					for (int i= 0; i < min; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						E entry= entries.get(i);
 						HistoryAction action= new HistoryAction(entry, i + 1);
 						boolean check= entry.equals(fHistory.getCurrentEntry());
@@ -123,10 +123,10 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 
 			//workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=129973
 			final Display display= parent.getDisplay();
-			fMenu.addMenuListener(new MenuAdapter() {
+			fMenu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 				@Override
 				public void menuHidden(final MenuEvent e) {
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						manager.removeAll();
 						if (fMenu != null) {
 							fMenu.dispose();

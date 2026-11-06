@@ -28,7 +28,7 @@ public abstract class Condition {
 
 	public boolean busyWaitFor(long maxTime, boolean strict) {
 		long maxEndTime= System.currentTimeMillis() + maxTime;
-		while (System.currentTimeMillis() < maxEndTime)
+		while (System.currentTimeMillis() < maxEndTime) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isTrue())
 				return !strict || System.currentTimeMillis() < maxEndTime;
 		return false;

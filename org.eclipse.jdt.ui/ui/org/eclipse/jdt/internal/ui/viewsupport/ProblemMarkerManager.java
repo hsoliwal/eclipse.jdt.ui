@@ -49,12 +49,12 @@ import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitAnnotationModelEven
  * Viewers showing error ticks should register as listener to
  * this type.
  */
-public class ProblemMarkerManager implements IResourceChangeListener, IAnnotationModelListener , IAnnotationModelListenerExtension {
+public class ProblemMarkerManager implements IResourceChangeListener, IAnnotationModelListener , IAnnotationModelListenerExtension { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 	/**
 	 * Visitors used to look if the element change delta contains a marker change.
 	 */
-	private static class ProjectErrorVisitor implements IResourceDeltaVisitor {
+	private static class ProjectErrorVisitor implements IResourceDeltaVisitor { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 		private HashSet<IResource> fChangedElements;
 
@@ -80,7 +80,7 @@ public class ProblemMarkerManager implements IResourceChangeListener, IAnnotatio
 			int kind= delta.getKind();
 			if (kind == IResourceDelta.REMOVED || kind == IResourceDelta.ADDED || (kind == IResourceDelta.CHANGED && isErrorDelta(delta))) {
 				// invalidate the resource and all parents
-				while (resource.getType() != IResource.ROOT && fChangedElements.add(resource)) {
+				while (resource.getType() != IResource.ROOT && fChangedElements.add(resource)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					resource= resource.getParent();
 				}
 			}
@@ -88,7 +88,7 @@ public class ProblemMarkerManager implements IResourceChangeListener, IAnnotatio
 
 		private boolean isErrorDelta(IResourceDelta delta) {
 			if ((delta.getFlags() & IResourceDelta.MARKERS) != 0) {
-				for (IMarkerDelta markerDelta : delta.getMarkerDeltas()) {
+				for (IMarkerDelta markerDelta : delta.getMarkerDeltas()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (markerDelta.isSubtypeOf(IMarker.PROBLEM)) {
 						int kind= markerDelta.getKind();
 						if (kind == IResourceDelta.ADDED || kind == IResourceDelta.REMOVED)
@@ -119,7 +119,7 @@ public class ProblemMarkerManager implements IResourceChangeListener, IAnnotatio
 	 */
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
-		HashSet<IResource> changedElements= new HashSet<>();
+		HashSet<IResource> changedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		try {
 			IResourceDelta delta= event.getDelta();
@@ -185,13 +185,13 @@ public class ProblemMarkerManager implements IResourceChangeListener, IAnnotatio
 	 * Notify all IProblemChangedListener. Must be called in the display thread.
 	 */
 	private void runPendingUpdates() {
-		ArrayList<IResource> resourcesWithMarkerChanges= new ArrayList<>();
-		ArrayList<IResource> resourcesWithAnnotationChanges= new ArrayList<>();
+		ArrayList<IResource> resourcesWithMarkerChanges= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ArrayList<IResource> resourcesWithAnnotationChanges= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fResourcesWithMarkerChanges.removeIf(e -> resourcesWithMarkerChanges.add(e));
 		fResourcesWithAnnotationChanges.removeIf(e -> resourcesWithAnnotationChanges.add(e));
 		IResource[] markerResources= resourcesWithMarkerChanges.toArray(IResource[]::new);
 		IResource[] annotationResources= resourcesWithAnnotationChanges.toArray(IResource[]::new);
-		for (IProblemChangedListener curr : fListeners) {
+		for (IProblemChangedListener curr : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (markerResources.length != 0) {
 				curr.problemsChanged(markerResources, true);
 			}

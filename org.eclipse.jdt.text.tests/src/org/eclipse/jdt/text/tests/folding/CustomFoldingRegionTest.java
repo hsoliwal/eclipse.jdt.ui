@@ -123,7 +123,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 5, 7); // region 2
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedCustomRegions() throws Exception {
 		String str= """
 				package org.example.test;
@@ -201,7 +201,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 2, 4); // imports
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCustomFoldingRegionAroundClasses() throws Exception {
 		String str= """
 				package org.example.test;
@@ -229,7 +229,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 6, 15); // region 1
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCustomFoldingRegionsMultipleLevels() throws Exception {
 		String str= """
 				package org.example.test;
@@ -273,7 +273,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertDoesNotContainRegionUsingStartLine(projectionRanges, str, 4);//region inside method
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCustomFoldingRegionsUsingSpecialCommentTypes() throws Exception {
 		String str= """
 				package org.example.test;
@@ -306,7 +306,7 @@ public class CustomFoldingRegionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCustomRegionsWithLocalClass() throws Exception {
 		String str= """
 				package org.example.test;
@@ -327,7 +327,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 4, 7);//region 1
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoCustomRegionAtDifferentLevelsWithOtherClass() throws Exception {
 		String str= """
 				package org.example.test;
@@ -371,7 +371,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 3, 9);//region 1
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDifferentConfiguration() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "#regstart");
@@ -533,7 +533,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertDoesNotContainRegionUsingStartLine(projectionRanges, str, 2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSameStartAndEndMarkersWithinBlock() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "----");
@@ -554,7 +554,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 5, 6);//region 1
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNotFoldedWithinDifferentControlFlowStatements() throws Exception {
 		assumeTrue("Only enabled with extended folding", extendedFoldingActive);
 		String str= """
@@ -595,7 +595,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 3, 4); // region 1
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSameStartAndEndMarkers() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "region");
@@ -617,7 +617,7 @@ public class CustomFoldingRegionTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSameStartAndEndMarkersWithElementsInBetween() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "----");
@@ -646,7 +646,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 8, 13);//methods
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSameStartAndEndMarkersNested() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "----");
@@ -681,7 +681,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 15, 19);//outer 2
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStartMarkerStartsWithEndMarker() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "reg");
@@ -705,7 +705,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 7, 8);//second
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStartMarkerStartsWithEndMarkerWithoutTopLevelType() throws Exception {
 		assumeTrue("Only enabled with extended folding", extendedFoldingActive);
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
@@ -727,7 +727,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 4, 5);//first
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEndMarkerStartsWithStartMarker() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGION_START, "regstart");
@@ -786,7 +786,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 0, 3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSameStartAndEndMarkerWithNestedFoldingRegionsAfterwards() throws Exception {
 		assumeTrue(extendedFoldingActive);
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
@@ -813,7 +813,7 @@ public class CustomFoldingRegionTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(projectionRanges, str, 4, 12);//custom region
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFoldingUpdateWithMultipleCustomRegionsDoesNotSwitchRegions() throws Exception {
 		String code= """
 				package org.example.test;
@@ -855,7 +855,7 @@ public class CustomFoldingRegionTest {
 			cu.reconcile(ICompilationUnit.NO_AST, false, null, null);
 
 			// check that regions are in the same order as before and not modified in another way
-			for(int i= 0; i < positions.size(); i++) {
+			for(int i= 0; i < positions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertEquals(initialRegions.get(i).offset(), positions.get(i).getOffset());
 				assertEquals(initialRegions.get(i).length() + additionalText.length(), positions.get(i).getLength());
 			}
@@ -864,7 +864,7 @@ public class CustomFoldingRegionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCustomFoldingRegionsAreAssociatedWithCorrectIJavaElements() throws Exception {
 		String code= """
 				package org.example.test;
@@ -914,7 +914,7 @@ public class CustomFoldingRegionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollapseAllWithCustomFoldingRegion() throws Exception {
 		String str= """
 				package org.example.test;
@@ -950,9 +950,9 @@ public class CustomFoldingRegionTest {
 		}
 	}
 
-	private void assertContainsCustomFoldingPositionWithElement(String code, ProjectionAnnotationModel model, String startComment, String elementName, int elementType) throws Exception {
+	private void assertContainsCustomFoldingPositionWithElement(String code, ProjectionAnnotationModel model, String startComment, String elementName, int elementType) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<Annotation> it= model.getAnnotationIterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annotation= it.next();
 			Position position= model.getPosition(annotation);
 			String regionPart= code.substring(position.getOffset(), position.getOffset() + position.getLength());
@@ -961,18 +961,18 @@ public class CustomFoldingRegionTest {
 				Method getter= annotation.getClass().getDeclaredMethod("getElement");
 				getter.setAccessible(true);
 				IJavaElement element= (IJavaElement) getter.invoke(annotation);
-				assertEquals(elementName, element.getElementName(), "incorrect IJavaElement associated with the following folding region:" + regionPart);
-				assertEquals(elementType, element.getElementType(), "incorrect IJavaElement type associated with the following folding region:" + regionPart);
+				assertEquals(elementName, element.getElementName(), "incorrect IJavaElement associated with the following folding region:" + regionPart); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				assertEquals(elementType, element.getElementType(), "incorrect IJavaElement type associated with the following folding region:" + regionPart); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return;
 			}
 		}
-		fail("No folding region starting with the following comment was found: " + startComment);
+		fail("No folding region starting with the following comment was found: " + startComment); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private List<Position> getFoldingPositionsFromModel(ProjectionAnnotationModel model) {
-		List<Position> positions= new ArrayList<>();
+		List<Position> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<Annotation> it= model.getAnnotationIterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation a= it.next();
 			if (a instanceof ProjectionAnnotation) {
 				Position p= model.getPosition(a);

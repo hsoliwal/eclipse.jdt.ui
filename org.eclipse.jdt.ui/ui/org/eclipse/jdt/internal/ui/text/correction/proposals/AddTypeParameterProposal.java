@@ -21,7 +21,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class AddTypeParameterProposal extends LinkedCorrectionProposal {
+public class AddTypeParameterProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public AddTypeParameterProposal(AddTypeParameterProposalCore core) {
 		super("", core.getCompilationUnit(), null, core.getRelevance(), JavaPluginImages.get(JavaPluginImages.IMG_FIELD_PUBLIC), core); //$NON-NLS-1$

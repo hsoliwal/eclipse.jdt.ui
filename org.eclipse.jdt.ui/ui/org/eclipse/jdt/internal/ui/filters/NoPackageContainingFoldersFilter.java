@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 
-public class NoPackageContainingFoldersFilter extends ViewerFilter {
+public class NoPackageContainingFoldersFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter
@@ -50,7 +50,7 @@ public class NoPackageContainingFoldersFilter extends ViewerFilter {
 		IJavaElement element= JavaCore.create(folder);
 		if (element instanceof IPackageFragment)
 			return true;
-		for (IResource resource : folder.members()) {
+		for (IResource resource : folder.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFolder && containsPackage((IFolder) resource)) {
 				return true;
 			}

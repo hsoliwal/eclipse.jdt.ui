@@ -43,7 +43,7 @@ public class EditorInputAdapterFactory implements IAdapterFactory {
 		return PROPERTIES;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@SuppressWarnings("unchecked")
 	public <T> T getAdapter(Object element, Class<T> key) {
 		updateLazyLoadedAdapters();

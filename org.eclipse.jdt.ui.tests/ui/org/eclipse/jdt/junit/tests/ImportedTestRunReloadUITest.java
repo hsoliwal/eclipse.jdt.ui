@@ -85,7 +85,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 	@Rule
 	public TemporaryFolder fTemporaryFolder= new TemporaryFolder();
 
-	private final List<TestRunSession> fSessionsToRemove= new ArrayList<>();
+	private final List<TestRunSession> fSessionsToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private IWorkbenchPage fPage;
 	private IWorkbenchPart fPreviousPart;
 	private TestRunnerViewPart fView;
@@ -97,7 +97,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 	private boolean fOpenConsoleOnOut;
 	private boolean fOpenConsoleOnErr;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Before
 	public void setUp() throws Exception {
 		// A launch shows and activates the Console view when the process writes output, possibly late,
@@ -129,7 +129,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 		assertTrue(fReloadCommand.isHandled());
 	}
 
-	@After
+	@After //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void tearDownView() {
 		JUnitModel model= JUnitCorePlugin.getModel();
 		try {
@@ -137,7 +137,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 				fHistory.setActiveEntry(model.getTestRunSessions().contains(fPreviousSession) ? fPreviousSession : null);
 			}
 		} finally {
-			for (TestRunSession session : fSessionsToRemove) {
+			for (TestRunSession session : fSessionsToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (session != null && model.getTestRunSessions().contains(session)) {
 					model.removeTestRunSession(session);
 				}
@@ -156,7 +156,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReloadEnablementFollowsHistorySelection() throws Exception {
 		JUnitModel model= JUnitCorePlugin.getModel();
 		Path resultFile= fTemporaryFolder.newFile("results.xml").toPath(); //$NON-NLS-1$
@@ -201,7 +201,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 		assertReloadState(other, false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReloadEnablementAfterJUnitLaunch() throws Exception {
 		JUnitModel model= JUnitCorePlugin.getModel();
 		Path resultFile= fTemporaryFolder.newFile("launched-results.xml").toPath(); //$NON-NLS-1$
@@ -237,7 +237,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 			@Override
 			public void testCaseFinished(ITestCaseElement testCase) {
 				if (isLaunchedSession(testCase.getTestRunSession())) {
-					finishedTest.set(testCase.getTestClassName() + "#" + testCase.getTestMethodName()); //$NON-NLS-1$
+					finishedTest.set(testCase.getTestClassName() + "#" + testCase.getTestMethodName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					testResult.set(testCase.getTestResult(false));
 					finishedTests.incrementAndGet();
 				}
@@ -269,7 +269,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 			assertNull(model.getImportedTestRunSource(executed));
 			// A launch may activate a different part. Set focus once, not between history selections.
 			fPage.activate(fView);
-			for (int i= 0; i < 2; i++) {
+			for (int i= 0; i < 2; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fHistory.setActiveEntry(imported);
 				assertReloadState(imported, true);
 				fHistory.setActiveEntry(executed);
@@ -321,7 +321,7 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 		assertNotNull("Reload toolbar item must be present", item); //$NON-NLS-1$
 		// Toolbar enablement is updated asynchronously. Observe the widget before
 		// querying the command, since isEnabled() can itself re-evaluate the handler.
-		assertTrue("Reload toolbar must follow the selected history entry (enabled=" + enabled + ")", new DisplayHelper() { //$NON-NLS-1$ //$NON-NLS-2$
+		assertTrue("Reload toolbar must follow the selected history entry (enabled=" + enabled + ")", new DisplayHelper() { //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			@Override
 			protected boolean condition() {
 				return !item.isDisposed() && item.getEnabled() == enabled;
@@ -331,10 +331,10 @@ public class ImportedTestRunReloadUITest extends AbstractTestRunListenerTest {
 		assertNotNull("Reload toolbar item must have an image", item.getImage()); //$NON-NLS-1$
 	}
 
-	private static ToolItem findToolItem(Composite parent, String tooltip) {
-		for (Control child : parent.getChildren()) {
+	private static ToolItem findToolItem(Composite parent, String tooltip) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Control child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof ToolBar toolbar) {
-				for (ToolItem item : toolbar.getItems()) {
+				for (ToolItem item : toolbar.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (tooltip.equals(item.getToolTipText())) {
 						return item;
 					}

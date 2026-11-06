@@ -44,7 +44,7 @@ public class FastJavaPartitionScanner extends AbstractFastJavaPartitionScanner {
 		super(javaProject);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setJavaProject() {
 		if (getJavaProject() == null) {
 			IWorkbenchPage page= null;

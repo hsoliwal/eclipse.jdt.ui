@@ -157,12 +157,12 @@ public class CodeMiningTriggerTest {
 		method.invoke(editor);
 	}
 
-	private void assertCodeMiningAnnotation(ISourceViewer viewer, String message, int timeout) throws Exception {
+	private void assertCodeMiningAnnotation(ISourceViewer viewer, String message, int timeout) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertTrue(new DisplayHelper() {
-			@SuppressWarnings("restriction")
+			@SuppressWarnings("restriction") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			@Override
 			protected boolean condition() {
-				for (Iterator<Annotation> itr= viewer.getAnnotationModel().getAnnotationIterator(); itr.hasNext();) {
+				for (Iterator<Annotation> itr= viewer.getAnnotationModel().getAnnotationIterator(); itr.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Annotation a= itr.next();
 					if (a instanceof org.eclipse.jface.internal.text.codemining.CodeMiningLineHeaderAnnotation) {
 						Field f;
@@ -170,7 +170,7 @@ public class CodeMiningTriggerTest {
 							f= org.eclipse.jface.internal.text.codemining.CodeMiningLineHeaderAnnotation.class.getDeclaredField("fMinings");
 							f.setAccessible(true);
 							List<ICodeMining> minings= (List<ICodeMining>) f.get(a);
-							for (ICodeMining m : minings) {
+							for (ICodeMining m : minings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (m instanceof TestCodeMining) {
 									if (message.equals(m.getLabel())) {
 										return true;
@@ -186,6 +186,6 @@ public class CodeMiningTriggerTest {
 				return false;
 			}
 		}.waitForCondition(Display.getDefault(), timeout),
-			"Cannot find CodeMining header line annotation with text `" + message + "`");
+			"Cannot find CodeMining header line annotation with text `" + message + "`"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

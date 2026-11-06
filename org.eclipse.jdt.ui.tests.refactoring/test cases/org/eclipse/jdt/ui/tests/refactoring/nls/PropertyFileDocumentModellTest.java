@@ -41,8 +41,8 @@ public class PropertyFileDocumentModellTest {
 	private static void insert(IDocument document, KeyValuePair[] pairs) throws CoreException {
 		PropertyFileDocumentModel model= new PropertyFileDocumentModel(document);
 
-		for (KeyValuePair pair : pairs) {
-			pair.setValue(PropertyFileDocumentModel.escape(pair.getValue(), true) + model.getLineDelimiter());
+		for (KeyValuePair pair : pairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			pair.setValue(PropertyFileDocumentModel.escape(pair.getValue(), true) + model.getLineDelimiter()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			pair.setKey(PropertyFileDocumentModel.escape(pair.getKey(), false));
 		}
 
@@ -109,7 +109,7 @@ public class PropertyFileDocumentModellTest {
 					""", props.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertIntoDoc4() throws Exception {
 		Document props= new Document(
 				"""
@@ -131,7 +131,7 @@ public class PropertyFileDocumentModellTest {
 			Test_Bc=""", props.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void manyInsertsIntoDoc() throws Exception {
 		Document props= new Document(
 				"""
@@ -163,7 +163,7 @@ public class PropertyFileDocumentModellTest {
 				props.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void manyInsertsIntoDoc2() throws Exception {
 		Document props= new Document(
 				"""
@@ -185,7 +185,7 @@ public class PropertyFileDocumentModellTest {
 					""", props.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void manyInsertsIntoDoc3() throws Exception {
 		Document props= new Document(
 				"""
@@ -261,7 +261,7 @@ public class PropertyFileDocumentModellTest {
 					""", props.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertIntoDocWithBlankLines1() throws Exception {
 		Document props= new Document(
 				"""
@@ -281,7 +281,7 @@ public class PropertyFileDocumentModellTest {
 					""", props.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertIntoDocWithBlankLines2() throws Exception {
 		Document props= new Document(
 				"""

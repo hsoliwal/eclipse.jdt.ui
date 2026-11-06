@@ -73,7 +73,7 @@ class HistoryAction extends Action {
 		fView.gotoHistoryEntry(fMembers);
 	}
 
-	static String getElementLabel(IMember[] members) {
+	static String getElementLabel(IMember[] members) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (members.length) {
         	case 0:
         		Assert.isTrue(false);

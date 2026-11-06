@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 /**
  * This action opens a call hierarchy on the selected members.
  */
-public class OpenCallHierarchyAction extends SelectionDispatchAction {
+public class OpenCallHierarchyAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -88,7 +88,7 @@ public class OpenCallHierarchyAction extends SelectionDispatchAction {
 		setEnabled(CallHierarchy.arePossibleInputElements(selection.toList()));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		ITypeRoot input= SelectionConverter.getInput(fEditor);
 		if (!ActionUtil.isProcessable(getShell(), input))
@@ -98,8 +98,8 @@ public class OpenCallHierarchyAction extends SelectionDispatchAction {
 			IJavaElement[] elements= SelectionConverter.codeResolveOrInputForked(fEditor);
 			if (elements == null)
 				return;
-			List<IJavaElement> candidates= new ArrayList<>(elements.length);
-			for (IJavaElement element : elements) {
+			List<IJavaElement> candidates= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (CallHierarchy.isPossibleInputElement(element)) {
 					candidates.add(element);
 				}

@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.ui.preferences.BuildPathsPropertyPage;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 
 //SelectedElements iff enabled: (IJavaElement || ClassPathContainer || IAdaptable) && size == 1
-public class ConfigureBuildPathAction extends BuildpathModifierAction {
+public class ConfigureBuildPathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public ConfigureBuildPathAction(IWorkbenchSite site) {
 		super(site, null, BuildpathModifierAction.CONFIGURE_BUILD_PATH);
@@ -59,11 +59,11 @@ public class ConfigureBuildPathAction extends BuildpathModifierAction {
 	    return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		IProject project= null;
 		Object firstElement= getSelectedElements().get(0);
-		HashMap<Object, IClasspathEntry> data= new HashMap<>();
+		HashMap<Object, IClasspathEntry> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		if (firstElement instanceof IJavaElement) {
 			IJavaElement element= (IJavaElement) firstElement;
@@ -87,7 +87,7 @@ public class ConfigureBuildPathAction extends BuildpathModifierAction {
 		PreferencesUtil.createPropertyDialogOn(getShell(), project, BuildPathsPropertyPage.PROP_ID, null, data).open();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
 		if (elements.size() != 1)
 			return false;

@@ -97,8 +97,8 @@ public class FilterDescriptor implements Comparable<FilterDescriptor>, IPluginCo
 	 */
 	public static FilterDescriptor[] getFilterDescriptors(String targetId) {
 		FilterDescriptor[] filterDescs= FilterDescriptor.getFilterDescriptors();
-		List<FilterDescriptor> result= new ArrayList<>(filterDescs.length);
-		for (FilterDescriptor filterDesc : filterDescs) {
+		List<FilterDescriptor> result= new ArrayList<>(filterDescs.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (FilterDescriptor filterDesc : filterDescs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String tid= filterDesc.getTargetId();
 			if (WorkbenchActivityHelper.filterItem(filterDesc)) {
 				continue;
@@ -127,7 +127,7 @@ public class FilterDescriptor implements Comparable<FilterDescriptor>, IPluginCo
 	 * This method is only valid for viewer filters.
 	 * @return a new <code>ViewerFilter</code>
 	 */
-	public ViewerFilter createViewerFilter() {
+	public ViewerFilter createViewerFilter() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isCustomFilter())
 			return null;
 
@@ -162,9 +162,9 @@ public class FilterDescriptor implements Comparable<FilterDescriptor>, IPluginCo
 		if (isPatternFilter()) {
 			String targetId= getTargetId();
 			if (targetId == null)
-				return PATTERN_FILTER_ID_PREFIX + getPattern();
+				return PATTERN_FILTER_ID_PREFIX + getPattern(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
-				return targetId + PATTERN_FILTER_ID_PREFIX + getPattern();
+				return targetId + PATTERN_FILTER_ID_PREFIX + getPattern(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else
 			return fElement.getAttribute(ID_ATTRIBUTE);
 	}
@@ -263,10 +263,10 @@ public class FilterDescriptor implements Comparable<FilterDescriptor>, IPluginCo
 	 * @param elements the configuration elements
 	 * @return new filter descriptors
 	 */
-	private static FilterDescriptor[] createFilterDescriptors(IConfigurationElement[] elements) {
-		List<FilterDescriptor> result= new ArrayList<>(5);
-		Set<String> descIds= new HashSet<>(5);
-		for (IConfigurationElement element : elements) {
+	private static FilterDescriptor[] createFilterDescriptors(IConfigurationElement[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<FilterDescriptor> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<String> descIds= new HashSet<>(5); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (FILTER_TAG.equals(element.getName())) {
 
 				final FilterDescriptor[] desc= new FilterDescriptor[1];

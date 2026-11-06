@@ -55,14 +55,14 @@ public class RefactoringSearchEngine {
 	}
 
 	//TODO: throw CoreException
-	public static ICompilationUnit[] findAffectedCompilationUnits(SearchPattern pattern,
+	public static ICompilationUnit[] findAffectedCompilationUnits(SearchPattern pattern, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaSearchScope scope, final IProgressMonitor pm, RefactoringStatus status, final boolean tolerateInAccurateMatches) throws JavaModelException {
 
 		boolean hasNonCuMatches= false;
 
 		class ResourceSearchRequestor extends SearchRequestor{
 			boolean hasPotentialMatches= false ;
-			Set<IResource> resources= new HashSet<>(5);
+			Set<IResource> resources= new HashSet<>(5); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			private IResource fLastResource;
 
 			@Override
@@ -83,8 +83,8 @@ public class RefactoringSearchEngine {
 			throw new JavaModelException(e);
 		}
 
-		List<IJavaElement> result= new ArrayList<>(requestor.resources.size());
-		for (IResource resource : requestor.resources) {
+		List<IJavaElement> result= new ArrayList<>(requestor.resources.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : requestor.resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= JavaCore.create(resource);
 			if (element instanceof ICompilationUnit) {
 				result.add(element);
@@ -158,20 +158,20 @@ public class RefactoringSearchEngine {
 	 * @param status the status to report errors.
 	 * @return a SearchResultGroup[], grouped by SearchMatch#getResource()
 	 */
-	public static SearchResultGroup[] groupByCu(List<SearchMatch> matchList, RefactoringStatus status) {
-		Map<IResource, List<SearchMatch>> grouped= new HashMap<>();
+	public static SearchResultGroup[] groupByCu(List<SearchMatch> matchList, RefactoringStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<IResource, List<SearchMatch>> grouped= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		boolean hasPotentialMatches= false;
 		boolean hasNonCuMatches= false;
 
-		for (SearchMatch searchMatch : matchList) {
+		for (SearchMatch searchMatch : matchList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (searchMatch.getAccuracy() == SearchMatch.A_INACCURATE)
 				hasPotentialMatches= true;
 			if (! grouped.containsKey(searchMatch.getResource()))
-				grouped.put(searchMatch.getResource(), new ArrayList<>(1));
+				grouped.put(searchMatch.getResource(), new ArrayList<>(1)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			grouped.get(searchMatch.getResource()).add(searchMatch);
 		}
 
-		for (Iterator<IResource> iter= grouped.keySet().iterator(); iter.hasNext();) {
+		for (Iterator<IResource> iter= grouped.keySet().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= iter.next();
 			IJavaElement element= JavaCore.create(resource);
 			if (! (element instanceof ICompilationUnit)) {
@@ -182,7 +182,7 @@ public class RefactoringSearchEngine {
 
 		SearchResultGroup[] result= new SearchResultGroup[grouped.size()];
 		int i= 0;
-		for (Map.Entry<IResource, List<SearchMatch>> entry : grouped.entrySet()) {
+		for (Map.Entry<IResource, List<SearchMatch>> entry : grouped.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource = entry.getKey();
 			List<SearchMatch> searchMatches= entry.getValue();
 			SearchMatch[] matchArray= searchMatches.toArray(new SearchMatch[searchMatches.size()]);
@@ -193,20 +193,20 @@ public class RefactoringSearchEngine {
 		return result;
 	}
 
-	public static SearchPattern createOrPattern(IJavaElement[] elements, int limitTo) {
+	public static SearchPattern createOrPattern(IJavaElement[] elements, int limitTo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements == null || elements.length == 0)
 			return null;
-		Set<IJavaElement> set= new HashSet<>(Arrays.asList(elements));
+		Set<IJavaElement> set= new HashSet<>(Arrays.asList(elements)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<IJavaElement> iter= set.iterator();
 		IJavaElement first= iter.next();
 		SearchPattern pattern= SearchPattern.createPattern(first, limitTo, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 		if (pattern == null) // check for bug 90138
-			throw new IllegalArgumentException("Invalid java element: " + first.getHandleIdentifier() + "\n" + first.toString()); //$NON-NLS-1$ //$NON-NLS-2$
-		while(iter.hasNext()){
+			throw new IllegalArgumentException("Invalid java element: " + first.getHandleIdentifier() + "\n" + first.toString()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		while(iter.hasNext()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement each= iter.next();
 			SearchPattern nextPattern= SearchPattern.createPattern(each, limitTo, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 			if (nextPattern == null) // check for bug 90138
-				throw new IllegalArgumentException("Invalid java element: " + each.getHandleIdentifier() + "\n" + each.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+				throw new IllegalArgumentException("Invalid java element: " + each.getHandleIdentifier() + "\n" + each.toString()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			pattern= SearchPattern.createOrPattern(pattern, nextPattern);
 		}
 		return pattern;

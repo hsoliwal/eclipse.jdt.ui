@@ -53,9 +53,9 @@ public class MoveModifications extends RefactoringModifications {
 	private List<IParticipantDescriptorFilter> fParticipantDescriptorFilter;
 
 	public MoveModifications() {
-		fMoves= new ArrayList<>();
-		fMoveArguments= new ArrayList<>();
-		fParticipantDescriptorFilter= new ArrayList<>();
+		fMoves= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fMoveArguments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fParticipantDescriptorFilter= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void move(IResource resource, MoveArguments args) {
@@ -79,7 +79,7 @@ public class MoveModifications extends RefactoringModifications {
 		}
 	}
 
-	public void move(IPackageFragment pack, MoveArguments args) throws CoreException {
+	public void move(IPackageFragment pack, MoveArguments args) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		add(pack, args, null);
 		if (pack.getResource() == null)
 			return;
@@ -99,12 +99,12 @@ public class MoveModifications extends RefactoringModifications {
 			IContainer resourceDestination= (IContainer) newPack.getResource();
 			createIncludingParents(resourceDestination);
 			MoveArguments arguments= new MoveArguments(resourceDestination, args.getUpdateReferences());
-			Set<IResource> allMembers= new HashSet<>(Arrays.asList(resourceSource.members()));
-			for (IResource toMove : collectResourcesOfInterest(pack)) {
+			Set<IResource> allMembers= new HashSet<>(Arrays.asList(resourceSource.members())); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IResource toMove : collectResourcesOfInterest(pack)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getResourceModifications().addMove(toMove, arguments);
 				allMembers.remove(toMove);
 			}
-			for (Iterator<IResource> iter= allMembers.iterator(); iter.hasNext();) {
+			for (Iterator<IResource> iter= allMembers.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource element= iter.next();
 				if (element instanceof IFile) {
 					getResourceModifications().addDelete(element);
@@ -119,13 +119,13 @@ public class MoveModifications extends RefactoringModifications {
 
 	public void move(ICompilationUnit unit, MoveArguments args) throws CoreException {
 		add(unit, args, null);
-		for (IType type : unit.getTypes()) {
+		for (IType type : unit.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			add(type, args, null);
 		}
 		IResource resourceDestination= getResourceDestination(args);
 		if (resourceDestination != null && unit.getResource() != null) {
 			IResource parent= resourceDestination;
-			while (!parent.exists()) {
+			while (!parent.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				getResourceModifications().addCreate(parent);
 				parent= parent.getParent();
 			}
@@ -136,7 +136,7 @@ public class MoveModifications extends RefactoringModifications {
 
 	@Override
 	public void buildDelta(IResourceChangeDescriptionFactory builder) {
-		for (int i= 0; i < fMoves.size(); i++) {
+		for (int i= 0; i < fMoves.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= fMoves.get(i);
 			if (element instanceof IResource) {
 				ResourceModifications.buildMoveDelta(builder, (IResource) element, (MoveArguments) fMoveArguments.get(i));
@@ -147,7 +147,7 @@ public class MoveModifications extends RefactoringModifications {
 
 	@Override
 	public void buildValidateEdits(ValidateEditChecker checker) {
-		for (Object element : fMoves) {
+		for (Object element : fMoves) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				ICompilationUnit unit= (ICompilationUnit)element;
 				IResource resource= unit.getResource();
@@ -160,8 +160,8 @@ public class MoveModifications extends RefactoringModifications {
 
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status, RefactoringProcessor owner, String[] natures, SharableParticipants shared) {
-		List<RefactoringParticipant> result= new ArrayList<>();
-		for (int i= 0; i < fMoves.size(); i++) {
+		List<RefactoringParticipant> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < fMoves.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(ParticipantManager.loadMoveParticipants(status,
 				owner, fMoves.get(i),
 				(MoveArguments) fMoveArguments.get(i),

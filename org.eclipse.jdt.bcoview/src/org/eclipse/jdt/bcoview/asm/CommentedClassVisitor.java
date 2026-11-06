@@ -145,15 +145,15 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Textifier visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-		if (options.fieldFilter != null || options.methodFilter != null && !(name + desc).equals(options.methodFilter)) {
+		if (options.fieldFilter != null || options.methodFilter != null && !(name + desc).equals(options.methodFilter)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return getDummyVisitor();
 		}
 
 		MethodNode meth = null;
 		List<String> exList = Arrays.asList(exceptions);
-		for (MethodNode mn : classNode.methods) {
+		for (MethodNode mn : classNode.methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mn.name.equals(name) && mn.desc.equals(desc) && mn.exceptions.equals(exList)) {
 				meth = mn;
 				break;
@@ -161,7 +161,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 		}
 		Objects.requireNonNull(meth);
 
-		currMethod = new DecompiledMethod(className, new HashMap<>(), meth, options, access);
+		currMethod = new DecompiledMethod(className, new HashMap<>(), meth, options, access); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		Textifier textifier = super.visitMethod(access, name, desc, signature, exceptions);
 		TraceMethodVisitor tm = new TraceMethodVisitor(textifier);
 		meth.accept(tm);
@@ -177,53 +177,53 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 		appendDescriptor(stringBuilder, type, desc, raw);
 	}
 
-	protected void appendDescriptor(StringBuilder buf1, int type, String desc, boolean raw1) {
+	protected void appendDescriptor(StringBuilder buf1, int type, String desc, boolean raw1) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (desc == null) {
 			return;
 		}
 		if (raw1) {
 			if (type == CLASS_SIGNATURE || type == FIELD_SIGNATURE || type == METHOD_SIGNATURE) {
-				buf1.append("// signature ").append(desc).append('\n'); //$NON-NLS-1$
+				buf1.append("// signature ").append(desc).append('\n'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf1.append(desc);
+				buf1.append(desc); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else {
 			switch (type) {
 				case INTERNAL_NAME:
-					buf1.append(eatPackageNames(desc, '/'));
+					buf1.append(eatPackageNames(desc, '/')); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case METHOD_DESCRIPTOR:
 				case HANDLE_DESCRIPTOR:
 					if (!desc.startsWith("(")) { //$NON-NLS-1$
 						// Handle to access record fields
-						buf1.append(getSimpleName(Type.getType(desc)));
+						buf1.append(getSimpleName(Type.getType(desc))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else {
-						buf1.append("("); //$NON-NLS-1$
+						buf1.append("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						Type[] types = Type.getArgumentTypes(desc);
-						for (int i = 0; i < types.length; ++i) {
+						for (int i = 0; i < types.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (i > 0) {
-								buf1.append(", "); //$NON-NLS-1$
+								buf1.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
-							buf1.append(getSimpleName(types[i]));
+							buf1.append(getSimpleName(types[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
-						buf1.append(") : "); //$NON-NLS-1$
+						buf1.append(") : "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						Type returnType = Type.getReturnType(desc);
-						buf1.append(getSimpleName(returnType));
+						buf1.append(getSimpleName(returnType)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					break;
 				case FIELD_DESCRIPTOR:
 					switch (desc) {
 						case "T": //$NON-NLS-1$
-							buf1.append("top"); //$NON-NLS-1$
+							buf1.append("top"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							break;
 						case "N": //$NON-NLS-1$
-							buf1.append("null"); //$NON-NLS-1$
+							buf1.append("null"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							break;
 						case "U": //$NON-NLS-1$
-							buf1.append("uninitialized_this"); //$NON-NLS-1$
+							buf1.append("uninitialized_this"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							break;
 						default:
-							buf1.append(getSimpleName(Type.getType(desc)));
+							buf1.append(getSimpleName(Type.getType(desc))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							break;
 					}
 					break;
@@ -240,7 +240,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 					// ignore - show only in "raw" mode
 					break;
 				default:
-					buf1.append(desc);
+					buf1.append(desc); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 	}
@@ -266,7 +266,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 			return name;
 		}
 		StringBuffer sb = new StringBuffer(name);
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int start = getPackageStartIndex(sb, separator, lastPoint);
 			sb.delete(start, lastPoint + 1);
 			lastPoint = lastIndexOf(sb, separator, start);
@@ -276,7 +276,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 	}
 
 	private static int lastIndexOf(StringBuffer chars, char c, int lastPoint) {
-		for (int i = lastPoint - 1; i > 0; i--) {
+		for (int i = lastPoint - 1; i > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (chars.charAt(i) == c) {
 				return i;
 			}
@@ -285,7 +285,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 	}
 
 	private static int getPackageStartIndex(StringBuffer chars, char c, int firstPoint) {
-		for (int i = firstPoint - 1; i >= 0; i--) {
+		for (int i = firstPoint - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char curr = chars.charAt(i);
 			if (curr != c && !Character.isJavaIdentifierPart(curr)) {
 				return i + 1;
@@ -306,7 +306,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 
 	private Index getIndex(Label label) {
 		Index index;
-		for (Object o : text) {
+		for (Object o : text) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (o instanceof Index) {
 				index = (Index) o;
 				if (index.labelNode != null && index.labelNode.getLabel() == label) {
@@ -329,39 +329,39 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 	public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 		addIndex(opcode);
 		stringBuilder.setLength(0);
-		stringBuilder.append(tab2).append(OPCODES[opcode]).append(' ');
+		stringBuilder.append(tab2).append(OPCODES[opcode]).append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		appendDescriptor(INTERNAL_NAME, owner);
-		stringBuilder.append('.').append(name);
+		stringBuilder.append('.').append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		appendDescriptor(METHOD_DESCRIPTOR, desc);
-		stringBuilder.append('\n');
+		stringBuilder.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		text.add(stringBuilder.toString());
 	}
 
 	@Override
 	public void visitVarInsn(int opcode, int var) {
 		addIndex(opcode);
-		text.add(tab2 + OPCODES[opcode] + " " + var); //$NON-NLS-1$
+		text.add(tab2 + OPCODES[opcode] + " " + var); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (!raw) {
 			text.add(Integer.valueOf(var));
 		}
 		text.add("\n"); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void visitLabel(Label label) {
 		addIndex(-1);
 		stringBuilder.setLength(0);
-		stringBuilder.append(ltab);
+		stringBuilder.append(ltab); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		appendLabel(label);
 		Index index = getIndex(label);
 		if (index != null) {
-			stringBuilder.append(" (").append(index.insn).append(")"); //$NON-NLS-1$ //$NON-NLS-2$
+			stringBuilder.append(" (").append(index.insn).append(")"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		stringBuilder.append('\n');
+		stringBuilder.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		text.add(stringBuilder.toString());
 		InsnList instructions = currMethod.meth.instructions;
 		LabelNode currLabel = null;
-		for (int i = 0; i < instructions.size(); i++) {
+		for (int i = 0; i < instructions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			AbstractInsnNode insnNode = instructions.get(i);
 			if (insnNode instanceof LabelNode) {
 				LabelNode labelNode = (LabelNode) insnNode;
@@ -382,18 +382,18 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 	@Override
 	public void visitIincInsn(int var, int increment) {
 		addIndex(Opcodes.IINC);
-		text.add(tab2 + "IINC " + var); //$NON-NLS-1$
+		text.add(tab2 + "IINC " + var); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (!raw) {
 			text.add(Integer.valueOf(var));
 		}
-		text.add(" " + increment + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		text.add(" " + increment + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
 	public void visitIntInsn(int opcode, int operand) {
 		addIndex(opcode);
 		stringBuilder.setLength(0);
-		stringBuilder.append(tab2).append(OPCODES[opcode]).append(' ').append(
+		stringBuilder.append(tab2).append(OPCODES[opcode]).append(' ').append( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				opcode == Opcodes.NEWARRAY
 				? TYPES[operand]
 						: formatValue(operand))
@@ -404,7 +404,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 	private String formatValue(int operand) {
 		if (showHex) {
 			String intStr = Integer.toHexString(operand).toUpperCase();
-			return intStr + getAsCharComment(operand);
+			return intStr + getAsCharComment(operand); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return Integer.toString(operand);
 	}
@@ -414,7 +414,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 	 * @return char value from int, together with char name if it is a control char, or an empty
 	 *         string
 	 */
-	private static String getAsCharComment(int value) {
+	private static String getAsCharComment(int value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (Character.MAX_VALUE < value || Character.MIN_VALUE > value) {
 			return ""; //$NON-NLS-1$
 		}
@@ -447,14 +447,14 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 
 	}
 
-	private String formatValue(Object operand) {
+	private String formatValue(Object operand) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (operand == null) {
 			return "null"; //$NON-NLS-1$
 		}
 		if (showHex) {
 			if (operand instanceof Integer) {
 				String intStr = Integer.toHexString(((Integer) operand).intValue()).toUpperCase();
-				return intStr + getAsCharComment(((Integer) operand).intValue());
+				return intStr + getAsCharComment(((Integer) operand).intValue()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else if (operand instanceof Long) {
 				return Long.toHexString(((Long) operand).longValue()).toUpperCase();
 			} else if (operand instanceof Double) {
@@ -473,11 +473,11 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void visitLdcInsn(Object cst) {
 		addIndex(Opcodes.LDC);
 		stringBuilder.setLength(0);
-		stringBuilder.append(tab2).append("LDC "); //$NON-NLS-1$
+		stringBuilder.append(tab2).append("LDC "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (cst instanceof String) {
 			Printer.appendString(stringBuilder, (String) cst);
 		} else if (cst instanceof Type) {
@@ -487,12 +487,12 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 				appendDescriptor(METHOD_DESCRIPTOR, descriptor);
 			} else {
 				String descr = raw ? descriptor : descriptor.substring(0, descriptor.length() - 1);
-				appendDescriptor(INTERNAL_NAME, descr + ".class"); //$NON-NLS-1$
+				appendDescriptor(INTERNAL_NAME, descr + ".class"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else {
-			stringBuilder.append(formatValue(cst));
+			stringBuilder.append(formatValue(cst)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		stringBuilder.append('\n');
+		stringBuilder.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		text.add(stringBuilder.toString());
 	}
 
@@ -574,7 +574,7 @@ public class CommentedClassVisitor extends Textifier implements ICommentedClassV
 		return new DecompiledClassInfo(javaVersion, accessFlags);
 	}
 
-	private Textifier getDummyVisitor() {
+	private Textifier getDummyVisitor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (dummyAnnVisitor == null) {
 			dummyAnnVisitor = new Textifier(DecompilerOptions.LATEST_ASM_VERSION) {
 				@Override

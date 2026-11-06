@@ -58,7 +58,7 @@ public class TestSessionLabelProvider extends LabelProvider implements IStyledLa
 		timeFormat.setMinimumIntegerDigits(1);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledText(Object element) {
 		String label= getSimpleLabel(element);
 		if (label == null) {
@@ -106,7 +106,7 @@ public class TestSessionLabelProvider extends LabelProvider implements IStyledLa
 		return StyledCellLabelProvider.styleDecoratedString(decorated, StyledString.COUNTER_STYLER, styledString);
 	}
 
-	private String addTiming(String string, ITestElement testElement) {
+	private String addTiming(String string, ITestElement testElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String decorated= string;
 		double time= testElement.getElapsedTimeInSeconds();
 		if (fShowTime && !Double.isNaN(time)) {
@@ -152,7 +152,7 @@ public class TestSessionLabelProvider extends LabelProvider implements IStyledLa
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getText(Object element) {
 		String label= getSimpleLabel(element);
 		if (label == null) {
@@ -174,7 +174,7 @@ public class TestSessionLabelProvider extends LabelProvider implements IStyledLa
 		return addTiming(label, testElement);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage(Object element) {
 		if (element instanceof TestElement && ((TestElement) element).isAssumptionFailure())
 			return fTestRunnerPart.fTestAssumptionFailureIcon;

@@ -187,9 +187,9 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 	@Override
 	protected IFile[] getChangedFiles() throws CoreException {
-		Set<IFile> combined= new HashSet<>(Arrays.asList(ResourceUtil.getFiles(fChangeManager.getAllCompilationUnits())));
+		Set<IFile> combined= new HashSet<>(Arrays.asList(ResourceUtil.getFiles(fChangeManager.getAllCompilationUnits()))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (fRenameSubpackages) {
-			for (IPackageFragment pack : JavaElementUtil.getPackageAndSubpackages(fPackage)) {
+			for (IPackageFragment pack : JavaElementUtil.getPackageAndSubpackages(fPackage)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				combined.addAll(Arrays.asList(ResourceUtil.getFiles(pack.getCompilationUnits())));
 			}
 		} else {
@@ -264,7 +264,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 	//---- IResourceMapper  ----------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IResource getRefactoredResource(IResource element) {
 		IFolder packageFolder= (IFolder) fPackage.getResource();
 		if (packageFolder == null)
@@ -292,7 +292,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 	//---- IJavaElementMapper ----------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IJavaElement getRefactoredJavaElement(IJavaElement original) {
 		return new GenericRefactoringHandleTransplanter() {
 			@Override
@@ -304,8 +304,8 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 					String packName= element.getElementName();
 					String packageName= fPackage.getElementName();
 					if (fPackage.getParent().equals(parent)
-							&& packName.startsWith(packageName + '.')) {
-						String newPackName= getNewElementName() + packName.substring(packageName.length() - 1);
+							&& packName.startsWith(packageName + '.')) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						String newPackName= getNewElementName() + packName.substring(packageName.length() - 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						return getPackageFragmentRoot().getPackageFragment(newPackName);
 					}
 				}
@@ -318,7 +318,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 				return parent.getMethod(element.getElementName(), parameterTypes);
 			}
 
-			private String[] resolveParameterTypes(IMethod method) {
+			private String[] resolveParameterTypes(IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				final String[] oldParameterTypes= method.getParameterTypes();
 				final String[] newparams= new String[oldParameterTypes.length];
 
@@ -333,9 +333,9 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 				// Textually replace all occurrences
 				// This handles stuff like Map<SomeClass, some.package.SomeClass>
-				for (int i= 0; i < oldParameterTypes.length; i++) {
+				for (int i= 0; i < oldParameterTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					newparams[i]= oldParameterTypes[i];
-					for (int j= 0; j < possibleOldSigs.length; j++) {
+					for (int j= 0; j < possibleOldSigs.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						newparams[i]= JFaceStringUtility.replaceAll(newparams[i], possibleOldSigs[j], possibleNewSigs[j]);
 					}
 				}
@@ -399,7 +399,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		try{
 			pm.beginTask("", 23 + (fUpdateQualifiedNames ? 10 : 0) + (fUpdateTextualMatches ? 10 : 0)); //$NON-NLS-1$
@@ -429,7 +429,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			if (fRenameSubpackages) {
 				IPackageFragment[] allSubpackages= JavaElementUtil.getPackageAndSubpackages(fPackage);
 				subPm.beginTask("", allSubpackages.length); //$NON-NLS-1$
-				for (IPackageFragment pack : allSubpackages) {
+				for (IPackageFragment pack : allSubpackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					new PackageRenamer(pack, this, fChangeManager, fImportsManager).doRename(Progress.subMonitor(subPm, 1), result);
 				}
 				subPm.done();
@@ -460,13 +460,13 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 	private RefactoringStatus checkForMainAndNativeMethods() throws CoreException{
 		RefactoringStatus result= new RefactoringStatus();
 		if (fRenameSubpackages) {
-			for (IPackageFragment pack : JavaElementUtil.getPackageAndSubpackages(fPackage)) {
-				for (ICompilationUnit cu : pack.getCompilationUnits()) {
+			for (IPackageFragment pack : JavaElementUtil.getPackageAndSubpackages(fPackage)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (ICompilationUnit cu : pack.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.merge(Checks.checkForMainAndNativeMethods(cu));
 				}
 			}
 		} else {
-			for (ICompilationUnit cu : fPackage.getCompilationUnits()) {
+			for (ICompilationUnit cu : fPackage.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.merge(Checks.checkForMainAndNativeMethods(cu));
 			}
 		}
@@ -484,7 +484,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 				|| (!pack.containsJavaResources() && pack.getNonJavaResources().length == 0);
 	}
 
-	private RefactoringStatus checkPackageInCurrentRoot(String newName) throws CoreException {
+	private RefactoringStatus checkPackageInCurrentRoot(String newName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fRenameSubpackages) {
 			String currentName= getCurrentElementName();
 			if (isAncestorPackage(currentName, newName)) {
@@ -500,8 +500,8 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			// renaming to superpackage (a.b -> a) or another package is OK iff
 			// 'a.b' does not contain any subpackage that would collide with another subpackage of 'a'
 			// (e.g. a.b.c collides if a.c already exists, but a.b.b does not collide with a.b)
-			for (IPackageFragment pack : JavaElementUtil.getPackageAndSubpackages(fPackage)) {
-				String newPack= newName + pack.getElementName().substring(currentName.length());
+			for (IPackageFragment pack : JavaElementUtil.getPackageAndSubpackages(fPackage)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String newPack= newName + pack.getElementName().substring(currentName.length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (! isAncestorPackage(currentName, newPack) && ! isPackageNameOkInRoot(newPack, getPackageFragmentRoot())) {
 					String msg= Messages.format(RefactoringCoreMessages.RenamePackageProcessor_subpackage_collides, BasicElementLabels.getJavaElementName(newPack));
 					return RefactoringStatus.createFatalErrorStatus(msg);
@@ -532,7 +532,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 	private RefactoringStatus checkPackageName(String newName) throws CoreException {
 		RefactoringStatus status= new RefactoringStatus();
 		Set<String> topLevelTypeNames= getTopLevelTypeNames();
-		for (IPackageFragmentRoot root : fPackage.getJavaProject().getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : fPackage.getJavaProject().getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! isPackageNameOkInRoot(newName, root)) {
 				String rootLabel = JavaElementLabelsCore.getElementLabel(root, JavaElementLabelsCore.ALL_DEFAULT);
 				String newPackageName= BasicElementLabels.getJavaElementName(getNewElementName());
@@ -546,8 +546,8 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 	private Set<String> getTopLevelTypeNames() throws CoreException {
 		ICompilationUnit[] cus= fPackage.getCompilationUnits();
-		Set<String> result= new HashSet<>(2 * cus.length);
-		for (ICompilationUnit cu : cus) {
+		Set<String> result= new HashSet<>(2 * cus.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(getTopLevelTypeNames(cu));
 		}
 		return result;
@@ -555,8 +555,8 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 	private static Collection<String> getTopLevelTypeNames(ICompilationUnit iCompilationUnit) throws CoreException {
 		IType[] types= iCompilationUnit.getTypes();
-		List<String> result= new ArrayList<>(types.length);
-		for (IType type : types) {
+		List<String> result= new ArrayList<>(types.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(type.getElementName());
 		}
 		return result;
@@ -567,7 +567,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		if (fPackage.equals(otherPack))
 			return null;
 		RefactoringStatus result= new RefactoringStatus();
-		for (ICompilationUnit cu : otherPack.getCompilationUnits()) {
+		for (ICompilationUnit cu : otherPack.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.merge(checkTypeNameConflicts(cu, topLevelTypeNames));
 		}
 		return result;
@@ -576,7 +576,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 	private RefactoringStatus checkTypeNameConflicts(ICompilationUnit iCompilationUnit, Set<String> topLevelTypeNames) throws CoreException {
 		RefactoringStatus result= new RefactoringStatus();
 
-		for (IType type : iCompilationUnit.getTypes()) {
+		for (IType type : iCompilationUnit.getTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= type.getElementName();
 			if (topLevelTypeNames.contains(name)) {
 				String[] keys= {getElementLabel(iCompilationUnit.getParent()), getElementLabel(type)};
@@ -606,7 +606,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		}
 	}
 
-	private RenameJavaElementDescriptor createRefactoringDescriptor() {
+	private RenameJavaElementDescriptor createRefactoringDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String project= null;
 		IJavaProject javaProject= fPackage.getJavaProject();
 		if (javaProject != null)
@@ -637,7 +637,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		return JavaElementLabelsCore.getElementLabel(javaElement, JavaElementLabelsCore.ALL_DEFAULT);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change postCreateChange(Change[] participantChanges, IProgressMonitor pm) throws CoreException {
 		if (fQualifiedNameSearchResult != null) {
 			CompositeChange parent= (CompositeChange) fRenamePackageChange.getParent();
@@ -667,7 +667,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 
 	public String getNewPackageName(String oldSubPackageName) {
 		String oldPackageName= getPackage().getElementName();
-		return getNewElementName() + oldSubPackageName.substring(oldPackageName.length());
+		return getNewElementName() + oldSubPackageName.substring(oldPackageName.length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static class PackageRenamer {
@@ -700,7 +700,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			fImportsManager= importsManager;
 		}
 
-		void doRename(IProgressMonitor pm, RefactoringStatus result) throws CoreException {
+		void doRename(IProgressMonitor pm, RefactoringStatus result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			pm.beginTask("", 16); //$NON-NLS-1$
 			if (fProcessor.getUpdateReferences()){
 				pm.setTaskName(RefactoringCoreMessages.RenamePackageRefactoring_searching);
@@ -742,13 +742,13 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			return RefactoringSearchEngine.search(pattern, scope, requestor, pm, status);
 		}
 
-		private void addReferenceUpdates(IProgressMonitor pm) throws CoreException {
+		private void addReferenceUpdates(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			pm.beginTask("", fOccurrences.length + fReferencesToTypesInPackage.size() + fReferencesToTypesInNamesakes.size()); //$NON-NLS-1$
-			for (SearchResultGroup occurrence : fOccurrences) {
+			for (SearchResultGroup occurrence : fOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= occurrence.getCompilationUnit();
 				if (cu == null)
 					continue;
-				for (SearchMatch result : occurrence.getSearchResults()) {
+				for (SearchMatch result : occurrence.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJavaElement enclosingElement= SearchUtils.getEnclosingJavaElement(result);
 					if (enclosingElement instanceof IImportDeclaration) {
 						IImportDeclaration importDeclaration= (IImportDeclaration) enclosingElement;
@@ -772,13 +772,13 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			}
 
 			if (!fReferencesToTypesInNamesakes.isEmpty()) {
-				for (SearchResultGroup referencesToTypesInNamesakes : fReferencesToTypesInNamesakes) {
+				for (SearchResultGroup referencesToTypesInNamesakes : fReferencesToTypesInNamesakes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addTypeImports(referencesToTypesInNamesakes);
 					pm.worked(1);
 				}
 			}
 			if (!fReferencesToTypesInPackage.isEmpty()) {
-				for (SearchResultGroup namesakeReferencesToPackage : fReferencesToTypesInPackage) {
+				for (SearchResultGroup namesakeReferencesToPackage : fReferencesToTypesInPackage) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					updateTypeImports(namesakeReferencesToPackage);
 					pm.worked(1);
 				}
@@ -791,7 +791,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		 *  @param searchResultGroups List of SearchResultGroup
 		 *  @return the SearchResultGroup for cu, or null iff not found */
 		private static SearchResultGroup extractGroupFor(ICompilationUnit cu, List<SearchResultGroup> searchResultGroups) {
-			for (Iterator<SearchResultGroup> iter= searchResultGroups.iterator(); iter.hasNext();) {
+			for (Iterator<SearchResultGroup> iter= searchResultGroups.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SearchResultGroup group= iter.next();
 				if (cu.equals(group.getCompilationUnit())) {
 					iter.remove();
@@ -822,9 +822,9 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		 * <p>- all CUs from fOccurrences which are not in a namesake package
 		 */
 		private IJavaSearchScope getPackageAndOccurrencesWithoutNamesakesScope() {
-			List<IJavaElement> scopeList= new ArrayList<>();
+			List<IJavaElement> scopeList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			scopeList.add(fPackage);
-			for (SearchResultGroup occurrence : fOccurrences) {
+			for (SearchResultGroup occurrence : fOccurrences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= occurrence.getCompilationUnit();
 				if (cu == null)
 					continue;
@@ -835,14 +835,14 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			return SearchEngine.createJavaSearchScope(scopeList.toArray(new IJavaElement[scopeList.size()]));
 		}
 
-		private List<SearchResultGroup> getReferencesToTypesInNamesakes(IProgressMonitor pm, RefactoringStatus status) throws CoreException {
+		private List<SearchResultGroup> getReferencesToTypesInNamesakes(IProgressMonitor pm, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			pm.beginTask("", 2); //$NON-NLS-1$
 			// e.g. renaming B-p.p; project C requires B, X and has ref to B-p.p and X-p.p;
 			// goal: find refs to X-p.p in CUs from fOccurrences
 
 			// (1) find namesake packages (scope: all packages referenced by CUs in fOccurrences and fPackage)
 			IJavaElement[] elements= new IJavaElement[fOccurrences.length + 1];
-			for (int i= 0; i < fOccurrences.length; i++) {
+			for (int i= 0; i < fOccurrences.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				elements[i]= fOccurrences[i].getCompilationUnit();
 			}
 			elements[fOccurrences.length]= fPackage;
@@ -850,7 +850,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			IPackageFragment[] namesakePackages= getNamesakePackages(namesakePackagesScope, Progress.subMonitor(pm, 1));
 			if (namesakePackages.length == 0) {
 				pm.done();
-				return new ArrayList<>(0);
+				return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 
 			// (2) find refs in fOccurrences and fPackage to namesake packages
@@ -859,39 +859,39 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			IType[] typesToSearch= getTypesInPackages(namesakePackages);
 			if (typesToSearch.length == 0) {
 				pm.done();
-				return new ArrayList<>(0);
+				return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			SearchPattern pattern= RefactoringSearchEngine.createOrPattern(typesToSearch, IJavaSearchConstants.REFERENCES);
 			IJavaSearchScope scope= getPackageAndOccurrencesWithoutNamesakesScope();
 			SearchResultGroup[] results= RefactoringSearchEngine.search(pattern, scope, Progress.subMonitor(pm, 1), status);
 			pm.done();
-			return new ArrayList<>(Arrays.asList(results));
+			return new ArrayList<>(Arrays.asList(results)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
-		private List<SearchResultGroup> getReferencesToTypesInPackage(IProgressMonitor pm, ReferencesInBinaryContext binaryRefs, RefactoringStatus status) throws CoreException {
+		private List<SearchResultGroup> getReferencesToTypesInPackage(IProgressMonitor pm, ReferencesInBinaryContext binaryRefs, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			pm.beginTask("", 2); //$NON-NLS-1$
 			IJavaSearchScope referencedFromNamesakesScope= RefactoringScopeFactory.create(fPackage, true, false);
 			IPackageFragment[] namesakePackages= getNamesakePackages(referencedFromNamesakesScope, Progress.subMonitor(pm, 1));
 			if (namesakePackages.length == 0) {
 				pm.done();
-				return new ArrayList<>(0);
+				return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 
 			IJavaSearchScope scope= SearchEngine.createJavaSearchScope(namesakePackages);
 			IType[] typesToSearch= getTypesInPackage(fPackage);
 			if (typesToSearch.length == 0) {
 				pm.done();
-				return new ArrayList<>(0);
+				return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 			SearchPattern pattern= RefactoringSearchEngine.createOrPattern(typesToSearch, IJavaSearchConstants.REFERENCES);
 			CollectingSearchRequestor requestor= new CuCollectingSearchRequestor(binaryRefs);
 			SearchResultGroup[] results= RefactoringSearchEngine.search(pattern, scope, requestor, Progress.subMonitor(pm, 1), status);
 			pm.done();
-			return new ArrayList<>(Arrays.asList(results));
+			return new ArrayList<>(Arrays.asList(results)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		private IType[] getTypesInPackage(IPackageFragment packageFragment) throws JavaModelException {
-			List<IType> types= new ArrayList<>();
+			List<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			addContainedTypes(packageFragment, types);
 			return types.toArray(new IType[types.size()]);
 		}
@@ -902,12 +902,12 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		 * @return all package fragments in <code>scope</code> with same name as <code>fPackage</code>, excluding fPackage
 		 * @throws CoreException if search failed
 		 */
-		private IPackageFragment[] getNamesakePackages(IJavaSearchScope scope, IProgressMonitor pm) throws CoreException {
+		private IPackageFragment[] getNamesakePackages(IJavaSearchScope scope, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			SearchPattern pattern= SearchPattern.createPattern(fPackage.getElementName(), IJavaSearchConstants.PACKAGE, IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
 			if (pattern == null) {
 				return new IPackageFragment[0];
 			}
-			final HashSet<IPackageFragment> packageFragments= new HashSet<>();
+			final HashSet<IPackageFragment> packageFragments= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			SearchRequestor requestor= new SearchRequestor() {
 				@Override
 				public void acceptSearchMatch(SearchMatch match) throws CoreException {
@@ -925,15 +925,15 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		}
 
 		private IType[] getTypesInPackages(IPackageFragment[] packageFragments) throws JavaModelException {
-			List<IType> types= new ArrayList<>();
-			for (IPackageFragment pack : packageFragments) {
+			List<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPackageFragment pack : packageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addContainedTypes(pack, types);
 			}
 			return types.toArray(new IType[types.size()]);
 		}
 
 		private void addContainedTypes(IPackageFragment pack, List<IType> typesCollector) throws JavaModelException {
-			for (IJavaElement child : pack.getChildren()) {
+			for (IJavaElement child : pack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof ICompilationUnit) {
 					typesCollector.addAll(Arrays.asList(((ICompilationUnit) child).getTypes()));
 				} else if (child instanceof IOrdinaryClassFile) {
@@ -959,7 +959,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		 * @throws CoreException should not happen
 		 */
 		private void addTypeImports(SearchResultGroup typeReferences) throws CoreException {
-			for (SearchMatch result : typeReferences.getSearchResults()) {
+			for (SearchMatch result : typeReferences.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement enclosingElement= SearchUtils.getEnclosingJavaElement(result);
 				if (! (enclosingElement instanceof IImportDeclaration)) {
 					String reference= getNormalizedTypeReference(result);
@@ -967,7 +967,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 						// is unqualified
 						reference= cutOffInnerTypes(reference);
 						ImportChange importChange= fImportsManager.getImportChange(typeReferences.getCompilationUnit());
-						importChange.addImport(fPackage.getElementName() + '.' + reference);
+						importChange.addImport(fPackage.getElementName() + '.' + reference); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -980,7 +980,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		 * @throws CoreException should not happen
 		 */
 		private void updateTypeImports(SearchResultGroup typeReferences) throws CoreException {
-			for (SearchMatch result : typeReferences.getSearchResults()) {
+			for (SearchMatch result : typeReferences.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement enclosingElement= SearchUtils.getEnclosingJavaElement(result);
 				if (enclosingElement instanceof IImportDeclaration) {
 					IImportDeclaration importDeclaration= (IImportDeclaration) enclosingElement;
@@ -990,8 +990,8 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 					if (! reference.startsWith(fPackage.getElementName())) {
 						reference= cutOffInnerTypes(reference);
 						ImportChange importChange= fImportsManager.getImportChange(typeReferences.getCompilationUnit());
-						importChange.removeImport(fPackage.getElementName() + '.' + reference);
-						importChange.addImport(getNewPackageName() + '.' + reference);
+						importChange.removeImport(fPackage.getElementName() + '.' + reference); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+						importChange.addImport(getNewPackageName() + '.' + reference); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} // else: already found & updated with package reference search
 				}
 			}
@@ -1014,7 +1014,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		private String getUpdatedImport(IImportDeclaration importDeclaration) {
 			String fullyQualifiedImportType= importDeclaration.getElementName();
 			int offsetOfDotBeforeTypeName= fPackage.getElementName().length();
-			String result= getNewPackageName() + fullyQualifiedImportType.substring(offsetOfDotBeforeTypeName);
+			String result= getNewPackageName() + fullyQualifiedImportType.substring(offsetOfDotBeforeTypeName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return result;
 		}
 
@@ -1029,10 +1029,10 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 	 */
 	static class ImportsManager {
 		public static class ImportChange {
-			private ArrayList<String> fStaticToRemove= new ArrayList<>();
-			private ArrayList<String[]> fStaticToAdd= new ArrayList<>();
-			private ArrayList<String> fToRemove= new ArrayList<>();
-			private ArrayList<String> fToAdd= new ArrayList<>();
+			private ArrayList<String> fStaticToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			private ArrayList<String[]> fStaticToAdd= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			private ArrayList<String> fToRemove= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			private ArrayList<String> fToAdd= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			public void removeStaticImport(String elementName) {
 				fStaticToRemove.add(elementName);
@@ -1051,7 +1051,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			}
 		}
 
-		private HashMap<ICompilationUnit, ImportChange> fImportChanges= new HashMap<>();
+		private HashMap<ICompilationUnit, ImportChange> fImportChanges= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		public ImportChange getImportChange(ICompilationUnit cu) {
 			ImportChange importChange= fImportChanges.get(cu);
@@ -1062,22 +1062,22 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 			return importChange;
 		}
 
-		public void rewriteImports(TextChangeManager changeManager, IProgressMonitor pm) throws CoreException {
-			for (Entry<ICompilationUnit, ImportChange> entry : fImportChanges.entrySet()) {
+		public void rewriteImports(TextChangeManager changeManager, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (Entry<ICompilationUnit, ImportChange> entry : fImportChanges.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= entry.getKey();
 				ImportChange importChange= entry.getValue();
 				ImportRewrite importRewrite= StubUtility.createImportRewrite(cu, true);
 				importRewrite.setFilterImplicitImports(false);
-				for (String toRemove : importChange.fStaticToRemove) {
+				for (String toRemove : importChange.fStaticToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					importRewrite.removeStaticImport(toRemove);
 				}
-				for (String toRemove : importChange.fToRemove) {
+				for (String toRemove : importChange.fToRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					importRewrite.removeImport(toRemove);
 				}
-				for (String[] toAdd : importChange.fStaticToAdd) {
+				for (String[] toAdd : importChange.fStaticToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					importRewrite.addStaticImport(toAdd[0], toAdd[1], true);
 				}
-				for (String toAdd : importChange.fToAdd) {
+				for (String toAdd : importChange.fToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					importRewrite.addImport(toAdd);
 				}
 
@@ -1087,7 +1087,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 					try {
 						TextChangeCompatibility.addTextEdit(changeManager.get(cu), name, importEdit);
 					} catch (MalformedTreeException e) {
-						JavaManipulationPlugin.logErrorMessage("MalformedTreeException while processing cu " + cu); //$NON-NLS-1$
+						JavaManipulationPlugin.logErrorMessage("MalformedTreeException while processing cu " + cu); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						throw e;
 					}
 				}
@@ -1095,7 +1095,7 @@ public class RenamePackageProcessor extends JavaRenameProcessor implements
 		}
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);

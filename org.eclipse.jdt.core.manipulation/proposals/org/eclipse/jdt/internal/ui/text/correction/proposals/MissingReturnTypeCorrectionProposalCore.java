@@ -65,7 +65,7 @@ public class MissingReturnTypeCorrectionProposalCore extends LinkedCorrectionPro
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() {
 		AST ast= getAST();
 
@@ -149,7 +149,7 @@ public class MissingReturnTypeCorrectionProposalCore extends LinkedCorrectionPro
 
 	protected Expression computeProposals(AST ast, ITypeBinding returnBinding, int returnOffset, CompilationUnit root, Expression result) {
 		ScopeAnalyzer analyzer= new ScopeAnalyzer(root);
-		for (IBinding binding : analyzer.getDeclarationsInScope(returnOffset, ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY)) {
+		for (IBinding binding : analyzer.getDeclarationsInScope(returnOffset, ScopeAnalyzer.VARIABLES | ScopeAnalyzer.CHECK_VISIBILITY)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding curr= (IVariableBinding) binding;
 			ITypeBinding type= curr.getType();
 			if (type != null && type.isAssignmentCompatible(returnBinding) && testModifier(curr)) {

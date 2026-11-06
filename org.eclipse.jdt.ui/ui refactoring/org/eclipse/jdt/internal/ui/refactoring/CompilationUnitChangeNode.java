@@ -90,7 +90,7 @@ public class CompilationUnitChangeNode extends TextEditChangeNode {
 		super(change);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ChildNode[] createChildNodes() {
 		TextEditBasedChange change= getTextEditBasedChange();
 		if (change instanceof MultiStateTextFileChange) {
@@ -99,9 +99,9 @@ public class CompilationUnitChangeNode extends TextEditChangeNode {
 
 		ICompilationUnit cunit= change.getAdapter(ICompilationUnit.class);
 		if (cunit != null) {
-			List<ChildNode> children= new ArrayList<>(5);
-			Map<IJavaElement, JavaLanguageNode> map= new HashMap<>(20);
-			for (TextEditBasedChangeGroup tec : getSortedChangeGroups(change)) {
+			List<ChildNode> children= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			Map<IJavaElement, JavaLanguageNode> map= new HashMap<>(20); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (TextEditBasedChangeGroup tec : getSortedChangeGroups(change)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					IJavaElement element= getModifiedJavaElement(tec, cunit);
 					if (element.equals(cunit)) {
@@ -139,18 +139,18 @@ public class CompilationUnitChangeNode extends TextEditChangeNode {
 
 	private TextEditBasedChangeGroup[] getSortedChangeGroups(TextEditBasedChange change) {
 		TextEditBasedChangeGroup[] edits= change.getChangeGroups();
-		List<TextEditBasedChangeGroup> result= new ArrayList<>(edits.length);
-		for (TextEditBasedChangeGroup edit : edits) {
+		List<TextEditBasedChangeGroup> result= new ArrayList<>(edits.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (TextEditBasedChangeGroup edit : edits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!edit.getTextEditGroup().isEmpty()) {
 				result.add(edit);
 			}
 		}
 		Comparator<TextEditBasedChangeGroup> comparator= new OffsetComparator();
-		Collections.sort(result, comparator);
+		Collections.sort(result, comparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		return result.toArray(new TextEditBasedChangeGroup[result.size()]);
 	}
 
-	private IJavaElement getModifiedJavaElement(TextEditBasedChangeGroup edit, ICompilationUnit cunit) throws JavaModelException {
+	private IJavaElement getModifiedJavaElement(TextEditBasedChangeGroup edit, ICompilationUnit cunit) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRegion range= edit.getRegion();
 		if (range.getOffset() == 0 && range.getLength() == 0)
 			return cunit;
@@ -159,7 +159,7 @@ public class CompilationUnitChangeNode extends TextEditChangeNode {
 			return cunit;
 
 		try {
-			while(true) {
+			while(true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ISourceReference ref= (ISourceReference)result;
 				IRegion sRange= new Region(ref.getSourceRange().getOffset(), ref.getSourceRange().getLength());
 				if (result.getElementType() == IJavaElement.COMPILATION_UNIT || result.getParent() == null || coveredBy(edit, sRange))
@@ -190,13 +190,13 @@ public class CompilationUnitChangeNode extends TextEditChangeNode {
 		return result;
 	}
 
-	private boolean coveredBy(TextEditBasedChangeGroup group, IRegion sourceRegion) {
+	private boolean coveredBy(TextEditBasedChangeGroup group, IRegion sourceRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int sLength= sourceRegion.getLength();
 		if (sLength == 0)
 			return false;
 		int sOffset= sourceRegion.getOffset();
 		int sEnd= sOffset + sLength - 1;
-		for (TextEdit edit : group.getTextEdits()) {
+		for (TextEdit edit : group.getTextEdits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (edit.isDeleted())
 				return false;
 			int rOffset= edit.getOffset();

@@ -28,7 +28,7 @@ public class FormatterProfileManagerCore {
 	public final static String FORMATTER_SETTINGS_VERSION= "formatter_settings_version"; //$NON-NLS-1$
 
 	public static Map<String, String> getProjectSettings(IJavaProject javaProject) {
-		Map<String, String> options= new HashMap<>(javaProject.getOptions(true));
+		Map<String, String> options= new HashMap<>(javaProject.getOptions(true)); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		IEclipsePreferences prefs= new ProjectScope(javaProject.getProject()).getNode(JavaManipulation.getPreferenceNodeId());
 		if (prefs == null)
 			return options;

@@ -95,9 +95,9 @@ public class CorrectionCommandHandler extends AbstractHandler {
 		return false;
 	}
 
-	private ICompletionProposal findCorrection(String id, boolean isAssist, ITextSelection selection, ICompilationUnit cu, IAnnotationModel model) {
+	private ICompletionProposal findCorrection(String id, boolean isAssist, ITextSelection selection, ICompilationUnit cu, IAnnotationModel model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AssistContext context= new AssistContext(cu, fEditor.getViewer(), fEditor, selection.getOffset(), selection.getLength());
-		Collection<IJavaCompletionProposal> proposals= new ArrayList<>(10);
+		Collection<IJavaCompletionProposal> proposals= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isAssist) {
 			if (LinkedNamesAssistProposal.ASSIST_ID.equals(id)) {
 				return getLocalRenameProposal(context); // shortcut for local rename
@@ -112,7 +112,7 @@ public class CorrectionCommandHandler extends AbstractHandler {
 				return null;
 			}
 		}
-		for (IJavaCompletionProposal curr : proposals) {
+		for (IJavaCompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof ICommandAccess) {
 				if (id.equals(((ICommandAccess) curr).getCommandId())) {
 					return curr;
@@ -123,7 +123,7 @@ public class CorrectionCommandHandler extends AbstractHandler {
 	}
 
 	private Annotation[] getAnnotations(int offset, boolean goToClosest) throws BadLocationException {
-		ArrayList<Annotation> resultingAnnotations= new ArrayList<>();
+		ArrayList<Annotation> resultingAnnotations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		JavaCorrectionAssistant.collectQuickFixableAnnotations(fEditor, offset, goToClosest, resultingAnnotations);
 		return resultingAnnotations.toArray(new Annotation[resultingAnnotations.size()]);
 	}
@@ -145,7 +145,7 @@ public class CorrectionCommandHandler extends AbstractHandler {
 	}
 
 
-	private void invokeProposal(ICompletionProposal proposal, int offset) {
+	private void invokeProposal(ICompletionProposal proposal, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (proposal instanceof ICompletionProposalExtension2) {
 			ITextViewer viewer= fEditor.getViewer();
 			if (viewer != null) {

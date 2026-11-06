@@ -47,7 +47,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.util.ASTHelper;
 
-public class NewProviderMethodDeclaration extends AbstractMethodCorrectionProposal {
+public class NewProviderMethodDeclaration extends AbstractMethodCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	private IType fReturnType;
 
 	public NewProviderMethodDeclaration(String label, ICompilationUnit targetCU, ASTNode invocationNode, ITypeBinding binding, int relevance, Image image, IType returnType) {
@@ -60,14 +60,14 @@ public class NewProviderMethodDeclaration extends AbstractMethodCorrectionPropos
 		this.fReturnType= core.getReturnType();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performChange(IEditorPart part, IDocument document) throws CoreException {
 		// Should this really be done in the UI api call and not in the core API call?
 		ICompilationUnit compilationUnit= getCompilationUnit();
 		ITypeHierarchy th= fReturnType.newTypeHierarchy(compilationUnit.getJavaProject(), null);
 		IType[] subTypes= th.getAllSubtypes(fReturnType);
 
-		List<IType> typeProposals= new ArrayList<>(Arrays.asList(fReturnType));
+		List<IType> typeProposals= new ArrayList<>(Arrays.asList(fReturnType)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		typeProposals.addAll(Arrays.asList(subTypes));
 		Image image= JavaPluginImages.get(JavaPluginImages.IMG_MISC_PUBLIC);
 
@@ -80,7 +80,7 @@ public class NewProviderMethodDeclaration extends AbstractMethodCorrectionPropos
 		IBinding[] typeBindings= parser.createBindings(typeProposals.toArray(new IJavaElement[0]), null);
 
 		IPackageFragment pack= (IPackageFragment) compilationUnit.getAncestor(IJavaElement.PACKAGE_FRAGMENT);
-		for (int i= 0; i < typeProposals.size(); i++) {
+		for (int i= 0; i < typeProposals.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType t= typeProposals.get(i);
 			if (compilationUnit.equals(t.getCompilationUnit()) || JavaModelUtil.isVisible(t, pack)) {
 				if (typeBindings[i] instanceof ITypeBinding) {

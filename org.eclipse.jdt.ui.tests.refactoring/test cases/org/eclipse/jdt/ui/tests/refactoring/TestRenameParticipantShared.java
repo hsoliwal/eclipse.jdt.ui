@@ -43,13 +43,13 @@ import org.eclipse.jdt.core.refactoring.RenameTypeArguments;
 public class TestRenameParticipantShared extends RenameParticipant implements ISharableParticipant {
 
 	static TestRenameParticipantShared fgInstance;
-	List<Object> fElements= new ArrayList<>(3);
-	List<String> fHandles= new ArrayList<>(3);
-	List<RefactoringArguments> fArguments= new ArrayList<>(3);
-	Map<String, String> fSimilarToHandle= new HashMap<>();
-	Map<String, String> fSimilarToNewName= new HashMap<>();
+	List<Object> fElements= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<String> fHandles= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<RefactoringArguments> fArguments= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	Map<String, String> fSimilarToHandle= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	Map<String, String> fSimilarToNewName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean initialize(Object element) {
 		fgInstance= this;
 		fElements.add(element);
@@ -63,7 +63,7 @@ public class TestRenameParticipantShared extends RenameParticipant implements IS
 		if ((updating != null) && getArguments() instanceof RenameTypeArguments) {
 			RenameTypeArguments arguments= (RenameTypeArguments)getArguments();
 			if (arguments.getUpdateSimilarDeclarations()) {
-				for (IJavaElement e : arguments.getSimilarDeclarations()) {
+				for (IJavaElement e : arguments.getSimilarDeclarations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJavaElement updated= updating.getRefactoredJavaElement(e);
 					if (updated!=null) {
 						fSimilarToHandle.put(e.getHandleIdentifier(), getKey(updated));
@@ -122,7 +122,7 @@ public class TestRenameParticipantShared extends RenameParticipant implements IS
 
 	public static void testArguments(RenameArguments[] args) {
 		testNumberOfElements(args.length);
-		for (int i= 0; i < args.length; i++) {
+		for (int i= 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			RenameArguments expected= args[i];
 			RenameArguments actual= (RenameArguments)fgInstance.fArguments.get(i);
 			Assert.assertEquals(expected.getNewName(), actual.getNewName());
@@ -142,7 +142,7 @@ public class TestRenameParticipantShared extends RenameParticipant implements IS
 	}
 
 	public static void testSimilarElements(List<String> similarList, List<String> similarNewNameList, List<String> similarNewHandleList) {
-		for (int i=0; i< similarList.size(); i++) {
+		for (int i=0; i< similarList.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String handle= similarList.get(i);
 			String newHandle= similarNewHandleList.get(i);
 			String newName= similarNewNameList.get(i);

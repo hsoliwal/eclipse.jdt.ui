@@ -33,11 +33,11 @@ public class PathTransformationTests {
 	}
 
 	private void  check(String path, String oldName, String newName){
-		IPath pOld= createIPath(path + "/" + oldName);
+		IPath pOld= createIPath(path + "/" + oldName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String extension= "";
 		//if (oldName.lastIndexOf(".") != -1)
 		//	extension= oldName.substring(oldName.lastIndexOf("."));
-		IPath pNew= createIPath(path + "/" + newName + extension);
+		IPath pNew= createIPath(path + "/" + newName + extension); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPath newPath= pOld.removeLastSegments(1).append(newName);
 
 		assertEquals(pNew.toString(), newPath.toString());

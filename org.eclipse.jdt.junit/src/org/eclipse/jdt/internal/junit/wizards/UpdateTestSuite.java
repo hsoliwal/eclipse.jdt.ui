@@ -86,10 +86,10 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 		/*
 		 * @see ISelectionValidator#validate(Object[])
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus validate(Object[] selection) {
 			int count= 0;
-			for (Object element : selection) {
+			for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IType) {
 					count++;
 				}
@@ -118,7 +118,7 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 			} else {
 				suiteClass= fSuiteMethod.getDeclaringType();
 			}
-			for (Object element : selection) {
+			for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IType){
 					if (element.equals(suiteClass)){
 						return new JUnitStatus(IStatus.WARNING, WizardMessages.UpdateTestSuite_infinite_recursion);
@@ -143,7 +143,7 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 	/*
 	 * @see IActionDelegate#run(IAction)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		ILabelProvider lprovider= new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_DEFAULT);
 		SuiteClassesContentProvider cprovider= new SuiteClassesContentProvider(fIsJunit4, fIsJunit5);
@@ -191,7 +191,7 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 		}
 	}
 
-	private void openTestSelectionDialog(ILabelProvider lprovider, SuiteClassesContentProvider cprovider, IType testSuiteType) {
+	private void openTestSelectionDialog(ILabelProvider lprovider, SuiteClassesContentProvider cprovider, IType testSuiteType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CheckedTableSelectionDialog dialog= new CheckedTableSelectionDialog(fShell, lprovider, cprovider);
 		dialog.setValidator(new UpdateAllTestsValidator());
 		dialog.setTitle(WizardMessages.UpdateAllTests_title);
@@ -214,7 +214,7 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 	/*
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IAction action, ISelection selection) {
 		fShell= JUnitPlugin.getActiveWorkbenchShell();
 		if (selection instanceof IStructuredSelection) {
@@ -236,15 +236,15 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 		}
 	}
 
-	public static void updateTestCasesInJunit4Suite(IProgressMonitor monitor, ICompilationUnit testSuite, IAnnotation testClassesAnnotation, Object[] selectedTestCases) throws JavaModelException {
+	public static void updateTestCasesInJunit4Suite(IProgressMonitor monitor, ICompilationUnit testSuite, IAnnotation testClassesAnnotation, Object[] selectedTestCases) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(WizardMessages.UpdateAllTests_beginTask, 5);
 
 			ISourceRange range= testClassesAnnotation.getSourceRange();
 			IDocument fullSource= new Document(testSuite.getBuffer().getContents());
-			StringBuilder source= new StringBuilder();
+			StringBuilder source= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			monitor.worked(1);
-			source.append(getUpdatableAnnotations(selectedTestCases));
+			source.append(getUpdatableAnnotations(selectedTestCases)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			fullSource.replace(range.getOffset(), range.getLength(), source.toString());
 			monitor.worked(1);
 			String formattedContent= JUnitStubUtility.formatCompilationUnit(testSuite.getJavaProject(), fullSource.get(), testSuite.findRecommendedLineSeparator());
@@ -262,15 +262,15 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 		}
 	}
 
-	public static void updateTestCasesInJunit5Suite(IProgressMonitor monitor, ICompilationUnit testSuite, IAnnotation testClassesAnnotation, Object[] selectedTestCases) throws JavaModelException {
+	public static void updateTestCasesInJunit5Suite(IProgressMonitor monitor, ICompilationUnit testSuite, IAnnotation testClassesAnnotation, Object[] selectedTestCases) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(WizardMessages.UpdateAllTests_beginTask, 5);
 
 			ISourceRange range= testClassesAnnotation.getSourceRange();
 			IDocument fullSource= new Document(testSuite.getBuffer().getContents());
-			StringBuilder source= new StringBuilder();
+			StringBuilder source= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			monitor.worked(1);
-			source.append(getUpdatableJUnit5Annotations(selectedTestCases));
+			source.append(getUpdatableJUnit5Annotations(selectedTestCases)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			fullSource.replace(range.getOffset(), range.getLength(), source.toString());
 			monitor.worked(1);
 			String formattedContent= JUnitStubUtility.formatCompilationUnit(testSuite.getJavaProject(), fullSource.get(), testSuite.findRecommendedLineSeparator());
@@ -288,14 +288,14 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 		}
 	}
 
-	public static void updateTestCasesInSuite(IProgressMonitor monitor, ICompilationUnit testSuite, IMethod suiteMethod, Object[] selectedTestCases) throws JavaModelException {
+	public static void updateTestCasesInSuite(IProgressMonitor monitor, ICompilationUnit testSuite, IMethod suiteMethod, Object[] selectedTestCases) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(WizardMessages.UpdateAllTests_beginTask, 5);
 
 			ISourceRange range= suiteMethod.getSourceRange();
 			IDocument fullSource= new Document(testSuite.getBuffer().getContents());
 			String originalContent= fullSource.get(range.getOffset(), range.getLength());
-			StringBuilder source= new StringBuilder(originalContent);
+			StringBuilder source= new StringBuilder(originalContent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			TestSuiteClassListRange classRange= getTestSuiteClassListRange(source.toString());
 			if (classRange != null) {
 				monitor.worked(1);
@@ -339,20 +339,20 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 	 * Returns the new code to be included in a new suite() or which replaces old code in an existing suite().
 	 */
 	public static String getUpdatableString(Object[] selectedClasses) {
-		StringBuilder suite= new StringBuilder();
-		suite.append(NewTestSuiteWizardPage.START_MARKER+"\n"); //$NON-NLS-1$
-		for (Object selectedClasse : selectedClasses) {
+		StringBuilder suite= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		suite.append(NewTestSuiteWizardPage.START_MARKER+"\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (Object selectedClasse : selectedClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selectedClasse instanceof IType) {
 				IType testType= (IType) selectedClasse;
 				IMethod suiteMethod= testType.getMethod("suite", new String[] {}); //$NON-NLS-1$
 				if (!suiteMethod.exists()) {
-					suite.append("suite.addTestSuite("+testType.getElementName()+".class);"); //$NON-NLS-1$ //$NON-NLS-2$
+					suite.append("suite.addTestSuite("+testType.getElementName()+".class);"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					suite.append("suite.addTest("+testType.getElementName()+".suite());"); //$NON-NLS-1$ //$NON-NLS-2$
+					suite.append("suite.addTest("+testType.getElementName()+".suite());"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 		}
-		suite.append("\n"+NewTestSuiteWizardPage.END_MARKER); //$NON-NLS-1$
+		suite.append("\n"+NewTestSuiteWizardPage.END_MARKER); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return suite.toString();
 	}
 
@@ -360,18 +360,18 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 	 * Returns the new test suite annotations which replace old annotations in the existing suite
 	 */
 	public static String getUpdatableAnnotations(Object[] selectedClasses) {
-		StringBuilder buffer = new StringBuilder("@SuiteClasses({"); //$NON-NLS-1$
-		for (int i= 0; i < selectedClasses.length; i++) {
+		StringBuilder buffer = new StringBuilder("@SuiteClasses({"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < selectedClasses.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selectedClasses[i] instanceof IType) {
 				IType testType= (IType) selectedClasses[i];
-				buffer.append(testType.getElementName());
-				buffer.append(".class"); //$NON-NLS-1$
+				buffer.append(testType.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(".class"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < selectedClasses.length - 1)
-					buffer.append(',');
+					buffer.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buffer.append("})"); //$NON-NLS-1$
-		buffer.append("\n"); //$NON-NLS-1$
+		buffer.append("})"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer.toString();
 	}
 
@@ -379,18 +379,18 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 	 * Returns the new test suite annotations which replace old annotations in the existing suite
 	 */
 	public static String getUpdatableJUnit5Annotations(Object[] selectedClasses) {
-		StringBuilder buffer = new StringBuilder("@SelectClasses({"); //$NON-NLS-1$
-		for (int i= 0; i < selectedClasses.length; i++) {
+		StringBuilder buffer = new StringBuilder("@SelectClasses({"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < selectedClasses.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (selectedClasses[i] instanceof IType) {
 				IType testType= (IType) selectedClasses[i];
-				buffer.append(testType.getElementName());
-				buffer.append(".class"); //$NON-NLS-1$
+				buffer.append(testType.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buffer.append(".class"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < selectedClasses.length - 1)
-					buffer.append(',');
+					buffer.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
-		buffer.append("})"); //$NON-NLS-1$
-		buffer.append("\n"); //$NON-NLS-1$
+		buffer.append("})"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer.toString();
 	}
 
@@ -417,8 +417,8 @@ public class UpdateTestSuite implements IObjectActionDelegate {
 		return new JUnitStatus();
 	}
 
-	public IRunnableWithProgress getRunnable() {
-		return monitor -> {
+	public IRunnableWithProgress getRunnable() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			if (monitor == null) {
 				monitor= new NullProgressMonitor();
 			}

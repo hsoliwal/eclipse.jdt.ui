@@ -189,7 +189,7 @@ public class JavaMoveLinesAction extends TextEditorAction {
 	 * @param viewer the viewer displaying a visible region of <code>selection</code>'s document.
 	 * @return <code>true</code>, if <code>selection</code> is contained, <code>false</code> otherwise.
 	 */
-	private boolean containedByVisibleRegion(ITextSelection selection, ISourceViewer viewer) {
+	private boolean containedByVisibleRegion(ITextSelection selection, ISourceViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int min= selection.getOffset();
 		int max= min + selection.getLength();
 		IDocument document= viewer.getDocument();
@@ -295,7 +295,7 @@ public class JavaMoveLinesAction extends TextEditorAction {
 	/*
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runWithEvent(Event event) {
 
 		// get involved objects
@@ -348,11 +348,11 @@ public class JavaMoveLinesAction extends TextEditorAction {
 				delim= document.getLineDelimiter(skippedLine.getEndLine());
 				if (fCopy) {
 					delim= TextUtilities.getDefaultLineDelimiter(document);
-					insertion= moving + delim;
+					insertion= moving + delim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					offset= movingArea.getOffset();
 				} else {
 					Assert.isNotNull(delim);
-					insertion= moving + delim + skipped;
+					insertion= moving + delim + skipped; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					offset= skippedLine.getOffset();
 				}
 			} else {
@@ -360,13 +360,13 @@ public class JavaMoveLinesAction extends TextEditorAction {
 				if (fCopy) {
 					if (delim == null) {
 						delim= TextUtilities.getDefaultLineDelimiter(document);
-						insertion= delim + moving;
+						insertion= delim + moving; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else
-						insertion= moving + delim;
+						insertion= moving + delim; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					offset= skippedLine.getOffset();
 				} else {
 					Assert.isNotNull(delim);
-					insertion= skipped + delim + moving;
+					insertion= skipped + delim + moving; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					offset= movingArea.getOffset();
 				}
 			}

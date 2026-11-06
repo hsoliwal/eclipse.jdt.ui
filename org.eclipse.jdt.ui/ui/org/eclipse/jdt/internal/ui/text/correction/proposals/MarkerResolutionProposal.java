@@ -35,7 +35,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
 import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 
-public class MarkerResolutionProposal implements IJavaCompletionProposal {
+public class MarkerResolutionProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private IMarkerResolution fResolution;
 	private IMarker fMarker;

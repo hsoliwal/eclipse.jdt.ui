@@ -124,7 +124,7 @@ class AstMatchingNodeFinder {
 
 		Visitor(ASTNode nodeToMatch){
 			fNodeToMatch= nodeToMatch;
-			fFound= new ArrayList<>();
+			fFound= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			fMatcher= new JdtASTMatcher();
 		}
 

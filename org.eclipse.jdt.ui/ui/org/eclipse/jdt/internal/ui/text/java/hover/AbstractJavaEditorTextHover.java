@@ -103,7 +103,7 @@ public abstract class AbstractJavaEditorTextHover implements IJavaEditorTextHove
 	 * @return the array with the Java elements or <code>null</code>
 	 * @since 3.4
 	 */
-	protected IJavaElement[] getJavaElementsAt(ITextViewer textViewer, IRegion hoverRegion) {
+	protected IJavaElement[] getJavaElementsAt(ITextViewer textViewer, IRegion hoverRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * The region should be a word region an not of length 0.
 		 * This check is needed because codeSelect(...) also finds

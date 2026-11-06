@@ -30,7 +30,7 @@ import org.eclipse.jdt.ui.PreferenceConstants;
  * JavaUILabelProvider that respects settings from the Appearance preference page.
  * Triggers a viewer update when a preference changes.
  */
-public class AppearanceAwareLabelProvider extends JavaUILabelProvider implements IPropertyChangeListener, IPropertyListener {
+public class AppearanceAwareLabelProvider extends JavaUILabelProvider implements IPropertyChangeListener, IPropertyListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	public final static long DEFAULT_TEXTFLAGS= JavaElementLabels.ROOT_VARIABLE | JavaElementLabels.T_TYPE_PARAMETERS | JavaElementLabels.M_PARAMETER_TYPES |
 		JavaElementLabels.M_APP_TYPE_PARAMETERS | JavaElementLabels.M_APP_RETURNTYPE  | JavaElementLabels.REFERENCED_ROOT_POST_QUALIFIED;
@@ -58,7 +58,7 @@ public class AppearanceAwareLabelProvider extends JavaUILabelProvider implements
 		this(DEFAULT_TEXTFLAGS, DEFAULT_IMAGEFLAGS);
 	}
 
-	private void initMasks() {
+	private void initMasks() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= PreferenceConstants.getPreferenceStore();
 		fTextFlagMask= -1;
 		if (!store.getBoolean(PreferenceConstants.APPEARANCE_METHOD_RETURNTYPE)) {

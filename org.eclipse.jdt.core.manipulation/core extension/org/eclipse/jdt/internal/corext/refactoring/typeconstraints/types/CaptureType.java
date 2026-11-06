@@ -56,7 +56,7 @@ public final class CaptureType extends AbstractTypeVariable {
 		return getBindingKey().hashCode();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		switch (lhs.getKind()) {
 			case NULL_TYPE:
@@ -112,6 +112,6 @@ public final class CaptureType extends AbstractTypeVariable {
 
 	@Override
 	protected String getPlainPrettySignature() {
-		return "capture-of " + fWildcard.getPrettySignature(); //$NON-NLS-1$
+		return "capture-of " + fWildcard.getPrettySignature(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

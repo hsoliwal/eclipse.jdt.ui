@@ -69,7 +69,7 @@ public class WellKnownTypesProperty extends ASTAttribute {
 		AST ast= fRoot.getAST();
 
 		Binding[] res= new Binding[WELL_KNOWN_TYPES.length];
-		for (int i= 0; i < WELL_KNOWN_TYPES.length; i++) {
+		for (int i= 0; i < WELL_KNOWN_TYPES.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String type= WELL_KNOWN_TYPES[i];
 			res[i]= new Binding(this, type, ast.resolveWellKnownType(type), true);
 		}

@@ -117,7 +117,7 @@ public class ClassPathContainer extends PackageFragmentRootContainer {
 			return Objects.hash(fClasspathEntry, fParent, fProject);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
@@ -174,19 +174,19 @@ public class ClassPathContainer extends PackageFragmentRootContainer {
 		return getJavaProject().findPackageFragmentRoots(fClassPathEntry);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAdaptable[] getChildren() {
-		List<IAdaptable> list= new ArrayList<>();
+		List<IAdaptable> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IPackageFragmentRoot[] roots= getPackageFragmentRoots();
 		list.addAll(Arrays.asList(roots));
 		if (fContainer != null) {
 			IClasspathEntry[] classpathEntries= fContainer.getClasspathEntries();
 			if (classpathEntries == null) {
 				// invalid implementation of a classpath container
-				JavaPlugin.log(new IllegalArgumentException("Invalid classpath container implementation: getClasspathEntries() returns null. " + fContainer.getPath())); //$NON-NLS-1$
+				JavaPlugin.log(new IllegalArgumentException("Invalid classpath container implementation: getClasspathEntries() returns null. " + fContainer.getPath())); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-				for (IClasspathEntry entry : classpathEntries) {
+				for (IClasspathEntry entry : classpathEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
 						IResource resource= root.findMember(entry.getPath());
 						if (resource instanceof IProject)
@@ -223,7 +223,7 @@ public class ClassPathContainer extends PackageFragmentRootContainer {
 	}
 
 	static boolean contains(IJavaProject project, IClasspathEntry entry, IPackageFragmentRoot root) {
-		for (IPackageFragmentRoot r : project.findPackageFragmentRoots(entry)) {
+		for (IPackageFragmentRoot r : project.findPackageFragmentRoots(entry)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (r.equals(root)) {
 				return true;
 			}

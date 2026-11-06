@@ -123,7 +123,7 @@ public class JavaReconcileStep extends AbstractReconcileStep {
 		@Override
 		public void beginReporting() {
 			fIsRunning= true;
-			fCollectedProblems= new ArrayList();
+			fCollectedProblems= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		/*
@@ -156,7 +156,7 @@ public class JavaReconcileStep extends AbstractReconcileStep {
 			int size= fCollectedProblems.size();
 			IReconcileResult[] result= new IReconcileResult[size];
 
-			for (int i= 0; i < size; i++)
+			for (int i= 0; i < size; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= new ProblemAdapter((IProblem)fCollectedProblems.get(i));
 
 			return result;
@@ -189,7 +189,7 @@ public class JavaReconcileStep extends AbstractReconcileStep {
 		 * Tells this annotation model to collect temporary problems from now on.
 		 */
 		private void startCollectingProblems() {
-			fCollectedProblems= new ArrayList();
+			fCollectedProblems= new ArrayList(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 		/**
@@ -251,7 +251,7 @@ public class JavaReconcileStep extends AbstractReconcileStep {
 	/*
 	 * @see AbstractReconcileStep#reconcileModel(DirtyRegion, IRegion)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IReconcileResult[] reconcileModel(DirtyRegion dirtyRegion, IRegion subRegion) {
 		Assert.isTrue(getInputModel() instanceof DocumentAdapter, "wrong model"); //$NON-NLS-1$
 
@@ -298,7 +298,7 @@ public class JavaReconcileStep extends AbstractReconcileStep {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.util.WorkingCopyUtil#getNewWorkingCopy
 	 */
-	private ICompilationUnit createTemporaryWorkingCopy(IFile jspFile) throws JavaModelException {
+	private ICompilationUnit createTemporaryWorkingCopy(IFile jspFile) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IContainer parent= jspFile.getParent();
 		IPackageFragment packageFragment= null;
@@ -327,7 +327,7 @@ public class JavaReconcileStep extends AbstractReconcileStep {
 				packageFragmentRoot= null;
 				IPackageFragmentRoot[] packageFragmentRoots= jProject.getPackageFragmentRoots();
 				int i= 0;
-				while (i < packageFragmentRoots.length) {
+				while (i < packageFragmentRoots.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!packageFragmentRoots[i].isArchive() && !packageFragmentRoots[i].isExternal()) {
 						packageFragmentRoot= packageFragmentRoots[i];
 						break;

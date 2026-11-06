@@ -92,7 +92,7 @@ public class RenameNonVirtualMethodProcessor extends RenameMethodProcessor {
 
 	//----------- preconditions --------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected RefactoringStatus doCheckFinalConditions(IProgressMonitor pm, CheckConditionsContext checkContext) throws CoreException {
 		try{
 			pm.beginTask("", 3); //$NON-NLS-1$
@@ -107,7 +107,7 @@ public class RenameNonVirtualMethodProcessor extends RenameMethodProcessor {
 			IMethod[] hierarchyMethods= hierarchyDeclaresMethodName(
 				Progress.subMonitor(pm, 1), declaring.newTypeHierarchy(Progress.subMonitor(pm, 1)), method, name);
 
-			for (IMethod hierarchyMethod : hierarchyMethods) {
+			for (IMethod hierarchyMethod : hierarchyMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				RefactoringStatusContext context= JavaStatusContext.create(hierarchyMethod);
 				if (Checks.compareParamTypes(method.getParameterTypes(), hierarchyMethod.getParameterTypes())) {
 					String message= Messages.format(
@@ -144,7 +144,7 @@ public class RenameNonVirtualMethodProcessor extends RenameMethodProcessor {
 		return getMethod().getCompilationUnit();
 	}
 
-	private void addDeclarationUpdate(TextChangeManager manager) throws CoreException {
+	private void addDeclarationUpdate(TextChangeManager manager) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (getDelegateUpdating()) {
 			// create the delegate
@@ -173,10 +173,10 @@ public class RenameNonVirtualMethodProcessor extends RenameMethodProcessor {
 	}
 
 	private void addReferenceUpdates(TextChangeManager manager, IProgressMonitor pm) {
-		for (SearchResultGroup group : getOccurrences()) {
+		for (SearchResultGroup group : getOccurrences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= group.getCompilationUnit();
 			TextChange change= manager.get(cu);
-			for (SearchMatch match : group.getSearchResults()) {
+			for (SearchMatch match : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!(match instanceof MethodDeclarationMatch)) {
 					ReplaceEdit replaceEdit= createReplaceEdit(match, cu);
 					String editName= RefactoringCoreMessages.RenamePrivateMethodRefactoring_update;

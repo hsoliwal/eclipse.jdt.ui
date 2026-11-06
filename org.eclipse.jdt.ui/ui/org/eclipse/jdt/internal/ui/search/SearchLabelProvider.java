@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.viewsupport.AppearanceAwareLabelProvider;
 
 
-public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
+public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	public static final String PROPERTY_MATCH_COUNT= "org.eclipse.jdt.search.matchCount"; //$NON-NLS-1$
 
@@ -75,7 +75,7 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 		addLabelDecorator(new ProblemsLabelDecorator(null));
 
 		fPage= page;
-		fLabelProviderMap= new HashMap<>(5);
+		fLabelProviderMap= new HashMap<>(5); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		fSearchPreferences= new ScopedPreferenceStore(InstanceScope.INSTANCE, NewSearchUI.PLUGIN_ID);
 		fSearchPropertyListener= this::doSearchPropertyChange;
@@ -112,7 +112,7 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 		int res= 0;
 		AbstractTextSearchResult result= fPage.getInput();
 		if (result != null) {
-			for (Match match : result.getMatches(element)) {
+			for (Match match : result.getMatches(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ((match) instanceof JavaElementMatch) {
 					if (((JavaElementMatch) match).getAccuracy() == SearchMatch.A_INACCURATE) {
 						res++;
@@ -132,7 +132,7 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 		return coloredName;
 	}
 
-	protected final String getLabelWithCounts(Object element, String elementName) {
+	protected final String getLabelWithCounts(Object element, String elementName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int matchCount= fPage.getDisplayedMatchCount(element);
 		int potentialCount= getNumberOfPotentialMatches(element);
 
@@ -175,7 +175,7 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 			fPotentialMatchFgColor= null;
 		}
 		fSearchPreferences.removePropertyChangeListener(fSearchPropertyListener);
-		for (ILabelProvider labelProvider : fLabelProviderMap.values()) {
+		for (ILabelProvider labelProvider : fLabelProviderMap.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			labelProvider.dispose();
 		}
 
@@ -188,9 +188,9 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		super.addListener(listener);
-		for (ILabelProvider labelProvider : fLabelProviderMap.values()) {
-			labelProvider.addListener(listener);
+		super.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
+		for (ILabelProvider labelProvider : fLabelProviderMap.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			labelProvider.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 	}
 
@@ -204,7 +204,7 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		super.removeListener(listener);
-		for (ILabelProvider labelProvider : fLabelProviderMap.values()) {
+		for (ILabelProvider labelProvider : fLabelProviderMap.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			labelProvider.removeListener(listener);
 		}
 	}
@@ -233,7 +233,7 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 		return lp.getImage(element);
 	}
 
-	private ILabelProvider getLabelProvider(Object element) {
+	private ILabelProvider getLabelProvider(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AbstractTextSearchResult input= fPage.getInput();
 		if (!(input instanceof JavaSearchResult))
 			return null;
@@ -247,8 +247,8 @@ public abstract class SearchLabelProvider extends AppearanceAwareLabelProvider {
 			lp= participant.createLabelProvider();
 			fLabelProviderMap.put(participant, lp);
 
-			for (ILabelProviderListener listener : fListeners) {
-				lp.addListener(listener);
+			for (ILabelProviderListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				lp.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		}
 		return lp;

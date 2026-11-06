@@ -21,7 +21,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 /**
  * Filters out all elements which libraries
  */
-public class LibraryFilter extends ViewerFilter {
+public class LibraryFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/**
 	 * Returns the result of this filter, when applied to the

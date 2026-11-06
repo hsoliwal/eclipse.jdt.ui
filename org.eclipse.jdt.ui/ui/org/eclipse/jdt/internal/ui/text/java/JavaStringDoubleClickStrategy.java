@@ -43,7 +43,7 @@ public class JavaStringDoubleClickStrategy extends PartitionDoubleClickSelector 
 		return TextUtilities.getPartition(document, fPartitioning, offset, true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IRegion findWord(IDocument document, int offset) {
 		IRegion word= super.findWord(document, offset);
 		try {
@@ -101,11 +101,11 @@ public class JavaStringDoubleClickStrategy extends PartitionDoubleClickSelector 
 		}
 	}
 
-	private int findEscapeStart(String text, int from) {
+	private int findEscapeStart(String text, int from) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int i= Math.min(from, text.length() - 1);
 		int limit= Math.max(0, from - 6); // Longest escape is \u0123: 6 characters
 		char ch= ' ';
-		for (; i >= limit; i--) {
+		for (; i >= limit; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ch= text.charAt(i);
 			if (ch == '\\' || Character.isWhitespace(ch)) {
 				break;
@@ -116,14 +116,14 @@ public class JavaStringDoubleClickStrategy extends PartitionDoubleClickSelector 
 		}
 		// Count backslashes. It's only the start of an escape if there is an odd number of backslashes.
 		int n= 1;
-		for (int j= i - 1; j >= 0 && text.charAt(j) == '\\'; j--) {
+		for (int j= i - 1; j >= 0 && text.charAt(j) == '\\'; j--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			n++;
 		}
 		// If the number is even, the previous backslash is the start of the escape.
 		return ((n & 1) == 0) ? i - 1 : i;
 	}
 
-	private int findEscapeEnd(String text, int from) {
+	private int findEscapeEnd(String text, int from) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= text.length();
 		if (from >= length) {
 			return -1;
@@ -144,7 +144,7 @@ public class JavaStringDoubleClickStrategy extends PartitionDoubleClickSelector 
 			case 'u':
 				// Four hex digits
 				if (length - from > 4) {
-					for (int i= from + 4; i > from; i--) {
+					for (int i= from + 4; i > from; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!isHex(text.charAt(i))) {
 							return -1;
 						}
@@ -158,7 +158,7 @@ public class JavaStringDoubleClickStrategy extends PartitionDoubleClickSelector 
 					int max= (ch <= '3') ? 3 : 2;
 					int i= from + 1;
 					int limit= Math.min(length, from + max);
-					for (; i < limit; i++) {
+					for (; i < limit; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ch= text.charAt(i);
 						if (!(ch >= '0' && ch <= '7')) {
 							break;

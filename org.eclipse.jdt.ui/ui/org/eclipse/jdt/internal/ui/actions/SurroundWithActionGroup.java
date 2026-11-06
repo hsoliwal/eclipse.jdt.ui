@@ -60,7 +60,7 @@ public class SurroundWithActionGroup extends ActionGroup {
 	 * The Menu to show when right click on the editor
 	 * {@inheritDoc}
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fillContextMenu(IMenuManager menu) {
 		ISelectionProvider selectionProvider= fEditor.getSelectionProvider();
 		if (selectionProvider == null)
@@ -80,7 +80,7 @@ public class SurroundWithActionGroup extends ActionGroup {
 		subMenu.setActionDefinitionId(SurroundWithTemplateMenuAction.SURROUND_WITH_QUICK_MENU_ACTION_ID);
 		menu.appendToGroup(fGroup, subMenu);
 		subMenu.add(new Action() {});
-		subMenu.addMenuListener(manager -> {
+		subMenu.addMenuListener(manager -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			manager.removeAll();
 			SurroundWithTemplateMenuAction.fillMenu(manager, fEditor, fSurroundWithTryCatchAction,
 					fSurroundWithTryMultiCatchAction, fSurroundWithTryWithResourcesAction);

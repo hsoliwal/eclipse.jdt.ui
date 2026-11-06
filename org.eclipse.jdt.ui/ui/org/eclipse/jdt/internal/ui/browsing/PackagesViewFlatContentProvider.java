@@ -41,7 +41,7 @@ import org.eclipse.jdt.ui.JavaElementLabels;
  * </p>
  */
 //TODO: made public and added setRefreshLoggingEnabled(..) to track down https://bugs.eclipse.org/bugs/show_bug.cgi?id=243132
-public class PackagesViewFlatContentProvider extends LogicalPackagesProvider implements IStructuredContentProvider {
+public class PackagesViewFlatContentProvider extends LogicalPackagesProvider implements IStructuredContentProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private boolean fRefreshLoggingEnabled;
 
@@ -56,7 +56,7 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 	/*
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
-	public Object[] getChildren(Object parentElement) {
+	public Object[] getChildren(Object parentElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if(parentElement instanceof IJavaElement){
 			IJavaElement element= (IJavaElement) parentElement;
@@ -100,8 +100,8 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 	 * Weeds out packageFragments from external jars and folders
 	 */
 	private IPackageFragment[] getPackageFragments(IPackageFragment[] iPackageFragments) {
-		List<IPackageFragment> list= new ArrayList<>();
-		for (IPackageFragment fragment : iPackageFragments) {
+		List<IPackageFragment> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragment fragment : iPackageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement el= fragment.getParent();
 			if (el instanceof IPackageFragmentRoot) {
 				IPackageFragmentRoot root= (IPackageFragmentRoot) el;
@@ -121,7 +121,7 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 		return getChildren(inputElement);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void processDelta(IJavaElementDelta delta) throws JavaModelException {
 
 		int kind= delta.getKind();
@@ -129,7 +129,7 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 
 		if (fRefreshLoggingEnabled) {
 			String elementLabel= JavaElementLabels.getElementLabel(element, JavaElementLabels.ALL_FULLY_QUALIFIED);
-			new Exception("Delta for: " + elementLabel).printStackTrace(System.out); //$NON-NLS-1$
+			new Exception("Delta for: " + elementLabel).printStackTrace(System.out); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (isClassPathChange(delta)) {
@@ -210,7 +210,7 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 
 
 	private void processAffectedChildren(IJavaElementDelta delta) throws JavaModelException {
-		for (IJavaElementDelta elementDelta : delta.getAffectedChildren()) {
+		for (IJavaElementDelta elementDelta : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(elementDelta);
 		}
 	}
@@ -241,16 +241,16 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 			try {
 				Display currentDisplay= Display.getCurrent();
 				if (currentDisplay != null && currentDisplay.equals(ctrl.getDisplay()))
-					ctrl.getDisplay().syncExec(r);
+					ctrl.getDisplay().syncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				else
-					ctrl.getDisplay().asyncExec(r);
+					ctrl.getDisplay().asyncExec(r); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			} finally {
 		//		fBrowsingPart.setProcessSelectionEvents(true);
 			}
 		}
 	}
 
-	private void removeElement(IPackageFragment frag) {
+	private void removeElement(IPackageFragment frag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key= getKey(frag);
 		LogicalPackage lp= fMapToLogicalPackage.get(key);
 
@@ -275,18 +275,18 @@ public class PackagesViewFlatContentProvider extends LogicalPackagesProvider imp
 
 	private void postRefresh(final Object element) {
 		if (fRefreshLoggingEnabled) {
-			new Exception("postRefresh: " + element).printStackTrace(System.out); //$NON-NLS-1$
+			new Exception("postRefresh: " + element).printStackTrace(System.out); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		postRunnable(() -> {
 			Control ctrl= fViewer.getControl();
 			if (ctrl != null && !ctrl.isDisposed()) {
-				fViewer.refresh(element);
+				fViewer.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		});
 	}
 
-	private void addElement(IPackageFragment frag) {
+	private void addElement(IPackageFragment frag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String key= getKey(frag);
 		LogicalPackage lp= fMapToLogicalPackage.get(key);
 

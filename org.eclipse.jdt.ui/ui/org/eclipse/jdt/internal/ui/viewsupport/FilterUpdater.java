@@ -26,7 +26,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.jdt.core.JavaCore;
 
 
-public class FilterUpdater implements IResourceChangeListener {
+public class FilterUpdater implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 	private ProblemTreeViewer fViewer;
 
@@ -35,7 +35,7 @@ public class FilterUpdater implements IResourceChangeListener {
 		fViewer= viewer;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resourceChanged(IResourceChangeEvent event) {
 		if (fViewer.getInput() == null) {
 			return;
@@ -43,16 +43,16 @@ public class FilterUpdater implements IResourceChangeListener {
 		IResourceDelta delta= event.getDelta();
 		if (delta == null)
 			return;
-		for (IResourceDelta deltachild : delta.getAffectedChildren(IResourceDelta.CHANGED)) {
+		for (IResourceDelta deltachild : delta.getAffectedChildren(IResourceDelta.CHANGED)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((deltachild.getFlags() & IResourceDelta.DESCRIPTION) != 0) {
 				IProject project= (IProject) deltachild.getResource();
 				if (needsRefiltering(project)) {
 					final Control ctrl= fViewer.getControl();
 					if (ctrl != null && !ctrl.isDisposed()) {
 						// async is needed due to bug 33783
-						ctrl.getDisplay().asyncExec(() -> {
+						ctrl.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							if (!ctrl.isDisposed())
-								fViewer.refresh(false);
+								fViewer.refresh(false); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 						});
 					}
 					return; // one refresh is good enough

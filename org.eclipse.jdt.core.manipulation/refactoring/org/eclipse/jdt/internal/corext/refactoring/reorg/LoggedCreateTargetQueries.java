@@ -46,7 +46,7 @@ public final class LoggedCreateTargetQueries implements ICreateTargetQueries {
 			JavaProjectUtilities.createPackageFragmentRoot(root);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object getCreatedTarget(final Object selection) {
 			final Object target= fLog.getCreatedElement(selection);
 			if (target instanceof IPackageFragment) {

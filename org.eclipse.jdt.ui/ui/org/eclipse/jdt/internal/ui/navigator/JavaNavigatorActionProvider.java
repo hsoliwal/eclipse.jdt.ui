@@ -78,7 +78,7 @@ public class JavaNavigatorActionProvider extends CommonActionProvider {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void init(ICommonActionExtensionSite site) {
 
 		ICommonViewerWorkbenchSite workbenchSite= null;

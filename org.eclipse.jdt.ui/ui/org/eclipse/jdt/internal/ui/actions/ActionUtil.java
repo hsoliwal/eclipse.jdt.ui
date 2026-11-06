@@ -90,7 +90,7 @@ public class ActionUtil {
 		return false;
 	}
 
-	public static boolean isOnBuildPath(IJavaElement element) {
+	public static boolean isOnBuildPath(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         //fix for bug http://dev.eclipse.org/bugs/show_bug.cgi?id=20051
         if (element.getElementType() == IJavaElement.JAVA_PROJECT)
             return true;
@@ -110,7 +110,7 @@ public class ActionUtil {
 	}
 
 	public static boolean areProcessable(Shell shell, IJavaElement[] elements) {
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isOnBuildPath(element)) {
 				MessageDialog.openInformation(shell, ActionMessages.ActionUtil_notOnBuildPath_title, Messages.format(ActionMessages.ActionUtil_notOnBuildPath_resource_message, new Object[]{BasicElementLabels.getPathLabel(element.getPath(), false)}));
 				return false;
@@ -150,7 +150,7 @@ public class ActionUtil {
 		return editor.validateEditorInputState();
 	}
 
-	public static boolean isEditable(Shell shell, IJavaElement element) {
+	public static boolean isEditable(Shell shell, IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (! isProcessable(shell, element))
 			return false;
 

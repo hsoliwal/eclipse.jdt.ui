@@ -61,7 +61,7 @@ import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ModifyRecordParametersAction extends SelectionDispatchAction {
+public class ModifyRecordParametersAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -125,7 +125,7 @@ public class ModifyRecordParametersAction extends SelectionDispatchAction {
 
 	private IType getRecordDeclarationType(ASTNode node) {
 		ASTNode curNode = node;
-		while (curNode != null) {
+		while (curNode != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curNode instanceof RecordDeclaration) {
 				RecordDeclaration rd = (RecordDeclaration)curNode;
 				ITypeBinding binding = rd.resolveBinding();
@@ -156,7 +156,7 @@ public class ModifyRecordParametersAction extends SelectionDispatchAction {
     /*
      * @see SelectionDispatchAction#run(ITextSelection)
      */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		// We need to identify the IType for the current record.
 		// To do that I first need to get the CompilationUnit

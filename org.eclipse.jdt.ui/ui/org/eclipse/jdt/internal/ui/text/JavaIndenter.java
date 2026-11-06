@@ -99,7 +99,7 @@ public final class JavaIndenter {
 			return fProject.getOption(key, true);
 		}
 
-		CorePrefs(IJavaProject project) {
+		CorePrefs(IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fProject= project;
 			if (isStandalone()) {
 				prefUseTabs= true;
@@ -478,7 +478,7 @@ public final class JavaIndenter {
 	 *         which offset resides, or <code>null</code> if it cannot be
 	 *         determined
 	 */
-	public StringBuffer computeIndentation(int offset, boolean assumeOpeningBrace) {
+	public StringBuffer computeIndentation(int offset, boolean assumeOpeningBrace) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		StringBuffer reference= getReferenceIndentation(offset, assumeOpeningBrace);
 
@@ -509,10 +509,10 @@ public final class JavaIndenter {
 	 * @param indent the string to measure
 	 * @return the visual length in characters
 	 */
-	private int computeVisualLength(CharSequence indent) {
+	private int computeVisualLength(CharSequence indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int tabSize= fPrefs.prefTabSize;
 		int length= 0;
-		for (int i= 0; i < indent.length(); i++) {
+		for (int i= 0; i < indent.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= indent.charAt(i);
 			switch (ch) {
 				case '\t':
@@ -537,12 +537,12 @@ public final class JavaIndenter {
 	 * @param indentLength the maximum visual indentation length
 	 * @return the stripped <code>reference</code>
 	 */
-	private StringBuffer stripExceedingChars(StringBuffer reference, int indentLength) {
+	private StringBuffer stripExceedingChars(StringBuffer reference, int indentLength) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int tabSize= fPrefs.prefTabSize;
 		int measured= 0;
 		int chars= reference.length();
 		int i= 0;
-		for (; measured < indentLength && i < chars; i++) {
+		for (; measured < indentLength && i < chars; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= reference.charAt(i);
 			switch (ch) {
 				case '\t':
@@ -603,13 +603,13 @@ public final class JavaIndenter {
 	 * @return the indentation corresponding to the document content specified
 	 *         by <code>start</code> and <code>indent</code>
 	 */
-	private StringBuffer createIndent(int start, final int indent, final boolean convertSpaceRunsToTabs) {
+	private StringBuffer createIndent(int start, final int indent, final boolean convertSpaceRunsToTabs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final boolean convertTabs= fPrefs.prefUseTabs && convertSpaceRunsToTabs;
 		final int tabLen= fPrefs.prefTabSize;
 		final StringBuffer ret= new StringBuffer();
 		try {
 			int spaces= 0;
-			while (start < indent) {
+			while (start < indent) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				char ch= fDocument.getChar(start);
 				if (ch == '\t') {
@@ -628,7 +628,7 @@ public final class JavaIndenter {
 				start++;
 			}
 			// remainder
-			while (spaces-- > 0)
+			while (spaces-- > 0) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ret.append(' ');
 
 		} catch (BadLocationException e) {
@@ -647,7 +647,7 @@ public final class JavaIndenter {
 	 * @return the modified <code>buffer</code> reflecting the indentation
 	 *         adapted to <code>additional</code>
 	 */
-	private StringBuffer createReusingIndent(StringBuffer buffer, int additional) {
+	private StringBuffer createReusingIndent(StringBuffer buffer, int additional) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int refLength= computeVisualLength(buffer);
 		int addLength= fPrefs.prefIndentationSize * additional; // may be < 0
 		int totalLength= Math.max(0, refLength + addLength);
@@ -675,9 +675,9 @@ public final class JavaIndenter {
 			Assert.isTrue(false);
 			return null;
 		}
-		for(int i= 0; i < tabs; i++)
+		for(int i= 0; i < tabs; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buffer.append('\t');
-		for(int i= 0; i < spaces; i++)
+		for(int i= 0; i < spaces; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buffer.append(' ');
 		return buffer;
 	}
@@ -742,7 +742,7 @@ public final class JavaIndenter {
 	 * @return the reference statement relative to which <code>offset</code>
 	 *         should be indented, or {@link JavaHeuristicScanner#NOT_FOUND}
 	 */
-	public int findReferencePosition(int offset, int nextToken) {
+	public int findReferencePosition(int offset, int nextToken) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean danglingElse= false;
 		boolean unindent= false;
 		boolean indent= false;
@@ -859,11 +859,11 @@ public final class JavaIndenter {
 	 *         is required
 	 * @since 3.7
 	 */
-	private boolean isSecondLineOfStringContinuation(int offset) {
+	private boolean isSecondLineOfStringContinuation(int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			int offsetLine= fDocument.getLineOfOffset(offset);
 			fPosition= offset;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nextToken();
 				switch (fToken) {
 				// scopes: skip them
@@ -954,7 +954,7 @@ public final class JavaIndenter {
 	 *         or {@link JavaHeuristicScanner#NOT_FOUND}
 	 * @since 3.7
 	 */
-	public int findReferencePosition(int offset, boolean danglingElse, boolean matchBrace, boolean matchParen, boolean matchCase, boolean throwsClause) {
+	public int findReferencePosition(int offset, boolean danglingElse, boolean matchBrace, boolean matchParen, boolean matchCase, boolean throwsClause) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fIndent= 0; // the indentation modification
 		fAlign= JavaHeuristicScanner.NOT_FOUND;
 		fPosition= offset;
@@ -1167,9 +1167,9 @@ public final class JavaIndenter {
 	 *
 	 * @since 3.9
 	 */
-	private boolean looksLikeMethodDeclLBrace(int offset) {
+	private boolean looksLikeMethodDeclLBrace(int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		nextToken();
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (fToken) {
 				case Symbols.TokenTHROWS:
 				case Symbols.TokenIDENT: // identifier for exception/annotation/annotation value
@@ -1209,7 +1209,7 @@ public final class JavaIndenter {
 	 * @return the position of the token
 	 * @since 3.7
 	 */
-	private int handleEqual() {
+	private int handleEqual() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			//If this line is itself continuation of the previous then do nothing
 			IRegion line= fDocument.getLineInformationOfOffset(fPosition);
@@ -1234,9 +1234,9 @@ public final class JavaIndenter {
 	 * @return returns <code>true</code> if current position is part of for statement
 	 * @since 3.7
 	 */
-	private boolean isSemicolonPartOfForStatement() {
+	private boolean isSemicolonPartOfForStatement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int semiColonCount= 1;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 				case Symbols.TokenFOR:
@@ -1261,7 +1261,7 @@ public final class JavaIndenter {
 	 * @since 3.7
 	 */
 	private boolean isTryWithResources() {
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 				case Symbols.TokenTRY:
@@ -1280,13 +1280,13 @@ public final class JavaIndenter {
 	 * @param isInBlock whether the current position is inside a block, which limits the search scope to the next scope introducer
 	 * @return the reference offset of the start of the statement
 	 */
-	private int skipToStatementStart(boolean danglingElse, boolean isInBlock) {
+	private int skipToStatementStart(boolean danglingElse, boolean isInBlock) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int NOTHING= 0;
 		final int READ_PARENS= 1;
 		final int READ_IDENT= 2;
 		int mayBeMethodBody= NOTHING;
 		boolean isTypeBody= false;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 
 			if (isInBlock) {
@@ -1441,7 +1441,7 @@ public final class JavaIndenter {
 	 * @return true if the colon at the current position is part of a conditional
 	 */
 	private boolean isConditional() {
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 
@@ -1466,8 +1466,8 @@ public final class JavaIndenter {
 	 *
 	 * @return the reference offset for a <code>switch</code> label
 	 */
-	private int matchCaseAlignment() {
-		while (true) {
+	private int matchCaseAlignment() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 				// invalid cases: another case label or an LBRACE must come before a case
@@ -1513,10 +1513,10 @@ public final class JavaIndenter {
 	 * @return the reference position for a list item: either a previous list item
 	 * that has its own indentation, or the list introduction start.
 	 */
-	private int skipToPreviousListItemOrListStart() {
+	private int skipToPreviousListItemOrListStart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int startLine= lineOfToken();
 		int startPosition= fPosition;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 
 			// if any line item comes with its own indentation, adapt to it
@@ -1584,7 +1584,7 @@ public final class JavaIndenter {
 	 *
 	 * @return <code>true</code> if a matching peer was found, <code>false</code> otherwise
 	 */
-	private boolean skipScope() {
+	private boolean skipScope() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (fToken) {
 			case Symbols.TokenRPAREN:
 				return skipScope(Symbols.TokenLPAREN, Symbols.TokenRPAREN);
@@ -1653,7 +1653,7 @@ public final class JavaIndenter {
 	 * introduction.
 	 * @return the indent
 	 */
-	private int handleScopeIntroduction(int bound) {
+	private int handleScopeIntroduction(int bound) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (fToken) {
 			// scope introduction: special treat who special is
 			case Symbols.TokenLPAREN:
@@ -1752,7 +1752,7 @@ public final class JavaIndenter {
 	 *
 	 * @return <code>true</code> if the next elements look like the start of an array definition
 	 */
-	private boolean looksLikeArrayInitializerIntro() {
+	private boolean looksLikeArrayInitializerIntro() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		nextToken();
 		if (fToken == Symbols.TokenEQUAL) {
 			return true;
@@ -1764,7 +1764,7 @@ public final class JavaIndenter {
 		nextToken();
 		if (fToken == Symbols.TokenIDENT) { // type name
 			nextToken();
-			while (fToken == Symbols.TokenOTHER) { // dot of qualification
+			while (fToken == Symbols.TokenOTHER) { // dot of qualification //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nextToken();
 				if (fToken != Symbols.TokenIDENT) // qualifying name
 					return false;
@@ -1783,8 +1783,8 @@ public final class JavaIndenter {
 	 *         header
 	 * @since 3.11
 	 */
-	private boolean looksLikeEnumDeclaration() {
-		while (true) {
+	private boolean looksLikeEnumDeclaration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 				case Symbols.TokenENUM:
@@ -1822,8 +1822,8 @@ public final class JavaIndenter {
 	 *         body declaration
 	 * @since 3.11
 	 */
-	private boolean isSemicolonPartOfEnumBodyDeclaration() {
-		while (true) {
+	private boolean isSemicolonPartOfEnumBodyDeclaration() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 				case Symbols.TokenLBRACE:
@@ -1853,10 +1853,10 @@ public final class JavaIndenter {
 	 * @return <code>true</code> if a matching <code>if</code> token was found, <code>false</code>
 	 *         otherwise
 	 */
-	private boolean skipNextIF() {
+	private boolean skipNextIF() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(fToken == Symbols.TokenELSE);
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 				// scopes: skip them
@@ -1896,10 +1896,10 @@ public final class JavaIndenter {
 	 *         otherwise
 	 * @since 3.7
 	 */
-	private boolean skipNextTRY() {
+	private boolean skipNextTRY() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(fToken == Symbols.TokenCATCH || fToken == Symbols.TokenFINALLY);
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 			switch (fToken) {
 			// scopes: skip them
@@ -2008,7 +2008,7 @@ public final class JavaIndenter {
 	 *         continuation, <code>false</code> otherwise
 	 * @since 3.11
 	 */
-	private boolean looksLikeStringContinuation() {
+	private boolean looksLikeStringContinuation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		nextToken();
 		if (fToken == Symbols.TokenIDENT) { // method name
 			nextToken();
@@ -2016,7 +2016,7 @@ public final class JavaIndenter {
 				skipScope(Symbols.TokenLESSTHAN, Symbols.TokenGREATERTHAN);
 				nextToken();
 			}
-			while (fToken == Symbols.TokenOTHER) { // dot of qualification
+			while (fToken == Symbols.TokenOTHER) { // dot of qualification //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nextToken();
 				if (fToken != Symbols.TokenIDENT) // qualifying name
 					return false;
@@ -2042,7 +2042,7 @@ public final class JavaIndenter {
 	 * @return <code>true</code> if the current position looks like a method
 	 *         declaration header.
 	 */
-	private boolean looksLikeMethodDecl() {
+	private boolean looksLikeMethodDecl() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * TODO This heuristic does not recognize package private constructors
 		 * since those do have neither type nor visibility keywords.
@@ -2052,7 +2052,7 @@ public final class JavaIndenter {
 
 		nextToken();
 		if (fToken == Symbols.TokenIDENT) { // method name
-			do nextToken();
+			do nextToken(); //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			while (skipBrackets()); // optional brackets for array valued return types
 			if (fToken == Symbols.TokenGREATERTHAN) {
 				if (skipScope(Symbols.TokenLESSTHAN, Symbols.TokenGREATERTHAN)) { // parameterized return type
@@ -2079,7 +2079,7 @@ public final class JavaIndenter {
 		nextToken();
 		if (fToken == Symbols.TokenIDENT) { // Annotation name
 			nextToken();
-			while (fToken == Symbols.TokenOTHER) { // dot of qualification
+			while (fToken == Symbols.TokenOTHER) { // dot of qualification //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nextToken();
 				if (fToken != Symbols.TokenIDENT) // qualifying name
 					return false;
@@ -2101,7 +2101,7 @@ public final class JavaIndenter {
 	 * @return <code>true</code> if the current position looks like a anonymous type declaration
 	 *         header.
 	 */
-	private boolean looksLikeAnonymousTypeDecl(int rParen) {
+	private boolean looksLikeAnonymousTypeDecl(int rParen) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			int nonWsFwd= fScanner.findNonWhitespaceForwardInAnyPartition(rParen + 1, JavaHeuristicScanner.UNBOUND);
 			if (nonWsFwd == JavaHeuristicScanner.NOT_FOUND || fDocument.getChar(nonWsFwd) != '{') {
@@ -2120,7 +2120,7 @@ public final class JavaIndenter {
 		}
 		if (fToken == Symbols.TokenIDENT) { // type name
 			nextToken();
-			while (fToken == Symbols.TokenOTHER) { // dot of qualification
+			while (fToken == Symbols.TokenOTHER) { // dot of qualification //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				nextToken();
 				if (fToken != Symbols.TokenIDENT) // qualifying name
 					return false;
@@ -2156,11 +2156,11 @@ public final class JavaIndenter {
 	 * @return <code>true</code> if a matching token was found, <code>false</code>
 	 *         otherwise
 	 */
-	private boolean skipScope(int openToken, int closeToken) {
+	private boolean skipScope(int openToken, int closeToken) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int depth= 1;
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			nextToken();
 
 			if (fToken == closeToken) {

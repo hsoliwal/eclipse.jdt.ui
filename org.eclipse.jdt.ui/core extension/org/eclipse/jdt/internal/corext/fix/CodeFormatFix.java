@@ -56,11 +56,11 @@ import org.eclipse.jdt.internal.ui.preferences.formatter.FormatterProfileManager
 
 public class CodeFormatFix implements ICleanUpFix {
 
-	public static ICleanUpFix createCleanUp(ICompilationUnit cu, IRegion[] regions, boolean format, boolean removeTrailingWhitespacesAll, boolean removeTrailingWhitespacesIgnorEmpty, boolean correctIndentation) throws CoreException {
+	public static ICleanUpFix createCleanUp(ICompilationUnit cu, IRegion[] regions, boolean format, boolean removeTrailingWhitespacesAll, boolean removeTrailingWhitespacesIgnorEmpty, boolean correctIndentation) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!format && !removeTrailingWhitespacesAll && !removeTrailingWhitespacesIgnorEmpty && !correctIndentation)
 			return null;
 
-		ArrayList<CategorizedTextEditGroup> groups= new ArrayList<>();
+		ArrayList<CategorizedTextEditGroup> groups= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		MultiTextEdit formatEdit= new MultiTextEdit();
 		if (format) {
@@ -123,7 +123,7 @@ public class CodeFormatFix implements ICleanUpFix {
 					CategorizedTextEditGroup group= new CategorizedTextEditGroup(label, new GroupCategorySet(new GroupCategory(label, label, label)));
 
 					int lineCount= document.getNumberOfLines();
-					for (int i= 0; i < lineCount; i++) {
+					for (int i= 0; i < lineCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 						IRegion region= document.getLineInformation(i);
 						if (region.getLength() == 0)
@@ -174,7 +174,7 @@ public class CodeFormatFix implements ICleanUpFix {
 						CategorizedTextEditGroup group= new CategorizedTextEditGroup(label, new GroupCategorySet(new GroupCategory(label, label, label)));
 
 						if (edit instanceof MultiTextEdit) {
-							for (TextEdit child : edit.getChildren()) {
+							for (TextEdit child : edit.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								edit.removeChild(child);
 								if (!TextEditUtil.overlaps(formatEdit, child) && !TextEditUtil.overlaps(otherEdit, child)) {
 									otherEdit.addChild(child);
@@ -204,7 +204,7 @@ public class CodeFormatFix implements ICleanUpFix {
 		CompilationUnitChange change= new CompilationUnitChange("", cu); //$NON-NLS-1$
 		change.setEdit(resultEdit);
 
-		for (CategorizedTextEditGroup group : groups) {
+		for (CategorizedTextEditGroup group : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			change.addTextEditGroup(group);
 		}
 
@@ -213,7 +213,7 @@ public class CodeFormatFix implements ICleanUpFix {
 
 	private static boolean trimInsertedJavadocComments(TextEdit[] edits) {
 		boolean modified= false;
-		for (int i= 0; i < edits.length; ++i) {
+		for (int i= 0; i < edits.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (edits[i] instanceof ReplaceEdit) {
 				ReplaceEdit replaceEdit= (ReplaceEdit)edits[i];
 				String text= replaceEdit.getText();
@@ -241,7 +241,7 @@ public class CodeFormatFix implements ICleanUpFix {
 	 */
 	private static int getIndexOfRightMostNoneWhitspaceCharacter(int start, int end, IDocument document) throws BadLocationException {
 		int position= end;
-		while (position >= start && Character.isWhitespace(document.getChar(position)))
+		while (position >= start && Character.isWhitespace(document.getChar(position))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			position--;
 
 		return position;

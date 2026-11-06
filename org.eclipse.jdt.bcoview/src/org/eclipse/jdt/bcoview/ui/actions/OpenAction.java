@@ -45,7 +45,7 @@ public class OpenAction extends BytecodeAction {
 		try {
 			exec(resources[0], element2);
 		} catch (Exception e) {
-			BytecodeOutlinePlugin.error("Failed to run Compare: " + e.getMessage(), e); //$NON-NLS-1$
+			BytecodeOutlinePlugin.error("Failed to run Compare: " + e.getMessage(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

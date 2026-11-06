@@ -61,7 +61,7 @@ import org.eclipse.jdt.ui.text.java.IProblemLocation;
 public class UnloopedWhileCleanUp extends AbstractMultiFix {
 	private static class BreakVisitor extends InterruptibleVisitor {
 		private final WhileStatement root;
-		private final List<BreakStatement> breaks= new ArrayList<>();
+		private final List<BreakStatement> breaks= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		private boolean canBeRefactored= true;
 
 		public BreakVisitor(final WhileStatement root) {
@@ -76,7 +76,7 @@ public class UnloopedWhileCleanUp extends AbstractMultiFix {
 			return canBeRefactored;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final BreakStatement aBreak) {
 			if (aBreak.getLabel() != null) {
 				canBeRefactored= false;
@@ -84,7 +84,7 @@ public class UnloopedWhileCleanUp extends AbstractMultiFix {
 			}
 
 			Statement parent= aBreak;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= ASTNodes.getTypedAncestor(parent, Statement.class);
 			} while (parent != root && ASTNodes.getNextSiblings(parent).isEmpty());
 
@@ -208,31 +208,31 @@ public class UnloopedWhileCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.UNLOOPED_WHILE)) {
-			bld.append("if (isValid) {\n"); //$NON-NLS-1$
+			bld.append("if (isValid) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("while (isValid) {\n"); //$NON-NLS-1$
+			bld.append("while (isValid) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("    System.out.println(\"foo\");\n"); //$NON-NLS-1$
-		bld.append("    return;\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("    System.out.println(\"foo\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    return;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.UNLOOPED_WHILE)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final WhileStatement visited) {
 				if (ASTNodes.fallsThrough(visited.getBody()) && !Boolean.TRUE.equals(ASTNodes.peremptoryValue(visited.getExpression()))) {
 					ContinueVisitor continueVisitor= new ContinueVisitor(visited);
@@ -280,13 +280,13 @@ public class UnloopedWhileCleanUp extends AbstractMultiFix {
 			this.breakVisitor= breakVisitor;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.UnloopedWhileCleanUp_description, cuRewrite);
 
-			for (BreakStatement breakStatement : breakVisitor.getBreaks()) {
+			for (BreakStatement breakStatement : breakVisitor.getBreaks()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ASTNodes.canHaveSiblings(breakStatement) || breakStatement.getLocationInParent() == IfStatement.ELSE_STATEMENT_PROPERTY) {
 					rewrite.remove(breakStatement, group);
 				} else {

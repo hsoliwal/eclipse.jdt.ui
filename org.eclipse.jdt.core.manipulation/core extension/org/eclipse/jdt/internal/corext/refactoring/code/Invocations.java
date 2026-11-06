@@ -38,7 +38,7 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 
 public class Invocations {
 
-	public static List<Expression> getArguments(ASTNode invocation) {
+	public static List<Expression> getArguments(ASTNode invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (invocation.getNodeType()) {
 			case ASTNode.METHOD_INVOCATION:
 				return ((MethodInvocation)invocation).arguments();
@@ -64,7 +64,7 @@ public class Invocations {
 		}
 	}
 
-	public static ChildListPropertyDescriptor getArgumentsProperty(ASTNode invocation) {
+	public static ChildListPropertyDescriptor getArgumentsProperty(ASTNode invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (invocation.getNodeType()) {
 			case ASTNode.METHOD_INVOCATION:
 				return MethodInvocation.ARGUMENTS_PROPERTY;
@@ -86,7 +86,7 @@ public class Invocations {
 		}
 	}
 
-	public static Expression getExpression(ASTNode invocation) {
+	public static Expression getExpression(ASTNode invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (invocation.getNodeType()) {
 			case ASTNode.METHOD_INVOCATION:
 				return ((MethodInvocation)invocation).getExpression();
@@ -137,7 +137,7 @@ public class Invocations {
 		}
 	}
 
-	public static IMethodBinding resolveBinding(ASTNode invocation) {
+	public static IMethodBinding resolveBinding(ASTNode invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (invocation.getNodeType()) {
 			case ASTNode.METHOD_INVOCATION:
 				return ((MethodInvocation)invocation).resolveMethodBinding();
@@ -197,7 +197,7 @@ public class Invocations {
 		}
 	}
 
-	public static ITypeBinding[] getInferredTypeArguments(Expression invocation) {
+	public static ITypeBinding[] getInferredTypeArguments(Expression invocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding methodBinding;
 		switch (invocation.getNodeType()) {
 			case ASTNode.METHOD_INVOCATION:

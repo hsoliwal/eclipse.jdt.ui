@@ -64,7 +64,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		JavaProjectHelper.clear(fJProject1, pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelOuter() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -96,7 +96,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelInner() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -135,7 +135,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelLocal() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -172,7 +172,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParameterLabelType() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -234,7 +234,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeParameterLabelMethod() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -273,7 +273,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "NoBound - {{org.test.X}}.{{org.test.X|method}}({{org.test.X.method(...)|Element}}, NoBound)");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelAnonymous() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -310,7 +310,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelAnonymousInAnonymous() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -359,7 +359,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelAnonymousInFieldInitializer() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -394,7 +394,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelAnonymousInInitializer() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -431,7 +431,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTypeLabelWildcards() throws Exception {
 
 			IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -461,7 +461,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 
 		}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageLabels() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -568,7 +568,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
  */
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodLabelVarargsDeclaration() throws Exception {
 
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -601,7 +601,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "foo(int, {{java.lang|String}}...)");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodLabelVarargsReference0() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -653,18 +653,18 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		assertMethodLabelVarargsReference("1, 2, Integer.valueOf(3)");
 	}
 
-	private void assertMethodLabelVarargsReference(String args) throws CoreException, JavaModelException {
+	private void assertMethodLabelVarargsReference(String args) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
 		IPackageFragment pack1= sourceFolder.createPackageFragment("org.test", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package org.test;\n");
-		buf.append("import java.util.Arrays;\n");
-		buf.append("public class Varargs {\n");
-		buf.append("    void foo() {\n");
-		buf.append("        Arrays.asList(" + args + ");\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package org.test;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.Arrays;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Varargs {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    void foo() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        Arrays.asList(" + args + ");\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String content= buf.toString();
 		ICompilationUnit cu= pack1.createCompilationUnit("Varargs.java", content, false, null);
 
@@ -689,7 +689,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "asList({{java.lang|Integer}}...)");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodLabelAnnotatedParameters() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("org.test", false, null);
@@ -729,7 +729,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 	}
 
 	// disabled, because we cannot retrieve a binding for the selected element: local variable inside instance initializer
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLocalClassInInitializer() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -766,7 +766,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 //		assertLinkMatch(lab, "{{org.test.LambdaTests}}.{...}.{{org.test.LambdaTests.{...}.|Local}}.Local()");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLocalClassInStaticInitializer() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -798,7 +798,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "{{org.test.LambdaTests.{...}|Local}} toStringL - {{org}}.{{test}}.{{LambdaTests}}.{...}");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecursiveType() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -823,7 +823,7 @@ public class BindingLabelsTest extends AbstractBindingLabelsTest {
 		assertLinkMatch(lab, "V extends {{java.lang|Comparable}}<? super V> - {{org.test.TypeTest}}.{{org.test.TypeTest|compare}}(V)");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleTypeVariables() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 

@@ -101,7 +101,7 @@ public class JavaModelOpCompundUndoTest {
 		fProject= JavaProjectHelper.createJavaProject(testName, "bin");
 		fProject.setOption(JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_8);
 		JavaProjectHelper.addSourceContainer(fProject, SRC);
-		IPackageFragment fragment= fProject.findPackageFragment(new Path(SEP + testName + SEP + SRC));
+		IPackageFragment fragment= fProject.findPackageFragment(new Path(SEP + testName + SEP + SRC)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fCompilationUnit= fragment.createCompilationUnit(CU_NAME, CU_CONTENTS, true, new NullProgressMonitor());
 	}
 
@@ -112,7 +112,7 @@ public class JavaModelOpCompundUndoTest {
 	}
 
 	private void setUpEditor() {
-		fEditor= openJavaEditor(new Path(SEP + testName + SEP + SRC + SEP + CU_NAME));
+		fEditor= openJavaEditor(new Path(SEP + testName + SEP + SRC + SEP + CU_NAME)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull(fEditor);
 		fUndoManager= ((ITextViewerExtension6)fEditor.getViewer()).getUndoManager();
 		assertNotNull(fUndoManager);

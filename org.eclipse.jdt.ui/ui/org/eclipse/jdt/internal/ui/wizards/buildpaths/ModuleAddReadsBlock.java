@@ -79,7 +79,7 @@ public class ModuleAddReadsBlock {
 	 * @param sourceJavaElements java element representing the source modules from where packages should be exported
 	 * @param initialValue The value to edit
 	 */
-	public ModuleAddReadsBlock(IStatusChangeListener context, IJavaElement[] sourceJavaElements, ModuleAddReads initialValue) {
+	public ModuleAddReadsBlock(IStatusChangeListener context, IJavaElement[] sourceJavaElements, ModuleAddReads initialValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fContext= context;
 		fInitialValue= initialValue;
 		fSourceJavaElements= sourceJavaElements;
@@ -112,9 +112,9 @@ public class ModuleAddReadsBlock {
 	}
 
 	private Set<String> moduleNames() {
-		Set<String> moduleNames= new HashSet<>();
+		Set<String> moduleNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (fSourceJavaElements != null) {
-			for (IJavaElement element : fSourceJavaElements) {
+			for (IJavaElement element : fSourceJavaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IPackageFragmentRoot) {
 					IModuleDescription module= ((IPackageFragmentRoot) element).getModuleDescription();
 					if (module != null) {
@@ -143,7 +143,7 @@ public class ModuleAddReadsBlock {
 		String targetModules= getTargetModulesText();
 		if (sourceModule.isEmpty() || targetModules.isEmpty())
 			return ""; //$NON-NLS-1$
-		return sourceModule+'='+targetModules;
+		return sourceModule+'='+targetModules; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public ModuleAddReads getReads(CPListElementAttribute parentAttribute) {
@@ -159,7 +159,7 @@ public class ModuleAddReadsBlock {
 	 * @param parent the parent
 	 * @return the created control
 	 */
-	public Control createControl(Composite parent) {
+	public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PixelConverter converter= new PixelConverter(parent);
 
 		fSWTWidget= parent;
@@ -249,7 +249,7 @@ public class ModuleAddReadsBlock {
 		return status;
 	}
 
-	private IStatus computeTargetModuleStatus(String value) {
+	private IStatus computeTargetModuleStatus(String value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		if (value.isEmpty()) {
 			status.setError(NewWizardMessages.ModuleAddExportsBlock_targetModuleEmpty_error);

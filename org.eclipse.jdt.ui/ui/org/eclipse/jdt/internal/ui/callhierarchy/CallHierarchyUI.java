@@ -65,13 +65,13 @@ public class CallHierarchyUI {
 
     private static CallHierarchyUI fgInstance;
     private int fViewCount= 0;
-    private final List<IMember[]> fMethodHistory= new ArrayList<>();
+    private final List<IMember[]> fMethodHistory= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * List of the Call Hierarchy views in LRU order, where the most recently used view is at index 0.
 	 * @since 3.7
 	 */
-	private List<CallHierarchyViewPart> fLRUCallHierarchyViews= new ArrayList<>();
+	private List<CallHierarchyViewPart> fLRUCallHierarchyViews= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
     private CallHierarchyUI() {
         // Do nothing
@@ -138,7 +138,7 @@ public class CallHierarchyUI {
 	 * @return <code>true</code> iff no error occurred while trying to open the editor,
 	 *         <code>false</code> iff an error dialog was raised.
 	 */
-	public static boolean openInEditor(Object element, Shell shell, boolean activateOnOpen) {
+	public static boolean openInEditor(Object element, Shell shell, boolean activateOnOpen) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CallLocation callLocation= CallHierarchy.getCallLocation(element);
 
 		String name= ""; //$NON-NLS-1$
@@ -230,7 +230,7 @@ public class CallHierarchyUI {
         return openView(new IMember[] { input }, window);
     }
 
-    public static CallHierarchyViewPart openView(IMember[] input, IWorkbenchWindow window) {
+    public static CallHierarchyViewPart openView(IMember[] input, IWorkbenchWindow window) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (input.length == 0) {
 			MessageDialog.openInformation(window.getShell(), CallHierarchyMessages.CallHierarchyUI_selectionDialog_title,
 					CallHierarchyMessages.CallHierarchyUI_open_operation_unavialable);
@@ -262,9 +262,9 @@ public class CallHierarchyUI {
 	 * @return the Call Hierarchy view part to open or <code>null</code> if none found
 	 * @since 3.7
 	 */
-	private CallHierarchyViewPart findLRUCallHierarchyViewPart(IWorkbenchPage page) {
+	private CallHierarchyViewPart findLRUCallHierarchyViewPart(IWorkbenchPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean viewFoundInPage= false;
-		for (CallHierarchyViewPart view : fLRUCallHierarchyViews) {
+		for (CallHierarchyViewPart view : fLRUCallHierarchyViews) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (page.equals(view.getSite().getPage())) {
 				if (!view.isPinned()) {
 					return view;
@@ -274,7 +274,7 @@ public class CallHierarchyUI {
 		}
 		if (!viewFoundInPage) {
 			// find unresolved views
-			for (IViewReference curr : page.getViewReferences()) {
+			for (IViewReference curr : page.getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (CallHierarchyViewPart.ID_CALL_HIERARCHY.equals(curr.getId()) && page.equals(curr.getPage())) {
 					CallHierarchyViewPart view= (CallHierarchyViewPart)curr.getView(true);
 					if (view != null && !view.isPinned()) {
@@ -315,15 +315,15 @@ public class CallHierarchyUI {
      * @param selection The selection to convert.
      * @return An ISelection containing IMember's in place of MethodWrapper instances.
      */
-    static ISelection convertSelection(ISelection selection) {
+    static ISelection convertSelection(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (selection.isEmpty()) {
             return selection;
         }
 
         if (selection instanceof IStructuredSelection) {
             IStructuredSelection structuredSelection= (IStructuredSelection) selection;
-            List<IMember> javaElements= new ArrayList<>();
-            for (Object element : structuredSelection) {
+            List<IMember> javaElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+            for (Object element : structuredSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 if (element instanceof MethodWrapper) {
                     IMember member= ((MethodWrapper)element).getMember();
                     if (member != null) {
@@ -347,7 +347,7 @@ public class CallHierarchyUI {
 	 * @since 3.7
 	 */
 	void clearHistory() {
-		for (CallHierarchyViewPart part : fLRUCallHierarchyViews) {
+		for (CallHierarchyViewPart part : fLRUCallHierarchyViews) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			part.setHistoryEntries(new IMember[0][]);
 			part.setInputElements(null);
 		}

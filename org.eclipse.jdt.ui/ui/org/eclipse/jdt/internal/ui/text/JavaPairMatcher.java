@@ -44,7 +44,7 @@ public final class JavaPairMatcher extends DefaultCharacterPairMatcher {
 	/*
 	 * Performs the actual work of matching for #match(IDocument, int).
 	 */
-	private IRegion performMatch(IDocument document, int offset) throws BadLocationException {
+	private IRegion performMatch(IDocument document, int offset) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (offset < 0 || document == null) return null;
 		char prevChar= document.getChar(Math.max(offset - 1, 0));
 		char currChar= (offset != document.getLength()) ? document.getChar(offset) : Character.MIN_VALUE;
@@ -99,7 +99,7 @@ public final class JavaPairMatcher extends DefaultCharacterPairMatcher {
 	 *         otherwise
 	 * @since 3.1
 	 */
-	private boolean isTypeParameterOpeningBracket(int offset, IDocument document, JavaHeuristicScanner scanner) {
+	private boolean isTypeParameterOpeningBracket(int offset, IDocument document, JavaHeuristicScanner scanner) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * type parameter come after braces (closing or opening), semicolons, or after
 		 * a Type name (heuristic: starts with capital character), or after a modifier
@@ -158,7 +158,7 @@ public final class JavaPairMatcher extends DefaultCharacterPairMatcher {
 	 *         otherwise
 	 * @since 3.8
 	 */
-	private boolean isTypeParameterClosingBracket(int offset, IDocument document, JavaHeuristicScanner scanner) {
+	private boolean isTypeParameterClosingBracket(int offset, IDocument document, JavaHeuristicScanner scanner) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * type parameter closing brackets come after question marks, other type parameter
 		 * closing brackets, or after a Type name (heuristic: starts with capital character)

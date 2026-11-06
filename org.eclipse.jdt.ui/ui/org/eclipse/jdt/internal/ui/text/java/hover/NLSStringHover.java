@@ -76,7 +76,7 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.hover.AbstractJavaEditorTextHover#getHoverRegion(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
 		if (!(getEditor() instanceof JavaEditor))
 			return null;
@@ -130,7 +130,7 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 	 *
 	 * @see #getHoverInfo2(ITextViewer, IRegion)
 	 */
-	private NLSHoverControlInput internalGetHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {
+	private NLSHoverControlInput internalGetHoverInfo(ITextViewer textViewer, IRegion hoverRegion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(getEditor() instanceof JavaEditor))
 			return null;
 
@@ -234,8 +234,8 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 		return new NLSHoverControlInput(buffer, propertiesFile, identifier, getEditor());
 	}
 
-	private String toHtml(String header, String string, String errorString, boolean addPreFormatted) {
-		StringBuilder buffer= new StringBuilder();
+	private String toHtml(String header, String string, String errorString, boolean addPreFormatted) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		HTMLPrinter.addSmallHeader(buffer, header);
 
 		if (string != null) {
@@ -290,7 +290,7 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 	 *
 	 * @since 3.5
 	 */
-	static class NLSHoverControl extends DefaultInformationControl implements IInformationControlExtension2 {
+	static class NLSHoverControl extends DefaultInformationControl implements IInformationControlExtension2 { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		/**
 		 * The NLS control input.
@@ -346,7 +346,7 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 	 *
 	 * @since 3.5
 	 */
-	private static final class PresenterControlCreator extends AbstractReusableInformationControlCreator {
+	private static final class PresenterControlCreator extends AbstractReusableInformationControlCreator { //FLLDCIM: MARK — T01  IMPLEMENTS
 		/*
 		 * @see org.eclipse.jdt.internal.ui.text.java.hover.AbstractReusableInformationControlCreator#doCreateInformationControl(org.eclipse.swt.widgets.Shell)
 		 */
@@ -366,7 +366,7 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 	 *
 	 * @since 3.5
 	 */
-	private static final class HoverControlCreator extends AbstractReusableInformationControlCreator {
+	private static final class HoverControlCreator extends AbstractReusableInformationControlCreator { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 		/**
 		 * The presenter control creator.
@@ -387,7 +387,7 @@ public class NLSStringHover extends AbstractJavaEditorTextHover {
 		 */
 		@Override
 		public IInformationControl doCreateInformationControl(Shell parent) {
-			return new NLSHoverControl(parent, EditorsUI.getTooltipAffordanceString()) {
+			return new NLSHoverControl(parent, EditorsUI.getTooltipAffordanceString()) { //FLLDCIM: MARK — T01  ANONYMOUS
 				/*
 				 * @see org.eclipse.jface.text.IInformationControlExtension5#getInformationPresenterControlCreator()
 				 */

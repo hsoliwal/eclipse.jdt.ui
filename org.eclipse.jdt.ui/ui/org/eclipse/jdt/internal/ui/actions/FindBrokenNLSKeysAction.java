@@ -63,7 +63,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.refactoring.nls.search.SearchBrokenNLSKeysUtil;
 import org.eclipse.jdt.internal.ui.workingsets.IWorkingSetIDs;
 
-public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
+public class FindBrokenNLSKeysAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static class SearchPatternData {
 
@@ -121,7 +121,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 		run(new StructuredSelection(selectionProvider.getSelection()));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		if (selection.size() == 1) {
 			Object firstElement= selection.getFirstElement();
@@ -154,9 +154,9 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 	}
 
 	private void run(SearchPatternData[] data, String scope) {
-		List<IType> wrappers= new ArrayList<>();
-		List<IFile> properties= new ArrayList<>();
-		for (SearchPatternData current : data) {
+		List<IType> wrappers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IFile> properties= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchPatternData current : data) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (current.getWrapperClass() != null || current.getPropertyFile() != null) {
 				wrappers.add(current.getWrapperClass());
 				properties.add(current.getPropertyFile());
@@ -184,7 +184,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 
 	private SearchPatternData[] getNLSFiles(IStructuredSelection selection) {
 		Object[] selectedElements= selection.toArray();
-		HashMap<IType, SearchPatternData> result= new HashMap<>();
+		HashMap<IType, SearchPatternData> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		collectNLSFilesFromResources(selectedElements, result);
 		collectNLSFilesFromJavaElements(selectedElements, result);
@@ -193,9 +193,9 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 		return values.toArray(new SearchPatternData[values.size()]);
 	}
 
-	private boolean canEnable(IStructuredSelection selection) {
+	private boolean canEnable(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] selected= selection.toArray();
-		for (Object s : selected) {
+		for (Object s : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (s instanceof IJavaElement) {
 					IJavaElement elem= (IJavaElement) s;
@@ -236,9 +236,9 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	private void collectNLSFilesFromResources(Object[] objects, HashMap<IType, SearchPatternData> result) {
+	private void collectNLSFilesFromResources(Object[] objects, HashMap<IType, SearchPatternData> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			for (Object object : objects) {
+			for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= null;
 				if (object instanceof IWorkingSet) {
 					IWorkingSet workingSet= (IWorkingSet) object;
@@ -270,9 +270,9 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 		}
 	}
 
-	private void collectNLSFilesFromJavaElements(Object[] objects, HashMap<IType, SearchPatternData> result) {
+	private void collectNLSFilesFromJavaElements(Object[] objects, HashMap<IType, SearchPatternData> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
-			for (Object object : objects) {
+			for (Object object : objects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (object instanceof IJavaElement) {
 					IJavaElement elem= (IJavaElement) object;
 					if (elem.exists()) {
@@ -313,7 +313,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 							{
 								IJavaProject javaProject= (IJavaProject)elem;
 								IPackageFragmentRoot[] allPackageFragmentRoots= javaProject.getAllPackageFragmentRoots();
-								for (IPackageFragmentRoot root : allPackageFragmentRoots) {
+								for (IPackageFragmentRoot root : allPackageFragmentRoots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 										if (javaProject.equals(root.getJavaProject())) {
 											collectNLSFilesFromJavaElements(new Object[] {root}, result);
@@ -367,7 +367,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 	/*
 	 * Be conservative, for every unit this returns true an AST will to be created!
 	 */
-	private static boolean isPotentialNLSAccessor(ICompilationUnit unit) throws JavaModelException {
+	private static boolean isPotentialNLSAccessor(ICompilationUnit unit) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType type= unit.getTypes()[0];
 		if (!type.exists())
 			return false;
@@ -378,13 +378,13 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 
 		if (importsOSGIUtil(unit)) { //new school
 			IInitializer[] initializers= type.getInitializers();
-			for (IInitializer initializer : initializers) {
+			for (IInitializer initializer : initializers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Modifier.isStatic(initializer.getFlags()))
 					return true;
 			}
 		} else { //old school
 			IMethod[] methods= type.getMethods();
-			for (IMethod method : methods) {
+			for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isValueAccessor(method))
 					return true;
 			}
@@ -394,7 +394,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 	}
 
 	private static boolean importsOSGIUtil(ICompilationUnit unit) throws JavaModelException {
-		for (IImportDeclaration i : unit.getImports()) {
+		for (IImportDeclaration i : unit.getImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i.getElementName().startsWith("org.eclipse.osgi.util.")) { //$NON-NLS-1$
 				return true;
 			}
@@ -403,7 +403,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	private static boolean isValueAccessor(IMethod method) throws JavaModelException {
+	private static boolean isValueAccessor(IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!"getString".equals(method.getElementName())) //$NON-NLS-1$
 			return false;
 
@@ -423,7 +423,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 	}
 
 	private static IField getBundleNameField(IField[] fields) {
-		for (IField field : fields) {
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ("BUNDLE_NAME".equals(field.getElementName())) { //$NON-NLS-1$
 				return field;
 			}
@@ -437,20 +437,20 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 		return (accessorType != null) ? new SearchPatternData(accessorType, file) : null;
 	}
 
-	public static IType getAccessorType(IFile file) {
+	public static IType getAccessorType(IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!"properties".equalsIgnoreCase(file.getFileExtension())) //$NON-NLS-1$
 			return null;
 
 		IPath propertyFullPath= file.getFullPath();
 		// Try to find a corresponding CU
-		for (String extension : JavaCore.getJavaLikeExtensions()) {
+		for (String extension : JavaCore.getJavaLikeExtensions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath cuPath= propertyFullPath.removeFileExtension().addFileExtension(extension);
 			IFile cuFile= (IFile)JavaPlugin.getWorkspace().getRoot().findMember(cuPath);
 
 			if (cuFile == null) { //try with uppercase first char
 				String filename= cuPath.removeFileExtension().lastSegment();
 				if (filename != null && filename.length() > 0) {
-					filename= Character.toUpperCase(filename.charAt(0)) + filename.substring(1);
+					filename= Character.toUpperCase(filename.charAt(0)) + filename.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					IPath dirPath= propertyFullPath.removeLastSegments(1).addTrailingSeparator();
 					cuPath= dirPath.append(filename).addFileExtension(extension);
 					cuFile= (IFile)JavaPlugin.getWorkspace().getRoot().findMember(cuPath);
@@ -465,7 +465,7 @@ public class FindBrokenNLSKeysAction extends SelectionDispatchAction {
 					if (type != null) {
 						String resourceBundleName= NLSHintHelper.getResourceBundleName(compilationUnit);
 						if (resourceBundleName != null) {
-							String resourceName= resourceBundleName + NLSRefactoring.PROPERTY_FILE_EXT;
+							String resourceName= resourceBundleName + NLSRefactoring.PROPERTY_FILE_EXT; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							String name= file.getName();
 							if (resourceName.endsWith(name)) {
 								return type;

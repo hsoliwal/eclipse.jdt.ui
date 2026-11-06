@@ -58,8 +58,8 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 
 	public NLSSearchResult(NLSSearchQuery query) {
 		fQuery= query;
-		fFileEntryGroups= new ArrayList<>();
-		fCompilationUnitGroups= new ArrayList<>();
+		fFileEntryGroups= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fCompilationUnitGroups= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void addFileEntryGroup(FileEntry group) {
@@ -82,7 +82,7 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 			return computeContainedMatches(result, fileEditorInput.getFile());
 		} else if (editorInput instanceof IClassFileEditorInput) {
 			IClassFileEditorInput classFileEditorInput= (IClassFileEditorInput) editorInput;
-			Set<Match> matches= new HashSet<>();
+			Set<Match> matches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			collectMatches(matches, classFileEditorInput.getClassFile());
 			return matches.toArray(new Match[matches.size()]);
 		}
@@ -92,10 +92,10 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 	/*
 	 * @see org.eclipse.search.ui.text.AbstractTextSearchResult#findContainedMatches(org.eclipse.core.resources.IFile)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Match[] computeContainedMatches(AbstractTextSearchResult result, IFile file) {
-		Set<Match> matches= new HashSet<>();
-		for (FileEntry element : fFileEntryGroups) {
+		Set<Match> matches= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (FileEntry element : fFileEntryGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getPropertiesFile().equals(file)) {
 				matches.addAll(Arrays.asList(getMatches(element)));
 			}
@@ -104,7 +104,7 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 			return matches.toArray(new Match[matches.size()]);
 
 		try {
-			for (CompilationUnitEntry element : fCompilationUnitGroups) {
+			for (CompilationUnitEntry element : fCompilationUnitGroups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit cu= element.getCompilationUnit();
 				if (cu.exists() && file.equals(cu.getCorrespondingResource())) {
 					matches.addAll(Arrays.asList(getMatches(element)));
@@ -130,7 +130,7 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 		if (element instanceof IParent) {
 			IParent parent= (IParent) element;
 			try {
-				for (IJavaElement child : parent.getChildren()) {
+				for (IJavaElement child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					collectMatches(matches, child);
 				}
 			} catch (JavaModelException e) {
@@ -142,7 +142,7 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 	/*
 	 * @see org.eclipse.search.ui.text.AbstractTextSearchResult#getFile(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IFile getFile(Object element) {
 		if (element instanceof FileEntry) {
 			return ((FileEntry) element).getPropertiesFile();
@@ -169,7 +169,7 @@ public class NLSSearchResult extends AbstractTextSearchResult implements IEditor
 	/*
 	 * @see org.eclipse.search.ui.text.AbstractTextSearchResult#isShownInEditor(org.eclipse.search.ui.text.Match, org.eclipse.ui.IEditorPart)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isShownInEditor(Match match, IEditorPart editor) {
 		IEditorInput editorInput= editor.getEditorInput();
 		if (match.getElement() instanceof FileEntry) {

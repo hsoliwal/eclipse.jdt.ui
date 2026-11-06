@@ -185,7 +185,7 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 		if (offset >= 0 && offset < length) {
 
 			final char character= token[offset];
-			for (char element : VOWEL_CHARACTERS) {
+			for (char element : VOWEL_CHARACTERS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				if (element == character)
 					return true;
@@ -194,25 +194,25 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getHash(final String word) {
 
-		final String input= word.toUpperCase() + "     "; //$NON-NLS-1$
+		final String input= word.toUpperCase() + "     "; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final char[] hashable= input.toCharArray();
 
 		final boolean has95= hasOneOf(meta95, input);
-		final StringBuilder buffer= new StringBuilder(hashable.length);
+		final StringBuilder buffer= new StringBuilder(hashable.length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		int offset= 0;
 		if (hasOneOf(meta26, hashable, 0, 2))
 			offset += 1;
 
 		if (hashable[0] == 'X') {
-			buffer.append('S');
+			buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			offset += 1;
 		}
 
-		while (offset < hashable.length) {
+		while (offset < hashable.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			switch (hashable[offset]) {
 				case 'A' :
@@ -222,11 +222,11 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 				case 'U' :
 				case 'Y' :
 					if (offset == 0)
-						buffer.append('A');
+						buffer.append('A'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					offset += 1;
 					break;
 				case 'B' :
-					buffer.append('P');
+					buffer.append('P'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (hashable[offset + 1] == 'B')
 						offset += 2;
 					else
@@ -234,53 +234,53 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 					break;
 				case 'C' :
 					if ((offset > 1) && !hasVowel(hashable, offset - 2, hashable.length) && hasOneOf(meta01, hashable, (offset - 1), 3) && (hashable[offset + 2] != 'I') && (hashable[offset + 2] != 'E') || hasOneOf(meta02, hashable, (offset - 2), 6)) {
-						buffer.append('K');
+						buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if ((offset == 0) && hasOneOf(meta03, hashable, offset, 6)) {
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta04, hashable, offset, 4)) {
-						buffer.append('K');
+						buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta05, hashable, offset, 2)) {
 						if ((offset > 0) && hasOneOf(meta06, hashable, offset, 4)) {
-							buffer.append('K');
+							buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 2;
 							break;
 						}
 						if ((offset == 0) && hasOneOf(meta07, hashable, (offset + 1), 5) || hasOneOf(meta08, hashable, offset + 1, 3) && !hasOneOf(meta09, hashable, 0, 5)) {
-							buffer.append('K');
+							buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 2;
 							break;
 						}
 						if (hasOneOf(meta10, hashable, 0, 4) || hasOneOf(meta11, hashable, 0, 3) || hasOneOf(meta12, hashable, offset - 2, 6) || hasOneOf(meta13, hashable, offset + 2, 1) || (hasOneOf(meta14, hashable, offset - 1, 1) || (offset == 0)) && hasOneOf(meta15, hashable, offset + 2, 1)) {
-							buffer.append('K');
+							buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
 							if (offset > 0) {
 								if (hasOneOf(meta16, hashable, 0, 2))
-									buffer.append('K');
+									buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								else
-									buffer.append('X');
+									buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							} else {
-								buffer.append('X');
+								buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
 						}
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta17, hashable, offset, 2) && !hasOneOf(meta18, hashable, offset, 4)) {
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta19, hashable, offset, 2)) {
-						buffer.append('X');
+						buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
@@ -288,27 +288,27 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 							&& ((offset != 1) || (hashable[0] != 'M'))) {
 						if (hasOneOf(meta21, hashable, offset + 2, 1) && !hasOneOf(meta22, hashable, offset + 2, 2)) {
 							if (((offset == 1) && (hashable[offset - 1] == 'A')) || hasOneOf(meta23, hashable, (offset - 1), 5))
-								buffer.append("KS"); //$NON-NLS-1$
+								buffer.append("KS"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							else
-								buffer.append('X');
+								buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 3;
 							break;
 						} else {
-							buffer.append('K');
+							buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 2;
 							break;
 						}
 					}
 					if (hasOneOf(meta24, hashable, offset, 2)) {
-						buffer.append('K');
+						buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					} else if (hasOneOf(meta25, hashable, offset, 2)) {
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
-					buffer.append('K');
+					buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (hasOneOf(meta27, hashable, offset + 1, 2))
 						offset += 3;
 					else if (hasOneOf(meta28, hashable, offset + 1, 1) && !hasOneOf(meta29, hashable, offset + 1, 2))
@@ -317,22 +317,22 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						offset += 1;
 					break;
 				case '\u00C7' :
-					buffer.append('S');
+					buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					offset += 1;
 					break;
 				case 'D' :
 					if (hasOneOf(meta30, hashable, offset, 2)) {
 						if (hasOneOf(meta31, hashable, offset + 2, 1)) {
-							buffer.append('J');
+							buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 3;
 							break;
 						} else {
-							buffer.append("TK"); //$NON-NLS-1$
+							buffer.append("TK"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 2;
 							break;
 						}
 					}
-					buffer.append('T');
+					buffer.append('T'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (hasOneOf(meta32, hashable, offset, 2)) {
 						offset += 2;
 					} else {
@@ -344,21 +344,21 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('F');
+					buffer.append('F'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'G' :
 					if (hashable[offset + 1] == 'H') {
 						if ((offset > 0) && !hasVowel(hashable, offset - 1, hashable.length)) {
-							buffer.append('K');
+							buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 2;
 							break;
 						}
 						if (offset < 3) {
 							if (offset == 0) {
 								if (hashable[offset + 2] == 'I')
-									buffer.append('J');
+									buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								else
-									buffer.append('K');
+									buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								offset += 2;
 								break;
 							}
@@ -368,10 +368,10 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 							break;
 						} else {
 							if ((offset > 2) && (hashable[offset - 1] == 'U') && hasOneOf(meta36, hashable, offset - 3, 1)) {
-								buffer.append('F');
+								buffer.append('F'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							} else {
 								if ((offset > 0) && (hashable[offset - 1] != 'I'))
-									buffer.append('K');
+									buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
 							offset += 2;
 							break;
@@ -379,37 +379,37 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 					}
 					if (hashable[offset + 1] == 'N') {
 						if ((offset == 1) && hasVowel(hashable, 0, hashable.length) && !has95) {
-							buffer.append("KN"); //$NON-NLS-1$
+							buffer.append("KN"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
 							if (!hasOneOf(meta37, hashable, offset + 2, 2) && (hashable[offset + 1] != 'Y') && !has95) {
-								buffer.append("N"); //$NON-NLS-1$
+								buffer.append("N"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							} else {
-								buffer.append("KN"); //$NON-NLS-1$
+								buffer.append("KN"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
 						}
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta38, hashable, offset + 1, 2) && !has95) {
-						buffer.append("KL"); //$NON-NLS-1$
+						buffer.append("KL"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if ((offset == 0) && ((hashable[offset + 1] == 'Y') || hasOneOf(meta39, hashable, offset + 1, 2))) {
-						buffer.append('K');
+						buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if ((hasOneOf(meta40, hashable, offset + 1, 2) || (hashable[offset + 1] == 'Y')) && !hasOneOf(meta41, hashable, 0, 6) && !hasOneOf(meta42, hashable, offset - 1, 1) && !hasOneOf(meta43, hashable, offset - 1, 3)) {
-						buffer.append('K');
+						buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta44, hashable, offset + 1, 1) || hasOneOf(meta45, hashable, offset - 1, 4)) {
 						if (hasOneOf(meta46, hashable, 0, 4) || hasOneOf(meta47, hashable, 0, 3) || hasOneOf(meta48, hashable, offset + 1, 2)) {
-							buffer.append('K');
+							buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							buffer.append('J');
+							buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 						offset += 2;
 						break;
@@ -418,11 +418,11 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('K');
+					buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'H' :
 					if (((offset == 0) || hasVowel(hashable, offset - 1, hashable.length)) && hasVowel(hashable, offset + 1, hashable.length)) {
-						buffer.append('H');
+						buffer.append('H'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 					} else {
 						offset += 1;
@@ -431,20 +431,20 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 				case 'J' :
 					if (hasOneOf(meta50, hashable, offset, 4) || hasOneOf(meta51, hashable, 0, 4)) {
 						if ((offset == 0) && (hashable[offset + 4] == ' ') || hasOneOf(meta52, hashable, 0, 4)) {
-							buffer.append('H');
+							buffer.append('H'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							buffer.append('J');
+							buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 						offset += 1;
 						break;
 					}
 					if ((offset == 0) && !hasOneOf(meta53, hashable, offset, 4)) {
-						buffer.append('J');
+						buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else if (hasVowel(hashable, offset - 1, hashable.length) && !has95 && ((hashable[offset + 1] == 'A') || hashable[offset + 1] == 'O')) {
-						buffer.append('J');
+						buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else if ((offset == hashable.length - 1)
 							|| (!hasOneOf(meta54, hashable, offset + 1, 1) && !hasOneOf(meta55, hashable, offset - 1, 1))) {
-						buffer.append('J');
+						buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					if (hashable[offset + 1] == 'J')
 						offset += 2;
@@ -456,41 +456,41 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('K');
+					buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'L' :
 					if (hashable[offset + 1] == 'L') {
 						if (((offset == (hashable.length - 3)) && hasOneOf(meta56, hashable, offset - 1, 4)) || ((hasOneOf(meta57, hashable, (hashable.length - 1) - 1, 2) || hasOneOf(meta58, hashable, hashable.length - 1, 1)) && hasOneOf(meta59, hashable, offset - 1, 4))) {
-							buffer.append('L');
+							buffer.append('L'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 2;
 							break;
 						}
 						offset += 2;
 					} else
 						offset += 1;
-					buffer.append('L');
+					buffer.append('L'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'M' :
 					if ((hasOneOf(meta60, hashable, offset - 1, 3) && (((offset + 1) == (hashable.length - 1)) || hasOneOf(meta61, hashable, offset + 2, 2))) || (hashable[offset + 1] == 'M'))
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('M');
+					buffer.append('M'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'N' :
 					if (hashable[offset + 1] == 'N')
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('N');
+					buffer.append('N'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case '\u00D1' :
 					offset += 1;
-					buffer.append('N');
+					buffer.append('N'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'P' :
 					if (hashable[offset + 1] == 'N') {
-						buffer.append('F');
+						buffer.append('F'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
@@ -498,21 +498,21 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('P');
+					buffer.append('P'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'Q' :
 					if (hashable[offset + 1] == 'Q')
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('K');
+					buffer.append('K'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'R' :
 					if ((offset != (hashable.length - 1))
 							|| has95
 							|| !hasOneOf(meta63, hashable, offset - 2, 2)
 							|| hasOneOf(meta64, hashable, offset - 4, 2))
-						buffer.append('R');
+						buffer.append('R'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (hashable[offset + 1] == 'R')
 						offset += 2;
 					else
@@ -524,25 +524,25 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						break;
 					}
 					if ((offset == 0) && hasOneOf(meta66, hashable, offset, 5)) {
-						buffer.append('X');
+						buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 1;
 						break;
 					}
 					if (hasOneOf(meta67, hashable, offset, 2)) {
 						if (hasOneOf(meta68, hashable, offset + 1, 4))
-							buffer.append('S');
+							buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						else
-							buffer.append('X');
+							buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if (hasOneOf(meta69, hashable, offset, 3) || hasOneOf(meta70, hashable, offset, 4)) {
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 3;
 						break;
 					}
 					if (((offset == 0) && hasOneOf(meta71, hashable, offset + 1, 1)) || hasOneOf(meta72, hashable, offset + 1, 1)) {
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						if (hasOneOf(meta73, hashable, offset + 1, 1))
 							offset += 2;
 						else
@@ -553,28 +553,28 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						if (hashable[offset + 2] == 'H')
 							if (hasOneOf(meta75, hashable, offset + 3, 2)) {
 								if (hasOneOf(meta76, hashable, offset + 3, 2)) {
-									buffer.append("X"); //$NON-NLS-1$
+									buffer.append("X"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								} else {
-									buffer.append("SK"); //$NON-NLS-1$
+									buffer.append("SK"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								}
 								offset += 3;
 								break;
 							} else {
-								buffer.append('X');
+								buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								offset += 3;
 								break;
 							}
 						if (hasOneOf(meta77, hashable, offset + 2, 1)) {
-							buffer.append('S');
+							buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							offset += 3;
 							break;
 						}
-						buffer.append("SK"); //$NON-NLS-1$
+						buffer.append("SK"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 3;
 						break;
 					}
 					if ((offset != (hashable.length - 1)) || !hasOneOf(meta78, hashable, offset - 2, 2))
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (hasOneOf(meta79, hashable, offset + 1, 1))
 						offset += 2;
 					else
@@ -582,20 +582,20 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 					break;
 				case 'T' :
 					if (hasOneOf(meta80, hashable, offset, 4)) {
-						buffer.append('X');
+						buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 3;
 						break;
 					}
 					if (hasOneOf(meta81, hashable, offset, 3)) {
-						buffer.append('X');
+						buffer.append('X'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 3;
 						break;
 					}
 					if (hasOneOf(meta82, hashable, offset, 2) || hasOneOf(meta83, hashable, offset, 3)) {
 						if (hasOneOf(meta84, hashable, (offset + 2), 2) || hasOneOf(meta85, hashable, 0, 4) || hasOneOf(meta86, hashable, 0, 3)) {
-							buffer.append('T');
+							buffer.append('T'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							buffer.append('0');
+							buffer.append('0'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 						offset += 2;
 						break;
@@ -604,31 +604,31 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 						offset += 2;
 					} else
 						offset += 1;
-					buffer.append('T');
+					buffer.append('T'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'V' :
 					if (hashable[offset + 1] == 'V')
 						offset += 2;
 					else
 						offset += 1;
-					buffer.append('F');
+					buffer.append('F'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'W' :
 					if (hasOneOf(meta88, hashable, offset, 2)) {
-						buffer.append('R');
+						buffer.append('R'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					}
 					if ((offset == 0) && (hasVowel(hashable, offset + 1, hashable.length) || hasOneOf(meta89, hashable, offset, 2))) {
-						buffer.append('A');
+						buffer.append('A'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					if (((offset == (hashable.length - 1)) && hasVowel(hashable, offset - 1, hashable.length)) || hasOneOf(meta90, hashable, offset - 1, 5) || hasOneOf(meta91, hashable, 0, 3)) {
-						buffer.append('F');
+						buffer.append('F'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 1;
 						break;
 					}
 					if (hasOneOf(meta92, hashable, offset, 4)) {
-						buffer.append("TS"); //$NON-NLS-1$
+						buffer.append("TS"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 4;
 						break;
 					}
@@ -636,7 +636,7 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 					break;
 				case 'X' :
 					if ((offset != (hashable.length - 1)) || (!hasOneOf(meta93, hashable, offset - 3, 3) && !hasOneOf(meta94, hashable, offset - 2, 2)))
-						buffer.append("KS"); //$NON-NLS-1$
+						buffer.append("KS"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (hasOneOf(meta49, hashable, offset + 1, 1))
 						offset += 2;
 					else
@@ -644,11 +644,11 @@ public final class DefaultPhoneticHashProvider implements IPhoneticHashProvider 
 					break;
 				case 'Z' :
 					if (hashable[offset + 1] == 'H') {
-						buffer.append('J');
+						buffer.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						offset += 2;
 						break;
 					} else {
-						buffer.append('S');
+						buffer.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					if (hashable[offset + 1] == 'Z')
 						offset += 2;

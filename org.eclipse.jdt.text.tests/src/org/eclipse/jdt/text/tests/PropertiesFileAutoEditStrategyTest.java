@@ -71,7 +71,7 @@ public class PropertiesFileAutoEditStrategyTest {
 	}
 
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		try {
 			fJProject1= pts.getProject();

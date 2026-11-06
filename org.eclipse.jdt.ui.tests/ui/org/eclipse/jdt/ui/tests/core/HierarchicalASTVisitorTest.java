@@ -410,18 +410,18 @@ public class HierarchicalASTVisitorTest {
 			try {
 				TestHierarchicalASTVisitor.class.getDeclaredMethod(getVisitMethodName(isEndVisit), clazz);
 			} catch (NoSuchMethodException e) {
-				fail("Test must be updated since TestHierarchicalASTVisitor (declared within test class), is missing a method corresponding to non-leaf node class '" + getSimpleName(clazz) + "'");
+				fail("Test must be updated since TestHierarchicalASTVisitor (declared within test class), is missing a method corresponding to non-leaf node class '" + getSimpleName(clazz) + "'"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			try {
 				TestHierarchicalASTVisitor.class.getDeclaredMethod(getSuperVisitName(isEndVisit), clazz);
 			} catch (NoSuchMethodException e) {
-				fail("Test must be updated since TestHierarchicalASTVisitor (declared within test class), is missing a method corresponding to non-leaf node class '" + getSimpleName(clazz) + "'");
+				fail("Test must be updated since TestHierarchicalASTVisitor (declared within test class), is missing a method corresponding to non-leaf node class '" + getSimpleName(clazz) + "'"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
 		private Class<? extends ASTNode> fNodeClassForCalledMethod= null;
 
-		private void _checkMethodCallsSuperclassMethod(Class<? extends ASTNode> clazz, boolean isLeaf, boolean isEndVisit) {
+		private void _checkMethodCallsSuperclassMethod(Class<? extends ASTNode> clazz, boolean isLeaf, boolean isEndVisit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			/* Invoke a method which will result in the execution of
 			 * HierarchicalASTVisitor's implementation of visit(XX), where
 			 * XX is the name of clazz.
@@ -467,7 +467,7 @@ public class HierarchicalASTVisitorTest {
 			assertEquals(getSuperMethodNotCalledMessageFor(clazz, isEndVisit), clazz.getSuperclass(), fNodeClassForCalledMethod);
 		}
 		private String getSuperMethodNotCalledMessageFor(Class<? extends ASTNode> clazz, boolean isEndVisit) {
-			return getMethodSignatureFor(clazz, isEndVisit) + " in HierarchicalASTVisitor should call " + getMethodSignatureFor(clazz.getSuperclass(), isEndVisit) + ", the visitor method for its superclass.";
+			return getMethodSignatureFor(clazz, isEndVisit) + " in HierarchicalASTVisitor should call " + getMethodSignatureFor(clazz.getSuperclass(), isEndVisit) + ", the visitor method for its superclass."; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		private void registerCall(Class<? extends ASTNode> nodeClassForMethod) {
@@ -509,7 +509,7 @@ public class HierarchicalASTVisitorTest {
 	 * that are needed to properly maintain the set of methods.
 	 */
 	private void checkAllMethodsForHierarchyExist(Iterator<Class<? extends ASTNode>> hierarchyClasses, boolean isEndVisit) {
-		while (hierarchyClasses.hasNext()) {
+		while (hierarchyClasses.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class<? extends ASTNode> descendant= hierarchyClasses.next();
 			checkHierarchicalASTVisitorMethodExistsFor(descendant, isEndVisit);
 			if (!isLeaf(descendant))
@@ -525,7 +525,7 @@ public class HierarchicalASTVisitorTest {
 	 * TestHierarchicalASTVisitor.
 	 */
 	private void checkMethodsCallSuperclassMethod(Iterator<Class<? extends ASTNode>> hierarchyClasses, boolean isEndVisit) {
-		while (hierarchyClasses.hasNext()) {
+		while (hierarchyClasses.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class<? extends ASTNode> descendant= hierarchyClasses.next();
 			if (!ASTNode.class.equals(descendant))
 				TestHierarchicalASTVisitor.checkMethodCallsSuperclassMethod(descendant, isLeaf(descendant), isEndVisit);
@@ -537,8 +537,8 @@ public class HierarchicalASTVisitorTest {
 		try {
 			HierarchicalASTVisitor.class.getDeclaredMethod(getVisitMethodName(isEndVisit), nodeClass);
 		} catch (NoSuchMethodException e) {
-			String signature= getVisitMethodName(isEndVisit) + "(" + getSimpleName(nodeClass) + ")";
-			fail("HierarchicalASTVisitor must be updated to reflect a change in the ASTNode hierarchy.  No method " + signature + " was found in HierarchicalASTVisitor.");
+			String signature= getVisitMethodName(isEndVisit) + "(" + getSimpleName(nodeClass) + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			fail("HierarchicalASTVisitor must be updated to reflect a change in the ASTNode hierarchy.  No method " + signature + " was found in HierarchicalASTVisitor."); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -556,7 +556,7 @@ public class HierarchicalASTVisitorTest {
 	}
 
 	private static String getMethodSignatureFor(Class<?> clazz, boolean isEndVisit) {
-		return getVisitMethodName(isEndVisit) + "(" + getSimpleName(clazz) + ")";
+		return getVisitMethodName(isEndVisit) + "(" + getSimpleName(clazz) + ")"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -565,21 +565,21 @@ public class HierarchicalASTVisitorTest {
 	 * and all the elements of <code>leaves</code>.
 	 */
 	private static Set<Class<? extends ASTNode>> computeAllDescendantsFromLeaves(Iterator<Class<? extends ASTNode>> leaves, Class<? extends ASTNode> root) {
-		Set<Class<? extends ASTNode>> all= new HashSet<>();
-		while (leaves.hasNext()) {
+		Set<Class<? extends ASTNode>> all= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		while (leaves.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Class<? extends ASTNode> leaf= leaves.next();
 			addAllAncestorsInclusive(leaf, root, all);
 		}
 		return all;
 	}
 
-	private static void addAllAncestorsInclusive(Class<? extends ASTNode> from, Class<? extends ASTNode> to, Set<Class<? extends ASTNode>> set) {
+	private static void addAllAncestorsInclusive(Class<? extends ASTNode> from, Class<? extends ASTNode> to, Set<Class<? extends ASTNode>> set) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(to.isAssignableFrom(from));
 		Assert.isTrue(!from.isInterface());
 		Assert.isTrue(!to.isInterface());
 
 		Class<?> ancestor= from;
-		while (!ancestor.equals(to)) {
+		while (!ancestor.equals(to)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			@SuppressWarnings("unchecked")
 			Class<? extends ASTNode> nodeType= (Class<? extends ASTNode>) ancestor;
 			set.add(nodeType);
@@ -605,8 +605,8 @@ public class HierarchicalASTVisitorTest {
 	 * semantically, not be able to provide anyway!).
 	 */
 	private static Set<Class<? extends ASTNode>> getLeafASTNodeDescendants() {
-		Set<Class<? extends ASTNode>> result= new HashSet<>();
-		for (Method method : ASTVisitor.class.getMethods()) {
+		Set<Class<? extends ASTNode>> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Method method : ASTVisitor.class.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isVisitMethod(method)) {
 				@SuppressWarnings("unchecked")
 					Class<? extends ASTNode> nodeType= (Class<? extends ASTNode>) method.getParameterTypes()[0];

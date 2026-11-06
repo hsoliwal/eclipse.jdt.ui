@@ -128,7 +128,7 @@ class SourceFirstPackageSelectionDialogField {
 		}
 	}
 
-	private IPackageFragmentRoot chooseSourceContainer(IJavaElement initElement) {
+	private IPackageFragmentRoot chooseSourceContainer(IJavaElement initElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IPackageFragmentRoot.class, IJavaProject.class };
 		TypedElementSelectionValidator validator= new TypedElementSelectionValidator(acceptedClasses, false) {
 			@Override
@@ -150,7 +150,7 @@ class SourceFirstPackageSelectionDialogField {
 		};
 
 		acceptedClasses= new Class[] { IJavaModel.class, IPackageFragmentRoot.class, IJavaProject.class };
-		ViewerFilter filter= new TypedViewerFilter(acceptedClasses) {
+		ViewerFilter filter= new TypedViewerFilter(acceptedClasses) { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parent, Object element) {
 				if (element instanceof IPackageFragmentRoot) {
@@ -172,7 +172,7 @@ class SourceFirstPackageSelectionDialogField {
 		dialog.setComparator(new JavaElementComparator());
 		dialog.setTitle(NLSUIMessages.SourceFirstPackageSelectionDialogField_ChooseSourceContainerDialog_title);
 		dialog.setMessage(NLSUIMessages.SourceFirstPackageSelectionDialogField_ChooseSourceContainerDialog_description);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()));
 		dialog.setInitialSelection(initElement);
 

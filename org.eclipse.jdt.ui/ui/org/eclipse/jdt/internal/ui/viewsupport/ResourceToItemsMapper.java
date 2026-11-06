@@ -48,7 +48,7 @@ public class ResourceToItemsMapper {
 	private IContentViewerAccessor fContentViewerAccess;
 
 	public ResourceToItemsMapper(IContentViewerAccessor viewer) {
-		fResourceToItem= new HashMap<>();
+		fResourceToItem= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fReuseLists= new Stack<>();
 
 		fContentViewerAccess= viewer;
@@ -67,7 +67,7 @@ public class ResourceToItemsMapper {
 		} else { // List of Items
 			@SuppressWarnings("unchecked")
 			List<Item> list= (List<Item>) obj;
-			for (Item element : list) {
+			for (Item element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				updateItem(element);
 			}
 		}
@@ -84,7 +84,7 @@ public class ResourceToItemsMapper {
 	 * @param element Element to map
 	 * @param item The item used for the element
 	 */
-	public void addToMap(Object element, Item item) {
+	public void addToMap(Object element, Item item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= getCorrespondingResource(element);
 		if (resource != null) {
 			Object existingMapping= fResourceToItem.get(resource);
@@ -112,7 +112,7 @@ public class ResourceToItemsMapper {
 	 * @param element The data element
 	 * @param item The table or tree item
 	 */
-	public void removeFromMap(Object element, Item item) {
+	public void removeFromMap(Object element, Item item) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= getCorrespondingResource(element);
 		if (resource != null) {
 			Object existingMapping= fResourceToItem.get(resource);
@@ -136,7 +136,7 @@ public class ResourceToItemsMapper {
 		if (!fReuseLists.isEmpty()) {
 			return fReuseLists.pop();
 		}
-		return new ArrayList<>(2);
+		return new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	private void releaseList(List<Item> list) {

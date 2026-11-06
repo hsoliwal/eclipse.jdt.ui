@@ -29,7 +29,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * tooltip will be initialized by default. To use it, register IPropertyChangeListener and check for
  * IAction.CHECKED event name.
  */
-public abstract class DefaultToggleAction extends Action implements IPropertyChangeListener {
+public abstract class DefaultToggleAction extends Action implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	private static final String ACTION = "action"; //$NON-NLS-1$
 
@@ -91,10 +91,10 @@ public abstract class DefaultToggleAction extends Action implements IPropertyCha
 		setImageDescriptor(AbstractUIPlugin
 				.imageDescriptorFromPlugin(
 						BytecodeOutlinePlugin.getDefault().getBundle().getSymbolicName(),
-						Messages.getResourceString(ACTION + "_" + myId + "_" + IMAGE))); //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.getResourceString(ACTION + "_" + myId + "_" + IMAGE))); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		setText(Messages.getResourceString(ACTION + "_" + myId + "_" + TEXT)); //$NON-NLS-1$ //$NON-NLS-2$
-		setToolTipText(Messages.getResourceString(ACTION + "_" + myId + "_" + TOOL_TIP_TEXT)); //$NON-NLS-1$ //$NON-NLS-2$
+		setText(Messages.getResourceString(ACTION + "_" + myId + "_" + TEXT)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		setToolTipText(Messages.getResourceString(ACTION + "_" + myId + "_" + TOOL_TIP_TEXT)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

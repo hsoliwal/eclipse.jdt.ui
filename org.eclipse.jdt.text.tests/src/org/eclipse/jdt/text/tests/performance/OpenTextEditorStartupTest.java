@@ -67,15 +67,15 @@ public class OpenTextEditorStartupTest extends StartupPerformanceTestCase {
 
 	private static final String SHORT_NAME= "Eclipse SDK startup with text editor open in Java perspective";
 
-	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout";
+	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String ORIG_SUFFIX= ".java";
 
 	private static final String SUFFIX= ".txt";
 
-	private static final String ORIG_FILE= PREFIX + ORIG_SUFFIX;
+	private static final String ORIG_FILE= PREFIX + ORIG_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String FILE= PREFIX + SUFFIX;
+	private static final String FILE= PREFIX + SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static Test suite() {
 		return new PerformanceTestSetup(new Setup(new TestSuite(THIS)));

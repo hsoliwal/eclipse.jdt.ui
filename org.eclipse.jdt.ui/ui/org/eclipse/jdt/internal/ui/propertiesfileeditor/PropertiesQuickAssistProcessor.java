@@ -82,7 +82,7 @@ public class PropertiesQuickAssistProcessor {
 	}
 
 	public static ICompletionProposal[] collectAssists(PropertiesAssistContext invocationContext) throws BadLocationException, BadPartitioningException {
-		ArrayList<ICompletionProposal> resultingCollections= new ArrayList<>();
+		ArrayList<ICompletionProposal> resultingCollections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		getEscapeUnescapeBackslashProposals(invocationContext, resultingCollections);
 		getCreateFieldsInAccessorClassProposals(invocationContext, resultingCollections);
@@ -94,7 +94,7 @@ public class PropertiesQuickAssistProcessor {
 		return resultingCollections.toArray(new ICompletionProposal[resultingCollections.size()]);
 	}
 
-	private static boolean getEscapeUnescapeBackslashProposals(IQuickAssistInvocationContext invocationContext, ArrayList<ICompletionProposal> resultingCollections) throws BadLocationException,
+	private static boolean getEscapeUnescapeBackslashProposals(IQuickAssistInvocationContext invocationContext, ArrayList<ICompletionProposal> resultingCollections) throws BadLocationException, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			BadPartitioningException {
 		ISourceViewer sourceViewer= invocationContext.getSourceViewer();
 		IDocument document= sourceViewer.getDocument();
@@ -155,12 +155,12 @@ public class PropertiesQuickAssistProcessor {
 		return false;
 	}
 
-	private static boolean getCreateFieldsInAccessorClassProposals(PropertiesAssistContext invocationContext, ArrayList<ICompletionProposal> resultingCollections)
+	private static boolean getCreateFieldsInAccessorClassProposals(PropertiesAssistContext invocationContext, ArrayList<ICompletionProposal> resultingCollections) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws BadLocationException, BadPartitioningException {
 		IDocument document= invocationContext.getDocument();
 		int selectionOffset= invocationContext.getOffset();
 		int selectionLength= invocationContext.getLength();
-		List<String> fields= new ArrayList<>();
+		List<String> fields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IType accessorClass= invocationContext.getAccessorType();
 		if (accessorClass == null || !isEclipseNLSUsed(accessorClass))
@@ -170,7 +170,7 @@ public class PropertiesQuickAssistProcessor {
 		if (keys == null || keys.isEmpty())
 			return false;
 
-		for (String key : keys) {
+		for (String key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isValidJavaIdentifier(key))
 				continue;
 			IField field= accessorClass.getField(key);
@@ -200,19 +200,19 @@ public class PropertiesQuickAssistProcessor {
 		if (!Character.isJavaIdentifierStart(key.charAt(0)))
 			return false;
 
-		for (int i= 1, length= key.length(); i < length; i++) {
+		for (int i= 1, length= key.length(); i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Character.isJavaIdentifierPart(key.charAt(i)))
 				return false;
 		}
 		return true;
 	}
 
-	private static boolean getRemovePropertiesProposals(PropertiesAssistContext invocationContext, ArrayList<ICompletionProposal> resultingCollections)
+	private static boolean getRemovePropertiesProposals(PropertiesAssistContext invocationContext, ArrayList<ICompletionProposal> resultingCollections) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws BadLocationException, BadPartitioningException {
 		IDocument document= invocationContext.getDocument();
 		int selectionOffset= invocationContext.getOffset();
 		int selectionLength= invocationContext.getLength();
-		List<String> fields= new ArrayList<>();
+		List<String> fields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IFile file= invocationContext.getFile();
 		if (file == null)
@@ -228,7 +228,7 @@ public class PropertiesQuickAssistProcessor {
 		if (resultingCollections == null)
 			return true;
 
-		for (String key : keys) {
+		for (String key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IField field= accessorClass.getField(key);
 			if (field.exists())
 				fields.add(key);
@@ -256,7 +256,7 @@ public class PropertiesQuickAssistProcessor {
 		return true;
 	}
 
-	private static boolean getRenameKeysProposals(PropertiesAssistContext invocationContext, ArrayList<ICompletionProposal> resultingCollections)
+	private static boolean getRenameKeysProposals(PropertiesAssistContext invocationContext, ArrayList<ICompletionProposal> resultingCollections) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws BadLocationException, BadPartitioningException {
 		ISourceViewer sourceViewer= invocationContext.getSourceViewer();
 		IDocument document= invocationContext.getDocument();
@@ -298,9 +298,9 @@ public class PropertiesQuickAssistProcessor {
 		}
 	}
 
-	private static List<String> getKeysFromSelection(IDocument document, int selectionOffset, int selectionLength) throws BadLocationException,
+	private static List<String> getKeysFromSelection(IDocument document, int selectionOffset, int selectionLength) throws BadLocationException, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			BadPartitioningException {
-		List<String> keys= new ArrayList<>();
+		List<String> keys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String selection= document.get(selectionOffset, (selectionLength == 0) ? 1 : selectionLength).trim();
 		if (selection.length() == 0)
 			return null;
@@ -322,7 +322,7 @@ public class PropertiesQuickAssistProcessor {
 			int offset= selectionOffset;
 			int endOffset= selectionOffset + selectionLength;
 
-			while (offset < endOffset) {
+			while (offset < endOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypedRegion partition= null;
 				if (document instanceof IDocumentExtension3)
 					partition= ((IDocumentExtension3) document).getPartition(IPropertiesFilePartitions.PROPERTIES_FILE_PARTITIONING, offset, false);
@@ -345,7 +345,7 @@ public class PropertiesQuickAssistProcessor {
 		return keys;
 	}
 
-	private static class RemovePropertiesProposal extends ChangeCorrectionProposal {
+	private static class RemovePropertiesProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final Change[] fChanges;
 
@@ -359,12 +359,12 @@ public class PropertiesQuickAssistProcessor {
 			return new CompositeChange(getName(), fChanges);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object getAdditionalProposalInfo(IProgressMonitor monitor) {
 			final StringBuffer buf= new StringBuffer();
 
 			try {
-				for (Change changeObj : fChanges) {
+				for (Change changeObj : fChanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (changeObj instanceof TextChange) {
 						TextChange change= (TextChange) changeObj;
 						String filename= getFileName(change);
@@ -406,7 +406,7 @@ public class PropertiesQuickAssistProcessor {
 		}
 	}
 
-	private static class RenameKeyProposal extends ChangeCorrectionProposal {
+	private static class RenameKeyProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final IField fField;
 

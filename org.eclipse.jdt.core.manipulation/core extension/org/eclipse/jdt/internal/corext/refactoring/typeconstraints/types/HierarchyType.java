@@ -41,7 +41,7 @@ public abstract class HierarchyType extends TType {
 		}
 		ITypeBinding[] interfaces= binding.getInterfaces();
 		fInterfaces= new HierarchyType[interfaces.length];
-		for (int i= 0; i < interfaces.length; i++) {
+		for (int i= 0; i < interfaces.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fInterfaces[i]= (HierarchyType)environment.create(interfaces[i]);
 		}
 	}
@@ -62,7 +62,7 @@ public abstract class HierarchyType extends TType {
 
 	public boolean isSubType(HierarchyType other) {
 		if (getEnvironment() == other.getEnvironment()) {
-			Map<TypeTuple, Boolean> cache= getEnvironment().getSubTypeCache();
+			Map<TypeTuple, Boolean> cache= getEnvironment().getSubTypeCache(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			TypeTuple key= new TypeTuple(this, other);
 			Boolean value= cache.get(key);
 			if (value != null)
@@ -78,7 +78,7 @@ public abstract class HierarchyType extends TType {
 	private boolean doIsSubType(HierarchyType other) {
 		if (fSuperclass != null && (other.isTypeEquivalentTo(fSuperclass) || fSuperclass.doIsSubType(other)))
 			return true;
-		for (HierarchyType intf : fInterfaces) {
+		for (HierarchyType intf : fInterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (other.isTypeEquivalentTo(intf) || intf.doIsSubType(other)) {
 				return true;
 			}

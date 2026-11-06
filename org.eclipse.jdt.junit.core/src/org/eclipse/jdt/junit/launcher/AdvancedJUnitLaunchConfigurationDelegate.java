@@ -20,7 +20,7 @@ package org.eclipse.jdt.junit.launcher;
  * @since 3.10
  * @provisional This is part of work in progress and can be changed, moved or removed without notice
  */
-public class AdvancedJUnitLaunchConfigurationDelegate extends JUnitLaunchConfigurationDelegate {
+public class AdvancedJUnitLaunchConfigurationDelegate extends JUnitLaunchConfigurationDelegate { //FLLDCIM: MARK — T27  IMPLEMENTS
 
 	public AdvancedJUnitLaunchConfigurationDelegate() {
 		super();

@@ -52,7 +52,7 @@ public class UseSupertypeWherePossibleTests extends GenericRefactoringTest {
 	@Before
 	public void before() throws Exception {
 		StubUtility.setCodeTemplate(CodeTemplateContextType.NEWTYPE_ID,
-				"${package_declaration}" +
+				"${package_declaration}" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					System.getProperty("line.separator", "\n") +
 				"${"+ CodeTemplateContextType.TYPE_COMMENT+"}" +
 				System.getProperty("line.separator", "\n") +
@@ -65,10 +65,10 @@ public class UseSupertypeWherePossibleTests extends GenericRefactoringTest {
 		return getType(createCUfromTestFile(pack, className), className);
 	}
 
-	private void validatePassingTest(String className, String[] cuNames, String superTypeFullName, boolean replaceInstanceOf) throws Exception {
+	private void validatePassingTest(String className, String[] cuNames, String superTypeFullName, boolean replaceInstanceOf) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IType subType= getClassFromTestFile(getPackageP(), className);
 		final ICompilationUnit[] units= new ICompilationUnit[cuNames.length];
-		for (int i= 0; i < cuNames.length; i++) {
+		for (int i= 0; i < cuNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cuNames[i].equals(subType.getCompilationUnit().findPrimaryType().getElementName()))
 				units[i]= subType.getCompilationUnit();
 			else
@@ -86,10 +86,10 @@ public class UseSupertypeWherePossibleTests extends GenericRefactoringTest {
 		assertNotNull("refactoring should not be null", refactoring);
 		assertNull("was supposed to pass", performRefactoring(refactoring));
 
-		for (int i= 0; i < units.length; i++) {
+		for (int i= 0; i < units.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String expected= getFileContents(getOutputTestFileName(cuNames[i]));
 			String actual= units[i].getSource();
-			String message= "incorrect changes in " + units[i].getElementName();
+			String message= "incorrect changes in " + units[i].getElementName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertEqualLines(message, expected, actual);
 		}
 	}

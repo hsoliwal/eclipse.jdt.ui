@@ -30,7 +30,7 @@ import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
  *
  * @since 3.1
  */
-public class OpenAction extends SelectionDispatchAction {
+public class OpenAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 
 	private PropertiesFileEditor fEditor;

@@ -127,7 +127,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class AddGetterSetterAction extends SelectionDispatchAction {
+public class AddGetterSetterAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private boolean fSort;
 
@@ -191,7 +191,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		try {
 			IField[] selectedFields= getSelectedFields(selection);
@@ -250,7 +250,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		if (fields == null || fields.length == 0)
 			return false;
 		int count= 0;
-		for (IField field : fields) {
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!JdtFlags.isEnum(field)) {
 				count++;
 			}
@@ -268,7 +268,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		fNumEntries++;
 	}
 
-	private void run(IType type, IField[] preselected, boolean editor) throws CoreException {
+	private void run(IType type, IField[] preselected, boolean editor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isAnnotation()) {
 			MessageDialog.openInformation(getShell(), DIALOG_TITLE, ActionMessages.AddGetterSetterAction_annotation_not_applicable);
 			notifyResult(false);
@@ -350,14 +350,14 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			fEntries= entries;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus validate(Object[] selection) {
 			// https://bugs.eclipse.org/bugs/show_bug.cgi?id=38478
 			int selectedCount= 0;
 			int possibleDuplicateCount= 0;
 			if ((selection != null) && (selection.length > 1)) {
-				HashSet<Object> map= new HashSet<>(selection.length);
-				for (Object element : selection) {
+				HashSet<Object> map= new HashSet<>(selection.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						if (element instanceof GetterSetterEntry) {
 							Object key= element;
@@ -399,12 +399,12 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	 * @throws JavaModelException if getting the field's type signature fails
 	 */
 	private static String createSignatureKey(String methodName, IField field) throws JavaModelException {
-		StringBuilder buffer= new StringBuilder();
-		buffer.append(methodName);
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(methodName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String fieldType= field.getTypeSignature();
 		String signature= Signature.getSimpleName(Signature.toString(fieldType));
-		buffer.append("#"); //$NON-NLS-1$
-		buffer.append(signature);
+		buffer.append("#"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(signature); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buffer.toString();
 	}
@@ -416,8 +416,8 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 
 	// returns a list of fields with setter entries checked
 	private static IField[] getSetterFields(Object[] result, Set<IField> set) {
-		List<IField> list= new ArrayList<>(0);
-		for (Object each : result) {
+		List<IField> list= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object each : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((each instanceof GetterSetterEntry)) {
 				GetterSetterEntry entry= (GetterSetterEntry) each;
 				if (!entry.isGetter) {
@@ -431,8 +431,8 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 
 	// returns a list of fields with getter entries checked
 	private static IField[] getGetterFields(Object[] result, Set<IField> set) {
-		List<IField> list= new ArrayList<>(0);
-		for (Object each : result) {
+		List<IField> list= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object each : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((each instanceof GetterSetterEntry)) {
 				GetterSetterEntry entry= (GetterSetterEntry) each;
 				if (entry.isGetter) {
@@ -445,10 +445,10 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	}
 
 	// returns a list of fields with only getter entries checked
-	private static IField[] getGetterOnlyFields(Object[] result, Set<IField> set) {
-		List<IField> list= new ArrayList<>(0);
+	private static IField[] getGetterOnlyFields(Object[] result, Set<IField> set) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IField> list= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean getterSet= false;
-		for (Object each : result) {
+		for (Object each : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((each instanceof GetterSetterEntry)) {
 				GetterSetterEntry entry= (GetterSetterEntry) each;
 				if (entry.isGetter) {
@@ -467,10 +467,10 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	}
 
 	// returns a list of fields with only setter entries checked
-	private static IField[] getSetterOnlyFields(Object[] result, Set<IField> set) {
-		List<IField> list= new ArrayList<>(0);
+	private static IField[] getSetterOnlyFields(Object[] result, Set<IField> set) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IField> list= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean getterSet= false;
-		for (Object each : result) {
+		for (Object each : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((each instanceof GetterSetterEntry)) {
 				GetterSetterEntry entry= (GetterSetterEntry) each;
 				if (entry.isGetter) {
@@ -488,10 +488,10 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	}
 
 	// returns a list of fields with both entries checked
-	private static IField[] getGetterSetterFields(Object[] result, Set<IField> set) {
-		List<IField> list= new ArrayList<>(0);
+	private static IField[] getGetterSetterFields(Object[] result, Set<IField> set) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IField> list= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean getterSet= false;
-		for (Object each : result) {
+		for (Object each : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((each instanceof GetterSetterEntry)) {
 				GetterSetterEntry entry= (GetterSetterEntry) each;
 				if (entry.isGetter) {
@@ -509,8 +509,8 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	}
 
 	private static List<IField> reorderFields(List<IField> collection, Set<IField> set) {
-		final List<IField> list= new ArrayList<>(collection.size());
-		for (IField field : set) {
+		final List<IField> list= new ArrayList<>(collection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IField field : set) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (collection.contains(field))
 				list.add(field);
 		}
@@ -538,7 +538,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	public void selectionChanged(ITextSelection selection) {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		try {
 			if (!ActionUtil.isProcessable(fEditor)) {
@@ -580,7 +580,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 
 	// ---- Helpers -------------------------------------------------------------------
 
-	private void run(ICompilationUnit cu, IType type, IField[] getterFields, IField[] setterFields, IField[] getterSetterFields, IEditorPart editor, CompilationUnit unit, IJavaElement elementPosition) {
+	private void run(ICompilationUnit cu, IType type, IField[] getterFields, IField[] setterFields, IField[] getterSetterFields, IEditorPart editor, CompilationUnit unit, IJavaElement elementPosition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IRewriteTarget target= editor.getAdapter(IRewriteTarget.class);
 		if (target != null) {
 			target.beginCompoundChange();
@@ -644,7 +644,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			return IRequestQuery.CANCEL;
 		}
 		final int[] result= { Window.CANCEL};
-		shell.getDisplay().syncExec(() -> {
+		shell.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			String title= ActionMessages.AddGetterSetterAction_QueryDialog_title;
 			MessageDialog dialog= new MessageDialog(shell, title, null, message, MessageDialog.QUESTION, buttonLabels, 0);
 			result[0]= dialog.open();
@@ -657,13 +657,13 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	 * Returns fields in the selection or <code>null</code> if the selection is empty or
 	 * not valid.
 	 */
-	private IField[] getSelectedFields(IStructuredSelection selection) {
+	private IField[] getSelectedFields(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> elements= selection.toList();
 		int nElements= elements.size();
 		if (nElements > 0) {
 			IField[] res= new IField[nElements];
 			ICompilationUnit cu= null;
-			for (int i= 0; i < nElements; i++) {
+			for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object curr= elements.get(i);
 				if (curr instanceof IField) {
 					IField fld= (IField) curr;
@@ -711,9 +711,9 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 				GetterSetterEntry entry= (GetterSetterEntry) element;
 				try {
 					if (entry.isGetter) {
-						return GetterSetterUtil.getGetterName(entry.field, null) + "()"; //$NON-NLS-1$
+						return GetterSetterUtil.getGetterName(entry.field, null) + "()"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					} else {
-						return GetterSetterUtil.getSetterName(entry.field, null) + '(' + Signature.getSimpleName(Signature.toString(entry.field.getTypeSignature())) + ')';
+						return GetterSetterUtil.getSetterName(entry.field, null) + '(' + Signature.getSimpleName(Signature.toString(entry.field.getTypeSignature())) + ')'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				} catch (JavaModelException e) {
 					return ""; //$NON-NLS-1$
@@ -749,12 +749,12 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 	 * @throws JavaModelException if the type does not exist or if an exception occurs while
 	 *             accessing its corresponding resource
 	 */
-	private Map<IField, GetterSetterEntry[]> createGetterSetterMapping(IType type) throws JavaModelException {
-		Map<IField, GetterSetterEntry[]> result= new LinkedHashMap<>();
-		for (IField field : type.getFields()) {
+	private Map<IField, GetterSetterEntry[]> createGetterSetterMapping(IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<IField, GetterSetterEntry[]> result= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		for (IField field : type.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int flags= field.getFlags();
 			if (!Flags.isEnum(flags)) {
-				List<GetterSetterEntry> l= new ArrayList<>(2);
+				List<GetterSetterEntry> l= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (GetterSetterUtil.getGetter(field) == null) {
 					l.add(new GetterSetterEntry(field, true, Flags.isFinal(flags)));
 					incNumEntries();
@@ -770,10 +770,10 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			}
 		}
 		if (type.isRecord()) {
-			for (IField field : type.getRecordComponents()) {
+			for (IField field : type.getRecordComponents()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int flags= field.getFlags();
 				if (!Flags.isEnum(flags)) {
-					List<GetterSetterEntry> l= new ArrayList<>(1);
+					List<GetterSetterEntry> l= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (GetterSetterUtil.getGetter(field) == null) {
 						l.add(new GetterSetterEntry(field, true, Flags.isFinal(flags)));
 						incNumEntries();
@@ -787,7 +787,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		return result;
 	}
 
-	private static class AddGetterSetterContentProvider implements ITreeContentProvider {
+	private static class AddGetterSetterContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private static final Object[] EMPTY= new Object[0];
 
@@ -852,7 +852,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		}
 	}
 
-	private static class SettersForFinalFieldsFilter extends ViewerFilter {
+	private static class SettersForFinalFieldsFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		private final AddGetterSetterContentProvider fContentProvider;
 
@@ -866,7 +866,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 				GetterSetterEntry getterSetterEntry= (GetterSetterEntry) element;
 				return getterSetterEntry.isGetter || !getterSetterEntry.isFinal;
 			} else if (element instanceof IField) {
-				for (Object child : fContentProvider.getChildren(element)) {
+				for (Object child : fContentProvider.getChildren(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					GetterSetterEntry curr= (GetterSetterEntry) child;
 					if (curr.isGetter || !curr.isFinal) {
 						return true;
@@ -898,10 +898,10 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		private ArrayList<GetterSetterEntry> fPreviousSelectedFinals;
 
 
-		public GetterSetterTreeSelectionDialog(Shell parent, ILabelProvider labelProvider, AddGetterSetterContentProvider contentProvider, CompilationUnitEditor editor, IType type) throws JavaModelException {
+		public GetterSetterTreeSelectionDialog(Shell parent, ILabelProvider labelProvider, AddGetterSetterContentProvider contentProvider, CompilationUnitEditor editor, IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			super(parent, labelProvider, contentProvider, editor, type, false);
 			fContentProvider= contentProvider;
-			fPreviousSelectedFinals= new ArrayList<>();
+			fPreviousSelectedFinals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			// http://bugs.eclipse.org/bugs/show_bug.cgi?id=19253
 			IDialogSettings dialogSettings= JavaPlugin.getDefault().getDialogSettings();
@@ -927,7 +927,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 				fSortOrder= sort;
 				fSettings.put(SORT_ORDER, sort);
 				if (getTreeViewer() != null) {
-					getTreeViewer().refresh();
+					getTreeViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			}
 		}
@@ -945,18 +945,18 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			}
 		}
 
-		public void allowSettersForFinals(boolean allowSettersForFinals) {
+		public void allowSettersForFinals(boolean allowSettersForFinals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fAllowSettersForFinals != allowSettersForFinals) {
 				fAllowSettersForFinals= allowSettersForFinals;
 				fSettings.put(ALLOW_SETTERS_FOR_FINALS, allowSettersForFinals);
 				CheckboxTreeViewer treeViewer= getTreeViewer();
 				if (treeViewer != null) {
-					ArrayList<GetterSetterEntry> newChecked= new ArrayList<>();
+					ArrayList<GetterSetterEntry> newChecked= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (allowSettersForFinals) {
 						newChecked.addAll(fPreviousSelectedFinals);
 					}
 					fPreviousSelectedFinals.clear();
-					for (Object checkedElement : treeViewer.getCheckedElements()) {
+					for (Object checkedElement : treeViewer.getCheckedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (checkedElement instanceof GetterSetterEntry) {
 							GetterSetterEntry entry= (GetterSetterEntry) checkedElement;
 							if (allowSettersForFinals || entry.isGetter || !entry.isFinal) {
@@ -969,7 +969,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 					if (allowSettersForFinals) {
 						treeViewer.removeFilter(fSettersForFinalFieldsFilter);
 					} else {
-						treeViewer.addFilter(fSettersForFinalFieldsFilter);
+						treeViewer.addFilter(fSettersForFinalFieldsFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 					}
 					treeViewer.setCheckedElements(newChecked.toArray());
 				}
@@ -981,7 +981,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		protected CheckboxTreeViewer createTreeViewer(Composite parent) {
 			CheckboxTreeViewer treeViewer= super.createTreeViewer(parent);
 			if (!fAllowSettersForFinals) {
-				treeViewer.addFilter(fSettersForFinalFieldsFilter);
+				treeViewer.addFilter(fSettersForFinalFieldsFilter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 			}
 			return treeViewer;
 		}
@@ -1025,11 +1025,11 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			return entryComposite;
 		}
 
-		private Button addAllowSettersForFinalslCheckbox(Composite entryComposite) {
+		private Button addAllowSettersForFinalslCheckbox(Composite entryComposite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Button allowSettersForFinalsButton= new Button(entryComposite, SWT.CHECK);
 			allowSettersForFinalsButton.setText(ActionMessages.AddGetterSetterAction_allow_setters_for_finals_description);
 
-			allowSettersForFinalsButton.addSelectionListener(new SelectionListener() {
+			allowSettersForFinalsButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean isSelected= (((Button) e.widget).getSelection());
@@ -1045,7 +1045,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			return allowSettersForFinalsButton;
 		}
 
-		private Composite addSortOrder(Composite composite) {
+		private Composite addSortOrder(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Label label= new Label(composite, SWT.NONE);
 			label.setText(ActionMessages.GetterSetterTreeSelectionDialog_sort_label);
 			GridData gd= new GridData(GridData.FILL_BOTH);
@@ -1060,7 +1060,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 			combo.setText(combo.getItem(sort));
 			gd= new GridData(GridData.FILL_BOTH);
 			combo.setLayoutData(gd);
-			combo.addSelectionListener(new SelectionAdapter() {
+			combo.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -1071,9 +1071,9 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		}
 
 		private Object[] getGetterSetterElements(boolean isGetter) {
-			Set<GetterSetterEntry> result= new HashSet<>();
-			for (Object allField : fContentProvider.getElements(null)) {
-				for (GetterSetterEntry entry : getEntries((IField) allField)) {
+			Set<GetterSetterEntry> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (Object allField : fContentProvider.getElements(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (GetterSetterEntry entry : getEntries((IField) allField)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entry.isGetter == isGetter)
 						result.add(entry);
 				}
@@ -1109,7 +1109,7 @@ public class AddGetterSetterAction extends SelectionDispatchAction {
 		protected Control createLinkControl(Composite composite) {
 			Link link= new Link(composite, SWT.WRAP);
 			link.setText(ActionMessages.AddGetterSetterAction_template_link_description);
-			link.addSelectionListener(new SelectionAdapter() {
+			link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					openCodeTempatePage(CodeTemplateContextType.GETTERCOMMENT_ID);

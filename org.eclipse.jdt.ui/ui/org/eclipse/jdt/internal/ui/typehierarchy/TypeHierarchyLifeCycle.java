@@ -54,7 +54,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 /**
  * Manages a type hierarchy, to keep it refreshed, and to allow it to be shared.
  */
-public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IElementChangedListener {
+public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 	private boolean fHierarchyRefreshNeeded;
 	private ITypeHierarchy fHierarchy;
@@ -100,7 +100,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 		fHierarchy= null;
 		fInputElements= null;
 		fIsSuperTypesOnly= isSuperTypesOnly;
-		fChangeListeners= new ArrayList<>(2);
+		fChangeListeners= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public ITypeHierarchy getHierarchy() {
@@ -143,7 +143,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 	}
 
 	private void fireChange(IType[] changedTypes) {
-		for (int i= fChangeListeners.size()-1; i>=0; i--) {
+		for (int i= fChangeListeners.size()-1; i>=0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeHierarchyLifeCycleListener curr= fChangeListeners.get(i);
 			curr.typeHierarchyChanged(this, changedTypes);
 		}
@@ -170,7 +170,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 	 * @throws InvocationTargetException thrown from the <code>JavaModelException</code> if a java element does not exist or if an exception occurs while accessing its corresponding resource
 	 * @since 3.7
 	 */
-	public void ensureRefreshedTypeHierarchy(final IJavaElement[] elements, IRunnableContext context) throws InvocationTargetException, InterruptedException {
+	public void ensureRefreshedTypeHierarchy(final IJavaElement[] elements, IRunnableContext context) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		synchronized (this) {
 			if (fRefreshHierarchyJob != null) {
 				fRefreshHierarchyJob.cancel();
@@ -189,7 +189,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 			freeHierarchy();
 			return;
 		}
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element == null || !element.exists()) {
 				freeHierarchy();
 				return;
@@ -199,7 +199,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 
 		if (hierachyCreationNeeded || fHierarchyRefreshNeeded) {
 			if (fTypeHierarchyViewPart == null) {
-				IRunnableWithProgress op= pm -> {
+				IRunnableWithProgress op= pm -> { //FLLDCIM: MARK — T09  LAMBDA
 					try {
 						doHierarchyRefresh(elements, pm);
 					} catch (JavaModelException e1) {
@@ -271,7 +271,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 	protected void doHierarchyRefreshBackground(final IJavaElement[] elements, final IProgressMonitor pm) throws JavaModelException {
 		doHierarchyRefresh(elements, pm);
 		if (!pm.isCanceled()) {
-			Display.getDefault().asyncExec(() -> {
+			Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				synchronized (TypeHierarchyLifeCycle.this) {
 					if (fRefreshHierarchyJob == null) {
 						return;
@@ -286,7 +286,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 		}
 	}
 
-	private ITypeHierarchy createTypeHierarchy(IJavaElement[] elements, IProgressMonitor pm) throws JavaModelException {
+	private ITypeHierarchy createTypeHierarchy(IJavaElement[] elements, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements.length == 1 && elements[0].getElementType() == IJavaElement.TYPE) {
 			IType type= (IType)elements[0];
 			if (fIsSuperTypesOnly) {
@@ -296,10 +296,10 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 			}
 		} else {
 			IRegion region= JavaCore.newRegion();
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element.getElementType() == IJavaElement.JAVA_PROJECT) {
 					// for projects only add the contained source folders
-					for (IPackageFragmentRoot root : ((IJavaProject) element).getPackageFragmentRoots()) {
+					for (IPackageFragmentRoot root : ((IJavaProject) element).getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!root.isExternal()) {
 							region.add(root);
 						}
@@ -313,7 +313,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 	}
 
 
-	public void doHierarchyRefresh(IJavaElement[] elements, IProgressMonitor pm) throws JavaModelException {
+	public void doHierarchyRefresh(IJavaElement[] elements, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hierachyCreationNeeded= (fHierarchy == null || !Arrays.equals(elements, fInputElements));
 		// to ensure the order of the two listeners always remove / add listeners on operations
 		// on type hierarchies
@@ -333,7 +333,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 				throw new OperationCanceledException();
 		}
 		fHierarchy.addTypeHierarchyChangedListener(this);
-		JavaCore.addElementChangedListener(this);
+		JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		fHierarchyRefreshNeeded= false;
 	}
 
@@ -358,7 +358,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 		if (fHierarchyRefreshNeeded) {
 			return;
 		} else {
-			ArrayList<IType> changedTypes= new ArrayList<>();
+			ArrayList<IType> changedTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			processDelta(event.getDelta(), changedTypes);
 			if (changedTypes.size() > 0) {
 				fireChange(changedTypes.toArray(new IType[changedTypes.size()]));
@@ -369,7 +369,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 	/*
 	 * Assume that the hierarchy is intact (no refresh needed)
 	 */
-	private void processDelta(IJavaElementDelta delta, ArrayList<IType> changedTypes) {
+	private void processDelta(IJavaElementDelta delta, ArrayList<IType> changedTypes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement element= delta.getElement();
 		switch (element.getElementType()) {
 			case IJavaElement.TYPE:
@@ -391,7 +391,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 				if (delta.getKind() == IJavaElementDelta.CHANGED && isPossibleStructuralChange(delta.getFlags())) {
 					try {
 						if (cu.exists()) {
-							for (IType type : cu.getAllTypes()) {
+							for (IType type : cu.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								processTypeDelta(type, changedTypes);
 							}
 						}
@@ -425,7 +425,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 	}
 
 	private void processChildrenDelta(IJavaElementDelta delta, ArrayList<IType> changedTypes) {
-		for (IJavaElementDelta child : delta.getAffectedChildren()) {
+		for (IJavaElementDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(child, changedTypes); // recursive
 		}
 	}

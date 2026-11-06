@@ -117,7 +117,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 		new ReorgCorrectionsSubProcessor().addRemoveImportStatementProposals(context, problem, proposals);
 	}
 
-	public static class ClasspathFixCorrectionProposal extends CUCorrectionProposal {
+	public static class ClasspathFixCorrectionProposal extends CUCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final int fOffset;
 		private final int fLength;
@@ -132,7 +132,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 			fMissingType= missingType;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void apply(IDocument document) {
 			IRunnableContext context= JavaPlugin.getActiveWorkbenchWindow();
 			if (context == null) {
@@ -185,7 +185,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 		return new ReorgCorrectionsSubProcessor().addImportNotFoundProposals(context, problem, proposals);
 	}
 
-	private static final class OpenBuildPathCorrectionProposal extends ChangeCorrectionProposal {
+	private static final class OpenBuildPathCorrectionProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 		private final IProject fProject;
 		private final IBinding fReferencedType;
 		private OpenBuildPathCorrectionProposal(IProject project, String label, int relevance, IBinding referencedType) {
@@ -194,7 +194,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 			fReferencedType= referencedType;
 			setImage(JavaPluginImages.get(JavaPluginImages.IMG_OBJS_ACCESSRULES_ATTRIB));
 		}
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void apply(IDocument document) {
 			Map<Object, Object> data= null;
 			if (fReferencedType != null) {
@@ -205,7 +205,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 						try {
 							IClasspathEntry entry= root.getRawClasspathEntry();
 							if (entry != null) {
-								data= new HashMap<>(1);
+								data= new HashMap<>(1); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 								data.put(BuildPathsPropertyPage.DATA_REVEAL_ENTRY, entry);
 								if (entry.getEntryKind() != IClasspathEntry.CPE_CONTAINER) {
 									data.put(BuildPathsPropertyPage.DATA_REVEAL_ATTRIBUTE_KEY, CPListElement.ACCESSRULES);
@@ -229,7 +229,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 		}
 	}
 
-	private static final class ChangeToRequiredCompilerCompliance extends ChangeCorrectionProposal implements IWorkspaceRunnable {
+	private static final class ChangeToRequiredCompilerCompliance extends ChangeCorrectionProposal implements IWorkspaceRunnable { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private final IJavaProject fProject;
 		private final boolean fChangeOnWorkspace;
@@ -269,7 +269,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 			}
 		}
 
-		private boolean updateJRE( IProgressMonitor monitor) throws CoreException, JavaModelException {
+		private boolean updateJRE( IProgressMonitor monitor) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Caveat: Returns true iff the classpath has not been changed.
 			// If the classpath is changed, JDT Core triggers a build for free.
 			// If the classpath is not changed, we have to trigger a build because we changed
@@ -310,13 +310,13 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public Object getAdditionalProposalInfo(IProgressMonitor monitor) {
-			StringBuilder message= new StringBuilder();
+			StringBuilder message= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (fChangeOnWorkspace) {
-				message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_required_compliance_changeworkspace_description, fRequiredVersion));
+				message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_required_compliance_changeworkspace_description, fRequiredVersion)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_required_compliance_changeproject_description, fRequiredVersion));
+				message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_required_compliance_changeproject_description, fRequiredVersion)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			try {
@@ -326,17 +326,17 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 					if (vmInstall != null) {
 						IVMInstall defaultVM= JavaRuntime.getDefaultVMInstall(); // can be null
 						if (defaultVM != null && !defaultVM.equals(install)) {
-							message.append(CorrectionMessages.ReorgCorrectionsSubProcessor_50_compliance_changeProjectJREToDefault_description);
+							message.append(CorrectionMessages.ReorgCorrectionsSubProcessor_50_compliance_changeProjectJREToDefault_description); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 						if (defaultVM == null || !isRequiredOrGreaterVMInstall(defaultVM)) {
-							message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_50_compliance_changeWorkspaceJRE_description, vmInstall.getName()));
+							message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_50_compliance_changeWorkspaceJRE_description, vmInstall.getName())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 				} else {
 					IExecutionEnvironment bestEE= ClasspathVMUtil.findBestMatchingEE(fRequiredVersion);
 					if (bestEE != null) {
 						if (install == null || !isEEOnClasspath(bestEE)) {
-							message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_50_compliance_changeProjectJRE_description, bestEE.getId()));
+							message.append(Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_50_compliance_changeProjectJRE_description, bestEE.getId())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 				}
@@ -345,9 +345,9 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 			}
 			if (fEnablePreviews) {
 				if (fChangeOnWorkspace) {
-					message.append(CorrectionMessages.PreviewFeaturesSubProcessor_enable_preview_features_workspace_info);
+					message.append(CorrectionMessages.PreviewFeaturesSubProcessor_enable_preview_features_workspace_info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					message.append(CorrectionMessages.PreviewFeaturesSubProcessor_enable_preview_features_info);
+					message.append(CorrectionMessages.PreviewFeaturesSubProcessor_enable_preview_features_info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 			return message.toString();
@@ -356,14 +356,14 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 		private boolean isEEOnClasspath(IExecutionEnvironment ee) throws JavaModelException {
 			IPath eePath= JavaRuntime.newJREContainerPath(ee);
 
-			for (IClasspathEntry entry: fProject.getRawClasspath()) {
+			for (IClasspathEntry entry: fProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.getEntryKind() == IClasspathEntry.CPE_CONTAINER && entry.getPath().equals(eePath))
 					return true;
 			}
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void apply(IDocument document) {
 			if (fChangeOnWorkspace) {
 				Hashtable<String, String> map= JavaCore.getOptions();
@@ -434,7 +434,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 	 * @param enablePreviews --enable-previews option will be enabled if set to true
 	 * @param requiredVersion the minimal required Java compiler version
 	 */
-	static void getNeedHigherComplianceProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals, boolean enablePreviews, String requiredVersion) {
+	static void getNeedHigherComplianceProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals, boolean enablePreviews, String requiredVersion) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= context.getCompilationUnit().getJavaProject();
 		String label1= Messages.format(CorrectionMessages.ReorgCorrectionsSubProcessor_change_project_compliance_description, requiredVersion);
 		if (enablePreviews) {
@@ -483,7 +483,7 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 		}
 	}
 
-	private static boolean canModifyAccessRules(IBinding binding) {
+	private static boolean canModifyAccessRules(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement element= binding.getJavaElement();
 		if (element == null)
 			return false;
@@ -532,9 +532,9 @@ public class ReorgCorrectionsSubProcessor extends ReorgCorrectionsBaseSubProcess
 		return new ChangeCorrectionProposal(label, composite, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_MOVE));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICommandAccess createOrganizeImportsProposal(String name, Change change, ICompilationUnit cu, int relevance) {
-		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(name, change, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) {
+		ChangeCorrectionProposal proposal= new ChangeCorrectionProposal(name, change, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE)) { //FLLDCIM: MARK — T30  ANONYMOUS
 			@Override
 			public void apply(IDocument document) {
 				IEditorInput input= new FileEditorInput((IFile) cu.getResource());

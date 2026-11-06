@@ -37,7 +37,7 @@ public final class ParameterizedType extends HierarchyType {
 		fTypeDeclaration= (GenericType)environment.create(binding.getTypeDeclaration());
 		ITypeBinding[] typeArguments= binding.getTypeArguments();
 		fTypeArguments= new TType[typeArguments.length];
-		for (int i= 0; i < typeArguments.length; i++) {
+		for (int i= 0; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fTypeArguments[i]= environment.create(typeArguments[i]);
 		}
 	}
@@ -76,7 +76,7 @@ public final class ParameterizedType extends HierarchyType {
 		return getBindingKey().hashCode();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		int targetType= lhs.getKind();
 		switch (targetType) {
@@ -124,14 +124,14 @@ public final class ParameterizedType extends HierarchyType {
 		TType[] sourceArguments= sameSourceType.fTypeArguments;
 		if (targetArguments.length != sourceArguments.length)
 			return false;
-		for (int i= 0; i < sourceArguments.length; i++) {
+		for (int i= 0; i < sourceArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!targetArguments[i].checkTypeArgument(sourceArguments[i]))
 				return false;
 		}
 		return true;
 	}
 
-	private ParameterizedType findSameDeclaration(GenericType targetDeclaration) {
+	private ParameterizedType findSameDeclaration(GenericType targetDeclaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTypeDeclaration.equals(targetDeclaration))
 			return this;
 		ParameterizedType result= null;
@@ -141,7 +141,7 @@ public final class ParameterizedType extends HierarchyType {
 			if (result != null)
 				return result;
 		}
-		for (TType intf : getInterfaces()) {
+		for (TType intf : getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			type= intf;
 			if (type != null && type.getKind() == PARAMETERIZED_TYPE) {
 				result= ((ParameterizedType)type).findSameDeclaration(targetDeclaration);
@@ -154,27 +154,27 @@ public final class ParameterizedType extends HierarchyType {
 
 	@Override
 	public String getName() {
-		StringBuilder result= new StringBuilder(getJavaElementType().getElementName());
-		result.append("<"); //$NON-NLS-1$
-		result.append(fTypeArguments[0].getName());
-		for (int i= 1; i < fTypeArguments.length; i++) {
-			result.append(", "); //$NON-NLS-1$
-			result.append(fTypeArguments[i].getName());
+		StringBuilder result= new StringBuilder(getJavaElementType().getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append("<"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(fTypeArguments[0].getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 1; i < fTypeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fTypeArguments[i].getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append(">"); //$NON-NLS-1$
+		result.append(">"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
 	@Override
 	protected String getPlainPrettySignature() {
-		StringBuilder result= new StringBuilder(getJavaElementType().getFullyQualifiedName('.'));
-		result.append("<"); //$NON-NLS-1$
-		result.append(fTypeArguments[0].getPlainPrettySignature());
-		for (int i= 1; i < fTypeArguments.length; i++) {
-			result.append(", "); //$NON-NLS-1$
-			result.append(fTypeArguments[i].getPlainPrettySignature());
+		StringBuilder result= new StringBuilder(getJavaElementType().getFullyQualifiedName('.')); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append("<"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(fTypeArguments[0].getPlainPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 1; i < fTypeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(fTypeArguments[i].getPlainPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append(">"); //$NON-NLS-1$
+		result.append(">"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 }

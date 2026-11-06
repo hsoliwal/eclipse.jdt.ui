@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
  */
 public class TextEditBasedChangeManager {
 
-	private Map<ICompilationUnit, TextEditBasedChange> fMap= new HashMap<>(10);
+	private Map<ICompilationUnit, TextEditBasedChange> fMap= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private final boolean fKeepExecutedTextEdits;
 
@@ -93,7 +93,7 @@ public class TextEditBasedChangeManager {
 		// sort by cu name:
 		Arrays.sort(cus, Comparator.comparing(ICompilationUnit::getElementName));
 		TextEditBasedChange[] textChanges= new TextEditBasedChange[cus.length];
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			textChanges[i]= fMap.get(cus[i]);
 		}
 		return textChanges;

@@ -61,19 +61,19 @@ class ExpandWithConstructorsAction extends Action {
 	/*
 	 * @see Action#run
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		boolean isChecked= isChecked();
 		fCallHierarchyViewer.cancelJobs();
 
 		IStructuredSelection selection= (IStructuredSelection)getSelection();
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CallerMethodWrapper member= (CallerMethodWrapper)name;
 			member.setExpandWithConstructors(isChecked);
 			if (!isChecked) { // must collapse before refresh
 				fCallHierarchyViewer.setExpandedState(member, false);
 			}
-			fCallHierarchyViewer.refresh(member);
+			fCallHierarchyViewer.refresh(member); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			if (isChecked) { // expand only after refresh
 				fCallHierarchyViewer.setExpandedState(member, true);
 				fCallHierarchyViewer.expandConstructorNode();
@@ -95,7 +95,7 @@ class ExpandWithConstructorsAction extends Action {
 	 *
 	 * @return <code> true</code> if the action can be added, <code>false</code> otherwise
 	 */
-	public boolean canActionBeAdded() {
+	public boolean canActionBeAdded() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fPart.getCallMode() == CallHierarchyViewPart.CALL_MODE_CALLEES)
 			return false;
 		ISelection selection= getSelection();
@@ -106,7 +106,7 @@ class ExpandWithConstructorsAction extends Action {
 		IStructuredSelection structuredSelection= (IStructuredSelection)selection;
 		CallerMethodWrapper[] wrappers= new CallerMethodWrapper[structuredSelection.size()];
 		int i= 0;
-		for (Iterator<?> iter= structuredSelection.iterator(); iter.hasNext(); i++) {
+		for (Iterator<?> iter= structuredSelection.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= iter.next();
 			if (!(element instanceof CallerMethodWrapper) || element instanceof RealCallers)
 				return false;
@@ -115,16 +115,16 @@ class ExpandWithConstructorsAction extends Action {
 			if (!CallHierarchyContentProvider.canExpandWithConstructors(wrappers[i]))
 				return false;
 
-			for (int j= 0; j < i; j++) {
+			for (int j= 0; j < i; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CallerMethodWrapper parent= (CallerMethodWrapper)wrappers[j].getParent();
-				while (parent != null) {
+				while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (wrappers[i] == parent) {
 						return false;// disable if element is a parent of other selected elements
 					}
 					parent= (CallerMethodWrapper)parent.getParent();
 				}
 				CallerMethodWrapper parentElement= (CallerMethodWrapper)wrappers[i].getParent();
-				while (parentElement != null) {
+				while (parentElement != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parentElement == wrappers[j]) {
 						return false;// disable if element is a child of other selected elements
 					}

@@ -55,7 +55,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.IRefreshable;
  */
 public class BuildActionGroup extends ActionGroup {
 
-	private static class RefreshableViewRefreshAction extends RefreshAction {
+	private static class RefreshableViewRefreshAction extends RefreshAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 		private final IViewPart fPart;
 		public RefreshableViewRefreshAction(IViewPart part) {
 			super(part.getSite());
@@ -137,8 +137,8 @@ public class BuildActionGroup extends ActionGroup {
 			fRefreshAction.setSpecialSelectionProvider(specialSelectionProvider);
 		}
 
-		fSelectionProvider.addSelectionChangedListener(fBuildAction);
-		fSelectionProvider.addSelectionChangedListener(fRefreshAction);
+		fSelectionProvider.addSelectionChangedListener(fBuildAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fSelectionProvider.addSelectionChangedListener(fRefreshAction); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 

@@ -94,7 +94,7 @@ public class NodeFinder extends GenericVisitor {
 	 *
 	 * @since		3.0
 	 */
-	public static ASTNode perform(ASTNode root, int start, int length, ITypeRoot source) throws JavaModelException {
+	public static ASTNode perform(ASTNode root, int start, int length, ITypeRoot source) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		NodeFinder finder= new NodeFinder(start, length);
 		root.accept(finder);
 		ASTNode result= finder.getCoveredNode();
@@ -136,7 +136,7 @@ public class NodeFinder extends GenericVisitor {
 		fEnd= offset + length;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean visitNode(ASTNode node) {
 		int nodeStart= node.getStartPosition();
 		int nodeEnd= nodeStart + node.getLength();

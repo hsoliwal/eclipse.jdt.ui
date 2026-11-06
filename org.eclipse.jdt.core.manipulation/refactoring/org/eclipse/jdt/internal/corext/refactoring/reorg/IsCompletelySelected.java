@@ -72,13 +72,13 @@ public class IsCompletelySelected implements Predicate<IPackageFragment> {
 		completelySelectedPackages= completelySelectedPackages(selectedPackages, monitor);
 	}
 
-	private static Set<IPackageFragment> completelySelectedPackages(Collection<IPackageFragment> selectedPackages, IProgressMonitor monitor) throws JavaModelException {
+	private static Set<IPackageFragment> completelySelectedPackages(Collection<IPackageFragment> selectedPackages, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, selectedPackages.size());
 
 		// we group the selected packages by package root, to hopefully work with smaller containers
 		Map<IPackageFragmentRoot, Set<IPackageFragment>> packagesByRoot= groupByPackageRoot(selectedPackages, subMonitor);
-		Set<IPackageFragment> completelySelectedPackages= new HashSet<>(selectedPackages.size());
-		for (Entry<IPackageFragmentRoot, Set<IPackageFragment>> packages : packagesByRoot.entrySet()) {
+		Set<IPackageFragment> completelySelectedPackages= new HashSet<>(selectedPackages.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Entry<IPackageFragmentRoot, Set<IPackageFragment>> packages : packagesByRoot.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			subMonitor.checkCanceled();
 
 			IPackageFragmentRoot root= packages.getKey();
@@ -100,18 +100,18 @@ public class IsCompletelySelected implements Predicate<IPackageFragment> {
 	 * @param monitor may be null
 	 * @return a mapping to the specified packages, from their package roots
 	 */
-	private static Map<IPackageFragmentRoot, Set<IPackageFragment>> groupByPackageRoot(Collection<IPackageFragment> packages, IProgressMonitor monitor) {
+	private static Map<IPackageFragmentRoot, Set<IPackageFragment>> groupByPackageRoot(Collection<IPackageFragment> packages, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(monitor, packages.size());
 
-		Map<IPackageFragmentRoot, Set<IPackageFragment>> packageRoots= new HashMap<>();
-		for (IPackageFragment packageFragment : packages) {
+		Map<IPackageFragmentRoot, Set<IPackageFragment>> packageRoots= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IPackageFragment packageFragment : packages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			subMonitor.checkCanceled();
 
 			IPackageFragmentRoot root= (IPackageFragmentRoot) packageFragment.getParent();
 			Set<IPackageFragment> packagesOfRoot= packageRoots.get(root);
 
 			if (packagesOfRoot == null) {
-				packagesOfRoot= new HashSet<>();
+				packagesOfRoot= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				packageRoots.put(root, packagesOfRoot);
 			}
 
@@ -149,7 +149,7 @@ public class IsCompletelySelected implements Predicate<IPackageFragment> {
 	 * @return the set of packages which have their entire sub-package structure selected
 	 * @throws JavaModelException if accessing the packages of the root package fails
 	 */
-	private static Set<IPackageFragment> completelySelectedPackages(IPackageFragmentRoot root, Set<IPackageFragment> selectedPackages, SubMonitor subMonitor) throws JavaModelException {
+	private static Set<IPackageFragment> completelySelectedPackages(IPackageFragmentRoot root, Set<IPackageFragment> selectedPackages, SubMonitor subMonitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		subMonitor.checkCanceled();
 		Set<IPackageFragment> allPackages= allPackages(root);
 		int numberOfPackages= allPackages.size();
@@ -159,13 +159,13 @@ public class IsCompletelySelected implements Predicate<IPackageFragment> {
 		unselectedPackages.removeAll(selectedPackages);
 
 		subMonitor.checkCanceled();
-		Set<IPackageFragment> completelySelectedPackages= new HashSet<>(selectedPackages);
+		Set<IPackageFragment> completelySelectedPackages= new HashSet<>(selectedPackages); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		Set<IPackageFragment> visited= new HashSet<>(numberOfPackages);
+		Set<IPackageFragment> visited= new HashSet<>(numberOfPackages); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Deque<IPackageFragment> queue= new LinkedList<>(unselectedPackages);
 
 		// go over all packages which are not selected, and remove their parents (recursively) from the set of fully selected packages
-		while (!queue.isEmpty()) {
+		while (!queue.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			subMonitor.checkCanceled();
 
 			IPackageFragment unselectedOrPartiallySelectedFragment= queue.removeLast();

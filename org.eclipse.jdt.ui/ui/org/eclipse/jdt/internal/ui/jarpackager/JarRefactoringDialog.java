@@ -103,14 +103,14 @@ public final class JarRefactoringDialog extends TrayDialog {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void buttonPressed(final int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			fData.setRefactoringAware(true);
 			final RefactoringDescriptorProxy[] descriptors= fHistoryControl.getCheckedDescriptors();
-			Set<IProject> set= new HashSet<>();
+			Set<IProject> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-			for (RefactoringDescriptorProxy descriptor : descriptors) {
+			for (RefactoringDescriptorProxy descriptor : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final String project= descriptor.getProject();
 				if (project != null && !"".equals(project)) //$NON-NLS-1$
 					set.add(root.getProject(project));
@@ -138,7 +138,7 @@ public final class JarRefactoringDialog extends TrayDialog {
 		getButton(OK).setEnabled(!fHistory.isEmpty());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(final Composite parent) {
 		final Composite container= (Composite) super.createDialogArea(parent);
 		initializeDialogUnits(container);

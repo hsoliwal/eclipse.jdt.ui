@@ -38,7 +38,7 @@ public class SourcePositionComparator extends ViewerComparator {
 	/*
 	 * @see org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(Viewer viewer, Object e1, Object e2) {
 		if (!(e1 instanceof ISourceReference))
 			return 0;
@@ -95,7 +95,7 @@ public class SourcePositionComparator extends ViewerComparator {
 		}
 	}
 
-	private IType getOutermostDeclaringType(Object element) {
+	private IType getOutermostDeclaringType(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(element instanceof IMember))
 			return null;
 
@@ -109,7 +109,7 @@ public class SourcePositionComparator extends ViewerComparator {
 		}
 
 		IType declaringTypeDeclaringType= declaringType.getDeclaringType();
-		while (declaringTypeDeclaringType != null) {
+		while (declaringTypeDeclaringType != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			declaringType= declaringTypeDeclaringType;
 			declaringTypeDeclaringType= declaringType.getDeclaringType();
 		}

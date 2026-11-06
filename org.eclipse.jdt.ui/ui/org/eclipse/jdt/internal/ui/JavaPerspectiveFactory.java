@@ -39,7 +39,7 @@ public class JavaPerspectiveFactory implements IPerspectiveFactory {
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createInitialLayout(IPageLayout layout) {
  		String editorArea = layout.getEditorArea();
 

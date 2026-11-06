@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 
-public class NewAbstractMethodCorrectionProposal extends NewMethodCorrectionProposal {
+public class NewAbstractMethodCorrectionProposal extends NewMethodCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public NewAbstractMethodCorrectionProposal(String label, ICompilationUnit targetCU, ASTNode invocationNode, List<Expression> arguments, ITypeBinding binding, int relevance, Image image) {
 		super(label, targetCU, relevance, image, new NewAbstractMethodCorrectionProposalCore(label, targetCU, invocationNode, arguments, binding, relevance));

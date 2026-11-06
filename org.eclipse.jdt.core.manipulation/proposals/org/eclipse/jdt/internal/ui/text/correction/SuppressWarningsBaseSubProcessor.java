@@ -84,7 +84,7 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 		return false;
 	}
 
-	public void getSuppressWarningsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getSuppressWarningsProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (problem.isError() && !JavaCore.ENABLED.equals(context.getCompilationUnit().getJavaProject().getOption(JavaCore.COMPILER_PB_SUPPRESS_OPTIONAL_ERRORS, true))) {
 			return;
 		}
@@ -108,7 +108,7 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 
 		ASTNode target= node;
 		int relevance= IProposalRelevance.ADD_SUPPRESSWARNINGS;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			relevance= addSuppressWarningsProposalIfPossible(context, target, warningToken, relevance, proposals);
 			if (relevance == 0)
 				break;
@@ -129,7 +129,7 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 		return;
 	}
 
-	private int addSuppressWarningsProposalIfPossible(IInvocationContext context, ASTNode node, String warningToken, int relevance, Collection<T> proposals) {
+	private int addSuppressWarningsProposalIfPossible(IInvocationContext context, ASTNode node, String warningToken, int relevance, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ChildListPropertyDescriptor property;
 		String name;
 		boolean isLocalVariable= false;
@@ -174,11 +174,11 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 			// case ASTNode.INITIALIZER: not used, because Initializer cannot have annotations
 			case ASTNode.METHOD_DECLARATION:
 				property= MethodDeclaration.MODIFIERS2_PROPERTY;
-				name= ((MethodDeclaration) node).getName().getIdentifier() + "()"; //$NON-NLS-1$
+				name= ((MethodDeclaration) node).getName().getIdentifier() + "()"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 			case ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION:
 				property= AnnotationTypeMemberDeclaration.MODIFIERS2_PROPERTY;
-				name= ((AnnotationTypeMemberDeclaration) node).getName().getIdentifier() + "()"; //$NON-NLS-1$
+				name= ((AnnotationTypeMemberDeclaration) node).getName().getIdentifier() + "()"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 			case ASTNode.ENUM_CONSTANT_DECLARATION:
 				property= EnumConstantDeclaration.MODIFIERS2_PROPERTY;
@@ -200,17 +200,17 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 		return isLocalVariable ? relevance - 1 : 0;
 	}
 
-	private void addAllSuppressWarningsProposalIfPossible(IInvocationContext context, ASTNode node, String warningToken, int relevance, Collection<T> proposals) {
+	private void addAllSuppressWarningsProposalIfPossible(IInvocationContext context, ASTNode node, String warningToken, int relevance, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit compilationUnit= (CompilationUnit) node.getRoot();
 		IProblem[] problems= compilationUnit.getProblems();
-		Map<ASTNode, ChildListPropertyDescriptor> nodeMap= new HashMap<>();
-		for (int i= 0; i < problems.length; i++) {
+		Map<ASTNode, ChildListPropertyDescriptor> nodeMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation location= new ProblemLocation(problems[i]);
 			if (warningToken.equals(CorrectionEngine.getWarningToken(location.getProblemId()))) {
 				ASTNode coveringNode= location.getCoveringNode(compilationUnit);
 				ASTNode target= coveringNode;
 				ChildListPropertyDescriptor property= null;
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					property= SuppressWarningsFixCore.getChildListPropertyDescriptor(target, warningToken);
 					if (property != null) {
 						break;
@@ -243,7 +243,7 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 		return ""; //$NON-NLS-1$
 	}
 
-	public void getUnknownSuppressWarningProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getUnknownSuppressWarningProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode coveringNode= context.getCoveringNode();
 		if (!(coveringNode instanceof StringLiteral))
 			return;
@@ -252,7 +252,7 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 		StringLiteral literal= (StringLiteral) coveringNode;
 
 		String literalValue= literal.getLiteralValue();
-		for (String curr : CorrectionEngine.getAllWarningTokens()) {
+		for (String curr : CorrectionEngine.getAllWarningTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (NameMatcher.isSimilarName(literalValue, curr)) {
 				StringLiteral newLiteral= ast.newStringLiteral();
 				newLiteral.setLiteralValue(curr);
@@ -268,7 +268,7 @@ public abstract class SuppressWarningsBaseSubProcessor<T> {
 	}
 
 
-	public void getRemoveUnusedSuppressWarningProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void getRemoveUnusedSuppressWarningProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode coveringNode= problem.getCoveringNode(context.getASTRoot());
 		if (!(coveringNode instanceof StringLiteral))
 			return;

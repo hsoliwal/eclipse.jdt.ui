@@ -79,7 +79,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
  *
  * @since 3.2
  */
-public final class JavaSynchronizationContentProvider extends AbstractSynchronizationContentProvider implements IPipelinedTreeContentProvider {
+public final class JavaSynchronizationContentProvider extends AbstractSynchronizationContentProvider implements IPipelinedTreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	/** The refactorings folder */
 //	private static final String NAME_REFACTORING_FOLDER= ".refactorings"; //$NON-NLS-1$
@@ -168,7 +168,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 * @param modification
 	 *            the shape modification to convert
 	 */
-	private void convertToJavaElements(final PipelinedShapeModification modification) {
+	private void convertToJavaElements(final PipelinedShapeModification modification) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Object parent= modification.getParent();
 		if (parent instanceof IResource) {
 			final IJavaElement project= asJavaProject(((IResource) parent).getProject());
@@ -178,8 +178,8 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 			}
 		}
 		if (parent instanceof ISynchronizationContext) {
-			final Set<IJavaElement> result= new HashSet<>();
-			for (final Iterator<IAdaptable> iterator= modification.getChildren().iterator(); iterator.hasNext();) {
+			final Set<IJavaElement> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (final Iterator<IAdaptable> iterator= modification.getChildren().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Object element= iterator.next();
 				if (element instanceof IProject) {
 					final IJavaElement project= asJavaProject((IProject) element);
@@ -202,8 +202,8 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 *         <code>false</code> otherwise
 	 */
 	private boolean convertToJavaElements(final PipelinedViewerUpdate update) {
-		final Set<IJavaElement> result= new HashSet<>();
-		for (final Iterator<IAdaptable> iterator= update.getRefreshTargets().iterator(); iterator.hasNext();) {
+		final Set<IJavaElement> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (final Iterator<IAdaptable> iterator= update.getRefreshTargets().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Object element= iterator.next();
 			if (element instanceof IProject) {
 				final IJavaElement project= asJavaProject((IProject) element);
@@ -230,9 +230,9 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 *            the event
 	 * @return the projects that contain changes
 	 */
-	private IJavaProject[] getChangedProjects(final IDiffChangeEvent event) {
-		final Set<IJavaProject> result= new HashSet<>();
-		for (IDiff change : event.getChanges()) {
+	private IJavaProject[] getChangedProjects(final IDiffChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Set<IJavaProject> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IDiff change : event.getChanges()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IResource resource = ResourceDiffTree.getResourceFor(change);
 			if (resource != null) {
 				final IJavaProject project= asJavaProject(resource.getProject());
@@ -240,7 +240,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 					result.add(project);
 			}
 		}
-		for (IDiff addition : event.getAdditions()) {
+		for (IDiff addition : event.getAdditions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IResource resource = ResourceDiffTree.getResourceFor(addition);
 			if (resource != null) {
 				final IJavaProject project= asJavaProject(resource.getProject());
@@ -248,7 +248,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 					result.add(project);
 			}
 		}
-		for (IPath path : event.getRemovals()) {
+		for (IPath path : event.getRemovals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (path.segmentCount() > 0) {
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(path.segment(0));
 				// Only consider projects that still exist
@@ -288,8 +288,8 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 * @return the filtered elements
 	 */
 	private Object[] getFilteredElements(final Object parent, final Object[] children) {
-		final List<Object> result= new ArrayList<>(children.length);
-		for (Object child : children) {
+		final List<Object> result= new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IFolder) {
 				if (!(JavaCore.create((IFolder) child) instanceof IPackageFragmentRoot)) {
 					result.add(child);
@@ -317,8 +317,8 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 * @return the deleted projects
 	 */
 	private Set<IProject> getDeletedProjects(final IDiffChangeEvent event) {
-		final Set<IProject> result= new HashSet<>();
-		for (IPath path : event.getRemovals()) {
+		final Set<IProject> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IPath path : event.getRemovals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (path.segmentCount() > 0) {
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(path.segment(0));
 				if (!project.isAccessible())
@@ -355,9 +355,9 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 *            the child elements
 	 * @return the java project children
 	 */
-	private Object[] getJavaProjectChildren(final ISynchronizationContext context, final Object parent, final Object[] children) {
+	private Object[] getJavaProjectChildren(final ISynchronizationContext context, final Object parent, final Object[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final LinkedList<Object> list= new LinkedList<>();
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IPackageFragment) {
 				final IPackageFragment fragment= (IPackageFragment) child;
 				if (getChildren(fragment).length == 0)
@@ -375,7 +375,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 		final IResource resource= JavaModelProvider.getResource(parent);
 		if (resource != null) {
 			final IResourceDiffTree tree= context.getDiffTree();
-			for (IResource child : tree.members(resource)) {
+			for (IResource child : tree.members(resource)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isVisible(context, child)) {
 					if (hasPhantomFolder(tree, child) && ! containsAsResource(list, child)) {
 						// Add any phantom resources that are visible
@@ -401,7 +401,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	}
 
 	private boolean containsAsResource(List<Object> list, IResource child) {
-		for (Object element : list) {
+		for (Object element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child.equals(element))
 				return true;
 			if (element instanceof IJavaElement) {
@@ -457,13 +457,13 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 *            the child elements
 	 * @return the package fragment children
 	 */
-	private Object[] getPackageFragmentChildren(final ISynchronizationContext context, final Object parent, final Object[] children) {
-		final Set<Object> set= new HashSet<>(Arrays.asList(children));
+	private Object[] getPackageFragmentChildren(final ISynchronizationContext context, final Object parent, final Object[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Set<Object> set= new HashSet<>(Arrays.asList(children)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IPackageFragment packageFragment= (IPackageFragment) parent;
 		IResource resource= packageFragment.getResource();
 		if (resource != null) {
 			final IResourceDiffTree tree= context.getDiffTree();
-			for (IResource member : tree.members(resource)) {
+			for (IResource member : tree.members(resource)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final int type= member.getType();
 				if (type == IResource.FILE) {
 					final IDiff diff= tree.getDiff(member);
@@ -496,9 +496,9 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 *            the child elements
 	 * @return the package fragment root children
 	 */
-	private Object[] getPackageFragmentRootChildren(final ISynchronizationContext context, final Object parent, final Object[] children) {
-		final Set<Object> set= new HashSet<>();
-		for (Object child : children) {
+	private Object[] getPackageFragmentRootChildren(final ISynchronizationContext context, final Object parent, final Object[] children) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Set<Object> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IPackageFragment) {
 				IPackageFragment fragment = (IPackageFragment) child;
 				if (fragment.isOpen() && getChildren(fragment).length == 0)
@@ -510,7 +510,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 		final IResource resource= JavaModelProvider.getResource(parent);
 		if (resource != null) {
 			final IResourceDiffTree tree= context.getDiffTree();
-			for (IResource member : tree.members(resource)) {
+			for (IResource member : tree.members(resource)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final int type= member.getType();
 				final boolean contained= isInScope(context.getScope(), parent, member);
 				final boolean visible= isVisible(context, member);
@@ -556,14 +556,14 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 		return children;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getPipelinedChildren(final Object parent, final Set children) {
 		if (parent instanceof ISynchronizationContext) {
 			// When a context is the root, the resource content provider returns
 			// projects as direct children. We should replace any projects that
 			// are Java projects with an IJavaProject
-			final Set<IJavaElement> result= new HashSet<>(children.size());
-			for (final Iterator<Object> iterator= children.iterator(); iterator.hasNext();) {
+			final Set<IJavaElement> result= new HashSet<>(children.size()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (final Iterator<Object> iterator= children.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Object element= iterator.next();
 				if (element instanceof IProject) {
 					final IJavaElement java= asJavaProject((IProject) element);
@@ -591,7 +591,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 		} else if (parent instanceof IFolder) {
 			// Remove any children that are also source folders so they
 			// don't appear twice
-			for (final Iterator<Object> iterator= children.iterator(); iterator.hasNext();) {
+			for (final Iterator<Object> iterator= children.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final Object element= iterator.next();
 				if (element instanceof IFolder) {
 					IFolder folder = (IFolder) element;
@@ -627,8 +627,8 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 * @return the visible projects
 	 */
 	private Set<IJavaProject> getVisibleProjects() {
-		final Set<IJavaProject> result= new HashSet<>();
-		for (TreeItem child : ((TreeViewer) getViewer()).getTree().getItems()) {
+		final Set<IJavaProject> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (TreeItem child : ((TreeViewer) getViewer()).getTree().getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final Object data= child.getData();
 			if (data instanceof IJavaProject)
 				result.add((IJavaProject) data);
@@ -642,16 +642,16 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 * @param event
 	 *            the event
 	 */
-	private void handleChange(final IDiffChangeEvent event) {
+	private void handleChange(final IDiffChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final Set<IJavaProject> existing= getVisibleProjects();
 		// Get all existing and open projects that contain changes
 		// and determine what needs to be done to the project
 		// (i.e. add, remove or refresh)
 		final IJavaProject[] changed= getChangedProjects(event);
-		final List<IJavaProject> refreshes= new ArrayList<>(changed.length);
-		final List<IJavaProject> additions= new ArrayList<>(changed.length);
-		final List<IJavaProject> removals= new ArrayList<>(changed.length);
-		for (IJavaProject project : changed) {
+		final List<IJavaProject> refreshes= new ArrayList<>(changed.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final List<IJavaProject> additions= new ArrayList<>(changed.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final List<IJavaProject> removals= new ArrayList<>(changed.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaProject project : changed) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (hasVisibleChanges(event.getTree(), project)) {
 				if (existing.contains(project))
 					refreshes.add(project);
@@ -662,7 +662,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 		}
 		// Remove any java projects that correspond to deleted or closed projects
 		final Set<IProject> removed= getDeletedProjects(event);
-		for (IJavaProject element : existing) {
+		for (IJavaProject element : existing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (removed.contains(element.getResource()))
 				removals.add(element);
 		}
@@ -677,8 +677,8 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 				if (!removals.isEmpty())
 					viewer.remove(viewer.getInput(), removals.toArray());
 				if (!refreshes.isEmpty()) {
-					for (IJavaProject iJavaProject : refreshes)
-						viewer.refresh(iJavaProject);
+					for (IJavaProject iJavaProject : refreshes) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						viewer.refresh(iJavaProject); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			} finally {
 				tree.setRedraw(true);
@@ -705,18 +705,18 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 * @return <code>true</code> if it has some children, <code>false</code>
 	 *         otherwise
 	 */
-	private boolean hasChildrenInScope(final ISynchronizationScope scope, final Object element, final IResource resource) {
+	private boolean hasChildrenInScope(final ISynchronizationScope scope, final Object element, final IResource resource) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IResource[] roots= scope.getRoots();
 		final IPath path= resource.getFullPath();
 		if (element instanceof IPackageFragment) {
-			for (IResource root : roots) {
+			for (IResource root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (path.equals(root.getFullPath().removeLastSegments(1))) {
 					return true;
 				}
 			}
 			return false;
 		}
-		for (IResource root : roots) {
+		for (IResource root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (path.isPrefixOf(root.getFullPath())) {
 				return true;
 			}
@@ -788,7 +788,7 @@ public final class JavaSynchronizationContentProvider extends AbstractSynchroniz
 	 */
 	private void syncExec(final Runnable runnable, final Control control) {
 		if (control != null && !control.isDisposed())
-			control.getDisplay().syncExec(() -> {
+			control.getDisplay().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (!control.isDisposed())
 					BusyIndicator.showWhile(control.getDisplay(), runnable);
 			});

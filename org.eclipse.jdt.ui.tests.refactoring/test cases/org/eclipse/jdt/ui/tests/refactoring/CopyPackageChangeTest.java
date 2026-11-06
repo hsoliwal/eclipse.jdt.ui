@@ -43,7 +43,7 @@ public class CopyPackageChangeTest extends GenericRefactoringTest {
 
 	@Test
 	public void test0() throws Exception{
-		createCU(getPackageP(), "A.java", getFileContents(getRefactoringPath() + "A.java"));
+		createCU(getPackageP(), "A.java", getFileContents(getRefactoringPath() + "A.java")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IPackageFragmentRoot newRoot= JavaProjectHelper.addSourceContainer(rts.getProject(), "newName");
 

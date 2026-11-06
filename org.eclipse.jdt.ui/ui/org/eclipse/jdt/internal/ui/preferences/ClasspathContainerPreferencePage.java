@@ -83,7 +83,7 @@ public class ClasspathContainerPreferencePage extends WizardPropertyPage {
 	/**
 	 * Apply the changes to the classpath
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void applyChanges() {
 		IClasspathEntry[] created= ((ClasspathContainerWizard) getWizard()).getNewEntries();
 		if (created == null || created.length != 1)
@@ -106,7 +106,7 @@ public class ClasspathContainerPreferencePage extends WizardPropertyPage {
 
 			IRunnableContext context= new ProgressMonitorDialog(getShell());
 			context= PlatformUI.getWorkbench().getProgressService();
-			context.run(true, true, monitor -> {
+			context.run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					if (result.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 						IPath path= result.getPath();
@@ -137,7 +137,7 @@ public class ClasspathContainerPreferencePage extends WizardPropertyPage {
 	}
 
 	private static int indexInClasspath(IClasspathEntry[] entries, IClasspathEntry entry) {
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entries[i].equals(entry)) {
 				return i;
 			}

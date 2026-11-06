@@ -35,7 +35,7 @@ import org.eclipse.jface.text.contentassist.IContextInformation;
  * An enhanced implementation of the <code>ICompletionProposal</code> interface implementing all the extension interfaces.
  * It uses a position to track its replacement offset and length. The position must be set up externally.
  */
-public class PositionBasedCompletionProposal implements ICompletionProposal, ICompletionProposalExtension, ICompletionProposalExtension2 {
+public class PositionBasedCompletionProposal implements ICompletionProposal, ICompletionProposalExtension, ICompletionProposalExtension2 { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/** The string to be displayed in the completion proposal popup */
 	private String fDisplayString;

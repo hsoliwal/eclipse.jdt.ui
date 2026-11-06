@@ -105,7 +105,7 @@ public class ContentAssistHistoryTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRememberArgumentChecking() throws Exception {
 		ContentAssistHistory history= new ContentAssistHistory();
 		try {
@@ -130,7 +130,7 @@ public class ContentAssistHistoryTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetHistory() {
 		ContentAssistHistory history= new ContentAssistHistory();
 		assertTrue(history.getHistory(STRING).getTypes().isEmpty());
@@ -151,7 +151,7 @@ public class ContentAssistHistoryTest {
 		assertEquals("order not correct", list(STRING_BUFFER, STRING), history.getHistory(CHAR_SEQUENCE).getTypes());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHistoryCapSize() {
 		ContentAssistHistory history= new ContentAssistHistory(1, 1);
 
@@ -192,7 +192,7 @@ public class ContentAssistHistoryTest {
 		assertEqualMap(map(LIST, list(ARRAY_LIST), COLLECTION, list(ARRAY_LIST, LINKED_LIST), ITERABLE, list(ARRAY_LIST, LINKED_LIST)), history.getEntireHistory());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReadOnlyEntireHistory() {
 		ContentAssistHistory history= new ContentAssistHistory();
 
@@ -250,14 +250,14 @@ public class ContentAssistHistoryTest {
 
 	private static void assertEqualMap(String message, Map<String, List<String>> expected, Map<String, RHSHistory> actual) {
 		assertEquals(message, expected.size(), actual.size());
-		for (Map.Entry<String, List<String>> entry : expected.entrySet()) {
+		for (Map.Entry<String, List<String>> entry : expected.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String type = entry.getKey();
 			assertEquals(message, entry.getValue(), actual.get(type).getTypes());
 		}
 	}
 
 	private Map<String, List<String>> map(String type, List<String> set) {
-		Map<String, List<String>> map= new HashMap<>();
+		Map<String, List<String>> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		map.put(type, set);
 		return map;
 	}
@@ -281,7 +281,7 @@ public class ContentAssistHistoryTest {
 	}
 
 	List<String> list(String param) {
-		List<String> list= new ArrayList<>();
+		List<String> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add(param);
 		return list;
 	}

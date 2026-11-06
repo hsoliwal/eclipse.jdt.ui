@@ -86,7 +86,7 @@ public final class ArrayType extends TType {
 	public TType[] getSubTypes() {
 		TType[] subTypes= fElementType.getSubTypes();
 		TType[] result= new TType[subTypes.length];
-		for (int i= 0; i < subTypes.length; i++) {
+		for (int i= 0; i < subTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getEnvironment().createArrayType(subTypes[i], fDimensions);
 		}
 		return result;
@@ -108,7 +108,7 @@ public final class ArrayType extends TType {
 		return fElementType.hashCode() << ARRAY_TYPE_SHIFT;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		switch (lhs.getKind()) {
 			case NULL_TYPE: return false;
@@ -152,18 +152,18 @@ public final class ArrayType extends TType {
 
 	@Override
 	protected String getPlainPrettySignature() {
-		StringBuilder result= new StringBuilder(fElementType.getPlainPrettySignature());
-		for (int i= 0; i < fDimensions; i++) {
-			result.append("[]"); //$NON-NLS-1$
+		StringBuilder result= new StringBuilder(fElementType.getPlainPrettySignature()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < fDimensions; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}
 
 	@Override
 	public String getName() {
-		StringBuilder result= new StringBuilder(fElementType.getName());
-		for (int i= 0; i < fDimensions; i++) {
-			result.append("[]"); //$NON-NLS-1$
+		StringBuilder result= new StringBuilder(fElementType.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < fDimensions; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}

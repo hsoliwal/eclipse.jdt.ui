@@ -68,9 +68,9 @@ public final class ContributedProcessorDescriptor {
 	}
 
 	private Set<String> getHandledMarkerTypes(IConfigurationElement element) {
-		HashSet<String> map= new HashSet<>(7);
-		for (IConfigurationElement c : element.getChildren(HANDLED_MARKER_TYPES)) {
-			for (IConfigurationElement type : c.getChildren(MARKER_TYPE)) {
+		HashSet<String> map= new HashSet<>(7); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IConfigurationElement c : element.getChildren(HANDLED_MARKER_TYPES)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IConfigurationElement type : c.getChildren(MARKER_TYPE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String attribute= type.getAttribute(ID);
 				if (attribute != null) {
 					map.add(attribute);
@@ -89,12 +89,12 @@ public final class ContributedProcessorDescriptor {
 		IConfigurationElement[] children= fConfigurationElement.getChildren(ExpressionTagNames.ENABLEMENT);
 		if (children.length > 1) {
 			String id= fConfigurationElement.getAttribute(ID);
-			return new StatusInfo(IStatus.ERROR, "Only one < enablement > element allowed. Disabling " + id); //$NON-NLS-1$
+			return new StatusInfo(IStatus.ERROR, "Only one < enablement > element allowed. Disabling " + id); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return new StatusInfo(IStatus.OK, "Syntactically correct quick assist/fix processor"); //$NON-NLS-1$
 	}
 
-	private boolean matches(ICompilationUnit cunit) {
+	private boolean matches(ICompilationUnit cunit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fRequiredSourceLevel != null) {
 			String current= cunit.getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true);
 			if (JavaModelUtil.isVersionLessThan(current, fRequiredSourceLevel)) {
@@ -127,7 +127,7 @@ public final class ContributedProcessorDescriptor {
 		return false;
 	}
 
-	public Object getProcessor(ICompilationUnit cunit, Class<?> expectedType) {
+	public Object getProcessor(ICompilationUnit cunit, Class<?> expectedType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (matches(cunit)) {
 			if (fProcessorInstance == null) {
 				try {
@@ -135,7 +135,7 @@ public final class ContributedProcessorDescriptor {
 					if (expectedType.isInstance(extension)) {
 						fProcessorInstance= extension;
 					} else {
-						String message= "Invalid extension to " + fConfigurationElement.getName() //$NON-NLS-1$
+						String message= "Invalid extension to " + fConfigurationElement.getName() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ ". Must extends '" + expectedType.getName() + "'." + fConfigurationElement.getContributor().getName(); //$NON-NLS-1$ //$NON-NLS-2$
 						JavaPlugin.log(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, message));
 						fStatus= Boolean.FALSE;

@@ -58,7 +58,7 @@ public class RemoteTestRunnerClient {
 	}
 
 	class DefaultProcessingState extends ProcessingState {
-	    @Override
+	    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ProcessingState readMessage(String message) {
 	        if (message.startsWith(MessageIds.TRACE_START)) {
 	        	fFailedTrace.setLength(0);
@@ -183,7 +183,7 @@ public class RemoteTestRunnerClient {
             fActualResult.setLength(0);
 		}
 
-	    @Override
+	    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ProcessingState readMessage(String message) {
 	        if (message.startsWith(MessageIds.TRACE_END)) {
 	        	// Workaround for JUnit 5 test execution stop
@@ -285,17 +285,17 @@ public class RemoteTestRunnerClient {
 			fServerPort= port;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			try {
 				if (fDebug)
-					System.out.println("Creating server socket "+fServerPort); //$NON-NLS-1$
+					System.out.println("Creating server socket "+fServerPort); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				fServerSocket= new ServerSocket(fServerPort);
 				fSocket= fServerSocket.accept();
 				fPushbackReader= new PushbackReader(new BufferedReader(new InputStreamReader(fSocket.getInputStream(), StandardCharsets.UTF_8)));
 				fWriter= new PrintWriter(new OutputStreamWriter(fSocket.getOutputStream(), StandardCharsets.UTF_8), true);
 				String message;
-				while(fPushbackReader != null && (message= readMessage(fPushbackReader)) != null)
+				while(fPushbackReader != null && (message= readMessage(fPushbackReader)) != null) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					receiveMessage(message);
 			} catch (SocketException e) {
 				notifyTestRunTerminated();
@@ -338,9 +338,9 @@ public class RemoteTestRunnerClient {
 		}
 	}
 
-	private synchronized void shutDown() {
+	private synchronized void shutDown() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fDebug)
-			System.out.println("shutdown "+fPort); //$NON-NLS-1$
+			System.out.println("shutdown "+fPort); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (fWriter != null) {
 			fWriter.close();
@@ -382,10 +382,10 @@ public class RemoteTestRunnerClient {
 		return fSocket != null;
 	}
 
-	private String readMessage(PushbackReader in) throws IOException {
-		StringBuilder buf= new StringBuilder(128);
+	private String readMessage(PushbackReader in) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(128); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int ch;
-		while ((ch= in.read()) != -1) {
+		while ((ch= in.read()) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (ch) {
 			case '\n':
 				fLastLineDelimiter= "\n"; //$NON-NLS-1$
@@ -400,7 +400,7 @@ public class RemoteTestRunnerClient {
 				}
 				return buf.toString();
 			default:
-				buf.append((char) ch);
+				buf.append((char) ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			}
 		}
@@ -423,11 +423,11 @@ public class RemoteTestRunnerClient {
 		String className= arg.substring(0, c);
 		String testName= arg.substring(c+1, t);
 		String status= arg.substring(t+1);
-		String testId = className+testName;
+		String testId = className+testName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		notifyTestReran(testId, className, testName, status);
 	}
 
-	private void scanReranMessage(String arg) {
+	private void scanReranMessage(String arg) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// format: testId" "className" "testName" "status
 		// status: FAILURE, ERROR, OK
 		int i= arg.indexOf(' ');
@@ -449,8 +449,8 @@ public class RemoteTestRunnerClient {
 		notifyTestReran(testId, className, testName, status);
 	}
 
-	private void scanTestTiming(String arg) {
-		String[] timing= arg.split(",", -1); //$NON-NLS-1$
+	private void scanTestTiming(String arg) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String[] timing= arg.split(",", -1); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		if (timing.length != 5 || timing[0].isEmpty())
 			return;
 		try {
@@ -514,7 +514,7 @@ public class RemoteTestRunnerClient {
 	}
 
 	private void notifyTestReran(final String testId, final String className, final String testName, final int statusCode, final String trace) {
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -529,7 +529,7 @@ public class RemoteTestRunnerClient {
 	private void notifyTestTiming(final String testId, final long startTimeNanos, final long elapsedTimeNanos, final long cpuTimeNanos, final long userTimeNanos) {
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -540,7 +540,7 @@ public class RemoteTestRunnerClient {
 	}
 
 	private void notifyTestTreeEntry(final String treeEntry) {
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!hasTestId())
 				listener.testTreeEntry(fakeTestId(treeEntry));
 			else
@@ -552,13 +552,13 @@ public class RemoteTestRunnerClient {
 		// extract the test name and add it as the testId
 		int index0= treeEntry.indexOf(',');
 		String testName= treeEntry.substring(0, index0).trim();
-		return testName+","+treeEntry; //$NON-NLS-1$
+		return testName+","+treeEntry; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void notifyTestRunStopped(final long elapsedTime) {
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -573,7 +573,7 @@ public class RemoteTestRunnerClient {
 		ended = true;
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -586,7 +586,7 @@ public class RemoteTestRunnerClient {
 	private void notifyTestEnded(final String test) {
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -600,7 +600,7 @@ public class RemoteTestRunnerClient {
 	private void notifyTestStarted(final String test) {
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -614,7 +614,7 @@ public class RemoteTestRunnerClient {
 	private void notifyTestRunStarted(final int count) {
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -627,7 +627,7 @@ public class RemoteTestRunnerClient {
 	private void notifyTestFailed() {
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -667,7 +667,7 @@ public class RemoteTestRunnerClient {
 		// fix for 77771 RemoteTestRunnerClient doing work after junit shutdown [JUnit]
 		if (JUnitCorePlugin.isStopped())
 			return;
-		for (ITestRunListener2 listener : fListeners) {
+		for (ITestRunListener2 listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SafeRunner.run(new ListenerSafeRunnable() {
 				@Override
 				public void run() {
@@ -681,7 +681,7 @@ public class RemoteTestRunnerClient {
 		if (isRunning()) {
 			fActualResult.setLength(0);
 			fExpectedResult.setLength(0);
-			fWriter.println(MessageIds.TEST_RERUN+testId+" "+className+" "+testName); //$NON-NLS-1$ //$NON-NLS-2$
+			fWriter.println(MessageIds.TEST_RERUN+testId+" "+className+" "+testName); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fWriter.flush();
 		}
 	}

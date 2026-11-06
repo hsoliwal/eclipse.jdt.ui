@@ -200,7 +200,7 @@ public abstract class FlowInfo {
 
 	protected void addTypeVariable(ITypeBinding typeParameter) {
 		if (fTypeVariables == null)
-			fTypeVariables= new HashSet<>();
+			fTypeVariables= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fTypeVariables.add(typeParameter);
 	}
 
@@ -237,7 +237,7 @@ public abstract class FlowInfo {
 				thisSet= otherSet;
 			} else {
 				Iterator<T> iter= otherSet.iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					thisSet.add(iter.next());
 				}
 			}
@@ -257,11 +257,11 @@ public abstract class FlowInfo {
 	 * @return an array of local variable bindings conforming to the given type.
 	 */
 	public IVariableBinding[] get(FlowContext context, int mode) {
-		List<IVariableBinding> result= new ArrayList<>();
+		List<IVariableBinding> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int[] locals= getAccessModes();
 		if (locals == null)
 			return EMPTY_ARRAY;
-		for (int i= 0; i < locals.length; i++) {
+		for (int i= 0; i < locals.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int accessMode= locals[i];
 			if ((accessMode & mode) != 0)
 				result.add(context.getLocalFromIndex(i));
@@ -316,7 +316,7 @@ public abstract class FlowInfo {
 		fAccessModes[binding.getVariableId() - context.getStartingIndex()]= UNUSED;
 	}
 
-	protected void mergeAccessModeSequential(FlowInfo otherInfo, FlowContext context) {
+	protected void mergeAccessModeSequential(FlowInfo otherInfo, FlowContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!context.considerAccessMode())
 			return;
 
@@ -327,7 +327,7 @@ public abstract class FlowInfo {
 		// Must not consider return kind since a return statement can't control execution flow
 		// inside a method. It always leaves the method.
 		if (branches()) {
-			for (int i= 0; i < others.length; i++)
+			for (int i= 0; i < others.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				others[i]= ACCESS_MODE_OPEN_BRANCH_TABLE[getIndex(others[i])];
 		}
 
@@ -346,7 +346,7 @@ public abstract class FlowInfo {
 	}
 
 	private void handleComputeReturnValues(int[] others) {
-		for (int i= 0; i < fAccessModes.length; i++) {
+		for (int i= 0; i < fAccessModes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int accessmode= fAccessModes[i];
 			int othermode= others[i];
 			if (accessmode == WRITE)
@@ -363,7 +363,7 @@ public abstract class FlowInfo {
 	}
 
 	private void handleComputeArguments(int[] others) {
-		for (int i= 0; i < fAccessModes.length; i++) {
+		for (int i= 0; i < fAccessModes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int accessMode= fAccessModes[i];
 			int otherMode= others[i];
 			if (accessMode == UNUSED
@@ -378,7 +378,7 @@ public abstract class FlowInfo {
 	}
 
 	private void handleMergeValues(int[] others) {
-		for (int i= 0; i < fAccessModes.length; i++) {
+		for (int i= 0; i < fAccessModes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fAccessModes[i]= ACCESS_MODE_CONDITIONAL_TABLE
 				[getIndex(fAccessModes[i])]
 				[getIndex(others[i])];
@@ -390,7 +390,7 @@ public abstract class FlowInfo {
 		Arrays.fill(fAccessModes, UNUSED);
 	}
 
-	protected void mergeAccessModeConditional(FlowInfo otherInfo, FlowContext context) {
+	protected void mergeAccessModeConditional(FlowInfo otherInfo, FlowContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!context.considerAccessMode())
 			return;
 
@@ -404,14 +404,14 @@ public abstract class FlowInfo {
 			return;
 		} else {
 			if (others == null) {
-				for (int i= 0; i < fAccessModes.length; i++) {
+				for (int i= 0; i < fAccessModes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int unused_index= getIndex(UNUSED);
 					fAccessModes[i]= ACCESS_MODE_CONDITIONAL_TABLE
 						[getIndex(fAccessModes[i])]
 						[unused_index];
 				}
 			} else {
-				for (int i= 0; i < fAccessModes.length; i++) {
+				for (int i= 0; i < fAccessModes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fAccessModes[i]= ACCESS_MODE_CONDITIONAL_TABLE
 						[getIndex(fAccessModes[i])]
 						[getIndex(others[i])];
@@ -420,7 +420,7 @@ public abstract class FlowInfo {
 		}
 	}
 
-	protected void mergeEmptyCondition(FlowContext context) {
+	protected void mergeEmptyCondition(FlowContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fReturnKind == VALUE_RETURN || fReturnKind == VOID_RETURN)
 			fReturnKind= PARTIAL_RETURN;
 
@@ -433,14 +433,14 @@ public abstract class FlowInfo {
 		}
 
 		int unused_index= getIndex(UNUSED);
-		for (int i= 0; i < fAccessModes.length; i++) {
+		for (int i= 0; i < fAccessModes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fAccessModes[i]= ACCESS_MODE_CONDITIONAL_TABLE
 				[getIndex(fAccessModes[i])]
 				[unused_index];
 		}
 	}
 
-	private static int getIndex(int accessMode) {
+	private static int getIndex(int accessMode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		 // Fast log function
 		 switch (accessMode) {
 		 	case UNUSED:

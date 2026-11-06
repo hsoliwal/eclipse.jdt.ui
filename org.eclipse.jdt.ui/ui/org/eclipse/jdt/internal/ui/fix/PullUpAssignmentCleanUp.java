@@ -103,13 +103,13 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 				+ "if (isRemoved = list.remove(o)) {}\n\n"; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.PULL_UP_ASSIGNMENT)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -134,10 +134,10 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 
 				@Override
 				public boolean visit(final IfStatement visited) {
-					return !result || maybePullUpExpression(visited, visited.getExpression(), new ArrayList<>());
+					return !result || maybePullUpExpression(visited, visited.getExpression(), new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 
-				private boolean maybePullUpExpression(final IfStatement visited, final Expression expression, final List<Expression> evaluatedExpression) {
+				private boolean maybePullUpExpression(final IfStatement visited, final Expression expression, final List<Expression> evaluatedExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					Assignment assignment= ASTNodes.as(expression, Assignment.class);
 
 					if (assignment != null) {
@@ -177,7 +177,7 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 								InfixExpression.Operator.AND,
 								InfixExpression.Operator.OR);
 
-						for (Expression operand : operands) {
+						for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!maybePullUpExpression(visited, operand, evaluatedExpression)) {
 								return false;
 							}
@@ -195,7 +195,7 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 					return conditionalExpression == null || maybePullUpExpression(visited, conditionalExpression.getExpression(), evaluatedExpression);
 				}
 
-				private boolean maybePullUpAssignment(final IfStatement visited, final Assignment assignment, final List<Expression> evaluatedExpression) {
+				private boolean maybePullUpAssignment(final IfStatement visited, final Assignment assignment, final List<Expression> evaluatedExpression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					Expression leftHandSide= ASTNodes.getUnparenthesedExpression(assignment.getLeftHandSide());
 
 					if (!evaluatedExpression.isEmpty()) {
@@ -220,7 +220,7 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 							return true;
 						}
 
-						for (Expression expression : evaluatedExpression) {
+						for (Expression expression : evaluatedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							VarDefinitionsUsesVisitor variableUseVisitor= new VarDefinitionsUsesVisitor(variableBinding,
 							expression, true);
 
@@ -249,13 +249,13 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 					return true;
 				}
 
-				private VariableDeclarationFragment findFragmentIfNotUsed(final VariableDeclarationStatement variableDeclarationStatement,
+				private VariableDeclarationFragment findFragmentIfNotUsed(final VariableDeclarationStatement variableDeclarationStatement, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final Expression expression) {
 					VariableDeclarationFragment theFragment= null;
 					IVariableBinding bindingOfPreviousVariable= null;
 
 					if (variableDeclarationStatement != null && expression instanceof SimpleName) {
-						for (VariableDeclarationFragment aFragment : (List<VariableDeclarationFragment>) variableDeclarationStatement.fragments()) {
+						for (VariableDeclarationFragment aFragment : (List<VariableDeclarationFragment>) variableDeclarationStatement.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (bindingOfPreviousVariable != null) {
 								VarDefinitionsUsesVisitor varOccurrencesVisitor= new VarDefinitionsUsesVisitor(bindingOfPreviousVariable,
 								aFragment, true);
@@ -308,7 +308,7 @@ public class PullUpAssignmentCleanUp extends AbstractMultiFix {
 			this.leftHandSide= leftHandSide;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();

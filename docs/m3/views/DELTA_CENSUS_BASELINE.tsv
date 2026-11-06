@@ -1,0 +1,17 @@
+repo	module	pattern	main	test
+jdt.ui	org.eclipse.jdt.ui	jface_refresh_all	151	0
+jdt.ui	org.eclipse.jdt.ui	jface_setInput	144	0
+jdt.ui	org.eclipse.jdt.ui	swt_removeAll	13	0
+jdt.ui	org.eclipse.jdt.bcoview	swt_removeAll	9	0
+jdt.ui	org.eclipse.jdt.junit	jface_setInput	7	9
+jdt.ui	org.eclipse.jdt.astview	jface_setInput	4	0
+jdt.ui	org.eclipse.jdt.ui.unittest.junit	jface_setInput	3	0
+jdt.ui	org.eclipse.jdt.junit	swt_removeAll	2	0
+jdt.ui	org.eclipse.jdt.ui	swing_treeReload	2	0
+jdt.ui	org.eclipse.jdt.ui.junit.sampleproject	swing_contentsChanged	2	0
+jdt.ui	org.eclipse.jdt.astview	jface_refresh_all	1	0
+jdt.ui	org.eclipse.jdt.jeview	jface_refresh_all	1	0
+jdt.ui	org.eclipse.jdt.jeview	jface_setInput	1	0
+jdt.ui	org.eclipse.jdt.junit	jface_refresh_all	1	0
+jdt.ui	org.eclipse.jdt.ui.junit.sampleproject	swt_removeAll	0	1
+jdt.ui	org.eclipse.jdt.ui.tests	jface_setInput	0	16

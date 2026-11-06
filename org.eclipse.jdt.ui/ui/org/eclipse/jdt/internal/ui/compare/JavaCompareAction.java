@@ -102,7 +102,7 @@ public class JavaCompareAction implements IActionDelegate {
 		action.setEnabled(isEnabled(selection));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		Shell shell= JavaPlugin.getActiveWorkbenchShell();
 		ResourceBundle bundle= ResourceBundle.getBundle(BUNDLE_NAME);
@@ -156,7 +156,7 @@ public class JavaCompareAction implements IActionDelegate {
 		if (selection instanceof IStructuredSelection) {
 			Object[] sel= ((IStructuredSelection) selection).toArray();
 			if (sel.length == 2) {
-				for (int i= 0; i < 2; i++) {
+				for (int i= 0; i < 2; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object o= sel[i];
 					if (!(o instanceof ISourceReference))
 						return false;
@@ -169,7 +169,7 @@ public class JavaCompareAction implements IActionDelegate {
 		return false;
 	}
 
-	private String getExtendedSource(ISourceReference ref) throws JavaModelException {
+	private String getExtendedSource(ISourceReference ref) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// get parent
 		if (ref instanceof IJavaElement) {
@@ -185,7 +185,7 @@ public class JavaCompareAction implements IActionDelegate {
 					int end= start + childRange.getLength();
 
 					// search backwards for beginning of line
-					while (start > 0) {
+					while (start > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						char c= parentContent.charAt(start-1);
 						if (c == '\n' || c == '\r')
 							break;

@@ -50,7 +50,7 @@ public class LinkedNodeFinder  {
 	}
 
 
-	public static SimpleName getAssociatedRecordComponentNode(SimpleName simpleName) {
+	public static SimpleName getAssociatedRecordComponentNode(SimpleName simpleName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SimpleName rcName= null;
 		if (simpleName == null) {
 			return null;
@@ -131,7 +131,7 @@ public class LinkedNodeFinder  {
 				&& tBinding != null) {
 			IVariableBinding varBindings[]= recordTypeBinding.getDeclaredFields();
 			if (varBindings != null) {
-				for (IVariableBinding varBinding : varBindings) {
+				for (IVariableBinding varBinding : varBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String name= varBinding.getName();
 					if (simpleName.getIdentifier().equals(name)) {
 						int modifiers= varBinding.getModifiers();
@@ -165,7 +165,7 @@ public class LinkedNodeFinder  {
 		if (recordDeclaration != null) {
 			List<ASTNode> ff=recordDeclaration.recordComponents();
 			if (ff != null) {
-				for (ASTNode nd : ff) {
+				for (ASTNode nd : ff) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (nd instanceof SingleVariableDeclaration) {
 						SimpleName name= ((SingleVariableDeclaration) nd).getName();
 						if (simpleName.getIdentifier().equals(name.getIdentifier())) {
@@ -190,7 +190,7 @@ public class LinkedNodeFinder  {
 	 * @return Return
 	 */
 	public static SimpleName[] findByBinding(ASTNode root, IBinding binding) {
-		ArrayList<SimpleName> res= new ArrayList<>();
+		ArrayList<SimpleName> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		BindingFinder nodeFinder= new BindingFinder(binding, res);
 		root.accept(nodeFinder);
 		return res.toArray(new SimpleName[res.size()]);
@@ -204,7 +204,7 @@ public class LinkedNodeFinder  {
 	 * @param name The node to find linked nodes for
 	 * @return Return
 	 */
-	public static SimpleName[] findByNode(ASTNode root, SimpleName name) {
+	public static SimpleName[] findByNode(ASTNode root, SimpleName name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IBinding binding = name.resolveBinding();
 		if (binding != null) {
 			SimpleName recNode= getAssociatedRecordComponentNode(name);
@@ -220,7 +220,7 @@ public class LinkedNodeFinder  {
 		}
 		int parentKind= name.getParent().getNodeType();
 		if (parentKind == ASTNode.LABELED_STATEMENT || parentKind == ASTNode.BREAK_STATEMENT || parentKind == ASTNode.CONTINUE_STATEMENT) {
-			ArrayList<SimpleName> res= new ArrayList<>();
+			ArrayList<SimpleName> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			LabelFinder nodeFinder= new LabelFinder(name, res);
 			root.accept(nodeFinder);
 			return res.toArray(new SimpleName[res.size()]);
@@ -235,7 +235,7 @@ public class LinkedNodeFinder  {
 		}
 		int parentKind= name.getParent().getNodeType();
 		if (parentKind == ASTNode.LABELED_STATEMENT || parentKind == ASTNode.BREAK_STATEMENT || parentKind == ASTNode.CONTINUE_STATEMENT) {
-			ArrayList<Name> res= new ArrayList<>();
+			ArrayList<Name> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			QLabelFinder nodeFinder= new QLabelFinder(name, res);
 			root.accept(nodeFinder);
 			return res.toArray(new Name[res.size()]);
@@ -272,7 +272,7 @@ public class LinkedNodeFinder  {
 		int nameOffset= nameNode.getStartPosition();
 		int nameInclEnd= nameOffset + nameNode.getLength() - 1;
 
-		for (IProblem curr : problems) {
+		for (IProblem curr : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getSourceStart() == nameOffset && curr.getSourceEnd() == nameInclEnd) {
 				int kind= getProblemKind(curr);
 				if (kind != 0) {
@@ -287,7 +287,7 @@ public class LinkedNodeFinder  {
 		int nameOffset= nameNode.getStartPosition();
 		int nameInclEnd= nameOffset + nameNode.getLength() - 1;
 
-		for (IProblem curr : problems) {
+		for (IProblem curr : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getSourceStart() == nameOffset && curr.getSourceEnd() == nameInclEnd) {
 				int kind= getProblemKind(curr);
 				if (kind != 0) {
@@ -299,11 +299,11 @@ public class LinkedNodeFinder  {
 	}
 
 
-	public static SimpleName[] findByProblems(ASTNode parent, SimpleName nameNode) {
+	public static SimpleName[] findByProblems(ASTNode parent, SimpleName nameNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (nameNode.getAST().apiLevel() >= ASTHelper.JLS10 && nameNode.isVar()) {
 			return null;
 		}
-		ArrayList<SimpleName> res= new ArrayList<>();
+		ArrayList<SimpleName> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ASTNode astRoot = parent.getRoot();
 		if (!(astRoot instanceof CompilationUnit)) {
@@ -321,7 +321,7 @@ public class LinkedNodeFinder  {
 
 		String name= nameNode.getIdentifier();
 
-		for (IProblem curr : problems) {
+		for (IProblem curr : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int probStart= curr.getSourceStart();
 			int probEnd= curr.getSourceEnd() + 1;
 
@@ -340,8 +340,8 @@ public class LinkedNodeFinder  {
 		return res.toArray(new SimpleName[res.size()]);
 	}
 
-	public static Name[] findByProblems(ASTNode parent, Name nameNode) {
-		ArrayList<Name> res= new ArrayList<>();
+	public static Name[] findByProblems(ASTNode parent, Name nameNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<Name> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ASTNode astRoot = parent.getRoot();
 		if (!(astRoot instanceof CompilationUnit)) {
@@ -359,7 +359,7 @@ public class LinkedNodeFinder  {
 
 		String name= nameNode.getFullyQualifiedName();
 
-		for (IProblem curr : problems) {
+		for (IProblem curr : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int probStart= curr.getSourceStart();
 			int probEnd= curr.getSourceEnd() + 1;
 
@@ -467,7 +467,7 @@ public class LinkedNodeFinder  {
 			fResult= result;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			if (node.getAST().apiLevel() >= ASTHelper.JLS10 && node.isVar()) {
 				return false;

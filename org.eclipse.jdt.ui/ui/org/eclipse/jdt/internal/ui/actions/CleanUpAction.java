@@ -59,7 +59,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.util.ElementValidator;
 import org.eclipse.jdt.internal.ui.workingsets.IWorkingSetIDs;
 
-public abstract class CleanUpAction extends SelectionDispatchAction {
+public abstract class CleanUpAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -131,9 +131,9 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 		setEnabled(isEnabled(selection));
 	}
 
-	private boolean isEnabled(IStructuredSelection selection) {
+	private boolean isEnabled(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] selected= selection.toArray();
-		for (Object s : selected) {
+		for (Object s : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				if (s instanceof IProject) {
 				   s= JavaCore.create((IProject)s);
@@ -169,7 +169,7 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	private void run(ICompilationUnit cu) {
+	private void run(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!ActionUtil.isEditable(fEditor, getShell(), cu))
 			return;
 
@@ -193,13 +193,13 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 		}
 	}
 
-	private void runOnMultiple(final ICompilationUnit[] cus) {
+	private void runOnMultiple(final ICompilationUnit[] cus) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICleanUp[] cleanUps= getCleanUps(cus);
 		if (cleanUps == null)
 			return;
 
 		MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, IStatus.OK, ActionMessages.CleanUpAction_MultiStateErrorTitle, null);
-		for (ICompilationUnit cu : cus) {
+		for (ICompilationUnit cu : cus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!ActionUtil.isOnBuildPath(cu)) {
 				String cuLocation= BasicElementLabels.getPathLabel(cu.getPath(), false);
 				String message= Messages.format(ActionMessages.CleanUpAction_CUNotOnBuildpathMessage, cuLocation);
@@ -227,15 +227,15 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 	}
 
 	public ICompilationUnit[] getCompilationUnits(IStructuredSelection selection) {
-		HashSet<IJavaElement> result= new HashSet<>();
+		HashSet<IJavaElement> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Object[] selected= selection.toArray();
-		for (Object element : selected) {
+		for (Object element : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			collectCompilationUnits(element, result);
 		}
 		return result.toArray(new ICompilationUnit[result.size()]);
 	}
 
-	private void collectCompilationUnits(Object element, Collection<IJavaElement> result) {
+	private void collectCompilationUnits(Object element, Collection<IJavaElement> result) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (element instanceof IProject) {
 				   element= JavaCore.create((IProject)element);
@@ -263,7 +263,7 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 							break;
 						case IJavaElement.JAVA_PROJECT:
 							IPackageFragmentRoot[] roots= ((IJavaProject)elem).getPackageFragmentRoots();
-							for (IPackageFragmentRoot root : roots) {
+							for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								collectCompilationUnits(root, result);
 							}
 							break;
@@ -271,7 +271,7 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 				}
 			} else if (element instanceof LogicalPackage) {
 				IPackageFragment[] packageFragments= ((LogicalPackage)element).getFragments();
-				for (IPackageFragment pack : packageFragments) {
+				for (IPackageFragment pack : packageFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (pack.exists()) {
 						collectCompilationUnits(pack, result);
 					}
@@ -279,7 +279,7 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 			} else if (element instanceof IWorkingSet) {
 				IWorkingSet workingSet= (IWorkingSet) element;
 				IAdaptable[] elements= workingSet.getElements();
-				for (IAdaptable e : elements) {
+				for (IAdaptable e : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					collectCompilationUnits(e, result);
 				}
 			}
@@ -296,7 +296,7 @@ public abstract class CleanUpAction extends SelectionDispatchAction {
 	private void collectCompilationUnits(IPackageFragmentRoot root, Collection<IJavaElement> result) throws JavaModelException {
 		if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 			IJavaElement[] children= root.getChildren();
-			for (IJavaElement child : children) {
+			for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectCompilationUnits((IPackageFragment) child, result);
 			}
 		}

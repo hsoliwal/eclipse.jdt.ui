@@ -73,25 +73,25 @@ public class ReplaceRewrite {
 		handleManyMany(replacements, description);
 	}
 
-	protected void handleManyMany(ASTNode[] replacements, TextEditGroup description) {
+	protected void handleManyMany(ASTNode[] replacements, TextEditGroup description) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ListRewrite container= fRewrite.getListRewrite(fToReplace[0].getParent(), (ChildListPropertyDescriptor)fDescriptor);
 		if (fToReplace.length == replacements.length) {
-			for (int i= 0; i < fToReplace.length; i++) {
+			for (int i= 0; i < fToReplace.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				container.replace(fToReplace[i], replacements[i], description);
 			}
 		} else if (fToReplace.length < replacements.length) {
-			for (int i= 0; i < fToReplace.length; i++) {
+			for (int i= 0; i < fToReplace.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				container.replace(fToReplace[i], replacements[i], description);
 			}
-			for (int i= fToReplace.length; i < replacements.length; i++) {
+			for (int i= fToReplace.length; i < replacements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				container.insertAfter(replacements[i], replacements[i - 1], description);
 			}
 		} else if (fToReplace.length > replacements.length) {
 			int delta= fToReplace.length - replacements.length;
-			for(int i= 0; i < delta; i++) {
+			for(int i= 0; i < delta; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				container.remove(fToReplace[i], description);
 			}
-			for (int i= delta, r= 0; i < fToReplace.length; i++, r++) {
+			for (int i= delta, r= 0; i < fToReplace.length; i++, r++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				container.replace(fToReplace[i], replacements[r], description);
 			}
 		}

@@ -70,7 +70,7 @@ public class EnablePreviewFeaturesAction implements IObjectActionDelegate {
 		// not used
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction action) {
 		if (fJavaProject != null) {
 			try {
@@ -106,7 +106,7 @@ public class EnablePreviewFeaturesAction implements IObjectActionDelegate {
 				fJavaProject.setOptions(map);
 
 				Shell shell= JavaPlugin.getActiveWorkbenchShell();
-				Map<String, Object> data= new HashMap<>();
+				Map<String, Object> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				data.put(CompliancePreferencePage.DATA_SELECT_OPTION_KEY, JavaCore.COMPILER_PB_REPORT_PREVIEW_FEATURES);
 				data.put(CompliancePreferencePage.DATA_SELECT_OPTION_QUALIFIER, JavaCore.PLUGIN_ID);
 				data.put(CompliancePreferencePage.USE_PROJECT_SPECIFIC_OPTIONS, Boolean.TRUE);
@@ -152,10 +152,10 @@ public class EnablePreviewFeaturesAction implements IObjectActionDelegate {
 	}
 
 	private void updateComplianceSettings(IJavaProject project, String compliance) {
-		HashMap<String, String> defaultOptions= new HashMap<>();
+		HashMap<String, String> defaultOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaCore.setComplianceOptions(compliance, defaultOptions);
 		Iterator<Map.Entry<String, String>> it= defaultOptions.entrySet().iterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<String, String> pair= it.next();
 			project.setOption(pair.getKey(), pair.getValue());
 		}

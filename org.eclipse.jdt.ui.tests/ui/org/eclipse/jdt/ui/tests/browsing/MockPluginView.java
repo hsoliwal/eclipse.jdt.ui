@@ -53,10 +53,10 @@ public class MockPluginView extends PackagesView {
 
 	public MockPluginView() {
 		super();
-		fRefreshedObject= new ArrayList<>();
-		fAddedObject= new ArrayList<>();
-		fRemovedObject= new ArrayList<>();
-		fAddedParentObject= new ArrayList<>();
+		fRefreshedObject= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fAddedObject= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fRemovedObject= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fAddedParentObject= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/*
@@ -222,7 +222,7 @@ public class MockPluginView extends PackagesView {
 	 */
 	public void pushDisplay() {
 		boolean moreToDispatch= true;
-		while (moreToDispatch) {
+		while (moreToDispatch) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control ctrl= getTreeViewer().getControl();
 			if (ctrl != null && !ctrl.isDisposed()) {
 				moreToDispatch= getTreeViewer().getControl().getDisplay().readAndDispatch();
@@ -243,7 +243,7 @@ public class MockPluginView extends PackagesView {
 			fRefreshHappened= true;
 			fRefreshedObject.add(object);
 			if (fRefreshLogging)
-				new Exception("Refresh tree item: " + object).printStackTrace(System.out);
+				new Exception("Refresh tree item: " + object).printStackTrace(System.out); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -273,8 +273,8 @@ public class MockPluginView extends PackagesView {
 			fRefreshHappened= true;
 			fRefreshedObject.add(object);
 			if (fRefreshLogging)
-				new Exception("Refresh table item: " + object).printStackTrace(System.out);
-			super.refresh(object);
+				new Exception("Refresh table item: " + object).printStackTrace(System.out); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			super.refresh(object); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		@Override

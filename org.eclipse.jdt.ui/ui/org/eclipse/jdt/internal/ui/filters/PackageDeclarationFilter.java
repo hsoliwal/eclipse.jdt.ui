@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.IPackageDeclaration;
 /**
  * Filters package declarations
  */
-public class PackageDeclarationFilter extends ViewerFilter {
+public class PackageDeclarationFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

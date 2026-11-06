@@ -78,7 +78,7 @@ public class JavaSearchEditorOpener {
 		return showInEditor(wbPage, input, editorID);
 	}
 
-	private IEditorPart showInEditor(IWorkbenchPage page, IEditorInput input, String editorId) {
+	private IEditorPart showInEditor(IWorkbenchPage page, IEditorInput input, String editorId) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorPart editor= page.findEditor(input);
 		if (editor != null) {
 			page.bringToTop(editor);

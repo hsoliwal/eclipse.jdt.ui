@@ -79,7 +79,7 @@ public class CompletionProposalLabelProvider {
 	 * @param proposal the proposal to create the parameter list for
 	 * @return the list of comma-separated parameters suitable for display
 	 */
-	public String createParameterList(CompletionProposal proposal) {
+	public String createParameterList(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String paramList;
 		int kind= proposal.getKind();
 		switch (kind) {
@@ -113,7 +113,7 @@ public class CompletionProposalLabelProvider {
 		char[][] parameterNames= methodProposal.findParameterNames(null);
 		char[][] parameterTypes= Signature.getParameterTypes(signature);
 
-		for (int i= 0; i < parameterTypes.length; i++)
+		for (int i= 0; i < parameterTypes.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parameterTypes[i]= createTypeDisplayName(SignatureUtil.getLowerBound(parameterTypes[i]));
 
 		if (Flags.isVarargs(methodProposal.getFlags())) {
@@ -136,7 +136,7 @@ public class CompletionProposalLabelProvider {
 		// gets fixed.
 		char[] signature= SignatureUtil.fix83600(typeProposal.getSignature());
 		char[][] typeParameters= Signature.getTypeArguments(signature);
-		for (int i= 0; i < typeParameters.length; i++) {
+		for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char[] param= typeParameters[i];
 			typeParameters[i]= Signature.toCharArray(param);
 		}
@@ -161,7 +161,7 @@ public class CompletionProposalLabelProvider {
 	 * @return the converted type name
 	 * @since 3.2
 	 */
-    private char[] convertToVararg(char[] typeName) {
+    private char[] convertToVararg(char[] typeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (typeName == null)
     		return typeName;
     	final int len= typeName.length;
@@ -191,16 +191,16 @@ public class CompletionProposalLabelProvider {
 	 * @see Signature#toCharArray(char[])
 	 * @see Signature#getSimpleName(char[])
 	 */
-	private char[] createTypeDisplayName(char[] typeSignature) throws IllegalArgumentException {
+	private char[] createTypeDisplayName(char[] typeSignature) throws IllegalArgumentException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[] displayName= Signature.getSimpleName(Signature.toCharArray(typeSignature));
 
 		// XXX see https://bugs.eclipse.org/bugs/show_bug.cgi?id=84675
 		boolean useShortGenerics= false;
 		if (useShortGenerics) {
-			StringBuilder buf= new StringBuilder();
-			buf.append(displayName);
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append(displayName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			int pos;
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pos= buf.indexOf("? extends "); //$NON-NLS-1$
 				if (pos >= 0) {
 					buf.replace(pos, pos + 10, "+"); //$NON-NLS-1$
@@ -226,7 +226,7 @@ public class CompletionProposalLabelProvider {
 	 */
 	private final StyledString appendParameterSignature(StyledString buffer, char[][] parameterTypes, char[][] parameterNames) {
 		if (parameterTypes != null) {
-			for (int i = 0; i < parameterTypes.length; i++) {
+			for (int i = 0; i < parameterTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					buffer.append(',');
 					buffer.append(' ');
@@ -261,7 +261,7 @@ public class CompletionProposalLabelProvider {
 	 * @param methodProposal the method proposal to display
 	 * @return the display label for the given method proposal
 	 */
-	StyledString createMethodProposalLabel(CompletionProposal methodProposal) {
+	StyledString createMethodProposalLabel(CompletionProposal methodProposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledString nameBuffer= new StyledString();
 
 		// method name
@@ -330,7 +330,7 @@ public class CompletionProposalLabelProvider {
 		return org.eclipse.jdt.internal.corext.util.Strings.markJavaElementLabelLTR(nameBuffer);
 	}
 
-	StyledString createOverrideMethodProposalLabel(CompletionProposal methodProposal) {
+	StyledString createOverrideMethodProposalLabel(CompletionProposal methodProposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledString nameBuffer= new StyledString();
 
 		// method name
@@ -441,7 +441,7 @@ public class CompletionProposalLabelProvider {
 
 	private int findSimpleNameStart(char[] array) {
 		int lastDot= 0;
-		for (int i= 0, len= array.length; i < len; i++) {
+		for (int i= 0, len= array.length; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= array[i];
 			if (ch == '<') {
 				return lastDot;
@@ -476,7 +476,7 @@ public class CompletionProposalLabelProvider {
 		return string[0] == 't' && string[1] == 'h' && string[2] == 'i' && string[3] == 's' && string[4] == '.';
 	}
 
-	StyledString createLabelWithTypeAndDeclaration(CompletionProposal proposal) {
+	StyledString createLabelWithTypeAndDeclaration(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[] name= proposal.getCompletion();
 		if (!isThisPrefix(name))
 			name= proposal.getName();
@@ -525,7 +525,7 @@ public class CompletionProposalLabelProvider {
 		return Strings.markJavaElementLabelLTR(new StyledString(String.valueOf(proposal.getCompletion())));
 	}
 
-	StyledString createAnonymousTypeLabel(CompletionProposal proposal) {
+	StyledString createAnonymousTypeLabel(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		char[] declaringTypeSignature= proposal.getDeclarationSignature();
 		declaringTypeSignature= Signature.getTypeErasure(declaringTypeSignature);
 
@@ -548,7 +548,7 @@ public class CompletionProposalLabelProvider {
 		return Strings.markJavaElementLabelLTR(buffer);
 	}
 
-	private StyledString createLambdaProposalLabel(CompletionProposal proposal) {
+	private StyledString createLambdaProposalLabel(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StyledString nameBuffer= new StyledString();
 
 		// lambda parameters
@@ -590,7 +590,7 @@ public class CompletionProposalLabelProvider {
 	 *
 	 * @since 3.4
 	 */
-	public StyledString createStyledLabel(CompletionProposal proposal) {
+	public StyledString createStyledLabel(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (proposal.getKind()) {
 			case CompletionProposal.METHOD_NAME_REFERENCE:
 			case CompletionProposal.METHOD_REF:
@@ -646,7 +646,7 @@ public class CompletionProposalLabelProvider {
 	 * @param proposal the proposal for which to create an image descriptor
 	 * @return the created image descriptor, or <code>null</code> if no image is available
 	 */
-	public ImageDescriptor createImageDescriptor(CompletionProposal proposal) {
+	public ImageDescriptor createImageDescriptor(CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int flags= proposal.getFlags();
 
 		ImageDescriptor descriptor;
@@ -746,7 +746,7 @@ public class CompletionProposalLabelProvider {
 	 * @return an image descriptor for a method proposal
 	 * @see Flags
 	 */
-	private ImageDescriptor decorateImageDescriptor(ImageDescriptor descriptor, CompletionProposal proposal) {
+	private ImageDescriptor decorateImageDescriptor(ImageDescriptor descriptor, CompletionProposal proposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int adornments= 0;
 		int flags= proposal.getFlags();
 		int kind= proposal.getKind();
@@ -755,7 +755,7 @@ public class CompletionProposalLabelProvider {
 		if (!deprecated) {
 			CompletionProposal[] requiredProposals= proposal.getRequiredProposals();
 			if (requiredProposals != null) {
-				for (CompletionProposal requiredProposal : requiredProposals) {
+				for (CompletionProposal requiredProposal : requiredProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (requiredProposal.getKind() == CompletionProposal.TYPE_REF) {
 						deprecated |= Flags.isDeprecated(requiredProposal.getFlags());
 					}

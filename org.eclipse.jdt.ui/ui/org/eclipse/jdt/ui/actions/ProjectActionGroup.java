@@ -90,7 +90,7 @@ public class ProjectActionGroup extends ActionGroup {
 	 *
 	 * @since 3.4
 	 */
-	public ProjectActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) {
+	public ProjectActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelectionProvider= selectionProvider;
 		ISelection selection= selectionProvider.getSelection();
 
@@ -109,13 +109,13 @@ public class ProjectActionGroup extends ActionGroup {
 			fCloseUnrelatedAction.selectionChanged(s);
 		}
 
-		fSelectionChangedListener= event -> {
+		fSelectionChangedListener= event -> { //FLLDCIM: MARK — T04  LAMBDA
 			ISelection s= event.getSelection();
 			if (s instanceof IStructuredSelection) {
 				performSelectionChanged((IStructuredSelection) s);
 			}
 		};
-		selectionProvider.addSelectionChangedListener(fSelectionChangedListener);
+		selectionProvider.addSelectionChangedListener(fSelectionChangedListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		IWorkspace workspace= ResourcesPlugin.getWorkspace();
 		workspace.addResourceChangeListener(fOpenAction);
@@ -125,7 +125,7 @@ public class ProjectActionGroup extends ActionGroup {
 
 	protected void performSelectionChanged(IStructuredSelection structuredSelection) {
 		Object[] array= structuredSelection.toArray();
-		ArrayList<IProject> openProjects= new ArrayList<>();
+		ArrayList<IProject> openProjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int selectionStatus= evaluateSelection(array, openProjects);
 		StructuredSelection sel= new StructuredSelection(openProjects);
 
@@ -139,9 +139,9 @@ public class ProjectActionGroup extends ActionGroup {
 	private int CLOSED_PROJECTS_SELECTED= 1;
 	private int NON_PROJECT_SELECTED= 2;
 
-	private int evaluateSelection(Object[] array, List<IProject> allOpenProjects) {
+	private int evaluateSelection(Object[] array, List<IProject> allOpenProjects) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int status= 0;
-		for (Object curr : array) {
+		for (Object curr : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof IJavaProject) {
 				curr= ((IJavaProject) curr).getProject();
 			}
@@ -165,7 +165,7 @@ public class ProjectActionGroup extends ActionGroup {
 	}
 
 	private boolean hasClosedProjectsInWorkspace() {
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isOpen()) {
 				return true;
 			}
@@ -208,7 +208,7 @@ public class ProjectActionGroup extends ActionGroup {
 			return false;
 
 		Iterator<?> iter= selection.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object obj= iter.next();
 			if (obj instanceof IAdaptable) {
 				if (((IAdaptable)obj).getAdapter(IProject.class) == null)

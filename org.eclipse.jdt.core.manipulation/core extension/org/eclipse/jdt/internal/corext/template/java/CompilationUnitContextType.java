@@ -187,7 +187,7 @@ public abstract class CompilationUnitContextType extends TemplateContextType {
 	@Override
 	protected void validateVariables(TemplateVariable[] variables) throws TemplateException {
 		// check for multiple cursor variables
-		for (TemplateVariable var : variables) {
+		for (TemplateVariable var : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (GlobalTemplateVariables.Cursor.NAME.equals(var.getType())) {
 				if (var.getOffsets().length > 1) {
 					throw new TemplateException(JavaTemplateMessages.ContextType_error_multiple_cursor_variables);

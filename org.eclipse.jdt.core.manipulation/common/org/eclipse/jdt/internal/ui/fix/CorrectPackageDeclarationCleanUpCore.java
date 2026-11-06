@@ -40,7 +40,7 @@ public class CorrectPackageDeclarationCleanUpCore extends AbstractMultiFix {
 	@Override
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		IProblem[] problems= unit.getProblems();
-		for (IProblem problem : problems) {
+		for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProblemLocation location= new ProblemLocation(problem);
 			if (location.getProblemId() == IProblem.PackageIsNotExpectedPackage) {
 				return createFix(unit, new IProblemLocation[] { location });
@@ -51,7 +51,7 @@ public class CorrectPackageDeclarationCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	protected ICleanUpFix createFix(CompilationUnit unit, IProblemLocation[] problems) throws CoreException {
-		for (IProblemLocation problem : problems) {
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.getProblemId() == IProblem.PackageIsNotExpectedPackage) {
 				return CorrectPackageDeclarationFixCore.create(unit, problem);
 			}

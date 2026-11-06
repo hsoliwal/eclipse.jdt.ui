@@ -35,7 +35,7 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)"
 		};
 		Test prioritized= prioritize(suite, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(prioritized, order);
 		String[] expected= {
 				"testF", "testD", "testE"
@@ -43,7 +43,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderCustomSuite() {
+	public void testReorderCustomSuite() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// custom suite
 		//		D
 		//		E
@@ -58,7 +58,7 @@ public class TestPriorization extends TestCase {
 		};
 		Test prioritized= prioritize(suite, priority);
 
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(prioritized, order);
 		String[] expected= {
 				"testF", "testD", "testE"
@@ -67,7 +67,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderSimpleWithDecorator() {
+	public void testReorderSimpleWithDecorator() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite
 		//		decorator
 		//			D
@@ -83,7 +83,7 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)"
 		};
 		Test reordered= prioritize(suite, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 		String[] expected= {
 				"testF", "testD", "testE"
@@ -91,7 +91,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderWithPropagation() {
+	public void testReorderWithPropagation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite
 		//		suite1
 		//			A
@@ -109,7 +109,7 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)"
 		};
 		Test reordered= prioritize(suite, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 
 		String[] expected= {
@@ -118,7 +118,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderWithPropagationWithDecorator() {
+	public void testReorderWithPropagationWithDecorator() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite
 		//		suite1
 		//			A
@@ -142,7 +142,7 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)"
 		};
 		Test reordered= prioritize(suite, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 
 		String[] expected= {
@@ -151,7 +151,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderWithPropagation2() {
+	public void testReorderWithPropagation2() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite4
 		//		suite3
 		//			X
@@ -177,7 +177,7 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)"
 		};
 		Test reordered= prioritize(suite4, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 
 		String[] expected= {
@@ -186,7 +186,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderWithPropagationBug() {
+	public void testReorderWithPropagationBug() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite4
 		//		suite3
 		//			X
@@ -212,7 +212,7 @@ public class TestPriorization extends TestCase {
 				"testE(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)", "testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)"
 		};
 		Test reordered= prioritize(suite4, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 
 		String[] expected= {
@@ -222,7 +222,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorderWithPropagation3() {
+	public void testReorderWithPropagation3() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite4
 		//		suite3
 		//			X
@@ -248,7 +248,7 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)", "testZ(org.eclipse.jdt.junit.tests.TestPriorizationSuite)"
 		};
 		Test reordered= prioritize(suite4, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 
 		String[] expected= {
@@ -257,7 +257,7 @@ public class TestPriorization extends TestCase {
 		checkOrder(expected, order);
 	}
 
-	public void testReorder() {
+	public void testReorder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// suite
 		//		suite1
 		//			X
@@ -282,25 +282,25 @@ public class TestPriorization extends TestCase {
 				"testF(org.eclipse.jdt.junit.tests.TestPriorizationSuite2)", "testZ(org.eclipse.jdt.junit.tests.TestPriorizationSuite)"
 		};
 		Test reordered= prioritize(suite, priority);
-		List<String> order= new ArrayList<>();
+		List<String> order= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		collectOrder(reordered, order);
 
 		// can't check for exact order, since order of Class.getDeclaredMethods() is unspecified (bug 144503)
-		List<String> suiteTests= new ArrayList<>(Arrays.asList("testX", "testY", "testZ"));
-		List<String> suite1Tests= new ArrayList<>(Arrays.asList("testA", "testB", "testC"));
-		List<String> suite2Tests= new ArrayList<>(Arrays.asList("testD", "testE", "testF"));
+		List<String> suiteTests= new ArrayList<>(Arrays.asList("testX", "testY", "testZ")); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> suite1Tests= new ArrayList<>(Arrays.asList("testA", "testB", "testC")); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> suite2Tests= new ArrayList<>(Arrays.asList("testD", "testE", "testF")); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		assertEquals("testF", order.get(0));
 		assertEquals("testZ", order.get(6));
-		for (int i= 0; i < 3; i++) {
+		for (int i= 0; i < 3; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String test= order.get(i);
 			assertTrue(test, suite2Tests.remove(test));
 		}
-		for (int i= 3; i < 6; i++) {
+		for (int i= 3; i < 6; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String test= order.get(i);
 			assertTrue(test, suite1Tests.remove(test));
 		}
-		for (int i= 6; i < 9; i++) {
+		for (int i= 6; i < 9; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String test= order.get(i);
 			assertTrue(test, suiteTests.remove(test));
 		}
@@ -350,9 +350,9 @@ public class TestPriorization extends TestCase {
 	}
 
 	private static String enumerate(List<String> list) {
-		StringBuilder buf= new StringBuilder();
-		for (String s : list) {
-			buf.append(s).append('\n');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (String s : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(s).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
@@ -373,7 +373,7 @@ public class TestPriorization extends TestCase {
 			order.add(s);
 		} else if (suite instanceof TestSuite) {
 			TestSuite aSuite= (TestSuite)suite;
-			for (Enumeration<Test> e= aSuite.tests(); e.hasMoreElements();) {
+			for (Enumeration<Test> e= aSuite.tests(); e.hasMoreElements();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Test test= e.nextElement();
 				collectOrder(test, order);
 			}

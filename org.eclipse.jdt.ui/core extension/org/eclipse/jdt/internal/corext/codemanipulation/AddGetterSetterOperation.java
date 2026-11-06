@@ -68,7 +68,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @since 3.1
  */
-public final class AddGetterSetterOperation implements IWorkspaceRunnable {
+public final class AddGetterSetterOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/** The empty strings constant */
 	private static final String[] EMPTY_STRINGS= new String[0];
@@ -199,7 +199,7 @@ public final class AddGetterSetterOperation implements IWorkspaceRunnable {
 	 * @throws CoreException if an error occurs
 	 * @throws OperationCanceledException if the operation has been cancelled
 	 */
-	private void generateSetterMethod(final IField field, ASTRewrite astRewrite, final ListRewrite rewrite) throws CoreException, OperationCanceledException {
+	private void generateSetterMethod(final IField field, ASTRewrite astRewrite, final ListRewrite rewrite) throws CoreException, OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IType type= field.getDeclaringType();
 		final String name= GetterSetterUtil.getSetterName(field, null);
 		final IMethod existing= JavaModelUtil.findMethod(name, new String[] { field.getTypeSignature()}, false, type);
@@ -295,7 +295,7 @@ public final class AddGetterSetterOperation implements IWorkspaceRunnable {
 	/*
 	 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -323,12 +323,12 @@ public final class AddGetterSetterOperation implements IWorkspaceRunnable {
 
 			fSkipAllExisting= (fSkipExistingQuery == null);
 
-			Set<IField> accessors = new HashSet<>(Arrays.asList(fAccessorFields));
-			Set<IField> getters = new HashSet<>(Arrays.asList(fGetterFields));
-			Set<IField> setters= new HashSet<>(Arrays.asList(fSetterFields));
+			Set<IField> accessors = new HashSet<>(Arrays.asList(fAccessorFields)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			Set<IField> getters = new HashSet<>(Arrays.asList(fGetterFields)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			Set<IField> setters= new HashSet<>(Arrays.asList(fSetterFields)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			IField[] fields= fType.getFields(); // generate methods in order of field declarations
 			if (!fSort) {
-				for (IField field : fields) {
+				for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (accessors.contains(field)) {
 						generateGetterMethod(field, listRewriter);
 						generateSetterMethod(field, astRewrite, listRewriter);
@@ -341,7 +341,7 @@ public final class AddGetterSetterOperation implements IWorkspaceRunnable {
 			}
 			if (fType.isRecord()) {
 				IField[] recComps= fType.getRecordComponents();
-				for (IField field : recComps) {
+				for (IField field : recComps) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (getters.contains(field)) {
 						generateGetterMethod(field, listRewriter);
 						monitor.worked(1);
@@ -351,7 +351,7 @@ public final class AddGetterSetterOperation implements IWorkspaceRunnable {
 					}
 				}
 			}
-			for (IField field : fields) {
+			for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (getters.contains(field)) {
 					generateGetterMethod(field, listRewriter);
 					monitor.worked(1);
@@ -360,7 +360,7 @@ public final class AddGetterSetterOperation implements IWorkspaceRunnable {
 					}
 				}
 			}
-			for (IField field : fields) {
+			for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (setters.contains(field)) {
 					generateSetterMethod(field, astRewrite, listRewriter);
 					monitor.worked(1);

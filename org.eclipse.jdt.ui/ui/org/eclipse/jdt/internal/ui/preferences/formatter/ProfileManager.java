@@ -87,7 +87,7 @@ public abstract class ProfileManager extends Observable {
 
 		public boolean hasEqualSettings(Map<String, String> otherMap, Collection<String> allKeys) {
 			Map<String, String> settings= getSettings();
-			for (String key : allKeys) {
+			for (String key : allKeys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object other= otherMap.get(key);
 				Object curr= settings.get(key);
 				if (!Objects.equals(other, curr)) {
@@ -239,7 +239,7 @@ public abstract class ProfileManager extends Observable {
 
 		@Override
 		public String getID() {
-			return ID_PREFIX + fName;
+			return ID_PREFIX + fName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		public void setManager(ProfileManager profileManager) {
@@ -370,7 +370,7 @@ public abstract class ProfileManager extends Observable {
 	 * Create and initialize a new profile manager.
 	 * @param profiles Initial custom profiles (List of type <code>CustomProfile</code>)
 	 */
-	public ProfileManager(
+	public ProfileManager( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<Profile> profiles,
 			IScopeContext context,
 			PreferencesAccess preferencesAccess,
@@ -385,10 +385,10 @@ public abstract class ProfileManager extends Observable {
 		fProfileKey= profileKey;
 		fProfileVersionKey= profileVersionKey;
 
-		fProfiles= new HashMap<>();
-		fProfilesByName= new ArrayList<>();
+		fProfiles= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fProfilesByName= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Profile profile : profiles) {
+		for (Profile profile : profiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (profile instanceof CustomProfile) {
 				((CustomProfile)profile).setManager(this);
 			}
@@ -396,7 +396,7 @@ public abstract class ProfileManager extends Observable {
 			fProfilesByName.add(profile);
 		}
 
-		Collections.sort(fProfilesByName);
+		Collections.sort(fProfilesByName); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		String profileId= getSelectedProfileId(fPreferencesAccess.getInstanceScope());
 
@@ -410,11 +410,11 @@ public abstract class ProfileManager extends Observable {
 			Map<String, String> map= readFromPreferenceStore(context, profile);
 			if (map != null) {
 
-				List<String> allKeys= new ArrayList<>();
-				for (KeySet fKeySet : fKeySets) {
+				List<String> allKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (KeySet fKeySet : fKeySets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					allKeys.addAll(fKeySet.getKeys());
 				}
-		        Collections.sort(allKeys);
+		        Collections.sort(allKeys); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 				Profile matching= null;
 
@@ -426,7 +426,7 @@ public abstract class ProfileManager extends Observable {
 					}
 				} else {
 					// old version: look for similar
-					for (Profile curr : fProfilesByName) {
+					for (Profile curr : fProfilesByName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (curr.hasEqualSettings(map, allKeys)) {
 							matching= curr;
 							break;
@@ -477,9 +477,9 @@ public abstract class ProfileManager extends Observable {
 	}
 
 	public static boolean hasProjectSpecificSettings(IScopeContext context, KeySet[] keySets) {
-		for (KeySet keySet : keySets) {
+		for (KeySet keySet : keySets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEclipsePreferences preferences= context.getNode(keySet.getNodeName());
-			for (String key : keySet.getKeys()) {
+			for (String key : keySet.getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object val= preferences.get(key, null);
 				if (val != null) {
 					return true;
@@ -497,14 +497,14 @@ public abstract class ProfileManager extends Observable {
 	 * Only to read project specific settings to find out to what profile it matches.
 	 * @param context The project context
 	 */
-	private Map<String, String> readFromPreferenceStore(IScopeContext context, Profile workspaceProfile) {
-		final Map<String, String> profileOptions= new HashMap<>();
+	private Map<String, String> readFromPreferenceStore(IScopeContext context, Profile workspaceProfile) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final Map<String, String> profileOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		IEclipsePreferences uiPrefs= context.getNode(JavaUI.ID_PLUGIN);
 
 		int version= uiPrefs.getInt(fProfileVersionKey, fProfileVersioner.getFirstVersion());
 		if (version != fProfileVersioner.getCurrentVersion()) {
-			Map<String, String> allOptions= new HashMap<>();
-			for (KeySet fKeySet : fKeySets) {
+			Map<String, String> allOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (KeySet fKeySet : fKeySets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addAll(context.getNode(fKeySet.getNodeName()), allOptions);
 			}
 			CustomProfile profile= new CustomProfile("tmp", allOptions, version, fProfileVersioner.getProfileKind()); //$NON-NLS-1$
@@ -513,9 +513,9 @@ public abstract class ProfileManager extends Observable {
 		}
 
 		boolean hasValues= false;
-		for (KeySet keySet : fKeySets) {
+		for (KeySet keySet : fKeySets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IEclipsePreferences preferences= context.getNode(keySet.getNodeName());
-			for (String key : keySet.getKeys()) {
+			for (String key : keySet.getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String val= preferences.get(key, null);
 				if (val != null) {
 					hasValues= true;
@@ -537,7 +537,7 @@ public abstract class ProfileManager extends Observable {
 
 	private void addAll(IEclipsePreferences uiPrefs, Map<String, String> allOptions) {
 		try {
-			for (String key : uiPrefs.keys()) {
+			for (String key : uiPrefs.keys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String val= uiPrefs.get(key, null);
 				if (val != null) {
 					allOptions.put(key, val);
@@ -551,7 +551,7 @@ public abstract class ProfileManager extends Observable {
 
 	private boolean updatePreferences(IEclipsePreferences prefs, List<String> keys, Map<String, String> profileOptions) {
 		boolean hasChanges= false;
-		for (String key : keys) {
+		for (String key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final String oldVal= prefs.get(key, null);
 			final String val= profileOptions.get(key);
 			if (val == null) {
@@ -575,7 +575,7 @@ public abstract class ProfileManager extends Observable {
 	private void writeToPreferenceStore(Profile profile, IScopeContext context) {
 		final Map<String, String> profileOptions= profile.getSettings();
 
-		for (KeySet fKeySet : fKeySets) {
+		for (KeySet fKeySet : fKeySets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updatePreferences(context.getNode(fKeySet.getNodeName()), fKeySet.getKeys(), profileOptions);
 		}
 
@@ -613,7 +613,7 @@ public abstract class ProfileManager extends Observable {
 	public String[] getSortedDisplayNames() {
 		final String[] sortedNames= new String[fProfilesByName.size()];
 		int i= 0;
-		for (Profile curr : fProfilesByName) {
+		for (Profile curr : fProfilesByName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sortedNames[i++]= curr.getName();
 		}
 		return sortedNames;
@@ -639,7 +639,7 @@ public abstract class ProfileManager extends Observable {
 	}
 
 	public void clearAllSettings(IScopeContext context) {
-		for (KeySet fKeySet : fKeySets) {
+		for (KeySet fKeySet : fKeySets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updatePreferences(context.getNode(fKeySet.getNodeName()), fKeySet.getKeys(), Collections.<String, String>emptyMap());
 		}
 
@@ -674,7 +674,7 @@ public abstract class ProfileManager extends Observable {
 	 * @return Returns <code>true</code> if a profile with the given name exists
 	 */
 	public boolean containsName(String name) {
-		for (Profile curr : fProfilesByName) {
+		for (Profile curr : fProfilesByName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(curr.getName())) {
 				return true;
 			}
@@ -696,7 +696,7 @@ public abstract class ProfileManager extends Observable {
 		}
 		fProfiles.put(profile.getID(), profile);
 		fProfilesByName.add(profile);
-		Collections.sort(fProfilesByName);
+		Collections.sort(fProfilesByName); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		fSelected= profile;
 		notifyObservers(PROFILE_CREATED_EVENT);
 	}
@@ -713,7 +713,7 @@ public abstract class ProfileManager extends Observable {
 		return deleteProfile((CustomProfile)fSelected);
 	}
 
-	public boolean deleteProfile(CustomProfile profile) {
+	public boolean deleteProfile(CustomProfile profile) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    int index= fProfilesByName.indexOf(profile);
 
 		fProfiles.remove(profile.getID());
@@ -742,7 +742,7 @@ public abstract class ProfileManager extends Observable {
 			updateProfilesWithName(oldID, profile, false);
 		}
 
-		Collections.sort(fProfilesByName);
+		Collections.sort(fProfilesByName); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		notifyObservers(PROFILE_RENAMED_EVENT);
 	}
 
@@ -751,7 +751,7 @@ public abstract class ProfileManager extends Observable {
 		fProfiles.put(newProfile.getID(), newProfile);
 		fProfilesByName.remove(oldProfile);
 		fProfilesByName.add(newProfile);
-		Collections.sort(fProfilesByName);
+		Collections.sort(fProfilesByName); //FLLDCIM: MARK — M16 SORT_LANE CALL
 
 		if (!oldProfile.isSharedProfile()) {
 			updateProfilesWithName(oldProfile.getID(), null, false);
@@ -771,8 +771,8 @@ public abstract class ProfileManager extends Observable {
 	}
 
 
-	protected void updateProfilesWithName(String oldName, Profile newProfile, boolean applySettings) {
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+	protected void updateProfilesWithName(String oldName, Profile newProfile, boolean applySettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IScopeContext projectScope= fPreferencesAccess.getProjectScope(project);
 			IEclipsePreferences node= projectScope.getNode(JavaUI.ID_PLUGIN);
 			String profileId= node.get(fProfileKey, null);

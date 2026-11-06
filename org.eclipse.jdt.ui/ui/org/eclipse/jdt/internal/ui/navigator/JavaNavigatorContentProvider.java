@@ -55,7 +55,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 
-public class JavaNavigatorContentProvider extends
+public class JavaNavigatorContentProvider extends //FLLDCIM: MARK — M22  IMPLEMENTS
 		PackageExplorerContentProvider implements IPipelinedTreeContentProvider {
 
 	public JavaNavigatorContentProvider() {
@@ -73,7 +73,7 @@ public class JavaNavigatorContentProvider extends
 	private IPropertyChangeListener fLayoutPropertyListener;
 	private TreeViewer fNavigatorViewer;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		IExtensionStateModel stateModel = commonContentExtensionSite
 				.getExtensionStateModel();
@@ -81,7 +81,7 @@ public class JavaNavigatorContentProvider extends
 
 		fStateModel = stateModel;
 		restoreState(memento);
-		fLayoutPropertyListener = event -> {
+		fLayoutPropertyListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (Values.IS_LAYOUT_FLAT.equals(event.getProperty())) {
 				if (event.getNewValue() != null) {
 					boolean newValue1 = ((Boolean) event.getNewValue()) ? true : false;
@@ -122,7 +122,7 @@ public class JavaNavigatorContentProvider extends
 		super.propertyChange(event);
 		if (PreferenceConstants.APPEARANCE_SORT_LIBRARY_ENTRIES_BY_NAME.equals(event.getProperty())
 				&& fNavigatorViewer != null && !fNavigatorViewer.getControl().isDisposed()) {
-			fNavigatorViewer.refresh();
+			fNavigatorViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -153,8 +153,8 @@ public class JavaNavigatorContentProvider extends
 	}
 
 	private static IProject[] filterResourceProjects(IProject[] projects) {
-		List<IProject> filteredProjects= new ArrayList<>(projects.length);
-		for (IProject project : projects) {
+		List<IProject> filteredProjects= new ArrayList<>(projects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.isOpen() || isJavaProject(project))
 				filteredProjects.add(project);
 		}
@@ -249,7 +249,7 @@ public class JavaNavigatorContentProvider extends
 
 	private void deconvertJavaProjects(PipelinedShapeModification modification) {
 		Set<IProject> convertedChildren = new LinkedHashSet<>();
-		for (Iterator<IAdaptable> iterator = modification.getChildren().iterator(); iterator.hasNext();) {
+		for (Iterator<IAdaptable> iterator = modification.getChildren().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object added = iterator.next();
 			if(added instanceof IJavaProject) {
 				iterator.remove();
@@ -303,10 +303,10 @@ public class JavaNavigatorContentProvider extends
 	 *            The set of current children that would be contributed or refreshed in the viewer.
 	 * @return returns true if the conversion took place
 	 */
-	private boolean convertToJavaElements(Set<Object> currentChildren) {
+	private boolean convertToJavaElements(Set<Object> currentChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		LinkedHashSet<Object> convertedChildren = new LinkedHashSet<>();
-		for (Iterator<Object> childrenItr = currentChildren.iterator(); childrenItr
+		for (Iterator<Object> childrenItr = currentChildren.iterator(); childrenItr //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				.hasNext();) {
 			Object child = childrenItr.next();
 			// only convert IFolders and IFiles
@@ -338,9 +338,9 @@ public class JavaNavigatorContentProvider extends
 	 * @param javaElements the java elements
 	 * @param proposedChildren the proposed children
 	 */
-	private void customize(Object[] javaElements, Set<Object> proposedChildren) {
+	private void customize(Object[] javaElements, Set<Object> proposedChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> elementList= Arrays.asList(javaElements);
-		for (Object element : proposedChildren) {
+		for (Object element : proposedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= null;
 			if (element instanceof IResource) {
 				resource= (IResource)element;
@@ -354,7 +354,7 @@ public class JavaNavigatorContentProvider extends
 				}
 			}
 		}
-		for (Object element : javaElements) {
+		for (Object element : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				IJavaElement cElement= (IJavaElement)element;
 				IResource resource= cElement.getResource();
@@ -392,16 +392,16 @@ public class JavaNavigatorContentProvider extends
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void postRefresh(final List<Object> toRefresh, final boolean updateLabels, Collection<Runnable> runnables) {
 		int size= toRefresh.size();
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= toRefresh.get(i);
 			if (element instanceof IJavaProject) {
 				toRefresh.set(i, ((IJavaProject) element).getProject());
 			}
 		}
-		for (Iterator<Object> iter = toRefresh.iterator(); iter.hasNext();) {
+		for (Iterator<Object> iter = toRefresh.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element = iter.next();
 			if (element instanceof IJavaModel) {
 				iter.remove();

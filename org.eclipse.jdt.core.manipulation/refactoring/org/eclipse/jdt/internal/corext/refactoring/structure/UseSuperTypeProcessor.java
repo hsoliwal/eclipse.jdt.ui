@@ -90,7 +90,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 	 *            The fully qualified name of the super type
 	 * @return The found super type, or <code>null</code>
 	 */
-	protected static ITypeBinding findTypeInHierarchy(final ITypeBinding type, final String name) {
+	protected static ITypeBinding findTypeInHierarchy(final ITypeBinding type, final String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isArray() || type.isPrimitive())
 			return null;
 		if (name.equals(type.getTypeDeclaration().getQualifiedName()))
@@ -101,7 +101,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 			if (result != null)
 				return result;
 		}
-		for (ITypeBinding b : type.getInterfaces()) {
+		for (ITypeBinding b : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final ITypeBinding result= findTypeInHierarchy(b, name);
 			if (result != null)
 				return result;
@@ -191,7 +191,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 	/*
 	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#createChange(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(final IProgressMonitor monitor) throws CoreException, OperationCanceledException {
 		Assert.isNotNull(monitor);
 		try {
@@ -247,7 +247,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 	 * @throws CoreException
 	 *             if the changes could not be generated
 	 */
-	protected TextEditBasedChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException, CoreException {
+	protected TextEditBasedChangeManager createChangeManager(final IProgressMonitor monitor, final RefactoringStatus status) throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(status);
 		Assert.isNotNull(monitor);
 		try {
@@ -265,12 +265,12 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 				if (bindings != null && bindings.length == 2 && bindings[0] instanceof ITypeBinding && bindings[1] instanceof ITypeBinding) {
 					solveSuperTypeConstraints(null, null, fSubType, (ITypeBinding) bindings[0], (ITypeBinding) bindings[1], Progress.subMonitor(monitor, 100), status);
 					if (!status.hasFatalError())
-						rewriteTypeOccurrences(manager, null, null, null, null, new HashSet<>(), status, Progress.subMonitor(monitor, 150));
+						rewriteTypeOccurrences(manager, null, null, null, null, new HashSet<>(), status, Progress.subMonitor(monitor, 150)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				}
 			} else {
 				parser.createASTs(new ICompilationUnit[] { fSubType.getCompilationUnit() }, new String[0], new ASTRequestor() {
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public final void acceptAST(final ICompilationUnit unit, final CompilationUnit node) {
 						try {
 							final CompilationUnitRewrite subRewrite= new CompilationUnitRewrite(fOwner, unit, node);
@@ -282,7 +282,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 									if (superBinding != null) {
 										solveSuperTypeConstraints(subRewrite.getCu(), subRewrite.getRoot(), fSubType, subBinding, superBinding, Progress.subMonitor(monitor, 100), status);
 										if (!status.hasFatalError()) {
-											rewriteTypeOccurrences(manager, this, subRewrite, subRewrite.getCu(), subRewrite.getRoot(), new HashSet<>(), status, Progress.subMonitor(monitor, 200));
+											rewriteTypeOccurrences(manager, this, subRewrite, subRewrite.getCu(), subRewrite.getRoot(), new HashSet<>(), status, Progress.subMonitor(monitor, 200)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 											final TextChange change= subRewrite.createChange(true);
 											if (change != null)
 												manager.manage(subRewrite.getCu(), change);
@@ -368,7 +368,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 		return fSuperType;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -378,7 +378,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 				fSubType= (IType) element;
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT));
-		handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1);
+		handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
 			if (element == null || !element.exists() || element.getElementType() != IJavaElement.TYPE)
@@ -386,7 +386,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 			else
 				fSuperType= (IType) element;
 		} else
-			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1));
+			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + 1)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final String instance= extended.getAttribute(ATTRIBUTE_INSTANCEOF);
 		if (instance != null) {
 			fInstanceOf= Boolean.parseBoolean(instance);
@@ -411,7 +411,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 		return new RefactoringParticipant[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void rewriteTypeOccurrences(final TextEditBasedChangeManager manager, final ASTRequestor requestor, final CompilationUnitRewrite rewrite, final ICompilationUnit unit, final CompilationUnit node, final Set<String> replacements, final IProgressMonitor monitor) throws CoreException {
 		try {
 			monitor.beginTask("", 100); //$NON-NLS-1$
@@ -428,7 +428,7 @@ public final class UseSuperTypeProcessor extends SuperTypeRefactoringProcessor {
 						currentRewrite= rewrite;
 					else
 						currentRewrite= new CompilationUnitRewrite(fOwner, unit, node);
-					for (ITypeConstraintVariable iTypeConstraintVariable : collection) {
+					for (ITypeConstraintVariable iTypeConstraintVariable : collection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						TType estimate= (TType) iTypeConstraintVariable.getData(SuperTypeConstraintsSolver.DATA_TYPE_ESTIMATE);
 						if (estimate != null) {
 							final ASTNode result= NodeFinder.perform(node, iTypeConstraintVariable.getRange().getSourceRange());

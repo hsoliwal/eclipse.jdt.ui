@@ -45,8 +45,8 @@ public final class InputPageUtil {
 		// static helper class
 	}
 
-	public static Composite createVisibilityControl(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) {
-		List<Integer> allowedVisibilities= convertToIntegerList(availableVisibilities);
+	public static Composite createVisibilityControl(Composite parent, final IVisibilityChangeListener visibilityChangeListener, int[] availableVisibilities, int correctVisibility) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<Integer> allowedVisibilities= convertToIntegerList(availableVisibilities); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 		if (allowedVisibilities.size() == 1)
 			return null;
 
@@ -71,14 +71,14 @@ public final class InputPageUtil {
 					Modifier.NONE,
 					Modifier.PRIVATE};
 		Integer initialVisibility= correctVisibility;
-		for (int i= 0; i < labels.length; i++) {
+		for (int i= 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button radio= new Button(group, SWT.RADIO);
 			Integer visibilityCode= data[i];
 			radio.setText(labels[i]);
 			radio.setData(visibilityCode);
 			radio.setSelection(visibilityCode.equals(initialVisibility));
 			radio.setEnabled(allowedVisibilities.contains(visibilityCode));
-			radio.addSelectionListener(new SelectionAdapter() {
+			radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					visibilityChangeListener.visibilityChanged(((Integer)event.widget.getData()));
@@ -90,8 +90,8 @@ public final class InputPageUtil {
 	}
 
 	private static List<Integer> convertToIntegerList(int[] array) {
-		List<Integer> result= new ArrayList<>(array.length);
-		for (int element : array) {
+		List<Integer> result= new ArrayList<>(array.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (int element : array) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(element);
 		}
 		return result;
@@ -104,7 +104,7 @@ public final class InputPageUtil {
 	 * @return the preview viewer
 	 * @since 3.9
 	 */
-	public static JavaSourceViewer createSignaturePreview(Composite parent) {
+	public static JavaSourceViewer createSignaturePreview(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= JavaPlugin.getDefault().getCombinedPreferenceStore();
 		JavaSourceViewer signaturePreview= new JavaSourceViewer(parent, null, null, false, SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP, store);
 		signaturePreview.configure(new JavaSourceViewerConfiguration(JavaPlugin.getDefault().getJavaTextTools().getColorManager(), store, null, null));

@@ -49,15 +49,15 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 import org.eclipse.jdt.internal.ui.preferences.formatter.FormatterProfileManager;
 
-public class GetterSetterCompletionProposal extends JavaTypeCompletionProposal {
+public class GetterSetterCompletionProposal extends JavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
-	public static void evaluateProposals(IType type, String prefix, int offset, int length, int relevance, Set<String> suggestedMethods, Collection<IJavaCompletionProposal> result) throws CoreException {
+	public static void evaluateProposals(IType type, String prefix, int offset, int length, int relevance, Set<String> suggestedMethods, Collection<IJavaCompletionProposal> result) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (prefix.length() == 0) {
 			relevance--;
 		}
 
 		IMethod[] methods= type.getMethods();
-		for (IField curr : type.getFields()) {
+		for (IField curr : type.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!JdtFlags.isEnum(curr)) {
 				String getterName= GetterSetterUtil.getGetterName(curr, null);
 				if (Strings.startsWithIgnoreCase(getterName, prefix) && !hasMethod(methods, getterName)) {
@@ -80,7 +80,7 @@ public class GetterSetterCompletionProposal extends JavaTypeCompletionProposal {
 	}
 
 	private static boolean hasMethod(IMethod[] methods, String name) {
-		for (IMethod method : methods) {
+		for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.getElementName().equals(name)) {
 				return true;
 			}
@@ -105,18 +105,18 @@ public class GetterSetterCompletionProposal extends JavaTypeCompletionProposal {
 		String fieldTypeName= Signature.toString(field.getTypeSignature());
 		String fieldNameLabel= BasicElementLabels.getJavaElementName(field.getElementName());
 		if (isGetter) {
-			buf.append(BasicElementLabels.getJavaElementName(GetterSetterUtil.getGetterName(field, null) + "() : " + fieldTypeName)); //$NON-NLS-1$
+			buf.append(BasicElementLabels.getJavaElementName(GetterSetterUtil.getGetterName(field, null) + "() : " + fieldTypeName)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			buf.append(" - ", StyledString.QUALIFIER_STYLER); //$NON-NLS-1$
 			buf.append(Messages.format(JavaTextMessages.GetterSetterCompletionProposal_getter_label, fieldNameLabel), StyledString.QUALIFIER_STYLER);
 		} else {
-			buf.append(BasicElementLabels.getJavaElementName(GetterSetterUtil.getSetterName(field, null) + '(' + fieldTypeName + ") : void"  )); //$NON-NLS-1$
+			buf.append(BasicElementLabels.getJavaElementName(GetterSetterUtil.getSetterName(field, null) + '(' + fieldTypeName + ") : void"  )); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			buf.append(" - ", StyledString.QUALIFIER_STYLER); //$NON-NLS-1$
 			buf.append(Messages.format(JavaTextMessages.GetterSetterCompletionProposal_setter_label, fieldNameLabel), StyledString.QUALIFIER_STYLER);
 		}
 		return buf;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateReplacementString(IDocument document, char trigger, int offset, ImportRewrite impRewrite) throws CoreException, BadLocationException {
 
 		CodeGenerationSettings settings= JavaPreferencesSettings.getCodeGenerationSettings(fField.getJavaProject());

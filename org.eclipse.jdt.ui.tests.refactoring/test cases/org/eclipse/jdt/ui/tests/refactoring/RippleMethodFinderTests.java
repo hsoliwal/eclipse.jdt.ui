@@ -56,11 +56,11 @@ public class RippleMethodFinderTests extends AbstractJunit4CUTestCase {
 		return RefactoringTestPlugin.getDefault().getTestResourceStream(fileName);
 	}
 
-	private void perform() throws Exception {
+	private void perform() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragment pack= rts.getPackageP();
-		String name= adaptName("A_" + getName());
+		String name= adaptName("A_" + getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ICompilationUnit cu;
-		try (InputStream fileInputStream= getFileInputStream(getResourceLocation() + "/" + name)) {
+		try (InputStream fileInputStream= getFileInputStream(getResourceLocation() + "/" + name)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			cu= createCU(pack, name, fileInputStream);
 		}
 
@@ -70,10 +70,10 @@ public class RippleMethodFinderTests extends AbstractJunit4CUTestCase {
 		assertEquals(1, elements.length);
 		IMethod target= (IMethod) elements[0];
 
-		List<IMethod> rippleMethods= new ArrayList<>();
+		List<IMethod> rippleMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		rippleMethods.add(target);
 		int start= 0;
-		while (start < contents.length()) {
+		while (start < contents.length()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			start= contents.indexOf(RIPPLE, start);
 			if (start == -1)
 				break;
@@ -84,10 +84,10 @@ public class RippleMethodFinderTests extends AbstractJunit4CUTestCase {
 			start++;
 		}
 
-		for (IMethod method : RippleMethodFinder2.getRelatedMethods(target, new NullProgressMonitor(), null)) {
-			assertTrue("method not found: " + method, rippleMethods.remove(method));
+		for (IMethod method : RippleMethodFinder2.getRelatedMethods(target, new NullProgressMonitor(), null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue("method not found: " + method, rippleMethods.remove(method)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		assertEquals("found wrong ripple methods: " + rippleMethods, 0, rippleMethods.size());
+		assertEquals("found wrong ripple methods: " + rippleMethods, 0, rippleMethods.size()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test

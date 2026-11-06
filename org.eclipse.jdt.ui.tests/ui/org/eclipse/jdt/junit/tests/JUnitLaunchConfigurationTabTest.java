@@ -204,7 +204,7 @@ public class JUnitLaunchConfigurationTabTest {
 	 */
 	private static ILaunchConfigurationDialog dialog(Run run) {
 		return (ILaunchConfigurationDialog) Proxy.newProxyInstance(JUnitLaunchConfigurationTabTest.class.getClassLoader(),
-				new Class<?>[] { ILaunchConfigurationDialog.class }, (_, method, arguments) -> {
+				new Class<?>[] { ILaunchConfigurationDialog.class }, (unused, method, arguments) -> {
 					if ("run".equals(method.getName())) {
 						run.run((Boolean) arguments[0], (Boolean) arguments[1], (IRunnableWithProgress) arguments[2]);
 					} else if ("getMode".equals(method.getName())) {

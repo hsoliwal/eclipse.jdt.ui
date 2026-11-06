@@ -47,7 +47,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  * @since 3.6
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenImplementationAction extends SelectionDispatchAction {
+public class OpenImplementationAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * The Java editor.
@@ -90,7 +90,7 @@ public class OpenImplementationAction extends SelectionDispatchAction {
 		setEnabled(false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		if (!ActionUtil.isProcessable(fEditor))
 			return;

@@ -130,18 +130,18 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.STRINGBUILDER)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			class VarOccurrenceVisitor extends ASTVisitor {
 				private final Set<SimpleName> searchedVariables;
-				private final Set<SimpleName> foundVariables= new HashSet<>();
+				private final Set<SimpleName> foundVariables= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				private final boolean hasToVisitLoops;
 
 				/**
@@ -251,7 +251,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 					return visitVariable(visited.getType(), visited.resolveBinding(), visited.getExtraDimensions(), visited.getName(), visited.getInitializer());
 				}
 
-				private boolean visitVariable(final Type type, final IVariableBinding variableBinding, final int extraDimensions, final SimpleName declaration, final Expression initializer) {
+				private boolean visitVariable(final Type type, final IVariableBinding variableBinding, final int extraDimensions, final SimpleName declaration, final Expression initializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (!result
 							|| extraDimensions != 0
 							|| initializer == null
@@ -273,11 +273,11 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 					// but each occurrence should be processed once
 					reads.removeAll(writes);
 
-					Set<SimpleName> unvisitedReads= new HashSet<>(reads);
-					Set<SimpleName> assignmentWrites= new HashSet<>();
-					Set<SimpleName> concatenationWrites= new HashSet<>();
+					Set<SimpleName> unvisitedReads= new HashSet<>(reads); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+					Set<SimpleName> assignmentWrites= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+					Set<SimpleName> concatenationWrites= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-					for (SimpleName simpleName : writes) {
+					for (SimpleName simpleName : writes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!isWriteValid(simpleName, unvisitedReads, assignmentWrites, concatenationWrites, concatenatedStringCount)) {
 							return true;
 						}
@@ -335,11 +335,11 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 					}
 				}
 
-				private boolean isOccurrencesValid(final Statement declaration, final List<SimpleName> reads, final List<SimpleName> writes,
+				private boolean isOccurrencesValid(final Statement declaration, final List<SimpleName> reads, final List<SimpleName> writes, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final SimpleName finalSerialization) {
 					if (declaration != null) {
-						Set<SimpleName> remainingWrites= new HashSet<>(writes);
-						Set<SimpleName> remainingReads= new HashSet<>(reads);
+						Set<SimpleName> remainingWrites= new HashSet<>(writes); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+						Set<SimpleName> remainingReads= new HashSet<>(reads); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						remainingReads.remove(finalSerialization);
 						Set<SimpleName> foundVariables= findVariables(declaration, remainingReads, remainingWrites,
 								finalSerialization);
@@ -357,9 +357,9 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 					return false;
 				}
 
-				private boolean isOccurrenceValid(final List<Statement> statements, final Set<SimpleName> remainingWrites,
+				private boolean isOccurrenceValid(final List<Statement> statements, final Set<SimpleName> remainingWrites, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final Set<SimpleName> remainingReads, final SimpleName finalSerialization, final AtomicBoolean hasFinalReadBeenFound) {
-					for (Statement statement : statements) {
+					for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Set<SimpleName> foundVariables= findVariables(statement, remainingReads, remainingWrites,
 								finalSerialization);
 
@@ -402,7 +402,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 									&& isEmptyNodes(tryStatement.resources(), remainingReads, remainingWrites,
 											finalSerialization)
 									&& isBlockValid(remainingWrites, remainingReads, finalSerialization, tryStatement.getBody())) {
-								for (Object catchClause : tryStatement.catchClauses()) {
+								for (Object catchClause : tryStatement.catchClauses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (!isBlockValid(remainingWrites, remainingReads, finalSerialization, ((CatchClause) catchClause).getBody())) {
 										return false;
 									}
@@ -423,8 +423,8 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 
 				private boolean isBlockValid(final Set<SimpleName> remainingWrites, final Set<SimpleName> remainingReads,
 						final SimpleName finalSerialization, final Statement subStatement) {
-					Set<SimpleName> subRemainingWrites= new HashSet<>(remainingWrites);
-					Set<SimpleName> subRemainingReads= new HashSet<>(remainingReads);
+					Set<SimpleName> subRemainingWrites= new HashSet<>(remainingWrites); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+					Set<SimpleName> subRemainingReads= new HashSet<>(remainingReads); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					AtomicBoolean subHasFinalReadBeenFound= new AtomicBoolean(false);
 
 					return isOccurrenceValid(ASTNodes.asList(subStatement), subRemainingWrites, subRemainingReads, finalSerialization, subHasFinalReadBeenFound)
@@ -434,7 +434,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 				private boolean isEmptyNodes(final List<?> nodes, final Set<SimpleName> remainingReads,
 						final Set<SimpleName> remainingWrites, final SimpleName finalSerialization) {
 					if (nodes != null) {
-						for (Object currentNode : nodes) {
+						for (Object currentNode : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!findVariables((ASTNode) currentNode, remainingReads, remainingWrites,
 									finalSerialization).isEmpty()) {
 								return false;
@@ -456,7 +456,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 						return Collections.emptySet();
 					}
 
-					Set<SimpleName> searchedVariables= new HashSet<>(remainingReads);
+					Set<SimpleName> searchedVariables= new HashSet<>(remainingReads); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					searchedVariables.addAll(remainingWrites);
 					searchedVariables.add(finalSerialization);
 					VarOccurrenceVisitor varOccurrenceVisitor= new VarOccurrenceVisitor(searchedVariables, hasToVisitLoops);
@@ -465,7 +465,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 					return varOccurrenceVisitor.getFoundVariables();
 				}
 
-				private boolean isWriteValid(final SimpleName simpleName,
+				private boolean isWriteValid(final SimpleName simpleName, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final Set<SimpleName> unvisitedReads,
 						final Set<SimpleName> assignmentWrites,
 						final Set<SimpleName> concatenationWrites,
@@ -588,7 +588,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			refactorFinalRead(rewrite, ast, group);
 		}
 
-		private void refactorCreation(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) {
+		private void refactorCreation(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Transform those codes:
 			// String builder = "";
 			// String builder = "foo";
@@ -619,7 +619,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 				if (concatenation != null) {
 					operands= ASTNodes.allOperands(concatenation);
 				} else {
-					operands= new ArrayList<>(Arrays.asList(initializer));
+					operands= new ArrayList<>(Arrays.asList(initializer)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 
 				Expression firstOperand= operands.get(0);
@@ -630,7 +630,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 					operands.remove(0);
 				}
 
-				for (Expression operand : operands) {
+				for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					initialization= newAppending(rewrite, ast, initialization, operand);
 				}
 			}
@@ -638,7 +638,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			ASTNodes.replaceButKeepComment(rewrite, initializer, initialization, group);
 		}
 
-		private void refactorAssignmentWrites(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) {
+		private void refactorAssignmentWrites(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Transform those codes:
 			// builder += "foo";
 			// builder += "foo" + "bar";
@@ -649,7 +649,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			// builder.append("foo").append("bar");
 			// builder.append("foo").append(i);
 
-			for (SimpleName simpleName : assignmentWrites) {
+			for (SimpleName simpleName : assignmentWrites) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Assignment assignment= (Assignment) simpleName.getParent();
 				Expression expression= assignment.getRightHandSide();
 				InfixExpression concatenation= asStringConcatenation(expression);
@@ -663,7 +663,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 
 				Expression createdExpression= ASTNodes.createMoveTarget(rewrite, assignment.getLeftHandSide());
 
-				for (Expression operand : operands) {
+				for (Expression operand : operands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					createdExpression= newAppending(rewrite, ast, createdExpression, operand);
 				}
 
@@ -671,7 +671,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			}
 		}
 
-		private void refactorConcatenationWrites(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) {
+		private void refactorConcatenationWrites(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Transform those codes:
 			// builder =  builder + "foo";
 			// builder =  builder + "foo" + "bar";
@@ -682,7 +682,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			// builder.append("foo").append("bar");
 			// builder.append("foo").append(i);
 
-			for (SimpleName simpleName : concatenationWrites) {
+			for (SimpleName simpleName : concatenationWrites) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Assignment assignment= (Assignment) simpleName.getParent();
 				InfixExpression concatenation= (InfixExpression) assignment.getRightHandSide();
 
@@ -691,7 +691,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 				MethodInvocation newExpression= newAppending(rewrite, ast, stringBuilder, expression);
 
 				if (concatenation.hasExtendedOperands()) {
-					for (Object operand : concatenation.extendedOperands()) {
+					for (Object operand : concatenation.extendedOperands()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						newExpression= newAppending(rewrite, ast, newExpression, (Expression) operand);
 					}
 				}
@@ -700,7 +700,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			}
 		}
 
-		private void refactorFinalRead(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) {
+		private void refactorFinalRead(final ASTRewrite rewrite, final AST ast, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			// Transform those codes:
 			// builder
 			// builder + "foo"
@@ -726,7 +726,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 
 						Expression appending= ASTNodes.createMoveTarget(rewrite, finalSerialization);
 
-						for (Expression operand : nextOperands) {
+						for (Expression operand : nextOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							appending= newAppending(rewrite, ast, appending, operand);
 						}
 
@@ -747,7 +747,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 							} else {
 								previousConcatenation.setRightOperand(ASTNodes.createMoveTarget(rewrite, previousOperands.get(1)));
 
-								for (int i= 2; i < previousOperands.size(); i++) {
+								for (int i= 2; i < previousOperands.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									previousConcatenation.extendedOperands().add(ASTNodes.createMoveTarget(rewrite, previousOperands.get(i)));
 								}
 
@@ -769,7 +769,7 @@ public class StringBuilderCleanUp extends AbstractMultiFix implements ICleanUpFi
 			ASTNodes.replaceButKeepComment(rewrite, finalSerialization, newMethodInvocation, group);
 		}
 
-		private MethodInvocation newAppending(final ASTRewrite rewrite, final AST ast, final Expression stringBuilder, final Expression expression) {
+		private MethodInvocation newAppending(final ASTRewrite rewrite, final AST ast, final Expression stringBuilder, final Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			MethodInvocation originalMethodInvocation= ASTNodes.as(expression, MethodInvocation.class);
 			ClassInstanceCreation originalClassInstanceCreation= ASTNodes.as(expression, ClassInstanceCreation.class);
 

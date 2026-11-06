@@ -60,13 +60,13 @@ public class WorkingSetMenuContributionItem extends ContributionItem {
 	/*
 	 * Overrides method from ContributionItem.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fill(Menu menu, int index) {
 		MenuItem mi= new MenuItem(menu, SWT.RADIO, index);
 
 		String name= fWorkingSet.getLabel();
 
-		mi.setText("&" + fId + " " + name);  //$NON-NLS-1$  //$NON-NLS-2$
+		mi.setText("&" + fId + " " + name);  //$NON-NLS-1$  //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (fImage == null) {
 			ImageDescriptor imageDescriptor= fWorkingSet.getImageDescriptor();
 			if (imageDescriptor != null)
@@ -74,7 +74,7 @@ public class WorkingSetMenuContributionItem extends ContributionItem {
 		}
 		mi.setImage(fImage);
 		mi.setSelection(fWorkingSet.equals(fActionGroup.getWorkingSet()));
-		mi.addSelectionListener(new SelectionAdapter() {
+		mi.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
@@ -106,6 +106,6 @@ public class WorkingSetMenuContributionItem extends ContributionItem {
 	}
 
 	static String getId(int id) {
-		return WorkingSetMenuContributionItem.class.getName() + "." + id;  //$NON-NLS-1$
+		return WorkingSetMenuContributionItem.class.getName() + "." + id;  //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

@@ -32,7 +32,7 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.JavaCore;
 
 
-public class ClassFileMarkerAnnotationModel extends AbstractMarkerAnnotationModel implements IResourceChangeListener {
+public class ClassFileMarkerAnnotationModel extends AbstractMarkerAnnotationModel implements IResourceChangeListener { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 	protected IClassFile fClassFile;
 	protected IWorkspace fWorkspace;
@@ -102,7 +102,7 @@ public class ClassFileMarkerAnnotationModel extends AbstractMarkerAnnotationMode
 	/**
 	 * @see AbstractMarkerAnnotationModel#retrieveMarkers()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IMarker[] retrieveMarkers() throws CoreException {
 		if (fMarkerResource != null) {
 			IMarker[] workspaceMarkers= fWorkspace.getRoot().findMarkers(IMarker.MARKER, true, IResource.DEPTH_ZERO);
@@ -123,8 +123,8 @@ public class ClassFileMarkerAnnotationModel extends AbstractMarkerAnnotationMode
 		return null;
 	}
 
-	private void checkDeltas(IMarkerDelta[] markerDeltas) {
-		for (IMarkerDelta markerDelta : markerDeltas) {
+	private void checkDeltas(IMarkerDelta[] markerDeltas) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (IMarkerDelta markerDelta : markerDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isAffected(markerDelta)) {
 				IMarker marker= markerDelta.getMarker();
 				switch (markerDelta.getKind()) {

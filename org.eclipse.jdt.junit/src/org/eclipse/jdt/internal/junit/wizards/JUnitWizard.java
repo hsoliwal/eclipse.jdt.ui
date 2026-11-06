@@ -86,7 +86,7 @@ public abstract class JUnitWizard extends Wizard implements INewWizard {
 			if (activePage != null) {
 				final Display display= Display.getDefault();
 				if (display != null) {
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						try {
 							IDE.openEditor(activePage, (IFile)resource, true);
 						} catch (PartInitException e) {

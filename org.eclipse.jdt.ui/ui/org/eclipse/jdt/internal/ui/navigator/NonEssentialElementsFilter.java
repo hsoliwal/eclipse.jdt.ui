@@ -33,7 +33,7 @@ import org.eclipse.jdt.core.JavaModelException;
  *
  * This filter will not allow essential elements to be blocked.
  */
-public abstract class NonEssentialElementsFilter extends ViewerFilter {
+public abstract class NonEssentialElementsFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private static final String JAVA_EXTENSION_ID = "org.eclipse.jdt.java.ui.javaContent"; //$NON-NLS-1$
 
@@ -52,7 +52,7 @@ public abstract class NonEssentialElementsFilter extends ViewerFilter {
 		fDelegateFilter = delegateFilter;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (!isStateModelInitialized) {
 			initStateModel(viewer);
@@ -75,13 +75,13 @@ public abstract class NonEssentialElementsFilter extends ViewerFilter {
 		return doSelect(viewer, parent, element);
 	}
 
-	protected boolean hasFilteredChildren(StructuredViewer viewer, Object element) {
+	protected boolean hasFilteredChildren(StructuredViewer viewer, Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] children= getRawChildren(viewer, element);
-		for (ViewerFilter filter : viewer.getFilters()) {
+		for (ViewerFilter filter : viewer.getFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean hasSelectedChildren= false;
 			// next lines are identical to ViewerFilter.filter(Viewer, Object, Object[]), but exit early when first child is found
 			int size = children.length;
-			for (int j = 0; j < size; ++j) {
+			for (int j = 0; j < size; ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (filter.select(viewer, element, children[j])) {
 					hasSelectedChildren= true;
 					break;

@@ -61,7 +61,7 @@ public class CreateTargetQueries implements ICreateTargetQueries {
 			return JavaPlugin.getActiveWorkbenchShell();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICreateTargetQuery createNewPackageQuery() {
 		return new ICreateTargetQuery() {
 			@Override

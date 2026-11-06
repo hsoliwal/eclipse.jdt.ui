@@ -58,8 +58,8 @@ public class ClasspathVariableMarkerResolutionGenerator implements IMarkerResolu
 			String[] arguments= CorrectionEngine.getProblemArguments(marker);
 			if (arguments == null || arguments.length == 0)
 				return false;
-			if (arguments[0].startsWith(JUnitCorePlugin.JUNIT_HOME + IPath.SEPARATOR)
-					|| arguments[0].startsWith(JUnitCorePlugin.JUNIT_SRC_HOME + IPath.SEPARATOR))
+			if (arguments[0].startsWith(JUnitCorePlugin.JUNIT_HOME + IPath.SEPARATOR) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					|| arguments[0].startsWith(JUnitCorePlugin.JUNIT_SRC_HOME + IPath.SEPARATOR)) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return true;
 		}
 		return false;
@@ -68,7 +68,7 @@ public class ClasspathVariableMarkerResolutionGenerator implements IMarkerResolu
 	/*
 	 * @see org.eclipse.ui.IMarkerResolutionGenerator#getResolutions(org.eclipse.core.resources.IMarker)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		if (!hasResolutions(marker)) {
 			return NO_RESOLUTION;
@@ -121,7 +121,7 @@ public class ClasspathVariableMarkerResolutionGenerator implements IMarkerResolu
 	}
 
 	private int indexOfClasspath(IClasspathEntry[] entries, IPath path) {
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry curr= entries[i];
 			if (curr.getEntryKind() == IClasspathEntry.CPE_VARIABLE && curr.getPath().equals(path)) {
 				return i;
@@ -130,12 +130,12 @@ public class ClasspathVariableMarkerResolutionGenerator implements IMarkerResolu
 		return -1;
 	}
 
-	private static void setClasspath(final IJavaProject project, final IClasspathEntry[] entries, IRunnableContext context) {
+	private static void setClasspath(final IJavaProject project, final IClasspathEntry[] entries, IRunnableContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * @see org.eclipse.jdt.internal.junit.ui.JUnitAddLibraryProposal#addToClasspath()
 		 */
 		try {
-			context.run(true, false, monitor -> {
+			context.run(true, false, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					project.setRawClasspath(entries, monitor);
 				} catch (JavaModelException e) {

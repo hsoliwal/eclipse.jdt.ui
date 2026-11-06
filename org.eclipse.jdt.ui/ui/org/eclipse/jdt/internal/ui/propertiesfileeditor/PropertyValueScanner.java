@@ -49,7 +49,7 @@ public final class PropertyValueScanner extends AbstractJavaScanner {
 		/*
 		 * @see IWordDetector#isWordStart
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean isWordStart(char c) {
 			if ('=' != c && ':' != c || fDocument == null)
 				return false;
@@ -58,7 +58,7 @@ public final class PropertyValueScanner extends AbstractJavaScanner {
 				// check whether it is the first '=' in the logical line
 
 				int i=fOffset-2;
-				while (Character.isWhitespace(fDocument.getChar(i))) {
+				while (Character.isWhitespace(fDocument.getChar(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					i--;
 				}
 
@@ -110,10 +110,10 @@ public final class PropertyValueScanner extends AbstractJavaScanner {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.AbstractJavaScanner#createRules()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected List<IRule> createRules() {
 		setDefaultReturnToken(getToken(PreferenceConstants.PROPERTIES_FILE_COLORING_VALUE));
-		List<IRule> rules= new ArrayList<>();
+		List<IRule> rules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add rule for arguments.
 		IToken token= getToken(PreferenceConstants.PROPERTIES_FILE_COLORING_ARGUMENT);

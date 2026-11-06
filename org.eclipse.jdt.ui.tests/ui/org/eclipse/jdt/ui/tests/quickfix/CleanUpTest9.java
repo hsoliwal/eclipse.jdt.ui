@@ -52,7 +52,7 @@ public class CleanUpTest9 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUseTryWithResource() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String given= """
@@ -218,10 +218,10 @@ public class CleanUpTest9 extends CleanUpTestCase {
 
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(MultiFixMessages.TryWithResourceCleanup_description)));
+				new HashSet<>(Arrays.asList(MultiFixMessages.TryWithResourceCleanup_description))); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDoNotUseTryWithResource() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """

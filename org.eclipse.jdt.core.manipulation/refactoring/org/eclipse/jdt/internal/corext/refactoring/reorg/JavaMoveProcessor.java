@@ -126,7 +126,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		pm.beginTask("", 1); //$NON-NLS-1$
 		try {
@@ -136,7 +136,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 			if (!status.isOK()) {
 				boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 				if (autoRefresh) {
-					for (IResource resource : resources) {
+					for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						try {
 							resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 						} catch (CoreException e) {
@@ -153,7 +153,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 			if (!status.isOK()) {
 				boolean autoRefresh= Platform.getPreferencesService().getBoolean(ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PREF_LIGHTWEIGHT_AUTO_REFRESH, false, null);
 				if (autoRefresh) {
-					for (IResource resource : resources) {
+					for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						try {
 							resource.refreshLocal(IResource.DEPTH_INFINITE, pm);
 						} catch (CoreException e) {
@@ -170,7 +170,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		Assert.isTrue(fMovePolicy.getJavaElementDestination() == null || fMovePolicy.getResourceDestination() == null);
 		Assert.isTrue(fMovePolicy.getJavaElementDestination() != null || fMovePolicy.getResourceDestination() != null);
@@ -185,7 +185,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 				@Override
 				public Change perform(IProgressMonitor pm2) throws CoreException {
 					Change change= super.perform(pm2);
-					for (Change c : getChildren()) {
+					for (Change c : getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!(c instanceof TextEditBasedChange)) {
 							return null;
 						}
@@ -201,7 +201,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 					log= queries.getCreateTargetExecutionLog();
 			}
 			if (log != null) {
-				for (Object element : log.getSelectedElements()) {
+				for (Object element : log.getSelectedElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.add(new LoggedCreateTargetChange(element, fCreateTargetQueries));
 				}
 			}
@@ -221,7 +221,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 	private String[] getAffectedProjectNatures() throws CoreException {
 		String[] jNatures= JavaProcessors.computeAffectedNaturs(fMovePolicy.getJavaElements());
 		String[] rNatures= ResourceProcessors.computeAffectedNatures(fMovePolicy.getResources());
-		Set<String> result= new HashSet<>(Arrays.asList(jNatures));
+		Set<String> result= new HashSet<>(Arrays.asList(jNatures)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		result.addAll(Arrays.asList(rNatures));
 		return result.toArray(new String[result.size()]);
 	}
@@ -243,7 +243,7 @@ public final class JavaMoveProcessor extends MoveProcessor implements IQualified
 
 	@Override
 	public Object[] getElements() {
-		List<IAdaptable> result= new ArrayList<>();
+		List<IAdaptable> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.addAll(Arrays.asList(fMovePolicy.getJavaElements()));
 		result.addAll(Arrays.asList(fMovePolicy.getResources()));
 		return result.toArray();

@@ -23,12 +23,12 @@ public class JavaMethodParameterCodeMining extends LineContentCodeMining {
 
 	public JavaMethodParameterCodeMining(Expression parameterNode, int parameterIndex, String [] parameterNames, boolean isVarargs, ICodeMiningProvider provider) {
 		super(new Position(parameterNode.getStartPosition(), parameterNode.getLength()), provider, null);
-		StringBuilder text = new StringBuilder();
-		text.append(parameterNames[parameterIndex]);
+		StringBuilder text = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		text.append(parameterNames[parameterIndex]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isVarargs && parameterIndex == parameterNames.length - 1) {
-			text.append('…');
+			text.append('…'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		text.append(": "); //$NON-NLS-1$
+		text.append(": "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		setLabel(text.toString());
 	}
 

@@ -88,7 +88,7 @@ public class DeclarationsSearchGroup extends ActionGroup  {
 	 *
 	 * @since 3.4
 	 */
-	public DeclarationsSearchGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider) {
+	public DeclarationsSearchGroup(IWorkbenchSite site, ISelectionProvider specialSelectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSite= site;
 		fGroupId= IContextMenuConstants.GROUP_SEARCH;
 
@@ -120,7 +120,7 @@ public class DeclarationsSearchGroup extends ActionGroup  {
 	 *
 	 * @noreference This constructor is not intended to be referenced by clients.
 	 */
-	public DeclarationsSearchGroup(JavaEditor editor) {
+	public DeclarationsSearchGroup(JavaEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(editor);
 		fEditor= editor;
 		fSite= fEditor.getSite();
@@ -145,7 +145,7 @@ public class DeclarationsSearchGroup extends ActionGroup  {
 
 	private void registerAction(SelectionDispatchAction action, ISelectionProvider provider, ISelection selection, ISelectionProvider specialSelectionProvider) {
 		action.update(selection);
-		provider.addSelectionChangedListener(action);
+		provider.addSelectionChangedListener(action); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		if (specialSelectionProvider != null)
 			action.setSpecialSelectionProvider(specialSelectionProvider);
 	}
@@ -185,7 +185,7 @@ public class DeclarationsSearchGroup extends ActionGroup  {
 		javaSearchMM.add(new Separator());
 
 		Iterator<IWorkingSet[]> iter= SearchUtil.getLRUWorkingSets().sortedIterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addWorkingSetAction(iter.next(), javaSearchMM);
 		}
 		addAction(fFindDeclarationsInWorkingSetAction, javaSearchMM);

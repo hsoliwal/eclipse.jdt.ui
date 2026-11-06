@@ -54,7 +54,7 @@ public class NLSSourceModifier {
 		fIsEclipseNLS= isEclipseNLS;
 	}
 
-	public static Change create(ICompilationUnit cu, NLSSubstitution[] subs, String substitutionPattern, IPackageFragment accessorPackage, String accessorClassName, boolean isEclipseNLS) throws CoreException {
+	public static Change create(ICompilationUnit cu, NLSSubstitution[] subs, String substitutionPattern, IPackageFragment accessorPackage, String accessorClassName, boolean isEclipseNLS) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		NLSSourceModifier sourceModification= new NLSSourceModifier(substitutionPattern, isEclipseNLS);
 
@@ -65,7 +65,7 @@ public class NLSSourceModifier {
 		change.setEdit(multiTextEdit);
 
 		boolean createImportForAccessor= true;
-		for (NLSSubstitution substitution : subs) {
+		for (NLSSubstitution substitution : subs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int newState= substitution.getState();
 			if (newState == NLSSubstitution.EXTERNALIZED && createImportForAccessor) {
 				accessorClassName= sourceModification.createImportForAccessor(multiTextEdit, accessorClassName, accessorPackage, cu);
@@ -146,7 +146,7 @@ public class NLSSourceModifier {
 		if (fIsEclipseNLS)
 			replaceEdit= new ReplaceEdit(region.getOffset(), region.getLength(), substitution.getKey());
 		else
-			replaceEdit= new ReplaceEdit(region.getOffset(), region.getLength(), '\"' + unwindEscapeChars(substitution.getKey()) + '\"'); //
+			replaceEdit= new ReplaceEdit(region.getOffset(), region.getLength(), '\"' + unwindEscapeChars(substitution.getKey()) + '\"'); // //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		TextChangeCompatibility.addTextEdit(change, Messages.format(NLSMessages.NLSSourceModifier_replace_key, args), replaceEdit);
 	}
@@ -155,16 +155,16 @@ public class NLSSourceModifier {
 		Region region= substitution.getNLSElement().getPosition();
 		String[] args= {substitution.getInitialValue(), substitution.getValueNonEmpty()};
 		TextChangeCompatibility.addTextEdit(change, Messages.format(NLSMessages.NLSSourceModifier_replace_value, args),
-				new ReplaceEdit(region.getOffset(), region.getLength(), '\"' + unwindEscapeChars(substitution.getValueNonEmpty()) + '\"')); //
+				new ReplaceEdit(region.getOffset(), region.getLength(), '\"' + unwindEscapeChars(substitution.getValueNonEmpty()) + '\"')); // //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private void deleteAccessor(NLSSubstitution substitution, TextChange change, ICompilationUnit cu) throws CoreException {
+	private void deleteAccessor(NLSSubstitution substitution, TextChange change, ICompilationUnit cu) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AccessorClassReference accessorClassRef= substitution.getAccessorClassReference();
 		if (accessorClassRef != null) {
 			Region region= accessorClassRef.getRegion();
 			String[] args= {substitution.getValueNonEmpty(), BasicElementLabels.getJavaElementName(substitution.getKey())};
 			String label= Messages.format(NLSMessages.NLSSourceModifier_remove_accessor, args);
-			String replaceString= '\"' + unwindEscapeChars(substitution.getValueNonEmpty()) + '\"';
+			String replaceString= '\"' + unwindEscapeChars(substitution.getValueNonEmpty()) + '\"'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			TextChangeCompatibility.addTextEdit(change, label, new ReplaceEdit(region.getOffset(), region.getLength(), replaceString));
 			if (fIsEclipseNLS && substitution.getState() != NLSSubstitution.INTERNALIZED) {
 
@@ -172,7 +172,7 @@ public class NLSSourceModifier {
 				int lineStart= getLineStart(cu.getBuffer(), position.getOffset());
 				int lineEnd= getLineEnd(cu.getBuffer(), position.getOffset());
 				String cuLine= cu.getBuffer().getText(lineStart, lineEnd - lineStart);
-				StringBuilder buf= new StringBuilder(cuLine);
+				StringBuilder buf= new StringBuilder(cuLine); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				buf.replace(region.getOffset() - lineStart, region.getOffset() + region.getLength() - lineStart, replaceString);
 				try {
 					NLSLine[] allLines= NLSScanner.scan(buf.toString());
@@ -184,7 +184,7 @@ public class NLSSourceModifier {
 
 					NLSElement[] elements= nlsLine.getElements();
 					int indexInElementList= Arrays.asList(elements).indexOf(element);
-					String editText= ' ' + NLSElement.createTagText(indexInElementList + 1); //tags are 1-based
+					String editText= ' ' + NLSElement.createTagText(indexInElementList + 1); //tags are 1-based //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					TextChangeCompatibility.addTextEdit(change, label, new InsertEdit(lineEnd, editText));
 
 				} catch (InvalidInputException | BadLocationException e) {
@@ -196,7 +196,7 @@ public class NLSSourceModifier {
 	private int getLineEnd(IBuffer buffer, int offset) {
 		int pos= offset;
 		int length= buffer.getLength();
-		while (pos < length && !isDelimiter(buffer.getChar(pos))) {
+		while (pos < length && !isDelimiter(buffer.getChar(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos++;
 		}
 		return pos;
@@ -204,14 +204,14 @@ public class NLSSourceModifier {
 
 	private int getLineStart(IBuffer buffer, int offset) {
 		int pos= offset;
-		while (pos >= 0 && !isDelimiter(buffer.getChar(pos))) {
+		while (pos >= 0 && !isDelimiter(buffer.getChar(pos))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pos--;
 		}
 		return pos + 1;
 	}
 
 	private boolean isDelimiter(char ch) {
-		for (String delim : TextUtilities.DELIMITERS) {
+		for (String delim : TextUtilities.DELIMITERS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (delim.length() == 1 && ch == delim.charAt(0)) {
 				return true;
 			}
@@ -225,7 +225,7 @@ public class NLSSourceModifier {
 	}
 
 	private static NLSElement findElement(NLSLine line, int position) {
-		for (NLSElement element : line.getElements()) {
+		for (NLSElement element : line.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isPositionInElement(element, position))
 				return element;
 		}
@@ -234,11 +234,11 @@ public class NLSSourceModifier {
 
 	// TODO: not dry
 	private String unwindEscapeChars(String s) {
-		StringBuilder sb= new StringBuilder(s.length());
+		StringBuilder sb= new StringBuilder(s.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int length= s.length();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= s.charAt(i);
-			sb.append(getUnwoundString(c));
+			sb.append(getUnwoundString(c)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return sb.toString();
 	}
@@ -269,7 +269,7 @@ public class NLSSourceModifier {
 	}
 
 	private String createImportForAccessor(MultiTextEdit parent, String accessorClassName, IPackageFragment accessorPackage, ICompilationUnit cu) throws CoreException {
-		IType type= accessorPackage.getCompilationUnit(accessorClassName + JavaModelUtil.DEFAULT_CU_SUFFIX).getType(accessorClassName);
+		IType type= accessorPackage.getCompilationUnit(accessorClassName + JavaModelUtil.DEFAULT_CU_SUFFIX).getType(accessorClassName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String fullyQualifiedName= type.getFullyQualifiedName();
 
 		ImportRewrite importRewrite= StubUtility.createImportRewrite(cu, true);
@@ -296,7 +296,7 @@ public class NLSSourceModifier {
 		}
 	}
 
-	private void addAccessor(NLSSubstitution sub, TextChange change, String accessorName) {
+	private void addAccessor(NLSSubstitution sub, TextChange change, String accessorName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (sub.getState() == NLSSubstitution.EXTERNALIZED) {
 			NLSElement element= sub.getNLSElement();
 			Region position= element.getPosition();
@@ -319,24 +319,24 @@ public class NLSSourceModifier {
 
 	private TextEdit createAddTagChange(NLSElement element) {
 		int offset= element.getTagPosition().getOffset(); //to be changed
-		String text= ' ' + element.getTagText();
+		String text= ' ' + element.getTagText(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return new InsertEdit(offset, text);
 	}
 
-	private String createResourceGetter(String key, String accessorName) {
-		StringBuilder buf= new StringBuilder();
-		buf.append(accessorName);
-		buf.append('.');
+	private String createResourceGetter(String key, String accessorName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(accessorName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (fIsEclipseNLS)
-			buf.append(key);
+			buf.append(key); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else {
 			//we just replace the first occurrence of KEY in the pattern
 			int i= fSubstitutionPattern.indexOf(NLSRefactoring.KEY);
 			if (i != -1) {
-				buf.append(fSubstitutionPattern.substring(0, i));
-				buf.append('"').append(key).append('"');
-				buf.append(fSubstitutionPattern.substring(i + NLSRefactoring.KEY.length()));
+				buf.append(fSubstitutionPattern.substring(0, i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('"').append(key).append('"'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(fSubstitutionPattern.substring(i + NLSRefactoring.KEY.length())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return buf.toString();

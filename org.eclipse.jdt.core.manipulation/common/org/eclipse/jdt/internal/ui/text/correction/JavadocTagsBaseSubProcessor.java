@@ -74,7 +74,7 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 	/*
 	 * This entry point is requested by jdt.ls
 	 */
-	public void addMissingJavadocTagProposals(IInvocationContext context, ASTNode node, Collection<T> proposals) {
+	public void addMissingJavadocTagProposals(IInvocationContext context, ASTNode node, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parentDeclaration= null;
 		if (node == null) {
 			return;
@@ -143,7 +143,7 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 		}
 	}
 
-	public void addUnusedAndUndocumentedParameterOrExceptionProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void addUnusedAndUndocumentedParameterOrExceptionProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		IJavaProject project= cu.getJavaProject();
 
@@ -184,7 +184,7 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 			proposals.add(proposal);
 	}
 
-	public void addMissingJavadocCommentProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void addMissingJavadocCommentProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= problem.getCoveringNode(context.getASTRoot());
 		if (node == null) {
 			return;
@@ -196,12 +196,12 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 			if (binding == null) {
 				return;
 			}
-			List<String> usesNames= new ArrayList<>();
-			for (ITypeBinding use : binding.getUses()) {
+			List<String> usesNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ITypeBinding use : binding.getUses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				usesNames.add(use.getName());
 			}
-			List<String> providesNames= new ArrayList<>();
-			for (ITypeBinding provide : binding.getServices()) {
+			List<String> providesNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ITypeBinding provide : binding.getServices()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				providesNames.add(provide.getName());
 			}
 			String comment= CodeGeneration.getModuleComment(cu, declaration.getName().getFullyQualifiedName(), providesNames.toArray(new String[0]), usesNames.toArray(new String[0]),
@@ -243,19 +243,19 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 				if (declaration instanceof TypeDeclaration) {
 					List<TypeParameter> typeParams= ((TypeDeclaration) declaration).typeParameters();
 					typeParamNames= new String[typeParams.size()];
-					for (int i= 0; i < typeParamNames.length; i++) {
+					for (int i= 0; i < typeParamNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeParamNames[i]= (typeParams.get(i)).getName().getIdentifier();
 					}
 					params= new String[0];
 				} else if (declaration instanceof RecordDeclaration) {
 					List<SingleVariableDeclaration> recComps= ((RecordDeclaration) declaration).recordComponents();
 					params= new String[recComps.size()];
-					for (int i= 0; i < params.length; i++) {
+					for (int i= 0; i < params.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						params[i]= (recComps.get(i)).getName().getIdentifier();
 					}
 					List<TypeParameter> typeParams= ((RecordDeclaration) declaration).typeParameters();
 					typeParamNames= new String[typeParams.size()];
-					for (int i= 0; i < typeParamNames.length; i++) {
+					for (int i= 0; i < typeParamNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeParamNames[i]= (typeParams.get(i)).getName().getIdentifier();
 					}
 				} else {
@@ -300,7 +300,7 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 
 	public void addRemoveJavadocTagProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
 		ASTNode node= problem.getCoveringNode(context.getASTRoot());
-		while (node != null && !(node instanceof TagElement)) {
+		while (node != null && !(node instanceof TagElement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		}
 		if (node == null) {
@@ -318,7 +318,7 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 
 	protected abstract T createRemoveJavadocTagProposals(String label, ICompilationUnit compilationUnit, ASTRewrite rewrite, int removeTag);
 
-	public void addRemoveDuplicateModuleJavadocTagProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void addRemoveDuplicateModuleJavadocTagProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= problem.getCoveringNode(context.getASTRoot());
 		if (node instanceof ModuleDeclaration) {
 			node= findModuleJavadocTag((ModuleDeclaration) node, problem);
@@ -348,20 +348,20 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 
 	protected abstract T createRemoveDuplicateModuleJavadocTagProposal(String label, ICompilationUnit compilationUnit, int start, int length, String string, int removeTag);
 
-	private ASTNode findModuleJavadocTag(ModuleDeclaration decl, IProblemLocation problem) {
+	private ASTNode findModuleJavadocTag(ModuleDeclaration decl, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode result= null;
 		CompilationUnit cu= (CompilationUnit) decl.getParent();
 		int problemLocationStart= problem.getOffset();
 		Name moduleName= decl.getName();
 		List<Comment> comments= cu.getCommentList();
 
-		for (Comment comment : comments) {
+		for (Comment comment : comments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (comment instanceof Javadoc
 					&& comment.getStartPosition() + comment.getLength() < moduleName.getStartPosition()) {
 				Javadoc javadoc= (Javadoc) comment;
 				List<TagElement> tags= javadoc.tags();
 
-				for (TagElement tag : tags) {
+				for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (problemLocationStart > tag.getStartPosition()
 							&& problemLocationStart < tag.getStartPosition() + tag.getLength()) {
 						result= tag;
@@ -373,7 +373,7 @@ public abstract class JavadocTagsBaseSubProcessor<T> {
 		return result;
 	}
 
-	public void addInvalidQualificationProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) {
+	public void addInvalidQualificationProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= problem.getCoveringNode(context.getASTRoot());
 		if (!(node instanceof Name)) {
 			return;

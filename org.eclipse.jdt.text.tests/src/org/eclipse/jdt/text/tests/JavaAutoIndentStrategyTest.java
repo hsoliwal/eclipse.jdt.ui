@@ -54,7 +54,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 
 	private final JavaAutoIndentStrategy fJavaAutoIndentStrategy;
 
-	public JavaAutoIndentStrategyTest() {
+	public JavaAutoIndentStrategyTest() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fDocument= new Document();
 		String[] types= new String[] {
 			IJavaPartitions.JAVA_DOC,
@@ -102,7 +102,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(result, fDocumentCommand.text);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPasteAndIndentOfLongStringWithContinuations1() {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=330556
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=65317
@@ -155,7 +155,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(result, fDocumentCommand.text);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPasteAndIndentOfStringWithContinuations2() {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=337150
 		fDocument.set("public class Test2 {\n}");
@@ -176,7 +176,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(result, fDocumentCommand.text);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPasteAndIndentOfStringWithContinuations3() {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=337150
 		fDocument.set("public class Test2 {\n}");
@@ -197,7 +197,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(result, fDocumentCommand.text);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPasteAndIndentOfStringWithContinuations4() {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=337150
 		fDocument.set("public class Test2 {\n}");
@@ -218,7 +218,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(result, fDocumentCommand.text);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPasteAndIndentOfStringWithContinuations5() {
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=337150
 		fDocument.set("public class Test2 {\n}");
@@ -245,7 +245,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		fCommandAccessor.invoke("execute", new Class[] { IDocument.class }, new Object[] { fDocument });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSmartIndentAfterNewLine1() {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=29379
 		fDocument.setInitialLineDelimiter("\r\n");
@@ -272,7 +272,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(str1, fDocument.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSmartIndentAfterNewLine2() {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=395071
 		fDocument.setInitialLineDelimiter("\r\n");
@@ -315,7 +315,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(str, fDocument.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSmartIndentAfterNewLine4() {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=254704
 		fDocument.setInitialLineDelimiter("\r\n");
@@ -343,7 +343,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(str1, fDocument.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSmartIndentAfterNewLine5() {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=256087
 		fDocument.setInitialLineDelimiter("\r\n");
@@ -370,7 +370,7 @@ public class JavaAutoIndentStrategyTest implements ILogListener {
 		assertEquals(str1, fDocument.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSmartIndentAfterNewLine6() {
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=200015
 		fDocument.setInitialLineDelimiter("\r\n");

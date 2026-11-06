@@ -62,27 +62,27 @@ public class CleanUpTest1d6 extends CleanUpTestCase {
 	 * @throws Exception if the something fails while executing this test
 	 * @since 3.7
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCleanUpWithCUProblemsGreaterThanMaxProblemsPerCUPreference() throws Exception {
 		final int PROBLEMS_COUNT= 101;
 
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("interface I {\n");
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("interface I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		for (int count= 0; count < PROBLEMS_COUNT; count++) {
-			bld.append("    void m").append(count).append("();\n");
+		for (int count= 0; count < PROBLEMS_COUNT; count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			bld.append("    void m").append(count).append("();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("}\n");
-		bld.append("class X implements I {\n");
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("class X implements I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		for (int count= 0; count < PROBLEMS_COUNT; count++) {
-			bld.append("    public void m").append(count).append("() {} // @Override error in 1.5, not in 1.6\n");
+		for (int count= 0; count < PROBLEMS_COUNT; count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			bld.append("    public void m").append(count).append("() {} // @Override error in 1.5, not in 1.6\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("}\n");
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String given= bld.toString();
 
 		ICompilationUnit cu= pack.createCompilationUnit("I.java", given, false, null);
@@ -91,30 +91,30 @@ public class CleanUpTest1d6 extends CleanUpTestCase {
 		enable(CleanUpConstants.ADD_MISSING_ANNOTATIONS_OVERRIDE);
 		enable(CleanUpConstants.ADD_MISSING_ANNOTATIONS_OVERRIDE_FOR_INTERFACE_METHOD_IMPLEMENTATION);
 
-		bld= new StringBuilder();
-		bld.append("package test1;\n");
-		bld.append("interface I {\n");
+		bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("interface I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		for (int count= 0; count < PROBLEMS_COUNT; count++) {
-			bld.append("    void m").append(count).append("();\n");
+		for (int count= 0; count < PROBLEMS_COUNT; count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			bld.append("    void m").append(count).append("();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("}\n");
-		bld.append("class X implements I {\n");
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("class X implements I {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-		for (int count= 0; count < PROBLEMS_COUNT; count++) {
-			bld.append("    @Override\n");
-			bld.append("    public void m").append(count).append("() {} // @Override error in 1.5, not in 1.6\n");
+		for (int count= 0; count < PROBLEMS_COUNT; count++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			bld.append("    @Override\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    public void m").append(count).append("() {} // @Override error in 1.5, not in 1.6\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("}\n");
+		bld.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String expected= bld.toString();
 
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddOverride1d6() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String given= """
@@ -166,7 +166,7 @@ public class CleanUpTest1d6 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu}, new String[] {expected}, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddOverride1d6NoInterfaceMethods() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String given= """
@@ -214,7 +214,7 @@ public class CleanUpTest1d6 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] {cu}, new String[] {expected}, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConstantsForSystemProperty() throws Exception {
 		// Given
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
@@ -273,7 +273,7 @@ public class CleanUpTest1d6 extends CleanUpTestCase {
 		// Then
 		assertNotEquals("The class must be changed", expected, given);
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu }, new String[] { expected },
-				new HashSet<>(Arrays.asList(Messages.format(ConstantsCleanUp_description,UpdateProperty.FILE_SEPARATOR.toString()),
+				new HashSet<>(Arrays.asList(Messages.format(ConstantsCleanUp_description,UpdateProperty.FILE_SEPARATOR.toString()), //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						Messages.format(ConstantsCleanUp_description,UpdateProperty.PATH_SEPARATOR.toString()),
 						Messages.format(ConstantsCleanUp_description,UpdateProperty.LINE_SEPARATOR.toString()),
 						Messages.format(ConstantsCleanUp_description,UpdateProperty.FILE_ENCODING.toString()),

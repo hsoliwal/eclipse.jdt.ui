@@ -88,7 +88,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 		@Override
 		protected boolean visitLiteral(Expression node) {
 			fToken.update(node);
-			for (int i= 0, n= fJobSemanticHighlightings.length; i < n; i++) {
+			for (int i= 0, n= fJobSemanticHighlightings.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 				if (fJobHighlightings[i].isEnabled() && semanticHighlighting.consumesLiteral(fToken)) {
 					int offset= node.getStartPosition();
@@ -146,7 +146,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 				int offset= node.getStartPosition();
 				int length= node.getLength();
 				if (offset > -1 && length > 0) {
-					for (int i= 0; i < fJobSemanticHighlightings.length; i++) {
+					for (int i= 0; i < fJobSemanticHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 						if (semanticHighlighting instanceof RestrictedIdentifiersHighlighting) {
 							addPosition(offset, length, fJobHighlightings[i]);
@@ -165,7 +165,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 				int offset= node.getStartPosition();
 				int length= 5; // length of 'yield'
 				if (offset > -1 && length > 0) {
-					for (int i= 0; i < fJobSemanticHighlightings.length; i++) {
+					for (int i= 0; i < fJobSemanticHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 						if (semanticHighlighting instanceof RestrictedIdentifiersHighlighting) {
 							addPosition(offset, length, fJobHighlightings[i]);
@@ -184,7 +184,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 				int offset= node.getRestrictedIdentifierStartPosition();
 				int length= 6; // length of 'record'
 				if (offset > -1 && length > 0) {
-					for (int i= 0; i < fJobSemanticHighlightings.length; i++) {
+					for (int i= 0; i < fJobSemanticHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 						if (semanticHighlighting instanceof RestrictedIdentifiersHighlighting) {
 							addPosition(offset, length, fJobHighlightings[i]);
@@ -196,14 +196,14 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(TypeDeclaration node) {
 			try {
 				if (node.permittedTypes().size() > 0) {
 					int offset= node.getRestrictedIdentifierStartPosition();
 					int length= 7; // length of 'permits'
 					if (offset > -1) {
-						for (int i= 0; i < fJobSemanticHighlightings.length; i++) {
+						for (int i= 0; i < fJobSemanticHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 							if (semanticHighlighting instanceof RestrictedIdentifiersHighlighting) {
 								addPosition(offset, length, fJobHighlightings[i]);
@@ -218,7 +218,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(Modifier node) {
 			AST ast= node.getAST();
 			int offset= node.getStartPosition();
@@ -237,7 +237,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 				}
 			}
 			if (offset > -1 && length > 0) {
-				for (int i= 0; i < fJobSemanticHighlightings.length; i++) {
+				for (int i= 0; i < fJobSemanticHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 					if (semanticHighlighting instanceof RestrictedIdentifiersHighlighting) {
 						addPosition(offset, length, fJobHighlightings[i]);
@@ -254,7 +254,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 		@Override
 		public boolean visit(SimpleName node) {
 			fToken.update(node);
-			for (int i= 0, n= fJobSemanticHighlightings.length; i < n; i++) {
+			for (int i= 0, n= fJobSemanticHighlightings.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 				if (fJobHighlightings[i].isEnabled() && semanticHighlighting.consumes(fToken)) {
 					int offset= node.getStartPosition();
@@ -276,7 +276,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 		@Override
 		protected void retainPositions(int offset, int length) {
 			// TODO: use binary search
-			for (int i= 0, n= fRemovedPositions.size(); i < n; i++) {
+			for (int i= 0, n= fRemovedPositions.size(); i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				HighlightedPosition position= (HighlightedPosition) fRemovedPositions.get(i);
 				if (position != null && position.isContained(offset, length)) {
 					fRemovedPositions.set(i, null);
@@ -285,14 +285,14 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(GuardedPattern node) {
 			try {
 				if (node != null) {
 					int offset= node.getRestrictedIdentifierStartPosition();
 					int length= 4; // length of 'when'
 					if (offset > -1) {
-						for (int i= 0; i < fJobSemanticHighlightings.length; i++) {
+						for (int i= 0; i < fJobSemanticHighlightings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 							if (semanticHighlighting instanceof RestrictedIdentifiersHighlighting) {
 								addPosition(offset, length, fJobHighlightings[i]);
@@ -314,10 +314,10 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	 * @param length The range length
 	 * @param highlighting The highlighting
 	 */
-	private void addPosition(int offset, int length, Highlighting highlighting) {
+	private void addPosition(int offset, int length, Highlighting highlighting) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isExisting= false;
 		// TODO: use binary search
-		for (int i= 0, n= fRemovedPositions.size(); i < n; i++) {
+		for (int i= 0, n= fRemovedPositions.size(); i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			HighlightedPosition position= (HighlightedPosition) fRemovedPositions.get(i);
 			if (position == null)
 				continue;
@@ -357,9 +357,9 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	private Highlighting[] fSyntaxHighlightings;
 
 	/** Background job's added highlighted positions */
-	private List<Position> fAddedPositions= new ArrayList<>();
+	private List<Position> fAddedPositions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/** Background job's removed highlighted positions */
-	private List<Position> fRemovedPositions= new ArrayList<>();
+	private List<Position> fRemovedPositions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/** Number of removed positions */
 	private int fNOfRemovedPositions;
 
@@ -418,8 +418,8 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	}
 
 	private List<ISemanticTokensProvider.SemanticToken> getContributedSemanticTokens(CompilationUnit ast) {
-		List<ISemanticTokensProvider.SemanticToken> contributedTokens = new ArrayList<>();
-		for (ISemanticTokensProvider provider : getContributedSemanticTokensProviders()) {
+		List<ISemanticTokensProvider.SemanticToken> contributedTokens = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ISemanticTokensProvider provider : getContributedSemanticTokensProviders()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			contributedTokens.addAll(provider.computeSemanticTokens(ast));
 		}
 		return contributedTokens;
@@ -428,7 +428,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.IJavaReconcilingListener#reconciled(CompilationUnit, boolean, IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void reconciled(CompilationUnit ast, boolean forced, IProgressMonitor progressMonitor) {
 		// ensure at most one thread can be reconciling at any time
 		synchronized (fReconcileLock) {
@@ -459,7 +459,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 
 			if (!fJobPresenter.isCanceled()) {
 				fJobDeprecatedMemberHighlighting= null;
-				for (int i= 0, n= fJobSemanticHighlightings.length; i < n; i++) {
+				for (int i= 0, n= fJobSemanticHighlightings.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SemanticHighlighting semanticHighlighting= fJobSemanticHighlightings[i];
 					if (fJobHighlightings[i].isEnabled() && semanticHighlighting instanceof DeprecatedMemberHighlighting) {
 						fJobDeprecatedMemberHighlighting= fJobHighlightings[i];
@@ -514,13 +514,13 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	 * @param subtrees the AST subtrees
 	 * @param contributedTokens contributed semantic tokens data
 	 */
-	private void reconcilePositions(ASTNode[] subtrees, List<ISemanticTokensProvider.SemanticToken> contributedTokens) {
+	private void reconcilePositions(ASTNode[] subtrees, List<ISemanticTokensProvider.SemanticToken> contributedTokens) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// FIXME: remove positions not covered by subtrees
 
-		for (ASTNode subtree : subtrees)
+		for (ASTNode subtree : subtrees) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			subtree.accept(fCollector);
 
-		for (ISemanticTokensProvider.SemanticToken t : contributedTokens) {
+		for (ISemanticTokensProvider.SemanticToken t : contributedTokens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Highlighting h = fromSemanticTokenType(t.tokenType());
 			if (h == null) {
 				JavaPlugin.logErrorMessage("Cannot find semantic highlighting for %s".formatted(t)); //$NON-NLS-1$
@@ -529,15 +529,15 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 			}
 		}
 		List<Position> oldPositions= fRemovedPositions;
-		List<Position> newPositions= new ArrayList<>(fNOfRemovedPositions);
-		for (Position current : oldPositions) {
+		List<Position> newPositions= new ArrayList<>(fNOfRemovedPositions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Position current : oldPositions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (current != null)
 				newPositions.add(current);
 		}
 		fRemovedPositions= newPositions;
 	}
 
-	private Highlighting fromSemanticTokenType(ISemanticTokensProvider.TokenType type) {
+	private Highlighting fromSemanticTokenType(ISemanticTokensProvider.TokenType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type == null) {
 			return null;
 		}
@@ -609,7 +609,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	}
 
 	private Highlighting findSemanticHighlighting(String preferenceKey) {
-		for (Highlighting h : fJobHighlightings) {
+		for (Highlighting h : fJobHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Objects.equals(preferenceKey, h.getPreferenceKey())) {
 				return h;
 			}
@@ -618,7 +618,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	}
 
 	private Highlighting findSyntaxHighlighting(String key) {
-		for (Highlighting h : fJobSyntaxHighlightings) {
+		for (Highlighting h : fJobSyntaxHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Objects.equals(key, h.getPreferenceKey())) {
 				return h;
 			}
@@ -633,7 +633,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	 * @param addedPositions the added positions
 	 * @param removedPositions the removed positions
 	 */
-	private void updatePresentation(TextPresentation textPresentation, List<Position> addedPositions, List<Position> removedPositions) {
+	private void updatePresentation(TextPresentation textPresentation, List<Position> addedPositions, List<Position> removedPositions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Runnable runnable= fJobPresenter.createUpdateRunnable(textPresentation, addedPositions, removedPositions);
 		if (runnable == null)
 			return;
@@ -656,7 +656,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 
 		IDocument document= fSourceViewer.getDocument();
 		String contents= document.get();
-		display.asyncExec(() -> {
+		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			// check Editor not reused for other document or document changed meanwhile
 			if (fSourceViewer != null && document == fSourceViewer.getDocument() &&  Objects.equals(contents, document.get())) {
 				if (document instanceof ISynchronizable s && s.getLockObject() instanceof Object lockObject) {
@@ -688,7 +688,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	 * @param highlightings the highlightings
 	 * @param syntaxHighlightings editor syntax highlightings
 	 */
-	public void install(JavaEditor editor, ISourceViewer sourceViewer, SemanticHighlightingPresenter presenter, SemanticHighlighting[] semanticHighlightings, Highlighting[] highlightings, Highlighting[] syntaxHighlightings) {
+	public void install(JavaEditor editor, ISourceViewer sourceViewer, SemanticHighlightingPresenter presenter, SemanticHighlighting[] semanticHighlightings, Highlighting[] highlightings, Highlighting[] syntaxHighlightings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPresenter= presenter;
 		fSemanticHighlightings= semanticHighlightings;
 		fHighlightings= highlightings;
@@ -758,7 +758,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	/**
 	 * Schedule a background job for retrieving the AST and reconciling the Semantic Highlighting model.
 	 */
-	private void scheduleJob() {
+	private void scheduleJob() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ITypeRoot element= getElement();
 
 		synchronized (fJobLock) {
@@ -770,7 +770,7 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 
 			if (element != null) {
 				fJob= new Job(JavaEditorMessages.SemanticHighlighting_job) {
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					protected IStatus run(IProgressMonitor monitor) {
 						if (oldJob != null) {
 							try {

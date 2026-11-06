@@ -171,7 +171,7 @@ public class ResourceModifications {
 	 */
 	public void addCreate(IResource create) {
 		if (fCreate == null)
-			fCreate= new ArrayList<>(2);
+			fCreate= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fCreate.add(create);
 		if (fIgnoreCount == 0) {
 			internalAdd(new CreateDescription(create));
@@ -186,7 +186,7 @@ public class ResourceModifications {
 	 */
 	public void addDelete(IResource delete) {
 		if (fDelete == null)
-			fDelete= new ArrayList<>(2);
+			fDelete= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fDelete.add(delete);
 		if (fIgnoreCount == 0) {
 			internalAdd(new DeleteDescription(delete));
@@ -202,8 +202,8 @@ public class ResourceModifications {
 	 */
 	public void addMove(IResource move, MoveArguments arguments) {
 		if (fMove == null) {
-			fMove= new ArrayList<>(2);
-			fMoveArguments= new ArrayList<>(2);
+			fMove= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fMoveArguments= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		fMove.add(move);
 		fMoveArguments.add(arguments);
@@ -222,8 +222,8 @@ public class ResourceModifications {
 	 */
 	public void addCopy(IResource copy, CopyArguments arguments) {
 		if (fCopy == null) {
-			fCopy= new ArrayList<>(2);
-			fCopyArguments= new ArrayList<>(2);
+			fCopy= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fCopyArguments= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		fCopy.add(copy);
 		fCopyArguments.add(arguments);
@@ -241,8 +241,8 @@ public class ResourceModifications {
 		Assert.isNotNull(rename);
 		Assert.isNotNull(arguments);
 		if (fRename == null) {
-			fRename= new ArrayList<>(2);
-			fRenameArguments= new ArrayList<>(2);
+			fRename= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fRenameArguments= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		fRename.add(rename);
 		fRenameArguments.add(arguments);
@@ -252,11 +252,11 @@ public class ResourceModifications {
 		}
 	}
 
-	public RefactoringParticipant[] getParticipants(RefactoringStatus status, RefactoringProcessor processor, String[] natures, SharableParticipants shared) {
-		List<RefactoringParticipant> result= new ArrayList<>(5);
+	public RefactoringParticipant[] getParticipants(RefactoringStatus status, RefactoringProcessor processor, String[] natures, SharableParticipants shared) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<RefactoringParticipant> result= new ArrayList<>(5); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fDelete != null) {
 			DeleteArguments arguments= new DeleteArguments();
-			for (IResource resource : fDelete) {
+			for (IResource resource : fDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				DeleteParticipant[] deletes= ParticipantManager.loadDeleteParticipants(status,
 					processor, resource,
 					arguments, natures, shared);
@@ -265,7 +265,7 @@ public class ResourceModifications {
 		}
 		if (fCreate != null) {
 			CreateArguments arguments= new CreateArguments();
-			for (IResource resource : fCreate) {
+			for (IResource resource : fCreate) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CreateParticipant[] creates= ParticipantManager.loadCreateParticipants(status,
 					processor, resource,
 					arguments, natures, shared);
@@ -273,7 +273,7 @@ public class ResourceModifications {
 			}
 		}
 		if (fMove != null) {
-			for (int i= 0; i < fMove.size(); i++) {
+			for (int i= 0; i < fMove.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= fMove.get(i);
 				MoveArguments arguments= fMoveArguments.get(i);
 				MoveParticipant[] moves= ParticipantManager.loadMoveParticipants(status,
@@ -284,7 +284,7 @@ public class ResourceModifications {
 			}
 		}
 		if (fCopy != null) {
-			for (int i= 0; i < fCopy.size(); i++) {
+			for (int i= 0; i < fCopy.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= fCopy.get(i);
 				CopyArguments arguments= fCopyArguments.get(i);
 				CopyParticipant[] copies= ParticipantManager.loadCopyParticipants(status,
@@ -294,7 +294,7 @@ public class ResourceModifications {
 			}
 		}
 		if (fRename != null) {
-			for (int i= 0; i < fRename.size(); i++) {
+			for (int i= 0; i < fRename.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object resource= fRename.get(i);
 				RenameArguments arguments= fRenameArguments.get(i);
 				RenameParticipant[] renames= ParticipantManager.loadRenameParticipants(status,
@@ -338,7 +338,7 @@ public class ResourceModifications {
 		if (fDeltaDescriptions == null)
 			return false;
 		IPath fullPath= resource.getFullPath();
-		for (DeltaDescription delta : fDeltaDescriptions) {
+		for (DeltaDescription delta : fDeltaDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fullPath.equals(delta.getDestinationPath()))
 				return true;
 		}
@@ -348,7 +348,7 @@ public class ResourceModifications {
 	public void buildDelta(IResourceChangeDescriptionFactory builder) {
 		if (fDeltaDescriptions == null)
 			return;
-		for (DeltaDescription delta : fDeltaDescriptions) {
+		for (DeltaDescription delta : fDeltaDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			delta.buildDelta(builder);
 		}
 	}
@@ -370,7 +370,7 @@ public class ResourceModifications {
 
 	private void internalAdd(DeltaDescription description) {
 		if (fDeltaDescriptions == null)
-			fDeltaDescriptions= new ArrayList<>();
+			fDeltaDescriptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fDeltaDescriptions.add(description);
 	}
 }

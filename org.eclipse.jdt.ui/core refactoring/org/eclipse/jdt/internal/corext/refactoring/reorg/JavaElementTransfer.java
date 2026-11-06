@@ -34,7 +34,7 @@ public class JavaElementTransfer extends ByteArrayTransfer {
 
 	// Create a unique ID to make sure that different Eclipse
 	// applications use different "types" of <code>JavaElementTransfer</code>
-	private static final String TYPE_NAME= "java-element-transfer-format:" + System.currentTimeMillis() + ":" + fInstance.hashCode(); //$NON-NLS-2$//$NON-NLS-1$
+	private static final String TYPE_NAME= "java-element-transfer-format:" + System.currentTimeMillis() + ":" + fInstance.hashCode(); //$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final int TYPEID= registerType(TYPE_NAME);
 
@@ -60,7 +60,7 @@ public class JavaElementTransfer extends ByteArrayTransfer {
 		return new String[] { TYPE_NAME };
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void javaToNative(Object data, TransferData transferData) {
 		if (!(data instanceof IJavaElement[]))
 			return;
@@ -80,7 +80,7 @@ public class JavaElementTransfer extends ByteArrayTransfer {
 			dataOut.writeInt(javaElements.length);
 
 			//write each element
-			for (IJavaElement javaElement : javaElements) {
+			for (IJavaElement javaElement : javaElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writeJavaElement(dataOut, javaElement);
 			}
 
@@ -92,7 +92,7 @@ public class JavaElementTransfer extends ByteArrayTransfer {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object nativeToJava(TransferData transferData) {
 		/*
 		 * The element serialization format is:
@@ -108,7 +108,7 @@ public class JavaElementTransfer extends ByteArrayTransfer {
 		try {
 			int count= in.readInt();
 			IJavaElement[] results= new IJavaElement[count];
-			for (int i= 0; i < count; i++) {
+			for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				results[i]= readJavaElement(in);
 			}
 			return results;

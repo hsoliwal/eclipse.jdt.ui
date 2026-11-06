@@ -103,7 +103,7 @@ public class RenamePrivateFieldTests extends GenericRefactoringTest {
 		helper1_0("f", "g");
 	}
 
-	private void helper2(String fieldName, String newFieldName, boolean updateReferences, boolean updateTextualMatches,
+	private void helper2(String fieldName, String newFieldName, boolean updateReferences, boolean updateTextualMatches, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 											boolean renameGetter, boolean renameSetter,
 											boolean expectedGetterRenameEnabled, boolean expectedSetterRenameEnabled) throws Exception{
 		ParticipantTesting.reset();
@@ -126,9 +126,9 @@ public class RenamePrivateFieldTests extends GenericRefactoringTest {
 		String newGetterName= processor.getNewGetterName();
 		String newSetterName= processor.getNewSetterName();
 
-		List<IAnnotatable> elements= new ArrayList<>();
+		List<IAnnotatable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		elements.add(field);
-		List<RenameArguments> args= new ArrayList<>();
+		List<RenameArguments> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		args.add(new RenameArguments(newFieldName, updateReferences));
 		if (renameGetter && expectedGetterRenameEnabled) {
 			elements.add(processor.getGetter());

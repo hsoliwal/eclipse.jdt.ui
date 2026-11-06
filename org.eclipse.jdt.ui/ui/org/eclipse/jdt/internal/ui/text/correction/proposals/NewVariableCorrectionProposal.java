@@ -21,7 +21,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 
-public class NewVariableCorrectionProposal extends LinkedCorrectionProposal {
+public class NewVariableCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public static final int LOCAL= NewVariableCorrectionProposalCore.LOCAL;
 
 	public static final int FIELD= NewVariableCorrectionProposalCore.FIELD;

@@ -26,7 +26,7 @@ import org.eclipse.jdt.internal.corext.refactoring.RefactoringCoreMessages;
 
 public class ReferencesInBinaryContext extends RefactoringStatusContext {
 
-	private List<SearchMatch> fMatches= new ArrayList<>();
+	private List<SearchMatch> fMatches= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private final String fDescription;
 
@@ -63,7 +63,7 @@ public class ReferencesInBinaryContext extends RefactoringStatusContext {
 
 	@Override
 	public String toString() {
-		return fDescription + " (" + fMatches.size() + " matches)"; //$NON-NLS-1$ //$NON-NLS-2$
+		return fDescription + " (" + fMatches.size() + " matches)"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

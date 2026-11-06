@@ -51,7 +51,7 @@ public class AccessRuleEntryDialog extends StatusDialog {
 	private ComboDialogField fRuleKindCombo;
 	private int[] fRuleKinds;
 
-	public AccessRuleEntryDialog(Shell parent, IAccessRule ruleToEdit, CPListElement entryToEdit) {
+	public AccessRuleEntryDialog(Shell parent, IAccessRule ruleToEdit, CPListElement entryToEdit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 
 		String title, message;
@@ -91,7 +91,7 @@ public class AccessRuleEntryDialog extends StatusDialog {
 			fRuleKindCombo.selectItem(0);
 		} else {
 			fPatternDialog.setText(ruleToEdit.getPattern().toString());
-			for (int i= 0; i < fRuleKinds.length; i++) {
+			for (int i= 0; i < fRuleKinds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fRuleKinds[i] == ruleToEdit.getKind()) {
 					fRuleKindCombo.selectItem(i);
 					break;
@@ -109,7 +109,7 @@ public class AccessRuleEntryDialog extends StatusDialog {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 

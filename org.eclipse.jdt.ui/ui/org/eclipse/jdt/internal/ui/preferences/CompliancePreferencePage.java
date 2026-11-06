@@ -169,7 +169,7 @@ public class CompliancePreferencePage extends PropertyAndPreferencePage {
 		setDescription(null); // no description for property page
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void applyData(Object data) {
 		super.applyData(data);
 		if (data instanceof Map && fConfigurationBlock != null) {

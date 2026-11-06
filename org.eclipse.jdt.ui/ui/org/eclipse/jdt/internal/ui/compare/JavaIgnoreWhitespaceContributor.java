@@ -30,24 +30,24 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 public class JavaIgnoreWhitespaceContributor implements IIgnoreWhitespaceContributor {
 
-	private TreeMap<Integer /* start offset */, Integer /* end offset */> stringsByOffset= null;
+	private TreeMap<Integer /* start offset */, Integer /* end offset */> stringsByOffset= null; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private final IDocument document;
 
 	public JavaIgnoreWhitespaceContributor(IDocument document) {
 		this.document= document;
 	}
 
-	private void createStringsByOffsetIfAbsent() {
+	private void createStringsByOffsetIfAbsent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (stringsByOffset != null) {
 			return;
 		}
-		stringsByOffset= new TreeMap<>();
+		stringsByOffset= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW
 		String source= document.get();
 		IScanner scanner= ToolFactory.createScanner(false, false, false, false);
 		scanner.setSource(source.toCharArray());
 		try {
 			int tokenType;
-			while ((tokenType= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) {
+			while ((tokenType= scanner.getNextToken()) != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ITerminalSymbols.TokenNameStringLiteral == tokenType || ITerminalSymbols.TokenNameTextBlock == tokenType) {
 					int start= scanner.getCurrentTokenStartPosition();
 					int end= scanner.getCurrentTokenEndPosition();

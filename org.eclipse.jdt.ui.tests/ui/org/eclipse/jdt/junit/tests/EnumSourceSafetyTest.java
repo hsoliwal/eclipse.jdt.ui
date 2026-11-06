@@ -77,7 +77,7 @@ public class EnumSourceSafetyTest {
 		JavaProjectHelper.clear(fJProject, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumDeclarationOrderFromSeparateSourceFile() throws Exception {
 		createCompilationUnit("test1.enums", "Color.java", """
 				package test1.enums;
@@ -108,7 +108,7 @@ public class EnumSourceSafetyTest {
 		assertExclusionTarget(method, 3, "MIDDLE"); //$NON-NLS-1$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEnumDeclarationOrderFromBinaryType() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("test1", "MyTest.java", """
 				package test1;
@@ -131,7 +131,7 @@ public class EnumSourceSafetyTest {
 		assertNoExclusionTarget(method, 6);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodFinderDistinguishesEqualSimpleTypeNames() throws Exception {
 		createCompilationUnit("first", "Color.java", """
 				package first;
@@ -159,18 +159,18 @@ public class EnumSourceSafetyTest {
 		IMethod second= TestMethodFinder.findMethod(
 				type, "overloaded", new String[] { "second.Color" }); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertNotNull("Expected the first.Color overload to be resolved in " + sourceContext(cu), first); //$NON-NLS-1$
-		assertNotNull("Expected the second.Color overload to be resolved in " + sourceContext(cu), second); //$NON-NLS-1$
-		assertNotEquals("Expected distinct methods for the two qualified parameter types in " + sourceContext(cu), first, second); //$NON-NLS-1$
-		assertEquals("Expected parameter type for the resolved first.Color overload in " + sourceContext(cu), //$NON-NLS-1$
+		assertNotNull("Expected the first.Color overload to be resolved in " + sourceContext(cu), first); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertNotNull("Expected the second.Color overload to be resolved in " + sourceContext(cu), second); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertNotEquals("Expected distinct methods for the two qualified parameter types in " + sourceContext(cu), first, second); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Expected parameter type for the resolved first.Color overload in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"first.Color", Signature.toString(first.getParameterTypes()[0])); //$NON-NLS-1$
-		assertEquals("Expected parameter type for the resolved second.Color overload in " + sourceContext(cu), //$NON-NLS-1$
+		assertEquals("Expected parameter type for the resolved second.Color overload in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"second.Color", Signature.toString(second.getParameterTypes()[0])); //$NON-NLS-1$
-		assertNull("Expected an unqualified parameter type to be rejected in " + sourceContext(cu), //$NON-NLS-1$
+		assertNull("Expected an unqualified parameter type to be rejected in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				TestMethodFinder.findMethod(type, "overloaded", new String[] { "Color" })); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodFinderAcceptsReflectionArrayTypeNames() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("test1", "MyTest.java", """
 				package test1;
@@ -198,14 +198,14 @@ public class EnumSourceSafetyTest {
 		IMethod nested= TestMethodFinder.findMethod(
 				type, "values", new String[] { "[Ltest1.MyTest$Value;" }); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertNotNull("Expected the String[] overload to be resolved in " + sourceContext(cu), strings); //$NON-NLS-1$
-		assertNotNull("Expected the int[][] overload to be resolved in " + sourceContext(cu), primitives); //$NON-NLS-1$
-		assertNotNull("Expected the nested Value[] overload to be resolved in " + sourceContext(cu), nested); //$NON-NLS-1$
-		assertEquals("Expected parameter type for the resolved String[] overload in " + sourceContext(cu), //$NON-NLS-1$
+		assertNotNull("Expected the String[] overload to be resolved in " + sourceContext(cu), strings); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertNotNull("Expected the int[][] overload to be resolved in " + sourceContext(cu), primitives); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertNotNull("Expected the nested Value[] overload to be resolved in " + sourceContext(cu), nested); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Expected parameter type for the resolved String[] overload in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"String[]", Signature.toString(strings.getParameterTypes()[0])); //$NON-NLS-1$
-		assertEquals("Expected parameter type for the resolved int[][] overload in " + sourceContext(cu), //$NON-NLS-1$
+		assertEquals("Expected parameter type for the resolved int[][] overload in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"int[][]", Signature.toString(primitives.getParameterTypes()[0])); //$NON-NLS-1$
-		assertEquals("Expected parameter type for the resolved Value[] overload in " + sourceContext(cu), //$NON-NLS-1$
+		assertEquals("Expected parameter type for the resolved Value[] overload in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"Value[]", Signature.toString(nested.getParameterTypes()[0])); //$NON-NLS-1$
 	}
 
@@ -214,7 +214,7 @@ public class EnumSourceSafetyTest {
 	 * argument source. Together with EnumSource it makes invocation-index mapping
 	 * ambiguous, so exclusion must be unavailable rather than guess an enum constant.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDeepComposedArgumentSourceIsRejected() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("test1", "MyTest.java", """
 				package test1;
@@ -273,7 +273,7 @@ public class EnumSourceSafetyTest {
 		assertNoExclusionTarget(method, 1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testActionEnabledForExplicitIncludeNames() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("test1", "MyTest.java", """
 				package test1;
@@ -303,10 +303,10 @@ public class EnumSourceSafetyTest {
 
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(blueCase);
-		assertTrue("Expected exclusion for the INCLUDE invocation " + blueCase.getUniqueId(), action.isEnabled()); //$NON-NLS-1$
+		assertTrue("Expected exclusion for the INCLUDE invocation " + blueCase.getUniqueId(), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvocationMappingRequiresUniqueId() throws Exception {
 		createCompilationUnit("test1", "MyTest.java", """
 				package test1;
@@ -334,7 +334,7 @@ public class EnumSourceSafetyTest {
 
 		ExcludeParameterValueAction action= new ExcludeParameterValueAction();
 		action.update(validCase);
-		assertTrue("Expected exclusion for the valid invocation " + validCase.getUniqueId(), action.isEnabled()); //$NON-NLS-1$
+		assertTrue("Expected exclusion for the valid invocation " + validCase.getUniqueId(), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		TestSuiteElement fallbackSuite= createParameterizedSuite(session, "fallback-suite", 3); //$NON-NLS-1$
 		TestCaseElement withoutUniqueId= new TestCaseElement(fallbackSuite, "fallback-case-1", //$NON-NLS-1$
@@ -352,7 +352,7 @@ public class EnumSourceSafetyTest {
 				"invalid(test1.MyTest)", "invalid", true, null, //$NON-NLS-1$ //$NON-NLS-2$
 				"[test-template-invocation:#99]"); //$NON-NLS-1$
 		action.update(invalidCase);
-		assertFalse("Expected exclusion to be disabled for " + invalidCase.getUniqueId(), action.isEnabled()); //$NON-NLS-1$
+		assertFalse("Expected exclusion to be disabled for " + invalidCase.getUniqueId(), action.isEnabled()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -367,7 +367,7 @@ public class EnumSourceSafetyTest {
 				""");
 		IType type= cu.getType("MyTest"); //$NON-NLS-1$
 
-		assertNull("Expected non-adjacent overloads to remain ambiguous without parameter metadata in " + sourceContext(cu), //$NON-NLS-1$
+		assertNull("Expected non-adjacent overloads to remain ambiguous without parameter metadata in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				TestMethodFinder.findMethod(type, "overloaded", null)); //$NON-NLS-1$
 		assertEquals("Expected parameter metadata to select the String overload", //$NON-NLS-1$
 				type.getMethod("overloaded", new String[] { "QString;" }), //$NON-NLS-1$ //$NON-NLS-2$

@@ -106,7 +106,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 	}
 
 
-	public NLSAccessorConfigurationDialog(Shell parent, NLSRefactoring refactoring) {
+	public NLSAccessorConfigurationDialog(Shell parent, NLSRefactoring refactoring) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent);
 		fRefactoring= refactoring;
 		fStati= new IStatus[] { StatusInfo.OK_STATUS, StatusInfo.OK_STATUS, StatusInfo.OK_STATUS, StatusInfo.OK_STATUS, StatusInfo.OK_STATUS };
@@ -155,7 +155,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 	private void initFields() {
 		initAccessorClassFields();
 		String resourceBundleName= fRefactoring.getResourceBundleName();
-		fResourceBundleFile.setText(resourceBundleName != null ? resourceBundleName : (NLSRefactoring.DEFAULT_PROPERTY_FILENAME + NLSRefactoring.PROPERTY_FILE_EXT));
+		fResourceBundleFile.setText(resourceBundleName != null ? resourceBundleName : (NLSRefactoring.DEFAULT_PROPERTY_FILENAME + NLSRefactoring.PROPERTY_FILE_EXT)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void initAccessorClassFields() {
@@ -169,7 +169,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 		fSubstitutionPattern.setText(fRefactoring.getSubstitutionPattern());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite ancestor) {
 		Composite parent= (Composite) super.createDialogArea(ancestor);
 
@@ -235,7 +235,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 		dialog.setTitle(NLSUIMessages.NLSAccessorConfigurationDialog_Property_File_Selection);
 		dialog.setMessage(NLSUIMessages.NLSAccessorConfigurationDialog_Choose_the_property_file);
 		dialog.setElements(createFileListInput());
-		dialog.setFilter('*' + NLSRefactoring.PROPERTY_FILE_EXT);
+		dialog.setFilter('*' + NLSRefactoring.PROPERTY_FILE_EXT); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (dialog.open() == Window.OK) {
 			IFile selectedFile= (IFile) dialog.getFirstResult();
 			if (selectedFile != null)
@@ -243,7 +243,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 		}
 	}
 
-	protected void browseForAccessorClass() {
+	protected void browseForAccessorClass() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IProgressService service= PlatformUI.getWorkbench().getProgressService();
 		IPackageFragmentRoot root= fAccessorPackage.getSelectedFragmentRoot();
 
@@ -265,14 +265,14 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 
 	}
 
-	private Object[] createFileListInput() {
+	private Object[] createFileListInput() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 
 			IPackageFragment fPkgFragment= fResourceBundlePackage.getSelected();
 			if (fPkgFragment == null)
 				return new Object[0];
-			List<Object> result= new ArrayList<>(1);
-			for (Object nonJava : fPkgFragment.getNonJavaResources()) {
+			List<Object> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object nonJava : fPkgFragment.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isPropertyFile(nonJava)) {
 					result.add(nonJava);
 				}
@@ -289,7 +289,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 		if (!(o instanceof IFile))
 			return false;
 		IFile file= (IFile) o;
-		return (NLSRefactoring.PROPERTY_FILE_EXT.equals('.' + file.getFileExtension()));
+		return (NLSRefactoring.PROPERTY_FILE_EXT.equals('.' + file.getFileExtension())); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -340,7 +340,7 @@ public class NLSAccessorConfigurationDialog extends StatusDialog {
 		setValid(IDX_BUNDLE_NAME);
 	}
 
-	private void validatePropertyPackage() {
+	private void validatePropertyPackage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		IPackageFragmentRoot root= fResourceBundlePackage.getSelectedFragmentRoot();
 		if ((root == null) || !root.exists()) {

@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
  * Visitor collecting all definitions of any variable.
  */
 public class VarDeclarationIdentifierVisitor extends ASTVisitor {
-	private final Set<SimpleName> variableNames= new HashSet<>();
+	private final Set<SimpleName> variableNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	private final ASTNode startNode;
 	private final boolean includeInnerScopes;
 

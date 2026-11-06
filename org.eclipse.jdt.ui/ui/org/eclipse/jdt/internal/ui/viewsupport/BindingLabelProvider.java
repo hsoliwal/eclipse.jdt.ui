@@ -41,7 +41,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 public class BindingLabelProvider extends LabelProvider {
 
 
-	private static int getAdornmentFlags(IBinding binding) {
+	private static int getAdornmentFlags(IBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int adornments= 0;
 		final int modifiers= binding.getModifiers();
 		if (Modifier.isAbstract(modifiers))
@@ -76,7 +76,7 @@ public class BindingLabelProvider extends LabelProvider {
 		return adornments;
 	}
 
-	private static ImageDescriptor getBaseImageDescriptor(IBinding binding, int flags) {
+	private static ImageDescriptor getBaseImageDescriptor(IBinding binding, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding instanceof ITypeBinding) {
 			ITypeBinding typeBinding= (ITypeBinding) binding;
 			if (typeBinding.isArray()) {
@@ -156,7 +156,7 @@ public class BindingLabelProvider extends LabelProvider {
 		return JavaPluginImages.DESC_MISC_DEFAULT;
 	}
 
-	private static ImageDescriptor getTypeImageDescriptor(boolean inner, ITypeBinding binding, int flags) {
+	private static ImageDescriptor getTypeImageDescriptor(boolean inner, ITypeBinding binding, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.isEnum())
 			return JavaPluginImages.DESC_OBJS_ENUM;
 		else if (binding.isAnnotation())

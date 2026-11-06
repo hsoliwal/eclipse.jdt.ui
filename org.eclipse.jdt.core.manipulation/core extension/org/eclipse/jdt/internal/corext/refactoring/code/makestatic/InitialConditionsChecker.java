@@ -187,9 +187,9 @@ public class InitialConditionsChecker {
 	private boolean isOverridden(IType type, IMethod iMethod) throws JavaModelException {
 		ITypeHierarchy hierarchy= type.newTypeHierarchy(null);
 		IType[] subtypes= hierarchy.getAllSubtypes(type);
-		for (IType subtype : subtypes) {
+		for (IType subtype : subtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod[] methods= subtype.getMethods();
-			for (IMethod method : methods) {
+			for (IMethod method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (method.isSimilar(iMethod)) {
 					int flags= method.getFlags();
 					if (!Flags.isPrivate(flags) || (!Flags.isStatic(flags))) {

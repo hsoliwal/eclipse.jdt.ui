@@ -85,7 +85,7 @@ public class AbstractSemanticHighlightingTest {
 			return "/SHTest/src/SHTest.java";
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void afterEach(ExtensionContext context) {
 			EditorTestHelper.closeEditor(fEditor);
 			fEditor= null;
@@ -94,7 +94,7 @@ public class AbstractSemanticHighlightingTest {
 			IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 
 			SemanticHighlighting[] semanticHighlightings= SemanticHighlightings.getSemanticHighlightings();
-			for (SemanticHighlighting semanticHighlighting : semanticHighlightings) {
+			for (SemanticHighlighting semanticHighlighting : semanticHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String enabledPreferenceKey= SemanticHighlightings.getEnabledPreferenceKey(semanticHighlighting);
 				if (!store.isDefault(enabledPreferenceKey))
 					store.setToDefault(enabledPreferenceKey);
@@ -128,8 +128,8 @@ public class AbstractSemanticHighlightingTest {
 
 	protected void assertEqualPositions(Position[] expected, Position[] actual) {
 		assertEquals(expected.length, actual.length,
-				"Expected: " + Arrays.toString(expected) + ", actual: " + Arrays.toString(actual));
-		for (int i= 0, n= expected.length; i < n; i++) {
+				"Expected: " + Arrays.toString(expected) + ", actual: " + Arrays.toString(actual)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (int i= 0, n= expected.length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals(expected[i].isDeleted(), actual[i].isDeleted());
 			assertEquals(expected[i].getOffset(), actual[i].getOffset());
 			assertEquals(expected[i].getLength(), actual[i].getLength());
@@ -142,15 +142,15 @@ public class AbstractSemanticHighlightingTest {
 	}
 
 	String toString(Position[] positions) throws BadLocationException {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		IDocument document= fSourceViewer.getDocument();
-		buf.append("Position[] expected= new Position[] {\n");
-		for (Position position : positions) {
+		buf.append("Position[] expected= new Position[] {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (Position position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int line= document.getLineOfOffset(position.getOffset());
 			int column= position.getOffset() - document.getLineOffset(line);
-			buf.append("\tcreatePosition(" + line + ", " + column + ", " + position.getLength() + "),\n");
+			buf.append("\tcreatePosition(" + line + ", " + column + ", " + position.getLength() + "),\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("};\n");
+		buf.append("};\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
@@ -175,12 +175,12 @@ public class AbstractSemanticHighlightingTest {
 	}
 
 	private String getEnabledPreferenceKey(String preferenceKey) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + preferenceKey + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + preferenceKey + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static void disableAllSemanticHighlightings() {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
-		for (SemanticHighlighting semanticHilighting : SemanticHighlightings.getSemanticHighlightings()) {
+		for (SemanticHighlighting semanticHilighting : SemanticHighlightings.getSemanticHighlightings()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (store.getBoolean(SemanticHighlightings.getEnabledPreferenceKey(semanticHilighting)))
 				store.setValue(SemanticHighlightings.getEnabledPreferenceKey(semanticHilighting), false);
 		}

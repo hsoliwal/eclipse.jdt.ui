@@ -32,7 +32,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock;
 import org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock.Key;
 
-public class AddStaticFavoriteProposal extends ChangeCorrectionProposal {
+public class AddStaticFavoriteProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	final String fImportName;
 	final String fChangeDescription;

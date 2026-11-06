@@ -78,7 +78,7 @@ public class IntroduceParameterWizard extends RefactoringWizard {
 			return (IntroduceParameterRefactoring)getRefactoring();
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite result= new Composite(parent, SWT.NONE);
 			setControl(result);
@@ -97,14 +97,14 @@ public class IntroduceParameterWizard extends RefactoringWizard {
 				final IntroduceParameterRefactoring refactoring= getIntroduceParameterRefactoring();
 				fDeprecateDelegateCheckBox.setSelection(DelegateUIHelper.loadDeprecateDelegateSetting(refactoring));
 				refactoring.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
-				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fDeprecateDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						refactoring.setDeprecateDelegates(fDeprecateDelegateCheckBox.getSelection());
 					}
 				});
 				fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
-				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() {
+				fLeaveDelegateCheckBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fDeprecateDelegateCheckBox.setEnabled(fLeaveDelegateCheckBox.getSelection());
@@ -120,7 +120,7 @@ public class IntroduceParameterWizard extends RefactoringWizard {
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.INTRODUCE_PARAMETER_WIZARD_PAGE);
 		}
 
-		private ChangeParametersControl createParameterTableControl(Composite composite) {
+		private ChangeParametersControl createParameterTableControl(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String labelText= RefactoringMessages.IntroduceParameterWizard_parameters;
 			final ChangeParametersControl cp= new ChangeParametersControl(composite, SWT.NONE, labelText, new IParameterListChangeListener() {
 				@Override
@@ -142,7 +142,7 @@ public class IntroduceParameterWizard extends RefactoringWizard {
 			 * The asyncExec is a workaround for bug 450286:
 			 * Only set/reveal the table selection after the shell has been opened and laid out.
 			 */
-			composite.getDisplay().asyncExec(() -> cp.editParameter(getIntroduceParameterRefactoring().getAddedParameterInfo()));
+			composite.getDisplay().asyncExec(() -> cp.editParameter(getIntroduceParameterRefactoring().getAddedParameterInfo())); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			return cp;
 		}
 

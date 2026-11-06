@@ -131,7 +131,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(SimpleName node) {
 		if (node.resolveBoxing()) {
 			ImmutableTypeVariable2 boxed= fTCModel.makeImmutableTypeVariable(node.resolveTypeBinding(), node);
@@ -236,7 +236,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		setConstraintVariable(node, arrayElementCv);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(Assignment node) {
 		Expression lhs= node.getLeftHandSide();
 		Expression rhs= node.getRightHandSide();
@@ -262,7 +262,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		//TODO: other implicit conversions: numeric promotion, autoboxing?
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(CastExpression node) {
 //		if (! (expressionCv instanceof CollectionElementVariable2))
 //			return; //TODO: returns too early when dealing with nested collections.
@@ -385,7 +385,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		setConstraintVariable(node, cv);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(MethodDeclaration node) {
 		IMethodBinding methodBinding= node.resolveBinding();
 
@@ -394,7 +394,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 
 		int parameterCount= node.parameters().size();
 		ConstraintVariable2[] parameterTypeCvs= new ConstraintVariable2[parameterCount];
-		for (int i= 0; i < parameterCount; i++) {
+		for (int i= 0; i < parameterCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration paramDecl= (SingleVariableDeclaration) node.parameters().get(i);
 			//parameterTypeVariable currently not used, but need to register in order to store source range
 			ConstraintVariable2 parameterTypeCv= fTCModel.makeDeclaredParameterTypeVariable(methodBinding, i, fCU);
@@ -426,9 +426,9 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		}
 	}
 
-	private void addConstraintsForOverriding(IMethodBinding methodBinding, ConstraintVariable2 returnTypeCv, ConstraintVariable2[] parameterTypeCvs) {
+	private void addConstraintsForOverriding(IMethodBinding methodBinding, ConstraintVariable2 returnTypeCv, ConstraintVariable2[] parameterTypeCvs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean hasParameterElementCvs= false;
-		for (ConstraintVariable2 parameterTypeCv : parameterTypeCvs) {
+		for (ConstraintVariable2 parameterTypeCv : parameterTypeCvs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parameterTypeCv != null) {
 				hasParameterElementCvs= true;
 				break;
@@ -438,12 +438,12 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		if (returnTypeCv == null && ! hasParameterElementCvs)
 			return;
 
-		for (ITypeBinding superType : Bindings.getAllSuperTypes(methodBinding.getDeclaringClass())) {
+		for (ITypeBinding superType : Bindings.getAllSuperTypes(methodBinding.getDeclaringClass())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding superMethod= Bindings.findOverriddenMethodInType(superType, methodBinding);
 			if (superMethod == null)
 				continue;
 
-			for (int p= 0; p < parameterTypeCvs.length; p++) {
+			for (int p= 0; p < parameterTypeCvs.length; p++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parameterTypeCvs[p] == null)
 					continue;
 				ParameterTypeVariable2 parameterTypeCv= fTCModel.makeParameterTypeVariable(superMethod, p);
@@ -457,7 +457,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(MethodInvocation node) {
 		IMethodBinding methodBinding= node.resolveMethodBinding();
 		if (methodBinding == null)
@@ -515,8 +515,8 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		if (methodTypeParameters.length == 0) {
 			methodTypeVariables= Collections.emptyMap();
 		} else {
-			methodTypeVariables= new HashMap<>();
-			for (ITypeBinding methodTypeParameter : methodTypeParameters) {
+			methodTypeVariables= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (ITypeBinding methodTypeParameter : methodTypeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				//TODO: typeVariable does not need a type binding - only used in equality constraints
 				TypeVariable typeVariable= (TypeVariable) fTCModel.createTType(methodTypeParameter);
 				IndependentTypeVariable2 typeVariableCv= fTCModel.makeIndependentTypeVariable(typeVariable);
@@ -526,7 +526,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		return methodTypeVariables;
 	}
 
-	private void doVisitMethodInvocationReturnType(MethodInvocation node, IMethodBinding methodBinding, Expression receiver, Map<String, IndependentTypeVariable2> methodTypeVariables) {
+	private void doVisitMethodInvocationReturnType(MethodInvocation node, IMethodBinding methodBinding, Expression receiver, Map<String, IndependentTypeVariable2> methodTypeVariables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding declaredReturnType= methodBinding.getMethodDeclaration().getReturnType();
 
 		if (declaredReturnType.isPrimitive()) {
@@ -602,11 +602,11 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 				&& receiver.resolveTypeBinding() != methodBinding.getMethodDeclaration().getReturnType();
 	}
 
-	private void doVisitMethodInvocationArguments(IMethodBinding methodBinding, List<Expression> arguments, Expression receiver, Map<String, IndependentTypeVariable2> methodTypeVariables, Type createdType) {
+	private void doVisitMethodInvocationArguments(IMethodBinding methodBinding, List<Expression> arguments, Expression receiver, Map<String, IndependentTypeVariable2> methodTypeVariables, Type createdType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: connect generic method type parameters, e.g. <T> void take(T t, List<T> ts)
 		ITypeBinding[] declaredParameterTypes= methodBinding.getMethodDeclaration().getParameterTypes();
 		int lastParamIdx= declaredParameterTypes.length - 1;
-		for (int i= 0; i < arguments.size(); i++) {
+		for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression arg= arguments.get(i);
 			ConstraintVariable2 argCv= getConstraintVariable(arg);
 			if (argCv == null)
@@ -666,7 +666,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 			} else if (declaredParameterType.isParameterizedType()) {
 				TType[] typeArguments= ((ParameterizedType) declaredParameterType).getTypeArguments();
 				TypeVariable[] typeParameters= ((GenericType) declaredParameterType.getTypeDeclaration()).getTypeParameters();
-				for (int ta= 0; ta < typeArguments.length; ta++) {
+				for (int ta= 0; ta < typeArguments.length; ta++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TType typeArgument= typeArguments[ta];
 					CollectionElementVariable2 argElementCv= fTCModel.getElementVariable(argCv, typeParameters[ta]);
 					if (typeArgument.isWildcardType()) {
@@ -761,7 +761,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 			fTCModel.createSubtypeConstraint(paramElementCv, argElementCv);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(ClassInstanceCreation node) {
 		Expression receiver= node.getExpression();
 		Type createdType= node.getType();
@@ -791,7 +791,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		//TODO: constraints for array initializer?
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(ReturnStatement node) {
 		Expression expression= node.getExpression();
 		if (expression == null)
@@ -826,7 +826,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		setConstraintVariable(node, typeCv);
 
 		List<VariableDeclarationFragment> fragments= node.fragments();
-		for (VariableDeclarationFragment fragment : fragments) {
+		for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ConstraintVariable2 fragmentCv= getConstraintVariable(fragment);
 			fTCModel.createElementEqualsConstraints(typeCv, fragmentCv);
 		}
@@ -853,13 +853,13 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		if (typeCv == null)
 			return;
 
-		for (VariableDeclarationFragment fragment : list) {
+		for (VariableDeclarationFragment fragment : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ConstraintVariable2 fragmentCv= getConstraintVariable(fragment);
 			fTCModel.createElementEqualsConstraints(typeCv, fragmentCv);
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(SingleVariableDeclaration node) {
 		// used for formal method parameters and catch clauses
 		//TODO: extra dimensions?
@@ -900,7 +900,7 @@ public class InferTypeArgumentsConstraintCreator extends HierarchicalASTVisitor 
 		//fTCFactory.createSubtypeConstraint(initializerCv, nameCv); //TODO: not for augment raw container clients
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(VariableDeclarationFragment node) {
 		VariableVariable2 cv= fTCModel.makeDeclaredVariableVariable(node.resolveBinding(), fCU);
 		if (cv == null)

@@ -58,7 +58,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @since 3.2
  */
-public class ExtractSuperClassAction extends SelectionDispatchAction {
+public class ExtractSuperClassAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Action definition ID of the refactor -> extract supertype action (value
@@ -76,7 +76,7 @@ public class ExtractSuperClassAction extends SelectionDispatchAction {
 	 */
 	public static final String EXTRACT_SUPERTYPES= "org.eclipse.jdt.ui.actions.ExtractSuperclass"; //$NON-NLS-1$
 
-	private static IMember[] getSelectedMembers(final IStructuredSelection selection) {
+	private static IMember[] getSelectedMembers(final IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.isEmpty())
 			return null;
 		if (selection.size() == 1) {
@@ -88,11 +88,11 @@ public class ExtractSuperClassAction extends SelectionDispatchAction {
 				JavaPlugin.log(exception);
 			}
 		}
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(name instanceof IMember))
 				return null;
 		}
-		final Set<IMember> set= new HashSet<>();
+		final Set<IMember> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		@SuppressWarnings("unchecked")
 		List<IMember> selectionList= (List<IMember>) (List<?>) Arrays.asList(selection.toArray());
 		set.addAll(selectionList);

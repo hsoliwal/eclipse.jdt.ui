@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
-public class CutAction extends SelectionDispatchAction{
+public class CutAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final CopyToClipboardAction fCopyToClipboardAction;
 
@@ -65,7 +65,7 @@ public class CutAction extends SelectionDispatchAction{
 	}
 
 	private static boolean containsOnlyElementsInsideCompilationUnits(IStructuredSelection selection) {
-		for (Object object : selection) {
+		for (Object object : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(object instanceof IJavaElement)
 					|| !ReorgUtilsCore.isInsideCompilationUnit((IJavaElement)object))
 				return false;
@@ -74,7 +74,7 @@ public class CutAction extends SelectionDispatchAction{
 	}
 
 	private static boolean containsTopLevelTypes(IStructuredSelection selection) {
-		for (Object each : selection) {
+		for (Object each : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (each instanceof IType && ((IType)each).getDeclaringType() == null)
 				return true;
 		}

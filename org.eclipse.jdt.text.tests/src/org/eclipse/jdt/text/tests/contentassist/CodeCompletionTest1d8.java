@@ -83,7 +83,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 	private IJavaProject fJProject1;
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		fJProject1= j18s.getProject();
 
@@ -129,9 +129,9 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 	}
 
 	public static void closeAllEditors() {
-		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorReference editorReference : page.getEditorReferences()) {
+		for (IWorkbenchWindow window : PlatformUI.getWorkbench().getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorReference editorReference : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					closeEditor(editorReference.getEditor(false));
 				}
 			}
@@ -154,7 +154,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		cu.codeComplete(offset, collector, new NullProgressMonitor());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug425183_comment8() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -183,7 +183,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 		ICompletionProposal proposal= null;
 
-		for (IJavaCompletionProposal curr : collector.getJavaCompletionProposals()) {
+		for (IJavaCompletionProposal curr : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getDisplayString().startsWith("thenComparingLong")) {
 				assertNull("more than one proposal for thenComparingLong()", proposal);
 				proposal= curr;
@@ -206,7 +206,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(expectedContents, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride1() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -261,7 +261,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride2() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -316,7 +316,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride3() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -367,7 +367,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride0() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -410,7 +410,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride5() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -450,7 +450,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride6() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -490,7 +490,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride7() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -530,7 +530,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride8() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -569,7 +569,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride9() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -608,7 +608,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride10() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("test1", false, null);
@@ -659,7 +659,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride11() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pp", false, null);
@@ -710,7 +710,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride12() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pp", false, null);
@@ -761,7 +761,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverride13() throws CoreException {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		IPackageFragment pack1= sourceFolder.createPackageFragment("pp", false, null);
@@ -820,10 +820,10 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		assertEquals(str2, doc.get());
 	}
 	private static void assertNumberOf(String name, int is, int expected) {
-		assertEquals("Wrong number of " + name + ", is: " + is + ", expected: " + expected, expected, is);
+		assertEquals("Wrong number of " + name + ", is: " + is + ", expected: " + expected, expected, is); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug528871() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		NullTestUtils.prepareNullTypeAnnotations(sourceFolder);
@@ -896,7 +896,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug458321() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -931,7 +931,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 			IJavaCompletionProposal proposal= null;
 
-			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) {
+			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (p.getDisplayString().startsWith("run")) {
 					proposal= p;
 				}
@@ -961,7 +961,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug532562() throws Exception {
 		class ProposalsHolder {
 			public ICompletionProposal[] proposals;
@@ -996,7 +996,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 			thread.start();
 			thread.join();
 
-			for (ICompletionProposal iJavaCompletionProposal : holder.proposals) {
+			for (ICompletionProposal iJavaCompletionProposal : holder.proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				System.out.println(iJavaCompletionProposal);
 			}
 
@@ -1015,7 +1015,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug575377() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1045,7 +1045,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 			codeComplete(cu, offset, collector);
 
 			IJavaCompletionProposal[] proposals= collector.getJavaCompletionProposals();
-			for (IJavaCompletionProposal iJavaCompletionProposal : proposals) {
+			for (IJavaCompletionProposal iJavaCompletionProposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				System.out.println(iJavaCompletionProposal);
 			}
 			assertEquals("number of proposals", 1, proposals.length);
@@ -1071,7 +1071,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug443091_expectLambdaExpressionCompletion_onArgumentAssignment() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1127,7 +1127,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug443091_expectLambdaExpressionCompletion_onVariableAssignment() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1181,7 +1181,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug443091_expectZeroArgLambdaExpressionCompletion_onVariableAssignment() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1232,7 +1232,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 			part.getSite().getPage().closeAllEditors(false);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug443091_expectMultiArgLambdaExpressionCompletion_onVariableAssignment() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1286,7 +1286,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue832a() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1330,7 +1330,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 			IJavaCompletionProposal proposal= null;
 
-			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) {
+			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (p.getDisplayString().startsWith("l")) {
 					proposal= p;
 				}
@@ -1368,7 +1368,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 			part.getSite().getPage().closeAllEditors(false);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue832b() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1412,7 +1412,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 			IJavaCompletionProposal proposal= null;
 
-			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) {
+			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (p.getDisplayString().startsWith("getString")) {
 					proposal= p;
 				}
@@ -1450,7 +1450,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 			part.getSite().getPage().closeAllEditors(false);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue832c() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1493,7 +1493,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 			IJavaCompletionProposal proposal= null;
 
-			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) {
+			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (p.getDisplayString().startsWith("getString")) {
 					proposal= p;
 				}
@@ -1530,7 +1530,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 			part.getSite().getPage().closeAllEditors(false);
 		}
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue832d() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -1573,7 +1573,7 @@ public class CodeCompletionTest1d8 extends AbstractCompletionTest {
 
 			IJavaCompletionProposal proposal= null;
 
-			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) {
+			for (IJavaCompletionProposal p : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (p.getDisplayString().startsWith("l")) {
 					proposal= p;
 				}

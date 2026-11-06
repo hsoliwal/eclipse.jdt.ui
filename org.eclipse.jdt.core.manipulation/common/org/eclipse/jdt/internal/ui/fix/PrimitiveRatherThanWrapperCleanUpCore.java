@@ -63,89 +63,89 @@ public class PrimitiveRatherThanWrapperCleanUpCore extends AbstractCleanUp {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("boolean aBoolean = Boolean.TRUE;\n"); //$NON-NLS-1$
+			bld.append("boolean aBoolean = Boolean.TRUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Boolean aBoolean = Boolean.TRUE;\n"); //$NON-NLS-1$
+			bld.append("Boolean aBoolean = Boolean.TRUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aBoolean) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aBoolean) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("char aCharacter = Character.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("char aCharacter = Character.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Character aCharacter = Character.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Character aCharacter = Character.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aCharacter == 'a') {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"A!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aCharacter == 'a') {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"A!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("byte aByte = Byte.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("byte aByte = Byte.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Byte aByte = Byte.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Byte aByte = Byte.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aByte == 0) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"Zero!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aByte == 0) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"Zero!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("short aShort = Short.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("short aShort = Short.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Short aShort = Short.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Short aShort = Short.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aShort > i) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aShort > i) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("int anInteger = Integer.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("int anInteger = Integer.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Integer anInteger = Integer.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Integer anInteger = Integer.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (anInteger > i) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (anInteger > i) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("long aLong = Long.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("long aLong = Long.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Long aLong = Long.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Long aLong = Long.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aLong > i) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aLong > i) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("float aFloat = Float.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("float aFloat = Float.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Float aFloat = Float.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Float aFloat = Float.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aFloat > 0.0f) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aFloat > 0.0f) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.PRIMITIVE_RATHER_THAN_WRAPPER)) {
-			bld.append("double aDouble = Double.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("double aDouble = Double.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("Double aDouble = Double.MIN_VALUE;\n"); //$NON-NLS-1$
+			bld.append("Double aDouble = Double.MIN_VALUE;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("if (aDouble > 0.0) {\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("if (aDouble > 0.0) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(\"True!\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return bld.toString();
 	}

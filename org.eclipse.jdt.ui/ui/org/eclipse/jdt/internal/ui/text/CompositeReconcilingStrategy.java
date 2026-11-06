@@ -64,7 +64,7 @@ public class CompositeReconcilingStrategy  implements IReconcilingStrategy, IRec
 		if (fStrategies == null)
 			return;
 
-		for (IReconcilingStrategy strategy : fStrategies) {
+		for (IReconcilingStrategy strategy : fStrategies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strategy.setDocument(document);
 		}
 	}
@@ -77,7 +77,7 @@ public class CompositeReconcilingStrategy  implements IReconcilingStrategy, IRec
 		if (fStrategies == null)
 			return;
 
-		for (IReconcilingStrategy strategy : fStrategies) {
+		for (IReconcilingStrategy strategy : fStrategies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strategy.reconcile(dirtyRegion, subRegion);
 		}
 	}
@@ -90,7 +90,7 @@ public class CompositeReconcilingStrategy  implements IReconcilingStrategy, IRec
 		if (fStrategies == null)
 			return;
 
-		for (IReconcilingStrategy strategy : fStrategies) {
+		for (IReconcilingStrategy strategy : fStrategies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			strategy.reconcile(partition);
 		}
 	}
@@ -103,7 +103,7 @@ public class CompositeReconcilingStrategy  implements IReconcilingStrategy, IRec
 		if (fStrategies == null)
 			return;
 
-		for (IReconcilingStrategy strategy : fStrategies) {
+		for (IReconcilingStrategy strategy : fStrategies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (strategy instanceof IReconcilingStrategyExtension) {
 				IReconcilingStrategyExtension extension= (IReconcilingStrategyExtension) strategy;
 				extension.setProgressMonitor(monitor);
@@ -119,7 +119,7 @@ public class CompositeReconcilingStrategy  implements IReconcilingStrategy, IRec
 		if (fStrategies == null)
 			return;
 
-		for (IReconcilingStrategy strategy : fStrategies) {
+		for (IReconcilingStrategy strategy : fStrategies) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (strategy instanceof IReconcilingStrategyExtension) {
 				IReconcilingStrategyExtension extension= (IReconcilingStrategyExtension) strategy;
 				extension.initialReconcile();

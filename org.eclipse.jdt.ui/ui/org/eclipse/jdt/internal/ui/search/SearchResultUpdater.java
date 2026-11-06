@@ -32,7 +32,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaElementDelta;
 import org.eclipse.jdt.core.JavaCore;
 
-public class SearchResultUpdater implements IElementChangedListener, IQueryListener {
+public class SearchResultUpdater implements IElementChangedListener, IQueryListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 	JavaSearchResult fResult;
 	private static final int REMOVED_FLAGS= IJavaElementDelta.F_MOVED_TO |
@@ -43,7 +43,7 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 	public SearchResultUpdater(JavaSearchResult result) {
 		fResult= result;
 		NewSearchUI.addQueryListener(this);
-		JavaCore.addElementChangedListener(this);
+		JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		// TODO make this work with resources
 	}
 
@@ -51,8 +51,8 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 	public void elementChanged(ElementChangedEvent event) {
 		//long t0= System.currentTimeMillis();
 		IJavaElementDelta delta= event.getDelta();
-		Set<IAdaptable> removedElements= new HashSet<>();
-		Set<IAdaptable> potentiallyRemovedElements= new HashSet<>();
+		Set<IAdaptable> removedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<IAdaptable> potentiallyRemovedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		collectRemoved(potentiallyRemovedElements, removedElements, delta);
 		if (removedElements.size() > 0)
 			handleRemoved(removedElements);
@@ -61,14 +61,14 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 		//System.out.println(this+"handled delta in: "+(System.currentTimeMillis()-t0));
 	}
 
-	private void handleRemoved(Set<IAdaptable> removedElements) {
-		for (Object element : fResult.getElements()) {
+	private void handleRemoved(Set<IAdaptable> removedElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (Object element : fResult.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isContainedInRemoved(removedElements, element)) {
 				if (element instanceof IJavaElement) {
 					IJavaElement je= (IJavaElement) element;
 					if (!je.exists()) {
 						//System.out.println("removing: "+je+" in "+fResult.getUserData());
-						for (Match match : fResult.getMatches(element)) {
+						for (Match match : fResult.getMatches(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fResult.removeMatch(match);
 						}
 					}
@@ -76,7 +76,7 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 					IResource resource= (IResource) element;
 					if (!resource.exists()) {
 						//System.out.println("removing: "+resource+" in "+fResult.getUserData());
-						for (Match match : fResult.getMatches(element)) {
+						for (Match match : fResult.getMatches(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fResult.removeMatch(match);
 						}
 					}
@@ -87,7 +87,7 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 	}
 
 	private boolean isContainedInRemoved(Set<IAdaptable> removedElements, Object object) {
-		for (IAdaptable iAdaptable : removedElements) {
+		for (IAdaptable iAdaptable : removedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isParentOf(iAdaptable, object))
 				return true;
 		}
@@ -95,7 +95,7 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 	}
 
 	private boolean isParentOf(Object ancestor, Object descendant) {
-		while (descendant != null && !ancestor.equals(descendant))
+		while (descendant != null && !ancestor.equals(descendant)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			descendant= getParent(descendant);
 		return descendant != null;
 	}
@@ -108,7 +108,7 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 		return null;
 	}
 
-	private void collectRemoved(Set<IAdaptable> potentiallyRemovedSet, Set<IAdaptable> removedElements, IJavaElementDelta delta) {
+	private void collectRemoved(Set<IAdaptable> potentiallyRemovedSet, Set<IAdaptable> removedElements, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (delta.getKind() == IJavaElementDelta.REMOVED)
 			removedElements.add(delta.getElement());
 		else if (delta.getKind() == IJavaElementDelta.CHANGED) {
@@ -116,14 +116,14 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 			if ((flags & REMOVED_FLAGS) != 0) {
 				potentiallyRemovedSet.add(delta.getElement());
 			} else {
-				for (IJavaElementDelta childDelta : delta.getAffectedChildren()) {
+				for (IJavaElementDelta childDelta : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					collectRemoved(potentiallyRemovedSet, removedElements, childDelta);
 				}
 			}
 		}
 		IResourceDelta[] resourceDeltas= delta.getResourceDeltas();
 		if (resourceDeltas != null) {
-			for (IResourceDelta resourceDelta : resourceDeltas) {
+			for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectRemovals(removedElements, resourceDelta);
 			}
 		}
@@ -146,7 +146,7 @@ public class SearchResultUpdater implements IElementChangedListener, IQueryListe
 		if (delta.getKind() == IResourceDelta.REMOVED)
 			removals.add(delta.getResource());
 		else {
-			for (IResourceDelta child : delta.getAffectedChildren()) {
+			for (IResourceDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				collectRemovals(removals, child);
 			}
 		}

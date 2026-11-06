@@ -33,7 +33,7 @@ public class LocalHistoryActionGroup extends ActionGroup {
 	private JavaHistoryAction fReplaceWith;
 	private JavaHistoryAction fAddFrom;
 
-	public LocalHistoryActionGroup(CompilationUnitEditor editor, String groupName) {
+	public LocalHistoryActionGroup(CompilationUnitEditor editor, String groupName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(groupName);
 		fGroupName= groupName;
 		fCompareWith= new JavaCompareWithEditionAction();

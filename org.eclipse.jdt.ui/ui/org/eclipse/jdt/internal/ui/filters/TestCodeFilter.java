@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 
 
-public class TestCodeFilter extends ViewerFilter {
+public class TestCodeFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	private static IClasspathEntry determineClassPathEntry(Object element) {
 		if (element instanceof IJavaElement) {
 			IPackageFragmentRoot packageFragmentRoot= (IPackageFragmentRoot) ((IJavaElement) element).getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);

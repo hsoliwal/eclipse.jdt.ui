@@ -64,10 +64,10 @@ public class ExtractInterfaceTests extends GenericRefactoringTest {
 		return REFACTORING_PATH;
 	}
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setup() throws Exception {
 		StubUtility.setCodeTemplate(CodeTemplateContextType.NEWTYPE_ID,
-			"${package_declaration}" +
+			"${package_declaration}" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				System.getProperty("line.separator", "\n") +
 			"${"+ CodeTemplateContextType.TYPE_COMMENT+"}" +
 			System.getProperty("line.separator", "\n") +
@@ -107,7 +107,7 @@ public class ExtractInterfaceTests extends GenericRefactoringTest {
 		validatePassingTest(className, cuNames, newInterfaceName, replaceOccurrences, extractedMethodNames, extractedSignatures, extractedFieldNames, null);
 	}
 
-	protected void validatePassingTest(String className, String[] cuNames, String newInterfaceName, boolean replaceOccurrences, String[] extractedMethodNames, String[][] extractedSignatures,
+	protected void validatePassingTest(String className, String[] cuNames, String newInterfaceName, boolean replaceOccurrences, String[] extractedMethodNames, String[][] extractedSignatures, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] extractedFieldNames, IPackageFragment newPackageFragment) throws Exception {
 		IType clas= getClassFromTestFile(getPackageP(), className);
 
@@ -118,7 +118,7 @@ public class ExtractInterfaceTests extends GenericRefactoringTest {
 		assertEquals("interface name should be accepted", RefactoringStatus.OK, processor.checkTypeName(newInterfaceName).getSeverity());
 
 		ICompilationUnit[] cus= new ICompilationUnit[cuNames.length];
-		for (int i= 0; i < cuNames.length; i++) {
+		for (int i= 0; i < cuNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cuNames[i].equals(clas.getCompilationUnit().findPrimaryType().getElementName()))
 				cus[i]= clas.getCompilationUnit();
 			else
@@ -134,19 +134,19 @@ public class ExtractInterfaceTests extends GenericRefactoringTest {
 		}
 		assertNull("was supposed to pass", performRefactoring(ref));
 
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String expected= getFileContents(getOutputTestFileName(cuNames[i]));
 			String actual= cus[i].getSource();
-			assertEqualLines("(" + cus[i].getElementName() + ")", expected, actual);
+			assertEqualLines("(" + cus[i].getElementName() + ")", expected, actual); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		ICompilationUnit interfaceCu= newPackageFragment != null
-				? newPackageFragment.getCompilationUnit(newInterfaceName + ".java")
-				: clas.getPackageFragment().getCompilationUnit(newInterfaceName + ".java");
+				? newPackageFragment.getCompilationUnit(newInterfaceName + ".java") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				: clas.getPackageFragment().getCompilationUnit(newInterfaceName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("(interface cu)", getFileContents(getOutputTestFileName(newInterfaceName)), interfaceCu.getSource());
 	}
 
-	protected void validatePassingTest(String className, String newInterfaceName, boolean extractAll, boolean replaceOccurrences) throws Exception {
+	protected void validatePassingTest(String className, String newInterfaceName, boolean extractAll, boolean replaceOccurrences) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType clas= getClassFromTestFile(getPackageP(), className);
 		ICompilationUnit cu= clas.getCompilationUnit();
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
@@ -162,11 +162,11 @@ public class ExtractInterfaceTests extends GenericRefactoringTest {
 		processor.setReplace(replaceOccurrences);
 		processor.setAnnotations(fGenerateAnnotations);
 		assertNull("was supposed to pass", performRefactoring(ref));
-		assertEqualLines("incorrect changes in " + className,
+		assertEqualLines("incorrect changes in " + className, //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			getFileContents(getOutputTestFileName(className)),
 			cu.getSource());
 
-		ICompilationUnit interfaceCu= pack.getCompilationUnit(newInterfaceName + ".java");
+		ICompilationUnit interfaceCu= pack.getCompilationUnit(newInterfaceName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect interface created",
 			getFileContents(getOutputTestFileName(newInterfaceName)),
 			interfaceCu.getSource());

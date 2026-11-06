@@ -157,7 +157,7 @@ public class JarPackageWizard extends Wizard implements IExportWizard {
 	 * @param op the op
 	 * @return a boolean indicating success or failure
 	 */
-	protected boolean executeExportOperation(IJarExportRunnable op) {
+	protected boolean executeExportOperation(IJarExportRunnable op) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			getContainer().run(true, true, op);
 		} catch (InterruptedException e) {
@@ -199,13 +199,13 @@ public class JarPackageWizard extends Wizard implements IExportWizard {
 	 *
 	 * @return a valid structured selection based on the current selection
 	 */
-	protected IStructuredSelection getValidSelection() {
+	protected IStructuredSelection getValidSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection currentSelection= JavaPlugin.getActiveWorkbenchWindow().getSelectionService().getSelection();
 		if (currentSelection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection= (IStructuredSelection) currentSelection;
-			List<Object> selectedElements= new ArrayList<>(structuredSelection.size());
+			List<Object> selectedElements= new ArrayList<>(structuredSelection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Iterator<?> iter= structuredSelection.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object selectedElement= iter.next();
 				if (selectedElement instanceof IProject)
 					addProject(selectedElements, (IProject) selectedElement);
@@ -253,7 +253,7 @@ public class JarPackageWizard extends Wizard implements IExportWizard {
 		return fInitializeFromJarPackage;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		fJarPackage.setElements(fJarPackageWizardPage.getSelectedElementsWithoutContainedChildren());
 
@@ -268,7 +268,7 @@ public class JarPackageWizard extends Wizard implements IExportWizard {
 			setDialogSettings(section);
 		}
 		IWizardPage[] pages= getPages();
-		for (int i= 0; i < getPageCount(); i++) {
+		for (int i= 0; i < getPageCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IWizardPage page= pages[i];
 			if (page instanceof IJarPackageWizardPage)
 				((IJarPackageWizardPage) page).finish();

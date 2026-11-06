@@ -53,7 +53,7 @@ public class CorrectMainTypeNameProposalCore extends ASTRewriteCorrectionProposa
 
 		AbstractTypeDeclaration decl= findTypeDeclaration(astRoot.types(), fOldName);
 		if (decl != null) {
-			for (ASTNode sameNode : LinkedNodeFinder.findByNode(astRoot, decl.getName())) {
+			for (ASTNode sameNode : LinkedNodeFinder.findByNode(astRoot, decl.getName())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.replace(sameNode, ast.newSimpleName(fNewName), null);
 			}
 		}
@@ -61,7 +61,7 @@ public class CorrectMainTypeNameProposalCore extends ASTRewriteCorrectionProposa
 	}
 
 	private AbstractTypeDeclaration findTypeDeclaration(List<AbstractTypeDeclaration> types, String name) {
-		for (AbstractTypeDeclaration decl : types) {
+		for (AbstractTypeDeclaration decl : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(decl.getName().getIdentifier())) {
 				return decl;
 			}

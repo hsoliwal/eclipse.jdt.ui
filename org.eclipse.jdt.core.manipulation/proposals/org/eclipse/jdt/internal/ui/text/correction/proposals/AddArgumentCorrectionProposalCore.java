@@ -52,9 +52,9 @@ public class AddArgumentCorrectionProposalCore extends LinkedCorrectionProposalC
 		ASTRewrite rewrite= ASTRewrite.create(ast);
 		ChildListPropertyDescriptor property= getProperty();
 
-		for (int i= 0; i < fInsertIndexes.length; i++) {
+		for (int i= 0; i < fInsertIndexes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int idx= fInsertIndexes[i];
-			String key= "newarg_" + i; //$NON-NLS-1$
+			String key= "newarg_" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Expression newArg= evaluateArgumentExpressions(ast, fParamTypes[idx], key);
 			ListRewrite listRewriter= rewrite.getListRewrite(fCallerNode, property);
 			listRewriter.insertAt(newArg, idx, null);
@@ -66,7 +66,7 @@ public class AddArgumentCorrectionProposalCore extends LinkedCorrectionProposalC
 
 	private ChildListPropertyDescriptor getProperty() {
 		List<StructuralPropertyDescriptor> list= fCallerNode.structuralPropertiesForType();
-		for (StructuralPropertyDescriptor curr : list) {
+		for (StructuralPropertyDescriptor curr : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isChildListProperty() && "arguments".equals(curr.getId())) { //$NON-NLS-1$
 				return (ChildListPropertyDescriptor) curr;
 			}
@@ -76,7 +76,7 @@ public class AddArgumentCorrectionProposalCore extends LinkedCorrectionProposalC
 	}
 
 
-	private Expression evaluateArgumentExpressions(AST ast, ITypeBinding requiredType, String key) {
+	private Expression evaluateArgumentExpressions(AST ast, ITypeBinding requiredType, String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit root= (CompilationUnit) fCallerNode.getRoot();
 
 		int offset= fCallerNode.getStartPosition();
@@ -84,7 +84,7 @@ public class AddArgumentCorrectionProposalCore extends LinkedCorrectionProposalC
 		ITypeBinding bestType= null;
 
 		ScopeAnalyzer analyzer= new ScopeAnalyzer(root);
-		for (IBinding binding : analyzer.getDeclarationsInScope(offset, ScopeAnalyzer.VARIABLES)) {
+		for (IBinding binding : analyzer.getDeclarationsInScope(offset, ScopeAnalyzer.VARIABLES)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding curr= (IVariableBinding) binding;
 			ITypeBinding type= curr.getType();
 			if (type != null && canAssign(type, requiredType) && testModifier(curr)) {

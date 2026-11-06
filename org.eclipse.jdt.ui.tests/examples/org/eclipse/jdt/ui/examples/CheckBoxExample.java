@@ -44,7 +44,7 @@ public class CheckBoxExample {
 		return this;
 	}
 
-	public CheckBoxExample open () {
+	public CheckBoxExample open () { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fShell= new Shell ();
 		fShell.setText("Message Dialog Example");
 		fShell.setLayout(new GridLayout());
@@ -86,19 +86,19 @@ public class CheckBoxExample {
 		}
 
 		// -------- IListAdapter
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void customButtonPressed(ListDialogField<String> field, int index) {
 			if (field instanceof CheckedListDialogField) {
 				CheckedListDialogField<String> list= (CheckedListDialogField<String>)field;
 				switch (index) {
 				case 0:
-					list.addElement("element-" + (fgRandom.nextInt() % 1000));
+					list.addElement("element-" + (fgRandom.nextInt() % 1000)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					break;
 
 				case 2:
 					System.out.println("---- printing all");
 					List<String> checked= list.getCheckedElements();
-					for (String checkedElement : checked) {
+					for (String checkedElement : checked) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						System.out.println(checkedElement);
 					}
 					break;
@@ -124,7 +124,7 @@ public class CheckBoxExample {
 
 	public CheckBoxExample run () {
 		Display display= fShell.getDisplay ();
-		while (!fShell.isDisposed ()) {
+		while (!fShell.isDisposed ()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!display.readAndDispatch ()) display.sleep ();
 		}
 		return this;

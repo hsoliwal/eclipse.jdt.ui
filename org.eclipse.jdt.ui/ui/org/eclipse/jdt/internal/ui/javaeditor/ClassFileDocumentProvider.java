@@ -66,7 +66,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	/**
 	 * Synchronizes the document with external resource changes.
 	 */
-	protected class ClassFileSynchronizer implements IElementChangedListener {
+	protected class ClassFileSynchronizer implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 
 		protected IClassFileEditorInput fInput;
 		protected IPackageFragmentRoot fPackageFragmentRoot;
@@ -81,7 +81,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 			fInput= input;
 
 			IJavaElement parent= fInput.getClassFile().getParent();
-			while (parent != null && !(parent instanceof IPackageFragmentRoot)) {
+			while (parent != null && !(parent instanceof IPackageFragmentRoot)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= parent.getParent();
 			}
 			fPackageFragmentRoot= (IPackageFragmentRoot) parent;
@@ -91,7 +91,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 		 * Installs the synchronizer.
 		 */
 		public void install() {
-			JavaCore.addElementChangedListener(this);
+			JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		}
 
 		/**
@@ -116,7 +116,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 		 * @param delta the Java element delta
 		 * @return <code>true</code> if delta processing can be stopped
 		 */
-		protected boolean check(IPackageFragmentRoot input, IJavaElementDelta delta) {
+		protected boolean check(IPackageFragmentRoot input, IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement element= delta.getElement();
 
 			if ((delta.getKind() & IJavaElementDelta.REMOVED) != 0 || (delta.getFlags() & IJavaElementDelta.F_CLOSED) != 0) {
@@ -137,7 +137,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 				return true;
 			}
 
-			for (IJavaElementDelta subdelta : delta.getAffectedChildren()) {
+			for (IJavaElementDelta subdelta : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (check(input, subdelta)) {
 					return true;
 				}
@@ -169,7 +169,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	/**
 	 * Correcting the visibility of <code>FileSynchronizer</code>.
 	 */
-	protected class _FileSynchronizer extends FileSynchronizer {
+	protected class _FileSynchronizer extends FileSynchronizer { //FLLDCIM: MARK — T07  IMPLEMENTS
 		public _FileSynchronizer(IFileEditorInput fileEditorInput) {
 			super(fileEditorInput);
 		}
@@ -178,7 +178,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	/**
 	 * Bundle of all required informations.
 	 */
-	protected class ClassFileInfo extends FileInfo {
+	protected class ClassFileInfo extends FileInfo { //FLLDCIM: MARK — T28  IMPLEMENTS
 
 		ClassFileSynchronizer fClassFileSynchronizer= null;
 
@@ -193,7 +193,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	}
 
 	/** Input change listeners. */
-	private List<InputChangeListener> fInputListeners= new ArrayList<>();
+	private List<InputChangeListener> fInputListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Creates a new document provider.
@@ -279,7 +279,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	/*
 	 * @see AbstractDocumentProvider#createElementInfo(Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ElementInfo createElementInfo(Object element) throws CoreException {
 
 		if (element instanceof IClassFileEditorInput) {
@@ -357,7 +357,7 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	 * Handles the deletion of the element underlying the given class file editor input.
 	 * @param input the editor input
 	 */
-	protected void handleDeleted(IClassFileEditorInput input) {
+	protected void handleDeleted(IClassFileEditorInput input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input == null) {
 			fireElementDeleted(null);
 			return;
@@ -411,8 +411,8 @@ public class ClassFileDocumentProvider extends FileDocumentProvider {
 	 * @param input the class file editor input
 	 */
 	protected void fireInputChanged(IClassFileEditorInput input) {
-		List<InputChangeListener> list= new ArrayList<>(fInputListeners);
-		for (InputChangeListener inputChangeListener : list)
+		List<InputChangeListener> list= new ArrayList<>(fInputListeners); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (InputChangeListener inputChangeListener : list) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			inputChangeListener.inputChanged(input);
 	}
 

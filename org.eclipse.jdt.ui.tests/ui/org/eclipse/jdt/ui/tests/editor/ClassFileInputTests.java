@@ -56,8 +56,8 @@ public class ClassFileInputTests {
 	@Before
 	public void setUp() throws Exception {
 		factory = new ClassFileEditorInputFactory();
-		fileName= TYPE_NAME + ".java";
-		className= TYPE_NAME + ".class";
+		fileName= TYPE_NAME + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		className= TYPE_NAME + ".class"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		javaProject = setUpProject();
 	}
 
@@ -81,10 +81,10 @@ public class ClassFileInputTests {
 		return javaProject;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testClassFileInputPersistence() throws Exception {
 		IProject project= javaProject.getProject();
-		IFile file= project.getFile("bin/" + className);
+		IFile file= project.getFile("bin/" + className); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IClassFile classFile= JavaCore.createClassFileFrom(file);
 		InternalClassFileEditorInput input= new InternalClassFileEditorInput(classFile);
 		XMLMemento memento = createMemento(input.getFactoryId(), input);

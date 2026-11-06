@@ -94,7 +94,7 @@ public class NewModuleInfoWizardPage extends NewTypeWizardPage{
 	 *
 	 * @param project used to initialize the fields
 	 */
-	public void init(IJavaProject project) {
+	public void init(IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (project != null) {
 			fProject= project;
@@ -120,7 +120,7 @@ public class NewModuleInfoWizardPage extends NewTypeWizardPage{
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 

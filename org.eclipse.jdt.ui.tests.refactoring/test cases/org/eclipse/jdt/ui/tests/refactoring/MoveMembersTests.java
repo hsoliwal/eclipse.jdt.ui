@@ -77,12 +77,12 @@ public class MoveMembersTests extends GenericRefactoringTest {
 	@Override
 	public void genericbefore() throws Exception {
 		if (fIsVerbose)
-			DebugUtils.dump("--------- " + getName() + " ---------------");
+			DebugUtils.dump("--------- " + getName() + " ---------------"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		super.genericbefore();
 		fIsPreDeltaTest= true;
 	}
 
-	private void fieldMethodTypePackageHelper_passing(String[] fieldNames, String[] methodNames, String[][] signatures, String[] typeNames, IPackageFragment packForA, IPackageFragment packForB, boolean addDelegate) throws Exception {
+	private void fieldMethodTypePackageHelper_passing(String[] fieldNames, String[] methodNames, String[][] signatures, String[] typeNames, IPackageFragment packForA, IPackageFragment packForB, boolean addDelegate) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cuA= createCUfromTestFile(packForA, "A");
 		ICompilationUnit cuB= createCUfromTestFile(packForB, "B");
@@ -96,7 +96,7 @@ public class MoveMembersTests extends GenericRefactoringTest {
 		IMember[] members= merge(methods, fields, types);
 		String[] handles= ParticipantTesting.createHandles(members);
 		MoveArguments[] args= new MoveArguments[handles.length];
-		for (int i = 0; i < args.length; i++) {
+		for (int i = 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			args[i]= new MoveArguments(destinationType, true);
 		}
 		MoveRefactoring ref= createRefactoring(members, destinationType);
@@ -154,7 +154,7 @@ public class MoveMembersTests extends GenericRefactoringTest {
 		fieldMethodTypeHelper_passing(new String[0], new String[0], new String[0][0], typeNames, false);
 	}
 
-	private void fieldMethodTypePackageHelper_failing(String[] fieldNames,
+	private void fieldMethodTypePackageHelper_failing(String[] fieldNames, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] methodNames, String[][] signatures,
 			String[] typeNames,
 			int errorLevel, String destinationTypeName,
@@ -175,7 +175,7 @@ public class MoveMembersTests extends GenericRefactoringTest {
 
 		RefactoringStatus result= performRefactoring(ref);
 		if (fIsVerbose)
-			DebugUtils.dump("status:" + result);
+			DebugUtils.dump("status:" + result); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertNotNull("precondition was supposed to fail", result);
 		assertEquals("precondition was supposed to fail", errorLevel, result.getSeverity());
 
@@ -575,7 +575,7 @@ public class MoveMembersTests extends GenericRefactoringTest {
 		methodHelper_passing(new String[] { "m" }, new String[][] { new String[0] });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test64() throws Exception { // test for Issue 2030
 			ParticipantTesting.reset();
 			IPackageFragment p1= getRoot().createPackageFragment("p1", false, null);
@@ -594,7 +594,7 @@ public class MoveMembersTests extends GenericRefactoringTest {
 			IMember[] members= merge(methods, new IMember[0], new IMember[0]);
 			String[] handles= ParticipantTesting.createHandles(members);
 			MoveArguments[] args= new MoveArguments[handles.length];
-			for (int i = 0; i < args.length; i++) {
+			for (int i = 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				args[i]= new MoveArguments(destinationType, true);
 			}
 			MoveRefactoring ref= createRefactoring(members, destinationType);

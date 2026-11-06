@@ -169,7 +169,7 @@ public class QuickAssistProcessorUtil {
 	 * @throws JavaModelException if an exception occurs while accessing the Java element
 	 *             corresponding to the <code>functionalMethod</code>
 	 */
-	public static LambdaExpression convertMethodRefernceToLambda(MethodReference methodReference, IMethodBinding functionalMethod, CompilationUnit astRoot,
+	public static LambdaExpression convertMethodRefernceToLambda(MethodReference methodReference, IMethodBinding functionalMethod, CompilationUnit astRoot, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTRewrite rewrite, LinkedProposalModelCore linkedProposalModel, boolean createBlockBody) throws JavaModelException {
 
 		AST ast= astRoot.getAST();
@@ -177,7 +177,7 @@ public class QuickAssistProcessorUtil {
 
 		String[] lambdaParamNames= QuickAssistProcessorUtil.getUniqueParameterNames(methodReference, functionalMethod);
 		List<VariableDeclaration> lambdaParameters= lambda.parameters();
-		for (int i= 0; i < lambdaParamNames.length; i++) {
+		for (int i= 0; i < lambdaParamNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String paramName= lambdaParamNames[i];
 			VariableDeclarationFragment lambdaParameter= ast.newVariableDeclarationFragment();
 			SimpleName name= ast.newSimpleName(paramName);
@@ -232,7 +232,7 @@ public class QuickAssistProcessorUtil {
 				List<SimpleName> invocationArgs= QuickAssistProcessorUtil.getInvocationArguments(ast, 0, noOfLambdaParameters, lambdaParamNames);
 				cic.arguments().addAll(invocationArgs);
 				if (linkedProposalModel != null) {
-					for (SimpleName name : invocationArgs) {
+					for (SimpleName name : invocationArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						linkedProposalModel.getPositionGroup(name.getIdentifier(), false).addPosition(rewrite.track(name), LinkedPositionGroup.NO_STOP);
 					}
 				}
@@ -269,7 +269,7 @@ public class QuickAssistProcessorUtil {
 			List<SimpleName> invocationArgs= QuickAssistProcessorUtil.getInvocationArguments(ast, 0, noOfLambdaParameters, lambdaParamNames);
 			methodInvocation.arguments().addAll(invocationArgs);
 			if (linkedProposalModel != null) {
-				for (SimpleName name : invocationArgs) {
+				for (SimpleName name : invocationArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					linkedProposalModel.getPositionGroup(name.getIdentifier(), false).addPosition(rewrite.track(name), LinkedPositionGroup.NO_STOP);
 				}
 			}
@@ -293,7 +293,7 @@ public class QuickAssistProcessorUtil {
 			List<SimpleName> invocationArgs= QuickAssistProcessorUtil.getInvocationArguments(ast, 0, noOfLambdaParameters, lambdaParamNames);
 			superMethodInvocation.arguments().addAll(invocationArgs);
 			if (linkedProposalModel != null) {
-				for (SimpleName name : invocationArgs) {
+				for (SimpleName name : invocationArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					linkedProposalModel.getPositionGroup(name.getIdentifier(), false).addPosition(rewrite.track(name), LinkedPositionGroup.NO_STOP);
 				}
 			}
@@ -326,7 +326,7 @@ public class QuickAssistProcessorUtil {
 			List<SimpleName> invocationArgs= QuickAssistProcessorUtil.getInvocationArguments(ast, isTypeReference ? 1 : 0, noOfLambdaParameters, lambdaParamNames);
 			methodInvocation.arguments().addAll(invocationArgs);
 			if (linkedProposalModel != null) {
-				for (SimpleName name : invocationArgs) {
+				for (SimpleName name : invocationArgs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					linkedProposalModel.getPositionGroup(name.getIdentifier(), false).addPosition(rewrite.track(name), LinkedPositionGroup.NO_STOP);
 				}
 			}
@@ -353,8 +353,8 @@ public class QuickAssistProcessorUtil {
 	}
 
 	public static List<Type> getCopiedTypeArguments(ASTRewrite rewrite, List<Type> typeArguments) {
-		List<Type> copiedTypeArgs= new ArrayList<>();
-		for (Type typeArg : typeArguments) {
+		List<Type> copiedTypeArgs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Type typeArg : typeArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			copiedTypeArgs.add((Type) rewrite.createCopyTarget(typeArg));
 		}
 		return copiedTypeArgs;
@@ -372,16 +372,16 @@ public class QuickAssistProcessorUtil {
 		return name;
 	}
 
-	public static String[] getUniqueParameterNames(MethodReference methodReference, IMethodBinding functionalMethod) throws JavaModelException {
+	public static String[] getUniqueParameterNames(MethodReference methodReference, IMethodBinding functionalMethod) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] originalParameterNames= ((IMethod) functionalMethod.getJavaElement()).getParameterNames();
 		String[] newNames= new String[originalParameterNames.length];
-		Set<String> excludedNames= new HashSet<>(ASTNodes.getVisibleLocalVariablesInScope(methodReference));
+		Set<String> excludedNames= new HashSet<>(ASTNodes.getVisibleLocalVariablesInScope(methodReference)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (int i= 0; i < originalParameterNames.length; i++) {
+		for (int i= 0; i < originalParameterNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String paramName= originalParameterNames[i];
 
 			if (excludedNames.contains(paramName)) {
-				Set<String> allNamesToExclude= new HashSet<>(excludedNames);
+				Set<String> allNamesToExclude= new HashSet<>(excludedNames); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				Collections.addAll(allNamesToExclude, originalParameterNames);
 
 				String newParamName= QuickAssistProcessorUtil.createName(paramName, allNamesToExclude);
@@ -400,16 +400,16 @@ public class QuickAssistProcessorUtil {
 		int i= 1;
 		String candidate;
 
-		do {
-			candidate= nameRoot + i++;
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			candidate= nameRoot + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} while (excludedNames.remove(candidate));
 
 		return candidate;
 	}
 
 	private static List<SimpleName> getInvocationArguments(AST ast, int begIndex, int noOfLambdaParameters, String[] lambdaParamNames) {
-		List<SimpleName> args= new ArrayList<>();
-		for (int i= begIndex; i < noOfLambdaParameters; i++) {
+		List<SimpleName> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= begIndex; i < noOfLambdaParameters; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			args.add(ast.newSimpleName(lambdaParamNames[i]));
 		}
 		return args;
@@ -417,7 +417,7 @@ public class QuickAssistProcessorUtil {
 
 	private static boolean hasConflict(int startPosition, IMethodBinding referredMethodBinding, int flags, CompilationUnit cu) {
 		ScopeAnalyzer analyzer= new ScopeAnalyzer(cu);
-		for (IBinding decl : analyzer.getDeclarationsInScope(startPosition, flags)) {
+		for (IBinding decl : analyzer.getDeclarationsInScope(startPosition, flags)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decl.getName().equals(referredMethodBinding.getName()) && !referredMethodBinding.getMethodDeclaration().isEqualTo(decl))
 				return true;
 		}
@@ -462,8 +462,8 @@ public class QuickAssistProcessorUtil {
 	 * @return List of the first AutoClosable nodes found
 	 */
 	public static List<ASTNode> getCoveredAutoClosableNodes(List<ASTNode> astNodes) {
-		List<ASTNode> autoClosableNodes= new ArrayList<>();
-		for (ASTNode astNode : astNodes) {
+		List<ASTNode> autoClosableNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode astNode : astNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isAutoClosable(astNode)) {
 				autoClosableNodes.add(astNode);
 			} else {
@@ -476,7 +476,7 @@ public class QuickAssistProcessorUtil {
 	public static int findEndPostion(ASTNode node) {
 		int end= node.getStartPosition() + node.getLength();
 		Map<SimpleName, IVariableBinding> nodeSimpleNameBindings= getVariableStatementBinding(node);
-		List<SimpleName> nodeNames= new ArrayList<>(nodeSimpleNameBindings.keySet());
+		List<SimpleName> nodeNames= new ArrayList<>(nodeSimpleNameBindings.keySet()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (nodeNames.isEmpty()) {
 			return -1;
 		}
@@ -485,18 +485,18 @@ public class QuickAssistProcessorUtil {
 		if (coveredNodeBindings.length == 0) {
 			return -1;
 		}
-		for (ASTNode astNode : coveredNodeBindings) {
+		for (ASTNode astNode : coveredNodeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			end= Math.max(end, (astNode.getStartPosition() + astNode.getLength()));
 		}
 		return end;
 	}
 
-	public static Map<SimpleName, IVariableBinding> getVariableStatementBinding(ASTNode astNode) {
-		Map<SimpleName, IVariableBinding> variableBindings= new HashMap<>();
+	public static Map<SimpleName, IVariableBinding> getVariableStatementBinding(ASTNode astNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<SimpleName, IVariableBinding> variableBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		astNode.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(VariableDeclarationStatement node) {
-				for (Object o : node.fragments()) {
+				for (Object o : node.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (o instanceof VariableDeclarationFragment) {
 						VariableDeclarationFragment vdf= (VariableDeclarationFragment) o;
 						SimpleName name= vdf.getName();
@@ -517,9 +517,9 @@ public class QuickAssistProcessorUtil {
 		return Bindings.findTypeInHierarchy(typeBinding, "java.lang.AutoCloseable") != null; //$NON-NLS-1$
 	}
 
-	public static boolean isAutoClosable(ASTNode astNode) {
+	public static boolean isAutoClosable(ASTNode astNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<SimpleName, IVariableBinding> simpleNames= getVariableStatementBinding(astNode);
-		for (Entry<SimpleName, IVariableBinding> entry : simpleNames.entrySet()) {
+		for (Entry<SimpleName, IVariableBinding> entry : simpleNames.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding typeBinding= null;
 			switch (entry.getKey().getParent().getNodeType()) {
 				case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
@@ -538,7 +538,7 @@ public class QuickAssistProcessorUtil {
 	}
 
 	public static int getIndex(int offset, List<Statement> statements) {
-		for (int i= 0; i < statements.size(); i++) {
+		for (int i= 0; i < statements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Statement s= statements.get(i);
 			if (offset <= s.getStartPosition()) {
 				return i;
@@ -550,7 +550,7 @@ public class QuickAssistProcessorUtil {
 		return statements.size();
 	}
 
-	public static boolean isDeprecatedMethodCallWithReplacement(ASTNode node) {
+	public static boolean isDeprecatedMethodCallWithReplacement(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof MethodInvocation)) {
 			node= node.getParent();
 			if (!(node instanceof MethodInvocation)) {
@@ -567,7 +567,7 @@ public class QuickAssistProcessorUtil {
 			return false;
 		}
 		IAnnotationBinding[] annotations= methodBinding.getAnnotations();
-		for (IAnnotationBinding annotation : annotations) {
+		for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (annotation.getAnnotationType().getQualifiedName().equals("java.lang.Deprecated")) { //$NON-NLS-1$
 				CompilationUnit sourceCu= (CompilationUnit)node.getRoot();
 				CompilationUnit cu= findCUForMethod(sourceCu, (ICompilationUnit)sourceCu.getJavaElement(), methodBinding);
@@ -581,7 +581,7 @@ public class QuickAssistProcessorUtil {
 						return false;
 					}
 					List<TagElement> tags= javadoc.tags();
-					for (TagElement tag : tags) {
+					for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ("@deprecated".equals(tag.getTagName())) { //$NON-NLS-1$
 							List<IDocElement> fragments= tag.fragments();
 							if (fragments.size() < 2) {
@@ -603,7 +603,7 @@ public class QuickAssistProcessorUtil {
 															private boolean referencesPrivate= false;
 															private boolean referencesProtected= false;
 															private boolean referencesPackagePrivate= false;
-															@Override
+															@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 															public boolean visit(MethodInvocation invocation) {
 																IMethodBinding binding= invocation.resolveMethodBinding();
 																if (binding != null) {
@@ -624,7 +624,7 @@ public class QuickAssistProcessorUtil {
 																}
 																return true;
 															}
-															@Override
+															@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 															public boolean visit(SimpleName name) {
 																IBinding binding= name.resolveBinding();
 																if (binding instanceof IVariableBinding varBinding
@@ -713,7 +713,7 @@ public class QuickAssistProcessorUtil {
 																return false;
 															}
 															// if methodDeclaration is in superclass, that is ok, otherwise no
-															while (typeDeclBinding1 != null) {
+															while (typeDeclBinding1 != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 																if (typeDeclBinding1.isEqualTo(typeDeclBinding2)) {
 																	return true;
 																}
@@ -740,7 +740,7 @@ public class QuickAssistProcessorUtil {
 
 	}
 
-	public static CompilationUnit findCUForMethod(CompilationUnit compilationUnit, ICompilationUnit cu, IMethodBinding methodBinding) {
+	public static CompilationUnit findCUForMethod(CompilationUnit compilationUnit, ICompilationUnit cu, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode methodDecl= compilationUnit.findDeclaringNode(methodBinding.getMethodDeclaration());
 		if (methodDecl == null) {
 			// is methodDecl defined in another CU?
@@ -760,7 +760,7 @@ public class QuickAssistProcessorUtil {
 		return compilationUnit;
 	}
 
-	public static String getDeprecatedFieldReplacement(ASTNode node) {
+	public static String getDeprecatedFieldReplacement(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IBinding binding= null;
 		switch (node) {
 			case QualifiedName q:
@@ -792,7 +792,7 @@ public class QuickAssistProcessorUtil {
 				return null;
 			}
 			IAnnotationBinding[] annotations= varBinding.getAnnotations();
-			for (IAnnotationBinding annotation : annotations) {
+			for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (annotation.getAnnotationType().getQualifiedName().equals("java.lang.Deprecated")) { //$NON-NLS-1$
 					CompilationUnit sourceCu= (CompilationUnit)node.getRoot();
 					CompilationUnit cu= findCUForField(sourceCu, (ICompilationUnit)sourceCu.getJavaElement(), varBinding);
@@ -806,7 +806,7 @@ public class QuickAssistProcessorUtil {
 							return null;
 						}
 						List<TagElement> tags= javadoc.tags();
-						for (TagElement tag : tags) {
+						for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if ("@deprecated".equals(tag.getTagName())) { //$NON-NLS-1$
 								List<IDocElement> fragments= tag.fragments();
 								if (fragments.size() < 2) {
@@ -823,7 +823,7 @@ public class QuickAssistProcessorUtil {
 													if (linkFragment instanceof MemberRef methodRef) {
 														IBinding refBinding= methodRef.resolveBinding();
 														if (refBinding instanceof IVariableBinding replaceBinding && replaceBinding.isField()) {
-															return replaceBinding.getDeclaringClass().getQualifiedName() + "." + replaceBinding.getName(); //$NON-NLS-1$
+															return replaceBinding.getDeclaringClass().getQualifiedName() + "." + replaceBinding.getName(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 														}
 													}
 												}
@@ -842,7 +842,7 @@ public class QuickAssistProcessorUtil {
 		return null;
 	}
 
-	public static CompilationUnit findCUForField(CompilationUnit compilationUnit, ICompilationUnit cu, IVariableBinding fieldBinding) {
+	public static CompilationUnit findCUForField(CompilationUnit compilationUnit, ICompilationUnit cu, IVariableBinding fieldBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode fieldDecl= compilationUnit.findDeclaringNode(fieldBinding.getVariableDeclaration());
 		if (fieldDecl == null) {
 			// is field defined in another CU?
@@ -862,7 +862,7 @@ public class QuickAssistProcessorUtil {
 		return compilationUnit;
 	}
 
-	public static ASTNode getCopyOfInner(ASTRewrite rewrite, ASTNode statement, boolean toControlStatementBody) {
+	public static ASTNode getCopyOfInner(ASTRewrite rewrite, ASTNode statement, boolean toControlStatementBody) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (statement.getNodeType() == ASTNode.BLOCK) {
 			Block block= (Block) statement;
 			List<Statement> innerStatements= block.statements();
@@ -884,7 +884,7 @@ public class QuickAssistProcessorUtil {
 		}
 	}
 
-	public static boolean getCreateInSuperClassProposals(IInvocationContext context, ASTNode node, Collection<Object> resultingCollections) throws CoreException {
+	public static boolean getCreateInSuperClassProposals(IInvocationContext context, ASTNode node, Collection<Object> resultingCollections) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(node instanceof SimpleName) || !(node.getParent() instanceof MethodDeclaration)) {
 			return false;
 		}
@@ -901,7 +901,7 @@ public class QuickAssistProcessorUtil {
 
 		ITypeBinding[] superTypes= Bindings.getAllSuperTypes(binding.getDeclaringClass());
 		if (resultingCollections == null) {
-			for (ITypeBinding curr : superTypes) {
+			for (ITypeBinding curr : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.isFromSource() && Bindings.findOverriddenMethodInType(curr, binding) == null) {
 					return true;
 				}
@@ -910,12 +910,12 @@ public class QuickAssistProcessorUtil {
 		}
 		List<SingleVariableDeclaration> params= decl.parameters();
 		String[] paramNames= new String[paramTypes.length];
-		for (int i= 0; i < params.size(); i++) {
+		for (int i= 0; i < params.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration param= params.get(i);
 			paramNames[i]= param.getName().getIdentifier();
 		}
 
-		for (ITypeBinding curr : superTypes) {
+		for (ITypeBinding curr : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isFromSource()) {
 				IMethodBinding method= Bindings.findOverriddenMethodInType(curr, binding);
 				if (method == null) {
@@ -932,12 +932,12 @@ public class QuickAssistProcessorUtil {
 		return true;
 	}
 
-	public static ArrayList<ASTNode> getFullyCoveredNodes(IInvocationContext context, ASTNode coveringNode) {
-		final ArrayList<ASTNode> coveredNodes= new ArrayList<>();
+	public static ArrayList<ASTNode> getFullyCoveredNodes(IInvocationContext context, ASTNode coveringNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final ArrayList<ASTNode> coveredNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final int selectionBegin= context.getSelectionOffset();
 		final int selectionEnd= selectionBegin + context.getSelectionLength();
 		coveringNode.accept(new GenericVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected boolean visitNode(ASTNode node) {
 				int nodeStart= node.getStartPosition();
 				int nodeEnd= nodeStart + node.getLength();

@@ -78,7 +78,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 	private static final String HASH_CODE_METHOD= "hashCode"; //$NON-NLS-1$
 
 	private static final class CollectedData {
-		public List<Expression> fields= new ArrayList<>();
+		public List<Expression> fields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		public SimpleName primeId;
 		public SimpleName resultId;
 		public Iterator<Statement> stmtIterator;
@@ -125,16 +125,16 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.MODERNIZE_HASH)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final MethodDeclaration node) {
 				Block body= node.getBody();
 
@@ -151,7 +151,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 						if (data.primeId != null
 								&& data.resultId != null
 								&& data.stmtIterator.hasNext()) {
-							while (!data.hasReturnStatement && data.stmtIterator.hasNext()) {
+							while (!data.hasReturnStatement && data.stmtIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (!isStmtValid(data)) {
 									return true;
 								}
@@ -182,7 +182,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return null;
 			}
 
-			private boolean isStmtValid(final CollectedData data) {
+			private boolean isStmtValid(final CollectedData data) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Statement statement= data.stmtIterator.next();
 				ExpressionStatement exprStatement= ASTNodes.as(statement, ExpressionStatement.class);
 
@@ -231,7 +231,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return false;
 			}
 
-			private boolean isAssignmentValid(final CollectedData data, final ExpressionStatement statement) {
+			private boolean isAssignmentValid(final CollectedData data, final ExpressionStatement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				Assignment assignment= ASTNodes.as(statement.getExpression(), Assignment.class);
 
 				if (assignment != null && ASTNodes.hasOperator(assignment, Assignment.Operator.ASSIGN)) {
@@ -276,7 +276,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return fieldToFind;
 			}
 
-			private boolean isHashValid(final CollectedData data, final Expression hashComputation) {
+			private boolean isHashValid(final CollectedData data, final Expression hashComputation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				InfixExpression hashAddition= ASTNodes.as(hashComputation, InfixExpression.class);
 
 				if (hashAddition != null) {
@@ -299,7 +299,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return false;
 			}
 
-			private boolean isNewHashValid(final CollectedData data, final Expression newHash) {
+			private boolean isNewHashValid(final CollectedData data, final Expression newHash) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (newHash instanceof ParenthesizedExpression) {
 					ParenthesizedExpression newHashWithoutBrackets= (ParenthesizedExpression) newHash;
 
@@ -363,14 +363,14 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return false;
 			}
 
-			private boolean isEnclosingHashCode(final CollectedData data, final MethodInvocation specificMethod,
+			private boolean isEnclosingHashCode(final CollectedData data, final MethodInvocation specificMethod, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					final TypeDeclaration innerClass, final TypeDeclaration topLevelClass) {
 				MethodInvocation getEnclosingInstanceMethod= ASTNodes.as(specificMethod.getExpression(), MethodInvocation.class);
 
 				if (ASTNodes.usesGivenSignature(getEnclosingInstanceMethod, innerClass.resolveBinding().getQualifiedName(), "getEnclosingInstance")) { //$NON-NLS-1$
 					MethodDeclaration getEnclosingInstanceDeclaration= null;
 
-					for (MethodDeclaration innerMethod : innerClass.getMethods()) {
+					for (MethodDeclaration innerMethod : innerClass.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if ("getEnclosingInstance".equals(innerMethod.getName().getIdentifier()) //$NON-NLS-1$
 								&& (innerMethod.parameters() == null || innerMethod.parameters().isEmpty())
 								&& !innerMethod.isConstructor()
@@ -405,7 +405,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return false;
 			}
 
-			private boolean isGreatNumberValid(final CollectedData data, final CastExpression newHash) {
+			private boolean isGreatNumberValid(final CollectedData data, final CastExpression newHash) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				OrderedInfixExpression<Expression, InfixExpression> orderedBitwise= ASTNodes.orderedInfix(newHash.getExpression(), Expression.class, InfixExpression.class);
 
 				if (ASTNodes.hasType(newHash, int.class.getSimpleName())
@@ -442,7 +442,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return false;
 			}
 
-			private boolean isBooleanValid(final CollectedData data, final ConditionalExpression newHash) {
+			private boolean isBooleanValid(final CollectedData data, final ConditionalExpression newHash) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				SimpleName booleanField= ASTNodes.getField(newHash.getExpression());
 				Long hashForTrue= ASTNodes.getIntegerLiteral(newHash.getThenExpression());
 				Long hashForFalse= ASTNodes.getIntegerLiteral(newHash.getElseExpression());
@@ -461,7 +461,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 				return false;
 			}
 
-			private boolean isObjectValid(final CollectedData data, final ConditionalExpression condition) {
+			private boolean isObjectValid(final CollectedData data, final ConditionalExpression condition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				OrderedInfixExpression<Expression, NullLiteral> orderedIsFieldNull= ASTNodes.orderedInfix(condition.getExpression(), Expression.class, NullLiteral.class);
 
 				if (orderedIsFieldNull != null
@@ -537,7 +537,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 			this.data= data;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -559,7 +559,7 @@ public class HashCleanUp extends AbstractMultiFix implements ICleanUpFix {
 			ASTNodes.replaceButKeepComment(rewrite, statements.get(0),
 					newReturnStatement, group);
 
-			for (int i= 1; i < statements.size(); i++) {
+			for (int i= 1; i < statements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(statements.get(i), group);
 			}
 		}

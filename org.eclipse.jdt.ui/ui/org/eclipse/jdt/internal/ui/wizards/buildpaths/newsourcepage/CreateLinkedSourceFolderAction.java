@@ -49,7 +49,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 
 
 //SelectedElements iff enabled: IJavaProject && size == 1
-public class CreateLinkedSourceFolderAction extends BuildpathModifierAction {
+public class CreateLinkedSourceFolderAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public CreateLinkedSourceFolderAction(IWorkbenchSite site) {
 		this(site, null);
@@ -73,7 +73,7 @@ public class CreateLinkedSourceFolderAction extends BuildpathModifierAction {
 		return NewWizardMessages.PackageExplorerActionGroup_FormText_createLinkedFolder;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Shell shell= getShell();
 

@@ -38,7 +38,7 @@ import org.eclipse.jdt.ui.text.java.correction.ChangeCorrectionProposal;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 
-public final class CreatePackageInfoWithDefaultNullnessProposal extends ChangeCorrectionProposal {
+public final class CreatePackageInfoWithDefaultNullnessProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private CreatePackageInfoWithDefaultNullnessProposalCore fCore;
 	public CreatePackageInfoWithDefaultNullnessProposal(CreatePackageInfoWithDefaultNullnessProposalCore core) {
@@ -55,7 +55,7 @@ public final class CreatePackageInfoWithDefaultNullnessProposal extends ChangeCo
 		fCore= new CreatePackageInfoWithDefaultNullnessProposalCore(problemId, name, change, relevance, unit);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(org.eclipse.jface.text.IDocument document) {
 		super.apply(document);
 		IEditorPart part= null;
@@ -83,8 +83,8 @@ public final class CreatePackageInfoWithDefaultNullnessProposal extends ChangeCo
 	}
 
 	public void resolve(MultiFixTarget[] problems, IProgressMonitor monitor) throws CoreException {
-		List<CleanUpRefactoringCore.MultiFixTarget> coreProblems= new ArrayList<>();
-		for (MultiFixTarget problem : problems) {
+		List<CleanUpRefactoringCore.MultiFixTarget> coreProblems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (MultiFixTarget problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			coreProblems.add(new CleanUpRefactoringCore.MultiFixTarget(problem.getCompilationUnit(), problem.getProblems()));
 		}
 		fCore.resolve(coreProblems.toArray(new CleanUpRefactoringCore.MultiFixTarget[0]), monitor);

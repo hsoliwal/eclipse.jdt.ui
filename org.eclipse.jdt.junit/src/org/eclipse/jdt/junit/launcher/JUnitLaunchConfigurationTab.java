@@ -192,7 +192,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		Composite comp= new Composite(parent, SWT.NONE);
 		setControl(comp);
@@ -219,7 +219,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		validatePage();
 	}
 
-	private void createTagsGroup(Composite comp) {
+	private void createTagsGroup(Composite comp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData gd;
 
 		fIncludeExcludeTagsLabel= new Label(comp, SWT.NONE);
@@ -229,7 +229,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		fIncludeExcludeTagsLabel.setLayoutData(gd);
 		fIncludeExcludeTagsButton= new Button(comp, SWT.PUSH);
 		fIncludeExcludeTagsButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_addtag_label);
-		fIncludeExcludeTagsButton.addSelectionListener(new SelectionListener() {
+		fIncludeExcludeTagsButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				configureIncludeExcludeTags();
@@ -245,7 +245,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		fIncludeExcludeTagsButton.setLayoutData(gd);
 	}
 
-	private void createTestLoaderGroup(Composite comp) {
+	private void createTestLoaderGroup(Composite comp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label loaderLabel= new Label(comp, SWT.NONE);
 		loaderLabel.setText(JUnitMessages.JUnitLaunchConfigurationTab_Test_Loader);
 		GridData gd= new GridData();
@@ -257,16 +257,16 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 
 		ArrayList<TestKind> items= TestKindRegistry.getDefault().getAllKinds();
 		fTestLoaderViewer.setContentProvider(ArrayContentProvider.getInstance());
-		fTestLoaderViewer.setLabelProvider(new LabelProvider() {
+		fTestLoaderViewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			@Override
 			public String getText(Object element) {
 				return ((TestKind) element).getDisplayName();
 			}
 		});
-		fTestLoaderViewer.setInput(items);
-		fTestLoaderViewer.addSelectionChangedListener(event -> {
+		fTestLoaderViewer.setInput(items); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		fTestLoaderViewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			setEnableTagsGroup(event);
-			try (var _= fTestMethodsCache.runNestedCancelable()) {
+			try (var unused= fTestMethodsCache.runNestedCancelable()) {
 				calculateMethodsCache();
 				validatePage();
 			}
@@ -296,13 +296,13 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		label.setLayoutData(gd);
 	}
 
-	private void createSingleTestSection(Composite comp) {
+	private void createSingleTestSection(Composite comp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTestRadioButton= new Button(comp, SWT.RADIO);
 		fTestRadioButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_label_oneTest);
 		GridData gd= new GridData();
 		gd.horizontalSpan= 3;
 		fTestRadioButton.setLayoutData(gd);
-		fTestRadioButton.addSelectionListener(new SelectionAdapter() {
+		fTestRadioButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fTestRadioButton.getSelection())
@@ -318,8 +318,8 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 
 		fProjText= new Text(comp, SWT.SINGLE | SWT.BORDER);
 		fProjText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		fProjText.addModifyListener(_ -> {
-			try (var _= fTestMethodsCache.runNestedCancelable()) {
+		fProjText.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			try (var unused3= fTestMethodsCache.runNestedCancelable()) {
 				calculateMethodsCache();
 				validatePage();
 			}
@@ -329,7 +329,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 
 		fProjButton= new Button(comp, SWT.PUSH);
 		fProjButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_label_browse);
-		fProjButton.addSelectionListener(new SelectionAdapter() {
+		fProjButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				handleProjectButtonSelected();
@@ -346,8 +346,8 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 
 		fTestText= new Text(comp, SWT.SINGLE | SWT.BORDER);
 		fTestText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		fTestText.addModifyListener(_ -> {
-			try (var _= fTestMethodsCache.runNestedCancelable()) {
+		fTestText.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
+			try (var unused2= fTestMethodsCache.runNestedCancelable()) {
 				calculateMethodsCache();
 				validatePage();
 			}
@@ -357,7 +357,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		fSearchButton= new Button(comp, SWT.PUSH);
 		fSearchButton.setEnabled(fProjText.getText().length() > 0);
 		fSearchButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_label_search);
-		fSearchButton.addSelectionListener(new SelectionAdapter() {
+		fSearchButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				handleSearchButtonSelected();
@@ -376,7 +376,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		gd= new GridData(GridData.FILL_HORIZONTAL);
 		fTestMethodText.setLayoutData(gd);
 
-		fTestMethodText.addModifyListener(_ -> {
+		fTestMethodText.addModifyListener(unused -> { //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 			validatePage();
 			updateLaunchConfigurationDialog();
 		});
@@ -385,7 +385,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 
 		fTestMethodSearchButton= new Button(comp, SWT.PUSH);
 		fTestMethodSearchButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_label_search_method);
-		fTestMethodSearchButton.addSelectionListener(new SelectionAdapter() {
+		fTestMethodSearchButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				handleTestMethodSearchButtonSelected();
@@ -395,13 +395,13 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		setButtonGridData(fTestMethodSearchButton);
 	}
 
-	private void createTestContainerSelectionGroup(Composite comp) {
+	private void createTestContainerSelectionGroup(Composite comp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTestContainerRadioButton= new Button(comp, SWT.RADIO);
 		fTestContainerRadioButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_label_containerTest);
 		GridData gd= new GridData();
 		gd.horizontalSpan= 3;
 		fTestContainerRadioButton.setLayoutData(gd);
-		fTestContainerRadioButton.addSelectionListener(new SelectionListener() {
+		fTestContainerRadioButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (fTestContainerRadioButton.getSelection())
@@ -419,11 +419,11 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		gd.horizontalIndent= 25;
 		gd.horizontalSpan= 2;
 		fContainerText.setLayoutData(gd);
-		fContainerText.addModifyListener(_ -> updateLaunchConfigurationDialog());
+		fContainerText.addModifyListener(unused -> updateLaunchConfigurationDialog()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		fContainerSearchButton= new Button(comp, SWT.PUSH);
 		fContainerSearchButton.setText(JUnitMessages.JUnitLaunchConfigurationTab_label_search);
-		fContainerSearchButton.addSelectionListener(new SelectionAdapter() {
+		fContainerSearchButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent evt) {
 				handleContainerSearchButtonSelected();
@@ -445,10 +445,10 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		updateLaunchConfigurationDialog();
 	}
 
-	private void createKeepAliveGroup(Composite comp) {
+	private void createKeepAliveGroup(Composite comp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		GridData gd;
 		fKeepRunning= new Button(comp, SWT.CHECK);
-		fKeepRunning.addSelectionListener(new SelectionListener() {
+		fKeepRunning.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateLaunchConfigurationDialog();
@@ -469,9 +469,9 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		return JUnitPlugin.getImageDescriptor(path).createImage();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void initializeFrom(ILaunchConfiguration config) {
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			fLaunchConfiguration= config;
 
 			updateProjectFromConfig(config);
@@ -506,7 +506,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 				testKind= TestKindRegistry.getDefault().getKind(TestKindRegistry.JUNIT3_TEST_KIND_ID);
 			}
 		}
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			fTestLoaderViewer.setSelection(new StructuredSelection(testKind));
 		}
 	}
@@ -531,12 +531,12 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 			projectName= config.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""); //$NON-NLS-1$
 		} catch (CoreException ce) {
 		}
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			fProjText.setText(projectName);
 		}
 	}
 
-	private void updateTestTypeFromConfig(ILaunchConfiguration config) {
+	private void updateTestTypeFromConfig(ILaunchConfiguration config) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String testTypeName= ""; //$NON-NLS-1$
 		fOriginalTestMethodName= ""; //$NON-NLS-1$
 		try {
@@ -549,14 +549,14 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		setEnableContainerTestGroup(false);
 		fTestContainerRadioButton.setSelection(false);
 
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			fTestText.setText(testTypeName);
 			fContainerText.setText(""); //$NON-NLS-1$
 			fTestMethodText.setText(fOriginalTestMethodName);
 		}
 	}
 
-	private void updateTestContainerFromConfig(ILaunchConfiguration config) {
+	private void updateTestContainerFromConfig(ILaunchConfiguration config) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String containerHandle= ""; //$NON-NLS-1$
 		IJavaElement containerElement= null;
 		try {
@@ -575,12 +575,12 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		if (fContainerElement != null)
 			fContainerText.setText(getPresentationName(fContainerElement));
 
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			fTestText.setText(""); //$NON-NLS-1$
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void performApply(ILaunchConfigurationWorkingCopy config) {
 		if (fTestContainerRadioButton.getSelection() && fContainerElement != null) {
 			config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, fContainerElement.getJavaProject().getElementName());
@@ -627,7 +627,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	/*
 	 * Show a dialog that lists all main types
 	 */
-	private void handleSearchButtonSelected() {
+	private void handleSearchButtonSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell= getShell();
 
 		IJavaProject javaProject= getJavaProject();
@@ -652,9 +652,9 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 			fTestContainerRadioButton.setSelection(radioSetting[1]);
 		}
 
-		final HashSet<String> typeLookup= new HashSet<>();
-		for (IType type : types) {
-			typeLookup.add(type.getPackageFragment().getElementName() + '/' + type.getTypeQualifiedName('.'));
+		final HashSet<String> typeLookup= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			typeLookup.add(type.getPackageFragment().getElementName() + '/' + type.getTypeQualifiedName('.')); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		SelectionDialog dialog= null;
 		try {
@@ -668,12 +668,12 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 						@Override
 						public ITypeInfoFilterExtension getFilterExtension() {
 							return requestor -> {
-								StringBuilder buf= new StringBuilder();
-								buf.append(requestor.getPackageName()).append('/');
+								StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+								buf.append(requestor.getPackageName()).append('/'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								String enclosingName= requestor.getEnclosingName();
 								if (enclosingName.length() > 0)
-									buf.append(enclosingName).append('.');
-								buf.append(requestor.getTypeName());
+									buf.append(enclosingName).append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+								buf.append(requestor.getTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 								return typeLookup.contains(buf.toString());
 							};
 						}
@@ -696,7 +696,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		IType type= (IType) results[0];
 
 		if (type != null) {
-			try (var _= fTestMethodsCache.runNestedCancelable()) {
+			try (var unused= fTestMethodsCache.runNestedCancelable()) {
 				fTestText.setText(type.getFullyQualifiedName('.'));
 				javaProject= type.getJavaProject();
 				fProjText.setText(javaProject.getElementName());
@@ -715,14 +715,14 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 			return;
 		}
 
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			String projectName= project.getElementName();
 			fProjText.setText(projectName);
 		}
 	}
 
-	private void handleTestMethodSearchButtonSelected() {
-		try (var _= fTestMethodsCache.runNestedCancelable()) {
+	private void handleTestMethodSearchButtonSelected() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		try (var unused= fTestMethodsCache.runNestedCancelable()) {
 			IJavaProject javaProject= getJavaProject();
 			if (javaProject == null) {
 				return;
@@ -768,7 +768,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		return Collections.emptySet();
 	}
 
-	private void calculateMethodsCache() {
+	private void calculateMethodsCache() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fTestMethodText.setEnabled(false);
 
 		if (fTestMethodsCache.isCanceled()) {
@@ -855,10 +855,10 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	}
 
 	private String getMethodsCacheKey(IJavaProject javaProject, IType type, String testKindId) {
-		return javaProject.getElementName() + '\n' + type.getFullyQualifiedName() + '\n' + testKindId;
+		return javaProject.getElementName() + '\n' + type.getFullyQualifiedName() + '\n' + testKindId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private String chooseMethodName(Set<String> methodNames) {
+	private String chooseMethodName(Set<String> methodNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell= getShell();
 
 		ElementListSelectionDialog dialog= new ElementListSelectionDialog(shell, new LabelProvider());
@@ -893,7 +893,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	 * Realize a Java Project selection dialog and return the first selected project,
 	 * or null if there was none.
 	 */
-	private IJavaProject chooseJavaProject() {
+	private IJavaProject chooseJavaProject() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject[] projects;
 		try {
 			projects= JavaCore.create(getWorkspaceRoot()).getJavaProjects();
@@ -975,14 +975,14 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	protected void setErrorMessage(String errorMessage) {
 		fIsValid= errorMessage == null;
 		if (fTestMethodsCache.isCanceled()) {
-			super.setErrorMessage(JUnitMessages.JUnitLaunchConfigurationTab_error_operation_canceled +
-					(errorMessage != null ? (" " + errorMessage) : "")); //$NON-NLS-1$ //$NON-NLS-2$
+			super.setErrorMessage(JUnitMessages.JUnitLaunchConfigurationTab_error_operation_canceled + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					(errorMessage != null ? (" " + errorMessage) : "")); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			super.setErrorMessage(errorMessage);
 		}
 	}
 
-	private void validatePage() {
+	private void validatePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		setErrorMessage(null);
 		setMessage(null);
@@ -1003,7 +1003,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 				return;
 			}
 
-			IStatus status= ResourcesPlugin.getWorkspace().validatePath(IPath.SEPARATOR + projectName, IResource.PROJECT);
+			IStatus status= ResourcesPlugin.getWorkspace().validatePath(IPath.SEPARATOR + projectName, IResource.PROJECT); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (!status.isOK() || !Path.ROOT.isValidSegment(projectName)) {
 				setErrorMessage(Messages.format(JUnitMessages.JUnitLaunchConfigurationTab_error_invalidProjectName, BasicElementLabels.getResourceName(projectName)));
 				return;
@@ -1052,7 +1052,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		}
 	}
 
-	private void validateJavaProject(IJavaProject javaProject) {
+	private void validateJavaProject(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TestKind testKind= getSelectedTestKind();
 		if (testKind != null) {
 			String testKindId= testKind.getId();
@@ -1155,7 +1155,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	/*
 	 * Set the main type & name attributes on the working copy based on the IJavaElement
 	 */
-	private void initializeTestType(IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) {
+	private void initializeTestType(IJavaElement javaElement, ILaunchConfigurationWorkingCopy config) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= ""; //$NON-NLS-1$
 		String testKindId= null;
 		try {
@@ -1191,7 +1191,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		return JUnitMessages.JUnitLaunchConfigurationTab_tab_label;
 	}
 
-	private IJavaElement chooseContainer(IJavaElement initElement) {
+	private IJavaElement chooseContainer(IJavaElement initElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IPackageFragmentRoot.class, IJavaProject.class, IPackageFragment.class };
 		TypedElementSelectionValidator validator= new TypedElementSelectionValidator(acceptedClasses, false) {
 			@Override
@@ -1201,7 +1201,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		};
 
 		acceptedClasses= new Class[] { IJavaModel.class, IPackageFragmentRoot.class, IJavaProject.class, IPackageFragment.class };
-		ViewerFilter filter= new TypedViewerFilter(acceptedClasses) {
+		ViewerFilter filter= new TypedViewerFilter(acceptedClasses) { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parent, Object element) {
 				if (element instanceof IPackageFragmentRoot && ((IPackageFragmentRoot) element).isArchive())
@@ -1210,7 +1210,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 			}
 		};
 
-		StandardJavaElementContentProvider provider= new StandardJavaElementContentProvider() {
+		StandardJavaElementContentProvider provider= new StandardJavaElementContentProvider() { //FLLDCIM: MARK — M22  ANONYMOUS
 			@Override
 			public boolean hasChildren(Object element) {
 				if (element instanceof IPackageFragment) {
@@ -1225,7 +1225,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		dialog.setComparator(new JavaElementComparator());
 		dialog.setTitle(JUnitMessages.JUnitLaunchConfigurationTab_folderdialog_title);
 		dialog.setMessage(JUnitMessages.JUnitLaunchConfigurationTab_folderdialog_message);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(JavaCore.create(getWorkspaceRoot()));
 		dialog.setInitialSelection(initElement);
 		dialog.setAllowMultiple(false);
@@ -1247,7 +1247,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	 *
 	 * @return Java element context.
 	 */
-	private IJavaElement getContext() {
+	private IJavaElement getContext() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbenchWindow activeWorkbenchWindow= PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (activeWorkbenchWindow == null) {
 			return null;

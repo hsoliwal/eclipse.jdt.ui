@@ -36,7 +36,7 @@ import org.eclipse.jdt.core.dom.TypeParameter;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ImportRewrite.ImportRewriteContext;
 
-public abstract class AbstractMethodCorrectionProposal extends LinkedCorrectionProposal {
+public abstract class AbstractMethodCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public AbstractMethodCorrectionProposal(String label, ICompilationUnit targetCU, int relevance, Image image) {
 		super(label, targetCU, null, relevance, image);

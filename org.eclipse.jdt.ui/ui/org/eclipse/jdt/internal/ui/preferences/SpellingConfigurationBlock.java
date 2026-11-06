@@ -121,7 +121,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 	 */
 	protected static void createSelectionDependency(final Button master, final Control slave) {
 
-		master.addSelectionListener(new SelectionListener() {
+		master.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -149,7 +149,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 		Locale locale= null;
 
 		final String[] codes= new String[locales.size() + 1];
-		for (final Iterator<Locale> iterator= locales.iterator(); iterator.hasNext();) {
+		for (final Iterator<Locale> iterator= locales.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locale= iterator.next();
 			codes[index++]= locale.toString();
 		}
@@ -170,7 +170,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 		Locale locale= null;
 
 		final String[] labels= new String[locales.size() + 1];
-		for (final Iterator<Locale> iterator= locales.iterator(); iterator.hasNext();) {
+		for (final Iterator<Locale> iterator= locales.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			locale= iterator.next();
 			labels[index++]= locale.getDisplayName();
@@ -187,7 +187,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 	 *                   The path of the file to validate
 	 * @return a status without error if the path is valid
 	 */
-	protected static IStatus validateAbsoluteFilePath(String path) {
+	protected static IStatus validateAbsoluteFilePath(String path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final StatusInfo status= new StatusInfo();
 		IStringVariableManager variableManager= VariablesPlugin.getDefault().getStringVariableManager();
@@ -196,9 +196,9 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 			if (path.length() > 0) {
 
 				final File file= new File(path);
-				if (!file.exists() && (!file.isAbsolute() || !file.getParentFile().canWrite()))
+				if (!file.exists() && (!file.isAbsolute() || !file.getParentFile().canWrite())) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					status.setError(PreferencesMessages.SpellingPreferencePage_dictionary_error);
-				else if (file.exists() && (!file.isFile() || !file.isAbsolute() || !file.canRead() || !file.canWrite()))
+				else if (file.exists() && (!file.isFile() || !file.isAbsolute() || !file.canRead() || !file.canWrite())) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					status.setError(PreferencesMessages.SpellingPreferencePage_dictionary_error);
 			}
 		} catch (CoreException e) {
@@ -296,7 +296,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 			setValue(PREF_SPELLING_LOCALE, SpellCheckEngine.getDefaultLocale().toString());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Combo addComboBox(Composite parent, String label, Key key, String[] values, String[] valueLabels, int indent) {
 		ControlData data= new ControlData(key, values);
 
@@ -314,7 +314,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 		gd= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan= 2;
 		comboBox.setLayoutData(gd);
-		comboBox.addSelectionListener(getSelectionListener());
+		comboBox.addSelectionListener(getSelectionListener()); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fLabels.put(comboBox, labelControl);
 
@@ -334,13 +334,13 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(final Composite parent) {
 
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
 
-		List<Control> allControls= new ArrayList<>();
+		List<Control> allControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final PixelConverter converter= new PixelConverter(parent);
 
 		final String[] trueFalse= new String[] { IPreferenceStore.TRUE, IPreferenceStore.FALSE };
@@ -423,7 +423,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 
 		Button button= new Button(buttons, SWT.PUSH);
 		button.setText(PreferencesMessages.SpellingPreferencePage_browse_label);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
@@ -436,7 +436,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 
 		button=new Button(buttons, SWT.PUSH);
 		button.setText(PreferencesMessages.SpellingPreferencePage_variables);
-		button.addSelectionListener(new SelectionAdapter() {
+		button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -499,7 +499,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 	 * @param allControls list with all controls
 	 * @since 3.3
 	 */
-	private void createEncodingFieldEditor(Composite composite, List<Control> allControls) {
+	private void createEncodingFieldEditor(Composite composite, List<Control> allControls) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Label filler= new Label(composite, SWT.NONE);
 		GridData gd= new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan= 4;
@@ -616,7 +616,7 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 	protected void handleVariablesButtonSelected() {
 		StringVariableSelectionDialog dialog= new StringVariableSelectionDialog(fDictionaryPath.getShell());
 		if (dialog.open() == Window.OK)
-			fDictionaryPath.setText(fDictionaryPath.getText() + dialog.getVariableExpression());
+			fDictionaryPath.setText(fDictionaryPath.getText() + dialog.getVariableExpression()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -673,17 +673,17 @@ public class SpellingConfigurationBlock extends OptionsConfigurationBlock {
 	 * @param enabled the new state
 	 * @since 3.1
 	 */
-	protected void setEnabled(boolean enabled) {
+	protected void setEnabled(boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fEncodingEditor.setEnabled(enabled, fEncodingEditorParent);
 
 		if (enabled && fEnabledControls != null) {
-			for (int i= fEnabledControls.length - 1; i >= 0; i--)
+			for (int i= fEnabledControls.length - 1; i >= 0; i--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fEnabledControls[i].setEnabled(true);
 			fEnabledControls= null;
 		}
 		if (!enabled && fEnabledControls == null) {
-			List<Control> enabledControls= new ArrayList<>();
-			for (int i= fAllControls.length - 1; i >= 0; i--) {
+			List<Control> enabledControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= fAllControls.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Control control= fAllControls[i];
 				if (control.isEnabled()) {
 					enabledControls.add(control);

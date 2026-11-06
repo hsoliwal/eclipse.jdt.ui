@@ -224,7 +224,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	/**
 	 * Organizes SearchResults by CompilationUnit
 	 */
-	private Map<ICompilationUnit, SearchResultGroup> fCuToSearchResultGroup= new HashMap<>();
+	private Map<ICompilationUnit, SearchResultGroup> fCuToSearchResultGroup= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 
 	/**
@@ -257,7 +257,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param selectionLength selection length
 	 * @param selectedType selected type
 	 */
-	public ChangeTypeRefactoring(ICompilationUnit cu, int selectionStart, int selectionLength, String selectedType) {
+	public ChangeTypeRefactoring(ICompilationUnit cu, int selectionStart, int selectionLength, String selectedType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(selectionStart >= 0);
 		Assert.isTrue(selectionLength >= 0);
 
@@ -272,8 +272,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 		if (selectedType != null)
 			fSelectedTypeName= selectedType;
 
-		fConstraintCache= new HashMap<>();
-		fValidTypes= new HashSet<>();
+		fConstraintCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fValidTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	public ChangeTypeRefactoring(JavaRefactoringArguments arguments, RefactoringStatus status) {
@@ -307,20 +307,20 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param pm progress monitor
 	 * @return returns the resulting status
 	 */
-	private RefactoringStatus checkSelection(IProgressMonitor pm) {
+	private RefactoringStatus checkSelection(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			pm.beginTask("", 5); //$NON-NLS-1$
 
 			ASTNode node= getTargetNode(fCu, fSelectionStart, fSelectionLength);
 			if (DEBUG) {
 				System.out.println(
-					"selection: [" //$NON-NLS-1$
+					"selection: [" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ fSelectionStart
 						+ "," //$NON-NLS-1$
 						+ (fSelectionStart + fSelectionLength)
 						+ "] in " //$NON-NLS-1$
 						+ fCu.getElementName());
-				System.out.println("node= " + node + ", type= " + node.getClass().getName()); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println("node= " + node + ", type= " + node.getClass().getName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			TypeConstraintFactory typeConstraintFactory = new TypeConstraintFactory(){
@@ -342,7 +342,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 			String selectionValid= determineSelection(node);
 			if (selectionValid != null){
 				if (DEBUG){
-					System.out.println("invalid selection: " + selectionValid); //$NON-NLS-1$
+					System.out.println("invalid selection: " + selectionValid); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 				return RefactoringStatus.createFatalErrorStatus(selectionValid);
 			}
@@ -359,7 +359,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 			RefactoringStatus result= new RefactoringStatus();
 
 			if (DEBUG){
-				System.out.println("fSelectionTypeBinding: " + fSelectionTypeBinding.getName()); //$NON-NLS-1$
+				System.out.println("fSelectionTypeBinding: " + fSelectionTypeBinding.getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 
 			// produce error message if array or primitive type is selected
@@ -402,7 +402,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	private boolean checkOverriddenBinaryMethods() {
 		if (fMethodBinding != null){
 			Set<ITypeBinding> declaringSupertypes= getDeclaringSuperTypes(fMethodBinding);
-			for (ITypeBinding superType : declaringSupertypes) {
+			for (ITypeBinding superType : declaringSupertypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethodBinding overriddenMethod= findMethod(fMethodBinding, superType);
 				Assert.isNotNull(overriddenMethod);//because we asked for declaring types
 				IMethod iMethod= (IMethod) overriddenMethod.getJavaElement();
@@ -423,8 +423,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 
 	// copied from FullConstraintCreator
 	private static Set<ITypeBinding> getDeclaringSuperTypes(IMethodBinding methodBinding) {
-		Set<ITypeBinding> result= new HashSet<>();
-		for (ITypeBinding type : Bindings.getAllSuperTypes(methodBinding.getDeclaringClass())) {
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ITypeBinding type : Bindings.getAllSuperTypes(methodBinding.getDeclaringClass())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (findMethod(methodBinding, type) != null)
 				result.add(type);
 		}
@@ -437,13 +437,13 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param pm the progress monitor
 	 * @return the valid types
 	 */
-	public Collection<ITypeBinding> computeValidTypes(IProgressMonitor pm) {
+	public Collection<ITypeBinding> computeValidTypes(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_checking_preconditions, 100);
 
 		try {
 			fCv= findConstraintVariableForSelectedNode(Progress.subMonitor(pm, 3));
-			if (DEBUG) System.out.println("selected CV: " + fCv +  //$NON-NLS-1$
+			if (DEBUG) System.out.println("selected CV: " + fCv +  //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										  " (" + fCv.getClass().getName() +  //$NON-NLS-1$
 										  ")");  //$NON-NLS-1$
 
@@ -466,7 +466,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 			if (DEBUG)
 				printCollection("valid types:", getValidTypeNames()); //$NON-NLS-1$
 		} catch (CoreException e) {
-			JavaManipulationPlugin.logErrorMessage("Error occurred during computation of valid types: " + e.toString()); //$NON-NLS-1$
+			JavaManipulationPlugin.logErrorMessage("Error occurred during computation of valid types: " + e.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fValidTypes.clear(); // error occurred during computation of valid types
 		}
 
@@ -493,13 +493,13 @@ public class ChangeTypeRefactoring extends Refactoring {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.refactoring.base.IRefactoring#createChange(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeMessages_CreateChangesForChangeType, 1);
 		try {
-			Map<ICompilationUnit, Set<ConstraintVariable>> relevantVarsByUnit= new HashMap<>();
+			Map<ICompilationUnit, Set<ConstraintVariable>> relevantVarsByUnit= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			groupChangesByCompilationUnit(relevantVarsByUnit);
-			final Map<String, String> arguments= new HashMap<>();
+			final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			String project= null;
 			IJavaProject javaProject= fCu.getJavaProject();
 			if (javaProject != null)
@@ -512,10 +512,10 @@ public class ChangeTypeRefactoring extends Refactoring {
 			comment.addSetting(Messages.format(RefactoringCoreMessages.ChangeTypeRefactoring_refactored_type_pattern, BindingLabelProviderCore.getBindingLabel(fSelectedType, JavaElementLabelsCore.ALL_FULLY_QUALIFIED)));
 			final GeneralizeTypeDescriptor descriptor= RefactoringSignatureDescriptorFactory.createGeneralizeTypeDescriptor(project, description, comment.asString(), arguments, (RefactoringDescriptor.STRUCTURAL_CHANGE | JavaRefactoringDescriptor.JAR_REFACTORING | JavaRefactoringDescriptor.JAR_SOURCE_ATTACHMENT));
 			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fCu));
-			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$
+			arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION, Integer.toString(fSelectionStart) + " " + Integer.toString(fSelectionLength)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			arguments.put(ATTRIBUTE_TYPE, fSelectedType.getQualifiedName());
 			final DynamicValidationRefactoringChange result= new DynamicValidationRefactoringChange(descriptor, RefactoringCoreMessages.ChangeTypeRefactoring_allChanges);
-			for (Map.Entry<ICompilationUnit, Set<ConstraintVariable>> entry : relevantVarsByUnit.entrySet()) {
+			for (Map.Entry<ICompilationUnit, Set<ConstraintVariable>> entry : relevantVarsByUnit.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ICompilationUnit icu = entry.getKey();
 				Set<ConstraintVariable> cVars= entry.getValue();
 				CompilationUnitChange cuChange= new CompilationUnitChange(getName(), icu);
@@ -561,7 +561,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 		// use custom SourceRangeComputer to avoid losing comments
 		unitRewriter.setTargetSourceRangeComputer(new SourceRangeComputer());
 
-		for (ConstraintVariable cv : vars) {
+		for (ConstraintVariable cv : vars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode decl= findDeclaration(unit, cv);
 			if ((decl instanceof SimpleName || decl instanceof QualifiedName) && cv instanceof ExpressionVariable) {
 				ASTNode gp= decl.getParent().getParent();
@@ -574,7 +574,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 		}
 	}
 
-	private void updateType(CompilationUnit cu, Type oldType, CompilationUnitChange unitChange,
+	private void updateType(CompilationUnit cu, Type oldType, CompilationUnitChange unitChange, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							ASTRewrite unitRewriter, String typeName, ImportRemover remover) {
 
 		String oldName= fSelectionTypeBinding.getName();
@@ -610,11 +610,11 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * handle the nested case (e.g., Vector<Vector<String>>).
 	 * @return the created type
 	 */
-	private Type createParameterizedType(AST ast, ITypeBinding typeBinding){
+	private Type createParameterizedType(AST ast, ITypeBinding typeBinding){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeBinding.isParameterizedType() && !typeBinding.isRawType()){
 			Type baseType= ast.newSimpleType(ASTNodeFactory.newName(ast, typeBinding.getErasure().getName()));
 			ParameterizedType newType= ast.newParameterizedType(baseType);
-			for (int i=0; i < typeBinding.getTypeArguments().length; i++){
+			for (int i=0; i < typeBinding.getTypeArguments().length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding typeArg= typeBinding.getTypeArguments()[i];
 				Type argType= createParameterizedType(ast, typeArg); // recursive call
 				newType.typeArguments().add(argType);
@@ -631,8 +631,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 
 
 
-	private void groupChangesByCompilationUnit(Map<ICompilationUnit, Set<ConstraintVariable>> relevantVarsByUnit) {
-		for (ConstraintVariable cv : fRelevantVars) {
+	private void groupChangesByCompilationUnit(Map<ICompilationUnit, Set<ConstraintVariable>> relevantVarsByUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ConstraintVariable cv : fRelevantVars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(cv instanceof ExpressionVariable) && !(cv instanceof ReturnTypeVariable)){
 				continue;
 			}
@@ -646,13 +646,13 @@ public class ChangeTypeRefactoring extends Refactoring {
 				icu= ((IMethod) mb.getJavaElement()).getCompilationUnit();
 			}
 			if (!relevantVarsByUnit.containsKey(icu)){
-				relevantVarsByUnit.put(icu, new HashSet<>());
+				relevantVarsByUnit.put(icu, new HashSet<>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			}
 			relevantVarsByUnit.get(icu).add(cv);
 		}
 	}
 
-	private ASTNode findDeclaration(CompilationUnit root, ConstraintVariable cv) throws JavaModelException {
+	private ASTNode findDeclaration(CompilationUnit root, ConstraintVariable cv) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fFieldBinding != null){
 			IField f= (IField) fFieldBinding.getJavaElement();
@@ -660,7 +660,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 		}
 
 		if (cv instanceof ExpressionVariable){
-			for (ITypeConstraint constraint : fAllConstraints) {
+			for (ITypeConstraint constraint : fAllConstraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (constraint.isSimpleTypeConstraint()){
 					SimpleTypeConstraint stc= (SimpleTypeConstraint)constraint;
 					if (stc.isDefinesConstraint() && stc.getLeft().equals(cv)){
@@ -681,7 +681,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 		return null;
 	}
 
-	private static Type getType(ASTNode node) {
+	private static Type getType(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch(node.getNodeType()){
 			case ASTNode.SINGLE_VARIABLE_DECLARATION:
 				return ((SingleVariableDeclaration) node).getType();
@@ -720,14 +720,14 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * is returned if the ChangeTypeRefactoring refactoring cannot be applied to the selected ASTNode.
 	 * A return value of null indicates a valid selection.
 	 */
-	private String determineSelection(ASTNode node) {
+	private String determineSelection(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null) {
 			return RefactoringCoreMessages.ChangeTypeRefactoring_invalidSelection;
 		} else {
 
-			if (DEBUG) System.out.println("node nodeType= " + node.getClass().getName()); //$NON-NLS-1$
-			if (DEBUG) System.out.println("parent nodeType= " + node.getParent().getClass().getName()); //$NON-NLS-1$
-			if (DEBUG) System.out.println("GrandParent nodeType= " + node.getParent().getParent().getClass().getName()); //$NON-NLS-1$
+			if (DEBUG) System.out.println("node nodeType= " + node.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			if (DEBUG) System.out.println("parent nodeType= " + node.getParent().getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			if (DEBUG) System.out.println("GrandParent nodeType= " + node.getParent().getParent().getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			ASTNode parent= node.getParent();
 			ASTNode grandParent= parent.getParent();
@@ -743,7 +743,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 			ASTNode current= null;
 			if (node.getNodeType() == ASTNode.QUALIFIED_NAME){
 				current= node;
-				while (current.getNodeType() == ASTNode.QUALIFIED_NAME){
+				while (current.getNodeType() == ASTNode.QUALIFIED_NAME){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					current= current.getParent();
 				}
 				if (current.getNodeType() != ASTNode.SIMPLE_TYPE){
@@ -752,7 +752,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 				node= current.getParent();
 			} else if (parent.getNodeType() == ASTNode.QUALIFIED_NAME){
 				current= parent;
-				while (current.getNodeType() == ASTNode.QUALIFIED_NAME){
+				while (current.getNodeType() == ASTNode.QUALIFIED_NAME){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					current= current.getParent();
 				}
 				if (current.getNodeType() != ASTNode.SIMPLE_TYPE){
@@ -801,7 +801,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param pt the type
 	 * @return the message
 	  */
-	private String parameterizedTypeSelected(ParameterizedType pt) {
+	private String parameterizedTypeSelected(ParameterizedType pt) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= pt.getParent();
 		if (parent.getNodeType() == ASTNode.METHOD_DECLARATION){
 			fMethodBinding= ((MethodDeclaration)parent).resolveBinding();
@@ -859,7 +859,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param simpleName the name
 	 * @return the message
 	 */
-	private String simpleNameSelected(SimpleName simpleName) {
+	private String simpleNameSelected(SimpleName simpleName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= simpleName.getParent();
 		ASTNode grandParent= parent.getParent();
 
@@ -964,19 +964,19 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * Find a ConstraintVariable that corresponds to the selected ASTNode.
 	 * @return the ConstraintVariable
 	 */
-	private ConstraintVariable findConstraintVariableForSelectedNode(IProgressMonitor pm) {
+	private ConstraintVariable findConstraintVariableForSelectedNode(IProgressMonitor pm) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_analyzingMessage, 100);
 		ICompilationUnit[] cus= { fCu }; // only search in CU containing selection
 
 		if (DEBUG){
-			System.out.println("Effective selection: " + fEffectiveSelectionStart + "/" + fEffectiveSelectionLength); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println("Effective selection: " + fEffectiveSelectionStart + "/" + fEffectiveSelectionLength); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		Collection<ITypeConstraint> allConstraints= getConstraints(cus, Progress.subMonitor(pm, 50));
 
 		IProgressMonitor subMonitor= Progress.subMonitor(pm, 50);
 		subMonitor.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_analyzingMessage, allConstraints.size());
-		for (ITypeConstraint tc : allConstraints) {
+		for (ITypeConstraint tc : allConstraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			subMonitor.worked(1);
 			if (! (tc instanceof SimpleTypeConstraint))
 				continue;
@@ -997,7 +997,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param cv the ConstraintVariable
 	 * @return <code>true</code> if the given ConstraintVariable matches the selected ASTNode
 	 */
-	private boolean matchesSelection(ConstraintVariable cv){
+	private boolean matchesSelection(ConstraintVariable cv){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (cv instanceof ExpressionVariable){
 			ExpressionVariable ev= (ExpressionVariable)cv;
 			return (fSelectionBinding != null && Bindings.equals(fSelectionBinding, ev.getExpressionBinding()));
@@ -1024,20 +1024,20 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * to it.
 	 * @return the constraint variables
 	 */
-	private Collection<ConstraintVariable> findRelevantConstraintVars(ConstraintVariable cv, IProgressMonitor pm) throws CoreException {
+	private Collection<ConstraintVariable> findRelevantConstraintVars(ConstraintVariable cv, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_analyzingMessage, 150);
-		Collection<ConstraintVariable> result= new HashSet<>();
+		Collection<ConstraintVariable> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		result.add(cv);
 		ICompilationUnit[] cus= collectAffectedUnits(Progress.subMonitor(pm, 50));
 		Collection<ITypeConstraint> allConstraints= getConstraints(cus, Progress.subMonitor(pm, 50));
 
-		List<ConstraintVariable> workList= new ArrayList<>(result);
-		while(! workList.isEmpty()){
+		List<ConstraintVariable> workList= new ArrayList<>(result); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while(! workList.isEmpty()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			pm.worked(10);
 
 			ConstraintVariable first= workList.remove(0);
-			for (ITypeConstraint typeConstraint : allConstraints) {
+			for (ITypeConstraint typeConstraint : allConstraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				pm.worked(1);
 				if (! typeConstraint.isSimpleTypeConstraint())
 					continue;
@@ -1072,7 +1072,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * Select the type constraints that involve the selected ASTNode.
 	 * @return the result
 	 */
-	private Collection<ITypeConstraint> findRelevantConstraints(Collection<ConstraintVariable> relevantConstraintVars,
+	private Collection<ITypeConstraint> findRelevantConstraints(Collection<ConstraintVariable> relevantConstraintVars, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 																	IProgressMonitor pm) throws CoreException {
 
 		ICompilationUnit[] cus= collectAffectedUnits(Progress.subMonitor(pm, 100));
@@ -1083,8 +1083,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 
 
 		if (DEBUG) printCollection("type constraints: ", fAllConstraints); //$NON-NLS-1$
-		Collection<ITypeConstraint> result= new ArrayList<>();
-		for (ITypeConstraint tc : fAllConstraints) {
+		Collection<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ITypeConstraint tc : fAllConstraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tc.isSimpleTypeConstraint()) {
 				SimpleTypeConstraint stc= (SimpleTypeConstraint) tc;
 				if (stc.isDefinesConstraint() || stc.isEqualsConstraint())
@@ -1097,7 +1097,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 					result.add(tc);
 			} else {
 				CompositeOrTypeConstraint cotc= (CompositeOrTypeConstraint) tc;
-				for (ITypeConstraint component : cotc.getConstraints()) {
+				for (ITypeConstraint component : cotc.getConstraints()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SimpleTypeConstraint simpleComponent= (SimpleTypeConstraint) component;
 					if (relevantConstraintVars.contains(simpleComponent.getLeft()))
 						result.add(tc);
@@ -1129,14 +1129,14 @@ public class ChangeTypeRefactoring extends Refactoring {
 	static String print(Collection<ITypeBinding> types){
 		if (types.isEmpty())
 			return "{ }"; //$NON-NLS-1$
-		StringBuilder result = new StringBuilder("{ "); //$NON-NLS-1$
-		for (Iterator<ITypeBinding> it=types.iterator(); it.hasNext(); ){
+		StringBuilder result = new StringBuilder("{ "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (Iterator<ITypeBinding> it=types.iterator(); it.hasNext(); ){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding type= it.next();
-			result.append(type.getQualifiedName());
+			result.append(type.getQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (it.hasNext()){
-				result.append(", ");  //$NON-NLS-1$
+				result.append(", ");  //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				result.append(" }"); //$NON-NLS-1$
+				result.append(" }"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return result.toString();
@@ -1147,17 +1147,17 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * Determines the set of types for which a set of type constraints is satisfied.
 	 * @return the valid types
 	 */
-	private Collection<ITypeBinding> computeValidTypes(ITypeBinding originalType,
+	private Collection<ITypeBinding> computeValidTypes(ITypeBinding originalType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<ConstraintVariable> relevantVars,
 			Collection<ITypeConstraint> relevantConstraints,
 			IProgressMonitor pm) throws JavaModelException {
 
-		Collection<ITypeBinding> result= new HashSet<>();
+		Collection<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		Collection<ITypeBinding> allTypes= new HashSet<>(getAllSuperTypes(originalType));
+		Collection<ITypeBinding> allTypes= new HashSet<>(getAllSuperTypes(originalType)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_analyzingMessage, allTypes.size());
 
-		for (ITypeBinding type : allTypes) {
+		for (ITypeBinding type : allTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isValid(type, relevantVars, relevantConstraints, Progress.subMonitor(pm, 1))) {
 				if (checkTypeParameterConflict(relevantVars, type)) {
 					result.add(type);
@@ -1181,14 +1181,14 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 *
 	 * @return TRUE if no conflict found
 	 */
-	private boolean checkTypeParameterConflict(Collection<ConstraintVariable> relevantVars, ITypeBinding replaceTypeTo) {
-		for (ConstraintVariable constraintVariable : relevantVars) {
+	private boolean checkTypeParameterConflict(Collection<ConstraintVariable> relevantVars, ITypeBinding replaceTypeTo) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (ConstraintVariable constraintVariable : relevantVars) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (constraintVariable instanceof ParameterTypeVariable) {
 				ParameterTypeVariable parameterTypeVariable= (ParameterTypeVariable) constraintVariable;
 				ITypeBinding declaringClass= parameterTypeVariable.getMethodBinding().getDeclaringClass();
 				ITypeBinding[] parameterTypeVariableTypes= parameterTypeVariable.getMethodBinding().getParameterTypes();
-				List<IMethodBinding> possibleConflictMethods= new ArrayList<>();
-				for (IMethodBinding declaredMethod : declaringClass.getDeclaredMethods()) {
+				List<IMethodBinding> possibleConflictMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IMethodBinding declaredMethod : declaringClass.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (declaredMethod.getName().equals(parameterTypeVariable.getMethodBinding().getName()) &&
 							declaredMethod.getParameterTypes().length == parameterTypeVariableTypes.length) {
 						// if method name and number of parameters match it might be a conflict
@@ -1198,10 +1198,10 @@ public class ChangeTypeRefactoring extends Refactoring {
 				if (possibleConflictMethods.size() < 2) {
 					continue; // no conflicting methods
 				}
-				mLoop: for (IMethodBinding declaredMethod : possibleConflictMethods) {
+				mLoop: for (IMethodBinding declaredMethod : possibleConflictMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding[] parameterTypes= declaredMethod.getParameterTypes();
 					/* check if other parameter Types are equal, if not this method is ok */
-					for (int i= 0; i < parameterTypes.length; i++) {
+					for (int i= 0; i < parameterTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (i == fParamIndex) {
 							continue;
 						}
@@ -1224,19 +1224,19 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * Determines if a given type satisfies a set of type constraints.
 	 * @return <code>true</code> if a the type satisfies a set of type constraints.
 	 */
-	private boolean isValid(ITypeBinding type,
+	private boolean isValid(ITypeBinding type, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							Collection<ConstraintVariable> relevantVars,
 							Collection<ITypeConstraint> constraints,
 							IProgressMonitor pm) throws JavaModelException {
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_analyzingMessage, constraints.size());
 
-		for(ICompilationUnit cu: fAffectedUnits){
+		for(ICompilationUnit cu: fAffectedUnits){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!JavaModelUtil.isVisibleInHierarchy((IMember) (type.getJavaElement()), (IPackageFragment) cu.getParent())) {
 				return false;
 			}
 		}
 
-		for (ITypeConstraint tc : constraints) {
+		for (ITypeConstraint tc : constraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tc instanceof SimpleTypeConstraint) {
 				if (!(isValidSimpleConstraint(type,  relevantVars, (SimpleTypeConstraint) tc)))
 					return false;
@@ -1265,7 +1265,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	private boolean isValidOrConstraint(ITypeBinding type,
 										Collection<ConstraintVariable> relevantVars,
 										CompositeOrTypeConstraint cotc){
-		for (ITypeConstraint component : cotc.getConstraints()) {
+		for (ITypeConstraint component : cotc.getConstraints()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (component instanceof SimpleTypeConstraint) {
 				SimpleTypeConstraint sc= (SimpleTypeConstraint) component;
 				if (relevantVars.contains(sc.getLeft())) { // upper bound
@@ -1280,12 +1280,12 @@ public class ChangeTypeRefactoring extends Refactoring {
 		return false;
 	}
 
-	private boolean checkSuperTypeScope(ITypeBinding superType) {
+	private boolean checkSuperTypeScope(ITypeBinding superType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ("java.lang.Object".equals(superType.getQualifiedName())) { //$NON-NLS-1$
 			return false; // we'll never propose Object
 		}
 
-		for (ITypeConstraint tc : fRelevantConstraints) {
+		for (ITypeConstraint tc : fRelevantConstraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tc.isSimpleTypeConstraint()) {
 				SimpleTypeConstraint stc= (SimpleTypeConstraint) tc;
 
@@ -1329,8 +1329,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 */
 	private Collection<ITypeConstraint> getConstraints(ICompilationUnit[] referringCus, IProgressMonitor pm) {
 		pm.beginTask(RefactoringCoreMessages.ChangeTypeRefactoring_analyzingMessage, referringCus.length);
-		Collection<ITypeConstraint> result= new ArrayList<>();
-		for (ICompilationUnit referringCu : referringCus) {
+		Collection<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ICompilationUnit referringCu : referringCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(getConstraints(referringCu));
 			pm.worked(1);
 			if (pm.isCanceled())
@@ -1340,7 +1340,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 		return result;
 	}
 
-	private List<ITypeConstraint> getConstraints(ICompilationUnit unit) {
+	private List<ITypeConstraint> getConstraints(ICompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fConstraintCache.containsKey(unit))
 			return fConstraintCache.get(unit);
 
@@ -1349,10 +1349,10 @@ public class ChangeTypeRefactoring extends Refactoring {
 		// only generate type constraints for relevant MethodDeclaration subtrees
 		if (fMethodBinding != null && fCuToSearchResultGroup.containsKey(unit)){
 			SearchResultGroup group= fCuToSearchResultGroup.get(unit);
-			for (ASTNode node : ASTNodeSearchUtil.getAstNodes(group.getSearchResults(), cu)) {
+			for (ASTNode node : ASTNodeSearchUtil.getAstNodes(group.getSearchResults(), cu)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// find MethodDeclaration above it in the tree
 				ASTNode n= node;
-				while (n != null && !(n instanceof MethodDeclaration)) {
+				while (n != null && !(n instanceof MethodDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					n = n.getParent();
 				}
 				MethodDeclaration md= (MethodDeclaration) n;
@@ -1385,7 +1385,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 		List<ImportDeclaration> declList= astRoot.imports();
 		ImportDeclaration oldImport= null;
 		String importStr= getImport(fSelectionTypeBinding.getQualifiedName());
-		for (ImportDeclaration decl: declList) {
+		for (ImportDeclaration decl: declList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decl.getName().getFullyQualifiedName().equals(importStr)) {
 				oldImport= decl;
 				break;
@@ -1432,17 +1432,17 @@ public class ChangeTypeRefactoring extends Refactoring {
 	}
 
 	public String getTarget() {
-		String typeName= fSelectionTypeBinding == null ? "" : fSelectionTypeBinding.getName() + " ";  //$NON-NLS-1$//$NON-NLS-2$
+		String typeName= fSelectionTypeBinding == null ? "" : fSelectionTypeBinding.getName() + " ";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (fFieldBinding != null) {
-			return typeName + fFieldBinding.getName();
+			return typeName + fFieldBinding.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else if (fMethodBinding != null) {
 			if (fParamIndex == -1) {
-				return typeName + fMethodBinding.getName() + "(...)"; //$NON-NLS-1$
+				return typeName + fMethodBinding.getName() + "(...)"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
-				return typeName + fParamName;
+				return typeName + fParamName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} else if (fSelectionBinding != null) {
-			return typeName + fSelectionBinding.getName();
+			return typeName + fSelectionBinding.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			return typeName;
 		}
@@ -1454,8 +1454,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @return {@code Collection<String>} of names of types that can be given to the selected declaration
 	 */
 	public Collection<String> getValidTypeNames() {
-		Collection<String> typeNames= new ArrayList<>();
-		for (ITypeBinding type : fValidTypes) {
+		Collection<String> typeNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ITypeBinding type : fValidTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			typeNames.add(type.getQualifiedName());
 		}
 
@@ -1481,7 +1481,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @param pm the monitor
 	 * @return the affected units
 	 */
-	private ICompilationUnit[] collectAffectedUnits(IProgressMonitor pm) throws CoreException {
+	private ICompilationUnit[] collectAffectedUnits(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// BUG: currently, no type constraints are generated for methods that are related
 		// but that do not override each other. As a result, we may miss certain relevant
 		// variables
@@ -1556,8 +1556,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 		}
 		if (DEBUG) {
 			System.out.println("Determining affected CUs:"); //$NON-NLS-1$
-			for (ICompilationUnit affectedUnit : fAffectedUnits) {
-				System.out.println("  affected CU: " + affectedUnit.getElementName()); //$NON-NLS-1$
+			for (ICompilationUnit affectedUnit : fAffectedUnits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				System.out.println("  affected CU: " + affectedUnit.getElementName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		pm.done();
@@ -1584,9 +1584,9 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * For debugging.
 	 */
 	void printCollection(String title, Collection<?> l) {
-		System.out.println(l.size() + " " + title); //$NON-NLS-1$
-		for (Object name : l) {
-			System.out.println("  " + name); //$NON-NLS-1$
+		System.out.println(l.size() + " " + title); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		for (Object name : l) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			System.out.println("  " + name); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -1595,8 +1595,8 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @return the CUs
 	 */
 	private ICompilationUnit[] getCus(SearchResultGroup[] groups) {
-		List<ICompilationUnit> result= new ArrayList<>(groups.length);
-		for (SearchResultGroup group : groups) {
+		List<ICompilationUnit> result= new ArrayList<>(groups.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchResultGroup group : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu= group.getCompilationUnit();
 			if (cu != null) {
 				result.add(cu);
@@ -1612,12 +1612,12 @@ public class ChangeTypeRefactoring extends Refactoring {
 	 * @return the super types
 	 */
 	public Set<ITypeBinding> getAllSuperTypes(ITypeBinding type){
-		Set<ITypeBinding> result= new HashSet<>();
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		result.add(type);
 		if (type.getSuperclass() != null){
 			result.addAll(getAllSuperTypes(type.getSuperclass()));
 		}
-		for (ITypeBinding intf : type.getInterfaces()) {
+		for (ITypeBinding intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(getAllSuperTypes(intf));
 		}
 		if ((type != fObject) && !contains(result, fObject)){
@@ -1628,7 +1628,7 @@ public class ChangeTypeRefactoring extends Refactoring {
 
 	private ITypeBinding findSuperTypeByName(ITypeBinding type, String superTypeName){
 		Set<ITypeBinding> superTypes= getAllSuperTypes(type);
-		for (ITypeBinding sup : superTypes) {
+		for (ITypeBinding sup : superTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (sup.getQualifiedName().equals(superTypeName)){
 				return sup;
 			}
@@ -1647,13 +1647,13 @@ public class ChangeTypeRefactoring extends Refactoring {
 	}
 
 	private static boolean contains(Collection<ITypeBinding> c, ITypeBinding binding){
-		for (ITypeBinding b : c) {
+		for (ITypeBinding b : c) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Bindings.equals(b, binding)) return true;
 		}
 		return false;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String selection= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_SELECTION);
 		if (selection != null) {
 			int offset= -1;

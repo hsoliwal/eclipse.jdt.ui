@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.internal.corext.refactoring.structure.ChangeTypeRefactoring;
 import org.eclipse.jdt.internal.corext.util.CollectionsUtil;
 
-class ChangeTypeContentProvider implements ITreeContentProvider {
+class ChangeTypeContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	private ChangeTypeRefactoring fGeneralizeType;
 
@@ -56,7 +56,7 @@ class ChangeTypeContentProvider implements ITreeContentProvider {
 	 * interface.
 	 */
 	public Set<ITypeBinding> getDirectSuperTypes(ITypeBinding type){
-		Set<ITypeBinding> result= new HashSet<>();
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (type.getSuperclass() != null){
 			result.add(type.getSuperclass());
 		}

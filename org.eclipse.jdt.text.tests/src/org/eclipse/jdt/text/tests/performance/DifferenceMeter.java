@@ -75,9 +75,9 @@ final class DifferenceMeter extends InternalPerformanceMeter {
 		super.dispose();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Sample getSample() {
-		Map<String, String> properties= new HashMap<>();
+		Map<String, String> properties= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		Sample reference= fReferenceMeter.getSample();
 		DataPoint[] referencePoints= reference.getDataPoints();
@@ -88,7 +88,7 @@ final class DifferenceMeter extends InternalPerformanceMeter {
 		Assert.assertEquals(referencePoints.length, measuredPoints.length);
 
 		DataPoint[] data= new DataPoint[referencePoints.length];
-		for (int i= 0; i < measuredPoints.length; i++) {
+		for (int i= 0; i < measuredPoints.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			DataPoint r= referencePoints[i];
 			DataPoint m= measuredPoints[i];
 
@@ -101,12 +101,12 @@ final class DifferenceMeter extends InternalPerformanceMeter {
 	/*
 	 * @see org.eclipse.test.internal.performance.InternalPerformanceMeter#printSample(java.io.PrintStream, org.eclipse.test.internal.performance.data.Sample)
 	 */
-	private DataPoint difference(DataPoint minuend, DataPoint subtrahend) {
+	private DataPoint difference(DataPoint minuend, DataPoint subtrahend) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int step= minuend.getStep();
 		Assert.assertEquals(step, subtrahend.getStep());
 
-		Map<Dim, Scalar> scalars= new HashMap<>();
-		for (Dim dimension : minuend.getDimensions2()) {
+		Map<Dim, Scalar> scalars= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (Dim dimension : minuend.getDimensions2()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Scalar m= minuend.getScalar(dimension);
 			Scalar s= subtrahend.getScalar(dimension);
 

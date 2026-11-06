@@ -35,7 +35,7 @@ public class LogicalPackage extends PlatformObject {
 
 	public LogicalPackage(IPackageFragment fragment){
 		Assert.isNotNull(fragment);
-		fPackages= new HashSet<>();
+		fPackages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fJavaProject= fragment.getJavaProject();
 		Assert.isNotNull(fJavaProject);
 		add(fragment);
@@ -91,7 +91,7 @@ public class LogicalPackage extends PlatformObject {
 	}
 
 	public boolean hasSubpackages() throws JavaModelException {
-		for (IPackageFragment pack : fPackages) {
+		for (IPackageFragment pack : fPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pack.hasSubpackages()) {
 				return true;
 			}
@@ -103,7 +103,7 @@ public class LogicalPackage extends PlatformObject {
 		return fName.length() == 0;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object o){
 		if (!(o instanceof LogicalPackage))
 			return false;
@@ -118,7 +118,7 @@ public class LogicalPackage extends PlatformObject {
 			return false;
 
 		//this works because a LogicalPackage cannot contain the same IPackageFragment twice
-		for (IPackageFragment fragment : fragments) {
+		for (IPackageFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(!fPackages.contains(fragment))
 				return false;
 		}

@@ -69,7 +69,7 @@ public class OpenTypeAction extends Action implements IWorkbenchWindowActionDele
 		runWithEvent(null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runWithEvent(Event e) {
 		Shell parent= JavaPlugin.getActiveWorkbenchShell();
 		if (! doCreateProjectFirstOnEmptyWorkspace(parent)) {
@@ -106,7 +106,7 @@ public class OpenTypeAction extends Action implements IWorkbenchWindowActionDele
 
 		MultiStatus multiStatus= new MultiStatus(JavaPlugin.getPluginId(), IJavaStatusConstants.INTERNAL_ERROR, JavaUIMessages.OpenTypeAction_multiStatusMessage, null);
 
-		for (Object t : types) {
+		for (Object t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType type= (IType) t;
 			try {
 				JavaUI.openInEditor(type, true, true);

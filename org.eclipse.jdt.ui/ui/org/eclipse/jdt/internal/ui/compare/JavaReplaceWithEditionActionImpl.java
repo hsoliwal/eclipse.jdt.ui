@@ -80,7 +80,7 @@ class JavaReplaceWithEditionActionImpl extends JavaHistoryActionImpl {
 		fPrevious= previous;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ISelection selection) {
 
 		Shell shell= getShell();
@@ -120,7 +120,7 @@ class JavaReplaceWithEditionActionImpl extends JavaHistoryActionImpl {
 			CompareConfiguration cc = new CompareConfiguration();
 			cc.setLeftEditable(false);
 			cc.setRightEditable(false);
-			HistoryPageCompareEditorInput ci = new HistoryPageCompareEditorInput(cc, pageSource, input) {
+			HistoryPageCompareEditorInput ci = new HistoryPageCompareEditorInput(cc, pageSource, input) { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				protected void performReplace(Object selectedElement) {
 					if (selectedElement instanceof ITypedElement) {
@@ -135,7 +135,7 @@ class JavaReplaceWithEditionActionImpl extends JavaHistoryActionImpl {
 		}
 	}
 
-	public void replace(IMember input, IFile file, ITypedElement element) {
+	public void replace(IMember input, IFile file, ITypedElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Shell shell= getShell();
 
@@ -171,7 +171,7 @@ class JavaReplaceWithEditionActionImpl extends JavaHistoryActionImpl {
 		}
 	}
 
-	private void performReplace(IMember input, IFile file,
+	private void performReplace(IMember input, IFile file, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ITextFileBuffer textFileBuffer, IDocument document, ITypedElement ti)
 			throws CoreException, JavaModelException,
 			InvocationTargetException, InterruptedException {

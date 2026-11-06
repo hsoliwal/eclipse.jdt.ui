@@ -60,14 +60,14 @@ public class CodeTemplateContext extends TemplateContext {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.template.TemplateContext#evaluate(org.eclipse.jdt.internal.corext.template.Template)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TemplateBuffer evaluate(Template template) throws BadLocationException, TemplateException {
 		// test that all variables are defined
 		Iterator<TemplateVariableResolver> iterator= getContextType().resolvers();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateVariableResolver var= iterator.next();
 			if (var instanceof CodeTemplateContextType.CodeTemplateVariableResolver) {
-				Assert.isNotNull(getVariable(var.getType()), "Variable " + var.getType() + "not defined"); //$NON-NLS-1$ //$NON-NLS-2$
+				Assert.isNotNull(getVariable(var.getType()), "Variable " + var.getType() + "not defined"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -82,7 +82,7 @@ public class CodeTemplateContext extends TemplateContext {
 		return buffer;
 	}
 
-	private static String changeLineDelimiter(String code, String lineDelim) {
+	private static String changeLineDelimiter(String code, String lineDelim) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ILineTracker tracker= new DefaultLineTracker();
 			tracker.set(code);
@@ -91,14 +91,14 @@ public class CodeTemplateContext extends TemplateContext {
 				return code;
 			}
 
-			StringBuilder buf= new StringBuilder();
-			for (int i= 0; i < nLines; i++) {
+			StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (int i= 0; i < nLines; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i != 0) {
-					buf.append(lineDelim);
+					buf.append(lineDelim); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				IRegion region = tracker.getLineInformation(i);
 				String line= code.substring(region.getOffset(), region.getOffset() + region.getLength());
-				buf.append(line);
+				buf.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return buf.toString();
 		} catch (BadLocationException e) {

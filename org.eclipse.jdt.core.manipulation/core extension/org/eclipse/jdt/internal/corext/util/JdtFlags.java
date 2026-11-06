@@ -129,7 +129,7 @@ public class JdtFlags {
 			return false;
 		// An enum type is implicitly final unless it contains at least one enum constant that has a class body.
 		IJavaElement[] children= member.getChildren();
-		for (IJavaElement child : children) {
+		for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isEnumConstant((IMember) child) && ((IField) child).getChildren().length != 0) {
 				return false;
 			}
@@ -371,7 +371,7 @@ public class JdtFlags {
 	 * @see Modifier#NONE
 	 * @see Modifier#PRIVATE
 	 */
-	public static boolean isHigherVisibility(int newVisibility, int oldVisibility){
+	public static boolean isHigherVisibility(int newVisibility, int oldVisibility){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertVisibility(oldVisibility);
 		assertVisibility(newVisibility);
 		switch (oldVisibility) {

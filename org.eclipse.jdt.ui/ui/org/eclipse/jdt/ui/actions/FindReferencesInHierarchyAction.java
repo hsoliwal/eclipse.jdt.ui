@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.search.SearchMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FindReferencesInHierarchyAction extends FindReferencesAction {
+public class FindReferencesInHierarchyAction extends FindReferencesAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Creates a new <code>FindReferencesInHierarchyAction</code>. The action

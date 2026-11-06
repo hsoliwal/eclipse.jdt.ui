@@ -46,7 +46,7 @@ public class NameProposerTest {
 		JavaProjectHelper.delete(fJProject1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void getterSetterName() throws Exception {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 
@@ -105,7 +105,7 @@ public class NameProposerTest {
 	}
 
 	private void assertEqualString(String expected, String actual) {
-		assertEquals("Expected '" + expected + "', is '" + actual + "'", expected, actual);
+		assertEquals("Expected '" + expected + "', is '" + actual + "'", expected, actual); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

@@ -82,19 +82,19 @@ public class CodeFormatterUtilTest extends CoreTests {
 			Document doc= createDocument(string, positions);
 			edit.apply(doc, 0);
 			if (positions != null) {
-				for (Position position : positions) {
+				for (Position position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Assert.isTrue(!position.isDeleted, "Position got deleted"); //$NON-NLS-1$
 				}
 			}
 			return doc.get();
 		} catch (BadLocationException e) {
 			JavaPlugin.log(e); // bug in the formatter
-			Assert.isTrue(false, "Formatter created edits with wrong positions: " + e.getMessage()); //$NON-NLS-1$
+			Assert.isTrue(false, "Formatter created edits with wrong positions: " + e.getMessage()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return null;
 	}
 
-	private static Document createDocument(String string, Position[] positions) throws IllegalArgumentException {
+	private static Document createDocument(String string, Position[] positions) throws IllegalArgumentException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Document doc= new Document(string);
 		try {
 			if (positions != null) {
@@ -111,11 +111,11 @@ public class CodeFormatterUtilTest extends CoreTests {
 						return true;
 					}
 				});
-				for (Position position : positions) {
+				for (Position position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						doc.addPosition(POS_CATEGORY, position);
 					} catch (BadLocationException e) {
-						throw new IllegalArgumentException("Position outside of string. offset: " + position.offset + ", length: " + position.length + ", string size: " + string.length()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+						throw new IllegalArgumentException("Position outside of string. offset: " + position.offset + ", length: " + position.length + ", string size: " + string.length()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -126,7 +126,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCU() throws Exception {
 		String contents= """
 			package test1;
@@ -152,7 +152,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 		assertEqualString(formatted, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUIndented() throws Exception {
 		String contents= """
 			package test1;
@@ -178,7 +178,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 		assertEqualString(formatted, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUNewAPI() throws Exception {
 		String contents= """
 			package test1;
@@ -207,7 +207,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 		assertEqualString(formatted, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUNewAPI2() throws Exception {
 		String contents= """
 			package test1;
@@ -242,7 +242,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 		assertEqualString(formatted, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCUWithPos() throws Exception {
 		String contents= """
 			package test1;
@@ -296,7 +296,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 		assertEqualString(document.get(), str);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageWithPos() throws Exception {
 		String contents= """
 			package   com . test1;""";
@@ -329,7 +329,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarDeclStatemenetWithPos() throws Exception {
 		String contents= """
 			x[ ]=
@@ -363,7 +363,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadoc() throws Exception {
 		String contents= """
 			/** bar
@@ -402,7 +402,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadoc2() throws Exception {
 		String contents= """
 			/** bar
@@ -440,7 +440,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadoc3() throws Exception {
 		String contents= """
 			/** bar
@@ -478,7 +478,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCatchClause() throws Exception {
 		String contents= """
 			catch
@@ -533,7 +533,7 @@ public class CodeFormatterUtilTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFormatSubstring() throws Exception {
 		String contents= """
 			package test1;

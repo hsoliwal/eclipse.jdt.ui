@@ -64,16 +64,16 @@ public class ExtractConstantTests extends GenericRefactoringTest {
 	}
 
 	protected String getSimpleTestFileName(boolean canInline, boolean input) {
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canInline)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	protected String getTestFileName(boolean canExtract, boolean input) {
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canExtract ? "canExtract/": "cannotExtract/");
-		return fileName.append(getSimpleTestFileName(canExtract, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canExtract ? "canExtract/": "cannotExtract/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canExtract, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	protected ICompilationUnit createCUfromTestFile(IPackageFragment pack, boolean canExtract, boolean input) throws Exception {
@@ -107,20 +107,20 @@ public class ExtractConstantTests extends GenericRefactoringTest {
 	}
 
 	private void guessHelper(int startLine, int startColumn, int endLine, int endColumn, String expectedGuessedName) throws Exception {
-		ICompilationUnit cu= createCU(getPackageP(), getName()+".java", getFileContents(TEST_PATH_PREFIX + getRefactoringPath() + "nameGuessing/" + getName()+".java"));
+		ICompilationUnit cu= createCU(getPackageP(), getName()+".java", getFileContents(TEST_PATH_PREFIX + getRefactoringPath() + "nameGuessing/" + getName()+".java")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
 		ExtractConstantRefactoring ref= new ExtractConstantRefactoring(cu, selection.getOffset(), selection.getLength());
 		RefactoringStatus preconditionResult= ref.checkInitialConditions(new NullProgressMonitor());
-		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK());
+		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals("constant name not guessed", expectedGuessedName, ref.guessConstantName());
 	}
 
-	private void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean allowLoadtime, boolean qualifyReferencesWithConstantName, String constantName, String guessedConstantName) throws Exception{
+	private void helper1(int startLine, int startColumn, int endLine, int endColumn, boolean replaceAll, boolean allowLoadtime, boolean qualifyReferencesWithConstantName, String constantName, String guessedConstantName) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), true, true);
 		ISourceRange selection= TextRangeUtil.getSelection(cu, startLine, startColumn, endLine, endColumn);
 		ExtractConstantRefactoring ref= new ExtractConstantRefactoring(cu, selection.getOffset(), selection.getLength());
 		RefactoringStatus preconditionResult= ref.checkInitialConditions(new NullProgressMonitor());
-		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK());
+		assertTrue("activation was supposed to be successful" + preconditionResult.toString(), preconditionResult.isOK()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if(!allowLoadtime)
 			assertTrue("The selected expression has been erroneously reported to contain references to non-static or non-final fields.", ref.selectionAllStaticFinal());
@@ -139,7 +139,7 @@ public class ExtractConstantTests extends GenericRefactoringTest {
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines(getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 

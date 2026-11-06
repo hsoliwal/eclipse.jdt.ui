@@ -32,7 +32,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 
 import org.eclipse.jdt.core.IJavaElement;
 
-public class EditorListener implements ISelectionListener, IFileBufferListener, IPartListener2 {
+public class EditorListener implements ISelectionListener, IFileBufferListener, IPartListener2 { //FLLDCIM: MARK — T20  IMPLEMENTS
 	volatile protected BytecodeOutlineView view;
 
 	EditorListener(BytecodeOutlineView view) {
@@ -46,7 +46,7 @@ public class EditorListener implements ISelectionListener, IFileBufferListener, 
 		this.view = null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (!(selection instanceof ITextSelection)) {
 			if (selection instanceof IStructuredSelection) {
@@ -62,7 +62,7 @@ public class EditorListener implements ISelectionListener, IFileBufferListener, 
 					 */
 					Display display = Display.getDefault();
 					// fork
-					display.asyncExec(() -> {
+					display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						if (view != null) {
 							view.checkOpenEditors(true);
 						}
@@ -74,7 +74,7 @@ public class EditorListener implements ISelectionListener, IFileBufferListener, 
 		view.handleSelectionChanged(part, selection);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dirtyStateChanged(IFileBuffer buffer, final boolean isDirty) {
 		if (!view.isLinkedWithEditor()) {
 			return;
@@ -92,10 +92,10 @@ public class EditorListener implements ISelectionListener, IFileBufferListener, 
 				// current (probably non-UI) thread
 				Runnable runnable1 = () -> {
 					Display display = Display.getCurrent();
-					display.timerExec(1000, runnable2);
+					display.timerExec(1000, runnable2); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				};
 				Display display = Display.getDefault();
-				display.asyncExec(runnable1);
+				display.asyncExec(runnable1); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}

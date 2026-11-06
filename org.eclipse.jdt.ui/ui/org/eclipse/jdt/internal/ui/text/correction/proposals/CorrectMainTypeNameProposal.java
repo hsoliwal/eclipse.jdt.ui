@@ -29,7 +29,7 @@ import org.eclipse.jdt.ui.text.java.IInvocationContext;
  * Renames the primary type to be compatible with the name of the compilation unit. All constructors
  * and local references to the type are renamed as well.
  */
-public class CorrectMainTypeNameProposal extends ASTRewriteCorrectionProposal {
+public class CorrectMainTypeNameProposal extends ASTRewriteCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Constructor for CorrectTypeNameProposal.

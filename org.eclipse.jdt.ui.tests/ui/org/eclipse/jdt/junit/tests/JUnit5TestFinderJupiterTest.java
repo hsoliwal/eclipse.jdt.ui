@@ -59,13 +59,13 @@ public class JUnit5TestFinderJupiterTest {
 
 	private static final String JAVA_CLASS_NAME= "JupiterTests";
 
-	private static final String JAVA_FILE_NAME= JAVA_CLASS_NAME + ".java";
+	private static final String JAVA_FILE_NAME= JAVA_CLASS_NAME + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String TEST_CLASS_FILE= "/testresources/testClasses/" + JAVA_FILE_NAME;
+	private static final String TEST_CLASS_FILE= "/testresources/testClasses/" + JAVA_FILE_NAME; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static IJavaProject javaProject;
 
-	@Parameters(name= "{0}")
+	@Parameters(name= "{0}") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static Collection<TestScenario> getCompilationUnits() {
 
 		// These are the current "valid" results
@@ -123,7 +123,7 @@ public class JUnit5TestFinderJupiterTest {
 	@Test
 	public void testFindTestsInContainer() throws Exception {
 		IType type= findTypeWithName(scenario.testClass());
-		Set<IType> foundTestTypes= new HashSet<>();
+		Set<IType> foundTestTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		JUnit5TestFinder objectUnderTest= new JUnit5TestFinder();
 		objectUnderTest.findTestsInContainer(type, foundTestTypes, null);
@@ -133,7 +133,7 @@ public class JUnit5TestFinderJupiterTest {
 
 
 	private IType findTypeWithName(String name) throws JavaModelException {
-		for (IType type : compilationUnit.getAllTypes()) {
+		for (IType type : compilationUnit.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.getElementName().equals(name))
 				return type;
 		}

@@ -40,7 +40,7 @@ public class LinkResolver extends TemplateVariableResolver {
 	public LinkResolver() {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 
 		variable.setUnambiguous(false);
@@ -53,7 +53,7 @@ public class LinkResolver extends TemplateVariableResolver {
 			if (params.size() > 0) {
 				fProposals= new String[params.size()];
 				int i= 0;
-				for (String param : params) {
+				for (String param : params) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fProposals[i]= param;
 					i++;
 				}

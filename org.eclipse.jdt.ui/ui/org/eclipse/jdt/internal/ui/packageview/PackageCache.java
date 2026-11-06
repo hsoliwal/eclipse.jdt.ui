@@ -53,7 +53,7 @@ public class PackageCache {
 	 */
 	static class PerRootCache {
 
-		private final Map<IPackageFragmentRoot, PackageCache> packageCaches= new HashMap<>();
+		private final Map<IPackageFragmentRoot, PackageCache> packageCaches= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		boolean hasSingleChild(IPackageFragment packageFragment) throws JavaModelException {
 			PackageCache packagesOfRoot= getPackageCache(packageFragment);
@@ -114,7 +114,7 @@ public class PackageCache {
 	 */
 	public PackageCache(IPackageFragmentRoot packageRoot) {
 		this.packageRoot= packageRoot;
-		packagesCache= new HashMap<>();
+		packagesCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		initialized= false;
 	}
 
@@ -209,12 +209,12 @@ public class PackageCache {
 	 *
 	 * @throws JavaModelException If accessing the packages in the package root fails.
 	 */
-	private void collectChildrenOfPackages() throws JavaModelException {
+	private void collectChildrenOfPackages() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		packagesCache.clear();
 
 		IJavaElement[] allPackages= packageRoot.getChildren();
 
-		for (IJavaElement child : allPackages) {
+		for (IJavaElement child : allPackages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment currentPackage= (IPackageFragment) child;
 
 			String packageName= currentPackage.getElementName();
@@ -226,7 +226,7 @@ public class PackageCache {
 
 				List<IPackageFragment> siblingsOfCurrentPackage= packagesCache.get(parentName);
 				if (siblingsOfCurrentPackage == null) {
-					siblingsOfCurrentPackage= new ArrayList<>();
+					siblingsOfCurrentPackage= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					packagesCache.put(parentName, siblingsOfCurrentPackage);
 				}
 				siblingsOfCurrentPackage.add(currentPackage);

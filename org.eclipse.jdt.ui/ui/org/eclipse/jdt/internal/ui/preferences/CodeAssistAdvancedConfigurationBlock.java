@@ -191,13 +191,13 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		final List<ModelElement> elements;
 
 		public PreferenceModel(CompletionProposalComputerRegistry registry) {
-			fElements= new ArrayList<>();
-			for (CompletionProposalCategory category : registry.getProposalCategories()) {
+			fElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (CompletionProposalCategory category : registry.getProposalCategories()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (category.hasComputers()) {
 					fElements.add(new ModelElement(category, this));
 				}
 			}
-			Collections.sort(fElements, fCategoryComparator);
+			Collections.sort(fElements, fCategoryComparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
 			elements= Collections.unmodifiableList(fElements);
 		}
 
@@ -220,11 +220,11 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
         }
 
     	private void writeInclusionPreference(ModelElement changed, boolean isInDefaultCategory) {
-    		StringBuilder buf= new StringBuilder();
-			for (ModelElement item : fElements) {
+    		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			for (ModelElement item : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean included= changed == item ? isInDefaultCategory : item.isInDefaultCategory();
 				if (!included) {
-					buf.append(item.getId() + SEPARATOR);
+					buf.append(item.getId() + SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
 
@@ -234,13 +234,13 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
     	}
 
     	private void writeOrderPreference(ModelElement changed, boolean isSeparate) {
-    		StringBuilder buf= new StringBuilder();
+    		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
     		int i= 0;
-    		for (Iterator<ModelElement> it= fElements.iterator(); it.hasNext(); i++) {
+    		for (Iterator<ModelElement> it= fElements.iterator(); it.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     			ModelElement item= it.next();
     			boolean separate= changed == item ? isSeparate : item.isSeparateCommand();
     			int rank= separate ? i : i + LIMIT;
-    			buf.append(item.getId() + COLON + rank + SEPARATOR);
+    			buf.append(item.getId() + COLON + rank + SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
     		}
 
     		String newValue= buf.toString();
@@ -250,7 +250,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 
 
     	private boolean readInclusionPreference(CompletionProposalCategory cat) {
-    		for (String id : getTokens(getValue(PREF_EXCLUDED_CATEGORIES), SEPARATOR)) {
+    		for (String id : getTokens(getValue(PREF_EXCLUDED_CATEGORIES), SEPARATOR)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (id.equals(cat.getId())) {
 					return false;
 				}
@@ -259,7 +259,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
     	}
 
     	private int readOrderPreference(CompletionProposalCategory cat) {
-    		for (String sortOrderId : getTokens(getValue(PREF_CATEGORY_ORDER), SEPARATOR)) {
+    		for (String sortOrderId : getTokens(getValue(PREF_CATEGORY_ORDER), SEPARATOR)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String[] idAndRank= getTokens(sortOrderId, COLON);
 				if (idAndRank[0].equals(cat.getId())) {
 					return Integer.parseInt(idAndRank[1]);
@@ -269,7 +269,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
     	}
 
         public void update() {
-			Collections.sort(fElements, fCategoryComparator);
+			Collections.sort(fElements, fCategoryComparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
         }
 	}
 
@@ -352,7 +352,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 
 	/** element type: {@link ModelElement}. */
 	private final PreferenceModel fModel;
-	private final Map<ImageDescriptor, Image> fImages= new HashMap<>();
+	private final Map<ImageDescriptor, Image> fImages= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private CheckboxTableViewer fDefaultViewer;
 	private CheckboxTableViewer fSeparateViewer;
@@ -367,7 +367,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 	/*
 	 * @see org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 
 		ScrolledPageContent scrolled= new ScrolledPageContent(parent, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -418,7 +418,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		CompletionProposalComputerRegistry registry= CompletionProposalComputerRegistry.getDefault();
 		if (registry.computingCompletionRequiresUIThread()) {
 			Label label = new Label(composite, SWT.NONE);
-			label.setText(Messages.format(PreferencesMessages.CodeAssistAdvancedConfigurationBlock_nonUIThread_computersRequiringUIThread, registry.getComputersRequiringUIThreadNames().map(name -> "* " + name).collect(Collectors.joining("\n")))); //$NON-NLS-1$ //$NON-NLS-2$
+			label.setText(Messages.format(PreferencesMessages.CodeAssistAdvancedConfigurationBlock_nonUIThread_computersRequiringUIThread, registry.getComputersRequiringUIThreadNames().map(name -> "* " + name).collect(Collectors.joining("\n")))); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			GridData layoutData= new GridData(GridData.FILL, GridData.FILL, true, false, columns, 1);
 			layoutData.horizontalIndent = 30;
 			label.setLayoutData(layoutData);
@@ -426,7 +426,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		}
 	}
 
-	private void createDefaultLabel(Composite composite, int h_span) {
+	private void createDefaultLabel(Composite composite, int h_span) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    final ICommandService commandSvc= PlatformUI.getWorkbench().getAdapter(ICommandService.class);
 		final Command command= commandSvc.getCommand(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
 		ParameterizedCommand pCmd= new ParameterizedCommand(command, null);
@@ -453,7 +453,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		label.setLayoutData(gd);
     }
 
-	private void createDefaultViewer(Composite composite, int h_span) {
+	private void createDefaultViewer(Composite composite, int h_span) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fDefaultViewer= CheckboxTableViewer.newCheckList(composite, SWT.SINGLE | SWT.BORDER);
 		Table table= fDefaultViewer.getTable();
 		table.setHeaderVisible(true);
@@ -467,7 +467,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		keyColumn.setText(PreferencesMessages.CodeAssistAdvancedConfigurationBlock_default_table_keybinding_column_title);
 		keyColumn.setResizable(false);
 
-		fDefaultViewer.addCheckStateListener(event -> {
+		fDefaultViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			boolean checked= event.getChecked();
 			ModelElement element= (ModelElement) event.getElement();
 			element.setInDefaultCategory(checked);
@@ -476,15 +476,15 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		fDefaultViewer.setContentProvider(ArrayContentProvider.getInstance());
 
 		DefaultTableLabelProvider labelProvider= new DefaultTableLabelProvider();
-		fDefaultViewer.setLabelProvider(labelProvider);
-		fDefaultViewer.setInput(fModel.elements);
+		fDefaultViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fDefaultViewer.setInput(fModel.elements); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fDefaultViewer.setComparator(new ViewerComparator()); // sort alphabetically
 
 		final int ICON_AND_CHECKBOX_WITH= 50;
 		final int HEADER_MARGIN= 20;
 		int minNameWidth= computeWidth(table, nameColumn.getText()) + HEADER_MARGIN;
 		int minKeyWidth= computeWidth(table, keyColumn.getText()) + HEADER_MARGIN;
-		for (ModelElement element : fModel.elements) {
+		for (ModelElement element : fModel.elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			minNameWidth= Math.max(minNameWidth, computeWidth(table, labelProvider.getColumnText(element, 0)) + ICON_AND_CHECKBOX_WITH);
 			minKeyWidth= Math.max(minKeyWidth, computeWidth(table, labelProvider.getColumnText(element, 1)));
 		}
@@ -493,10 +493,10 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		keyColumn.setWidth(minKeyWidth);
 	}
 
-	private void createKeysLink(Composite composite, int h_span) {
+	private void createKeysLink(Composite composite, int h_span) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    Link link= new Link(composite, SWT.NONE | SWT.WRAP);
 		link.setText(PreferencesMessages.CodeAssistAdvancedConfigurationBlock_key_binding_hint);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferencesUtil.createPreferenceDialogOn(getShell(), e.text, null, null);
@@ -534,7 +534,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		createButtonList(composite);
 	}
 
-	private void createSeparateViewer(Composite composite) {
+	private void createSeparateViewer(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSeparateViewer= CheckboxTableViewer.newCheckList(composite, SWT.SINGLE | SWT.BORDER);
 		Table table= fSeparateViewer.getTable();
 		table.setHeaderVisible(false);
@@ -548,25 +548,25 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		fSeparateViewer.setContentProvider(ArrayContentProvider.getInstance());
 
 		ITableLabelProvider labelProvider= new SeparateTableLabelProvider();
-		fSeparateViewer.setLabelProvider(labelProvider);
-		fSeparateViewer.setInput(fModel.elements);
+		fSeparateViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fSeparateViewer.setInput(fModel.elements); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		final int ICON_AND_CHECKBOX_WITH= 50;
 		final int HEADER_MARGIN= 20;
 		int minNameWidth= computeWidth(table, nameColumn.getText()) + HEADER_MARGIN;
-		for (ModelElement element : fModel.elements) {
+		for (ModelElement element : fModel.elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			minNameWidth= Math.max(minNameWidth, computeWidth(table, labelProvider.getColumnText(element, 0)) + ICON_AND_CHECKBOX_WITH);
 		}
 
 		nameColumn.setWidth(minNameWidth);
 
-		fSeparateViewer.addCheckStateListener(event -> {
+		fSeparateViewer.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			boolean checked= event.getChecked();
 			ModelElement element= (ModelElement) event.getElement();
 			element.setSeparateCommand(checked);
 		});
 
-		table.addSelectionListener(new SelectionAdapter() {
+		table.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleTableSelection();
@@ -575,7 +575,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 
 	}
 
-	private void createButtonList(Composite parent) {
+	private void createButtonList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false));
 
@@ -586,13 +586,13 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 
 		fUpButton= new Button(composite, SWT.PUSH | SWT.CENTER);
         fUpButton.setText(PreferencesMessages.CodeAssistAdvancedConfigurationBlock_Up);
-        fUpButton.addSelectionListener(new SelectionAdapter() {
+        fUpButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
         	@Override
 			public void widgetSelected(SelectionEvent e) {
         		int index= getSelectionIndex();
         		if (index != -1) {
         			fModel.elements.get(index).moveUp();
-        			fSeparateViewer.refresh();
+        			fSeparateViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
         			handleTableSelection();
         		}
         	}
@@ -602,13 +602,13 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 
         fDownButton= new Button(composite, SWT.PUSH | SWT.CENTER);
         fDownButton.setText(PreferencesMessages.CodeAssistAdvancedConfigurationBlock_Down);
-        fDownButton.addSelectionListener(new SelectionAdapter() {
+        fDownButton.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
         	@Override
 			public void widgetSelected(SelectionEvent e) {
         		int index= getSelectionIndex();
         		if (index != -1) {
         			fModel.elements.get(index).moveDown();
-        			fSeparateViewer.refresh();
+        			fSeparateViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
         			handleTableSelection();
         		}
         	}
@@ -661,17 +661,17 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 
 		fModel.update();
 		updateCheckedState();
-		fDefaultViewer.refresh();
-		fSeparateViewer.refresh();
+		fDefaultViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		fSeparateViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		handleTableSelection();
 	}
 
 	private void updateCheckedState() {
 		final int size= fModel.elements.size();
-		List<ModelElement> defaultChecked= new ArrayList<>(size);
-		List<ModelElement> separateChecked= new ArrayList<>(size);
+		List<ModelElement> defaultChecked= new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<ModelElement> separateChecked= new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (ModelElement element : fModel.elements) {
+		for (ModelElement element : fModel.elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.isInDefaultCategory()) {
 				defaultChecked.add(element);
 			}
@@ -689,7 +689,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 	 */
 	@Override
 	protected boolean processChanges(IWorkbenchPreferenceContainer container) {
-		for (ModelElement item : fModel.elements) {
+		for (ModelElement item : fModel.elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			item.update();
 		}
 
@@ -699,7 +699,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 	/*
 	 * @see org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock#validateSettings(org.eclipse.jdt.internal.ui.preferences.OptionsConfigurationBlock.Key, java.lang.String, java.lang.String)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void validateSettings(Key changedKey, String oldValue, String newValue) {
 		if (changedKey == PREF_CODEASSIST_TIMEOUT_FOR_PARAMETER_NAME_FROM_ATTACHED_JAVADOC) {
 			final StatusInfo status= new StatusInfo();
@@ -739,7 +739,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 	 */
 	@Override
 	public void dispose() {
-		for (Image image : fImages.values()) {
+		for (Image image : fImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			image.dispose();
 		}
 
@@ -766,7 +766,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		final Scheme[] definedSchemes= bindingService.getDefinedSchemes();
 		if (definedSchemes != null) {
 			try {
-				for (Scheme scheme : definedSchemes) {
+				for (Scheme scheme : definedSchemes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final Scheme copy= fgLocalBindingManager.getScheme(scheme.getId());
 					copy.define(scheme.getName(), scheme.getDescription(), scheme.getParentId());
 				}
@@ -778,7 +778,7 @@ final class CodeAssistAdvancedConfigurationBlock extends OptionsConfigurationBlo
 		fgLocalBindingManager.setPlatform(bindingService.getPlatform());
 	}
 
-	private static String getKeyboardShortcut(ParameterizedCommand command) {
+	private static String getKeyboardShortcut(ParameterizedCommand command) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IBindingService bindingService= PlatformUI.getWorkbench().getAdapter(IBindingService.class);
 		fgLocalBindingManager.setBindings(bindingService.getBindings());
 		try {

@@ -34,9 +34,9 @@ public class PerformanceTestSetup extends TestSetup {
 
 	public static final String PROJECT= "org.eclipse.swt";
 
-	public static final String TEXT_LAYOUT= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout.java";
+	public static final String TEXT_LAYOUT= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String STYLED_TEXT= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/StyledText.java";
+	public static final String STYLED_TEXT= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/StyledText.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String PROJECT_ZIP= "/testResources/org.eclipse.swt-R3_0.zip";
 
@@ -82,7 +82,7 @@ public class PerformanceTestSetup extends TestSetup {
 
 	private static void setUpProject() throws IOException, ZipException, CoreException {
 		IProject project= ResourceTestHelper.createProjectFromZip(JdtTextTestPlugin.getDefault(), PROJECT_ZIP, PROJECT);
-		ResourceTestHelper.copy("/" + PROJECT + "/.classpath_win32", "/" + PROJECT + "/.classpath");
+		ResourceTestHelper.copy("/" + PROJECT + "/.classpath_win32", "/" + PROJECT + "/.classpath"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertTrue(JavaCore.create(project).exists());
 	}
 }

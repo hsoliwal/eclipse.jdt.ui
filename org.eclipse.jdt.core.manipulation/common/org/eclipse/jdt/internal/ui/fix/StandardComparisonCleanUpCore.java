@@ -58,7 +58,7 @@ public class StandardComparisonCleanUpCore extends AbstractCleanUp {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (isEnabled(CleanUpConstants.STANDARD_COMPARISON)) {
 			result.add(MultiFixMessages.StandardComparisonCleanUp_description);

@@ -188,7 +188,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 5, 7); // foo Methode
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCollapseAll() throws Exception {
 		String str= """
 				package org.example.test;
@@ -282,7 +282,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 3, 5); // bar Methode
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInnerClassWithJavadoc() throws Exception {
 		String str= """
 				package org.example.test;
@@ -308,7 +308,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 9, 11); // bar Methode
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavadocs() throws Exception {
 		String str= """
 				package org.example.test;
@@ -330,7 +330,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 7, 9); // 3. Javadoc
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCommentBlocks() throws Exception {
 		String str= """
 				package org.example.test;
@@ -382,7 +382,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 0, 2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodDeclarationFoldingWithSameLineStart() throws Exception {
 		String str= """
 				package org.example.test;
@@ -421,7 +421,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 3, 5); // if
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTryStatementFolding() throws Exception {
 		assumeTrue("Only doable with the new folding", newFoldingActive);
 		String str= """
@@ -572,7 +572,7 @@ public class FoldingTest {
 	 * See <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=130472#c16">Bug 130472 -
 	 * [projection] Bizarre folding behavior</a>
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnonymousClassAsParameterFolding() throws Exception {
 		String str= """
 				package org.example.test;
@@ -622,7 +622,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 2, 4); // static
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNestedFolding() throws Exception {
 		assumeTrue("Only doable with the new folding", newFoldingActive);
 		String str= """
@@ -667,7 +667,7 @@ public class FoldingTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSingleLiner() throws Exception {
 		assumeTrue("Only doable with the new folding", newFoldingActive);
 		String str= """
@@ -712,7 +712,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 22, 23); // bar
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSwitchExpression() throws Exception {
 		assumeTrue("Only doable with the new folding", newFoldingActive);
 		String str= """
@@ -748,7 +748,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 4, 24); // switch expression
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSwitchStatment() throws Exception {
 		assumeTrue("Only doable with the new folding", newFoldingActive);
 		String str= """
@@ -812,7 +812,7 @@ public class FoldingTest {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 2, 6); // array
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAdvancedFoldingAfterChildren() throws Exception {
 		assumeTrue("Only doable with the extended folding", newFoldingActive);
 		String str = """
@@ -844,7 +844,7 @@ public class FoldingTest {
 	/**
 	 * See <a href="https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/3031">GitHub Issue #3031</a>
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFoldInnerTypesByDefault() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		store.setValue(PreferenceConstants.EDITOR_FOLDING_INNERTYPES, true);

@@ -76,7 +76,7 @@ public class DelegateCreatorTests extends GenericRefactoringTest {
 		return destination;
 	}
 
-	private void helper(String methodName, String[] args, String fieldName, boolean copy, String newName, ITypeBinding destination) throws Exception, JavaModelException, CoreException, IOException {
+	private void helper(String methodName, String[] args, String fieldName, boolean copy, String newName, ITypeBinding destination) throws Exception, JavaModelException, CoreException, IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType classA= getType(cu, "A");
 

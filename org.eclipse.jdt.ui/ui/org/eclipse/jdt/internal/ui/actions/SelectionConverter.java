@@ -96,7 +96,7 @@ public class SelectionConverter {
 		if (!selection.isEmpty()) {
 			IJavaElement[] result= new IJavaElement[selection.size()];
 			int i= 0;
-			for (Iterator<?> iter= selection.iterator(); iter.hasNext(); i++) {
+			for (Iterator<?> iter= selection.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= iter.next();
 				if (!(element instanceof IJavaElement))
 					return EMPTY_RESULT;
@@ -245,7 +245,7 @@ public class SelectionConverter {
 	}
 
 	private static IJavaElement[] performForkedCodeResolve(final ITypeRoot input, final ITextSelection selection) throws InvocationTargetException, InterruptedException {
-		final class CodeResolveRunnable implements IRunnableWithProgress {
+		final class CodeResolveRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 			IJavaElement[] result;
 			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
@@ -274,7 +274,7 @@ public class SelectionConverter {
 			return EMPTY_RESULT;
 	}
 
-	public static IJavaElement getElementAtOffset(ITypeRoot input, ITextSelection selection) throws JavaModelException {
+	public static IJavaElement getElementAtOffset(ITypeRoot input, ITextSelection selection) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input instanceof ICompilationUnit) {
 			JavaModelUtil.reconcile((ICompilationUnit) input);
 		}
@@ -282,7 +282,7 @@ public class SelectionConverter {
 		String selectedString= selection.getText();
 		if (selectedString != null && !selectedString.isEmpty()) {
 			int i= 0;
-			while (i < selectedString.length() && Character.isWhitespace(selectedString.charAt(i))) {
+			while (i < selectedString.length() && Character.isWhitespace(selectedString.charAt(i))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				++i;
 		    }
 			whiteSpaceOffset= i;
@@ -316,7 +316,7 @@ public class SelectionConverter {
 	 * @param message the message of the selection dialog
 	 * @return returns the selected element or <code>null</code> if the dialog has been cancelled
 	 */
-	public static IJavaElement selectJavaElement(IJavaElement[] elements, Shell shell, String title, String message) {
+	public static IJavaElement selectJavaElement(IJavaElement[] elements, Shell shell, String title, String message) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nResults= elements.length;
 		if (nResults == 0)
 			return null;

@@ -85,7 +85,7 @@ public class FoldingWithShowSelectedElementTests {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 2, 4);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsertText() throws Exception {
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGIONS_ENABLED, true);
 		String str= """
@@ -132,7 +132,7 @@ public class FoldingWithShowSelectedElementTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWithTrailingWhitespaceAfterClosingBrace() throws Exception {
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.EDITOR_FOLDING_CUSTOM_REGIONS_ENABLED, true);
 		String str= """

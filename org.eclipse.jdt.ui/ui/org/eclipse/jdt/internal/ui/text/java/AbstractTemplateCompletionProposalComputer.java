@@ -56,7 +56,7 @@ public abstract class AbstractTemplateCompletionProposalComputer implements IJav
 	/*
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposalComputer#computeCompletionProposals(org.eclipse.jface.text.contentassist.TextContentAssistInvocationContext, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
 		if (!(context instanceof JavaContentAssistInvocationContext)) {
 			return Collections.emptyList();
@@ -82,7 +82,7 @@ public abstract class AbstractTemplateCompletionProposalComputer implements IJav
 		engine.complete(javaContext.getViewer(), selectionAsPoint, javaContext.getInvocationOffset(), unit);
 
 		TemplateProposal[] templateProposals= engine.getResults();
-		List<ICompletionProposal> result= new ArrayList<>(Arrays.asList(templateProposals));
+		List<ICompletionProposal> result= new ArrayList<>(Arrays.asList(templateProposals)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IJavaCompletionProposal[] keyWordResults= javaContext.getKeywordProposals();
 		if (keyWordResults.length == 0) {
@@ -93,9 +93,9 @@ public abstract class AbstractTemplateCompletionProposalComputer implements IJav
 		 * give those templates slightly more relevance than the keyword to
 		 * sort them first.
 		 */
-		for (TemplateProposal curr : templateProposals) {
+		for (TemplateProposal curr : templateProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= curr.getTemplate().getName();
-			for (IJavaCompletionProposal keyWordResult : keyWordResults) {
+			for (IJavaCompletionProposal keyWordResult : keyWordResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String keyword= keyWordResult.getDisplayString();
 				if (name.startsWith(keyword)) {
 					String content= curr.getTemplate().getPattern();

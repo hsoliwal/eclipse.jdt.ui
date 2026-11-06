@@ -77,7 +77,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 	/**
 	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		IJavaElement elem= getJavaElement();
 		try {
@@ -110,7 +110,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 		super.createControl(parent);
 	}
 
-	private IClasspathEntry handleContainerEntry(IPath containerPath, IJavaProject jproject, IPath jarPath) throws JavaModelException {
+	private IClasspathEntry handleContainerEntry(IPath containerPath, IJavaProject jproject, IPath jarPath) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ClasspathContainerInitializer initializer= JavaCore.getClasspathContainerInitializer(containerPath.segment(0));
 		IClasspathContainer container= JavaCore.getClasspathContainer(containerPath, jproject);
 		if (initializer == null || container == null) {
@@ -133,7 +133,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 		return entry;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		if (!fIsValidElement || fIsReadOnly) {
 			Composite inner= new Composite(parent, SWT.NONE);
@@ -176,7 +176,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 	}
 
 	private static String getNativeLibrariesPath(IClasspathEntry entry) {
-		for (IClasspathAttribute extraAttribute : entry.getExtraAttributes()) {
+		for (IClasspathAttribute extraAttribute : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (extraAttribute.getName().equals(JavaRuntime.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY)) {
 				return extraAttribute.getValue();
 			}
@@ -204,7 +204,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 	/**
 	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performOk() {
 		if (fConfigurationBlock != null) {
 			String nativeLibraryPath= fConfigurationBlock.getNativeLibraryPath();
@@ -231,7 +231,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 	}
 
 	private static IRunnableWithProgress getRunnable(final Shell shell, final IJavaElement elem, final String nativeLibraryPath, final IClasspathEntry entry, final IPath containerPath, final boolean isReferencedEntry) {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				IJavaProject project= elem.getJavaProject();
 				if (elem instanceof IPackageFragmentRoot) {
@@ -247,7 +247,7 @@ public class NativeLibrariesPropertyPage extends PropertyPage implements IStatus
 		};
 	}
 
-	private IJavaElement getJavaElement() {
+	private IJavaElement getJavaElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAdaptable adaptable= getElement();
 		IJavaElement elem= adaptable.getAdapter(IJavaElement.class);
 		if (elem == null) {

@@ -59,7 +59,7 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 		super(unit, selection, true);
 	}
 
-	public ITypeBinding[] getExceptions(Selection selection) {
+	public ITypeBinding[] getExceptions(Selection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fExceptions= new ITypeBinding[0];
 		if (fEnclosingNode != null && !getStatus().hasFatalError()) {
 			fExceptions= ExceptionAnalyzer.perform(fEnclosingNode, selection, false);
@@ -79,18 +79,18 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 		return fExceptions;
 	}
 
-	public ITypeBinding[] getCaughtExceptions() {
-		List<ITypeBinding> exceptions= new ArrayList<>();
+	public ITypeBinding[] getCaughtExceptions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ITypeBinding> exceptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TryStatement enclosingTry= (TryStatement)ASTResolving.findAncestor(getFirstSelectedNode(), ASTNode.TRY_STATEMENT);
-		while (enclosingTry != null) {
+		while (enclosingTry != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<CatchClause> catchClauses= enclosingTry.catchClauses();
-			for (CatchClause catchClause : catchClauses) {
+			for (CatchClause catchClause : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration sdv= catchClause.getException();
 				Type type= sdv.getType();
 				if (type instanceof UnionType) {
 					UnionType unionType= (UnionType)type;
 					List<Type> types= unionType.types();
-					for (Type t : types) {
+					for (Type t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ITypeBinding binding= t.resolveBinding();
 						if (binding == null) {
 							break;
@@ -109,12 +109,12 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 		return exceptions.toArray(new ITypeBinding[0]);
 	}
 
-	public ITypeBinding[] getThrownExceptions() {
-		List<ITypeBinding> exceptions= new ArrayList<>();
+	public ITypeBinding[] getThrownExceptions() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ITypeBinding> exceptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fEnclosingNode != null) {
 			if (fEnclosingNode.getNodeType() == ASTNode.METHOD_DECLARATION) {
 				List<Type> thrownExceptions= ((MethodDeclaration) fEnclosingNode).thrownExceptionTypes();
-				for (Type type : thrownExceptions) {
+				for (Type type : thrownExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding thrownException= type.resolveBinding();
 					if (thrownException != null) {
 						exceptions.add(thrownException);
@@ -138,21 +138,21 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 		return exceptions.toArray(new ITypeBinding[0]);
 	}
 
-	public List<ITypeBinding> calculateCatchesAndRethrows(List<ITypeBinding> exceptions, List<ITypeBinding> mustRethrowList) {
-		List<ITypeBinding> exceptionList= new ArrayList<>(exceptions);
+	public List<ITypeBinding> calculateCatchesAndRethrows(List<ITypeBinding> exceptions, List<ITypeBinding> mustRethrowList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ITypeBinding> exceptionList= new ArrayList<>(exceptions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ITypeBinding[] caughtExceptions= getCaughtExceptions();
 		if (caughtExceptions.length > 0) {
-			for (Iterator<ITypeBinding> iter= exceptionList.iterator(); iter.hasNext();) {
+			for (Iterator<ITypeBinding> iter= exceptionList.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding binding= iter.next();
-				for (ITypeBinding caughtException : caughtExceptions) {
+				for (ITypeBinding caughtException : caughtExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (binding.isAssignmentCompatible(caughtException)) {
 						iter.remove();
 						break;
 					}
 				}
 			}
-			for (ITypeBinding binding : exceptionList) {
-				for (ITypeBinding caughtException : caughtExceptions) {
+			for (ITypeBinding binding : exceptionList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (ITypeBinding caughtException : caughtExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (caughtException.isAssignmentCompatible(binding)) {
 						mustRethrowList.add(caughtException);
 						break;
@@ -161,17 +161,17 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 			}
 		}
 		ITypeBinding[] thrownExceptions= getThrownExceptions();
-		for (Iterator<ITypeBinding> iter= exceptionList.iterator(); iter.hasNext();) {
+		for (Iterator<ITypeBinding> iter= exceptionList.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding binding= iter.next();
-			for (ITypeBinding thrownException : thrownExceptions) {
+			for (ITypeBinding thrownException : thrownExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (binding.isAssignmentCompatible(thrownException)) {
 					iter.remove();
 					break;
 				}
 			}
 		}
-		for (ITypeBinding binding : exceptionList) {
-			for (ITypeBinding thrownException : thrownExceptions) {
+		for (ITypeBinding binding : exceptionList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (ITypeBinding thrownException : thrownExceptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (thrownException.isAssignmentCompatible(binding)) {
 					if (!mustRethrowList.contains(thrownException))
 						mustRethrowList.add(thrownException);
@@ -204,8 +204,8 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 	 */
 	public List<ASTNode> getCoveredAutoClosableNodes() {
 		ASTNode[] astNodes= getSelectedNodes();
-		List<ASTNode> autoClosableNodes= new ArrayList<>();
-		for (ASTNode astNode : astNodes) {
+		List<ASTNode> autoClosableNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ASTNode astNode : astNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isAutoClosable(astNode)) {
 				autoClosableNodes.add(astNode);
 			} else {
@@ -215,9 +215,9 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 		return autoClosableNodes;
 	}
 
-	private boolean isAutoClosable(ASTNode astNode) {
+	private boolean isAutoClosable(ASTNode astNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<SimpleName, IVariableBinding> simpleNames= getVariableStatementBinding(astNode);
-		for (Entry<SimpleName, IVariableBinding> entry : simpleNames.entrySet()) {
+		for (Entry<SimpleName, IVariableBinding> entry : simpleNames.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding typeBinding= null;
 			switch (entry.getKey().getParent().getNodeType()) {
 				case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
@@ -231,7 +231,7 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 			if (typeBinding == null) {
 				continue;
 			}
-			for (ITypeBinding superType : Bindings.getAllSuperTypes(typeBinding)) {
+			for (ITypeBinding superType : Bindings.getAllSuperTypes(typeBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if ("java.lang.AutoCloseable".equals(superType.getQualifiedName())) { //$NON-NLS-1$
 					return true;
 				}
@@ -240,12 +240,12 @@ public class SurroundWithTryWithResourcesAnalyzer extends SurroundWithAnalyzer {
 		return false;
 	}
 
-	public Map<SimpleName, IVariableBinding> getVariableStatementBinding(ASTNode astNode) {
-		Map<SimpleName, IVariableBinding> variableBindings= new HashMap<>();
+	public Map<SimpleName, IVariableBinding> getVariableStatementBinding(ASTNode astNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<SimpleName, IVariableBinding> variableBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		astNode.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(VariableDeclarationStatement node) {
-				for (Object o : node.fragments()) {
+				for (Object o : node.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (o instanceof VariableDeclarationFragment) {
 						VariableDeclarationFragment vdf= (VariableDeclarationFragment) o;
 						SimpleName name= vdf.getName();

@@ -54,7 +54,7 @@ public abstract class TypeHierarchyViewer extends ProblemTreeViewer {
 
 		fLabelProvider= new HierarchyLabelProvider(lifeCycle);
 
-		setLabelProvider(new DecoratingJavaLabelProvider(fLabelProvider, true));
+		setLabelProvider(new DecoratingJavaLabelProvider(fLabelProvider, true)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		setUseHashlookup(true);
 
 		setContentProvider(contentProvider);
@@ -69,7 +69,7 @@ public abstract class TypeHierarchyViewer extends ProblemTreeViewer {
 		} else {
 			fLabelProvider.setTextFlags(fLabelProvider.getTextFlags() & ~JavaElementLabels.T_POST_QUALIFIED);
 		}
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	/**
@@ -82,7 +82,7 @@ public abstract class TypeHierarchyViewer extends ProblemTreeViewer {
 	public void initContextMenu(IMenuListener menuListener, String popupId, IWorkbenchPartSite viewSite) {
 		MenuManager menuMgr= new MenuManager();
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(menuListener);
+		menuMgr.addMenuListener(menuListener); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		Menu menu= menuMgr.createContextMenu(getTree());
 		getTree().setMenu(menu);
 		viewSite.registerContextMenu(popupId, menuMgr, this);
@@ -214,7 +214,7 @@ public abstract class TypeHierarchyViewer extends ProblemTreeViewer {
 	}
 
 	private void runUsingVisited(Runnable r) {
-		visited= new HashSet<>();
+		visited= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		try {
 			r.run();
 		} finally {

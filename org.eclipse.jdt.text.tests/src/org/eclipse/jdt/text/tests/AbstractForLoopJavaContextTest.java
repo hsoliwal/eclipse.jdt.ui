@@ -120,8 +120,8 @@ public abstract class AbstractForLoopJavaContextTest {
 	protected abstract Template getForLoop();
 
 	protected String evaluateTemplateInMethod(String signature) throws BadLocationException, TemplateException, CoreException {
-		String prefix= CU_PREFIX + getInnerClasses();
-		fCU.getBuffer().setContents(prefix + signature + CU_POSTFIX);
+		String prefix= CU_PREFIX + getInnerClasses(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		fCU.getBuffer().setContents(prefix + signature + CU_POSTFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		int offset= prefix.length() + signature.length() + 3;
 		fCU.reconcile(ICompilationUnit.NO_AST, false, null, null);
 		return TemplateUtils.evaluateTemplate(getForLoop(), fCU, offset);
@@ -136,10 +136,10 @@ public abstract class AbstractForLoopJavaContextTest {
 	protected abstract String getInnerClasses();
 
 	protected String evaluateTemplateInMethodWithField(String signature, String fieldDeclaration) throws BadLocationException, TemplateException, CoreException {
-		StringBuilder buf= new StringBuilder();
-		buf.append(fieldDeclaration);
-		buf.append(";\n");
-		buf.append(signature);
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(fieldDeclaration); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(signature); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return evaluateTemplateInMethod(buf.toString());
 	}
 

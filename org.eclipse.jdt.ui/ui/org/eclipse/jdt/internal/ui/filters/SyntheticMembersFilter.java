@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.JavaModelException;
  *
  * @since 3.1
  */
-public class SyntheticMembersFilter extends ViewerFilter {
+public class SyntheticMembersFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	@Override
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (!(element instanceof IMember))

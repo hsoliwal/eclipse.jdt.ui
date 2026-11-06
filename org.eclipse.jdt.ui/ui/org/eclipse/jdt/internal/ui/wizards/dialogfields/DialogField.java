@@ -97,7 +97,7 @@ public class DialogField {
 	 */
 	public void postSetFocusOnDialogField(Display display) {
 		if (display != null) {
-			display.asyncExec(
+			display.asyncExec( //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				this::setFocus
 			);
 		}

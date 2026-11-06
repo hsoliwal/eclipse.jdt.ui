@@ -50,7 +50,7 @@ public abstract class DisplayHelper {
 	 * @return <code>true</code> if the condition became <code>true</code>,
 	 *         <code>false</code> if the timeout elapsed
 	 */
-	public final boolean waitForCondition(Display display, long timeout) {
+	public final boolean waitForCondition(Display display, long timeout) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if the condition already holds, succeed
 		if (condition())
 			return true;
@@ -73,7 +73,7 @@ public abstract class DisplayHelper {
 		DisplayWaiter.Timeout timeoutState= waiter.start(timeout);
 		boolean condition;
 		try {
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (display.sleep())
 					driveEventQueue(display);
 				condition= condition();
@@ -123,7 +123,7 @@ public abstract class DisplayHelper {
 	 */
 	private static boolean driveEventQueue(Display display) {
 		boolean events= false;
-		while (display.readAndDispatch()) {
+		while (display.readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			events= true;
 		}
 		return events;
@@ -149,7 +149,7 @@ public abstract class DisplayHelper {
 	 * @return <code>true</code> if the condition became <code>true</code>,
 	 *         <code>false</code> if the timeout elapsed
 	 */
-	public final boolean waitForCondition(Display display, long timeout, long interval) {
+	public final boolean waitForCondition(Display display, long timeout, long interval) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// if the condition already holds, succeed
 		if (condition())
 			return true;
@@ -175,7 +175,7 @@ public abstract class DisplayHelper {
 			finalTimeout= Long.MAX_VALUE;
 		boolean condition;
 		try {
-			do {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				waiter.restart(interval);
 				if (display.sleep())
 					driveEventQueue(display);

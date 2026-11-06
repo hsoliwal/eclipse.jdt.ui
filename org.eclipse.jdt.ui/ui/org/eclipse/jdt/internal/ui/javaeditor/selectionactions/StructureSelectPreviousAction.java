@@ -69,7 +69,7 @@ public class StructureSelectPreviousAction extends StructureSelectionAction {
 	/* non java doc
 	 * @see StructureSelectionAction#internalGetNewSelectionRange(ISourceRange, ICompilationUnit, SelectionAnalyzer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	ISourceRange internalGetNewSelectionRange(ISourceRange oldSourceRange, ISourceReference sr, SelectionAnalyzer selAnalyzer) throws JavaModelException{
 		if (oldSourceRange.getLength() == 0 && selAnalyzer.getLastCoveringNode() != null) {
 			ASTNode previousNode= PreviousNodeAnalyzer.perform(oldSourceRange.getOffset(), selAnalyzer.getLastCoveringNode());

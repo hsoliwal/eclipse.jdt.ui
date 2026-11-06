@@ -157,10 +157,10 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	 */
 	private void helper1(String packageNames[], String[][] packageFiles, String newPackageName) throws Exception{
 		IPackageFragment[] packages= new IPackageFragment[packageNames.length];
-		for (int i= 0; i < packageFiles.length; i++){
+		for (int i= 0; i < packageFiles.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			packages[i]= getRoot().createPackageFragment(packageNames[i], true, null);
-			for (String packageFile : packageFiles[i]) {
-				createCUfromTestFile(packages[i], packageFile, packageNames[i].replace('.', '/') + "/");
+			for (String packageFile : packageFiles[i]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				createCUfromTestFile(packages[i], packageFile, packageNames[i].replace('.', '/') + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				//DebugUtils.dump(cu.getElementName() + "\n" + cu.getSource());
 			}
 		}
@@ -168,21 +168,21 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		RefactoringStatus result= performRefactoring(createRefactoringDescriptor(thisPackage, newPackageName));
 		assertNotNull("precondition was supposed to fail", result);
 		if (fIsVerbose)
-			DebugUtils.dump("" + result);
+			DebugUtils.dump("" + result); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void helper1() throws Exception{
 		helper1(new String[]{"r"}, new String[][]{{"A"}}, "p1");
 	}
 
-	private RenamePackageProcessor helper2(String[] packageNames, String[][] packageFileNames, String newPackageName) throws Exception{
+	private RenamePackageProcessor helper2(String[] packageNames, String[][] packageFileNames, String newPackageName) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ParticipantTesting.reset();
 			IPackageFragment[] packages= new IPackageFragment[packageNames.length];
 			ICompilationUnit[][] cus= new ICompilationUnit[packageFileNames.length][packageFileNames[0].length];
-			for (int i= 0; i < packageNames.length; i++){
+			for (int i= 0; i < packageNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				packages[i]= getRoot().createPackageFragment(packageNames[i], true, null);
-				for (int j= 0; j < packageFileNames[i].length; j++){
-					cus[i][j]= createCUfromTestFile(packages[i], packageFileNames[i][j], packageNames[i].replace('.', '/') + "/");
+				for (int j= 0; j < packageFileNames[i].length; j++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					cus[i][j]= createCUfromTestFile(packages[i], packageFileNames[i][j], packageNames[i].replace('.', '/') + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			IPackageFragment thisPackage= packages[0];
@@ -205,16 +205,16 @@ public class RenamePackageTests extends GenericRefactoringTest {
 			} else {
 				renameHandles= ParticipantTesting.createHandles(thisPackage);
 				IContainer loop= target;
-				List<String> handles= new ArrayList<>();
-				while (loop != null && !loop.exists()) {
+				List<String> handles= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				while (loop != null && !loop.exists()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					handles.add(ParticipantTesting.createHandles(loop)[0]);
 					loop= loop.getParent();
 				}
 				createHandles= handles.toArray(new String[handles.size()]);
 				IFolder source= (IFolder)thisPackage.getResource();
 				deleteHandles= ParticipantTesting.createHandles(source);
-				List<IResource> movedObjects= new ArrayList<>();
-				for (IResource member : source.members()) {
+				List<IResource> movedObjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IResource member : source.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (member instanceof IFolder) {
 						doDelete= false;
 					} else {
@@ -245,8 +245,8 @@ public class RenamePackageTests extends GenericRefactoringTest {
 
 				ParticipantTesting.testCreate(createHandles);
 
-				List<MoveArguments> args= new ArrayList<>();
-				for (int i= 0; i < packageFileNames[0].length; i++) {
+				List<MoveArguments> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (int i= 0; i < packageFileNames[0].length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					args.add(new MoveArguments(target, fUpdateReferences));
 				}
 				ParticipantTesting.testMove(moveHandles, args.toArray(new MoveArguments[args.size()]));
@@ -268,22 +268,22 @@ public class RenamePackageTests extends GenericRefactoringTest {
 			IPackageFragment newPackage= getRoot().getPackageFragment(newPackageName);
 			assertTrue("new package does not exist", newPackage.exists());
 
-			for (int i= 0; i < packageFileNames.length; i++){
+			for (int i= 0; i < packageFileNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String packageName= (i == 0)
-								? newPackageName.replace('.', '/') + "/"
-								: packageNames[i].replace('.', '/') + "/";
-				for (int j= 0; j < packageFileNames[i].length; j++){
+								? newPackageName.replace('.', '/') + "/" //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+								: packageNames[i].replace('.', '/') + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				for (int j= 0; j < packageFileNames[i].length; j++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String s1= getFileContents(getOutputTestFileName(packageFileNames[i][j], packageName));
 					ICompilationUnit cu=
 						(i == 0)
-							? newPackage.getCompilationUnit(packageFileNames[i][j] + ".java")
+							? newPackage.getCompilationUnit(packageFileNames[i][j] + ".java") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							: cus[i][j];
 					//DebugUtils.dump("cu:" + cu.getElementName());
 					String s2= cu.getSource();
 
 					//DebugUtils.dump("expected:" + s1);
 					//DebugUtils.dump("was:" + s2);
-					assertEqualLines("invalid update in file " + cu.getElementName(), s1,	s2);
+					assertEqualLines("invalid update in file " + cu.getElementName(), s1,	s2); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 			RefactoringProcessor processor= ((ProcessorBasedRefactoring) refactoring).getProcessor();
@@ -303,7 +303,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 			this(packageNames, packageFileNames, newPackageName, false);
 		}
 
-		public PackageRename(String[] packageNames, String[][] packageFileNames, String newPackageName, boolean testWithDummyFiles) throws Exception {
+		public PackageRename(String[] packageNames, String[][] packageFileNames, String newPackageName, boolean testWithDummyFiles) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fPackageNames= packageNames;
 			fPackageFileNames= packageFileNames;
 			fNewPackageName= newPackageName;
@@ -311,14 +311,14 @@ public class RenamePackageTests extends GenericRefactoringTest {
 
 			fPackages= new IPackageFragment[packageNames.length];
 			fCus= new ICompilationUnit[packageFileNames.length][];
-			for (int i= 0; i < packageFileNames.length; i++){
+			for (int i= 0; i < packageFileNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fPackages[i]= getRoot().createPackageFragment(packageNames[i], true, null);
 				fCus[i]= new ICompilationUnit[packageFileNames[i].length];
-				for (int j= 0; j < packageFileNames[i].length; j++){
+				for (int j= 0; j < packageFileNames[i].length; j++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (testWithDummyFiles) {
 						fCus[i][j]= createDummyCU(fPackages[i], packageFileNames[i][j]);
 					} else {
-						fCus[i][j]= createCUfromTestFile(fPackages[i], packageFileNames[i][j], packageNames[i].replace('.', '/') + "/");
+						fCus[i][j]= createCUfromTestFile(fPackages[i], packageFileNames[i][j], packageNames[i].replace('.', '/') + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 			}
@@ -326,14 +326,14 @@ public class RenamePackageTests extends GenericRefactoringTest {
 
 		private ICompilationUnit createDummyCU(IPackageFragment packageFragment, String typeName) throws JavaModelException {
 			String contents= getDummyContents(packageFragment.getElementName(), typeName);
-			return packageFragment.createCompilationUnit(typeName + ".java", contents, true, null);
+			return packageFragment.createCompilationUnit(typeName + ".java", contents, true, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		private String getDummyContents(String packName, String typeName) {
-			StringBuilder contents= new StringBuilder();
+			StringBuilder contents= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (packName.length() != 0)
-				contents.append("package ").append(packName).append(";\n");
-			contents.append("public class ").append(typeName).append(" { }\n");
+				contents.append("package ").append(packName).append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			contents.append("public class ").append(typeName).append(" { }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return contents.toString();
 		}
 
@@ -355,28 +355,28 @@ public class RenamePackageTests extends GenericRefactoringTest {
 			createAndPerform(RefactoringStatus.OK);
 
 			IPackageFragment oldPackage= getRoot().getPackageFragment(fPackageNames[0]);
-			assertFalse("package not renamed: " + fPackageNames[0], oldPackage.exists());
+			assertFalse("package not renamed: " + fPackageNames[0], oldPackage.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			IPackageFragment newPackage= getRoot().getPackageFragment(fNewPackageName);
 			assertTrue("new package does not exist", newPackage.exists());
 
 			checkExpectedState();
 		}
 
-		public void checkExpectedState() throws IOException, JavaModelException {
-			for (int i= 0; i < fPackageFileNames.length; i++){
+		public void checkExpectedState() throws IOException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			for (int i= 0; i < fPackageFileNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String packageName= getNewPackageName(fPackageNames[i]);
-				String packagePath= packageName.replace('.', '/') + "/";
+				String packagePath= packageName.replace('.', '/') + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-				for (String packageFileName : fPackageFileNames[i]) {
+				for (String packageFileName : fPackageFileNames[i]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String expected;
 					if (fTestWithDummyFiles) {
 						expected= getDummyContents(packageName, packageFileName);
 					} else {
 						expected= getFileContents(getOutputTestFileName(packageFileName, packagePath));
 					}
-					ICompilationUnit cu= getRoot().getPackageFragment(packageName).getCompilationUnit(packageFileName + ".java");
+					ICompilationUnit cu= getRoot().getPackageFragment(packageName).getCompilationUnit(packageFileName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					String actual= cu.getSource();
-					assertEqualLines("invalid update in file " + cu.getElementName(), expected,	actual);
+					assertEqualLines("invalid update in file " + cu.getElementName(), expected,	actual); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -385,52 +385,52 @@ public class RenamePackageTests extends GenericRefactoringTest {
 			if (oldPackageName.equals(fPackageNames[0]))
 				return fNewPackageName;
 
-			if (fRenameSubpackages && oldPackageName.startsWith(fPackageNames[0] + "."))
-				return fNewPackageName + oldPackageName.substring(fPackageNames[0].length());
+			if (fRenameSubpackages && oldPackageName.startsWith(fPackageNames[0] + ".")) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				return fNewPackageName + oldPackageName.substring(fPackageNames[0].length()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			return oldPackageName;
 		}
 
-		public void checkOriginalState() throws Exception {
-			ArrayList<String> existingPacks= new ArrayList<>();
-			for (IJavaElement javaelement : getRoot().getChildren()) {
+		public void checkOriginalState() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			ArrayList<String> existingPacks= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement javaelement : getRoot().getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				existingPacks.add(javaelement.getElementName());
 			}
 			assertEqualSets(Arrays.asList(fPackageNames), existingPacks);
 
-			for (int i= 0; i < fPackageFileNames.length; i++){
+			for (int i= 0; i < fPackageFileNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String packageName= fPackageNames[i];
-				String packagePath= packageName.replace('.', '/') + "/";
+				String packagePath= packageName.replace('.', '/') + "/"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				IPackageFragment pack= getRoot().getPackageFragment(packageName);
 
-				ArrayList<String> existingCUs= new ArrayList<>();
-				for (IJavaElement javaelement : pack.getChildren()) {
+				ArrayList<String> existingCUs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IJavaElement javaelement : pack.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String cuName= javaelement.getElementName();
 					existingCUs.add(cuName.substring(0, cuName.length() - 5));
 				}
 				assertEqualSets(Arrays.asList(fPackageFileNames[i]), existingCUs);
 
-				for (String packageFileName : fPackageFileNames[i]) {
+				for (String packageFileName : fPackageFileNames[i]) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String expected;
 					if (fTestWithDummyFiles) {
 						expected= getDummyContents(packageName, packageFileName);
 					} else {
 						expected= getFileContents(getInputTestFileName(packageFileName, packagePath));
 					}
-					ICompilationUnit cu= pack.getCompilationUnit(packageFileName + ".java");
+					ICompilationUnit cu= pack.getCompilationUnit(packageFileName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					String actual= cu.getSource();
-					assertEqualLines("invalid undo in file " + cu.getElementName(), expected,	actual);
+					assertEqualLines("invalid undo in file " + cu.getElementName(), expected,	actual); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 
 		}
 
 		private void assertEqualSets(Collection<String> expected, Collection<String> actual) {
-			HashSet<String> expectedSet= new HashSet<>(expected);
+			HashSet<String> expectedSet= new HashSet<>(expected); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			expectedSet.removeAll(actual);
 			assertEquals("not all expected in actual", "[]", expectedSet.toString());
 
-			HashSet<String> actualSet= new HashSet<>(actual);
+			HashSet<String> actualSet= new HashSet<>(actual); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			actualSet.removeAll(expected);
 			assertEquals("not all actual in expected", "[]", actualSet.toString());
 		}
@@ -453,21 +453,21 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	 * @param cuNames cu names per package
 	 * @throws Exception if one of the resources cannot be created
 	 */
-	private void helperMultiProjects(IPackageFragmentRoot[] roots, String[][] packageNames, String newPackageName, String[][][] cuNames) throws Exception{
+	private void helperMultiProjects(IPackageFragmentRoot[] roots, String[][] packageNames, String newPackageName, String[][][] cuNames) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit[][][] cus=new ICompilationUnit[roots.length][][];
 		IPackageFragment thisPackage= null;
 
-		for (int r= 0; r < roots.length; r++) {
+		for (int r= 0; r < roots.length; r++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment[] packages= new IPackageFragment[packageNames[r].length];
 			cus[r]= new ICompilationUnit[packageNames[r].length][];
-			for (int pa= 0; pa < packageNames[r].length; pa++){
+			for (int pa= 0; pa < packageNames[r].length; pa++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				packages[pa]= roots[r].createPackageFragment(packageNames[r][pa], true, null);
 				cus[r][pa]= new ICompilationUnit[cuNames[r][pa].length];
 				if (r == 0 && pa == 0)
 					thisPackage= packages[pa];
-				for (int typ= 0; typ < cuNames[r][pa].length; typ++){
+				for (int typ= 0; typ < cuNames[r][pa].length; typ++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					cus[r][pa][typ]= createCUfromTestFile(packages[pa], cuNames[r][pa][typ],
-							roots[r].getElementName() + "/" + packageNames[r][pa].replace('.', '/') + "/");
+							roots[r].getElementName() + "/" + packageNames[r][pa].replace('.', '/') + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -486,21 +486,21 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		IPackageFragment newPackage= roots[0].getPackageFragment(newPackageName);
 		assertTrue("new package does not exist", newPackage.exists());
 
-		for (int r = 0; r < cuNames.length; r++) {
-			for (int pa= 0; pa < cuNames[r].length; pa++){
-				String packageName= roots[r].getElementName() + "/"	+
+		for (int r = 0; r < cuNames.length; r++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int pa= 0; pa < cuNames[r].length; pa++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				String packageName= roots[r].getElementName() + "/"	+ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						((r == 0 && pa == 0) ? newPackageName : packageNames[r][pa]).replace('.', '/') + "/";
-				for (int typ= 0; typ < cuNames[r][pa].length; typ++){
+				for (int typ= 0; typ < cuNames[r][pa].length; typ++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String s1= getFileContents(getOutputTestFileName(cuNames[r][pa][typ], packageName));
 					ICompilationUnit cu= (r == 0 && pa == 0)
-							? newPackage.getCompilationUnit(cuNames[r][pa][typ] + ".java")
+							? newPackage.getCompilationUnit(cuNames[r][pa][typ] + ".java") //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							: cus[r][pa][typ];
 					//DebugUtils.dump("cu:" + cu.getElementName());
 					String s2= cu.getSource();
 
 					//DebugUtils.dump("expected:" + s1);
 					//DebugUtils.dump("was:" + s2);
-					assertEqualLines("invalid update in file " + cu.toString(), s1,	s2);
+					assertEqualLines("invalid update in file " + cu.toString(), s1,	s2); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		}
@@ -515,7 +515,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	 * @param cuNames cu names per package
 	 * @throws Exception if one of the resources cannot be created
 	 */
-	private void helperProjectsPrgTest(String[][] packageNames, String newPackageName, String[][][] cuNames) throws Exception{
+	private void helperProjectsPrgTest(String[][] packageNames, String newPackageName, String[][][] cuNames) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject projectPrg= null;
 		IJavaProject projectTest= null;
 		try {
@@ -549,12 +549,12 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	private void helperMultiRoots(String[] rootNames, String[][] packageNames, String newPackageName, String[][][] typeNames) throws Exception{
 		IPackageFragmentRoot[] roots= new IPackageFragmentRoot[rootNames.length];
 		try {
-			for (int r= 0; r < roots.length; r++)
+			for (int r= 0; r < roots.length; r++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				roots[r]= JavaProjectHelper.addSourceContainer(getRoot().getJavaProject(), rootNames[r]);
 			helperMultiProjects(roots, packageNames, newPackageName, typeNames);
 		} catch (CoreException e) {
 		}
-		for (int r= 0; r < roots.length; r++)
+		for (int r= 0; r < roots.length; r++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaProjectHelper.removeSourceContainer(getRoot().getJavaProject(), rootNames[r]);
 	}
 
@@ -565,7 +565,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	}
 
 	private void checkMappingUnchanged(IJavaElementMapper jm, IResourceMapper rm, Object[] resOrJEs) {
-		for (Object resOrJE : resOrJEs) {
+		for (Object resOrJE : resOrJEs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resOrJE instanceof IJavaElement) {
 				IJavaElement javaElement= (IJavaElement) resOrJE;
 				resOrJE= javaElement.getResource();
@@ -579,7 +579,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	}
 
 	private void checkMappingChanged(IJavaElementMapper jm, IResourceMapper rm, Object[][] resOrJeToChangeds) {
-		for (Object[] resOrJeToChanged : resOrJeToChangeds) {
+		for (Object[] resOrJeToChanged : resOrJeToChangeds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object resOrJE= resOrJeToChanged[0];
 			Object changed= resOrJeToChanged[1];
 			if (resOrJE instanceof IJavaElement) {
@@ -598,7 +598,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	// ---------- tests -------------
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRenameWithResource1() throws Exception {
 		IPackageFragment fragment= getRoot().createPackageFragment("org.test", true, null);
 
@@ -637,7 +637,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRenameWithResource2() throws Exception {
 		IPackageFragment fragment= getRoot().createPackageFragment("org.test", true, null);
 
@@ -677,7 +677,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageRenameWithResource3() throws Exception {
 		// regression test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=108019
 		fIsPreDeltaTest= true;
@@ -685,7 +685,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		fQualifiedNamesFilePatterns= "*.txt";
 		String textFileName= "Textfile.txt";
 
-		String textfileContent= getFileContents(getTestPath() + getName() + TEST_INPUT_INFIX + "my/pack/" + textFileName);
+		String textfileContent= getFileContents(getTestPath() + getName() + TEST_INPUT_INFIX + "my/pack/" + textFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IFolder myPackFolder= getRoot().getJavaProject().getProject().getFolder("my").getFolder("pack");
 		CoreUtility.createFolder(myPackFolder, true, true, null);
 		IFile textfile= myPackFolder.getFile(textFileName);
@@ -694,17 +694,17 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		helper2(new String[]{"my.pack", "my"}, new String[][]{{}, {}}, "my");
 
 
-		StringBuilder newContent= new StringBuilder();
+		StringBuilder newContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (InputStreamReader reader= new InputStreamReader(textfile.getContents(true), ENCODING)){
 			int ch;
-			while((ch= reader.read()) != -1)
-				newContent.append((char)ch);
+			while((ch= reader.read()) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				newContent.append((char)ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		String definedContent= getFileContents(getTestPath() + getName() + TEST_OUTPUT_INFIX + "my/" + textFileName);
+		String definedContent= getFileContents(getTestPath() + getName() + TEST_OUTPUT_INFIX + "my/" + textFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid updating", definedContent, newContent.toString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchical01() throws Exception {
 		fRenameSubpackages= true;
 
@@ -712,7 +712,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		IPackageFragment thisPackage= rename.fPackages[0];
 
 		ParticipantTesting.reset();
-		List<IAdaptable> toRename= new ArrayList<>(Arrays.asList(JavaElementUtil.getPackageAndSubpackages(thisPackage)));
+		List<IAdaptable> toRename= new ArrayList<>(Arrays.asList(JavaElementUtil.getPackageAndSubpackages(thisPackage))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		toRename.add(thisPackage.getResource());
 		String[] renameHandles= ParticipantTesting.createHandles(toRename.toArray());
 
@@ -726,7 +726,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Ignore("BUG_PACKAGE_CANT_BE_RENAMED_TO_A_PACKAGE_THAT_ALREADY_EXISTS")
+	@Ignore("BUG_PACKAGE_CANT_BE_RENAMED_TO_A_PACKAGE_THAT_ALREADY_EXISTS") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void testHierarchical02() throws Exception {
 		fRenameSubpackages= true;
@@ -762,7 +762,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchical03() throws Exception {
 		fRenameSubpackages= true;
 		fUpdateTextualMatches= true;
@@ -772,7 +772,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 
 		ParticipantTesting.reset();
 
-		List<IAdaptable> toRename= new ArrayList<>(Arrays.asList(JavaElementUtil.getPackageAndSubpackages(thisPackage)));
+		List<IAdaptable> toRename= new ArrayList<>(Arrays.asList(JavaElementUtil.getPackageAndSubpackages(thisPackage))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		toRename.add(thisPackage.getResource());
 		String[] createHandles= {};
 		String[] deleteHandles= {};
@@ -793,7 +793,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchicalToSubpackage() throws Exception {
 		fRenameSubpackages= true;
 
@@ -842,7 +842,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		rename.checkOriginalState();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchicalToSuperpackage() throws Exception {
 		fRenameSubpackages= true;
 
@@ -883,7 +883,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		rename.checkOriginalState();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchicalToSuperpackage2() throws Exception {
 		fRenameSubpackages= true;
 
@@ -941,7 +941,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		rename.checkOriginalState();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchicalDisabledImport() throws Exception {
 		fRenameSubpackages= true;
 		fUpdateTextualMatches= true;
@@ -951,7 +951,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 
 		ParticipantTesting.reset();
 
-		List<IAdaptable> toRename= new ArrayList<>(Arrays.asList(JavaElementUtil.getPackageAndSubpackages(thisPackage)));
+		List<IAdaptable> toRename= new ArrayList<>(Arrays.asList(JavaElementUtil.getPackageAndSubpackages(thisPackage))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		toRename.add(thisPackage.getResource());
 		String[] renameHandles= ParticipantTesting.createHandles(toRename.toArray());
 
@@ -964,17 +964,17 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchicalJUnit() throws Exception {
 		fRenameSubpackages= true;
 
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
-		Assert.assertTrue(junitSrcArchive != null && junitSrcArchive.exists());
+		Assert.assertTrue(junitSrcArchive != null && junitSrcArchive.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		IPackageFragmentRoot src= JavaProjectHelper.addSourceContainerWithImport(getRoot().getJavaProject(), "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);
 
 		String[] packageNames= new String[]{"junit", "junit.extensions", "junit.framework", "junit.runner", "junit.samples", "junit.samples.money", "junit.tests", "junit.tests.extensions", "junit.tests.framework", "junit.tests.runner", "junit.textui"};
 		ICompilationUnit[][] cus= new ICompilationUnit[packageNames.length][];
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			cus[i]= src.getPackageFragment(packageNames[i]).getCompilationUnits();
 		}
 		IPackageFragment thisPackage= src.getPackageFragment("junit");
@@ -983,7 +983,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		PackageRename rename= new PackageRename(packageNames, new String[packageNames.length][0],"jdiverge");
 
 		RenameArguments[] renameArguments= new RenameArguments[packageNames.length + 1];
-		for (int i= 0; i < packageNames.length; i++) {
+		for (int i= 0; i < packageNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			renameArguments[i]= new RenameArguments(rename.getNewPackageName(packageNames[i]), true);
 		}
 		renameArguments[packageNames.length]= new RenameArguments("jdiverge", true);
@@ -1015,12 +1015,12 @@ public class RenamePackageTests extends GenericRefactoringTest {
 
 		assertFalse(status.hasError());
 		assertTrue(status.hasWarning());
-		for (RefactoringStatusEntry entry : status.getEntries()) {
+		for (RefactoringStatusEntry entry : status.getEntries()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(entry.isWarning());
 			assertEquals(RefactoringStatusCodes.MAIN_METHOD, entry.getCode());
 		}
 
-		assertFalse("package not renamed: " + rename.fPackageNames[0], src.getPackageFragment(rename.fPackageNames[0]).exists());
+		assertFalse("package not renamed: " + rename.fPackageNames[0], src.getPackageFragment(rename.fPackageNames[0]).exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IPackageFragment newPackage= src.getPackageFragment(rename.fNewPackageName);
 		assertTrue("new package does not exist", newPackage.exists());
 		// ---
@@ -1031,9 +1031,9 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		ResourcesPlugin.getWorkspace().run(performUndo, new NullProgressMonitor());
 
 		assertFalse("new package still exists", newPackage.exists());
-		assertTrue("original package does not exist: " + rename.fPackageNames[0], src.getPackageFragment(rename.fPackageNames[0]).exists());
+		assertTrue("original package does not exist: " + rename.fPackageNames[0], src.getPackageFragment(rename.fPackageNames[0]).exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		try (ZipInputStream zis= new ZipInputStream(new BufferedInputStream(new FileInputStream(junitSrcArchive)))) {
+		try (ZipInputStream zis= new ZipInputStream(new BufferedInputStream(new FileInputStream(junitSrcArchive)))) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			ZipTools.compareWithZipped(src, zis, JavaProjectHelper.JUNIT_SRC_ENCODING);
 		}
 	}
@@ -1101,7 +1101,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		fIsPreDeltaTest= true;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception{
 		fIsPreDeltaTest= true;
 		RenamePackageProcessor proc= helper2(new String[]{"r"}, new String[][]{{"A"}}, "p1");
@@ -1131,7 +1131,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2() throws Exception{
 		fIsPreDeltaTest= true;
 		RenamePackageProcessor processor= helper2(new String[]{"r", "fred"}, new String[][]{{"A"}, {"A"}}, "p1");
@@ -1163,26 +1163,26 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		helper2(new String[]{"fred", "r.r"}, new String[][]{{"A"}, {"B"}}, "r");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test4() throws Exception{
 		fIsPreDeltaTest= true;
 
 		fQualifiedNamesFilePatterns= "*.txt";
 		String textFileName= "Textfile.txt";
 
-		String textfileContent= getFileContents(getTestPath() + getName() + TEST_INPUT_INFIX + textFileName);
+		String textfileContent= getFileContents(getTestPath() + getName() + TEST_INPUT_INFIX + textFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IFile textfile= getRoot().getJavaProject().getProject().getFile(textFileName);
 		textfile.create(new ByteArrayInputStream(textfileContent.getBytes(ENCODING)), true, null);
 
 		helper2(new String[]{"r.p1", "r"}, new String[][]{{"A"}, {"A"}}, "q");
 
-		StringBuilder newContent= new StringBuilder();
+		StringBuilder newContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (InputStreamReader reader= new InputStreamReader(textfile.getContents(true), ENCODING)){
 			int ch;
-			while((ch= reader.read()) != -1)
-				newContent.append((char)ch);
+			while((ch= reader.read()) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				newContent.append((char)ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		String definedContent= getFileContents(getTestPath() + getName() + TEST_OUTPUT_INFIX + textFileName);
+		String definedContent= getFileContents(getTestPath() + getName() + TEST_OUTPUT_INFIX + textFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid updating", definedContent, newContent.toString());
 	}
 
@@ -1216,7 +1216,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		helper2(new String[]{"r.p1", "fred"}, new String[][] {{"A"}, {}}, "fred");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testToEmptySubPack() throws Exception{
 		fRenameSubpackages= true;
 
@@ -1242,7 +1242,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testWithEmptySubPack() throws Exception{
 		fRenameSubpackages= true;
 
@@ -1269,7 +1269,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 	}
 
 //	@Ignore("see bug#6054 (renaming a read-only package resets the read-only flag)")
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReadOnly() throws Exception{
 
 		fIsPreDeltaTest= true;
@@ -1279,10 +1279,10 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		IPackageFragment[] packages= new IPackageFragment[packageNames.length];
 
 		ICompilationUnit[][] cus= new ICompilationUnit[packageFileNames.length][packageFileNames[0].length];
-		for (int i= 0; i < packageNames.length; i++){
+		for (int i= 0; i < packageNames.length; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			packages[i]= getRoot().createPackageFragment(packageNames[i], true, null);
-			for (int j= 0; j < packageFileNames[i].length; j++){
-				cus[i][j]= createCUfromTestFile(packages[i], packageFileNames[i][j], packageNames[i].replace('.', '/') + "/");
+			for (int j= 0; j < packageFileNames[i].length; j++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				cus[i][j]= createCUfromTestFile(packages[i], packageFileNames[i][j], packageNames[i].replace('.', '/') + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		IPackageFragment thisPackage= packages[0];
@@ -1343,7 +1343,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 			);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportFromMultiRoots4() throws Exception {
 		//circular buildpath references
 		IJavaProject projectPrg= null;
@@ -1383,7 +1383,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportFromMultiRoots5() throws Exception {
 		//rename srcTest-p.p to q => ATest now must import p.p.A
 		IJavaProject projectPrg= null;
@@ -1432,7 +1432,7 @@ public class RenamePackageTests extends GenericRefactoringTest {
 		);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testImportFromMultiRoots7() throws Exception {
 		IJavaProject prj= null;
 		IJavaProject prjRef= null;

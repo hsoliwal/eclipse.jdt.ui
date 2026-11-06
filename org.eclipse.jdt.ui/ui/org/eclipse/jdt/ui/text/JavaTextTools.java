@@ -49,7 +49,7 @@ public class JavaTextTools {
 	/**
 	 * This tools' preference listener.
 	 */
-	private class PreferenceListener implements IPropertyChangeListener, Preferences.IPropertyChangeListener {
+	private class PreferenceListener implements IPropertyChangeListener, Preferences.IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			adaptToPreferenceChange(event);
@@ -153,7 +153,7 @@ public class JavaTextTools {
 
 		fCorePreferenceStore= coreStore;
 		if (fCorePreferenceStore != null)
-			fCorePreferenceStore.addPropertyChangeListener(fPreferenceListener);
+			fCorePreferenceStore.addPropertyChangeListener(fPreferenceListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 
 		fColorManager= new JavaColorManager();
 		fCodeScanner= new JavaCodeScanner(fColorManager, store);
@@ -167,7 +167,7 @@ public class JavaTextTools {
 	/**
 	 * Disposes all the individual tools of this tools collection.
 	 */
-	public void dispose() {
+	public void dispose() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fCodeScanner= null;
 		fMultilineCommentScanner= null;

@@ -158,7 +158,7 @@ public class JarPackageData {
 	/**
 	 * Creates a new Jar Package Data structure
 	 */
-	public JarPackageData() {
+	public JarPackageData() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		setExportClassFiles(true);
 		setExportOutputFolders(false);
 		setUseSourceFolderHierarchy(false);

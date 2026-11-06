@@ -21,7 +21,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.MemberFilter;
  *
  * @since 3.0
  */
-public class FieldsFilter extends MemberFilter {
+public class FieldsFilter extends MemberFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 	public FieldsFilter() {
 		addFilter(MemberFilter.FILTER_FIELDS);
 	}

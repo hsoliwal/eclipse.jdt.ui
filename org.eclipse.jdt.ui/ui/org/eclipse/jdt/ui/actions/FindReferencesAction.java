@@ -53,7 +53,7 @@ import org.eclipse.jdt.internal.ui.search.SearchUtil;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FindReferencesAction extends FindAction {
+public class FindReferencesAction extends FindAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Creates a new <code>FindReferencesAction</code>. The action

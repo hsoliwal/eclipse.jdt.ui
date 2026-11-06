@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class TypeChangeCorrectionProposal extends LinkedCorrectionProposal {
+public class TypeChangeCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public TypeChangeCorrectionProposal(ICompilationUnit targetCU, IBinding binding, CompilationUnit astRoot, ITypeBinding newType, boolean offerSuperTypeProposals, int relevance) {
 		this(targetCU, binding, astRoot, newType, false, offerSuperTypeProposals, relevance);

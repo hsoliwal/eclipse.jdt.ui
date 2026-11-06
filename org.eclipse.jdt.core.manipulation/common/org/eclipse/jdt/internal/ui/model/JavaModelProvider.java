@@ -53,7 +53,7 @@ public final class JavaModelProvider extends ModelProvider {
 	 *            the model element
 	 * @return the associated resource, or <code>null</code>
 	 */
-	public static IResource getResource(final Object element) {
+	public static IResource getResource(final Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= null;
 		if (element instanceof IJavaElement) {
 			resource= ((IJavaElement) element).getResource();

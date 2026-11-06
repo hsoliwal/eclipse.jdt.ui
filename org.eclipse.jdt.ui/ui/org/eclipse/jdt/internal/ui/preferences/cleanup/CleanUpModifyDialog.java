@@ -55,7 +55,7 @@ public class CleanUpModifyDialog extends ModifyDialog {
 	 */
 	private static final String DS_KEY_LAST_FOCUS= "modify_dialog.last_focus"; //$NON-NLS-1$
 
-	private final List<IModifyDialogTabPage> fTabPages= new ArrayList<>();
+	private final List<IModifyDialogTabPage> fTabPages= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private TabFolder fTabFolder;
 
 	private final String fKeyLastFocus;
@@ -74,7 +74,7 @@ public class CleanUpModifyDialog extends ModifyDialog {
 	public CleanUpModifyDialog(Shell parentShell, Profile profile, ProfileManager profileManager, ProfileStore profileStore, boolean newProfile, String dialogPreferencesKey, String lastSavePathKey) {
 	    super(parentShell, profile, profileManager, profileStore, newProfile, dialogPreferencesKey, lastSavePathKey);
 
-		fKeyLastFocus= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_LAST_FOCUS;
+		fKeyLastFocus= JavaUI.ID_PLUGIN + dialogPreferencesKey + DS_KEY_LAST_FOCUS; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 
 	@Override
@@ -95,7 +95,7 @@ public class CleanUpModifyDialog extends ModifyDialog {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void createMainArea(Composite parent) {
 		fTabFolder = new TabFolder(parent, SWT.NONE);
 		fTabFolder.setFont(parent.getFont());
@@ -105,7 +105,7 @@ public class CleanUpModifyDialog extends ModifyDialog {
 
 		applyDialogFont(parent);
 
-		fTabFolder.addSelectionListener(new SelectionListener() {
+		fTabFolder.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 			@Override
@@ -118,12 +118,12 @@ public class CleanUpModifyDialog extends ModifyDialog {
 		});
 	}
 
-	private void addPages(final Map<String, String> values) {
+	private void addPages(final Map<String, String> values) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CleanUpTabPageDescriptor[] descriptors= JavaPlugin.getDefault().getCleanUpRegistry().getCleanUpTabPageDescriptors(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS);
 
 		fPages= new ICleanUpConfigurationUI[descriptors.length];
 
-		for (int i= 0; i < descriptors.length; i++) {
+		for (int i= 0; i < descriptors.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= descriptors[i].getName();
 			CleanUpTabPage page= descriptors[i].createTabPage();
 
@@ -161,7 +161,7 @@ public class CleanUpModifyDialog extends ModifyDialog {
 	@Override
 	public void updateStatus(IStatus status) {
 		int count= 0;
-		for (ICleanUpConfigurationUI fPage : fPages) {
+		for (ICleanUpConfigurationUI fPage : fPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			count+= fPage.getSelectedCleanUpCount();
 		}
 		if (count == 0) {
@@ -179,7 +179,7 @@ public class CleanUpModifyDialog extends ModifyDialog {
 
 	private void updateCountLabel() {
 		int size= 0, count= 0;
-		for (ICleanUpConfigurationUI fPage : fPages) {
+		for (ICleanUpConfigurationUI fPage : fPages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			size+= fPage.getCleanUpCount();
 			count+= fPage.getSelectedCleanUpCount();
 		}

@@ -61,7 +61,7 @@ public class MoveCompilationUnitChange extends CompilationUnitReorgChange {
 		new String[]{BasicElementLabels.getFileName(getCu()), getPackageName(getDestinationPackage())});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Change doPerformReorg(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		String name;
 		String newName= getNewName();
@@ -97,7 +97,7 @@ public class MoveCompilationUnitChange extends CompilationUnitReorgChange {
 		}
 
 		if (fDeletePackages != null) {
-			for (int i= fDeletePackages.length - 1; i >= 0; i--) {
+			for (int i= fDeletePackages.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDeletePackages[i].delete(true, pm);
 			}
 		}
@@ -109,15 +109,15 @@ public class MoveCompilationUnitChange extends CompilationUnitReorgChange {
 		}
 	}
 
-	private IPackageFragment[] createDestination(IPackageFragmentRoot root, IPackageFragment destination, IProgressMonitor pm) throws JavaModelException {
+	private IPackageFragment[] createDestination(IPackageFragmentRoot root, IPackageFragment destination, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String packageName= destination.getElementName();
-		String[] split= packageName.split("\\."); //$NON-NLS-1$
+		String[] split= packageName.split("\\."); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-		ArrayList<IPackageFragment> created= new ArrayList<>();
+		ArrayList<IPackageFragment> created= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		StringBuilder name= new StringBuilder();
-		name.append(split[0]);
-		for (int i= 0; i < split.length; i++) {
+		StringBuilder name= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		name.append(split[0]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < split.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment fragment= root.getPackageFragment(name.toString());
 			if (!fragment.exists()) {
 				created.add(fragment);
@@ -128,8 +128,8 @@ public class MoveCompilationUnitChange extends CompilationUnitReorgChange {
 				return created.toArray(new IPackageFragment[created.size()]);
 			}
 
-			name.append("."); //$NON-NLS-1$
-			name.append(split[i + 1]);
+			name.append("."); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			name.append(split[i + 1]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return null;

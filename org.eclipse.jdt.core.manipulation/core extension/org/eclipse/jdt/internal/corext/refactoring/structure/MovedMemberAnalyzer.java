@@ -72,7 +72,7 @@ import org.eclipse.jdt.internal.ui.util.ASTHelper;
 		return super.visit(node);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(QualifiedName node) {
 		IBinding binding= node.resolveBinding();
 		if (isSourceAccess(binding)) {

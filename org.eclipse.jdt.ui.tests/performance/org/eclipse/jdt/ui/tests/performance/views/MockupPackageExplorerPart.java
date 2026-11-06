@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
 
-public final class MockupPackageExplorerPart extends PackageExplorerPart {
+public final class MockupPackageExplorerPart extends PackageExplorerPart { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	public static PackageExplorerColdPerfTest fgTest= null;
 

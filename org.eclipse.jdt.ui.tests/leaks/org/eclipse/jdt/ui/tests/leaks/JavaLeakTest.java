@@ -91,7 +91,7 @@ public class JavaLeakTest extends LeakTestCase {
 		internalTestEditorClose(file, TextEditor.class, false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testTextEditorCloseOneOfTwo() throws Exception {
 		IFile file1= createTestFile("Test1");
 		IEditorPart editor1= EditorUtility.openInEditor(file1);
@@ -126,7 +126,7 @@ public class JavaLeakTest extends LeakTestCase {
 		internalTestEditorClose(file, PropertiesFileEditor.class, false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPropertiesEditorCloseOneOfTwo() throws Exception {
 		IFile file1= createTestFile("Test1.properties");
 		IEditorPart editor1= EditorUtility.openInEditor(file1);
@@ -161,7 +161,7 @@ public class JavaLeakTest extends LeakTestCase {
 		internalTestEditorClose(cu, CompilationUnitEditor.class, false);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavaEditorCloseOneOfTwo() throws Exception {
 		ICompilationUnit cu1= createTestCU("Test1");
 		IEditorPart editor1= EditorUtility.openInEditor(cu1);
@@ -212,7 +212,7 @@ public class JavaLeakTest extends LeakTestCase {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavaEditorBreadcrumbCloseOneOfTwo1() throws Exception {
 		try {
 			JavaPlugin.getDefault().getPreferenceStore().setValue(getBreadcrumbPreferenceKey(), true);
@@ -242,7 +242,7 @@ public class JavaLeakTest extends LeakTestCase {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavaEditorBreadcrumbCloseOneOfTwo2() throws Exception {
 		try {
 			JavaPlugin.getDefault().getPreferenceStore().setValue(getBreadcrumbPreferenceKey(), true);
@@ -290,10 +290,10 @@ public class JavaLeakTest extends LeakTestCase {
 		IPackageFragmentRoot sourceFolder= JavaProjectHelper.addSourceContainer(fJProject, "src");
 
 		IPackageFragment pack2= sourceFolder.createPackageFragment("pack0", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package pack0;\n");
-		buf.append("public class " + typeName + " {\n}\n");
-		return pack2.createCompilationUnit(typeName + ".java", buf.toString(), false, null);
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package pack0;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class " + typeName + " {\n}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return pack2.createCompilationUnit(typeName + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private IFile createTestFile(String fileName) throws Exception {
@@ -308,7 +308,7 @@ public class JavaLeakTest extends LeakTestCase {
 		internalTestEditorClose(objectToOpen, clazz, closeAll, false);
 	}
 
-	private void internalTestEditorClose(Object objectToOpen, final Class<?> clazz, boolean closeAll, boolean activateBreadcrumb) throws Exception {
+	private void internalTestEditorClose(Object objectToOpen, final Class<?> clazz, boolean closeAll, boolean activateBreadcrumb) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IEditorPart part= internalTestEditorOpen(objectToOpen, clazz);
 
 		if (activateBreadcrumb && part instanceof JavaEditor) {
@@ -359,13 +359,13 @@ public class JavaLeakTest extends LeakTestCase {
 			return;
 
 		String message= null;
-		for (Object listener : listenerList) {
+		for (Object listener : listenerList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (listener instanceof SpellCheckEngine)
 				continue; // The SpellCheckEngine instance adds one listener when the first editor is created.
 
-			message= "\n" + listener;
+			message= "\n" + listener; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		assertNull("Property listeners leaked:" + message, message);
+		assertNull("Property listeners leaked:" + message, message); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void activateBreadcrumb(JavaEditor editor) {
@@ -444,20 +444,20 @@ public class JavaLeakTest extends LeakTestCase {
 	private void openContextMenu(final Menu menu) {
 		Display display= menu.getDisplay();
 
-        while (!menu.isDisposed() && display.readAndDispatch()) {
+        while (!menu.isDisposed() && display.readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	//loop, don't sleep
         }
 
         menu.setVisible(true);
 
-		display.asyncExec(() -> menu.setVisible(false));
+		display.asyncExec(() -> menu.setVisible(false)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
-        while (!menu.isDisposed() && display.readAndDispatch()) {
+        while (!menu.isDisposed() && display.readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	//loop, don't sleep
         }
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testJavaEditorActionDelegate() throws Exception {
 		//regression test for https://bugs.eclipse.org/bugs/show_bug.cgi?id=166761
 
@@ -487,7 +487,7 @@ public class JavaLeakTest extends LeakTestCase {
 		IPerspectiveDescriptor perspective= JavaPlugin.getActivePage().getPerspective();
 		if (perspective == null)
 			return null;
-		return JavaEditor.EDITOR_SHOW_BREADCRUMB + "." + perspective.getId(); //$NON-NLS-1$
+		return JavaEditor.EDITOR_SHOW_BREADCRUMB + "." + perspective.getId(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

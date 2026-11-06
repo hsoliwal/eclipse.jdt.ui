@@ -45,7 +45,7 @@ public class HTMLAnnotationHover extends DefaultAnnotationHover {
 	 */
 	@Override
 	protected String formatSingleMessage(String message) {
-		StringBuilder buffer= new StringBuilder();
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		HTMLPrinter.addPageProlog(buffer);
 		HTMLPrinter.addParagraph(buffer, HTMLPrinter.convertToHTMLContent(message));
 		HTMLPrinter.addPageEpilog(buffer);
@@ -57,13 +57,13 @@ public class HTMLAnnotationHover extends DefaultAnnotationHover {
 	 */
 	@Override
 	protected String formatMultipleMessages(List<String> messages) {
-		StringBuilder buffer= new StringBuilder();
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		HTMLPrinter.addPageProlog(buffer);
 		HTMLPrinter.addParagraph(buffer, HTMLPrinter.convertToHTMLContent(JavaUIMessages.JavaAnnotationHover_multipleMarkersAtThisLine));
 
 		HTMLPrinter.startBulletList(buffer);
 		Iterator<?> e= messages.iterator();
-		while (e.hasNext())
+		while (e.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			HTMLPrinter.addBullet(buffer, HTMLPrinter.convertToHTMLContent((String) e.next()));
 		HTMLPrinter.endBulletList(buffer);
 

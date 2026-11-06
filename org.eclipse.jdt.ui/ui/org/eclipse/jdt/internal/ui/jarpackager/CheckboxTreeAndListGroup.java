@@ -52,14 +52,14 @@ import org.eclipse.jface.viewers.ViewerFilter;
  *	Combines a CheckboxTreeViewer and CheckboxListViewer.
  *	All viewer selection-driven interactions are handled within this viewer
  */
-public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelectionChangedListener, ITreeViewerListener {
+public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelectionChangedListener, ITreeViewerListener { //FLLDCIM: MARK — T21  IMPLEMENTS
 
 	private Object fRoot;
 	private Object fCurrentTreeSelection;
-	private List<Object> fExpandedTreeNodes= new ArrayList<>();
-	private Map<Object, List<Object>> fCheckedStateStore= new HashMap<>(9);
-	private List<Object> fWhiteCheckedTreeItems= new ArrayList<>();
-	private List<ICheckStateListener> fListeners= new ArrayList<>();
+	private List<Object> fExpandedTreeNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private Map<Object, List<Object>> fCheckedStateStore= new HashMap<>(9); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private List<Object> fWhiteCheckedTreeItems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private List<ICheckStateListener> fListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private ITreeContentProvider fTreeContentProvider;
 	private IStructuredContentProvider fListContentProvider;
@@ -128,7 +128,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 
 		// if this tree element is already gray then its ancestors all are as well
 		if (!fCheckedStateStore.containsKey(treeElement))
-			fCheckedStateStore.put(treeElement, new ArrayList<>());
+			fCheckedStateStore.put(treeElement, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Object parent= fTreeContentProvider.getParent(treeElement);
 		if (parent != null)
@@ -164,7 +164,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 *	time and check each one in the tree viewer as appropriate
 	 */
 	protected void checkNewTreeElements(Object[] elements) {
-		for (Object currentElement : elements) {
+		for (Object currentElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean checked= fCheckedStateStore.containsKey(currentElement);
 			fTreeViewer.setChecked(currentElement, checked);
 			fTreeViewer.setGrayed(
@@ -232,8 +232,8 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		data.heightHint= height;
 		fListViewer.getTable().setLayoutData(data);
 		fListViewer.setContentProvider(fListContentProvider);
-		fListViewer.setLabelProvider(fListLabelProvider);
-		fListViewer.addCheckStateListener(this);
+		fListViewer.setLabelProvider(fListLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fListViewer.addCheckStateListener(this); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 	}
 	/**
 	 *	Creates this group's tree viewer.
@@ -251,10 +251,10 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		fTreeViewer= new CheckboxTreeViewer(tree);
 		fTreeViewer.setUseHashlookup(true);
 		fTreeViewer.setContentProvider(fTreeContentProvider);
-		fTreeViewer.setLabelProvider(fTreeLabelProvider);
-		fTreeViewer.addTreeListener(this);
-		fTreeViewer.addCheckStateListener(this);
-		fTreeViewer.addSelectionChangedListener(this);
+		fTreeViewer.setLabelProvider(fTreeLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+		fTreeViewer.addTreeListener(this); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
+		fTreeViewer.addCheckStateListener(this); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
+		fTreeViewer.addSelectionChangedListener(this); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 	/**
 	 * Returns a boolean indicating whether the passed tree element should be
@@ -278,7 +278,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		// if any children of treeElement are still gray-checked then treeElement
 		// must remain gray-checked as well
 		Object[] children= getTreeChildren(treeElement);
-		for (Object element : children) {
+		for (Object element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fCheckedStateStore.containsKey(element))
 				return true;
 		}
@@ -307,7 +307,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		// statuses will be needed to determine the white-checked status for
 		// this tree element
 		Object[] children= getTreeChildren(treeElement);
-		for (Object element : children)
+		for (Object element : children) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			determineWhiteCheckedDescendents(element);
 
 		// now determine the white-checked status for this tree element
@@ -327,9 +327,9 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 *	@return java.util.Vector
 	 */
 	public Iterator<Object> getAllCheckedListItems() {
-		Set<Object> result= new HashSet<>();
+		Set<Object> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		Iterator<List<Object>> listCollectionsEnum= fCheckedStateStore.values().iterator();
-		while (listCollectionsEnum.hasNext())
+		while (listCollectionsEnum.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(listCollectionsEnum.next());
 		return result.iterator();
 	}
@@ -340,7 +340,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 *	@return java.util.Vector
 	 */
 	public Set<Object> getAllCheckedTreeItems() {
-		return new HashSet<>(fCheckedStateStore.keySet());
+		return new HashSet<>(fCheckedStateStore.keySet()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 	/**
 	 *	Answers the number of elements that have been checked by the
@@ -385,7 +385,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 * @param filter a viewer filter
 	 */
 	public void addTreeFilter(ViewerFilter filter) {
-		fTreeViewer.addFilter(filter);
+		fTreeViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 	/**
 	 * Adds the given filter to the list viewer and
@@ -394,7 +394,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 * @param filter a viewer filter
 	 */
 	public void addListFilter(ViewerFilter filter) {
-		fListViewer.addFilter(filter);
+		fListViewer.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 	/**
 	 *	Logically gray-check all ancestors of treeItem by ensuring that they
@@ -406,7 +406,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		if (fCheckedStateStore.containsKey(treeElement))
 			return; // no need to proceed upwards from here
 
-		fCheckedStateStore.put(treeElement, new ArrayList<>());
+		fCheckedStateStore.put(treeElement, new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (determineShouldBeWhiteChecked(treeElement)) {
 			setWhiteChecked(treeElement, true);
 		}
@@ -435,14 +435,14 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 *	Initializes this group's viewers after they have been laid out.
 	 */
 	protected void initialize() {
-		fTreeViewer.setInput(fRoot);
+		fTreeViewer.setInput(fRoot); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 	/**
 	 *	Callback that's invoked when the checked status of an item in the list
 	 *	is changed by the user. Do not try and update the hierarchy if we are building the
 	 *  initial list.
 	 */
-	protected void listItemChecked(
+	protected void listItemChecked( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object listElement,
 		boolean state,
 		boolean updatingFromSelection) {
@@ -474,7 +474,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 */
 	protected void notifyCheckStateChangeListeners(CheckStateChangedEvent event) {
 		Iterator<ICheckStateListener> listenersEnum= fListeners.iterator();
-		while (listenersEnum.hasNext())
+		while (listenersEnum.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			 listenersEnum.next().checkStateChanged(event);
 	}
 	/**
@@ -487,12 +487,12 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		if (treeElement == fCurrentTreeSelection)
 			return;
 		fCurrentTreeSelection= treeElement;
-		fListViewer.setInput(treeElement);
+		fListViewer.setInput(treeElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		List<Object> listItemsToCheck= fCheckedStateStore.get(treeElement);
 
 		if (listItemsToCheck != null) {
 			Iterator<Object> listItemsEnum= listItemsToCheck.iterator();
-			while (listItemsEnum.hasNext())
+			while (listItemsEnum.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fListViewer.setChecked(listItemsEnum.next(), true);
 		}
 	}
@@ -517,7 +517,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 			Object selectedElement= selection.getFirstElement();
 			if (selectedElement == null) {
 				fCurrentTreeSelection= null;
-				fListViewer.setInput(fCurrentTreeSelection);
+				fListViewer.setInput(fCurrentTreeSelection); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				return;
 			}
 			populateListViewer(selectedElement);
@@ -547,7 +547,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		IStructuredContentProvider contentProvider,
 		ILabelProvider labelProvider) {
 		fListViewer.setContentProvider(contentProvider);
-		fListViewer.setLabelProvider(labelProvider);
+		fListViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 	/**
 	 *	Sets the sorter that is to be applied to self's list viewer
@@ -567,7 +567,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 *	Sets the checked state of the passed tree element appropriately, and
 	 *	do so recursively to all of its child tree elements as well
 	 */
-	protected void setTreeChecked(Object treeElement, boolean state) {
+	protected void setTreeChecked(Object treeElement, boolean state) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (treeElement.equals(fCurrentTreeSelection)) {
 			fListViewer.setAllChecked(state);
@@ -575,7 +575,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 
 		if (state) {
 			Object[] listItems= getListElements(treeElement);
-			List<Object> listItemsChecked= new ArrayList<>();
+			List<Object> listItemsChecked= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Collections.addAll(listItemsChecked, listItems);
 
 			fCheckedStateStore.put(treeElement, listItemsChecked);
@@ -588,7 +588,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 
 		// now logically check/uncheck all children as well
 		Object[] children= getTreeChildren(treeElement);
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setTreeChecked(child, state);
 		}
 	}
@@ -602,7 +602,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		ITreeContentProvider contentProvider,
 		ILabelProvider labelProvider) {
 		fTreeViewer.setContentProvider(contentProvider);
-		fTreeViewer.setLabelProvider(labelProvider);
+		fTreeViewer.setLabelProvider(labelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 	}
 	/**
 	 *	Sets the sorter that is to be applied to self's tree viewer
@@ -682,7 +682,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	/**
 	 *	Sets the checked state of self and all ancestors appropriately
 	 */
-	protected void updateHierarchy(Object treeElement) {
+	protected void updateHierarchy(Object treeElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean whiteChecked= determineShouldBeWhiteChecked(treeElement);
 		boolean shouldBeAtLeastGray= determineShouldBeAtLeastGrayChecked(treeElement);
@@ -717,12 +717,12 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	 * @param elements the elements to filter
 	 * @return only the elements which all filters accept
 	 */
-	protected Object[] filter(ViewerFilter[] filters, Object[] elements) {
+	protected Object[] filter(ViewerFilter[] filters, Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (filters != null) {
-			ArrayList<Object> filtered = new ArrayList<>(elements.length);
-			for (Object element : elements) {
+			ArrayList<Object> filtered = new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean add = true;
-				for (ViewerFilter filter : filters) {
+				for (ViewerFilter filter : filters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					add = filter.select(null, null, element);
 					if (!add)
 						break;
@@ -745,14 +745,14 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 	}
 
 	public Set<Object> getWhiteCheckedTreeItems() {
-		return new HashSet<>(fWhiteCheckedTreeItems);
+		return new HashSet<>(fWhiteCheckedTreeItems); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
-	private void handleUpdateSelection(Map<Object, List<Object>> items) {
+	private void handleUpdateSelection(Map<Object, List<Object>> items) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Iterator<Object> keyIterator= items.keySet().iterator();
 
 		//Update the store before the hierarchy to prevent updating parents before all of the children are done
-		while (keyIterator.hasNext()) {
+		while (keyIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object key= keyIterator.next();
 			//Replace the items in the checked state store with those from the supplied items
 			List<Object> selections= items.get(key);
@@ -772,7 +772,7 @@ public class CheckboxTreeAndListGroup implements ICheckStateListener, ISelection
 		//Now update hierarchies
 		keyIterator= items.keySet().iterator();
 
-		while (keyIterator.hasNext()) {
+		while (keyIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object key= keyIterator.next();
 			updateHierarchy(key);
 			if (fCurrentTreeSelection != null && fCurrentTreeSelection.equals(key)) {

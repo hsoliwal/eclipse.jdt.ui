@@ -48,7 +48,7 @@ public class JEClasspathEntry extends JEAttribute {
 		return fParent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -80,15 +80,15 @@ public class JEClasspathEntry extends JEAttribute {
 		return fEntry;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public JEAttribute[] getChildren() {
-		ArrayList<JEAttribute> result= new ArrayList<>();
+		ArrayList<JEAttribute> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		result.add(new JavaElementChildrenProperty(this, "ACCESS RULES") {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IAccessRule[] accessRules= fEntry.getAccessRules();
 				JEAttribute[] children= new JEAttribute[accessRules.length];
-				for (int i= 0; i < accessRules.length; i++) {
+				for (int i= 0; i < accessRules.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JavaElementProperty(this, null, accessRules[i]);
 				}
 				return children;
@@ -98,7 +98,7 @@ public class JEClasspathEntry extends JEAttribute {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IPath[] exclusionPatterns= fEntry.getExclusionPatterns();
 				JEAttribute[] children= new JEAttribute[exclusionPatterns.length];
-				for (int i= 0; i < exclusionPatterns.length; i++) {
+				for (int i= 0; i < exclusionPatterns.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JavaElementProperty(this, null, exclusionPatterns[i]);
 				}
 				return children;
@@ -108,7 +108,7 @@ public class JEClasspathEntry extends JEAttribute {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IPath[] inclusionPatterns= fEntry.getInclusionPatterns();
 				JEAttribute[] children= new JEAttribute[inclusionPatterns.length];
-				for (int i= 0; i < inclusionPatterns.length; i++) {
+				for (int i= 0; i < inclusionPatterns.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JavaElementProperty(this, null, inclusionPatterns[i]);
 				}
 				return children;
@@ -118,7 +118,7 @@ public class JEClasspathEntry extends JEAttribute {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IClasspathAttribute[] extraAttributes= fEntry.getExtraAttributes();
 				JEAttribute[] children= new JEAttribute[extraAttributes.length];
-				for (int i= 0; i < extraAttributes.length; i++) {
+				for (int i= 0; i < extraAttributes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JavaElementProperty(this, null, extraAttributes[i]);
 				}
 				return children;
@@ -129,7 +129,7 @@ public class JEClasspathEntry extends JEAttribute {
 			@Override protected JEAttribute[] computeChildren() throws CoreException {
 				IJavaProject project= null;
 				JEAttribute parent= JEClasspathEntry.this;
-				while ((parent= parent.getParent()) != null) {
+				while ((parent= parent.getParent()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parent instanceof JavaElement) {
 						project= ((JavaElement) parent).getJavaElement().getJavaProject();
 						break;
@@ -137,7 +137,7 @@ public class JEClasspathEntry extends JEAttribute {
 				}
 				IClasspathEntry[] referencedEntries= JavaCore.getReferencedClasspathEntries(fEntry, project);
 				JEAttribute[] children= new JEAttribute[referencedEntries.length];
-				for (int i= 0; i < referencedEntries.length; i++) {
+				for (int i= 0; i < referencedEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JEClasspathEntry(this, null, referencedEntries[i]);
 				}
 				return children;
@@ -145,10 +145,10 @@ public class JEClasspathEntry extends JEAttribute {
 		});
 		result.add(new JEClasspathEntry(this, "JavaCore.getResolvedClasspathEntry(this)", JavaCore.getResolvedClasspathEntry(fEntry)));
 		result.add(new JavaElementChildrenProperty(this, "JavaCore.getClasspathContainer(..).getClasspathEntries()") {
-			@Override protected JEAttribute[] computeChildren() throws CoreException {
+			@Override protected JEAttribute[] computeChildren() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				IJavaProject project= null;
 				JEAttribute parent= JEClasspathEntry.this;
-				while ((parent= parent.getParent()) != null) {
+				while ((parent= parent.getParent()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parent instanceof JavaElement) {
 						project= ((JavaElement) parent).getJavaElement().getJavaProject();
 						break;
@@ -159,7 +159,7 @@ public class JEClasspathEntry extends JEAttribute {
 					return EMPTY;
 				IClasspathEntry[] referencedEntries= classpathContainer.getClasspathEntries();
 				JEAttribute[] children= new JEAttribute[referencedEntries.length];
-				for (int i= 0; i < referencedEntries.length; i++) {
+				for (int i= 0; i < referencedEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					children[i]= new JEClasspathEntry(this, null, referencedEntries[i]);
 				}
 				return children;
@@ -173,7 +173,7 @@ public class JEClasspathEntry extends JEAttribute {
 	public String getLabel() {
 		String label= fEntry.toString();
 		if (fName != null)
-			label= fName +  ": " + label;
+			label= fName +  ": " + label; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return label;
 	}
 

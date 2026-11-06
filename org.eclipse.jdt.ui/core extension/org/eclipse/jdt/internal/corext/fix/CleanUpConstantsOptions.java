@@ -25,7 +25,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.fix.UnimplementedCodeCleanUpCore;
 
 public class CleanUpConstantsOptions extends CleanUpConstants {
-	private static void setEclipseDefaultSettings(CleanUpOptions options) {
+	private static void setEclipseDefaultSettings(CleanUpOptions options) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//Member Accesses
 		options.setOption(MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS, CleanUpOptions.FALSE);
 		options.setOption(MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS_ALWAYS, CleanUpOptions.FALSE);
@@ -214,7 +214,7 @@ public class CleanUpConstantsOptions extends CleanUpConstants {
 		options.setOption(CONTROL_STATEMENTS_USE_ADD_ALL, CleanUpOptions.FALSE);
 	}
 
-	private static void setSaveParticipantSettings(CleanUpOptions options) {
+	private static void setSaveParticipantSettings(CleanUpOptions options) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		//Member Accesses
 		options.setOption(MEMBER_ACCESSES_NON_STATIC_FIELD_USE_THIS, CleanUpOptions.FALSE);
@@ -408,7 +408,7 @@ public class CleanUpConstantsOptions extends CleanUpConstants {
 
 	public static void initDefaults(IPreferenceStore store) {
 		CleanUpOptions settings= JavaPlugin.getDefault().getCleanUpRegistry().getDefaultOptions(CleanUpConstants.DEFAULT_CLEAN_UP_OPTIONS);
-		for (String key : settings.getKeys()) {
+		for (String key : settings.getKeys()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			store.setDefault(key, settings.getValue(key));
 		}
 
@@ -426,7 +426,7 @@ public class CleanUpConstantsOptions extends CleanUpConstants {
 				CleanUpConstantsOptions.setSaveParticipantSettings(options);
 				break;
 			default:
-				Assert.isTrue(false, "Unknown Clean Up option kind: " + kind); //$NON-NLS-1$
+				Assert.isTrue(false, "Unknown Clean Up option kind: " + kind); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 		}
 	}

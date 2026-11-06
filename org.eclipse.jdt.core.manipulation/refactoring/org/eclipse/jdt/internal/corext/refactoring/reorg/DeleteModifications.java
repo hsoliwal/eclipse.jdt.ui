@@ -63,7 +63,7 @@ public class DeleteModifications extends RefactoringModifications {
 	private Set<IPackageFragment> fPackagesToDelete;
 
 	public DeleteModifications() {
-		fDelete= new ArrayList<>();
+		fDelete= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fPackagesToDelete= new LinkedHashSet<>();
 	}
 
@@ -72,18 +72,18 @@ public class DeleteModifications extends RefactoringModifications {
 	}
 
 	public void delete(IResource[] resources) {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			delete(resource);
 		}
 	}
 
 	public void delete(IJavaElement[] elements) throws CoreException {
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			delete(element);
 		}
 	}
 
-	public void delete(IJavaElement element) throws CoreException {
+	public void delete(IJavaElement element) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch(element.getElementType()) {
 			case IJavaElement.JAVA_MODEL:
 				return;
@@ -100,7 +100,7 @@ public class DeleteModifications extends RefactoringModifications {
 				// change.
 				if (resource != null)
 					getResourceModifications().addDelete(resource);
-				for (IJavaProject referencingProject : JavaElementUtil.getReferencingProjects((IPackageFragmentRoot) element)) {
+				for (IJavaProject referencingProject : JavaElementUtil.getReferencingProjects((IPackageFragmentRoot) element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IFile classpath= referencingProject.getProject().getFile(".classpath"); //$NON-NLS-1$
 					getResourceModifications().addChanged(classpath);
 				}
@@ -141,8 +141,8 @@ public class DeleteModifications extends RefactoringModifications {
 
 		IsCompletelySelected isCompletelySelected = new IsCompletelySelected(fPackagesToDelete, subMonitor);
 
-		ArrayList<IResource> resourcesCollector= new ArrayList<>();
-		for (IPackageFragment pack : fPackagesToDelete) {
+		ArrayList<IResource> resourcesCollector= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragment pack : fPackagesToDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			subMonitor.checkCanceled();
 			handlePackageFragmentDelete(pack, resourcesCollector, isCompletelySelected);
 			subMonitor.worked(1);
@@ -157,8 +157,8 @@ public class DeleteModifications extends RefactoringModifications {
 
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status, RefactoringProcessor owner, String[] natures, SharableParticipants shared) {
-		List<RefactoringParticipant> result= new ArrayList<>();
-		for (IJavaElement javaElement : fDelete) {
+		List<RefactoringParticipant> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement javaElement : fDelete) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(ParticipantManager.loadDeleteParticipants(status,
 				owner, javaElement,
 				new DeleteArguments(), natures, shared)));
@@ -184,7 +184,7 @@ public class DeleteModifications extends RefactoringModifications {
 	 * @param resourcesCollector a collector for IResources to be deleted
 	 * @throws CoreException if accessing package structure of {@code pack} fails
 	 */
-	private void handlePackageFragmentDelete(IPackageFragment pack, ArrayList<IResource> resourcesCollector, IsCompletelySelected isCompletelySelected) throws CoreException {
+	private void handlePackageFragmentDelete(IPackageFragment pack, ArrayList<IResource> resourcesCollector, IsCompletelySelected isCompletelySelected) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IContainer container= (IContainer)pack.getResource();
 		if (container == null)
 			return;
@@ -230,7 +230,7 @@ public class DeleteModifications extends RefactoringModifications {
 			// This package is only cleared because it has subpackages (=subfolders)
 			// which are not deleted. As the package is only cleared, its folder
 			// will not be removed and so we must notify the participant of the deleted children.
-			for (IResource member : members) {
+			for (IResource member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (member instanceof IFile) {
 					IFile file= (IFile)member;
 					if ("class".equals(file.getFileExtension()) && file.isDerived()) //$NON-NLS-1$

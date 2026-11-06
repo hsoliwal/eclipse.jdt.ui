@@ -35,7 +35,7 @@ import org.eclipse.jdt.internal.ui.text.javadoc.IHtmlTagConstants;
  *
  * @since 3.0
  */
-public class WordCorrectionProposal implements IJavaCompletionProposal {
+public class WordCorrectionProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * Returns the html representation of the specified string.
@@ -44,14 +44,14 @@ public class WordCorrectionProposal implements IJavaCompletionProposal {
 	 *                   The string to return the html representation for
 	 * @return The html representation for the string
 	 */
-	public static String getHtmlRepresentation(final String string) {
+	public static String getHtmlRepresentation(final String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final int length= string.length();
-		final StringBuilder buffer= new StringBuilder(string);
+		final StringBuilder buffer= new StringBuilder(string); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (int offset= length - 1; offset >= 0; offset--) {
+		for (int offset= length - 1; offset >= 0; offset--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
-			for (int index= 0; index < IHtmlTagConstants.HTML_ENTITY_CHARACTERS.length; index++) {
+			for (int index= 0; index < IHtmlTagConstants.HTML_ENTITY_CHARACTERS.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				if (string.charAt(offset) == IHtmlTagConstants.HTML_ENTITY_CHARACTERS[index]) {
 
@@ -91,26 +91,18 @@ public class WordCorrectionProposal implements IJavaCompletionProposal {
 	 * @param context the invocation context for this proposal
 	 * @param relevance the relevance of this proposal
 	 */
-	public WordCorrectionProposal(final String word, final String[] arguments, final int offset, final int length, final IQuickAssistInvocationContext context, final int relevance) {
+	public WordCorrectionProposal(final String word, final String[] arguments, final int offset, final int length, final IQuickAssistInvocationContext context, final int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		fWord= Character.isUpperCase(arguments[0].charAt(0)) ? Character.toUpperCase(word.charAt(0)) + word.substring(1) : word;
+		fWord= Character.isUpperCase(arguments[0].charAt(0)) ? Character.toUpperCase(word.charAt(0)) + word.substring(1) : word; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		fOffset= offset;
 		fLength= length;
 		fContext= context;
 		fRelevance= relevance;
 
-		final StringBuilder buffer= new StringBuilder(80);
-
-		buffer.append("...<br>"); //$NON-NLS-1$
-		buffer.append(getHtmlRepresentation(arguments[1]));
-		buffer.append("<b>"); //$NON-NLS-1$
-		buffer.append(getHtmlRepresentation(fWord));
-		buffer.append("</b>"); //$NON-NLS-1$
-		buffer.append(getHtmlRepresentation(arguments[2]));
-		buffer.append("<br>..."); //$NON-NLS-1$
-
-		fLine= buffer.toString();
+		fLine= "...<br>" + getHtmlRepresentation(arguments[1]) + "<b>" + getHtmlRepresentation(fWord) + "</b>" + getHtmlRepresentation(arguments[2]) + "<br>..."; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	/*

@@ -36,9 +36,9 @@ public class TestDeleteParticipantShared extends DeleteParticipant implements IS
 
 	static TestDeleteParticipantShared fgInstance;
 
-	List<Object> fElements= new ArrayList<>(3);
-	List<String> fHandles= new ArrayList<>(3);
-	List<RefactoringArguments> fArguments= new ArrayList<>(3);
+	List<Object> fElements= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<String> fHandles= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<RefactoringArguments> fArguments= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	@Override
 	public boolean initialize(Object element) {

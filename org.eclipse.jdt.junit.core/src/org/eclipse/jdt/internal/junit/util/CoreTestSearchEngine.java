@@ -89,13 +89,13 @@ public class CoreTestSearchEngine {
 		return testKind.getFinder().isTest(declaringType);
 	}
 
-	public static boolean isAccessibleClass(IType type, String testKindId) throws JavaModelException {
+	public static boolean isAccessibleClass(IType type, String testKindId) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int flags= type.getFlags();
 		if (Flags.isInterface(flags)) {
 			return false;
 		}
 		IJavaElement parent= type.getParent();
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof ICompilationUnit || parent instanceof IClassFile) {
 				return true;
 			}
@@ -123,12 +123,12 @@ public class CoreTestSearchEngine {
 		return isAccessibleClass(type, null);
 	}
 
-	public static boolean isAccessibleClass(ITypeBinding type) { // not used
+	public static boolean isAccessibleClass(ITypeBinding type) { // not used //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type.isInterface()) {
 			return false;
 		}
 		int modifiers= type.getModifiers();
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.getDeclaringMethod() != null) {
 				return false;
 			}
@@ -181,7 +181,7 @@ public class CoreTestSearchEngine {
 				JUnitCore.JUNIT3_CONTAINER_PATH, JUnitCore.JUNIT4_CONTAINER_PATH, JUnitCore.JUNIT5_CONTAINER_PATH);
 	}
 
-	private static boolean hasJUnitJupiterTestAnnotation(IJavaProject project, int junitMajorVersion, IPath... disallowedJunitContainerPaths) {
+	private static boolean hasJUnitJupiterTestAnnotation(IJavaProject project, int junitMajorVersion, IPath... disallowedJunitContainerPaths) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (project != null) {
 				String junitBundlePrefix = JUNIT_JUPITER_API_PREFIX;
@@ -204,7 +204,7 @@ public class CoreTestSearchEngine {
 					String filename= root != null ? root.getPath().lastSegment() : type.getPath().lastSegment();
 					boolean isJar = filename.endsWith(JAR_EXTENSION);
 					// Try matching the library name, this should be enough for many cases.
-					if (isJar && (filename.startsWith(junitBundlePrefix + "_") || filename.startsWith(junitBundlePrefix + "-"))) { //$NON-NLS-1$ //$NON-NLS-2$
+					if (isJar && (filename.startsWith(junitBundlePrefix + "_") || filename.startsWith(junitBundlePrefix + "-"))) { //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						String versionString = filename.substring(junitBundlePrefix.length() + 1, filename.length() - JAR_EXTENSION.length());
 						try {
 							version = Version.parseVersion(versionString);
@@ -269,7 +269,7 @@ public class CoreTestSearchEngine {
 	public static boolean isTestImplementor(IType type) throws JavaModelException {
 		ITypeHierarchy typeHier= type.newSupertypeHierarchy(null);
 		IType[] superInterfaces= typeHier.getAllInterfaces();
-		for (IType superInterface : superInterfaces) {
+		for (IType superInterface : superInterfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (JUnitCorePlugin.TEST_INTERFACE_NAME.equals(superInterface.getFullyQualifiedName('.'))) {
 				return true;
 			}
@@ -283,7 +283,7 @@ public class CoreTestSearchEngine {
 			return true;
 		}
 		ITypeBinding[] interfaces= type.getInterfaces();
-		for (ITypeBinding curr : interfaces) {
+		for (ITypeBinding curr : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (JUnitCorePlugin.TEST_INTERFACE_NAME.equals(curr.getQualifiedName()) || isTestImplementor(curr)) {
 				return true;
 			}
@@ -310,7 +310,7 @@ public class CoreTestSearchEngine {
 		if (element.getElementType() == IJavaElement.JAVA_PROJECT) {
 			// for projects only add the contained source folders
 			IPackageFragmentRoot[] roots= ((IJavaProject) element).getPackageFragmentRoots();
-			for (IPackageFragmentRoot root : roots) {
+			for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!root.isArchive()) {
 					result.add(root);
 				}
@@ -324,7 +324,7 @@ public class CoreTestSearchEngine {
 	public static void findTestImplementorClasses(ITypeHierarchy typeHierarchy, IType testInterface, IRegion region, Set<IType> result)
 			throws JavaModelException {
 		IType[] subtypes= typeHierarchy.getAllSubtypes(testInterface);
-		for (IType type : subtypes) {
+		for (IType type : subtypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int cachedFlags= typeHierarchy.getCachedFlags(type);
 			if (!Flags.isInterface(cachedFlags) && !Flags.isAbstract(cachedFlags) // do the cheaper tests first
 				&& region.contains(type) && CoreTestSearchEngine.isAccessibleClass(type)) {
@@ -372,10 +372,10 @@ public class CoreTestSearchEngine {
 		new SearchEngine().search(suitePattern, participants, scope, requestor, pm);
 	}
 
-	private static IType findAnnotations(IJavaProject project, String... fullyQualifiedNames) throws JavaModelException {
+	private static IType findAnnotations(IJavaProject project, String... fullyQualifiedNames) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (project instanceof JavaProject p) {
 			NameLookup lookup= p.newNameLookup(DefaultWorkingCopyOwner.PRIMARY);
-			for (String fullyQualifiedName : fullyQualifiedNames) {
+			for (String fullyQualifiedName : fullyQualifiedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				NameLookup.Answer answer = lookup.findType(
 						fullyQualifiedName,
 						false /* no partial matches */,

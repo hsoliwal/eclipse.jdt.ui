@@ -76,26 +76,26 @@ public class PromoteTempToFieldTests extends GenericRefactoringTest{
 	}
 
 	private String getSimpleTestFileName(boolean canRename, boolean input){
-		StringBuilder fileName = new StringBuilder("A_").append(getName());
+		StringBuilder fileName = new StringBuilder("A_").append(getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (canRename)
-			fileName.append(input ? "_in": "_out");
-		return fileName.append(".java").toString();
+			fileName.append(input ? "_in": "_out"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(".java").toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getSimpleEnablementTestFileName(){
-		return "A_" + getName() + ".java";
+		return "A_" + getName() + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getTestFileName(boolean canRename, boolean input){
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append(canRename ? "canPromote/": "cannotPromote/");
-		return fileName.append(getSimpleTestFileName(canRename, input)).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append(canRename ? "canPromote/": "cannotPromote/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleTestFileName(canRename, input)).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 	private String getEnablementTestFileName(){
-		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath());
-		fileName.append("testEnablement/");
-		return fileName.append(getSimpleEnablementTestFileName()).toString();
+		StringBuilder fileName= new StringBuilder(TEST_PATH_PREFIX).append(getRefactoringPath()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		fileName.append("testEnablement/"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		return fileName.append(getSimpleEnablementTestFileName()).toString(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 	}
 
 
@@ -108,7 +108,7 @@ public class PromoteTempToFieldTests extends GenericRefactoringTest{
 		return createCU(pack, getSimpleEnablementTestFileName(), getFileContents(getEnablementTestFileName()));
 	}
 
-	protected void passHelper(int startLine, int startColumn, int endLine, int endColumn,
+	protected void passHelper(int startLine, int startColumn, int endLine, int endColumn, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						  String newName,
 						  boolean declareStatic,
 						  boolean declareFinal,
@@ -136,11 +136,11 @@ public class PromoteTempToFieldTests extends GenericRefactoringTest{
 		IPackageFragment pack= (IPackageFragment)cu.getParent();
 		String newCuName= getSimpleTestFileName(true, true);
 		ICompilationUnit newcu= pack.getCompilationUnit(newCuName);
-		assertTrue(newCuName + " does not exist", newcu.exists());
+		assertTrue(newCuName + " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect changes", getFileContents(getTestFileName(true, false)), newcu.getSource());
 	}
 
-	protected void failHelper(int startLine, int startColumn, int endLine, int endColumn,
+	protected void failHelper(int startLine, int startColumn, int endLine, int endColumn, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						  String newName,
 						  boolean declareStatic,
 						  boolean declareFinal,
@@ -165,7 +165,7 @@ public class PromoteTempToFieldTests extends GenericRefactoringTest{
 		assertEquals("incorrect severity:", expectedSeverity, result.getSeverity());
 	}
 
-	private void enablementHelper(int startLine, int startColumn, int endLine, int endColumn,
+	private void enablementHelper(int startLine, int startColumn, int endLine, int endColumn, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						  String newName,
 						  boolean declareStatic,
 						  boolean declareFinal,

@@ -114,7 +114,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		this(targetCU, binding, astRoot, oldType, true, false, relevance);
 	}
 
-	public TypeChangeCorrectionProposalCore(ICompilationUnit targetCU, IBinding binding, CompilationUnit astRoot, ITypeBinding newType, boolean isNewTypeVar, boolean offerSuperTypeProposals,
+	public TypeChangeCorrectionProposalCore(ICompilationUnit targetCU, IBinding binding, CompilationUnit astRoot, ITypeBinding newType, boolean isNewTypeVar, boolean offerSuperTypeProposals, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int relevance) {
 		super("", targetCU, null, relevance); //$NON-NLS-1$
 
@@ -172,7 +172,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 	}
 
 	//This needs to be used to convert a given constructor invocation
-	public TypeChangeCorrectionProposalCore(ICompilationUnit targetCU, ASTNode nodeToChange, CompilationUnit astRoot, ITypeBinding variableTypeBinding, int relevance) {
+	public TypeChangeCorrectionProposalCore(ICompilationUnit targetCU, ASTNode nodeToChange, CompilationUnit astRoot, ITypeBinding variableTypeBinding, int relevance) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", targetCU, null, relevance); //$NON-NLS-1$
 
 		Assert.isTrue(nodeToChange instanceof ClassInstanceCreation);
@@ -197,7 +197,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		setDisplayName(Messages.format(CorrectionMessages.TypeChangeCompletionProposal_constructor_name, arg));
 	}
 
-	private boolean containsNestedCapture(ITypeBinding binding, boolean isNested) {
+	private boolean containsNestedCapture(ITypeBinding binding, boolean isNested) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding == null || binding.isPrimitive() || binding.isTypeVariable()) {
 			return false;
 		}
@@ -213,7 +213,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		if (binding.isArray()) {
 			return containsNestedCapture(binding.getElementType(), true);
 		}
-		for (ITypeBinding typeArgument : binding.getTypeArguments()) {
+		for (ITypeBinding typeArgument : binding.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (containsNestedCapture(typeArgument, true)) {
 				return true;
 			}
@@ -221,7 +221,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		return false;
 	}
 
-	private String getNewTypeString() {
+	private String getNewTypeString() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode boundNode= fAstRoot.findDeclaringNode(fBinding);
 		ASTNode declNode= null;
 		CompilationUnit newRoot= fAstRoot;
@@ -240,7 +240,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		return BindingLabelProviderCore.getBindingLabel(fNewType, JavaElementLabelsCore.ALL_DEFAULT);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		ASTNode boundNode;
 		if (fNode != null) {
@@ -286,8 +286,8 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 					ITypeBinding[] typeParameters= realMethodBinding.getTypeParameters();
 
 					if (!methodDecl.typeParameters().isEmpty()) {
-						Map<String, String> typeParamNameMap= new HashMap<>();
-						for (int i = 0; i < methodDecl.typeParameters().size(); i++) {
+						Map<String, String> typeParamNameMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+						for (int i = 0; i < methodDecl.typeParameters().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							typeParamNameMap.put(typeParameters[i].getName(), ((List<TypeParameter>) methodDecl.typeParameters()).get(i).getName().toString());
 						}
 						String existingTypeVarIdent= typeParamNameMap.get(fNewType.getName());
@@ -298,7 +298,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 						// eg. if you have <T, U> T myMethod(Class<U> clazz)
 						// you cannot override it with <T> T myMethod(Class<String> clazz)
 						ListRewrite typeParameterRewrite= rewrite.getListRewrite(methodDecl, MethodDeclaration.TYPE_PARAMETERS_PROPERTY);
-						for (ITypeBinding parameter : typeParameters) {
+						for (ITypeBinding parameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							TypeParameter newTypeParameter= ast.newTypeParameter();
 							SimpleName newTypeParameterName= ast.newSimpleName(parameter.getName());
 							newTypeParameter.setName(newTypeParameterName);
@@ -312,7 +312,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 						// Update the parameter types to match that of the resolved method.
 						// Some of the existing parameter types may be raw instead of containing the expected type parameters.
 						// Without inserting the type parameters in these cases, the signature will no longer match the overridden type.
-						for (int i = 0 ; i < methodDecl.parameters().size(); i++) {
+						for (int i = 0 ; i < methodDecl.parameters().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							SingleVariableDeclaration svd= (SingleVariableDeclaration)methodDecl.parameters().get(i);
 							rewrite.set(svd, SingleVariableDeclaration.TYPE_PROPERTY, getTypeNodeFromBinding(realMethodBinding.getParameterTypes()[i], ast, imports, context), null);
 						}
@@ -426,7 +426,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 			final String KEY_TYPE= "type"; //$NON-NLS-1$
 			addLinkedPosition(rewrite.track(type), true, KEY_TYPE);
 			if (fTypeProposals != null) {
-				for (ITypeBinding fTypeProposal : fTypeProposals) {
+				for (ITypeBinding fTypeProposal : fTypeProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addLinkedPositionProposal(KEY_TYPE, fTypeProposal);
 				}
 			}
@@ -438,8 +438,8 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		return null;
 	}
 
-	private ITypeBinding[] getNewConstructorProposals() {
-		HashSet<CompletionProposal> completionProposals = new HashSet<>();
+	private ITypeBinding[] getNewConstructorProposals() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<CompletionProposal> completionProposals = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		CompletionRequestor requestor = new CompletionRequestor(false) {
 			@Override
 			public void accept(CompletionProposal proposal) {
@@ -465,8 +465,8 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		}
 
 		IJavaProject project= fCompilationUnit.getJavaProject();
-		List<String> typeSuggestions = new ArrayList<>();
-		for (CompletionProposal p: completionProposals) {
+		List<String> typeSuggestions = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposal p: completionProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String typeName;
 			try {
 				typeName = p.getDeclarationSignature() != null ? new String(Signature.toCharArray(Signature.getTypeErasure(p.getDeclarationSignature()))) : null;
@@ -503,7 +503,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		return null;
 	}
 
-	private void sortTypes(ITypeBinding[] typeProposals) {
+	private void sortTypes(ITypeBinding[] typeProposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding oldType;
 		if (fBinding instanceof IMethodBinding) {
 			oldType= ((IMethodBinding) fBinding).getReturnType();
@@ -528,7 +528,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		});
 	}
 
-	private void handledInferredParametrizedType(ASTNode node, ASTNode declaringNode, AST ast, ASTRewrite rewrite, ImportRewrite importRewrite, ImportRewriteContext context) {
+	private void handledInferredParametrizedType(ASTNode node, ASTNode declaringNode, AST ast, ASTRewrite rewrite, ImportRewrite importRewrite, ImportRewriteContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (ast == null || rewrite == null || importRewrite == null || context == null) {
 			return;
 		}
@@ -558,7 +558,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 			return;
 		}
 
-		final ArrayList<ASTNode> changedNodes= new ArrayList<>();
+		final ArrayList<ASTNode> changedNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		node.accept(new TypeParametersFixCore.InsertTypeArgumentsVisitor(changedNodes));
 		if (changedNodes.isEmpty()) {
 			return;
@@ -567,14 +567,14 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		ITypeBinding binding= createdType.resolveBinding();
 		if (binding != null) {
 			ListRewrite argumentsRewrite= rewrite.getListRewrite(createdType, ParameterizedType.TYPE_ARGUMENTS_PROPERTY);
-			for (ITypeBinding typeArgument : binding.getTypeArguments()) {
+			for (ITypeBinding typeArgument : binding.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type argumentNode= importRewrite.addImport(typeArgument, ast, context, TypeLocation.TYPE_ARGUMENT);
 				argumentsRewrite.insertLast(argumentNode, null);
 			}
 		}
 	}
 
-	private Type getTypeNodeFromBinding(ITypeBinding typeBinding, AST ast, ImportRewrite importRewrite, ImportRewriteContext context) {
+	private Type getTypeNodeFromBinding(ITypeBinding typeBinding, AST ast, ImportRewrite importRewrite, ImportRewriteContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (typeBinding.isWildcardType()) {
 			WildcardType wildcardType = ast.newWildcardType();
@@ -604,7 +604,7 @@ public class TypeChangeCorrectionProposalCore extends LinkedCorrectionProposalCo
 		SimpleType simpleType = ast.newSimpleType(simpleName);
 		if (typeBinding.isParameterizedType()) {
 			ParameterizedType parameterizedType = ast.newParameterizedType(simpleType);
-			for (ITypeBinding argument : typeBinding.getTypeArguments()) {
+			for (ITypeBinding argument : typeBinding.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type typeArgument = getTypeNodeFromBinding(argument, ast, importRewrite, context);
 				parameterizedType.typeArguments().add(typeArgument);
 			}

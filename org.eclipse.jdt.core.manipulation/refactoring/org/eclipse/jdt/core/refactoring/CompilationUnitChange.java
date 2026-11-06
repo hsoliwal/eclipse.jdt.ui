@@ -85,7 +85,7 @@ public class CompilationUnitChange extends TextFileChange {
 		return super.acquireDocument(subMonitor.split(1));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void releaseDocument(IDocument document, IProgressMonitor pm) throws CoreException {
 		boolean isModified= isDocumentModified();
 		SubMonitor subMonitor= SubMonitor.convert(pm, 2);

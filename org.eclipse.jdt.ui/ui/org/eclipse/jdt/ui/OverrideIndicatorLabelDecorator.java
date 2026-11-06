@@ -79,7 +79,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ImageImageDescriptor;
 public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightweightLabelDecorator {
 
 	/** Refreshes the labels in the UI thread once a build is done. */
-	private final class UpdateJob extends WorkbenchJob {
+	private final class UpdateJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 		UpdateJob() {
 			super("Java override indicator decoration update"); //$NON-NLS-1$
@@ -182,7 +182,7 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 	 *
 	 * @noreference This method is not intended to be referenced by clients.
 	 */
-	public int computeAdornmentFlags(Object element) {
+	public int computeAdornmentFlags(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return JavaCore.callReadOnly(() -> {
 			if (element instanceof IMethod) {
 				try {
@@ -217,7 +217,7 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 	 * @throws JavaModelException if accessing a Java Model element fails
 	 * @noreference This method is not intended to be referenced by clients.
 	 */
-	protected int getOverrideIndicators(IMethod method) throws JavaModelException {
+	protected int getOverrideIndicators(IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= SharedASTProviderCore.getAST(method.getTypeRoot(), SharedASTProviderCore.WAIT_ACTIVE_ONLY, null);
 		if (astRoot != null) {
 			int res= findInHierarchyWithAST(astRoot, method);
@@ -246,7 +246,7 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 		return 0;
 	}
 
-	private int findInHierarchyWithAST(CompilationUnit astRoot, IMethod method) throws JavaModelException {
+	private int findInHierarchyWithAST(CompilationUnit astRoot, IMethod method) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= NodeFinder.perform(astRoot, method.getNameRange());
 		if (node instanceof SimpleName && node.getParent() instanceof MethodDeclaration) {
 			IMethodBinding binding= ((MethodDeclaration) node.getParent()).resolveBinding();
@@ -278,7 +278,7 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 	 *
 	 * @noreference This method is not intended to be referenced by clients.
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int findInHierarchy(IType type, ITypeHierarchy hierarchy, String name, String[] paramTypes) throws JavaModelException {
 		IType superClass= hierarchy.getSuperclass(type);
 		if (superClass != null) {
@@ -291,7 +291,7 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 				}
 			}
 		}
-		for (IType intf : hierarchy.getSuperInterfaces(type)) {
+		for (IType intf : hierarchy.getSuperInterfaces(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod res= JavaModelUtil.findMethodInHierarchy(hierarchy, intf, name, paramTypes, false);
 			if (res != null) {
 				if (JdtFlags.isAbstract(res)) {
@@ -362,11 +362,11 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 		}
 	}
 
-	private void fireLabelProviderChanged() {
+	private void fireLabelProviderChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean refreshAll= fRefreshAll.getAndSet(false);
 		// drain instead of clear: a build starting again in the meantime must not lose an element
 		Object[] elements= fPendingElements.toArray();
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fPendingElements.remove(element);
 		}
 
@@ -377,8 +377,8 @@ public class OverrideIndicatorLabelDecorator implements ILabelDecorator, ILightw
 			return;
 		}
 		LabelProviderChangedEvent event= refreshAll ? new LabelProviderChangedEvent(this) : new LabelProviderChangedEvent(this, elements);
-		for (ILabelProviderListener listener : fListeners) {
-			listener.labelProviderChanged(event);
+		for (ILabelProviderListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			listener.labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		}
 	}
 

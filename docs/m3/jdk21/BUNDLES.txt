@@ -1,0 +1,12 @@
+org.eclipse.jdt.astview
+org.eclipse.jdt.bcoview
+org.eclipse.jdt.core.manipulation
+org.eclipse.jdt.jeview
+org.eclipse.jdt.junit.core
+org.eclipse.jdt.junit
+org.eclipse.jdt.text.tests
+org.eclipse.jdt.ui.examples.javafamily
+org.eclipse.jdt.ui.examples.projects
+org.eclipse.jdt.ui.tests.refactoring
+org.eclipse.jdt.ui.tests
+org.eclipse.jdt.ui

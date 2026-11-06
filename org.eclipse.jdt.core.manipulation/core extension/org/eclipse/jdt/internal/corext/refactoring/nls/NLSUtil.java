@@ -51,18 +51,18 @@ public class NLSUtil {
 	 * @param encoding the encoding
 	 * @return the contents, or <code>null</code> if an error occurred
 	 */
-	public static String readString(InputStream is, String encoding) {
+	public static String readString(InputStream is, String encoding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (is == null)
 			return null;
 		BufferedReader reader= null;
 		try {
-			StringBuilder buffer= new StringBuilder();
+			StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			char[] part= new char[2048];
 			int read= 0;
 			reader= new BufferedReader(new InputStreamReader(is, encoding));
 
-			while ((read= reader.read(part)) != -1)
-				buffer.append(part, 0, read);
+			while ((read= reader.read(part)) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buffer.append(part, 0, read); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			return buffer.toString();
 
@@ -98,7 +98,7 @@ public class NLSUtil {
 		NLSElement[] elements= nlsLine.getElements();
 		int indexInElementList= Arrays.asList(elements).indexOf(element);
 		int editOffset= computeInsertOffset(elements, indexInElementList, cu);
-		String editText= ' ' + NLSElement.createTagText(indexInElementList + 1); //tags are 1-based
+		String editText= ' ' + NLSElement.createTagText(indexInElementList + 1); //tags are 1-based //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return new InsertEdit(editOffset, editText);
 	}
 
@@ -112,15 +112,15 @@ public class NLSUtil {
 	 *         not be created for some other reason.
 	 * @throws CoreException if scanning fails
 	 */
-	public static TextEdit[] createNLSEdits(ICompilationUnit cu, int[] positions) throws CoreException {
-		List<InsertEdit> result= new ArrayList<>();
+	public static TextEdit[] createNLSEdits(ICompilationUnit cu, int[] positions) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<InsertEdit> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
-			for (NLSLine line : NLSScanner.scan(cu)) {
+			for (NLSLine line : NLSScanner.scan(cu)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				NLSElement[] elements= line.getElements();
-				for (int j= 0; j < elements.length; j++) {
+				for (int j= 0; j < elements.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					NLSElement element= elements[j];
 					if (!element.hasTag()) {
-						for (int position : positions) {
+						for (int position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (isPositionInElement(element, position)) {
 								int editOffset;
 								if (j==0) {
@@ -136,7 +136,7 @@ public class NLSUtil {
 									Region previousPosition= elements[j-1].getTagPosition();
 									editOffset=  previousPosition.getOffset() + previousPosition.getLength();
 								}
-								String editText= ' ' + NLSElement.createTagText(j + 1); //tags are 1-based
+								String editText= ' ' + NLSElement.createTagText(j + 1); //tags are 1-based //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								result.add(new InsertEdit(editOffset, editText));
 							}
 						}
@@ -155,7 +155,7 @@ public class NLSUtil {
 	public static NLSLine scanCurrentLine(ICompilationUnit cu, int position) throws JavaModelException {
 		try {
 			Assert.isTrue(position >= 0 && position <= cu.getBuffer().getLength());
-			for (NLSLine line : NLSScanner.scan(cu)) {
+			for (NLSLine line : NLSScanner.scan(cu)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (findElement(line, position) != null)
 					return line;
 			}
@@ -171,7 +171,7 @@ public class NLSUtil {
 	}
 
 	private static NLSElement findElement(NLSLine line, int position) {
-		for (NLSElement element : line.getElements()) {
+		for (NLSElement element : line.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isPositionInElement(element, position))
 				return element;
 		}
@@ -199,7 +199,7 @@ public class NLSUtil {
 
 	private static NLSElement findPreviousTagged(int startIndex, NLSElement[] elements) {
 		int i= startIndex - 1;
-		while (i >= 0) {
+		while (i >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements[i].hasTag())
 				return elements[i];
 			i--;
@@ -209,7 +209,7 @@ public class NLSUtil {
 
 	private static NLSElement findNextTagged(int startIndex, NLSElement[] elements) {
 		int i= startIndex + 1;
-		while (i < elements.length) {
+		while (i < elements.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements[i].hasTag())
 				return elements[i];
 			i++;
@@ -220,7 +220,7 @@ public class NLSUtil {
 	private static int findLineEnd(ICompilationUnit cu, int position) throws JavaModelException {
 		IBuffer buffer= cu.getBuffer();
 		int length= buffer.getLength();
-		for (int i= position; i < length; i++) {
+		for (int i= position; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (IndentManipulation.isLineDelimiterChar(buffer.getChar(i))) {
 				return i;
 			}
@@ -237,12 +237,12 @@ public class NLSUtil {
 	 * @return the position in <code>keys</code> after which key must be inserted, returns -1 for before
 	 * @since 3.4
 	 */
-	public static int getInsertionPosition(String key, List<String> keys) {
+	public static int getInsertionPosition(String key, List<String> keys) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int result= 0;
 
 		int invertDistance= Integer.MIN_VALUE;
 		int i= 0;
-		for (String string : keys) {
+		for (String string : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int currentInvertDistance= invertDistance(key, string);
 			if (currentInvertDistance > invertDistance) {
 				invertDistance= currentInvertDistance;
@@ -270,7 +270,7 @@ public class NLSUtil {
 	 * the higher the closer
 	 * @since 3.4
 	 */
-	public static int invertDistance(String insertKey, String existingKey) {
+	public static int invertDistance(String insertKey, String existingKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int existingKeyLength= existingKey.length();
 		int insertKeyLength= insertKey.length();
@@ -278,7 +278,7 @@ public class NLSUtil {
 		int minLen= Math.min(insertKeyLength, existingKeyLength);
 
 		int prefixMatchCount= 0;
-		for (int i= 0; i < minLen; i++) {
+		for (int i= 0; i < minLen; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (insertKey.charAt(i) == existingKey.charAt(i)) {
 				prefixMatchCount++;
 			} else {

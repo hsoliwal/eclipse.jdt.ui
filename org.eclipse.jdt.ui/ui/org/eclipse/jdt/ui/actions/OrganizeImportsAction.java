@@ -96,7 +96,7 @@ import org.eclipse.jdt.internal.ui.util.TypeNameMatchLabelProvider;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OrganizeImportsAction extends SelectionDispatchAction {
+public class OrganizeImportsAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private static final OrganizeImportComparator ORGANIZE_IMPORT_COMPARATOR= new OrganizeImportComparator();
 
@@ -124,7 +124,7 @@ public class OrganizeImportsAction extends SelectionDispatchAction {
 
 	private static final class OrganizeImportComparator implements Comparator<String> {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(String o1, String o2) {
 			if (o1.equals(o2))
 				return 0;
@@ -246,7 +246,7 @@ public class OrganizeImportsAction extends SelectionDispatchAction {
 	 *
 	 * @param cu The compilation unit to process
 	 */
-	public void run(ICompilationUnit cu) {
+	public void run(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		JavaEditor[] editor= new JavaEditor[1];
 		if (fEditor != null) {
@@ -291,7 +291,7 @@ public class OrganizeImportsAction extends SelectionDispatchAction {
 		try {
 			registerHelper(helper, editor[0]);
 			Job organizeJob= new Job(ActionMessages.OrganizeImportsAction_selectiondialog_title) {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected IStatus run(IProgressMonitor monitor) {
 					try {
 						op.run(monitor);
@@ -344,9 +344,9 @@ public class OrganizeImportsAction extends SelectionDispatchAction {
 		return (openChoices, ranges) -> doChooseImports(openChoices, ranges, editor);
 	}
 
-	private TypeNameMatch[] doChooseImports(TypeNameMatch[][] openChoices, final ISourceRange[] ranges, final JavaEditor editor) {
+	private TypeNameMatch[] doChooseImports(TypeNameMatch[][] openChoices, final ISourceRange[] ranges, final JavaEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return Display.getDefault().syncCall(() -> {
-			List<TypeNameMatch> result= new ArrayList<>();
+			List<TypeNameMatch> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			// remember selection
 			ISelection sel= editor.getSelectionProvider().getSelection();
 			ILabelProvider labelProvider= new TypeNameMatchLabelProvider(TypeNameMatchLabelProvider.SHOW_FULLYQUALIFIED);
@@ -365,7 +365,7 @@ public class OrganizeImportsAction extends SelectionDispatchAction {
 			dialog.setElements(openChoices);
 			dialog.setComparator(ORGANIZE_IMPORT_COMPARATOR);
 			if (dialog.open() == Window.OK) {
-				for (Object o : dialog.getResult()) {
+				for (Object o : dialog.getResult()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object[] array= (Object[]) o;
 					if (array.length > 0) {
 						TypeNameMatch match= (TypeNameMatch) array[0];

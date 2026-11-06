@@ -67,7 +67,7 @@ public abstract class AbstractMultiFix extends AbstractCleanUp implements IMulti
 	 */
 	protected static int getNumberOfProblems(IProblem[] problems, int problemId) {
 		int result= 0;
-		for (IProblem problem : problems) {
+		for (IProblem problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (problem.getID() == problemId) {
 				result++;
 			}
@@ -83,7 +83,7 @@ public abstract class AbstractMultiFix extends AbstractCleanUp implements IMulti
 	protected static IProblemLocation[] convertProblems(IProblem[] problems) {
 		IProblemLocation[] result= new IProblemLocation[problems.length];
 
-		for (int i= 0; i < problems.length; i++) {
+		for (int i= 0; i < problems.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= new ProblemLocation(problems[i]);
 		}
 
@@ -99,9 +99,9 @@ public abstract class AbstractMultiFix extends AbstractCleanUp implements IMulti
 	 * @return problem locations
 	 */
 	protected static IProblemLocation[] filter(IProblemLocation[] problems, int[] problemIds) {
-		ArrayList<IProblemLocation> result= new ArrayList<>();
+		ArrayList<IProblemLocation> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IProblemLocation problem : problems) {
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (contains(problemIds, problem.getProblemId()) && !contains(result, problem)) {
 				result.add(problem);
 			}
@@ -111,7 +111,7 @@ public abstract class AbstractMultiFix extends AbstractCleanUp implements IMulti
 	}
 
 	private static boolean contains(ArrayList<IProblemLocation> problems, IProblemLocation problem) {
-		for (IProblemLocation existing : problems) {
+		for (IProblemLocation existing : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (existing.getProblemId() == problem.getProblemId() && existing.getOffset() == problem.getOffset() && existing.getLength() == problem.getLength()) {
 				return true;
 			}
@@ -121,7 +121,7 @@ public abstract class AbstractMultiFix extends AbstractCleanUp implements IMulti
 	}
 
 	private static boolean contains(int[] ids, int id) {
-		for (int id2 : ids) {
+		for (int id2 : ids) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id2 == id)
 				return true;
 		}

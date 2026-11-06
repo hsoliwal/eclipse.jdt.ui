@@ -40,7 +40,7 @@ public abstract class SaveEditorTest extends TextPerformanceTestCase {
 
 	private static final String FILE_PREFIX= "StyledText";
 
-	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/" + FILE_PREFIX;
+	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + "/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/" + FILE_PREFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String FILE_SUFFIX= ".java";
 
@@ -62,7 +62,7 @@ public abstract class SaveEditorTest extends TextPerformanceTestCase {
 		super.setUp();
 		setWarmUpRuns(WARM_UP_RUNS);
 		setMeasuredRuns(MEASURED_RUNS);
-		ResourceTestHelper.replicate(PREFIX + FILE_SUFFIX, PREFIX, FILE_SUFFIX, getNumberOfEditors(), FILE_PREFIX, FILE_PREFIX, ResourceTestHelper.SKIP_IF_EXISTS);
+		ResourceTestHelper.replicate(PREFIX + FILE_SUFFIX, PREFIX, FILE_SUFFIX, getNumberOfEditors(), FILE_PREFIX, FILE_PREFIX, ResourceTestHelper.SKIP_IF_EXISTS); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fEditors= EditorTestHelper.openInEditor(ResourceTestHelper.findFiles(PREFIX, FILE_SUFFIX, 0, getNumberOfEditors()), getEditorId());
 		EditorTestHelper.joinBackgroundActivities();
 		fWasAutobuilding= CoreUtility.setAutoBuilding(false);
@@ -95,16 +95,16 @@ public abstract class SaveEditorTest extends TextPerformanceTestCase {
 	}
 
 	protected void measureRevert(PerformanceMeter performanceMeter, int runs) throws Exception {
-		for (int i= 0; i < runs; i++) {
-			for (int j= 0; j < getNumberOfEditors(); j++)
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int j= 0; j < getNumberOfEditors(); j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dirtyEditor(fEditors[j]);
-			for (int j= 0; j < getNumberOfEditors(); j++)
+			for (int j= 0; j < getNumberOfEditors(); j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EditorTestHelper.joinReconciler(EditorTestHelper.getSourceViewer(fEditors[j]), 100, 10000, 100);
 			performanceMeter.start();
-			for (int j= 0; j < getNumberOfEditors(); j++)
+			for (int j= 0; j < getNumberOfEditors(); j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				EditorTestHelper.getActivePage().saveEditor(fEditors[j], false);
 			performanceMeter.stop();
-			for (int j= 0; j < getNumberOfEditors(); j++)
+			for (int j= 0; j < getNumberOfEditors(); j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertFalse(fEditors[j].isDirty());
 		}
 	}

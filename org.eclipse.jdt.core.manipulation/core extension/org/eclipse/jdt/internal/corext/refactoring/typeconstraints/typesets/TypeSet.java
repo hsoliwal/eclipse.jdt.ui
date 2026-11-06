@@ -82,7 +82,7 @@ public abstract class TypeSet implements ITypeSet {
 	 * @param s2 another type set
 	 * @return the new TypeSet
 	 */
-	public TypeSet intersectedWith(TypeSet s2) {
+	public TypeSet intersectedWith(TypeSet s2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (s2.isUniverse())
 			return makeClone();
 		else if (isUniverse())

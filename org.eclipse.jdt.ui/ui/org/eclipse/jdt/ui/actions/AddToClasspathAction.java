@@ -59,7 +59,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.ArchiveFileFilter;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class AddToClasspathAction extends SelectionDispatchAction {
+public class AddToClasspathAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Creates a new <code>AddToClasspathAction</code>. The action requires that
@@ -90,7 +90,7 @@ public class AddToClasspathAction extends SelectionDispatchAction {
 	private static boolean checkEnabled(IStructuredSelection selection) throws JavaModelException {
 		if (selection.isEmpty())
 			return false;
-		for (Object name : selection) {
+		for (Object name : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! canBeAddedToBuildPath(name))
 				return false;
 		}
@@ -112,16 +112,16 @@ public class AddToClasspathAction extends SelectionDispatchAction {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		try {
 			final IFile[] files= getJARFiles(selection);
 
-			IWorkspaceRunnable operation= new IWorkspaceRunnable() {
+			IWorkspaceRunnable operation= new IWorkspaceRunnable() { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				public void run(IProgressMonitor monitor) throws CoreException {
 					monitor.beginTask(ActionMessages.AddToClasspathAction_progressMessage, files.length);
-					for (IFile file : files) {
+					for (IFile file : files) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						monitor.subTask(BasicElementLabels.getPathLabel(file.getFullPath(), false));
 						IJavaProject project= JavaCore.create(file.getProject());
 						addToClassPath(project, file.getFullPath(), Progress.subMonitor(monitor, 1));
@@ -155,8 +155,8 @@ public class AddToClasspathAction extends SelectionDispatchAction {
 	}
 
 	private static IFile[] getJARFiles(IStructuredSelection selection) throws JavaModelException {
-		ArrayList<IFile> list= new ArrayList<>();
-		for (Object element : selection) {
+		ArrayList<IFile> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IAdaptable) {
 				IFile file= getCandidate((IAdaptable) element);
 				if (file != null) {

@@ -15,6 +15,7 @@
 package org.eclipse.jdt.internal.ui.callhierarchy;
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -44,8 +45,9 @@ class FiltersDialog extends StatusDialog {
 	private static final String VALID_JAVA_NAME_REST= "A-Za-z0-9_"; //$NON-NLS-1$
 	private static final String VALID_JAVA_NAME_BEGINNING= "A-Za-z_"; //$NON-NLS-1$
 
-	static final String METHOD_NAME_GLOB_PATTERN= "^([" + VALID_JAVA_NAME_BEGINNING + GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*)(" + DOT + "([" + VALID_JAVA_NAME_BEGINNING //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
-			+ GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*))*$";//$NON-NLS-1$ //$NON-NLS-2$
+	static final String METHOD_NAME_GLOB_PATTERN= "^([" + VALID_JAVA_NAME_BEGINNING + GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*)(" + DOT + "([" + VALID_JAVA_NAME_BEGINNING //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			+ GLOB_CHARACTERS + "][" + VALID_JAVA_NAME_REST + GLOB_CHARACTERS + "]*))*$"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Pattern METHOD_NAME_GLOB_PATTERN_COMPILED = Pattern.compile(METHOD_NAME_GLOB_PATTERN);
 
     private Label fNamesHelpText;
     private Button fFilterOnNames;
@@ -85,7 +87,7 @@ class FiltersDialog extends StatusDialog {
         return composite;
     }
 
-    private void createMaxCallDepthArea(Composite parent) {
+    private void createMaxCallDepthArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         Composite composite= new Composite(parent, SWT.NONE);
         composite.setFont(parent.getFont());
         GridLayout layout = new GridLayout();
@@ -99,22 +101,22 @@ class FiltersDialog extends StatusDialog {
         fMaxCallDepth = new Text(composite, SWT.SINGLE | SWT.BORDER);
         fMaxCallDepth.setFont(composite.getFont());
         fMaxCallDepth.setTextLimit(6);
-        fMaxCallDepth.addModifyListener(_ -> validateInput());
+        fMaxCallDepth.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
         GridData gridData = new GridData();
         gridData.widthHint = convertWidthInCharsToPixels(12);
         fMaxCallDepth.setLayoutData(gridData);
     }
 
-    private void createNamesArea(Composite parent) {
+    private void createNamesArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fFilterOnNames = createCheckbox(parent,
                 CallHierarchyMessages.FiltersDialog_filterOnNames, true);
 
-        fFilterOnNames.addSelectionListener(SelectionListener.widgetSelectedAdapter(_ -> validateInput()));
+        fFilterOnNames.addSelectionListener(SelectionListener.widgetSelectedAdapter(unused -> validateInput())); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
         fNames= new Text(parent, SWT.SINGLE | SWT.BORDER);
         fNames.setFont(parent.getFont());
-        fNames.addModifyListener(_ -> validateInput());
+        fNames.addModifyListener(unused -> validateInput()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
         GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
         gridData.widthHint = convertWidthInCharsToPixels(80);
@@ -125,7 +127,7 @@ class FiltersDialog extends StatusDialog {
         fNamesHelpText.setText(CallHierarchyMessages.FiltersDialog_filterOnNamesSubCaption);
     }
 
-    private void createTestCodeArea(Composite parent) {
+    private void createTestCodeArea(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite radioGroup= new Composite(parent, SWT.NONE);
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 1;
@@ -167,7 +169,7 @@ class FiltersDialog extends StatusDialog {
      *
      * @return the check box button
      */
-    private Button createCheckbox(Composite parent, String text, boolean grabRow) {
+    private Button createCheckbox(Composite parent, String text, boolean grabRow) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         Button button = new Button(parent, SWT.CHECK);
         button.setFont(parent.getFont());
 
@@ -177,7 +179,7 @@ class FiltersDialog extends StatusDialog {
         }
 
         button.setText(text);
-        button.addSelectionListener(new SelectionAdapter() {
+        button.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				validateInput();
@@ -269,13 +271,14 @@ class FiltersDialog extends StatusDialog {
 		}
 
 		// Split into several patterns separated by commas
-		String[] allPatterns= namesGlob.split(","); //$NON-NLS-1$
+		String[] allPatterns= namesGlob.split(","); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		return Arrays.stream(allPatterns).map(String::trim).allMatch(this::isValidMethodNameGlob);
 	}
 
 	private boolean isValidMethodNameGlob(String input) {
-		return input != null && input.matches(METHOD_NAME_GLOB_PATTERN);
+		return input != null && METHOD_NAME_GLOB_PATTERN_COMPILED.matcher(input).matches();
+		// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 

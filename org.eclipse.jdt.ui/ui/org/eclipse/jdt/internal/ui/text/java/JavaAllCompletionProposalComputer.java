@@ -25,7 +25,7 @@ import org.eclipse.jdt.ui.text.java.JavaContentAssistInvocationContext;
  */
 public class JavaAllCompletionProposalComputer extends JavaTypeCompletionProposalComputer {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected CompletionProposalCollector createCollector(JavaContentAssistInvocationContext context) {
 		CompletionProposalCollector collector= super.createCollector(context);
 		collector.setIgnored(CompletionProposal.ANNOTATION_ATTRIBUTE_REF, false);

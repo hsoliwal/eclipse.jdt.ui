@@ -54,13 +54,13 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	@Rule
 	public ProjectTestSetup pts= new ProjectTestSetup();
 
-	public void runOperation(IType type, IField[] fields, IJavaElement insertBefore, boolean createComments, boolean useInstanceof, boolean useJ7HashEquals, boolean useBlocks, boolean force) throws CoreException {
+	public void runOperation(IType type, IField[] fields, IJavaElement insertBefore, boolean createComments, boolean useInstanceof, boolean useJ7HashEquals, boolean useBlocks, boolean force) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		RefactoringASTParser parser= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL);
 		CompilationUnit unit= parser.parse(type.getCompilationUnit(), true);
 
 		IVariableBinding[] fKeys= new IVariableBinding[fields.length];
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(fields[i].exists());
 			VariableDeclarationFragment frag= ASTNodeSearchUtil.getFieldDeclarationFragmentNode(fields[i], unit);
 			fKeys[i]= frag.resolveBinding();
@@ -86,7 +86,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 
 	private IField[] getFields(IType type, String[] fieldNames) {
 		IField[] fields= new IField[fieldNames.length];
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fields[i]= type.getField(fieldNames[i]);
 		}
 		return fields;
@@ -97,7 +97,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test non-reference types (and Enum) in a direct subclass of Object
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test01() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -184,7 +184,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test non-reference types in an indrect subclass of Object
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test02() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -243,7 +243,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test reference types in a direct subclass of Object
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test03() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -311,7 +311,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test reference types in an indirect subclass of Object
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test04() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -379,7 +379,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test arrays
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test05() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -436,7 +436,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test insertion in-between two methods
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test06() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -492,7 +492,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Some enums and generic field types...
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test07() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -566,7 +566,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Two double fields
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test08() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -621,7 +621,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * "this" qualification for fields with the
 	 * same name as a newly introduced temporary
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test09() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -688,7 +688,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test non-reference types in a direct subclass of Object, using 'instanceof' comparison
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test10() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -768,7 +768,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test non-reference types in an indrect subclass of Object, using 'instanceof' comparison
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test11() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -825,7 +825,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test reference types in a direct subclass of Object, using 'instanceof' comparison
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test12() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -892,7 +892,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test that multiple applications yield same result (without super calls)
 	 * (https://bugs.eclipse.org/bugs/show_bug.cgi?id=154417)
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test13() throws Exception {
 
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
@@ -962,7 +962,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using non-array instance variables and Enum
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1028,7 +1028,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using unique non-array instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsUniqueFieldIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1075,7 +1075,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using non-array instance variables with 'instanceof' comparison
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsInstanceOfIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1135,7 +1135,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using 1-dim array amongst other instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsArrayIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1204,7 +1204,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using 1-dim Cloneable array amongst other instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsCloneableArrayIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1273,7 +1273,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using 1-dim Serializable array amongst other instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsSerializableArrayIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1344,7 +1344,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using 1-dim Object array amongst other instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsObjectArrayIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1413,7 +1413,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using 1-dim type variable arrays extending Serializable and Number
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsTypeVariableArrayIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1465,7 +1465,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using multidimensional array amongst other instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsMultiArrayIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1534,7 +1534,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using both multidimensional and 1-dimensional primitive arrays amongst other instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsVariousArraysIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1606,7 +1606,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls
 	 * Using ONLY multidimensional and 1-dimensional arrays as instance variables
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void hashCodeEqualsOnlyArraysIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1656,7 +1656,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test member types
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void enclosingInstance() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1714,7 +1714,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test member types with J7+ Objects.hash and Objects.equals method calls
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void enclosingInstanceIn17() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -1774,7 +1774,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test non-reference types in a direct subclass of Object
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void thenWithBlocks() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", """
@@ -1838,7 +1838,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test reference types in an subclass
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void subTypeAndArraysIn14() throws Exception {
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
 				"\r\n" +
@@ -1909,7 +1909,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test with J7+ Objects.hash and Objects.equals method calls Using sub-type
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void subTypeIn17() throws Exception {
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
 				"\r\n" +
@@ -1976,7 +1976,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 * Test with J7+ Objects.hash and Objects.equals method calls with class with "other" field
 	 * (https://bugs.eclipse.org/bugs/show_bug.cgi?id=561517)
 	 */
-	public void otherFieldIn17() throws Exception {
+	public void otherFieldIn17() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
 				"\r\n" +
 				"public class A {\r\n" +
@@ -2019,7 +2019,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	/**
 	 * Test implementation based only on super class
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void subTypeNoFields() throws Exception {
 		fPackageP.createCompilationUnit("B.java", "package p;\r\n" +
 				"\r\n" +
@@ -2069,7 +2069,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 		compareSource(expected, a.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void insertAt() throws Exception {
 		String originalContent= """
 			package p;
@@ -2096,7 +2096,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 		final int NUM_MEMBERS= 6;
 
 		// try to insert the new methods after every member and at the end
-		for (int i= 0; i < NUM_MEMBERS + 1; i++) {
+		for (int i= 0; i < NUM_MEMBERS + 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			ICompilationUnit unit= null;
 			try {
@@ -2129,7 +2129,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 *
 	 * @throws Exception rarely
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void abstractSuperMethods() throws Exception {
 
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
@@ -2193,7 +2193,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 	 *
 	 * @throws Exception rarely
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void arraysDeepEqualsIn15() throws Exception {
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java", "package p;\r\n" +
 				"\r\n" +
@@ -2245,7 +2245,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 		compareSource(expected, a.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIssue1560() throws Exception {
 		ICompilationUnit a= fPackageP.createCompilationUnit("A.java",
 				"""
@@ -2288,7 +2288,7 @@ public class GenerateHashCodeEqualsTest extends SourceTestCase {
 
 		IType[] allTypes= a.getAllTypes();
 		IType childType= null;
-		for (IType type : allTypes) {
+		for (IType type : allTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.getElementName().equals("Child")) {
 				childType= type;
 				break;

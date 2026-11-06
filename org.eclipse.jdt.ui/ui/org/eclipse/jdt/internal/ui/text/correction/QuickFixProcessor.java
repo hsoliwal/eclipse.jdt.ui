@@ -74,7 +74,7 @@ import org.eclipse.jdt.internal.ui.text.correction.proposals.TaskMarkerProposal;
 public class QuickFixProcessor implements IQuickFixProcessor {
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean hasCorrections(ICompilationUnit cu, int problemId) {
 		switch (problemId) {
 			case IProblem.UnterminatedString:
@@ -345,7 +345,7 @@ public class QuickFixProcessor implements IQuickFixProcessor {
 	private static int moveBack(int offset, int start, String ignoreCharacters, ICompilationUnit cu) {
 		try {
 			IBuffer buf= cu.getBuffer();
-			while (offset >= start) {
+			while (offset >= start) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (ignoreCharacters.indexOf(buf.getChar(offset - 1)) == -1) {
 					return offset;
 				}
@@ -364,9 +364,9 @@ public class QuickFixProcessor implements IQuickFixProcessor {
 			return null;
 		}
 
-		HashSet<Integer> handledProblems= new HashSet<>(locations.length);
-		ArrayList<ICommandAccess> resultingCollections= new ArrayList<>();
-		for (IProblemLocation curr : locations) {
+		HashSet<Integer> handledProblems= new HashSet<>(locations.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		ArrayList<ICommandAccess> resultingCollections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProblemLocation curr : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Integer id= curr.getProblemId();
 			if (handledProblems.add(id)) {
 				process(context, curr, resultingCollections);
@@ -375,7 +375,7 @@ public class QuickFixProcessor implements IQuickFixProcessor {
 		return resultingCollections.toArray(new IJavaCompletionProposal[resultingCollections.size()]);
 	}
 
-	private void process(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException {
+	private void process(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int id= problem.getProblemId();
 		if (id == 0) { // no proposals for none-problem locations
 			return;

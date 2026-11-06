@@ -178,7 +178,7 @@ public class IntroduceParameterObjectDescriptor extends JavaRefactoringDescripto
 		int length= method.getNumberOfParameters();
 		Parameter[] result= new Parameter[length + 1];
 		result[0]= PARAMETER_OBJECT;
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i + 1]= new Parameter(i);
 			result[i + 1].setCreateField(true);
 		}
@@ -342,7 +342,7 @@ public class IntroduceParameterObjectDescriptor extends JavaRefactoringDescripto
 		return fTopLevel;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void populateArgumentMap() {
 		super.populateArgumentMap();
 		JavaRefactoringDescriptorUtil.setJavaElement(fArguments, ATTRIBUTE_INPUT, getProject(), fMethod);
@@ -351,7 +351,7 @@ public class IntroduceParameterObjectDescriptor extends JavaRefactoringDescripto
 			parameters= createParameters(fMethod);
 		}
 		JavaRefactoringDescriptorUtil.setInt(fArguments, PARAMETER_COUNT, parameters.length);
-		for (int i= 0; i < parameters.length; i++) {
+		for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Parameter param= parameters[i];
 			JavaRefactoringDescriptorUtil.setInt(fArguments, JavaRefactoringDescriptorUtil.getAttributeName(PARAMETER_IDX, i), param.getIndex());
 			JavaRefactoringDescriptorUtil.setBoolean(fArguments, JavaRefactoringDescriptorUtil.getAttributeName(PARAMETER_CREATE_FIELD, i), param.isCreateField());
@@ -382,11 +382,11 @@ public class IntroduceParameterObjectDescriptor extends JavaRefactoringDescripto
 		setTopLevel(JavaRefactoringDescriptorUtil.getBoolean(map, TOP_LEVEL, fTopLevel));
 	}
 
-	private void initializeParameter(Map<String, String> map) throws IllegalArgumentException {
+	private void initializeParameter(Map<String, String> map) throws IllegalArgumentException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int[] idx= JavaRefactoringDescriptorUtil.getIntArray(map, PARAMETER_COUNT, PARAMETER_IDX);
 		boolean[] createField= JavaRefactoringDescriptorUtil.getBooleanArray(map, PARAMETER_COUNT, PARAMETER_CREATE_FIELD, 0);
 		Parameter[] result=new Parameter[idx.length];
-		for (int i= 0; i < idx.length; i++) {
+		for (int i= 0; i < idx.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int index= idx[i];
 			if (index == PARAMETER_OBJECT_IDX) {
 				result[i]= new Parameter(PARAMETER_OBJECT_IDX);
@@ -507,7 +507,7 @@ public class IntroduceParameterObjectDescriptor extends JavaRefactoringDescripto
 		fTopLevel= topLevel;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus validateDescriptor() {
 		RefactoringStatus result= super.validateDescriptor();
 		if (!result.isOK())
@@ -528,11 +528,11 @@ public class IntroduceParameterObjectDescriptor extends JavaRefactoringDescripto
 				result.addFatalError("The number of parameters does not match the number of parameters of the method"); //$NON-NLS-1$
 			}
 			boolean hasParameterObject= false;
-			for (Parameter parameter : fParameters) {
+			for (Parameter parameter : fParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (parameter.isCreateField()) {
 					String fieldName= parameter.getFieldName();
 					if (fieldName == null)
-						result.addError("The parameter " + parameter.getIndex() + " is marked for field creation but does not have a field name"); //$NON-NLS-1$ //$NON-NLS-2$
+						result.addError("The parameter " + parameter.getIndex() + " is marked for field creation but does not have a field name"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					else {
 						result.merge(RefactoringStatus.create(JavaConventions.validateFieldName(fieldName, sourceLevel, complianceLevel)));
 					}

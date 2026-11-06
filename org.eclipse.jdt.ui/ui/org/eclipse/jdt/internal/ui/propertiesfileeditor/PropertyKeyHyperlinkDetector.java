@@ -59,7 +59,7 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 	/*
 	 * @see org.eclipse.jface.text.hyperlink.IHyperlinkDetector#detectHyperlinks(org.eclipse.jface.text.ITextViewer, org.eclipse.jface.text.IRegion, boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= getAdapter(ITextEditor.class);
 		if (region == null || textEditor == null)
@@ -114,24 +114,21 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 		}
 	}
 
-	private String getUnicodeString(String key) {
+	private String getUnicodeString(String key) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringCharacterIterator iter= new StringCharacterIterator(key);
-		StringBuilder result= new StringBuilder();
-		while (iter.getIndex() < iter.getEndIndex()) {
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		while (iter.getIndex() < iter.getEndIndex()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= iter.current();
 			if (c == '\\') {
 				iter.next();
 				c= iter.current();
 				if (c == 'u') {
-					StringBuilder unicode= new StringBuilder();
-					unicode.append(iter.next());
-					unicode.append(iter.next());
-					unicode.append(iter.next());
-					unicode.append(iter.next());
-					c= (char)Integer.parseInt(unicode.toString(), 16);
+					c= (char)Integer.parseInt("" + iter.next() + iter.next() + iter.next() + iter.next(), 16);
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				}
 			}
-			result.append(c);
+			result.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			iter.next();
 		}
 		return result.toString();
@@ -145,7 +142,7 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 		return editorInput instanceof IFileEditorInput || (editorInput instanceof IStorageEditorInput && isEclipseNLSAvailable((IStorageEditorInput) editorInput));
 	}
 
-	private static boolean isEclipseNLSAvailable(IStorageEditorInput editorInput) {
+	private static boolean isEclipseNLSAvailable(IStorageEditorInput editorInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStorage storage;
 		try {
 			storage= editorInput.getStorage();
@@ -172,7 +169,7 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 		display.beep();
 		final IEditorStatusLine statusLine= textEditor.getAdapter(IEditorStatusLine.class);
 		if (statusLine != null) {
-			display.asyncExec(() -> statusLine.setMessage(true, message, null));
+			display.asyncExec(() -> statusLine.setMessage(true, message, null)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 }

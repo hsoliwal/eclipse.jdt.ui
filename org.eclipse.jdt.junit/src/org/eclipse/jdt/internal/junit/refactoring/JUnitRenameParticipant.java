@@ -61,7 +61,7 @@ public abstract class JUnitRenameParticipant extends RenameParticipant implement
 		}
 
 		public void createChangeForConfigs(ILaunchConfiguration[] configs, IChangeAdder changeCreator) throws CoreException {
-			for (ILaunchConfiguration config : configs) {
+			for (ILaunchConfiguration config : configs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fShouldFlagWarnings= true;
 				changeCreator.createChangeForConfig(this, new LaunchConfigurationContainer(config));
 			}
@@ -95,15 +95,15 @@ public abstract class JUnitRenameParticipant extends RenameParticipant implement
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		if (!getArguments().getUpdateReferences())
 			return null;
 
 		ILaunchManager manager= getLaunchManager();
 		List<String> launchConfigTypes= getLaunchConfigTypes();
-		List<Change> changes= new ArrayList<>();
-		for (String typeId : launchConfigTypes) {
+		List<Change> changes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String typeId : launchConfigTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ILaunchConfigurationType type= manager.getLaunchConfigurationType(typeId);
 			ILaunchConfiguration configs[]= manager.getLaunchConfigurations(type);
 			new ChangeList(getArguments(), getLaunchManager(), changes).createChangeForConfigs(configs, this);

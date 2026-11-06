@@ -77,9 +77,9 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 
 	private static ContributedProcessorDescriptor[] getProcessorDescriptors(String contributionId, boolean testMarkerTypes) {
 		IConfigurationElement[] elements= Platform.getExtensionRegistry().getConfigurationElementsFor(JavaUI.ID_PLUGIN, contributionId);
-		ArrayList<ContributedProcessorDescriptor> res= new ArrayList<>(elements.length);
+		ArrayList<ContributedProcessorDescriptor> res= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IConfigurationElement element : elements) {
+		for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ContributedProcessorDescriptor desc= new ContributedProcessorDescriptor(element, testMarkerTypes);
 			IStatus status= desc.checkSyntax();
 			if (status.isOK()) {
@@ -107,7 +107,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 
 	public static boolean hasCorrections(ICompilationUnit cu, int problemId, String markerType) {
 		SafeHasCorrections collector= new SafeHasCorrections(cu, problemId);
-		for (ContributedProcessorDescriptor processor : getCorrectionProcessors()) {
+		for (ContributedProcessorDescriptor processor : getCorrectionProcessors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (processor.canHandleMarkerType(markerType)) {
 				collector.process(processor);
 				if (collector.hasCorrections()) {
@@ -151,7 +151,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 	public static boolean hasAssists(IInvocationContext context) {
 		SafeHasAssist collector= new SafeHasAssist(context);
 
-		for (ContributedProcessorDescriptor processor :  getAssistProcessors()) {
+		for (ContributedProcessorDescriptor processor :  getAssistProcessors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			collector.process(processor);
 			if (collector.hasAssists()) {
 				return true;
@@ -166,7 +166,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 	/*
 	 * Constructor for JavaCorrectionProcessor.
 	 */
-	public JavaCorrectionProcessor(JavaCorrectionAssistant assistant) {
+	public JavaCorrectionProcessor(JavaCorrectionAssistant assistant) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fAssistant= assistant;
 		fAssistant.addCompletionListener(new ICompletionListener() {
 
@@ -221,7 +221,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 	/*
 	 * @see IContentAssistProcessor#computeCompletionProposals(ITextViewer, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICompletionProposal[] computeQuickAssistProposals(IQuickAssistInvocationContext quickAssistContext) {
 		ISourceViewer viewer= quickAssistContext.getSourceViewer();
 		int documentOffset= quickAssistContext.getOffset();
@@ -243,7 +243,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 
 		ICompletionProposal[] res= null;
 		if (model != null && context != null && annotations != null) {
-			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(10);
+			ArrayList<IJavaCompletionProposal> proposals= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IStatus status= collectProposals(context, model, annotations, true, !fAssistant.isUpdatedOffset(), proposals);
 			res= proposals.toArray(new ICompletionProposal[proposals.size()]);
 			if (!status.isOK()) {
@@ -261,11 +261,11 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 		return res;
 	}
 
-	public static IStatus collectProposals(IInvocationContext context, IAnnotationModel model, Annotation[] annotations, boolean addQuickFixes, boolean addQuickAssists, Collection<IJavaCompletionProposal> proposals) {
-		ArrayList<ProblemLocation> problems= new ArrayList<>();
+	public static IStatus collectProposals(IInvocationContext context, IAnnotationModel model, Annotation[] annotations, boolean addQuickFixes, boolean addQuickAssists, Collection<IJavaCompletionProposal> proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<ProblemLocation> problems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// collect problem locations and corrections from marker annotations
-		for (Annotation curr : annotations) {
+		for (Annotation curr : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ProblemLocation problemLocation= null;
 			if (curr instanceof IJavaAnnotation) {
 				problemLocation= getProblemLocation((IJavaAnnotation) curr, model);
@@ -315,7 +315,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 
 	private static void collectMarkerProposals(SimpleMarkerAnnotation annotation, Collection<IJavaCompletionProposal> proposals) {
 		IMarker marker= annotation.getMarker();
-		for (IMarkerResolution resolution : IDE.getMarkerHelpRegistry().getResolutions(marker)) {
+		for (IMarkerResolution resolution : IDE.getMarkerHelpRegistry().getResolutions(marker)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			proposals.add(new MarkerResolutionProposal(resolution, marker));
 		}
 	}
@@ -325,7 +325,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 		private ContributedProcessorDescriptor fDescriptor;
 
 		public void process(ContributedProcessorDescriptor[] desc) {
-			for (ContributedProcessorDescriptor d : desc) {
+			for (ContributedProcessorDescriptor d : desc) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fDescriptor= d;
 				SafeRunner.run(this);
 			}
@@ -458,7 +458,7 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 
 	public static IStatus collectCorrections(IInvocationContext context, IProblemLocation[] locations, Collection<IJavaCompletionProposal> proposals) {
 		SafeCorrectionCollector collector= new SafeCorrectionCollector(context, proposals);
-		for (ContributedProcessorDescriptor curr : getCorrectionProcessors()) {
+		for (ContributedProcessorDescriptor curr : getCorrectionProcessors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation[] handled= getHandledProblems(locations, curr);
 			if (handled != null) {
 				collector.setProblemLocations(handled);
@@ -468,23 +468,23 @@ public class JavaCorrectionProcessor implements org.eclipse.jface.text.quickassi
 		return collector.getStatus();
 	}
 
-	private static IProblemLocation[] getHandledProblems(IProblemLocation[] locations, ContributedProcessorDescriptor processor) {
+	private static IProblemLocation[] getHandledProblems(IProblemLocation[] locations, ContributedProcessorDescriptor processor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// implementation tries to avoid creating a new array
 		boolean allHandled= true;
 		ArrayList<IProblemLocation> res= null;
-		for (int i= 0; i < locations.length; i++) {
+		for (int i= 0; i < locations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProblemLocation curr= locations[i];
 			if (processor.canHandleMarkerType(curr.getMarkerType())) {
 				if (!allHandled) { // first handled problem
 					if (res == null) {
-						res= new ArrayList<>(locations.length - i);
+						res= new ArrayList<>(locations.length - i); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					}
 					res.add(curr);
 				}
 			} else if (allHandled) {
 				if (i > 0) { // first non handled problem
-					res= new ArrayList<>(locations.length - i);
-					for (int k= 0; k < i; k++) {
+					res= new ArrayList<>(locations.length - i); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (int k= 0; k < i; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						res.add(locations[k]);
 					}
 				}

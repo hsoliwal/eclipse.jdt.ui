@@ -98,7 +98,7 @@ public class JavaFoldingStructureProviderRegistry {
 		}
 	}
 
-	private JavaFoldingStructureProviderDescriptor getCurrentFoldingStructureProviderDescriptor() {
+	private JavaFoldingStructureProviderDescriptor getCurrentFoldingStructureProviderDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore preferenceStore= JavaPlugin.getDefault().getPreferenceStore();
 		String currentProviderId= preferenceStore.getString(PreferenceConstants.EDITOR_FOLDING_PROVIDER);
 		JavaFoldingStructureProviderDescriptor desc= getFoldingProviderDescriptor(currentProviderId);
@@ -136,9 +136,9 @@ public class JavaFoldingStructureProviderRegistry {
 	 */
 	public void reloadExtensions() {
 		IExtensionRegistry registry= Platform.getExtensionRegistry();
-		Map<String, JavaFoldingStructureProviderDescriptor> map= new HashMap<>();
+		Map<String, JavaFoldingStructureProviderDescriptor> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
-		for (IConfigurationElement element : registry.getConfigurationElementsFor(JavaPlugin.getPluginId(), EXTENSION_POINT)) {
+		for (IConfigurationElement element : registry.getConfigurationElementsFor(JavaPlugin.getPluginId(), EXTENSION_POINT)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaFoldingStructureProviderDescriptor desc= new JavaFoldingStructureProviderDescriptor(element);
 			map.put(desc.getId(), desc);
 		}

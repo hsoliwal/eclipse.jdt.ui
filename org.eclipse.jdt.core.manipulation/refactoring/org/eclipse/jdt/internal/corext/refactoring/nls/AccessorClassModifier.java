@@ -71,7 +71,7 @@ public class AccessorClassModifier {
 	private ICompilationUnit fCU;
 	private List<FieldDeclaration> fFields;
 
-	private AccessorClassModifier(ICompilationUnit cu) throws CoreException {
+	private AccessorClassModifier(ICompilationUnit cu) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fCU= cu;
 
@@ -82,9 +82,9 @@ public class AccessorClassModifier {
 		AbstractTypeDeclaration parent= null;
 		if (fRoot.types().size() > 0) {
 			parent= (AbstractTypeDeclaration)fRoot.types().get(0);
-			fFields= new ArrayList<>();
+			fFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			parent.accept(new GenericVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(FieldDeclaration node) {
 					int modifiers= node.getModifiers();
 					if (!Modifier.isPublic(modifiers))
@@ -112,7 +112,7 @@ public class AccessorClassModifier {
 		}
 	}
 
-	private TextEdit getTextEdit() throws CoreException {
+	private TextEdit getTextEdit() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDocument document= null;
 
 		ITextFileBufferManager manager= FileBuffers.getTextFileBufferManager();
@@ -135,7 +135,7 @@ public class AccessorClassModifier {
 		return fASTRewrite.rewriteAST(document, fCU.getOptions(true));
 	}
 
-	public static Change create(ICompilationUnit cu, NLSSubstitution[] substitutions) throws CoreException {
+	public static Change create(ICompilationUnit cu, NLSSubstitution[] substitutions) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Map<String, NLSSubstitution> newKeyToSubstMap= NLSPropertyFileModifier.getNewKeyToSubstitutionMap(substitutions);
 		Map<String, NLSSubstitution> oldKeyToSubstMap= NLSPropertyFileModifier.getOldKeyToSubstitutionMap(substitutions);
@@ -148,17 +148,17 @@ public class AccessorClassModifier {
 		MultiTextEdit multiTextEdit= new MultiTextEdit();
 		change.setEdit(multiTextEdit);
 
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (NLSPropertyFileModifier.doRemove(substitution, newKeyToSubstMap, oldKeyToSubstMap)) {
 				sourceModification.removeKey(substitution, change);
 			}
 		}
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (substitution.isKeyRename() && NLSPropertyFileModifier.doReplace(substitution, newKeyToSubstMap, oldKeyToSubstMap)) {
 				sourceModification.renameKey(substitution, change);
 			}
 		}
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (NLSPropertyFileModifier.doInsert(substitution, newKeyToSubstMap, oldKeyToSubstMap)) {
 				sourceModification.addKey(substitution, change);
 			}
@@ -172,7 +172,7 @@ public class AccessorClassModifier {
 		return change;
 	}
 
-	public static Change addFields(ICompilationUnit cu, List<String> fields) throws CoreException {
+	public static Change addFields(ICompilationUnit cu, List<String> fields) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AccessorClassModifier sourceModification= new AccessorClassModifier(cu);
 		String message= Messages.format(NLSMessages.AccessorClassModifier_add_fields_to_accessor, BasicElementLabels.getFileName(cu));
 
@@ -180,7 +180,7 @@ public class AccessorClassModifier {
 		MultiTextEdit multiTextEdit= new MultiTextEdit();
 		change.setEdit(multiTextEdit);
 
-		for (String field : fields) {
+		for (String field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= new NLSSubstitution(NLSSubstitution.EXTERNALIZED, field, null, null, null);
 			sourceModification.addKey(substitution, change);
 		}
@@ -193,7 +193,7 @@ public class AccessorClassModifier {
 		return change;
 	}
 
-	public static Change removeFields(ICompilationUnit cu, List<String> fields) throws CoreException {
+	public static Change removeFields(ICompilationUnit cu, List<String> fields) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AccessorClassModifier sourceModification= new AccessorClassModifier(cu);
 		String message= Messages.format(NLSMessages.AccessorClassModifier_remove_fields_from_accessor, BasicElementLabels.getFileName(cu));
 
@@ -201,7 +201,7 @@ public class AccessorClassModifier {
 		MultiTextEdit multiTextEdit= new MultiTextEdit();
 		change.setEdit(multiTextEdit);
 
-		for (String field : fields) {
+		for (String field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			NLSSubstitution substitution= new NLSSubstitution(NLSSubstitution.EXTERNALIZED, field, null, null, null);
 			sourceModification.removeKey(substitution, change);
 		}
@@ -241,7 +241,7 @@ public class AccessorClassModifier {
 		change.addTextEditGroup(editGroup);
 	}
 
-	private ASTNode findField(ASTNode astRoot, final String name) {
+	private ASTNode findField(ASTNode astRoot, final String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		class STOP_VISITING extends RuntimeException {
 			private static final long serialVersionUID= 1L;
@@ -275,7 +275,7 @@ public class AccessorClassModifier {
 		addKey(sub, editGroup);
 	}
 
-	private void addKey(NLSSubstitution sub, TextEditGroup editGroup) {
+	private void addKey(NLSSubstitution sub, TextEditGroup editGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fListRewrite == null)
 			return;
@@ -287,8 +287,8 @@ public class AccessorClassModifier {
 			fListRewrite.insertLast(fieldDeclaration, editGroup);
 			fFields.add(fieldDeclaration);
 		} else {
-			ArrayList<String> identifiers= new ArrayList<>();
-			for (FieldDeclaration field : fFields) {
+			ArrayList<String> identifiers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (FieldDeclaration field : fFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment fragment= (VariableDeclarationFragment) field.fragments().get(0);
 				identifiers.add(fragment.getName().getIdentifier());
 			}

@@ -53,7 +53,7 @@ public class TagHandlerFactory implements ITagHandlerFactory {
 		Assert.isNotNull(text);
 
 		Iterator iter= fHandlers.values().iterator();
-		while (iter.hasNext())  {
+		while (iter.hasNext())  { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITagHandler handler= (ITagHandler)iter.next();
 			if (handler.canHandleText(text))
 				return handler;

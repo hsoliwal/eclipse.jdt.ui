@@ -45,7 +45,7 @@ public class TaskTagDictionary extends AbstractSpellDictionary implements IPrope
 	 */
 	@Override
 	protected synchronized boolean load(final URL url) {
-		JavaPlugin.getJavaCorePluginPreferences().addPropertyChangeListener(this);
+		JavaPlugin.getJavaCorePluginPreferences().addPropertyChangeListener(this); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 		return updateTaskTags();
 	}
 
@@ -81,7 +81,7 @@ public class TaskTagDictionary extends AbstractSpellDictionary implements IPrope
 			unload();
 
 			final StringTokenizer tokenizer= new StringTokenizer(tags, ","); //$NON-NLS-1$
-			while (tokenizer.hasMoreTokens())
+			while (tokenizer.hasMoreTokens()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				hashWord(tokenizer.nextToken());
 
 			return true;

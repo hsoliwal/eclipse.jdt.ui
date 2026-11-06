@@ -55,28 +55,28 @@ public class FixCorrectionProposalCore extends LinkedCorrectionProposalCore {
 		return fFix.getStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getAdditionalProposalInfo(IProgressMonitor monitor) {
-		StringBuilder result= new StringBuilder();
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		IStatus status= getFixStatus();
 		if (status != null && !status.isOK()) {
-			result.append("<b>"); //$NON-NLS-1$
+			result.append("<b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (status.getSeverity() == IStatus.WARNING) {
-				result.append(CorrectionMessages.FixCorrectionProposal_WarningAdditionalProposalInfo);
+				result.append(CorrectionMessages.FixCorrectionProposal_WarningAdditionalProposalInfo); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else if (status.getSeverity() == IStatus.ERROR) {
-				result.append(CorrectionMessages.FixCorrectionProposal_ErrorAdditionalProposalInfo);
+				result.append(CorrectionMessages.FixCorrectionProposal_ErrorAdditionalProposalInfo); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			result.append("</b>"); //$NON-NLS-1$
-			result.append(status.getMessage());
-			result.append("<br><br>"); //$NON-NLS-1$
+			result.append("</b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(status.getMessage()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append("<br><br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		String info= fFix.getAdditionalProposalInfo();
 		if (info != null) {
-			result.append(info);
+			result.append(info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			result.append(super.getAdditionalProposalInfo(monitor));
+			result.append(super.getAdditionalProposalInfo(monitor)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return result.toString();

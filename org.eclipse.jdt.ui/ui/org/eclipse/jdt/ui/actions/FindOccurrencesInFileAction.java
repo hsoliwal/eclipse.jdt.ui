@@ -64,7 +64,7 @@ import org.eclipse.jdt.internal.ui.search.SearchMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FindOccurrencesInFileAction extends SelectionDispatchAction {
+public class FindOccurrencesInFileAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 	private IActionBars fActionBars;
@@ -133,7 +133,7 @@ public class FindOccurrencesInFileAction extends SelectionDispatchAction {
 		setEnabled(getMember(selection) != null);
 	}
 
-	private IMember getMember(IStructuredSelection selection) {
+	private IMember getMember(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.size() != 1)
 			return null;
 		Object o= selection.getFirstElement();

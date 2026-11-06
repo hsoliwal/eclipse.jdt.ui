@@ -91,7 +91,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * since 3.5
  */
-abstract class GenerateMethodAbstractAction extends SelectionDispatchAction {
+abstract class GenerateMethodAbstractAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 
 	CompilationUnitEditor fEditor;
@@ -102,7 +102,7 @@ abstract class GenerateMethodAbstractAction extends SelectionDispatchAction {
 		super(site);
 	}
 
-	static RefactoringStatusContext createRefactoringStatusContext(IJavaElement element) {
+	static RefactoringStatusContext createRefactoringStatusContext(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IMember) {
 			return JavaStatusContext.create((IMember) element);
 		}
@@ -184,7 +184,7 @@ abstract class GenerateMethodAbstractAction extends SelectionDispatchAction {
 		}
 	}
 
-	void checkAndRun(IType type) throws CoreException {
+	void checkAndRun(IType type) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type == null) {
 			MessageDialog.openInformation(getShell(), getErrorCaption(),
 					ActionMessages.GenerateMethodAbstractAction_error_not_applicable);
@@ -230,7 +230,7 @@ abstract class GenerateMethodAbstractAction extends SelectionDispatchAction {
 	 * @param type the type to generate stubs for
 	 * @throws CoreException if an error occurs
 	 */
-	void run(Shell shell, IType type) throws CoreException {
+	void run(Shell shell, IType type) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		initialize(type);
 
@@ -277,7 +277,7 @@ abstract class GenerateMethodAbstractAction extends SelectionDispatchAction {
 				status.merge(checkEnclosingClass(fTypeBinding.getDeclaringClass()));
 			}
 
-			for (Object s : selected) {
+			for (Object s : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				status.merge(checkMember(s));
 			}
 

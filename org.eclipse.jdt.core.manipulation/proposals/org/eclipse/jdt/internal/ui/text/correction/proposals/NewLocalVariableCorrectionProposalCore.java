@@ -56,7 +56,7 @@ public class NewLocalVariableCorrectionProposalCore extends LinkedCorrectionProp
 		fCu= cu;
 	}
 
-	public boolean hasProposal() {
+	public boolean hasProposal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression exp= null;
 		if (fSelectedNode instanceof ExpressionStatement expStmt) {
 			exp= expStmt.getExpression();
@@ -78,7 +78,7 @@ public class NewLocalVariableCorrectionProposalCore extends LinkedCorrectionProp
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		ExpressionStatement expStmt= null;
 		Expression exp= null;
@@ -123,7 +123,7 @@ public class NewLocalVariableCorrectionProposalCore extends LinkedCorrectionProp
 	}
 
 	protected IType getType(ICompilationUnit cu, String name) throws JavaModelException {
-		for (IType type : cu.getAllTypes()) {
+		for (IType type : cu.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.getTypeQualifiedName('.').equals(name) || type.getElementName().equals(name)) {
 				return type;
 			}
@@ -139,19 +139,19 @@ public class NewLocalVariableCorrectionProposalCore extends LinkedCorrectionProp
 	 * @throws JavaModelException
 	 *             if the method declaration could not be found
 	 */
-	protected String[] computeReservedIdentifiers(ASTNode node, CompilationUnit cu) throws JavaModelException {
-		final List<String> names= new ArrayList<>();
+	protected String[] computeReservedIdentifiers(ASTNode node, CompilationUnit cu) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<String> names= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		final MethodDeclaration declaration= ASTNodes.getFirstAncestorOrNull(node, MethodDeclaration.class);
 		if (declaration != null) {
 			final List<SingleVariableDeclaration> parameters= declaration.parameters();
 			VariableDeclaration variable= null;
-			for (SingleVariableDeclaration parameter : parameters) {
+			for (SingleVariableDeclaration parameter : parameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variable= parameter;
 				names.add(variable.getName().getIdentifier());
 			}
 			final Block body= declaration.getBody();
 			if (body != null) {
-				for (IBinding binding : new ScopeAnalyzer(cu).getDeclarationsAfter(body.getStartPosition(), ScopeAnalyzer.VARIABLES))
+				for (IBinding binding : new ScopeAnalyzer(cu).getDeclarationsAfter(body.getStartPosition(), ScopeAnalyzer.VARIABLES)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					names.add(binding.getName());
 			}
 		}

@@ -32,10 +32,10 @@ public class SemanticTokensProviderErrorTest extends AbstractSemanticHighlightin
 	@RegisterExtension
 	public SemanticHighlightingTestSetup shts= new SemanticHighlightingTestSetup("/SHTest/src/STTest2.java");
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void nullTokenTypeLogsError() throws Exception {
-		List<IStatus> errors= new ArrayList<>();
-		ILogListener logListener= (status, _) -> {
+		List<IStatus> errors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		ILogListener logListener= (status, unused) -> {
 			if (status.getSeverity() == IStatus.ERROR) {
 				errors.add(status);
 			}

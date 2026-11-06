@@ -72,7 +72,7 @@ public class AddImportOnSelectionAction extends Action implements IUpdate {
 
 	private static final class AddImportComparator implements Comparator<String> {
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(String o1, String o2) {
 			if (o1.equals(o2))
 				return 0;
@@ -121,7 +121,7 @@ public class AddImportOnSelectionAction extends Action implements IUpdate {
 	/*
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		final ICompilationUnit cu= getCompilationUnit();
 		if (cu == null || fEditor == null)
@@ -213,7 +213,7 @@ public class AddImportOnSelectionAction extends Action implements IUpdate {
 			fShell= shell;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public TypeNameMatch chooseImport(TypeNameMatch[] results, String containerName) {
 			int nResults= results.length;
 
@@ -224,7 +224,7 @@ public class AddImportOnSelectionAction extends Action implements IUpdate {
 			}
 
 			if (containerName.length() != 0) {
-				for (int i= 0; i < nResults; i++) {
+				for (int i= 0; i < nResults; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TypeNameMatch curr= results[i];
 					if (containerName.equals(curr.getTypeContainerName())) {
 						return curr;

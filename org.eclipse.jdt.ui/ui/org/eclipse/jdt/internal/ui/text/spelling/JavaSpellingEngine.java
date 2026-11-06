@@ -41,13 +41,13 @@ public class JavaSpellingEngine extends SpellingEngine {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine#check(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.IRegion[], org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellChecker, org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void check(IDocument document, IRegion[] regions, ISpellChecker checker, ISpellingProblemCollector collector, IProgressMonitor monitor) {
 		SpellEventListener listener= new SpellEventListener(collector, document);
 		boolean isIgnoringJavaStrings= PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.SPELLING_IGNORE_JAVA_STRINGS);
 		try {
-			for (IRegion region : regions) {
-				for (ITypedRegion partition : TextUtilities.computePartitioning(document, IJavaPartitions.JAVA_PARTITIONING, region.getOffset(), region.getLength(), false)) {
+			for (IRegion region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (ITypedRegion partition : TextUtilities.computePartitioning(document, IJavaPartitions.JAVA_PARTITIONING, region.getOffset(), region.getLength(), false)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (monitor != null && monitor.isCanceled())
 						return;
 					if (listener.isProblemsThresholdReached())

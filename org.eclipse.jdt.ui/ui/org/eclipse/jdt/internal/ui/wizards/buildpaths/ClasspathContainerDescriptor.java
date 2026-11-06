@@ -53,10 +53,10 @@ public class ClasspathContainerDescriptor {
 		String pageClassName = configElement.getAttribute(ATT_PAGE_CLASS);
 
 		if (name == null) {
-			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing name): " + id, null)); //$NON-NLS-1$
+			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing name): " + id, null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (pageClassName == null) {
-			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing page class name): " + id, null)); //$NON-NLS-1$
+			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (missing page class name): " + id, null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -67,7 +67,7 @@ public class ClasspathContainerDescriptor {
 				fPage= (IClasspathContainerPage) elem;
 			} else {
 				String id= fConfigElement.getAttribute(ATT_ID);
-				throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (page not of type IClasspathContainerPage): " + id, null)); //$NON-NLS-1$
+				throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, 0, "Invalid extension (page not of type IClasspathContainerPage): " + id, null)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		return fPage;
@@ -105,15 +105,15 @@ public class ClasspathContainerDescriptor {
 		return false;
 	}
 
-	public static ClasspathContainerDescriptor[] getDescriptors() {
-		ArrayList<ClasspathContainerDescriptor> containers= new ArrayList<>();
+	public static ClasspathContainerDescriptor[] getDescriptors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<ClasspathContainerDescriptor> containers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(JavaUI.ID_PLUGIN, ATT_EXTENSION);
 		if (extensionPoint != null) {
 			ClasspathContainerDescriptor defaultPage= null;
 			String defaultPageName= ClasspathContainerDefaultPage.class.getName();
 
-			for (IConfigurationElement element : extensionPoint.getConfigurationElements()) {
+			for (IConfigurationElement element : extensionPoint.getConfigurationElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					ClasspathContainerDescriptor curr= new ClasspathContainerDescriptor(element);
 					if (!WorkbenchActivityHelper.filterItem(curr)) {

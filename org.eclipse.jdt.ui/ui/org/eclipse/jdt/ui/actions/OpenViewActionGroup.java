@@ -147,7 +147,7 @@ public class OpenViewActionGroup extends ActionGroup {
 	 *
 	 * @noreference This constructor is not intended to be referenced by clients.
 	 */
-	public OpenViewActionGroup(JavaEditor part) {
+	public OpenViewActionGroup(JavaEditor part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fEditorIsOwner= true;
 		fShowShowInMenu= false;
 
@@ -196,7 +196,7 @@ public class OpenViewActionGroup extends ActionGroup {
 		fShowShowInMenu= enable;
 	}
 
-	private void createSiteActions(IWorkbenchSite site, ISelectionProvider specialProvider) {
+	private void createSiteActions(IWorkbenchSite site, ISelectionProvider specialProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fOpenImplementation= new OpenImplementationAction(site);
 		fOpenImplementation.setActionDefinitionId(IJavaEditorActionDefinitionIds.OPEN_IMPLEMENTATION);
 		fOpenImplementation.setSpecialSelectionProvider(specialProvider);
@@ -225,7 +225,7 @@ public class OpenViewActionGroup extends ActionGroup {
 		initialize(provider);
 	}
 
-	private void initialize(ISelectionProvider provider) {
+	private void initialize(ISelectionProvider provider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelectionProvider= provider;
 		ISelection selection= provider.getSelection();
 		fOpenImplementation.update(selection);
@@ -241,11 +241,11 @@ public class OpenViewActionGroup extends ActionGroup {
 					fOpenPropertiesDialog.selectionChanged(selection);
 				}
 			}
-			provider.addSelectionChangedListener(fOpenImplementation);
-			provider.addSelectionChangedListener(fOpenSuperImplementation);
-			provider.addSelectionChangedListener(fOpenAttachedJavadoc);
-			provider.addSelectionChangedListener(fOpenTypeHierarchy);
-			provider.addSelectionChangedListener(fOpenCallHierarchy);
+			provider.addSelectionChangedListener(fOpenImplementation); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			provider.addSelectionChangedListener(fOpenSuperImplementation); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			provider.addSelectionChangedListener(fOpenAttachedJavadoc); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			provider.addSelectionChangedListener(fOpenTypeHierarchy); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			provider.addSelectionChangedListener(fOpenCallHierarchy); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			// no need to register the open properties dialog action since it registers itself
 		}
 	}
@@ -256,7 +256,7 @@ public class OpenViewActionGroup extends ActionGroup {
 		setGlobalActionHandlers(actionBar);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fillContextMenu(IMenuManager menu) {
 		super.fillContextMenu(menu);
 		if (!fIsTypeHiararchyViewerOwner)
@@ -286,7 +286,7 @@ public class OpenViewActionGroup extends ActionGroup {
 		if (keyBinding == null)
 			keyBinding= ""; //$NON-NLS-1$
 
-		return ActionMessages.OpenViewActionGroup_showInAction_label + '\t' + keyBinding;
+		return ActionMessages.OpenViewActionGroup_showInAction_label + '\t' + keyBinding; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/*

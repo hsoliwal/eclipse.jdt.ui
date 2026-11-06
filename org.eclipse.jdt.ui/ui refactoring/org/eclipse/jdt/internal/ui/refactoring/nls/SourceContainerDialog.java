@@ -69,7 +69,7 @@ public class SourceContainerDialog extends ElementTreeSelectionDialog {
 	 * A TypedViewerFilter that accepts only PackageFragments and JavaProjects.
 	 * PackageFragments are only accepted if they are of the kind K_SOURCE.
 	 */
-	private static class JavaTypedViewerFilter extends TypedViewerFilter {
+	private static class JavaTypedViewerFilter extends TypedViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 		public JavaTypedViewerFilter() {
 			super(new Class[]{IPackageFragmentRoot.class, IJavaProject.class});
@@ -95,10 +95,10 @@ public class SourceContainerDialog extends ElementTreeSelectionDialog {
 		setComparator(new JavaElementComparator());
 		setTitle(NewWizardMessages.NewContainerWizardPage_ChooseSourceContainerDialog_title);
 		setMessage(NewWizardMessages.NewContainerWizardPage_ChooseSourceContainerDialog_description);
-		addFilter(new JavaTypedViewerFilter());
+		addFilter(new JavaTypedViewerFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
-	public static IPackageFragmentRoot getSourceContainer(Shell shell, IWorkspaceRoot workspaceRoot, IJavaElement initElement) {
+	public static IPackageFragmentRoot getSourceContainer(Shell shell, IWorkspaceRoot workspaceRoot, IJavaElement initElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SourceContainerDialog dialog= new SourceContainerDialog(shell);
 		dialog.setInput(JavaCore.create(workspaceRoot));
 		dialog.setInitialSelection(initElement);

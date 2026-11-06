@@ -55,7 +55,7 @@ public class QuickFixEnablementTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testContributedQuickFix1() throws Exception {
 
 		// quick fix is contributed only for files with name 'A.java' in a 1.5 project
@@ -89,7 +89,7 @@ public class QuickFixEnablementTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testContributedQuickFix2() throws Exception {
 		// quick fix is contributed only for files with name 'A.java'
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);

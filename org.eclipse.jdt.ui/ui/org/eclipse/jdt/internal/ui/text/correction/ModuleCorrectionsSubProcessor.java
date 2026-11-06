@@ -78,7 +78,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.ClasspathFixSelectionDialo
 
 public class ModuleCorrectionsSubProcessor {
 
-	private static class ModulepathFixProposal extends ChangeCorrectionProposal {
+	private static class ModulepathFixProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		private String fDescription;
 
@@ -105,7 +105,7 @@ public class ModuleCorrectionsSubProcessor {
 
 		protected ModulepathFixCorrectionProposalCore(ICompilationUnit cu, String moduleSearchStr) {
 			super(CorrectionMessages.ReorgCorrectionsSubProcessor_project_seup_fix_description, cu, -10);
-			fModuleSearchStr= DefaultModulepathFixProcessor.MODULE_SEARCH + moduleSearchStr;
+			fModuleSearchStr= DefaultModulepathFixProcessor.MODULE_SEARCH + moduleSearchStr; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -118,7 +118,7 @@ public class ModuleCorrectionsSubProcessor {
 		}
 	}
 
-	private static class ModulepathFixCorrectionProposal extends CUCorrectionProposal {
+	private static class ModulepathFixCorrectionProposal extends CUCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 		protected ModulepathFixCorrectionProposal(ICompilationUnit cu, String moduleSearchStr) {
 			super(CorrectionMessages.ReorgCorrectionsSubProcessor_project_seup_fix_description, cu, -10, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE),
@@ -143,7 +143,7 @@ public class ModuleCorrectionsSubProcessor {
 	}
 
 
-	public static void getPackageDoesNotExistProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException {
+	public static void getPackageDoesNotExistProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode == null) {
@@ -177,7 +177,7 @@ public class ModuleCorrectionsSubProcessor {
 		}
 	}
 
-	public static void getUndefinedModuleProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException {
+	public static void getUndefinedModuleProposals(IInvocationContext context, IProblemLocation problem, Collection<ICommandAccess> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 		ASTNode selectedNode= problem.getCoveringNode(context.getASTRoot());
 		if (selectedNode == null) {
@@ -210,14 +210,14 @@ public class ModuleCorrectionsSubProcessor {
 		}
 	}
 
-	private static void addModifyClassPathProposals(Collection<ICommandAccess> proposals, IJavaProject javaProject, Name node) throws CoreException {
+	private static void addModifyClassPathProposals(Collection<ICommandAccess> proposals, IJavaProject javaProject, Name node) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null || javaProject == null) {
 			return;
 		}
 		IJavaElement[] elements= new IJavaElement[1];
 		elements[0]= javaProject;
 		IJavaSearchScope scope= SearchEngine.createJavaSearchScope(elements);
-		List<IModuleDescription> moduleDescriptions= new ArrayList<>();
+		List<IModuleDescription> moduleDescriptions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SearchRequestor requestor= new SearchRequestor() {
 			@Override
 			public void acceptSearchMatch(SearchMatch match) throws CoreException {
@@ -245,7 +245,7 @@ public class ModuleCorrectionsSubProcessor {
 
 		IClasspathEntry[] existingEntries= javaProject.readRawClasspath();
 		if (existingEntries != null && existingEntries.length > 0) {
-			for (IModuleDescription moduleDesc : moduleDescriptions) {
+			for (IModuleDescription moduleDesc : moduleDescriptions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IPackageFragmentRoot root= (IPackageFragmentRoot) moduleDesc.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 				if (root != null) {
 					IClasspathEntry entry= null;
@@ -272,7 +272,7 @@ public class ModuleCorrectionsSubProcessor {
 	private static int getClassPathPresentByEntry(IClasspathEntry[] existingEntries, IClasspathEntry entry) {
 		int index= -1;
 		if (existingEntries != null && existingEntries.length > 0 && entry != null) {
-			for (int i= 0; i < existingEntries.length; i++) {
+			for (int i= 0; i < existingEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (existingEntries[i].equals(entry)) {
 					index= i;
 					break;
@@ -285,7 +285,7 @@ public class ModuleCorrectionsSubProcessor {
 	private static int getClassPathPresentByPath(IClasspathEntry[] existingEntries, IPath path) {
 		int index= -1;
 		if (existingEntries != null && existingEntries.length > 0 && path != null) {
-			for (int i= 0; i < existingEntries.length; i++) {
+			for (int i= 0; i < existingEntries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (existingEntries[i].getPath().equals(path)) {
 					index= i;
 					break;
@@ -297,7 +297,7 @@ public class ModuleCorrectionsSubProcessor {
 
 	private static IClasspathAttribute[] addModuleAttributeIfNeeded(IClasspathAttribute[] extraAttributes) {
 		String TRUE= "true"; //$NON-NLS-1$
-		for (int j= 0; j < extraAttributes.length; j++) {
+		for (int j= 0; j < extraAttributes.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathAttribute classpathAttribute= extraAttributes[j];
 			if (IClasspathAttribute.MODULE.equals(classpathAttribute.getName())) {
 				if (TRUE.equals(classpathAttribute.getValue())) {
@@ -312,7 +312,7 @@ public class ModuleCorrectionsSubProcessor {
 		return extraAttributes;
 	}
 
-	private static void modifyClasspathProposal(IJavaProject project, IPackageFragmentRoot root, IClasspathEntry[] entries, int position, Collection<ICommandAccess> proposals)
+	private static void modifyClasspathProposal(IJavaProject project, IPackageFragmentRoot root, IClasspathEntry[] entries, int position, Collection<ICommandAccess> proposals) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws JavaModelException {
 		IClasspathEntry[] existingEntries= Arrays.copyOf(entries, entries.length);
 		IClasspathEntry entry= existingEntries[position];
@@ -352,7 +352,7 @@ public class ModuleCorrectionsSubProcessor {
 		}
 	}
 
-	private static String getModifyClasspathLabel(IClasspathEntry entry, IPackageFragmentRoot root) {
+	private static String getModifyClasspathLabel(IClasspathEntry entry, IPackageFragmentRoot root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] args= null;
 		switch (entry.getEntryKind()) {
 			case IClasspathEntry.CPE_LIBRARY:
@@ -387,7 +387,7 @@ public class ModuleCorrectionsSubProcessor {
 		return null;
 	}
 
-	public static IModuleDescription getModuleDescription(IJavaElement element) {
+	public static IModuleDescription getModuleDescription(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IModuleDescription projectModule= null;
 		try {
 			switch (element.getElementType()) {

@@ -73,16 +73,16 @@ public class DocumentLineDifferModificationTest extends AbstractDocumentLineDiff
 	private void runReplaceAllMeasurements(String originalText, String searchExpression, String replacementString) throws Exception {
 		DifferenceMeter meter= new DifferenceMeter("warm up");
 		int runs= getWarmUpRuns();
-		for (int run= 0; run < runs; run++)
+		for (int run= 0; run < runs; run++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			measureReplaceAll(meter, originalText, searchExpression, replacementString);
 
 		fMeter= new DifferenceMeter(getDefaultScenarioId());
 		runs= getMeasuredRuns();
-		for (int run= 0; run < runs; run++)
+		for (int run= 0; run < runs; run++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			measureReplaceAll(fMeter, originalText, searchExpression, replacementString);
 	}
 
-	@SuppressWarnings("restriction")
+	@SuppressWarnings("restriction") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private void measureReplaceAll(DifferenceMeter meter, String contents, String searchExpression, String replacementString) throws Exception {
 		org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer differ= null;
 		try {
@@ -109,15 +109,15 @@ public class DocumentLineDifferModificationTest extends AbstractDocumentLineDiff
 
 	private void replaceAll(String searchExpression, String replacementString) throws BadLocationException {
 		IRegion match= fFindReplaceAdapter.find(0, searchExpression, true, true, false, false);
-		while (match != null) {
+		while (match != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion replace= fFindReplaceAdapter.replace(replacementString, false);
 			match= fFindReplaceAdapter.find(replace.getOffset() + replace.getLength(), searchExpression, true, true, false, false);
 		}
 	}
 
-	@SuppressWarnings("restriction")
+	@SuppressWarnings("restriction") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	private org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer ensureInitialized(Document document) {
-		final org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer differ= new org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer() {
+		final org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer differ= new org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer() { //FLLDCIM: MARK — T28  ANONYMOUS
 			/*
 			 * @see org.eclipse.ui.internal.texteditor.quickdiff.DocumentLineDiffer#initialize()
 			 */

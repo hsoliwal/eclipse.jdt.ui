@@ -46,7 +46,7 @@ public class JspPluginImages {
 	static {
 		String pathSuffix = "icons/full/"; //$NON-NLS-1$
 
-		ICON_BASE_URL= JspUIPlugin.getDefault().getBundle().getEntry("/"+ pathSuffix); //$NON-NLS-1$
+		ICON_BASE_URL= JspUIPlugin.getDefault().getBundle().getEntry("/"+ pathSuffix); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	// Use IPath and toOSString to build the names to ensure they have the slashes correct
@@ -67,8 +67,8 @@ public class JspPluginImages {
 	 */
 	private static void declareImages() {
 
-		declareRegistryImage(IMG_OBJ_TOMCAT, OBJECT + "tomcat_obj.gif"); //$NON-NLS-1$
-		declareRegistryImage(IMG_OBJ_JSP, OBJECT + "jsp_obj.gif"); //$NON-NLS-1$
+		declareRegistryImage(IMG_OBJ_TOMCAT, OBJECT + "tomcat_obj.gif"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		declareRegistryImage(IMG_OBJ_JSP, OBJECT + "jsp_obj.gif"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class JspPluginImages {
 	 */
 	public static ImageRegistry initializeImageRegistry() {
 		imageRegistry= new ImageRegistry(JspUIPlugin.getStandardDisplay());
-		imageDescriptors = new HashMap<>(30);
+		imageDescriptors = new HashMap<>(30); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		declareImages();
 		return imageRegistry;
 	}

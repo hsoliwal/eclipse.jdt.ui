@@ -59,9 +59,9 @@ public class ReferenceFinderUtil {
 	}
 
 	private static SearchMatch[] getTypeReferencesIn(IJavaElement[] elements, WorkingCopyOwner owner, IProgressMonitor pm) throws JavaModelException {
-		List<SearchMatch> referencedTypes= new ArrayList<>();
+		List<SearchMatch> referencedTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SubMonitor subMon= SubMonitor.convert(pm,"", elements.length); //$NON-NLS-1$
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			referencedTypes.addAll(getTypeReferencesIn(element, owner, subMon.newChild(1)));
 		}
 		return referencedTypes.toArray(new SearchMatch[referencedTypes.size()]);
@@ -89,9 +89,9 @@ public class ReferenceFinderUtil {
 	}
 
 	private static SearchMatch[] getFieldReferencesIn(IJavaElement[] elements, WorkingCopyOwner owner, IProgressMonitor pm) throws JavaModelException {
-		List<SearchMatch> referencedFields= new ArrayList<>();
+		List<SearchMatch> referencedFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SubMonitor subMon= SubMonitor.convert(pm,"", elements.length); //$NON-NLS-1$
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			referencedFields.addAll(getFieldReferencesIn(element, owner,subMon.newChild(1)));
 		}
 		return referencedFields.toArray(new SearchMatch[referencedFields.size()]);
@@ -119,9 +119,9 @@ public class ReferenceFinderUtil {
 	}
 
 	private static SearchMatch[] getMethodReferencesIn(IJavaElement[] elements, WorkingCopyOwner owner, IProgressMonitor pm) throws JavaModelException {
-		List<SearchMatch> referencedMethods= new ArrayList<>();
+		List<SearchMatch> referencedMethods= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SubMonitor subMon= SubMonitor.convert(pm,"", elements.length); //$NON-NLS-1$
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			referencedMethods.addAll(getMethodReferencesIn(element, owner, subMon.newChild(1)));
 		}
 		return referencedMethods.toArray(new SearchMatch[referencedMethods.size()]);
@@ -135,18 +135,18 @@ public class ReferenceFinderUtil {
 	}
 
 	public static ITypeBinding[] getTypesReferencedInDeclarations(MethodDeclaration[] methods) {
-		Set<ITypeBinding> typesUsed= new HashSet<>();
-		for (MethodDeclaration method : methods) {
+		Set<ITypeBinding> typesUsed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (MethodDeclaration method : methods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			typesUsed.addAll(getTypesUsedInDeclaration(method));
 		}
 		return typesUsed.toArray(new ITypeBinding[typesUsed.size()]);
 	}
 
 	//set of ITypeBindings
-	public static Set<ITypeBinding> getTypesUsedInDeclaration(MethodDeclaration methodDeclaration) {
+	public static Set<ITypeBinding> getTypesUsedInDeclaration(MethodDeclaration methodDeclaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (methodDeclaration == null)
-			return new HashSet<>(0);
-		Set<ITypeBinding> result= new HashSet<>();
+			return new HashSet<>(0); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ITypeBinding binding= null;
 		Type returnType= methodDeclaration.getReturnType2();
 		if (returnType != null) {
@@ -155,13 +155,13 @@ public class ReferenceFinderUtil {
 				result.add(binding);
 		}
 
-		for (Iterator<SingleVariableDeclaration> iter= methodDeclaration.parameters().iterator(); iter.hasNext();) {
+		for (Iterator<SingleVariableDeclaration> iter= methodDeclaration.parameters().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			binding = iter.next().getType().resolveBinding();
 			if (binding != null)
 				result.add(binding);
 		}
 
-		for (Iterator<Type> iter= methodDeclaration.thrownExceptionTypes().iterator(); iter.hasNext();) {
+		for (Iterator<Type> iter= methodDeclaration.thrownExceptionTypes().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			binding= iter.next().resolveBinding();
 			if (binding != null)
 				result.add(binding);
@@ -171,8 +171,8 @@ public class ReferenceFinderUtil {
 
 	/// private helpers
 	private static Set<IJavaElement> extractElements(SearchMatch[] searchResults, int elementType) {
-		Set<IJavaElement> elements= new HashSet<>();
-		for (SearchMatch searchResult : searchResults) {
+		Set<IJavaElement> elements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (SearchMatch searchResult : searchResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement el= SearchUtils.getEnclosingJavaElement(searchResult);
 			if (el.exists() && el.getElementType() == elementType)
 				elements.add(el);

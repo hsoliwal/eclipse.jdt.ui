@@ -64,7 +64,7 @@ public class ExtractInterfaceTests1d8 extends ExtractInterfaceTests {
 		validatePassingTest("A", "B", true, true);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExtractInterfaceFromInterface2() throws Exception {
 		String className= "A";
 		String extendingInterfaceName= "I1";
@@ -89,8 +89,8 @@ public class ExtractInterfaceTests1d8 extends ExtractInterfaceTests {
 
 		IMember[] extractableMembers= processor.getExtractableMembers();
 		final IMember[] members= new IMember[extractableMembers.length - 1];
-		List<IMember> list= new ArrayList<>();
-		for (IMember iMember : extractableMembers) {
+		List<IMember> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMember iMember : extractableMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!(iMember instanceof IField)) {
 				list.add(iMember);
 			}
@@ -100,11 +100,11 @@ public class ExtractInterfaceTests1d8 extends ExtractInterfaceTests {
 		processor.setAnnotations(false);
 		RefactoringStatus performRefactoring= performRefactoring(ref);
 		assertNull("was supposed to pass", performRefactoring);
-		assertEqualLines("incorrect changes in " + className,
+		assertEqualLines("incorrect changes in " + className, //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				getFileContents(getOutputTestFileName(className)),
 				cu.getSource());
 
-		ICompilationUnit interfaceCu= pack.getCompilationUnit(newInterfaceName + ".java");
+		ICompilationUnit interfaceCu= pack.getCompilationUnit(newInterfaceName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect interface created",
 				getFileContents(getOutputTestFileName(newInterfaceName)),
 				interfaceCu.getSource());

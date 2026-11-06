@@ -132,7 +132,7 @@ public class ClassFileEditorTests {
 		assertEquals(0, classEditor.getNoSourceTextWidget().getStyleRanges().length);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void testHighlightMultipleCompilationUnits() throws CoreException {
 		createClassFromSource("A.java", """
 				public class A {
@@ -156,7 +156,7 @@ public class ClassFileEditorTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void testClosingEditorCancelsPendingOverrideIndicatorInstallationJob() throws Exception {
 		createHelloWorldClass();
 		CountDownLatch aboutToRun= new CountDownLatch(1);
@@ -214,7 +214,7 @@ public class ClassFileEditorTests {
 	}
 
 	private void createHelloWorldClass() throws CoreException {
-		createClassFromSource(TYPE_NAME + ".java", """
+		createClassFromSource(TYPE_NAME + ".java", """ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			public class HelloWorld {
 				public static void main(String[] args) {
 					System.out.println("Hello World");
@@ -227,11 +227,11 @@ public class ClassFileEditorTests {
 		IPackageFragment fragment= javaProject.findPackageFragment(javaProject.getProject().getFullPath().append("src"));
 		fragment.createCompilationUnit(fileName, content, true, new NullProgressMonitor());
 		javaProject.getProject().build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		javaProject.getProject().getFile("src/" + fileName).delete(true,new NullProgressMonitor());
+		javaProject.getProject().getFile("src/" + fileName).delete(true,new NullProgressMonitor()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private ClassFileEditor createClassFileEditor(String typeName) throws CoreException {
-		ClassFileEditor editor= (ClassFileEditor) EditorUtility.openInEditor(javaProject.getProject().getFile("bin/" + typeName + ".class"));
+		ClassFileEditor editor= (ClassFileEditor) EditorUtility.openInEditor(javaProject.getProject().getFile("bin/" + typeName + ".class")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertFalse(editor.isEditable());
 		return editor;
 	}

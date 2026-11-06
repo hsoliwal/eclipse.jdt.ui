@@ -475,7 +475,7 @@ public class SemanticHighlightings {
 			return isAutoUnBoxing(token.getNode());
 		}
 
-		private boolean isAutoUnBoxing(Expression node) {
+		private boolean isAutoUnBoxing(Expression node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isAutoUnBoxingExpression(node))
 				return true;
 			// special cases: the autoboxing conversions happens at a
@@ -771,7 +771,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.ISemanticHighlighting#isMatched(org.eclipse.jdt.core.dom.ASTNode)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 			SimpleName node= token.getNode();
 			if (node.isDeclaration())
@@ -1201,16 +1201,16 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 			IBinding binding= getBinding(token);
 			if (binding != null) {
 				if (binding.isDeprecated()) {
 					IAnnotationBinding[] annotations= binding.getAnnotations();
-					for (IAnnotationBinding annotation : annotations) {
+					for (IAnnotationBinding annotation : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (annotation.getAnnotationType().getQualifiedName().equals("java.lang.Deprecated")) { //$NON-NLS-1$
 							IMemberValuePairBinding[] pairs= annotation.getAllMemberValuePairs();
-							for (IMemberValuePairBinding pair : pairs) {
+							for (IMemberValuePairBinding pair : pairs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (pair.getName().equals("since")) { //$NON-NLS-1$
 									String value= (String) pair.getValue();
 									try {
@@ -1384,7 +1384,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1393,7 +1393,7 @@ public class SemanticHighlightings {
 			int nodeType= node.getNodeType();
 			if (nodeType != ASTNode.SIMPLE_TYPE && nodeType != ASTNode.THIS_EXPRESSION && nodeType != ASTNode.QUALIFIED_TYPE  && nodeType != ASTNode.QUALIFIED_NAME && nodeType != ASTNode.TYPE_DECLARATION && nodeType != ASTNode.METHOD_INVOCATION)
 				return false;
-			while (nodeType == ASTNode.QUALIFIED_NAME) {
+			while (nodeType == ASTNode.QUALIFIED_NAME) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 				nodeType= node.getNodeType();
 				if (nodeType == ASTNode.IMPORT_DECLARATION)
@@ -1442,7 +1442,7 @@ public class SemanticHighlightings {
 			return JavaEditorMessages.SemanticHighlighting_records;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1455,7 +1455,7 @@ public class SemanticHighlightings {
 					&& nodeType != ASTNode.TYPE_DECLARATION && nodeType != ASTNode.METHOD_INVOCATION) {
 				return false;
 			}
-			while (nodeType == ASTNode.QUALIFIED_NAME) {
+			while (nodeType == ASTNode.QUALIFIED_NAME) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 				nodeType= node.getNodeType();
 				if (nodeType == ASTNode.IMPORT_DECLARATION)
@@ -1525,7 +1525,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1535,7 +1535,7 @@ public class SemanticHighlightings {
 			if (nodeType != ASTNode.METHOD_INVOCATION && nodeType != ASTNode.SIMPLE_TYPE && nodeType != ASTNode.QUALIFIED_TYPE && nodeType != ASTNode.QUALIFIED_NAME
 					&& nodeType != ASTNode.ENUM_DECLARATION)
 				return false;
-			while (nodeType == ASTNode.QUALIFIED_NAME) {
+			while (nodeType == ASTNode.QUALIFIED_NAME) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 				nodeType= node.getNodeType();
 				if (nodeType == ASTNode.IMPORT_DECLARATION)
@@ -1605,7 +1605,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1614,7 +1614,7 @@ public class SemanticHighlightings {
 			int nodeType= node.getNodeType();
 			if (nodeType != ASTNode.SIMPLE_TYPE && nodeType != ASTNode.QUALIFIED_TYPE  && nodeType != ASTNode.QUALIFIED_NAME && nodeType != ASTNode.TYPE_DECLARATION)
 				return false;
-			while (nodeType == ASTNode.QUALIFIED_NAME) {
+			while (nodeType == ASTNode.QUALIFIED_NAME) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 				nodeType= node.getNodeType();
 				if (nodeType == ASTNode.IMPORT_DECLARATION)
@@ -1684,7 +1684,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1694,7 +1694,7 @@ public class SemanticHighlightings {
 			if (nodeType != ASTNode.SIMPLE_TYPE && nodeType != ASTNode.QUALIFIED_TYPE  && nodeType != ASTNode.QUALIFIED_NAME && nodeType != ASTNode.ANNOTATION_TYPE_DECLARATION
 					&& nodeType != ASTNode.MARKER_ANNOTATION && nodeType != ASTNode.NORMAL_ANNOTATION && nodeType != ASTNode.SINGLE_MEMBER_ANNOTATION)
 				return false;
-			while (nodeType == ASTNode.QUALIFIED_NAME) {
+			while (nodeType == ASTNode.QUALIFIED_NAME) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 				nodeType= node.getNodeType();
 				if (nodeType == ASTNode.IMPORT_DECLARATION)
@@ -1764,7 +1764,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1915,7 +1915,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.SemanticHighlighting#consumes(org.eclipse.jdt.internal.ui.javaeditor.SemanticToken)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(SemanticToken token) {
 
 			// 1: match types
@@ -1924,7 +1924,7 @@ public class SemanticHighlightings {
 			int nodeType= node.getNodeType();
 			if (nodeType != ASTNode.SIMPLE_TYPE && nodeType != ASTNode.THIS_EXPRESSION && nodeType != ASTNode.QUALIFIED_TYPE  && nodeType != ASTNode.QUALIFIED_NAME && nodeType != ASTNode.TYPE_DECLARATION && nodeType != ASTNode.METHOD_INVOCATION)
 				return false;
-			while (nodeType == ASTNode.QUALIFIED_NAME) {
+			while (nodeType == ASTNode.QUALIFIED_NAME) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				node= node.getParent();
 				nodeType= node.getNodeType();
 				if (nodeType == ASTNode.IMPORT_DECLARATION)
@@ -2000,7 +2000,7 @@ public class SemanticHighlightings {
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.ISemanticHighlighting#isMatched(org.eclipse.jdt.core.dom.ASTNode)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean consumes(final SemanticToken token) {
 			final SimpleName node= token.getNode();
 			if (node.isDeclaration()) {
@@ -2066,7 +2066,7 @@ public class SemanticHighlightings {
 	 * @return the color preference key
 	 */
 	public static String getColorPreferenceKey(SemanticHighlighting semanticHighlighting) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -2076,7 +2076,7 @@ public class SemanticHighlightings {
 	 * @return the bold preference key
 	 */
 	public static String getBoldPreferenceKey(SemanticHighlighting semanticHighlighting) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -2086,7 +2086,7 @@ public class SemanticHighlightings {
 	 * @return the italic preference key
 	 */
 	public static String getItalicPreferenceKey(SemanticHighlighting semanticHighlighting) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -2097,7 +2097,7 @@ public class SemanticHighlightings {
 	 * @since 3.1
 	 */
 	public static String getStrikethroughPreferenceKey(SemanticHighlighting semanticHighlighting) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -2108,7 +2108,7 @@ public class SemanticHighlightings {
 	 * @since 3.1
 	 */
 	public static String getUnderlinePreferenceKey(SemanticHighlighting semanticHighlighting) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -2118,13 +2118,13 @@ public class SemanticHighlightings {
 	 * @return the enabled preference key
 	 */
 	public static String getEnabledPreferenceKey(SemanticHighlighting semanticHighlighting) {
-		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
+		return PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + semanticHighlighting.getPreferenceKey() + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
 	 * @return The semantic highlightings, the order defines the precedence of matches, the first match wins.
 	 */
-	public static SemanticHighlighting[] getSemanticHighlightings() {
+	public static SemanticHighlighting[] getSemanticHighlightings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fgSemanticHighlightings == null)
 			fgSemanticHighlightings= new SemanticHighlighting[] {
 				new DeprecatedMemberHighlighting(),
@@ -2162,7 +2162,7 @@ public class SemanticHighlightings {
 	 */
 	public static void initDefaults(IPreferenceStore store) {
 		SemanticHighlighting[] semanticHighlightings= getSemanticHighlightings();
-		for (SemanticHighlighting semanticHighlighting : semanticHighlightings) {
+		for (SemanticHighlighting semanticHighlighting : semanticHighlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setDefaultAndFireEvent(store, SemanticHighlightings.getColorPreferenceKey(semanticHighlighting), semanticHighlighting.getDefaultTextColor());
 			store.setDefault(SemanticHighlightings.getBoldPreferenceKey(semanticHighlighting), semanticHighlighting.isBoldByDefault());
 			store.setDefault(SemanticHighlightings.getItalicPreferenceKey(semanticHighlighting), semanticHighlighting.isItalicByDefault());
@@ -2185,10 +2185,10 @@ public class SemanticHighlightings {
 	 *         highlighting enablement, <code>false</code> if it did not
 	 * @since 3.1
 	 */
-	public static boolean affectsEnablement(IPreferenceStore store, PropertyChangeEvent event) {
+	public static boolean affectsEnablement(IPreferenceStore store, PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String relevantKey= null;
 		SemanticHighlighting[] highlightings= getSemanticHighlightings();
-		for (SemanticHighlighting highlighting : highlightings) {
+		for (SemanticHighlighting highlighting : highlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (event.getProperty().equals(getEnabledPreferenceKey(highlighting))) {
 				relevantKey= event.getProperty();
 				break;
@@ -2197,7 +2197,7 @@ public class SemanticHighlightings {
 		if (relevantKey == null)
 			return false;
 
-		for (SemanticHighlighting highlighting : highlightings) {
+		for (SemanticHighlighting highlighting : highlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String key= getEnabledPreferenceKey(highlighting);
 			if (key.equals(relevantKey))
 				continue;
@@ -2220,7 +2220,7 @@ public class SemanticHighlightings {
 	public static boolean isEnabled(IPreferenceStore store) {
 		SemanticHighlighting[] highlightings= getSemanticHighlightings();
 		boolean enable= false;
-		for (SemanticHighlighting highlighting : highlightings) {
+		for (SemanticHighlighting highlighting : highlightings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String enabledKey= getEnabledPreferenceKey(highlighting);
 			if (store.getBoolean(enabledKey)) {
 				enable= true;
@@ -2247,10 +2247,10 @@ public class SemanticHighlightings {
 	 * @since 3.1
 	 */
 	private static void convertMethodHighlightingPreferences(IPreferenceStore store) {
-		String colorkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX;
-		String boldkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX;
-		String italickey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX;
-		String enabledkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
+		String colorkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String boldkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String italickey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String enabledkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + METHOD + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		@SuppressWarnings("deprecation") String oldColorkey= PreferenceConstants.EDITOR_JAVA_METHOD_NAME_COLOR;
 		@SuppressWarnings("deprecation") String oldBoldkey= PreferenceConstants.EDITOR_JAVA_METHOD_NAME_BOLD;
@@ -2278,13 +2278,13 @@ public class SemanticHighlightings {
 	 * @param store the preference store to migrate
 	 * @since 3.2
 	 */
-	private static void convertAnnotationHighlightingPreferences(IPreferenceStore store) {
-		String colorkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX;
-		String boldkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX;
-		String italickey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX;
-		String strikethroughKey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX;
-		String underlineKey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX;
-		String enabledkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX;
+	private static void convertAnnotationHighlightingPreferences(IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		String colorkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String boldkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String italickey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String strikethroughKey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String underlineKey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		String enabledkey= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + ANNOTATION + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ENABLED_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		@SuppressWarnings("deprecation") String oldColorkey= PreferenceConstants.EDITOR_JAVA_ANNOTATION_COLOR;
 		@SuppressWarnings("deprecation") String oldBoldkey= PreferenceConstants.EDITOR_JAVA_ANNOTATION_BOLD;

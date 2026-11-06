@@ -98,34 +98,34 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("try {\n"); //$NON-NLS-1$
-		bld.append("    obj.throwingMethod();\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("try {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    obj.throwingMethod();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.MULTI_CATCH)) {
-			bld.append("} catch (IllegalArgumentException | IOException ioe) {\n"); //$NON-NLS-1$
-			bld.append("    ioe.printStackTrace();\n"); //$NON-NLS-1$
-			bld.append("}\n\n\n"); //$NON-NLS-1$
+			bld.append("} catch (IllegalArgumentException | IOException ioe) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    ioe.printStackTrace();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("} catch (IllegalArgumentException iae) {\n"); //$NON-NLS-1$
-			bld.append("    iae.printStackTrace();\n"); //$NON-NLS-1$
-			bld.append("} catch (IOException ioe) {\n"); //$NON-NLS-1$
-			bld.append("    ioe.printStackTrace();\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("} catch (IllegalArgumentException iae) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    iae.printStackTrace();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("} catch (IOException ioe) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    ioe.printStackTrace();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.MULTI_CATCH)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			abstract class AbstractBinding {
@@ -139,7 +139,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 					this.typeBinding= typeBinding;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected boolean isSubTypeCompatible(final AbstractBinding other) {
 					if (typeBinding == null) {
 						return false;
@@ -158,7 +158,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 					if (other instanceof MultiBinding) {
 						MultiBinding o= (MultiBinding) other;
 
-						for (ITypeBinding otherTypeBinding : o.typeBindings) {
+						for (ITypeBinding otherTypeBinding : o.typeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!isSubTypeCompatible(new SingleBinding(otherTypeBinding))) {
 								return false;
 							}
@@ -178,10 +178,10 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 					this.typeBindings= typeBindings;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected boolean isSubTypeCompatible(final AbstractBinding other) {
 					if (other instanceof SingleBinding) {
-						for (ITypeBinding selfTypeBinding : typeBindings) {
+						for (ITypeBinding selfTypeBinding : typeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (new SingleBinding(selfTypeBinding).isSubTypeCompatible(other)) {
 								return true;
 							}
@@ -191,7 +191,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 					if (other instanceof MultiBinding) {
 						MultiBinding o= (MultiBinding) other;
 
-						for (ITypeBinding otherTypeBinding : o.typeBindings) {
+						for (ITypeBinding otherTypeBinding : o.typeBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!isSubTypeCompatible(new SingleBinding(otherTypeBinding))) {
 								return false;
 							}
@@ -205,7 +205,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 			}
 
 			final class MultiCatchASTMatcher extends ASTSemanticMatcher {
-				private final Map<ASTNode, ASTNode> matchingVariables= new HashMap<>();
+				private final Map<ASTNode, ASTNode> matchingVariables= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 				public MultiCatchASTMatcher(final CatchClause catchClause1, final CatchClause catchClause2) {
 					matchingVariables.put(catchClause1.getException(), catchClause2.getException());
@@ -216,7 +216,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 					return super.match(node, other) || matchVariableDeclarationsWithDifferentNames(node, other);
 				}
 
-				private boolean matchVariableDeclarationsWithDifferentNames(final VariableDeclarationStatement node, final Object other) {
+				private boolean matchVariableDeclarationsWithDifferentNames(final VariableDeclarationStatement node, final Object other) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (!(other instanceof VariableDeclarationStatement)) {
 						return false;
 					}
@@ -229,7 +229,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 						Iterator<VariableDeclarationFragment> it2= fragments2.iterator();
 						// Do not make all efforts to try to reconcile fragments declared in different
 						// order
-						while (it1.hasNext() && it2.hasNext()) {
+						while (it1.hasNext() && it2.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							VariableDeclarationFragment f1= it1.next();
 							VariableDeclarationFragment f2= it2.next();
 
@@ -297,7 +297,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 				}
 
 				private boolean areBothReferringToSameVariables(final ASTNode node, final Object other) {
-					for (Entry<ASTNode, ASTNode> pairedVariables : matchingVariables.entrySet()) {
+					for (Entry<ASTNode, ASTNode> pairedVariables : matchingVariables.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (ASTNodes.isSameVariable(node, pairedVariables.getKey())) {
 							return other instanceof ASTNode && ASTNodes.isSameVariable((ASTNode) other, pairedVariables.getValue());
 						}
@@ -307,17 +307,17 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 				}
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final TryStatement visited) {
 				List<CatchClause> catchClauses= visited.catchClauses();
 				AbstractBinding[] typeBindings= resolveTypeBindings(catchClauses);
 
-				for (int i= 0; i < catchClauses.size() - 1; i++) {
-					List<CatchClause> mergeableCatchClauses= new ArrayList<>(catchClauses.size());
+				for (int i= 0; i < catchClauses.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					List<CatchClause> mergeableCatchClauses= new ArrayList<>(catchClauses.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					mergeableCatchClauses.add(catchClauses.get(i));
 					MergeDirection direction= null;
 
-					for (int j= i + 1; j < catchClauses.size(); j++) {
+					for (int j= i + 1; j < catchClauses.size(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						MergeDirection newDirection= mergeDirection(typeBindings, i, j);
 
 						if (!MergeDirection.NONE.equals(newDirection)
@@ -340,14 +340,14 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 			private AbstractBinding[] resolveTypeBindings(final List<CatchClause> catchClauses) {
 				AbstractBinding[] results= new AbstractBinding[catchClauses.size()];
 
-				for (int i= 0; i < catchClauses.size(); i++) {
+				for (int i= 0; i < catchClauses.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					results[i]= resolveBinding(catchClauses.get(i));
 				}
 
 				return results;
 			}
 
-			private AbstractBinding resolveBinding(final CatchClause catchClause) {
+			private AbstractBinding resolveBinding(final CatchClause catchClause) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				SingleVariableDeclaration singleVariableDeclaration= catchClause.getException();
 				Type type= singleVariableDeclaration.getType();
 
@@ -359,7 +359,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 					List<Type> types= ((UnionType) type).types();
 					ITypeBinding[] typeBindings= new ITypeBinding[types.size()];
 
-					for (int i= 0; i < types.size(); i++) {
+					for (int i= 0; i < types.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						typeBindings[i]= types.get(i).resolveBinding();
 					}
 
@@ -385,7 +385,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 			private boolean canMergeTypesDown(final AbstractBinding[] types, final int start, final int end) {
 				AbstractBinding startType= types[start];
 
-				for (int i= start + 1; i < end; i++) {
+				for (int i= start + 1; i < end; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					AbstractBinding type= types[i];
 
 					if (startType.isSubTypeCompatible(type)) {
@@ -399,7 +399,7 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 			private boolean canMergeTypesUp(final AbstractBinding[] types, final int start, final int end) {
 				AbstractBinding endType= types[end];
 
-				for (int i= start + 1; i < end; i++) {
+				for (int i= start + 1; i < end; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					AbstractBinding type= types[i];
 
 					if (type.isSubTypeCompatible(endType)) {
@@ -443,25 +443,25 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 			this.direction= direction;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.MultiCatchCleanUp_description, cuRewrite);
 
-			List<Type> typesByClause= new ArrayList<>();
+			List<Type> typesByClause= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (CatchClause mergeableCatchClause : mergeableCatchClauses) {
+			for (CatchClause mergeableCatchClause : mergeableCatchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				typesByClause.add(mergeableCatchClause.getException().getType());
 			}
 
-			List<Type> allTypes= new ArrayList<>();
+			List<Type> allTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			collectAllUnionedTypes(typesByClause, allTypes);
 			removeSupersededAlternatives(allTypes);
 
 			UnionType newUnionType= ast.newUnionType();
 			newUnionType.types().addAll(ASTNodes.createMoveTarget(rewrite, allTypes));
-			List<CatchClause> removedClauses= new ArrayList<>(mergeableCatchClauses);
+			List<CatchClause> removedClauses= new ArrayList<>(mergeableCatchClauses); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			CatchClause mergedClause;
 			if (MergeDirection.UP.equals(direction)) {
@@ -472,13 +472,13 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 
 			rewrite.set(mergedClause.getException(), SingleVariableDeclaration.TYPE_PROPERTY, newUnionType, group);
 
-			for (CatchClause mergeableCatchClause : removedClauses) {
+			for (CatchClause mergeableCatchClause : removedClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewrite.remove(mergeableCatchClause, group);
 			}
 		}
 
 		private void collectAllUnionedTypes(final Collection<Type> inputTypes, final List<Type> outputTypes) {
-			for (Type type : inputTypes) {
+			for (Type type : inputTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (type instanceof UnionType) {
 					UnionType unionType= (UnionType) type;
 					collectAllUnionedTypes(unionType.types(), outputTypes);
@@ -489,10 +489,10 @@ public class MultiCatchCleanUpCore extends AbstractMultiFix {
 		}
 
 		private void removeSupersededAlternatives(final List<Type> allTypes) {
-			for (ListIterator<Type> it1= allTypes.listIterator(); it1.hasNext();) {
+			for (ListIterator<Type> it1= allTypes.listIterator(); it1.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding binding1= it1.next().resolveBinding();
 
-				for (ListIterator<Type> it2= allTypes.listIterator(it1.nextIndex()); it2.hasNext();) {
+				for (ListIterator<Type> it2= allTypes.listIterator(it1.nextIndex()); it2.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding binding2= it2.next().resolveBinding();
 
 					if (binding1 != null && binding1.isSubTypeCompatible(binding2)) {

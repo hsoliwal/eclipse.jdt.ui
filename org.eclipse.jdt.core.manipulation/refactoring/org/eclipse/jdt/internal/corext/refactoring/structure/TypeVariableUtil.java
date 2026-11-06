@@ -46,7 +46,7 @@ public final class TypeVariableUtil {
 	 *        the second type variable mapping
 	 * @return the possibly empty composed type variable mapping
 	 */
-	public static TypeVariableMaplet[] composeMappings(final TypeVariableMaplet[] first, final TypeVariableMaplet[] second) {
+	public static TypeVariableMaplet[] composeMappings(final TypeVariableMaplet[] first, final TypeVariableMaplet[] second) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(first);
 		Assert.isNotNull(second);
 
@@ -57,9 +57,9 @@ public final class TypeVariableUtil {
 		else {
 			TypeVariableMaplet source= null;
 			TypeVariableMaplet target= null;
-			final Set<TypeVariableMaplet> set= new HashSet<>(first.length * second.length);
-			for (int index= 0; index < first.length; index++) {
-				for (int offset= 0; offset < second.length; offset++) {
+			final Set<TypeVariableMaplet> set= new HashSet<>(first.length * second.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (int index= 0; index < first.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (int offset= 0; offset < second.length; offset++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					source= first[index];
 					target= second[offset];
 					if (source.getTargetIndex() == target.getSourceIndex() && source.getTargetName().equals(target.getSourceName()))
@@ -88,7 +88,7 @@ public final class TypeVariableUtil {
 		if (arguments.length == 0) {
 			variables.add(Signature.toString(signature));
 		} else {
-			for (String argument : arguments) {
+			for (String argument : arguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				variables.add(Signature.toString(argument));
 			}
 		}
@@ -105,7 +105,7 @@ public final class TypeVariableUtil {
 	 * @throws JavaModelException
 	 *         if the signature of the specified member could not be resolved
 	 */
-	private static String[] getReferencedVariables(final IType declaring, final IMember member) throws JavaModelException {
+	private static String[] getReferencedVariables(final IType declaring, final IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(declaring);
 		Assert.isNotNull(member);
@@ -117,7 +117,7 @@ public final class TypeVariableUtil {
 			final String[] signatures= getVariableSignatures(signature);
 			if (signatures.length == 0) {
 				final String variable= Signature.toString(signature);
-				for (String v : variables) {
+				for (String v : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (variable.equals(v)) {
 						result= new String[] { variable};
 						break;
@@ -125,13 +125,13 @@ public final class TypeVariableUtil {
 				}
 			} else {
 				result= new String[signatures.length];
-				for (int index= 0; index < result.length; index++)
+				for (int index= 0; index < result.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result[index]= Signature.toString(signatures[index]);
 			}
 		} else if (member instanceof IMethod) {
 			final IMethod method= (IMethod) member;
-			final HashSet<String> set= new HashSet<>();
-			for (String type : method.getParameterTypes()) {
+			final HashSet<String> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (String type : method.getParameterTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				extractTypeVariables(type, set);
 			}
 			extractTypeVariables(method.getReturnType(), set);
@@ -142,13 +142,13 @@ public final class TypeVariableUtil {
 		} else if (member instanceof IType)
 			result= parametersToVariables(((IType) member).getTypeParameters());
 		else {
-			JavaManipulationPlugin.logErrorMessage("Unexpected sub-type of IMember: " + member.getClass().getName()); //$NON-NLS-1$
+			JavaManipulationPlugin.logErrorMessage("Unexpected sub-type of IMember: " + member.getClass().getName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Assert.isTrue(false);
 		}
 
-		final List<String> list= new ArrayList<>(variables.length);
-		for (String variable : variables) {
-			for (String r : result) {
+		final List<String> list= new ArrayList<>(variables.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String r : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (variable.equals(r)) {
 					list.add(r);
 				}
@@ -172,7 +172,7 @@ public final class TypeVariableUtil {
 	 * @throws JavaModelException
 	 *         if the type parameters of the member could not be determined
 	 */
-	public static String[] getUnmappedVariables(final TypeVariableMaplet[] mapping, final IType declaring, final IMember member) throws JavaModelException {
+	public static String[] getUnmappedVariables(final TypeVariableMaplet[] mapping, final IType declaring, final IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isNotNull(mapping);
 		Assert.isNotNull(declaring);
@@ -181,19 +181,19 @@ public final class TypeVariableUtil {
 		List<String> list= null;
 		final String[] types= getReferencedVariables(declaring, member);
 		if (mapping.length == 0) {
-			list= new ArrayList<>(types.length);
+			list= new ArrayList<>(types.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			list.addAll(Arrays.asList(types));
 		} else {
-			final Set<String> mapped= new HashSet<>(types.length);
-			for (String type : types) {
-				for (TypeVariableMaplet m : mapping) {
+			final Set<String> mapped= new HashSet<>(types.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (TypeVariableMaplet m : mapping) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (m.getSourceName().equals(type)) {
 						mapped.add(type);
 					}
 				}
 			}
-			list= new ArrayList<>(types.length - mapped.size());
-			for (String type : types) {
+			list= new ArrayList<>(types.length - mapped.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (String type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!mapped.contains(type))
 					list.add(type);
 			}
@@ -235,7 +235,7 @@ public final class TypeVariableUtil {
 
 		final TypeVariableMaplet[] result= new TypeVariableMaplet[mapping.length];
 		TypeVariableMaplet maplet= null;
-		for (int index= 0; index < mapping.length; index++) {
+		for (int index= 0; index < mapping.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			maplet= mapping[index];
 			result[index]= new TypeVariableMaplet(maplet.getTargetName(), maplet.getTargetIndex(), maplet.getSourceName(), maplet.getSourceIndex());
 		}
@@ -253,18 +253,18 @@ public final class TypeVariableUtil {
 	 *        <code>true</code> if the indexes should be compared, <code>false</code> if the names should be compared
 	 * @return a possibly empty type variable mapping
 	 */
-	private static TypeVariableMaplet[] parametersToSignatures(final ITypeParameter[] domain, final String[] range, final boolean indexes) {
+	private static TypeVariableMaplet[] parametersToSignatures(final ITypeParameter[] domain, final String[] range, final boolean indexes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(domain);
 		Assert.isNotNull(range);
 
-		final Set<TypeVariableMaplet> set= new HashSet<>();
+		final Set<TypeVariableMaplet> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ITypeParameter source= null;
 		String target= null;
 		String element= null;
 		String signature= null;
-		for (int index= 0; index < domain.length; index++) {
+		for (int index= 0; index < domain.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			source= domain[index];
-			for (int offset= 0; offset < range.length; offset++) {
+			for (int offset= 0; offset < range.length; offset++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				target= range[offset];
 				element= source.getElementName();
 				signature= Signature.toString(target);
@@ -294,7 +294,7 @@ public final class TypeVariableUtil {
 		Assert.isNotNull(parameters);
 
 		String[] result= new String[parameters.length];
-		for (int index= 0; index < parameters.length; index++)
+		for (int index= 0; index < parameters.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[index]= parameters[index].getElementName();
 
 		return result;
@@ -314,10 +314,10 @@ public final class TypeVariableUtil {
 		Assert.isNotNull(range);
 		Assert.isTrue(domain.length == 0 || domain.length == range.length);
 
-		final List<TypeVariableMaplet> list= new ArrayList<>();
+		final List<TypeVariableMaplet> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String source= null;
 		String target= null;
-		for (int index= 0; index < domain.length; index++) {
+		for (int index= 0; index < domain.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			source= Signature.toString(domain[index]);
 			target= range[index].getElementName();
 			list.add(new TypeVariableMaplet(source, index, target, index));
@@ -362,7 +362,7 @@ public final class TypeVariableUtil {
 	 * @throws JavaModelException
 	 *         if the signature of one of the types involved could not be retrieved
 	 */
-	public static TypeVariableMaplet[] subTypeToImplementedType(final IType subtype, final IType implemented) throws JavaModelException {
+	public static TypeVariableMaplet[] subTypeToImplementedType(final IType subtype, final IType implemented) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(subtype);
 		Assert.isNotNull(implemented);
 
@@ -386,14 +386,14 @@ public final class TypeVariableUtil {
 		public int index;
 	}
 
-	private static TypeVariableMaplet[] subTypeToImplementedTypeMapping(final IType type, final IType implemented, Index index) throws JavaModelException {
+	private static TypeVariableMaplet[] subTypeToImplementedTypeMapping(final IType type, final IType implemented, Index index) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(type);
 		Assert.isNotNull(implemented);
 
 		final ITypeParameter[] domain= type.getTypeParameters();
 		if (domain.length > 0) {
 			final String[] signatures= type.getSuperInterfaceTypeSignatures();
-			for (int i= 0; i < signatures.length; ++i) {
+			for (int i= 0; i < signatures.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String signature= signatures[i];
 				if (Signature.getSignatureSimpleName(Signature.getTypeErasure(signature)).equals(implemented.getElementName())) {
 					index.index= i;
@@ -417,7 +417,7 @@ public final class TypeVariableUtil {
 	 * @throws JavaModelException
 	 *         if the signature of one of the types involved could not be retrieved
 	 */
-	public static TypeVariableMaplet[] subTypeToSuperType(final IType subtype, final IType supertype) throws JavaModelException {
+	public static TypeVariableMaplet[] subTypeToSuperType(final IType subtype, final IType supertype) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(subtype);
 		Assert.isNotNull(supertype);
 

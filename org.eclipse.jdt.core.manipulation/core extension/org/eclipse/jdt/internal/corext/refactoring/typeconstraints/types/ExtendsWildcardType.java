@@ -34,7 +34,7 @@ public final class ExtendsWildcardType extends WildcardType {
 		return new TType[] { fBound };
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		switch (lhs.getKind()) {
 			case ARRAY_TYPE:
@@ -59,7 +59,7 @@ public final class ExtendsWildcardType extends WildcardType {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean checkTypeArgument(TType rhs) {
 		switch(rhs.getKind()) {
 			case ARRAY_TYPE:

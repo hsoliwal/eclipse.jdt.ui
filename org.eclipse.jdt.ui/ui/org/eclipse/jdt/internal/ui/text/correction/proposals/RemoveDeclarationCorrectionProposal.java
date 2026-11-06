@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 
 import org.eclipse.jdt.ui.text.java.correction.ASTRewriteCorrectionProposal;
 
-public class RemoveDeclarationCorrectionProposal extends ASTRewriteCorrectionProposal {
+public class RemoveDeclarationCorrectionProposal extends ASTRewriteCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	static class SideEffectFinder extends ASTVisitor {
 

@@ -97,7 +97,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeVarTypeToBindingTypeProposal() throws Exception {
 		String str= """
 			module test {
@@ -137,7 +137,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeTypeToVarTypeProposal() throws Exception {
 		String str= """
 			module test {
@@ -178,7 +178,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeVarTypeToBindingTypeProposalWithTypeAnnotation() throws Exception {
 		String str= """
 			module test {
@@ -236,7 +236,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 		assertEqualString(preview, str2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeTypeToVarTypeProposalWithoutTypeAnnotation() throws Exception {
 		String str= """
 			module test {
@@ -295,7 +295,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeVarToTypeNoTypeChangeProposal() throws Exception {
 		String str= """
 			module test {
@@ -336,7 +336,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeTypeToVarChangeProposalRemoveUnusedImport() throws Exception {
 		String str= """
 			module test {
@@ -394,7 +394,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 		assertEqualString(preview, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeTypeToVarChangeProposalDonotRemoveUsedImport() throws Exception {
 		String str= """
 			module test {
@@ -456,7 +456,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 		assertEqualString(preview, str3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testChangeParametrizedTypeToVarTypeProposalDoesNotLoseTypeArguments() throws Exception {
 		String str= """
 			module test {
@@ -503,7 +503,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConvertToForUsingIndexWithVar() throws Exception {
 		String str= """
 			module test {
@@ -549,9 +549,9 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 	}
 
 	private static final ArrayList<IJavaCompletionProposal> getExpectedProposals(ArrayList<IJavaCompletionProposal> proposals, Class<?>[] expectedTypes) {
-		ArrayList<IJavaCompletionProposal> expected= new ArrayList<>(proposals);
+		ArrayList<IJavaCompletionProposal> expected= new ArrayList<>(proposals); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (expectedTypes != null && expectedTypes.length > 0) {
-			for (Iterator<IJavaCompletionProposal> iter= expected.iterator(); iter.hasNext();) {
+			for (Iterator<IJavaCompletionProposal> iter= expected.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!isexpected(iter.next(), expectedTypes)) {
 					iter.remove();
 				}
@@ -561,7 +561,7 @@ public class AssistQuickFixTest10 extends QuickFixTest {
 	}
 
 	private static boolean isexpected(Object curr, Class<?>[] expectedTypes) {
-		for (Class<?> expectedType : expectedTypes) {
+		for (Class<?> expectedType : expectedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (expectedType.isInstance(curr)) {
 				return true;
 			}

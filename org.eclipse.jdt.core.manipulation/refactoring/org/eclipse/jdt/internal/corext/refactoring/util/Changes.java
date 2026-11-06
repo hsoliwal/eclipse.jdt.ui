@@ -27,13 +27,13 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 public class Changes {
 
 	public static IFile[] getModifiedFiles(Change[] changes) {
-		List<IFile> result= new ArrayList<>();
+		List<IFile> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getModifiedFiles(result, changes);
 		return result.toArray(new IFile[result.size()]);
 	}
 
 	private static void getModifiedFiles(List<IFile> result, Change[] changes) {
-		for (Change change : changes) {
+		for (Change change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object modifiedElement= change.getModifiedElement();
 			if (modifiedElement instanceof IAdaptable) {
 				IFile file= ((IAdaptable)modifiedElement).getAdapter(IFile.class);

@@ -81,15 +81,15 @@ public class NewTypeWizardTest17 {
 	public ProjectTestSetup projectSetup= new Java17ProjectTestSetup(false);
 
 	@Rule
-	public ProjectTestSetup projectSetup2= new Java17ProjectTestSetup(Java17ProjectTestSetup.PROJECT_NAME17 + "_2", false);
+	public ProjectTestSetup projectSetup2= new Java17ProjectTestSetup(Java17ProjectTestSetup.PROJECT_NAME17 + "_2", false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	@Rule
-	public ProjectTestSetup projectMSetup= new Java17ProjectTestSetup(Java17ProjectTestSetup.PROJECT_NAME17 + "_M", false);
+	public ProjectTestSetup projectMSetup= new Java17ProjectTestSetup(Java17ProjectTestSetup.PROJECT_NAME17 + "_M", false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	@Rule
-	public ProjectTestSetup projectMSetup2= new Java17ProjectTestSetup(Java17ProjectTestSetup.PROJECT_NAME17 + "_M_2", false);
+	public ProjectTestSetup projectMSetup2= new Java17ProjectTestSetup(Java17ProjectTestSetup.PROJECT_NAME17 + "_M_2", false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -116,7 +116,7 @@ public class NewTypeWizardTest17 {
 
 	}
 
-	private void initNonModularProject() throws Exception {
+	private void initNonModularProject() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fJProject1= projectSetup.getProject();
 		fSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
 		fpack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -152,7 +152,7 @@ public class NewTypeWizardTest17 {
 		fSealedInterfaceBinding= getTypeBinding(fSealedSuperInterface);
 	}
 
-	private void initModularProject() throws Exception {
+	private void initModularProject() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Init Modular Projects();
 		fJProjectM1= projectMSetup.getProject();
 		fMSourceFolder= JavaProjectHelper.addSourceContainer(fJProjectM1, "src");
@@ -214,7 +214,7 @@ public class NewTypeWizardTest17 {
 		def.createCompilationUnit(QuickFixTest14.MODULE_INFO_FILE, test, false, null);
 	}
 
-	private void initSecondModularProject() throws Exception {
+	private void initSecondModularProject() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createModuleInfo();
 		fJProjectM2= projectMSetup2.getProject();
 		fMSourceFolder= JavaProjectHelper.addSourceContainer(fJProjectM2, "src");
@@ -255,7 +255,7 @@ public class NewTypeWizardTest17 {
 	// ---------------------------------
 
 	// Throw error if the sealed super class is in different package to the new class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateClassError1() throws Exception {
 		initNonModularProject();
 		NewClassWizardPage wizardPage= new NewClassWizardPage();
@@ -267,7 +267,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -281,7 +281,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Throw error if the sealed super interface is in different package to the new class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateClassError2() throws Exception {
 		initNonModularProject();
 		NewClassWizardPage wizardPage= new NewClassWizardPage();
@@ -291,7 +291,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -306,7 +306,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Throw error if the sealed super interface is in different package to the new interface
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateInterfaceError1() throws Exception {
 		initNonModularProject();
 		NewInterfaceWizardPage wizardPage= new NewInterfaceWizardPage();
@@ -316,7 +316,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("IE", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -330,7 +330,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Successfully Create non-sealed class which has sealed super class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateClassSuccess1() throws Exception {
 		initNonModularProject();
 		NewClassWizardPage wizardPage= new NewClassWizardPage();
@@ -341,7 +341,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -395,7 +395,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Successfully Create non-sealed class which has sealed super interface
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateClassSuccess2() throws Exception {
 		initNonModularProject();
 		NewClassWizardPage wizardPage= new NewClassWizardPage();
@@ -404,7 +404,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -459,7 +459,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Successfully Create final class which has sealed super class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateClassSuccess3() throws Exception {
 		initNonModularProject();
 		NewClassWizardPage wizardPage= new NewClassWizardPage();
@@ -470,7 +470,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -524,7 +524,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Successfully Create final class which has sealed super interface
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateClassSuccess4() throws Exception {
 		initNonModularProject();
 		NewClassWizardPage wizardPage= new NewClassWizardPage();
@@ -533,7 +533,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -588,7 +588,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Successfully Create non-sealed interface which has sealed super interface
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularCreateInterfaceSuccess1() throws Exception {
 		initNonModularProject();
 		NewInterfaceWizardPage wizardPage= new NewInterfaceWizardPage();
@@ -597,7 +597,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("IE", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -655,7 +655,7 @@ public class NewTypeWizardTest17 {
 	// -----------------------------------------
 
 	// Throw error if the sealed super class is in different project to the new class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularDependantCreateClassError1() throws Exception {
 		initNonModularProject();
 		initSecondProject();
@@ -668,7 +668,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -682,7 +682,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Throw error if the sealed super interface is in different project to the new class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularDependantCreateClassError2() throws Exception {
 		initNonModularProject();
 		initSecondProject();
@@ -693,7 +693,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -708,7 +708,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Throw error if the sealed super interface is in different project to the new interface
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNonModularDependantCreateInterfaceError1() throws Exception {
 		initNonModularProject();
 		initSecondProject();
@@ -719,7 +719,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("IE", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -739,7 +739,7 @@ public class NewTypeWizardTest17 {
 
 	// Successfully Create non-sealed class which has sealed super class in a
 	// different package in a modular project
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularCreateClassSuccess1() throws Exception {
 		initModularProject();
 		createModuleInfo();
@@ -752,7 +752,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fMSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -811,7 +811,7 @@ public class NewTypeWizardTest17 {
 
 	// Successfully Create non-sealed class which has sealed super interface in a
 	// different package in a modular project
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularCreateClassSuccess2() throws Exception {
 		initModularProject();
 		createModuleInfo();
@@ -822,7 +822,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fMSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -882,7 +882,7 @@ public class NewTypeWizardTest17 {
 
 	// Successfully Create final class which has sealed super class in a
 	// different package in a modular project
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularCreateClassSuccess3() throws Exception {
 		initModularProject();
 		createModuleInfo();
@@ -895,7 +895,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fMSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -954,7 +954,7 @@ public class NewTypeWizardTest17 {
 
 	// Successfully Create final class which has sealed super interface in a
 	// different package in a modular project
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularCreateClassSuccess4() throws Exception {
 		initModularProject();
 		createModuleInfo();
@@ -965,7 +965,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fMSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -1025,7 +1025,7 @@ public class NewTypeWizardTest17 {
 
 	// Successfully Create non-sealed interface which has sealed super interface in a
 	// different package in a modular project
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularCreateInterfaceSuccess1() throws Exception {
 		initModularProject();
 		createModuleInfo();
@@ -1036,7 +1036,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("IE", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fMSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -1098,7 +1098,7 @@ public class NewTypeWizardTest17 {
 	// -------------------------------------
 
 	// Throw error if the sealed super class is in different module to the new class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularDependentCreateClassError1() throws Exception {
 		initModularProject();
 		initSecondModularProject();
@@ -1111,7 +1111,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(fMSealedClsBinding, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -1125,7 +1125,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Throw error if the sealed super interface is in different module to the new class
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularDependentCreateClassError2() throws Exception {
 		initModularProject();
 		initSecondModularProject();
@@ -1136,7 +1136,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("E", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fMSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -1151,7 +1151,7 @@ public class NewTypeWizardTest17 {
 	}
 
 	// Throw error if the sealed super interface is in different module to the new interface
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testModularDependentCreateInterfaceError1() throws Exception {
 		initModularProject();
 		initSecondModularProject();
@@ -1162,7 +1162,7 @@ public class NewTypeWizardTest17 {
 		wizardPage.setEnclosingTypeSelection(false, true);
 		wizardPage.setTypeName("IE", true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add(fMSealedInterfaceBinding);
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
@@ -1175,7 +1175,7 @@ public class NewTypeWizardTest17 {
 		assertEquals(NewWizardMessages.NewTypeWizardPage_error_interface_SealedSuperInterfaceInDifferentModule, status.getMessage());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddRecordSuperClassError1() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -1197,7 +1197,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setSuperClass(superCls, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -1213,7 +1213,7 @@ public class NewTypeWizardTest17 {
 		assertEquals(expected, status.getMessage());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateRecordWithAbstractMethodStubs() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -1227,7 +1227,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setMethodStubSelection(false, true, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setAddComments(true, true);
@@ -1277,7 +1277,7 @@ public class NewTypeWizardTest17 {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateRecordWithOutAbstractMethodStubsAndMain() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -1291,7 +1291,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setMethodStubSelection(false, false, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setAddComments(true, true);
@@ -1317,7 +1317,7 @@ public class NewTypeWizardTest17 {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateRecordWithMain() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -1331,7 +1331,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setMethodStubSelection(true, false, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setAddComments(true, true);
@@ -1364,7 +1364,7 @@ public class NewTypeWizardTest17 {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateRecordWithAbstractMethodStubsAndMain() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fSourceFolder= JavaProjectHelper.addSourceContainer(fJProject1, "src");
@@ -1378,7 +1378,7 @@ public class NewTypeWizardTest17 {
 
 		wizardPage.setMethodStubSelection(true, true, true);
 
-		List<ITypeBinding> interfaces= new ArrayList<>();
+		List<ITypeBinding> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfacesList(interfaces, true);
 
 		wizardPage.setAddComments(true, true);

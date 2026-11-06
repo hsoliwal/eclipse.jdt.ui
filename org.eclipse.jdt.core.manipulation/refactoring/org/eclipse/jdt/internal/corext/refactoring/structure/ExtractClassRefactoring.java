@@ -143,7 +143,7 @@ public class ExtractClassRefactoring extends Refactoring {
 			IType type= fDescriptor.getType();
 			IPackageFragmentRoot ancestor= (IPackageFragmentRoot) type.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 			IPackageFragment packageFragment= ancestor.getPackageFragment(fDescriptor.getPackage());
-			if (packageFragment.getCompilationUnit(fDescriptor.getClassName() + JavaModelUtil.DEFAULT_CU_SUFFIX).exists())
+			if (packageFragment.getCompilationUnit(fDescriptor.getClassName() + JavaModelUtil.DEFAULT_CU_SUFFIX).exists()) //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				status.addError(Messages.format(RefactoringCoreMessages.ExtractClassRefactoring_error_toplevel_name_clash, new Object[] { BasicElementLabels.getJavaElementName(fDescriptor.getClassName()), BasicElementLabels.getJavaElementName(fDescriptor.getPackage()) }));
 			return status;
 		}
@@ -163,7 +163,7 @@ public class ExtractClassRefactoring extends Refactoring {
 
 		private void validateFieldNames(RefactoringStatus status, String parameterName, IType type) {
 			if (type.getField(parameterName).exists()) {
-				for (Field field : fDescriptor.getFields()) {
+				for (Field field : fDescriptor.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (parameterName.equals(field.getFieldName())){
 						if (!field.isCreateField())
 							status.addError(Messages.format(RefactoringCoreMessages.ExtractClassRefactoring_error_field_already_exists, BasicElementLabels.getJavaElementName(parameterName)));
@@ -172,10 +172,10 @@ public class ExtractClassRefactoring extends Refactoring {
 			}
 		}
 
-		public RefactoringStatus validateFields() {
+		public RefactoringStatus validateFields() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			RefactoringStatus status= new RefactoringStatus();
-			Set<String> names= new HashSet<>();
-			for (Field field : fDescriptor.getFields()) {
+			Set<String> names= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (Field field : fDescriptor.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (field.isCreateField()) {
 					if (names.contains(field.getNewFieldName())) {
 						status.addError(Messages.format(RefactoringCoreMessages.ExtractClassRefactoring_error_duplicate_field_name, BasicElementLabels.getJavaElementName(field.getNewFieldName())));
@@ -272,14 +272,14 @@ public class ExtractClassRefactoring extends Refactoring {
 	private ParameterObjectFactory fParameterObjectFactory;
 	private ExtractClassDescriptorVerification fVerification;
 
-	public ExtractClassRefactoring(ExtractClassDescriptor descriptor) {
+	public ExtractClassRefactoring(ExtractClassDescriptor descriptor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fDescriptor= descriptor;
 		IType type= fDescriptor.getType();
 		if (fDescriptor.getPackage() == null) {
 			fDescriptor.setPackage(type.getPackageFragment().getElementName());
 		}
 		if (fDescriptor.getClassName() == null) {
-			fDescriptor.setClassName(type.getElementName() + "Data"); //$NON-NLS-1$
+			fDescriptor.setClassName(type.getElementName() + "Data"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (fDescriptor.getFieldName() == null) {
 			fDescriptor.setFieldName(StubUtility.getVariableNameSuggestions(NamingConventions.VK_INSTANCE_FIELD, type.getJavaProject(), "data", 0, null, true)[0]); //$NON-NLS-1$
@@ -295,7 +295,7 @@ public class ExtractClassRefactoring extends Refactoring {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		RefactoringStatus result= new RefactoringStatus();
 		pm.beginTask(RefactoringCoreMessages.ExtractClassRefactoring_progress_msg_check_initial_condition, 5);
@@ -312,12 +312,12 @@ public class ExtractClassRefactoring extends Refactoring {
 			pm.worked(1);
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			fVariables= new LinkedHashMap<>();
+			fVariables= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 			if (fields.length == 0) {
 				result.addFatalError(RefactoringCoreMessages.ExtractClassRefactoring_error_no_usable_fields, JavaStatusContext.create(type));
 				return result;
 			}
-			for (int i= 0; i < fields.length; i++) {
+			for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Field field= fields[i];
 				String fieldName= field.getFieldName();
 				IField declField= type.getField(fieldName);
@@ -333,13 +333,13 @@ public class ExtractClassRefactoring extends Refactoring {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		RefactoringStatus result= new RefactoringStatus();
 		result.merge(fVerification.validateAll());
 		try {
 			pm.beginTask(RefactoringCoreMessages.ExtractClassRefactoring_progress_final_conditions, 95);
-			for (FieldInfo fi : fVariables.values()) {
+			for (FieldInfo fi : fVariables.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				boolean createField= isCreateField(fi);
 				if (createField) {
 					IField field= fi.ifield;
@@ -376,13 +376,13 @@ public class ExtractClassRefactoring extends Refactoring {
 		return result;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		pm.beginTask(RefactoringCoreMessages.ExtractClassRefactoring_progress_create_change, 10);
 		try {
 			ICompilationUnit typeCU= fDescriptor.getType().getCompilationUnit();
 			IPackageFragmentRoot packageRoot= (IPackageFragmentRoot) typeCU.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
-			ArrayList<Change> changes= new ArrayList<>();
+			ArrayList<Change> changes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			changes.addAll(createParameterObject(fParameterObjectFactory, packageRoot));
 			fChangeManager.manage(typeCU, fBaseCURewrite.createChange(true, pm));
@@ -399,7 +399,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		}
 	}
 
-	private String createComment() {
+	private String createComment() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] keys= new Object[] { BasicElementLabels.getJavaElementName(fDescriptor.getClassName()), BasicElementLabels.getJavaElementName(fDescriptor.getType().getElementName()) };
 		String header= Messages.format(RefactoringCoreMessages.ExtractClassRefactoring_change_comment_header, keys);
 		JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(fDescriptor.getType().getJavaProject().getElementName(), this, header);
@@ -408,8 +408,8 @@ public class ExtractClassRefactoring extends Refactoring {
 		if (fDescriptor.isCreateTopLevel())
 			comment.addSetting(Messages.format(RefactoringCoreMessages.ExtractClassRefactoring_comment_package, BasicElementLabels.getJavaElementName(fDescriptor.getPackage())));
 
-		ArrayList<String> strings= new ArrayList<>();
-		for (Field field : fDescriptor.getFields()) {
+		ArrayList<String> strings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Field field : fDescriptor.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.isCreateField()) {
 				strings.add(Messages.format(RefactoringCoreMessages.ExtractClassRefactoring_comment_field_renamed, new Object[] { BasicElementLabels.getJavaElementName(field.getFieldName()), BasicElementLabels.getJavaElementName(field.getNewFieldName()) }));
 			}
@@ -426,13 +426,13 @@ public class ExtractClassRefactoring extends Refactoring {
 	}
 
 	private class FieldUpdate extends CreationListener {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void fieldCreated(CompilationUnitRewrite cuRewrite, FieldDeclaration field, ParameterInfo pi) {
 			FieldInfo fieldInfo= getFieldInfo(pi.getOldName());
 			FieldDeclaration parent= (FieldDeclaration) fieldInfo.declaration.getParent();
 			List<IExtendedModifier> modifiers= parent.modifiers();
 			ListRewrite listRewrite= cuRewrite.getASTRewrite().getListRewrite(field, FieldDeclaration.MODIFIERS2_PROPERTY);
-			for (IExtendedModifier mod : modifiers) {
+			for (IExtendedModifier mod : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				//Temporarily disabled until initialization of final fields is handled correctly
 //				if (mod.isModifier()) {
 //					Modifier modifier= (Modifier) mod;
@@ -445,7 +445,7 @@ public class ExtractClassRefactoring extends Refactoring {
 			}
 			if (fieldInfo.initializer != null && fieldInfo.hasFieldReference()) {
 				List<VariableDeclarationFragment> fragments= field.fragments();
-				for (VariableDeclarationFragment vdf : fragments) {
+				for (VariableDeclarationFragment vdf : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					vdf.setInitializer((Expression) moveNode(cuRewrite, fieldInfo.initializer));
 				}
 			}
@@ -466,7 +466,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		}
 	}
 
-	private List<ResourceChange> createParameterObject(ParameterObjectFactory pof, IPackageFragmentRoot packageRoot) throws CoreException {
+	private List<ResourceChange> createParameterObject(ParameterObjectFactory pof, IPackageFragmentRoot packageRoot) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FieldUpdate fieldUpdate= new FieldUpdate();
 		if (fDescriptor.isCreateTopLevel())
 			return pof.createTopLevelParameterObject(packageRoot, fieldUpdate);
@@ -482,7 +482,7 @@ public class ExtractClassRefactoring extends Refactoring {
 				paramClass.modifiers().add(rewrite.getAST().newModifier(ModifierKeyword.STATIC_KEYWORD));
 			}
 			listRewrite.insertFirst(paramClass, fBaseCURewrite.createGroupDescription(RefactoringCoreMessages.ExtractClassRefactoring_group_insert_parameter));
-			return new ArrayList<>(); //Change will be generated later for fBaseCURewrite
+			return new ArrayList<>(); //Change will be generated later for fBaseCURewrite //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 
 	}
@@ -496,15 +496,15 @@ public class ExtractClassRefactoring extends Refactoring {
 		return Modifier.isStatic(modifiers);
 	}
 
-	private ParameterObjectFactory initializeFactory() {
+	private ParameterObjectFactory initializeFactory() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParameterObjectFactory pof= new ParameterObjectFactory();
 		pof.setClassName(fDescriptor.getClassName());
 		pof.setPackage(fDescriptor.getPackage());
 		pof.setEnclosingType(fDescriptor.getType().getFullyQualifiedName('.'));
 		pof.setCreateGetter(fDescriptor.isCreateGetterSetter());
 		pof.setCreateSetter(fDescriptor.isCreateGetterSetter());
-		List<ParameterInfo> variables= new ArrayList<>();
-		for (FieldInfo info : fVariables.values()) {
+		List<ParameterInfo> variables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (FieldInfo info : fVariables.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean createField= isCreateField(info);
 			info.pi.setCreateField(createField);
 			if (createField) {
@@ -518,7 +518,7 @@ public class ExtractClassRefactoring extends Refactoring {
 	}
 
 	private Field getField(String name) {
-		for (Field field : fDescriptor.getFields()) {
+		for (Field field : fDescriptor.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.getFieldName().equals(name))
 				return field;
 		}
@@ -526,15 +526,15 @@ public class ExtractClassRefactoring extends Refactoring {
 	}
 
 
-	private RefactoringStatus updateReferences(IType type, ParameterObjectFactory pof, IProgressMonitor pm) throws CoreException {
+	private RefactoringStatus updateReferences(IType type, ParameterObjectFactory pof, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus status= new RefactoringStatus();
 		pm.beginTask(RefactoringCoreMessages.ExtractClassRefactoring_progress_updating_references, 100);
 		try {
 			pm.worked(10);
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
-			List<IField> validIFields= new ArrayList<>();
-			for (FieldInfo info : fVariables.values()) {
+			List<IField> validIFields= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (FieldInfo info : fVariables.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isCreateField(info))
 					validIFields.add(info.ifield);
 			}
@@ -547,7 +547,7 @@ public class ExtractClassRefactoring extends Refactoring {
 			IProgressMonitor spm= Progress.subMonitor(pm, 90);
 			spm.beginTask(RefactoringCoreMessages.ExtractClassRefactoring_progress_updating_references, results.length * 10);
 			try {
-				for (SearchResultGroup group : results) {
+				for (SearchResultGroup group : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ICompilationUnit unit= group.getCompilationUnit();
 
 					CompilationUnitRewrite cuRewrite;
@@ -572,7 +572,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		return status;
 	}
 
-	private RefactoringStatus replaceReferences(ParameterObjectFactory pof, SearchResultGroup group, CompilationUnitRewrite cuRewrite) {
+	private RefactoringStatus replaceReferences(ParameterObjectFactory pof, SearchResultGroup group, CompilationUnitRewrite cuRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TextEditGroup writeGroup= cuRewrite.createGroupDescription(RefactoringCoreMessages.ExtractClassRefactoring_group_replace_write);
 		TextEditGroup readGroup= cuRewrite.createGroupDescription(RefactoringCoreMessages.ExtractClassRefactoring_group_replace_read);
 		ITypeRoot typeRoot= cuRewrite.getCu();
@@ -582,7 +582,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		RefactoringStatus status= new RefactoringStatus();
 		String parameterName= fDescriptor.getFieldName();
 
-		for (SearchMatch searchMatch : group.getSearchResults()) {
+		for (SearchMatch searchMatch : group.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= NodeFinder.perform(cuRewrite.getRoot(), searchMatch.getOffset(), searchMatch.getLength());
 			ASTNode parent= node.getParent();
 			boolean isDeclaration= parent instanceof VariableDeclaration && ((VariableDeclaration)parent).getInitializer() != node;
@@ -616,7 +616,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		return status;
 	}
 
-	private Expression getAssignedValue(ParameterObjectFactory pof, String parameterName, IJavaProject javaProject, RefactoringStatus status, ASTRewrite rewrite, ParameterInfo pi, boolean useSuper, ITypeBinding typeBinding, Expression qualifier, ASTNode replaceNode, ITypeRoot typeRoot) {
+	private Expression getAssignedValue(ParameterObjectFactory pof, String parameterName, IJavaProject javaProject, RefactoringStatus status, ASTRewrite rewrite, ParameterInfo pi, boolean useSuper, ITypeBinding typeBinding, Expression qualifier, ASTNode replaceNode, ITypeRoot typeRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		Expression assignedValue= handleSimpleNameAssignment(replaceNode, pof, parameterName, ast, javaProject, useSuper);
 		if (assignedValue == null) {
@@ -662,7 +662,7 @@ public class ExtractClassRefactoring extends Refactoring {
 	/*
 	 * Replaces the NullLiteral dummy with the copied qualifier
 	 */
-	private boolean replaceMarker(final ASTRewrite rewrite, final Expression qualifier, Expression assignedValue, final NullLiteral marker) {
+	private boolean replaceMarker(final ASTRewrite rewrite, final Expression qualifier, Expression assignedValue, final NullLiteral marker) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		class MarkerReplacer extends ASTVisitor {
 
 			private boolean fReplaced= false;
@@ -685,7 +685,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		return false;
 	}
 
-	private Expression handleSimpleNameAssignment(ASTNode replaceNode, ParameterObjectFactory pof, String parameterName, AST ast, IJavaProject javaProject, boolean useSuper) {
+	private Expression handleSimpleNameAssignment(ASTNode replaceNode, ParameterObjectFactory pof, String parameterName, AST ast, IJavaProject javaProject, boolean useSuper) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (replaceNode instanceof Assignment) {
 			Assignment assignment= (Assignment) replaceNode;
 			Expression rightHandSide= assignment.getRightHandSide();
@@ -709,7 +709,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		return fVariables.get(identifier);
 	}
 
-	private FieldDeclaration performFieldRewrite(IType type, ParameterObjectFactory pof, RefactoringStatus status) throws CoreException {
+	private FieldDeclaration performFieldRewrite(IType type, ParameterObjectFactory pof, RefactoringStatus status) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBaseCURewrite= new CompilationUnitRewrite(type.getCompilationUnit());
 		SimpleName name= (SimpleName) NodeFinder.perform(fBaseCURewrite.getRoot(), type.getNameRange());
 		TypeDeclaration typeNode= (TypeDeclaration) ASTNodes.getParent(name, ASTNode.TYPE_DECLARATION);
@@ -718,7 +718,7 @@ public class ExtractClassRefactoring extends Refactoring {
 		TextEditGroup removeFieldGroup= fBaseCURewrite.createGroupDescription(RefactoringCoreMessages.ExtractClassRefactoring_group_remove_field);
 		FieldDeclaration lastField= null;
 		initializeDeclaration(typeNode);
-		for (FieldInfo pi : fVariables.values()) {
+		for (FieldInfo pi : fVariables.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCreateField(pi)) {
 				VariableDeclarationFragment vdf= pi.declaration;
 				FieldDeclaration parent= (FieldDeclaration) vdf.getParent();
@@ -772,8 +772,8 @@ public class ExtractClassRefactoring extends Refactoring {
 	}
 
 	private void initializeDeclaration(TypeDeclaration node) {
-		for (FieldDeclaration fieldDeclaration : node.getFields()) {
-			for (Object element : fieldDeclaration.fragments()) {
+		for (FieldDeclaration fieldDeclaration : node.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Object element : fieldDeclaration.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment vdf=(VariableDeclarationFragment) element;
 				FieldInfo fieldInfo= getFieldInfo(vdf.getName().getIdentifier());
 				if (fieldInfo != null) {
@@ -790,12 +790,12 @@ public class ExtractClassRefactoring extends Refactoring {
 		baseCURewrite.getImportRemover().registerRemovedNode(parent);
 	}
 
-	private FieldDeclaration createParameterObjectField(ParameterObjectFactory pof, TypeDeclaration typeNode, int modifier, TextEditGroup removeFieldGroup) {
+	private FieldDeclaration createParameterObjectField(ParameterObjectFactory pof, TypeDeclaration typeNode, int modifier, TextEditGroup removeFieldGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= fBaseCURewrite.getAST();
 		ClassInstanceCreation creation= ast.newClassInstanceCreation();
 		creation.setType(pof.createType(fDescriptor.isCreateTopLevel(), fBaseCURewrite, typeNode.getStartPosition()));
 		ListRewrite listRewrite= fBaseCURewrite.getASTRewrite().getListRewrite(creation, ClassInstanceCreation.ARGUMENTS_PROPERTY);
-		for (FieldInfo fi : fVariables.values()) {
+		for (FieldInfo fi : fVariables.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCreateField(fi)) {
 				Expression expression= fi.initializer;
 				if (expression != null && !fi.hasFieldReference()) {

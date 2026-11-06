@@ -66,7 +66,7 @@ public abstract class NewElementWizard extends Wizard implements INewWizard {
 		if (activePage != null) {
 			final Display display= getShell().getDisplay();
 			if (display != null) {
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					try {
 						IDE.openEditor(activePage, resource, true);
 					} catch (PartInitException e) {
@@ -111,9 +111,9 @@ public abstract class NewElementWizard extends Wizard implements INewWizard {
 	/*
 	 * @see Wizard#performFinish
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
-		IWorkspaceRunnable op= monitor -> {
+		IWorkspaceRunnable op= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				finishPage(monitor);
 			} catch (InterruptedException e) {

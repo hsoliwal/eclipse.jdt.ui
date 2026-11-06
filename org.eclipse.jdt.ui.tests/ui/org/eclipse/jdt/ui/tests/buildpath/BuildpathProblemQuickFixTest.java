@@ -103,7 +103,7 @@ public class BuildpathProblemQuickFixTest {
 		return result;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1Incomplete() throws CoreException, IOException {
 		fJavaProject1= JavaProjectHelper.createJavaProject("1_Incomplete", "bin");
 		fJavaProject1.getProject().getFolder("src").create(true, true, null);
@@ -129,7 +129,7 @@ public class BuildpathProblemQuickFixTest {
 		assertEquals("Configure problem severity", resolutions[2].getLabel());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2Cyclic() throws CoreException, IOException {
 		fJavaProject1= JavaProjectHelper.createJavaProject("2_CyclicA", "bin");
 		fJavaProject1.getProject().getFolder("src").create(true, true, null);
@@ -169,7 +169,7 @@ public class BuildpathProblemQuickFixTest {
 		assertEquals("Configure problem severity", resolutions[1].getLabel());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test3RequiredBinaryLevel() throws CoreException, IOException {
 		IPath container= new Path("org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8");
 		@SuppressWarnings("restriction")
@@ -241,7 +241,7 @@ public class BuildpathProblemQuickFixTest {
 		assertEquals("Configure problem severity", resolutions[1].getLabel());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test4OutOverlap() throws CoreException, IOException {
 		fJavaProject1= JavaProjectHelper.createJavaProject("4_OutOverlap", "bin");
 		fJavaProject1.getProject().getFolder("src").create(true, true, null);
@@ -268,7 +268,7 @@ public class BuildpathProblemQuickFixTest {
 		assertEquals("Configure problem severity", resolutions[1].getLabel());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test7Cyclic() throws CoreException, IOException {
 		fJavaProject1= JavaProjectHelper.createJavaProject("7_OnlyMain", "bin");
 		fJavaProject1.getProject().getFolder("src").create(true, true, null);

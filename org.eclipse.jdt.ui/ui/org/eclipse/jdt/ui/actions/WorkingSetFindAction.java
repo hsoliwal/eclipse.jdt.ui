@@ -41,7 +41,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
  * @noinstantiate This class is not intended to be instantiated by clients.
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class WorkingSetFindAction extends FindAction {
+public class WorkingSetFindAction extends FindAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private FindAction fAction;
 
@@ -109,7 +109,7 @@ public class WorkingSetFindAction extends FindAction {
 			return false;
 		}
 		IJavaElement[] elements= getJavaElements(sel, true);
-		for (IJavaElement iJavaElement : elements) {
+		for (IJavaElement iJavaElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!fAction.canOperateOn(iJavaElement)) {
 				return false;
 			}

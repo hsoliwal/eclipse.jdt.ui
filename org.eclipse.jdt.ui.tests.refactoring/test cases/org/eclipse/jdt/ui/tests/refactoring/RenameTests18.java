@@ -103,7 +103,7 @@ public class RenameTests18 extends GenericRefactoringTest {
 		return new SourceRange(offset + AbstractJunit4SelectionTestCase.SQUARE_BRACKET_OPEN.length(), end - offset);
 	}
 
-	private void renameLocalVariable(String newFieldName, boolean updateReferences) throws Exception {
+	private void renameLocalVariable(String newFieldName, boolean updateReferences) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ParticipantTesting.reset();
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 
@@ -117,9 +117,9 @@ public class RenameTests18 extends GenericRefactoringTest {
 		descriptor.setUpdateTextualOccurrences(false);
 
 		RenameRefactoring refactoring= (RenameRefactoring) createRefactoring(descriptor);
-		List<IJavaElement> list= new ArrayList<>();
+		List<IJavaElement> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add(elements[0]);
-		List<RenameArguments> args= new ArrayList<>();
+		List<RenameArguments> args= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		args.add(new RenameArguments(newFieldName, updateReferences));
 		String[] renameHandles= ParticipantTesting.createHandles(list.toArray());
 
@@ -128,7 +128,7 @@ public class RenameTests18 extends GenericRefactoringTest {
 			RefactoringStatus result= performRefactoring(refactoring);
 			assertNull("was supposed to pass", result);
 		} catch (CoreException e) {
-			System.out.println("RenameTest18." + getName() + ": " + e.toString());
+			System.out.println("RenameTest18." + getName() + ": " + e.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.out.println(cu.getResource().getLocationURI());
 			System.out.println(cu.getResource().getModificationStamp());
 			System.out.println(cu.getResource().getLocalTimeStamp());
@@ -136,7 +136,7 @@ public class RenameTests18 extends GenericRefactoringTest {
 			ITextFileBuffer fileBuffer= ITextFileBufferManager.DEFAULT.getTextFileBuffer(cu.getResource().getFullPath(), LocationKind.IFILE);
 			if (fileBuffer != null) {
 				System.out.println(fileBuffer.getModificationStamp());
-				System.out.println("isCommittable:" + fileBuffer.isCommitable()
+				System.out.println("isCommittable:" + fileBuffer.isCommitable() //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "\nisDirty:" + fileBuffer.isDirty()
 						+ "\nisShared:" + fileBuffer.isShared()
 						+ "\nisStateValidated:" + fileBuffer.isStateValidated()
@@ -148,17 +148,17 @@ public class RenameTests18 extends GenericRefactoringTest {
 				System.out.println(fileBuffer.getDocument().get());
 			}
 			System.out.println("--- getContents of File:");
-			try (FileInputStream in= new FileInputStream(cu.getResource().getLocation().toFile())) {
+			try (FileInputStream in= new FileInputStream(cu.getResource().getLocation().toFile())) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				System.out.println(getContents(in));
 			}
 			System.out.println("--- cu.getSource():");
 			System.out.println(cu.getSource());
 			System.out.println("---");
-			System.out.println("cu.getOwner(): " + cu.getOwner());
-			System.out.println("cu.isWorkingCopy(): " + cu.isWorkingCopy());
-			System.out.println("cu.isConsistent(): " + cu.isConsistent());
-			System.out.println("cu.getBuffer().getClass(): " + cu.getBuffer().getClass());
-			System.out.println("cu.getBuffer().hasUnsavedChanges(): " + cu.getBuffer().hasUnsavedChanges());
+			System.out.println("cu.getOwner(): " + cu.getOwner()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("cu.isWorkingCopy(): " + cu.isWorkingCopy()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("cu.isConsistent(): " + cu.isConsistent()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("cu.getBuffer().getClass(): " + cu.getBuffer().getClass()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("cu.getBuffer().hasUnsavedChanges(): " + cu.getBuffer().hasUnsavedChanges()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.out.println(cu.getBuffer());
 			/*
 			 * Problems:
@@ -220,7 +220,7 @@ public class RenameTests18 extends GenericRefactoringTest {
 	}
 
 
-	private void renameMethod(String methodName, String newMethodName, String[] signatures, boolean shouldPass, boolean updateReferences, boolean createDelegate) throws Exception{
+	private void renameMethod(String methodName, String newMethodName, String[] signatures, boolean shouldPass, boolean updateReferences, boolean createDelegate) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType typeI= getType(cu, "I");
 		IMethod method= typeI.getMethod(methodName, signatures);
@@ -235,7 +235,7 @@ public class RenameTests18 extends GenericRefactoringTest {
 		try {
 			assertNull("was supposed to pass", performRefactoring(descriptor));
 		} catch (CoreException e) {
-			System.out.println("RenameTest18." + getName() + ": " + e.toString());
+			System.out.println("RenameTest18." + getName() + ": " + e.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			System.out.println(cu.getResource().getLocationURI());
 			System.out.println(cu.getResource().getModificationStamp());
 			System.out.println(cu.getResource().getLocalTimeStamp());

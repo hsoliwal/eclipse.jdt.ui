@@ -68,7 +68,7 @@ public class JavaWordIterator extends BreakIterator {
 	@Override
 	public int next(int n) {
 		int next= 0;
-		while (--n > 0 && next != DONE) {
+		while (--n > 0 && next != DONE) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			next= next();
 		}
 		return next;
@@ -141,7 +141,7 @@ public class JavaWordIterator extends BreakIterator {
 	 * @param exclusiveEnd the end offset
 	 * @return <code>true</code> if the given range is a delimiter
 	 */
-	private boolean isDelimiter(int offset, int exclusiveEnd) {
+	private boolean isDelimiter(int offset, int exclusiveEnd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (exclusiveEnd == DONE || offset == DONE)
 			return false;
 
@@ -151,7 +151,7 @@ public class JavaWordIterator extends BreakIterator {
 
 		CharSequence seq= fIterator.fText;
 
-		while (offset < exclusiveEnd) {
+		while (offset < exclusiveEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= seq.charAt(offset);
 			if (ch != '\n' && ch != '\r')
 				return false;
@@ -169,7 +169,7 @@ public class JavaWordIterator extends BreakIterator {
 	 * @param exclusiveEnd the end offset
 	 * @return <code>true</code> if the given range is whitespace
 	 */
-	private boolean isWhitespace(int offset, int exclusiveEnd) {
+	private boolean isWhitespace(int offset, int exclusiveEnd) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (exclusiveEnd == DONE || offset == DONE)
 			return false;
 
@@ -179,7 +179,7 @@ public class JavaWordIterator extends BreakIterator {
 
 		CharSequence seq= fIterator.fText;
 
-		while (offset < exclusiveEnd) {
+		while (offset < exclusiveEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= seq.charAt(offset);
 			if (!Character.isWhitespace(ch))
 				return false;

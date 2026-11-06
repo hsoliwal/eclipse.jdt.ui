@@ -75,7 +75,7 @@ public class CallLocation implements IAdaptable {
         return fCallText;
     }
 
-    private void initCallTextAndLineNumber() {
+    private void initCallTextAndLineNumber() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (fCallText != null)
     		return;
 

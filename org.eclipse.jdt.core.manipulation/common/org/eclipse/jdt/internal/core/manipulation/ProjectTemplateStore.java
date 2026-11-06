@@ -46,7 +46,7 @@ public final class ProjectTemplateStore {
 	private final TemplateStoreCore fInstanceStore;
 	private final TemplateStoreCore fProjectStore;
 
-	public ProjectTemplateStore(IProject project) {
+	public ProjectTemplateStore(IProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fInstanceStore= JavaManipulation.getCodeTemplateStore();
 		if (project == null) {
 			fProjectStore= null;
@@ -62,10 +62,10 @@ public final class ProjectTemplateStore {
 					internalAdd(data);
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void save() throws IOException {
 
-					for (TemplatePersistenceData templateData : ProjectTemplateStore.this.getTemplateData()) {
+					for (TemplatePersistenceData templateData : ProjectTemplateStore.this.getTemplateData()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isProjectSpecific(templateData.getId())) {
 							StringWriter output= new StringWriter();
 							TemplateReaderWriter writer= new TemplateReaderWriter();
@@ -127,16 +127,16 @@ public final class ProjectTemplateStore {
 		return template;
 	}
 
-	public void load() throws IOException {
+	public void load() throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProjectStore != null) {
 			fProjectStore.load();
 
-			Set<String> datas= new HashSet<>();
-			for (TemplatePersistenceData d : fProjectStore.getTemplateData(false)) {
+			Set<String> datas= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (TemplatePersistenceData d : fProjectStore.getTemplateData(false)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				datas.add(d.getId());
 			}
 
-			for (TemplatePersistenceData orig : fInstanceStore.getTemplateData(false)) {
+			for (TemplatePersistenceData orig : fInstanceStore.getTemplateData(false)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!datas.contains(orig.getId())) {
 					TemplatePersistenceData copy= new TemplatePersistenceData(new Template(orig.getTemplate()), orig.isEnabled(), orig.getId());
 					fProjectStore.add(copy);

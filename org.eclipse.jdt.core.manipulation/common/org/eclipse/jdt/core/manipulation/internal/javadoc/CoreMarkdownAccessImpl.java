@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -76,12 +77,15 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			return Collections.singleton(FencedCodeBlock.class);
 		}
 
-		@Override
+		private static final Pattern RENDER_PATTERN = Pattern.compile("\\s+"); //$NON-NLS-1$
+
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void render(Node node) {
 			FencedCodeBlock codeBlock= (FencedCodeBlock) node;
 			String info= codeBlock.getInfo();
 			if (info != null) {
-				info= info.trim().split("\\s+", 2)[0]; //$NON-NLS-1$
+				info= RENDER_PATTERN.split(info.trim(), 2)[0];
+				// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			}
 			String literal= codeBlock.getLiteral();
 			boolean isJava= info != null && JAVA_LANGUAGES.contains(info.trim().toLowerCase());
@@ -95,7 +99,7 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			} else {
 				html.tag("pre"); //$NON-NLS-1$
 				Map<String, String> attrs= info != null && !info.isEmpty()
-						? Map.of("class", "language-" + info.trim()) //$NON-NLS-1$ //$NON-NLS-2$
+						? Map.of("class", "language-" + info.trim()) //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						: Collections.emptyMap();
 				html.tag("code", attrs); //$NON-NLS-1$
 				html.text(literal);
@@ -106,15 +110,19 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 		}
 	}
 
+	private static final Pattern CONTENT_PATTERN = Pattern.compile("\\\\u000[d,D]"); //$NON-NLS-1$
+	private static final Pattern CONTENT_PATTERN_2 = Pattern.compile("\\\\u000[a,A]"); //$NON-NLS-1$
+
 	@Override
 	protected String removeDocLineIntros(String textWithSlashes) {
 		// handle unicode
-		String content= textWithSlashes.replaceAll("\\\\u000[d,D]", "\r"); //$NON-NLS-1$ //$NON-NLS-2$
-		content= content.replaceAll("\\\\u000[a,A]", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		String content= CONTENT_PATTERN.matcher(textWithSlashes).replaceAll("\r"); //$NON-NLS-1$
+		content= CONTENT_PATTERN_2.matcher(content).replaceAll("\n"); //$NON-NLS-1$
+		// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		String lineBreakGroup= "(\\r\\n?|\\n)"; //$NON-NLS-1$
 		String noBreakSpace= "[^\r\n&&\\s]"; //$NON-NLS-1$
 		// in the markdown case relevant leading whitespace is contained in TextElements, no need to preserve blanks *between* elements
-		return content.replaceAll(lineBreakGroup + noBreakSpace + "*///" + noBreakSpace + '*', "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+		return content.replaceAll(lineBreakGroup + noBreakSpace + "*///" + noBreakSpace + '*', "$1"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 
 	@Override
@@ -129,7 +137,7 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 	@Override
 	protected String getBlockTagStart() {
 		this.fBlockDepth++;
-		return "\n"+super.getBlockTagStart(); //$NON-NLS-1$
+		return "\n"+super.getBlockTagStart(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -158,12 +166,12 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 
 	/** Return a new Document containing all children of the given container node. */
 	protected Node eliminateContainerNode(Node container) {
-		List<Node> children= new ArrayList<>();
-		for (Node child= container.getFirstChild(); child != null; child= child.getNext()) {
+		List<Node> children= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Node child= container.getFirstChild(); child != null; child= child.getNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			children.add(child);
 		}
 		Document doc= new Document();
-		for (Node child2 : children) {
+		for (Node child2 : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			doc.appendChild(child2);
 		}
 		return doc;

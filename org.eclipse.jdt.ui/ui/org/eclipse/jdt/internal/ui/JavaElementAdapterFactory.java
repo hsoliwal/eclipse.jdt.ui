@@ -88,7 +88,7 @@ public class JavaElementAdapterFactory implements IAdapterFactory, IContributorR
 		return ADAPTER_LIST;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@SuppressWarnings("unchecked")
 	public <T> T getAdapter(Object element, Class<T> key) {
 		updateLazyLoadedAdapters();
@@ -132,7 +132,7 @@ public class JavaElementAdapterFactory implements IAdapterFactory, IContributorR
 		return null;
 	}
 
-	private IResource getResource(IJavaElement element) {
+	private IResource getResource(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// can't use IJavaElement.getResource directly as we are interested in the
 		// corresponding resource
 		switch (element.getElementType()) {

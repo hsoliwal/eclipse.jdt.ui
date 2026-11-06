@@ -44,24 +44,24 @@ public class ImagesOnFileSystemRegistry {
 	private int fImageCount;
 
 	public ImagesOnFileSystemRegistry() {
-		fURLMap= new HashMap<>();
+		fURLMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fTempDir= getTempDir();
 		fImageProvider= new JavaElementImageProvider();
 		fImageCount= 0;
 	}
 
-	private File getTempDir() {
+	private File getTempDir() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			File imageDir= JavaPlugin.getDefault().getStateLocation().append(IMAGE_DIR).toFile();
-			if (imageDir.exists()) {
+			if (imageDir.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				// has not been deleted on previous shutdown
 				delete(imageDir);
 			}
-			if (!imageDir.exists()) {
-				imageDir.mkdir();
+			if (!imageDir.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				imageDir.mkdir(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			}
-			if (!imageDir.isDirectory()) {
-				JavaPlugin.logErrorMessage("Failed to create image directory " + imageDir.toString()); //$NON-NLS-1$
+			if (!imageDir.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+				JavaPlugin.logErrorMessage("Failed to create image directory " + imageDir.toString()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				return null;
 			}
 			return imageDir;
@@ -72,12 +72,12 @@ public class ImagesOnFileSystemRegistry {
 	}
 
 	private void delete(File file) {
-		if (file.isDirectory()) {
-			for (File f : file.listFiles()) {
+		if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			for (File f : file.listFiles()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				delete(f);
 			}
 		}
-		file.delete();
+		file.delete(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 	}
 
 	public URL getImageURL(IJavaElement element) {
@@ -96,7 +96,7 @@ public class ImagesOnFileSystemRegistry {
 		return getImageURL(descriptor,100);
 	}
 
-	public URL getImageURL(ImageDescriptor descriptor, int zoom) {
+	public URL getImageURL(ImageDescriptor descriptor, int zoom) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTempDir == null)
 			return null;
 
@@ -126,9 +126,9 @@ public class ImagesOnFileSystemRegistry {
 
 	private File getNewFile() {
 		File file;
-		do {
-			file= new File(fTempDir, String.valueOf(getImageCount()) + ".png"); //$NON-NLS-1$
-		} while (file.exists());
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			file= new File(fTempDir, String.valueOf(getImageCount()) + ".png"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		} while (file.exists()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		return file;
 	}
 

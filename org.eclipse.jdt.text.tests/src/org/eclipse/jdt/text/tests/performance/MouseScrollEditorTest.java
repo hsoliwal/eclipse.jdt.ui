@@ -112,16 +112,16 @@ public abstract class MouseScrollEditorTest extends TextPerformanceTestCase {
 		private final Condition fCondition= new Condition() {
 			@Override
 			public boolean isTrue() {
-				fDisplay.syncExec(fRunnable);
+				fDisplay.syncExec(fRunnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				return fOldTopPixel != fTopPixel;
 			}
 		};
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			try {
 				fTopPixel= 0;
 				fPoster.initializeFromBackground();
-				while (fTopPixel < fMaxTopPixel) {
+				while (fTopPixel < fMaxTopPixel) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fPoster.driveFromBackground();
 					fOldTopPixel= fTopPixel;
 					assertTrue(fCondition.busyWaitFor(1000));
@@ -151,7 +151,7 @@ public abstract class MouseScrollEditorTest extends TextPerformanceTestCase {
 		fPerformanceMeter.dispose();
 	}
 
-	protected void measureScrolling(Poster poster, IFile file) throws PartInitException {
+	protected void measureScrolling(Poster poster, IFile file) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IEditorPart editor= EditorTestHelper.openInEditor(file, true);
 			EditorTestHelper.joinJobs(5000, 10000, 100);
@@ -168,14 +168,14 @@ public abstract class MouseScrollEditorTest extends TextPerformanceTestCase {
 
 			int warmUpRuns= getWarmUpRuns();
 			int measuredRuns= getMeasuredRuns();
-			for (int i= 0; i < warmUpRuns + measuredRuns; i++) {
+			for (int i= 0; i < warmUpRuns + measuredRuns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fPoster.initializeFromForeground(fText);
 
 				fDone= false;
 				new Thread(fThreadRunnable).start();
 				if (i >= warmUpRuns)
 					fPerformanceMeter.start();
-				while (!fDone)
+				while (!fDone) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!fDisplay.readAndDispatch())
 						fDisplay.sleep();
 				if (fBackgroundError != null)

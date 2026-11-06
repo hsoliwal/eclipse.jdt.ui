@@ -70,7 +70,7 @@ public class ASTNodesInsertTest extends CoreTests {
 		JavaProjectHelper.clear(fJProject1, pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsert1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str= """
@@ -120,7 +120,7 @@ public class ASTNodesInsertTest extends CoreTests {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsert2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str= """
@@ -171,7 +171,7 @@ public class ASTNodesInsertTest extends CoreTests {
 		assertEquals(1, insertionIndex); // after the inner
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsert3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str= """
@@ -225,7 +225,7 @@ public class ASTNodesInsertTest extends CoreTests {
 		assertEquals(5, insertionIndex); // after the inner
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInsert4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1.ae", false, null);
 		String str= """

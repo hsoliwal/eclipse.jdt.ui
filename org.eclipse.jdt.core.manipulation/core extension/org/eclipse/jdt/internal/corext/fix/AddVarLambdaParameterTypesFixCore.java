@@ -42,7 +42,7 @@ public class AddVarLambdaParameterTypesFixCore extends CompilationUnitRewriteOpe
 		super(name, compilationUnit, operation);
 	}
 
-	public static AddVarLambdaParameterTypesFixCore createAddVarLambdaParameterTypesFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static AddVarLambdaParameterTypesFixCore createAddVarLambdaParameterTypesFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement root= compilationUnit.getJavaElement();
 		ASTNode parent= node.getParent();
 		if (parent == null || root == null) {
@@ -109,7 +109,7 @@ public class AddVarLambdaParameterTypesFixCore extends CompilationUnitRewriteOpe
 			this.noOfLambdaParams= noOfLambdaParams;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			String VAR_TYPE= "var"; //$NON-NLS-1$
 			AST ast= cuRewrite.getAST();
@@ -118,7 +118,7 @@ public class AddVarLambdaParameterTypesFixCore extends CompilationUnitRewriteOpe
 			ImportRemover remover= cuRewrite.getImportRemover();
 
 			rewrite.set(lambda, LambdaExpression.PARENTHESES_PROPERTY, Boolean.TRUE, null);
-			for (int i= 0; i < noOfLambdaParams; i++) {
+			for (int i= 0; i < noOfLambdaParams; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclaration param= lambdaParameters.get(i);
 				Type oldType= null;
 				if (param instanceof SingleVariableDeclaration) {

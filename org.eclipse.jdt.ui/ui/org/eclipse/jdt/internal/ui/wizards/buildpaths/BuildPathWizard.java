@@ -50,7 +50,7 @@ public abstract class BuildPathWizard extends NewElementWizard {
 		setWindowTitle(titel);
 
 		fEntryToEdit= newEntry;
-		fExistingEntries= new ArrayList<>(Arrays.asList(existingEntries));
+		fExistingEntries= new ArrayList<>(Arrays.asList(existingEntries)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fDoFlushChange= true;
 	}
 
@@ -95,15 +95,15 @@ public abstract class BuildPathWizard extends NewElementWizard {
 	}
 
 	public List<CPListElement> getInsertedElements() {
-		return new ArrayList<>();
+		return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public List<CPListElement> getRemovedElements() {
-		return new ArrayList<>();
+		return new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public List<CPListElement> getModifiedElements() {
-		ArrayList<CPListElement> result= new ArrayList<>(1);
+		ArrayList<CPListElement> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.add(fEntryToEdit);
 		return result;
 	}

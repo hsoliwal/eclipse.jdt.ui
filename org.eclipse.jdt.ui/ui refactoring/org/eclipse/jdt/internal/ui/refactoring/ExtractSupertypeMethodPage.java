@@ -57,7 +57,7 @@ public class ExtractSupertypeMethodPage extends PullUpMethodPage {
 			final ExtractSupertypeProcessor processor= getProcessor();
 			processor.resetChanges();
 			try {
-				getWizard().getContainer().run(false, false, monitor -> processor.createWorkingCopyLayer(monitor));
+				getWizard().getContainer().run(false, false, monitor -> processor.createWorkingCopyLayer(monitor)); //FLLDCIM: MARK — T09  LAMBDA
 			} catch (InvocationTargetException exception) {
 				JavaPlugin.log(exception);
 			} catch (InterruptedException exception) {

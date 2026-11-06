@@ -167,8 +167,8 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 	private boolean fDelegateDeprecation;
 
 	private static class TypeReferenceFinder extends ASTVisitor {
-		List<IBinding> fResult= new ArrayList<>();
-		Set<ITypeBinding> fDefined= new HashSet<>();
+		List<IBinding> fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Set<ITypeBinding> fDefined= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		public static List<IBinding> perform(ASTNode root) {
 			TypeReferenceFinder visitor= new TypeReferenceFinder();
 			root.accept(visitor);
@@ -240,10 +240,10 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 
 	@Override
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status, SharableParticipants sharedParticipants) throws CoreException {
-		List<MoveParticipant> result= new ArrayList<>();
+		List<MoveParticipant> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		MoveArguments args= new MoveArguments(fDestinationType, true);
 		String[] natures= JavaProcessors.computeAffectedNaturs(fMembersToMove);
-		for (IMember memberToMove : fMembersToMove) {
+		for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(Arrays.asList(ParticipantManager.loadMoveParticipants(
 				status, this, memberToMove, args, natures, sharedParticipants)));
 		}
@@ -255,7 +255,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 	@Override
 	public boolean canEnableDelegateUpdating() {
 		try {
-			for (IMember memberToMove : fMembersToMove) {
+			for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isDelegateCreationAvailable(memberToMove))
 					return true;
 			}
@@ -327,7 +327,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 
 	//---- Activation checking ------------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		try {
 			pm.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_checking, 1);
@@ -353,7 +353,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 	}
 
 	private boolean hasUnresolvedMemberBinding() {
-		for (IBinding memberBinding : fMemberBindings) {
+		for (IBinding memberBinding : fMemberBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (memberBinding == null)
 				return true;
 		}
@@ -377,7 +377,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 
 	//---- Input checking ------------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm, CheckConditionsContext context) throws CoreException {
 		fTarget= null;
 		try {
@@ -406,10 +406,10 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 
 			result.merge(checkMemberOverride());
 
-			List<ICompilationUnit> modifiedCus= new ArrayList<>();
+			List<ICompilationUnit> modifiedCus= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			createChange(modifiedCus, result, Progress.subMonitor(pm, 7));
 			ResourceChangeChecker checker= context.getChecker(ResourceChangeChecker.class);
-			for (IFile changedFile : getAllFilesToModify(modifiedCus)) {
+			for (IFile changedFile : getAllFilesToModify(modifiedCus)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checker.getDeltaFactory().change(changedFile);
 			}
 
@@ -426,7 +426,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			return fOverrideBinding;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			if (node.getLocationInParent() != QualifiedName.NAME_PROPERTY &&
 					node.getLocationInParent() != FieldAccess.NAME_PROPERTY &&
@@ -440,7 +440,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 					String methodBindingClassName= methodBinding.getDeclaringClass().getQualifiedName();
 					if (!methodBindingClassName.equals(getDeclaringType().getFullyQualifiedName('.')) &&
 							!methodBindingClassName.equals(getDestinationType().getFullyQualifiedName('.'))) {
-						for (IMember member : fMembersToMove) {
+						for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (member.getElementType() == IJavaElement.METHOD) {
 								IMethod memberMethod= (IMethod)member;
 								try {
@@ -461,7 +461,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 					String varBindingClassName= varBinding.getDeclaringClass().getQualifiedName();
 					if (!varBindingClassName.equals(getDeclaringType().getFullyQualifiedName('.')) &&
 							!varBindingClassName.equals(getDestinationType().getFullyQualifiedName('.'))) {
-						for (IMember member : fMembersToMove) {
+						for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (member.getElementType() == IJavaElement.FIELD &&
 									member.getElementName().equals(varBinding.getName())) {
 								fOverrideBinding= varBinding;
@@ -494,22 +494,22 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 	}
 
 	private IFile[] getAllFilesToModify(List<ICompilationUnit> modifiedCus) {
-		Set<IResource> result= new HashSet<>();
+		Set<IResource> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		IResource resource= fDestinationType.getCompilationUnit().getResource();
 		result.add(resource);
-		for (IMember memberToMove : fMembersToMove) {
+		for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resource= memberToMove.getCompilationUnit().getResource();
 			if (resource != null)
 				result.add(resource);
 		}
-		for (ICompilationUnit unit : modifiedCus) {
+		for (ICompilationUnit unit : modifiedCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (unit.getResource() != null)
 				result.add(unit.getResource());
 		}
 		return result.toArray(new IFile[result.size()]);
 	}
 
-	private RefactoringStatus checkDestinationType() throws JavaModelException {
+	private RefactoringStatus checkDestinationType() throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fDestinationType == null){
 			String message= Messages.format(RefactoringCoreMessages.MoveMembersRefactoring_not_found, BasicElementLabels.getJavaElementName(fDestinationTypeName));
 			return RefactoringStatus.createFatalErrorStatus(message);
@@ -552,7 +552,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 
 	private RefactoringStatus checkDestinationInsideTypeToMove() throws JavaModelException {
 		RefactoringStatus result= new RefactoringStatus();
-		for (IMember memberToMove : fMembersToMove) {
+		for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! (memberToMove instanceof IType))
 				continue;
 			IType type= (IType) memberToMove;
@@ -574,7 +574,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		if (declaringIsInterface)
 			return result;
 		String moveMembersMsg= RefactoringCoreMessages.MoveMembersRefactoring_only_public_static_18;
-		for (IMember memberToMove : fMembersToMove) {
+		for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!canMoveToInterface(memberToMove)) {
 				result.addError(moveMembersMsg, JavaStatusContext.create(memberToMove));
 			} else if (!Flags.isPublic(memberToMove.getFlags()) && !declaringIsInterface) {
@@ -584,7 +584,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return result;
 	}
 
-	private boolean canMoveToInterface(IMember member) throws JavaModelException {
+	private boolean canMoveToInterface(IMember member) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int flags= member.getFlags();
 		switch (member.getElementType()) {
 			case IJavaElement.FIELD:
@@ -610,12 +610,12 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		}
 	}
 
-	private RefactoringStatus checkMovedMemberAvailability(IMember memberToMove, IProgressMonitor pm) throws JavaModelException{
+	private RefactoringStatus checkMovedMemberAvailability(IMember memberToMove, IProgressMonitor pm) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		if (memberToMove instanceof IType) { // recursively check accessibility of member type's members
 			IJavaElement[] typeMembers= memberToMove.getChildren();
 			pm.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_checking, typeMembers.length + 1);
-			for (IJavaElement typeMember : typeMembers) {
+			for (IJavaElement typeMember : typeMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (typeMember instanceof IInitializer)
 					pm.worked(1);
 				else
@@ -625,7 +625,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			pm.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_checking, 1);
 		}
 
-		for (IType blindAccessorType : getTypesNotSeeingMovedMember(memberToMove, Progress.subMonitor(pm, 1), result)) {
+		for (IType blindAccessorType : getTypesNotSeeingMovedMember(memberToMove, Progress.subMonitor(pm, 1), result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String message= createNonAccessibleMemberMessage(memberToMove, blindAccessorType,/*moved*/true);
 			result.addError(message, JavaStatusContext.create(memberToMove));
 		}
@@ -633,13 +633,13 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return result;
 	}
 
-	private IType[] getTypesNotSeeingMovedMember(IMember member, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException {
+	private IType[] getTypesNotSeeingMovedMember(IMember member, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (JdtFlags.isPublic(member) && JdtFlags.isPublic(fDestinationType))
 			return new IType[0];
 
-		HashSet<IType> blindAccessorTypes= new HashSet<>(); // referencing, but access to destination type illegal
-		for (SearchResultGroup reference : getReferences(member, Progress.subMonitor(pm, 1), status)) {
-			for (SearchMatch searchResult : reference.getSearchResults()) {
+		HashSet<IType> blindAccessorTypes= new HashSet<>(); // referencing, but access to destination type illegal //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (SearchResultGroup reference : getReferences(member, Progress.subMonitor(pm, 1), status)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (SearchMatch searchResult : reference.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement element= SearchUtils.getEnclosingJavaElement(searchResult);
 				IType type= (IType) element.getAncestor(IJavaElement.TYPE);
 				if (type != null //reference can e.g. be an import declaration
@@ -661,7 +661,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return blindAccessorTypes.toArray(new IType[blindAccessorTypes.size()]);
 	}
 
-	private String createNonAccessibleMemberMessage(IMember member, IType accessingType, boolean moved){
+	private String createNonAccessibleMemberMessage(IMember member, IType accessingType, boolean moved){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//Non-visibility can have various reasons and always displaying all visibility
 		//flags for all enclosing elements would be too heavy. Context reveals exact cause.
 		IType declaringType= moved ? getDestinationType() : getDeclaringType();
@@ -726,11 +726,11 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return (SearchResultGroup[]) engine.getResults();
 	}
 
-	private static boolean isVisibleFrom(IType newMemberDeclaringType, IType accessingType) throws JavaModelException {
+	private static boolean isVisibleFrom(IType newMemberDeclaringType, IType accessingType) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int memberVisibility= JdtFlags.getVisibilityCode(newMemberDeclaringType);
 
 		IType declaringType= newMemberDeclaringType.getDeclaringType();
-		while (declaringType != null) { //get lowest visibility in all parent types of newMemberDeclaringType
+		while (declaringType != null) { //get lowest visibility in all parent types of newMemberDeclaringType //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			memberVisibility= JdtFlags.getLowerVisibility(
 					memberVisibility, JdtFlags.getVisibilityCode(declaringType));
 			declaringType= declaringType.getDeclaringType();
@@ -757,7 +757,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 	}
 
 	private static boolean isEqualOrEnclosedType(IType inner, IType outer) {
-		while (inner != null) {
+		while (inner != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (inner.equals(outer))
 				return true;
 			else
@@ -771,7 +771,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		if (! referenceCU.equals(fSource.getCu()))
 			return false;
 		int referenceStart= result.getOffset();
-		for (IMember memberToMove : fMembersToMove) {
+		for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISourceRange range= memberToMove.getSourceRange();
 			if (range.getOffset() <= referenceStart && range.getOffset() + range.getLength() >= referenceStart)
 				return true;
@@ -782,7 +782,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 	private RefactoringStatus checkNativeMovedMethods(IProgressMonitor pm) throws JavaModelException{
 		pm.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_checking, fMembersToMove.length);
 		RefactoringStatus result= new RefactoringStatus();
-		for (IMember memberToMove : fMembersToMove) {
+		for (IMember memberToMove : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (memberToMove.getElementType() != IJavaElement.METHOD)
 				continue;
 			if (! JdtFlags.isNative(memberToMove))
@@ -802,7 +802,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return fChange;
 	}
 
-	private void createChange(List<ICompilationUnit> modifiedCus, RefactoringStatus status, IProgressMonitor monitor) throws CoreException {
+	private void createChange(List<ICompilationUnit> modifiedCus, RefactoringStatus status, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		monitor.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_creating, 5);
 		fChange= new DynamicValidationRefactoringChange(createDescriptor(), RefactoringCoreMessages.MoveMembersRefactoring_move_members);
 		fTarget= getCuRewrite(fDestinationType.getCompilationUnit());
@@ -814,11 +814,11 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		}
 
 		try {
-			Map<IMember, IncomingMemberVisibilityAdjustment> adjustments= new HashMap<>();
+			Map<IMember, IncomingMemberVisibilityAdjustment> adjustments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			IProgressMonitor sub= Progress.subMonitorSupressed(monitor, 1);
 			sub.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_creating, fMembersToMove.length);
-			Set<IMember> rewritten= new HashSet<>();
-			for (IMember member : fMembersToMove) {
+			Set<IMember> rewritten= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IMember member : fMembersToMove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final MemberVisibilityAdjustor adjustor= new MemberVisibilityAdjustor(fDestinationType, member);
 				adjustor.setAdjustments(adjustments);
 				adjustor.setStatus(status);
@@ -842,7 +842,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 				// error message if not (for example, when moving into a private type)
 				status.merge(checkMovedMemberAvailability(member, Progress.subMonitor(sub, 1)));
 				// Put rewrite info into code and into status
-				for (IMember iMember : rewritten) {
+				for (IMember iMember : rewritten) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					adjustments.remove(iMember);
 				}
 				rewritten.addAll(adjustments.keySet());
@@ -859,7 +859,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			ReferencesInBinaryContext binaryRefs= new ReferencesInBinaryContext(RefactoringCoreMessages.ReferencesInBinaryContext_ref_in_binaries_description_plural);
 			IJavaSearchScope scope= RefactoringScopeFactory.create(fMembersToMove, false);
 			SearchPattern pattern= RefactoringSearchEngine.createOrPattern(fMembersToMove, IJavaSearchConstants.ALL_OCCURRENCES);
-			final HashSet<ICompilationUnit> affectedCompilationUnits= new HashSet<>();
+			final HashSet<ICompilationUnit> affectedCompilationUnits= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 			CollectingSearchRequestor requestor= new CollectingSearchRequestor(binaryRefs) {
 				private ICompilationUnit fLastCU;
@@ -884,7 +884,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			final MemberVisibilityAdjustor adjustor= new MemberVisibilityAdjustor(fDestinationType, fDestinationType);
 			sub= Progress.subMonitor(monitor, 1);
 			sub.beginTask(RefactoringCoreMessages.MoveMembersRefactoring_creating, units.length);
-			for (ICompilationUnit unit : units) {
+			for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompilationUnitRewrite rewrite= getCuRewrite(unit);
 				adjustor.setRewrites(Collections.singletonMap(unit, rewrite));
 				adjustor.setAdjustments(adjustments);
@@ -912,7 +912,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		}
 	}
 
-	private MoveStaticMembersDescriptor createDescriptor() {
+	private MoveStaticMembersDescriptor createDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IMember[] members= getMembersToMove();
 		String project= null;
 		final IJavaProject javaProject= getDeclaringType().getJavaProject();
@@ -973,7 +973,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 
 	private IBinding[] getMemberBindings() throws JavaModelException {
 		IBinding[] result= new IBinding[fMembersToMove.length];
-		for (int i= 0; i < fMembersToMove.length; i++) {
+		for (int i= 0; i < fMembersToMove.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMember member= fMembersToMove[i];
 			SimpleName name= (SimpleName)NodeFinder.perform(fSource.getRoot(), member.getNameRange());
 			result[i]= name.resolveBinding();
@@ -1005,12 +1005,12 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			return super.visit(node);
 		}
 	}
-	private String[] getUpdatedMemberSource(RefactoringStatus status, BodyDeclaration[] members, ITypeBinding target) throws CoreException, BadLocationException {
-		List<IBinding> typeRefs= new ArrayList<>();
+	private String[] getUpdatedMemberSource(RefactoringStatus status, BodyDeclaration[] members, ITypeBinding target) throws CoreException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IBinding> typeRefs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean targetNeedsSourceImport= false;
 		boolean isSourceNotTarget= fSource != fTarget;
-		Set<IBinding> exclude= new HashSet<>();
-		for (BodyDeclaration declaration : members) {
+		Set<IBinding> exclude= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (BodyDeclaration declaration : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (declaration instanceof AbstractTypeDeclaration) {
 				AbstractTypeDeclaration type= (AbstractTypeDeclaration) declaration;
 				ITypeBinding binding= type.resolveBinding();
@@ -1023,7 +1023,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 					exclude.add(binding);
 			} else if (declaration instanceof FieldDeclaration) {
 				FieldDeclaration field= (FieldDeclaration) declaration;
-				for (final Iterator<VariableDeclarationFragment> iterator= field.fragments().iterator(); iterator.hasNext();) {
+				for (final Iterator<VariableDeclarationFragment> iterator= field.fragments().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment fragment= iterator.next();
 					IVariableBinding binding= fragment.resolveBinding();
 					if (binding != null)
@@ -1032,12 +1032,12 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			}
 		}
 		ImportRewriteContext context= new ContextSensitiveImportRewriteContext(getDestinationNode(), fTarget.getImportRewrite());
-		for (BodyDeclaration declaration : members) {
+		for (BodyDeclaration declaration : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSourceNotTarget)
 				typeRefs.addAll(TypeReferenceFinder.perform(declaration));
 			MovedMemberAnalyzer analyzer= new MovedMemberAnalyzer(fSource, fMemberBindings, fSourceBinding, target);
 			declaration.accept(analyzer);
-			ImportRewriteUtil.addImports(fTarget, context, declaration, new HashMap<>(), new HashMap<>(), exclude, false);
+			ImportRewriteUtil.addImports(fTarget, context, declaration, new HashMap<>(), new HashMap<>(), exclude, false); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			if (getDeclaringType().isInterface() && !fDestinationType.isInterface()) {
 				if (declaration instanceof FieldDeclaration) {
 					FieldDeclaration fieldDecl= (FieldDeclaration) declaration;
@@ -1085,7 +1085,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 			fTarget.getImportRewrite().addImport(fSourceBinding, context);
 		}
 		if (isSourceNotTarget) {
-			for (IBinding iBinding : typeRefs) {
+			for (IBinding iBinding : typeRefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding binding= (ITypeBinding) iBinding;
 				fTarget.getImportRewrite().addImport(binding, context);
 			}
@@ -1095,28 +1095,28 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		IDocument document= new Document(fSource.getCu().getBuffer().getContents());
 		TextEdit edit= fSource.getASTRewrite().rewriteAST(document, fSource.getCu().getOptions(true));
 		edit.apply(document, TextEdit.UPDATE_REGIONS);
-		for (int i= 0; i < members.length; i++) {
+		for (int i= 0; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			updatedMemberSources[i]= getUpdatedMember(document, members[i]);
 		}
 		fSource.clearASTRewrite();
 		return updatedMemberSources;
 	}
 
-	public static Set<String> getImportedTypeNames(ICompilationUnit sourceCu, ICompilationUnit targetCu) throws JavaModelException {
+	public static Set<String> getImportedTypeNames(ICompilationUnit sourceCu, ICompilationUnit targetCu) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IImportDeclaration[] targetImports= targetCu.getImports();
-		Set<String> targetImportNames= new HashSet<>();
-		for (IImportDeclaration importDecl : targetImports) {
+		Set<String> targetImportNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IImportDeclaration importDecl : targetImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			targetImportNames.add(importDecl.getElementName());
 		}
 		IImportDeclaration[] sourceImports= sourceCu.getImports();
-		for (IImportDeclaration importDecl : sourceImports) {
+		for (IImportDeclaration importDecl : sourceImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= importDecl.getElementName();
 			if (targetImportNames.contains(name)) {
 				targetImportNames.remove(name);
 			}
 		}
-		Set<String> importedTypeNames= new HashSet<>();
-		for (String targetImportName : targetImportNames) {
+		Set<String> importedTypeNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (String targetImportName : targetImportNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int index= targetImportName.lastIndexOf("."); //$NON-NLS-1$
 			if (index > 0) {
 				importedTypeNames.add(targetImportName.substring(index + 1));
@@ -1132,14 +1132,14 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return Strings.trimIndentation(document.get(trackedPosition.getStartPosition(), trackedPosition.getLength()), fPreferences.tabWidth, fPreferences.indentWidth, false);
 	}
 
-	private RefactoringStatus moveMembers(BodyDeclaration[] members, String[] sources) throws CoreException {
+	private RefactoringStatus moveMembers(BodyDeclaration[] members, String[] sources) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringStatus result= new RefactoringStatus();
 		AbstractTypeDeclaration destination= getDestinationNode();
 		ListRewrite containerRewrite= fTarget.getASTRewrite().getListRewrite(destination, destination.getBodyDeclarationsProperty());
 
 		TextEditGroup delete= fSource.createGroupDescription(RefactoringCoreMessages.MoveMembersRefactoring_deleteMembers);
 		TextEditGroup add= fTarget.createGroupDescription(RefactoringCoreMessages.MoveMembersRefactoring_addMembers);
-		for (int i= 0; i < members.length; i++) {
+		for (int i= 0; i < members.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration declaration= members[i];
 			ASTNode removeImportsOf= null;
 			boolean addedDelegate= false;
@@ -1206,9 +1206,9 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return result;
 	}
 
-	private BodyDeclaration[] getASTMembers(RefactoringStatus status) throws JavaModelException {
+	private BodyDeclaration[] getASTMembers(RefactoringStatus status) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		BodyDeclaration[] result= new BodyDeclaration[fMembersToMove.length];
-		for (int i= 0; i < fMembersToMove.length; i++) {
+		for (int i= 0; i < fMembersToMove.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMember member= fMembersToMove[i];
 			ASTNode node= NodeFinder.perform(fSource.getRoot(), member.getNameRange());
 			result[i]= ASTNodes.getParent(node, BodyDeclaration.class);
@@ -1228,7 +1228,7 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		return result;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments extended) {
+	private RefactoringStatus initialize(JavaRefactoringArguments extended) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String handle= extended.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
@@ -1251,17 +1251,17 @@ public final class MoveStaticMembersProcessor extends MoveProcessor implements I
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_DEPRECATE));
 		int count= 1;
-		final List<IJavaElement> elements= new ArrayList<>();
-		String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+		final List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final RefactoringStatus status= new RefactoringStatus();
-		while ((handle= extended.getAttribute(attribute)) != null) {
+		while ((handle= extended.getAttribute(attribute)) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(extended.getProject(), handle, false);
 			if (element == null || !element.exists())
 				status.merge(JavaRefactoringDescriptorUtil.createInputWarningStatus(element, getProcessorName(), IJavaRefactorings.MOVE_STATIC_MEMBERS));
 			else
 				elements.add(element);
 			count++;
-			attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+			attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fMembersToMove= elements.toArray(new IMember[elements.size()]);
 		if (elements.isEmpty())

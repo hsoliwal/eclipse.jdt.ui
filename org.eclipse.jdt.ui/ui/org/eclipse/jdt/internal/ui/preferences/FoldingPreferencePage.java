@@ -131,7 +131,7 @@ public final class FoldingPreferencePage extends AbstractConfigurationBlockPrefe
 	}
 
 	public static List<IPreferenceStore> getAllFoldingPreferenceStores(JavaEditor editor) {
-		List<IPreferenceStore> preferenceStores= new ArrayList<>();
+		List<IPreferenceStore> preferenceStores= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		preferenceStores.add(getDefaultPreferenceStore());
 		IJavaProject project= EditorUtility.getJavaProject(editor);
 		if (project != null) {

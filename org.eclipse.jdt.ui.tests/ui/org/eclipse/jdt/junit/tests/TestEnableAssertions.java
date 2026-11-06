@@ -92,7 +92,7 @@ public class TestEnableAssertions {
 		tabGroupSetDefaultTester(testSubject);
 	}*/
 
-	protected void tabGroupSetDefaultTester(ILaunchConfigurationTabGroup testSubject) {
+	protected void tabGroupSetDefaultTester(ILaunchConfigurationTabGroup testSubject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean originalPreference= AssertionVMArg.getEnableAssertionsPreference();
 		try {
 			AssertionVMArg.setEnableAssertionsPreference(false);

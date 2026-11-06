@@ -203,7 +203,7 @@ public class JavaCapabilityConfigurationPage extends NewElementWizardPage {
 	 */
 	public IRunnableWithProgress getRunnable() {
 		if (getJavaProject() != null) {
-			return monitor -> {
+			return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					configureJavaProject(monitor);
 				} catch (CoreException e) {
@@ -269,7 +269,7 @@ public class JavaCapabilityConfigurationPage extends NewElementWizardPage {
 	 * @throws InterruptedException Thrown when the operation has been canceled.
 	 * @since 3.5
 	 */
-	public void configureJavaProject(String newProjectCompliance, IProgressMonitor monitor) throws CoreException, InterruptedException {
+	public void configureJavaProject(String newProjectCompliance, IProgressMonitor monitor) throws CoreException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}

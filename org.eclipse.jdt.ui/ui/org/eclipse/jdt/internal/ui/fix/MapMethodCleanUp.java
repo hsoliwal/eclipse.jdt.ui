@@ -76,42 +76,42 @@ public class MapMethodCleanUp extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isEnabled(CleanUpConstants.USE_DIRECTLY_MAP_METHOD)) {
-			bld.append("int x = map.size();\n"); //$NON-NLS-1$
-			bld.append("if (map.containsKey(\"hello\")) {\n"); //$NON-NLS-1$
-			bld.append("    map.remove(\"hello\");\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
-			bld.append("map.clear();\n"); //$NON-NLS-1$
-			bld.append("map.clear();\n"); //$NON-NLS-1$
-			bld.append("if (map.isEmpty()) {\n"); //$NON-NLS-1$
+			bld.append("int x = map.size();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("if (map.containsKey(\"hello\")) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    map.remove(\"hello\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("map.clear();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("map.clear();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("if (map.isEmpty()) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("int x = map.keySet().size();\n"); //$NON-NLS-1$
-			bld.append("if (map.keySet().contains(\"hello\")) {\n"); //$NON-NLS-1$
-			bld.append("    map.keySet().remove(\"hello\");\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
-			bld.append("map.keySet().clear();\n"); //$NON-NLS-1$
-			bld.append("map.values().clear();\n"); //$NON-NLS-1$
-			bld.append("if (map.keySet().isEmpty()) {\n"); //$NON-NLS-1$
+			bld.append("int x = map.keySet().size();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("if (map.keySet().contains(\"hello\")) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    map.keySet().remove(\"hello\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("map.keySet().clear();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("map.values().clear();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("if (map.keySet().isEmpty()) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		bld.append("    x++;\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("    x++;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.USE_DIRECTLY_MAP_METHOD)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
-		    @Override
+		    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		    public boolean visit(MethodInvocation mi) {
 		        MethodInvocation miExpression= ASTNodes.as(mi.getExpression(), MethodInvocation.class);
 
@@ -192,7 +192,7 @@ public class MapMethodCleanUp extends AbstractMultiFix {
 			this.methodName= methodName;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -205,7 +205,7 @@ public class MapMethodCleanUp extends AbstractMultiFix {
 				newMethodInvocation.setExpression((Expression) rewrite.createMoveTarget(subAggregateMi.getExpression()));
 			}
 
-			for (Object expression : globalMi.arguments()) {
+			for (Object expression : globalMi.arguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newMethodInvocation.arguments().add(rewrite.createMoveTarget((Expression) expression));
 			}
 

@@ -77,8 +77,8 @@ public class StringCleanUpCore extends AbstractMultiFix {
 		if (compilationUnit == null)
 			return null;
 
-		List<IProblemLocation> coreProblems= new ArrayList<>();
-		for (IProblemLocation problem : problems) {
+		List<IProblemLocation> coreProblems= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IProblemLocation problem : problems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			coreProblems.add(problem);
 		}
 		ICleanUpFix coreFix= StringFixCore.createCleanUp(compilationUnit,
@@ -98,7 +98,7 @@ public class StringCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String[] getStepDescriptions() {
-		List<String> result= new ArrayList<>();
+		List<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.ADD_MISSING_NLS_TAGS))
 			result.add(MultiFixMessages.StringMultiFix_AddMissingNonNls_description);
 		if (isEnabled(CleanUpConstants.REMOVE_UNNECESSARY_NLS_TAGS))
@@ -108,12 +108,12 @@ public class StringCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.REMOVE_UNNECESSARY_NLS_TAGS)) {
-			buf.append("public String s;"); //$NON-NLS-1$
+			buf.append("public String s;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("public String s; //$NON-NLS-1$"); //$NON-NLS-1$
+			buf.append("public String s; //$NON-NLS-1$"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return buf.toString();
@@ -130,7 +130,7 @@ public class StringCleanUpCore extends AbstractMultiFix {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int computeNumberOfFixes(CompilationUnit compilationUnit) {
 		try {
 			ICompilationUnit cu= (ICompilationUnit)compilationUnit.getJavaElement();

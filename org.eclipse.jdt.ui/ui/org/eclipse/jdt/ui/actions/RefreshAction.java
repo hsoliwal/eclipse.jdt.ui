@@ -70,12 +70,12 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class RefreshAction extends SelectionDispatchAction {
+public class RefreshAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * As the JDT  RefreshAction is already API, we have to wrap the workbench action.
 	 */
-	private static class WrappedWorkbenchRefreshAction extends org.eclipse.ui.actions.RefreshAction {
+	private static class WrappedWorkbenchRefreshAction extends org.eclipse.ui.actions.RefreshAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		public WrappedWorkbenchRefreshAction(IShellProvider provider) {
 			super(provider);
@@ -88,15 +88,15 @@ public class RefreshAction extends SelectionDispatchAction {
 				selectedResources= Collections.emptyList(); // Refresh action refreshes root when it can't find any resources in selection
 			}
 
-			ArrayList<IResource> allResources= new ArrayList<>(selectedResources);
+			ArrayList<IResource> allResources= new ArrayList<>(selectedResources); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			addWorkingSetResources(allResources);
 			return allResources;
 		}
 
 		private void addWorkingSetResources(List<IResource> selectedResources) {
-			for (Object curr : getStructuredSelection().toArray()) {
+			for (Object curr : getStructuredSelection().toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr instanceof IWorkingSet) {
-					for (IAdaptable member : ((IWorkingSet) curr).getElements()) {
+					for (IAdaptable member : ((IWorkingSet) curr).getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IResource adapted= member.getAdapter(IResource.class);
 						if (adapted != null) {
 							selectedResources.add(adapted);
@@ -144,12 +144,12 @@ public class RefreshAction extends SelectionDispatchAction {
 		setEnabled(checkEnabled(selection));
 	}
 
-	private boolean checkEnabled(IStructuredSelection selection) {
+	private boolean checkEnabled(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selection.isEmpty())
 			return true;
 
 		boolean okToRefresh= false;
-		for (Object element : selection) {
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ((element instanceof IWorkingSet) // Don't inspect working sets any deeper.
 					|| (element instanceof IPackageFragmentRoot) // On internal folders/JARs we do a normal refresh, and Java archive refresh on external
 					|| (element instanceof PackageFragmentRootContainer)) { // Too expensive to look at children. assume we can refresh
@@ -166,7 +166,7 @@ public class RefreshAction extends SelectionDispatchAction {
 
 	@Override
 	public void run(final IStructuredSelection selection) {
-		IWorkspaceRunnable operation= monitor -> performRefresh(selection, monitor);
+		IWorkspaceRunnable operation= monitor -> performRefresh(selection, monitor); //FLLDCIM: MARK — T09  LAMBDA
 		new WorkbenchRunnableAdapter(operation).runAsUserJob(ActionMessages.RefreshAction_refresh_operation_label, null);
 	}
 
@@ -179,15 +179,15 @@ public class RefreshAction extends SelectionDispatchAction {
 		refreshJavaElements(selection, Progress.subMonitor(monitor, 1));
 	}
 
-	private void refreshJavaElements(IStructuredSelection selection, IProgressMonitor monitor) throws JavaModelException {
-		ArrayList<IJavaElement> javaElements= new ArrayList<>();
-		for (Object curr : selection.toArray()) {
+	private void refreshJavaElements(IStructuredSelection selection, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IJavaElement> javaElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object curr : selection.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof IPackageFragmentRoot) {
 				javaElements.add((IPackageFragmentRoot) curr);
 			} else if (curr instanceof PackageFragmentRootContainer) {
 				javaElements.addAll(Arrays.asList(((PackageFragmentRootContainer) curr).getPackageFragmentRoots()));
 			} else if (curr instanceof IWorkingSet) {
-				for (IAdaptable member : ((IWorkingSet) curr).getElements()) {
+				for (IAdaptable member : ((IWorkingSet) curr).getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IJavaElement adapted= member.getAdapter(IJavaElement.class);
 					if (adapted instanceof IPackageFragmentRoot) {
 						javaElements.add(adapted);

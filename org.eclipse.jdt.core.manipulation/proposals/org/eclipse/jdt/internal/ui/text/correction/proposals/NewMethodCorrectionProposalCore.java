@@ -67,7 +67,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 
 	private List<Expression> fArguments;
 
-	private Map<ITypeBinding, ITypeBinding> fTypeMapping= new HashMap<>();
+	private Map<ITypeBinding, ITypeBinding> fTypeMapping= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	//	invocationNode is MethodInvocation, ConstructorInvocation, SuperConstructorInvocation, ClassInstanceCreation, SuperMethodInvocation
 	public NewMethodCorrectionProposalCore(String label, ICompilationUnit targetCU, ASTNode invocationNode,  List<Expression> arguments, ITypeBinding binding, int relevance) {
@@ -76,7 +76,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		initializeTypeMapping(invocationNode);
 	}
 
-	private void initializeTypeMapping(ASTNode invocationNode) {
+	private void initializeTypeMapping(ASTNode invocationNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (invocationNode instanceof MethodInvocation) {
 			MethodInvocation methodInvocation= (MethodInvocation)invocationNode;
 			Expression methodExpression= methodInvocation.getExpression();
@@ -87,7 +87,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 						ITypeBinding declaringClass= expressionBinding.getTypeDeclaration();
 						ITypeBinding[] declaringClassTypeParameters= declaringClass.getTypeParameters();
 						ITypeBinding[] typeArguments= expressionBinding.getTypeArguments();
-						for (int i= 0; i < typeArguments.length; ++i) {
+						for (int i= 0; i < typeArguments.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							fTypeMapping.put(typeArguments[i], declaringClassTypeParameters[i]);
 						}
 					}
@@ -96,7 +96,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		}
 	}
 
-	protected int evaluateModifiers(ASTNode targetTypeDecl) {
+	protected int evaluateModifiers(ASTNode targetTypeDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getSenderBinding().isAnnotation() || getSenderBinding().isEnum()) {
 			return 0;
 		}
@@ -142,14 +142,14 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		return Modifier.PUBLIC;
 	}
 
-	private int getInterfaceMethodModifiers(ASTNode targetTypeDecl, boolean createAbstractMethod) {
+	private int getInterfaceMethodModifiers(ASTNode targetTypeDecl, boolean createAbstractMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// for interface and annotation members copy the modifiers from an existing member
 		if (targetTypeDecl instanceof TypeDeclaration) {
 			TypeDeclaration type= (TypeDeclaration) targetTypeDecl;
 			MethodDeclaration[] methodDecls= type.getMethods();
 			if (methodDecls.length > 0) {
 				if (createAbstractMethod) {
-					for (MethodDeclaration methodDeclaration : methodDecls) {
+					for (MethodDeclaration methodDeclaration : methodDecls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMethodBinding methodBinding= methodDeclaration.resolveBinding();
 						if (methodBinding != null && JdtFlags.isAbstract(methodBinding)) {
 							return methodDeclaration.getModifiers();
@@ -179,7 +179,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		return node.getNodeType() != ASTNode.METHOD_INVOCATION && node.getNodeType() != ASTNode.SUPER_METHOD_INVOCATION;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected SimpleName getNewName(ASTRewrite rewrite) {
 		ASTNode invocationNode= getInvocationNode();
 		String name;
@@ -209,7 +209,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 			return ((SuperMethodInvocation)node).getName();
 		} else if (node instanceof ClassInstanceCreation) {
 			Type type= ((ClassInstanceCreation)node).getType();
-			while (type instanceof ParameterizedType) {
+			while (type instanceof ParameterizedType) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				type= ((ParameterizedType) type).getType();
 			}
 			return type;
@@ -217,7 +217,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Type getNewMethodType(ASTRewrite rewrite, ImportRewriteContext importRewriteContext) throws CoreException {
 		ASTNode node= getInvocationNode();
 		AST ast= rewrite.getAST();
@@ -259,7 +259,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 
 		addLinkedPosition(rewrite.track(newTypeNode), false, KEY_TYPE);
 		if (otherProposals != null) {
-			for (ITypeBinding otherProposal : otherProposals) {
+			for (ITypeBinding otherProposal : otherProposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addLinkedPositionProposal(KEY_TYPE, otherProposal);
 			}
 		}
@@ -267,23 +267,23 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		return newTypeNode;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addNewParameters(ASTRewrite rewrite, List<String> takenNames, List<SingleVariableDeclaration> params, ImportRewriteContext context) throws CoreException {
 		AST ast= rewrite.getAST();
 
 		List<Expression> arguments= fArguments;
 
-		for (int i= 0; i < arguments.size(); i++) {
+		for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression elem= arguments.get(i);
 			SingleVariableDeclaration param= ast.newSingleVariableDeclaration();
 
 			// argument type
-			String argTypeKey= "arg_type_" + i; //$NON-NLS-1$
+			String argTypeKey= "arg_type_" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			Type type= evaluateParameterType(ast, elem, argTypeKey, context);
 			param.setType(type);
 
 			// argument name
-			String argNameKey= "arg_name_" + i; //$NON-NLS-1$
+			String argNameKey= "arg_name_" + i; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			String name= evaluateParameterName(takenNames, elem, type, argNameKey);
 			param.setName(ast.newSimpleName(name));
 
@@ -301,7 +301,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		}
 		if (binding != null) {
 			binding= getClassTypeParameterBinding(binding);
-			for (ITypeBinding typeProposal : ASTResolving.getRelaxingTypes(ast, binding)) {
+			for (ITypeBinding typeProposal : ASTResolving.getRelaxingTypes(ast, binding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addLinkedPositionProposal(key, typeProposal);
 			}
 			return getImportRewrite().addImport(binding, ast, context, TypeLocation.PARAMETER);
@@ -309,7 +309,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		return ast.newSimpleType(ast.newSimpleName("Object")); //$NON-NLS-1$
 	}
 
-	private ITypeBinding getClassTypeParameterBinding(ITypeBinding binding) {
+	private ITypeBinding getClassTypeParameterBinding(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding[] typeParameters= new ITypeBinding[0];
 		ITypeBinding declaringClassBinding= binding.getDeclaringClass();
 		if (declaringClassBinding != null && declaringClassBinding.isGenericType()) {
@@ -320,7 +320,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 				typeParameters= methodBinding.getTypeParameters();
 			}
 		}
-		for (ITypeBinding typeParameter : typeParameters) {
+		for (ITypeBinding typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (typeParameter.isEqualTo(binding)) {
 				if (fTypeMapping.containsKey(binding)) {
 					return fTypeMapping.get(binding);
@@ -333,7 +333,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 	private String evaluateParameterName(List<String> takenNames, Expression argNode, Type type, String key) {
 		IJavaProject project= getCompilationUnit().getJavaProject();
 		String[] names= StubUtility.getVariableNameSuggestions(NamingConventions.VK_PARAMETER, project, type, argNode, takenNames);
-		for (String name : names) {
+		for (String name : names) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addLinkedPositionProposal(key, name);
 		}
 		String favourite= names[0];
@@ -345,18 +345,18 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 	protected void addNewExceptions(ASTRewrite rewrite, List<Type> exceptions, ImportRewriteContext context) throws CoreException {
 	}
 
-	private void getTypeParameters(ITypeBinding binding, Set<ITypeBinding> typeParametersFound) {
+	private void getTypeParameters(ITypeBinding binding, Set<ITypeBinding> typeParametersFound) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!getClassTypeParameterBinding(binding).isEqualTo(binding)) {
 			return;
 		}
 		IMethodBinding methodBinding= binding.getDeclaringMethod();
 		if (methodBinding != null) {
 			ITypeBinding[] typeParameters= methodBinding.getTypeParameters();
-			for (ITypeBinding typeParameter : typeParameters) {
+			for (ITypeBinding typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (typeParameter.isEqualTo(binding)) {
 					typeParametersFound.add(typeParameter);
 					ITypeBinding[] typeBounds= typeParameter.getTypeBounds();
-					for (ITypeBinding typeBound : typeBounds) {
+					for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						getTypeParameters(typeBound, typeParametersFound);
 					}
 				}
@@ -369,11 +369,11 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 						&& ((MethodInvocation)invocationNode).getExpression() != null
 						&& !(((MethodInvocation)invocationNode).getExpression() instanceof ThisExpression)) {
 					ITypeBinding[] typeParameters= declaringClassBinding.getTypeParameters();
-					for (ITypeBinding typeParameter : typeParameters) {
+					for (ITypeBinding typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (typeParameter.isEqualTo(binding)) {
 							typeParametersFound.add(typeParameter);
 							ITypeBinding[] typeBounds= typeParameter.getTypeBounds();
-							for (ITypeBinding typeBound : typeBounds) {
+							for (ITypeBinding typeBound : typeBounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								getTypeParameters(typeBound, typeParametersFound);
 							}
 						}
@@ -383,7 +383,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void addNewTypeParameters(ASTRewrite rewrite, List<String> takenNames, List<TypeParameter> params,
 			ImportRewriteContext context) throws CoreException {
 		AST ast= rewrite.getAST();
@@ -417,7 +417,7 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 
 		List<Expression> arguments= fArguments;
 
-		for (int i= 0; i < arguments.size(); i++) {
+		for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression elem= arguments.get(i);
 			ITypeBinding binding= Bindings.normalizeTypeBinding(elem.resolveTypeBinding());
 			if (binding != null && binding.isWildcardType()) {
@@ -428,13 +428,13 @@ public class NewMethodCorrectionProposalCore extends AbstractMethodCorrectionPro
 			}
 		}
 
-		for (ITypeBinding m : typeParametersFound) {
+		for (ITypeBinding m : typeParametersFound) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeParameter newTypeParameter= ast.newTypeParameter();
 			newTypeParameter.setName(ast.newSimpleName(m.getName()));
 			params.add(newTypeParameter);
 			ITypeBinding[] bounds= m.getTypeBounds();
 			List<Type> newTypeBounds= newTypeParameter.typeBounds();
-			for (ITypeBinding bound : bounds) {
+			for (ITypeBinding bound : bounds) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Type t= getImportRewrite().addImport(bound, ast, context, TypeLocation.TYPE_PARAMETER);
 				newTypeBounds.add(t);
 			}

@@ -39,7 +39,7 @@ public class LocalDeclarationAnalyzer extends ASTVisitor {
 
 	private LocalDeclarationAnalyzer(Selection selection) {
 		fSelection= selection;
-		fAffectedLocals= new ArrayList<>(1);
+		fAffectedLocals= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override

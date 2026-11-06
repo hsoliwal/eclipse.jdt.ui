@@ -45,7 +45,7 @@ public abstract class UndoEditorTest extends TextPerformanceTestCase {
 		fPerformanceMeter.dispose();
 	}
 
-	protected void measureUndo(IFile file) throws PartInitException {
+	protected void measureUndo(IFile file) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AbstractTextEditor editor= (AbstractTextEditor) EditorTestHelper.openInEditor(file, true);
 		editor.showChangeInformation(false); // TODO: remove when undo does no longer trigger timing issue
 
@@ -54,7 +54,7 @@ public abstract class UndoEditorTest extends TextPerformanceTestCase {
 		IAction undo= editor.getAction(ITextEditorActionConstants.UNDO);
 		int warmUpRuns= getWarmUpRuns();
 		int measuredRuns= getMeasuredRuns();
-		for (int i= 0; i < warmUpRuns + measuredRuns; i++) {
+		for (int i= 0; i < warmUpRuns + measuredRuns; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			runAction(selectAll);
 			runAction(shiftRight);
 			sleep(5000);

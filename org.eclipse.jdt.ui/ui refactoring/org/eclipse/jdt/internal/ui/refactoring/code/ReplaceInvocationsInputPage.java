@@ -61,7 +61,7 @@ public class ReplaceInvocationsInputPage extends UserInputWizardPage {
 		super(PAGE_NAME);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		fRefactoring= (ReplaceInvocationsRefactoring) getRefactoring();
@@ -89,7 +89,7 @@ public class ReplaceInvocationsInputPage extends UserInputWizardPage {
 //		replaceAll.setEnabled(canSingle);
 		replaceAll.setEnabled(false); // does not work for now...
 		replaceAll.setSelection(! canSingle);
-		replaceAll.addSelectionListener(new SelectionAdapter() {
+		replaceAll.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				boolean all= ((Button) event.widget).getSelection();
@@ -106,7 +106,7 @@ public class ReplaceInvocationsInputPage extends UserInputWizardPage {
 		signatureViewer.getDocument().set(signatureLabel);
 	}
 
-	private void createBody(Composite parent) {
+	private void createBody(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPreferenceStore store= JavaPlugin.getDefault().getCombinedPreferenceStore();
 		JavaSourceViewer bodyEditor= new JavaSourceViewer(parent, null, null, false, SWT.V_SCROLL | SWT.WRAP | SWT.BORDER, store);
 		bodyEditor.configure(new JavaSourceViewerConfiguration(JavaPlugin.getDefault().getJavaTextTools().getColorManager(), store, null, null));
@@ -123,7 +123,7 @@ public class ReplaceInvocationsInputPage extends UserInputWizardPage {
 		bodyControl.setLayoutData(gdata);
 		bodyControl.setFocus();
 
-		bodyDocument.addDocumentListener(new IDocumentListener() {
+		bodyDocument.addDocumentListener(new IDocumentListener() { //FLLDCIM: MARK — T28 DOCUMENT_DELTA CALL
 			@Override
 			public void documentAboutToBeChanged(DocumentEvent event) {
 			}

@@ -42,7 +42,7 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 
 import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 
-public class AddAnnotationProposal implements IJavaCompletionProposal {
+public class AddAnnotationProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final IInvocationContext fContext;
 	private final MethodDeclaration fMethodDecl;
@@ -56,7 +56,7 @@ public class AddAnnotationProposal implements IJavaCompletionProposal {
 		fAnnotationSimpleName = annotationSimpleName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 		try {
 			CompilationUnit astRoot = fContext.getASTRoot();

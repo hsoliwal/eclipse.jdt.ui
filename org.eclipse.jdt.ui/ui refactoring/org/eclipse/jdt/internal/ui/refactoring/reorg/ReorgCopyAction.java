@@ -39,7 +39,7 @@ import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 
 
-public class ReorgCopyAction extends SelectionDispatchAction {
+public class ReorgCopyAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public ReorgCopyAction(IWorkbenchSite site) {
 		super(site);
@@ -49,7 +49,7 @@ public class ReorgCopyAction extends SelectionDispatchAction {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this, IJavaHelpContextIds.COPY_ACTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IStructuredSelection selection) {
 		if (!selection.isEmpty()) {
 			if (ReorgUtilsCore.containsOnlyProjects(selection.toList())) {

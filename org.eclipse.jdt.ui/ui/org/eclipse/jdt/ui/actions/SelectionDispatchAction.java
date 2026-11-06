@@ -54,7 +54,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public abstract class SelectionDispatchAction extends Action implements ISelectionChangedListener {
+public abstract class SelectionDispatchAction extends Action implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private IWorkbenchSite fSite;
 	private ISelectionProvider fSpecialSelectionProvider;

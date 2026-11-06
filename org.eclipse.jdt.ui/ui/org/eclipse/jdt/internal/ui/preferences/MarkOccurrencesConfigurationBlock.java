@@ -58,7 +58,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 	private OverlayPreferenceStore fStore;
 
 
-	private Map<Button, String> fCheckBoxes= new HashMap<>();
+	private Map<Button, String> fCheckBoxes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private SelectionListener fCheckBoxListener= new SelectionListener() {
 		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
@@ -76,7 +76,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 	 * @see #createDependency(Button, String, Control)
 	 * @since 3.0
 	 */
-	private ArrayList<SelectionListener> fMasterSlaveListeners= new ArrayList<>();
+	private ArrayList<SelectionListener> fMasterSlaveListeners= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private StatusInfo fStatus;
 
@@ -87,9 +87,9 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 		fStore.addKeys(createOverlayStoreKeys());
 	}
 
-	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
+	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_MARK_OCCURRENCES));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_MARK_TYPE_OCCURRENCES));
@@ -114,7 +114,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 	 * @param parent the parent composite
 	 * @return the control for the preference page
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createControl(final Composite parent) {
 
 		Composite composite= new Composite(parent, SWT.NONE);
@@ -126,7 +126,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 
 		Link link= new Link(composite, SWT.NONE);
 		link.setText(PreferencesMessages.MarkOccurrencesConfigurationBlock_link);
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String data= null;
@@ -209,7 +209,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 		gd.horizontalIndent= indentation;
 		gd.horizontalSpan= 2;
 		checkBox.setLayoutData(gd);
-		checkBox.addSelectionListener(fCheckBoxListener);
+		checkBox.addSelectionListener(fCheckBoxListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fCheckBoxes.put(checkBox, key);
 
@@ -229,7 +229,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {}
 		};
-		master.addSelectionListener(listener);
+		master.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		fMasterSlaveListeners.add(listener);
 	}
 
@@ -247,7 +247,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 	void initializeFields() {
 
 		Iterator<Button> iter= fCheckBoxes.keySet().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Button b= iter.next();
 			String key= fCheckBoxes.get(b);
 			b.setSelection(fStore.getBoolean(key));
@@ -255,7 +255,7 @@ class MarkOccurrencesConfigurationBlock implements IPreferenceConfigurationBlock
 
         // Update slaves
         Iterator<SelectionListener> iter2= fMasterSlaveListeners.iterator();
-        while (iter2.hasNext()) {
+        while (iter2.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             SelectionListener listener= iter2.next();
 			listener.widgetSelected((SelectionEvent) null);
         }

@@ -47,7 +47,7 @@ import org.eclipse.jdt.internal.corext.util.Messages;
 
 public class NLSPropertyFileModifier {
 
-	public static Change create(NLSSubstitution[] nlsSubstitutions, IPath propertyFilePath) throws CoreException {
+	public static Change create(NLSSubstitution[] nlsSubstitutions, IPath propertyFilePath) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		String name= Messages.format(NLSMessages.NLSPropertyFileModifier_change_name, BasicElementLabels.getPathLabel(propertyFilePath, false));
 		TextChange textChange= null;
@@ -89,7 +89,7 @@ public class NLSPropertyFileModifier {
 
 		PropertyFileDocumentModel model= new PropertyFileDocumentModel(textChange.getCurrentDocument(new NullProgressMonitor()));
 
-		for (String key : keys) {
+		for (String key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TextEdit edit= model.remove(key);
 			if (edit != null) {
 				TextChangeCompatibility.addTextEdit(textChange, Messages.format(NLSMessages.NLSPropertyFileModifier_remove_entry, BasicElementLabels.getJavaElementName(key)), edit);
@@ -126,9 +126,9 @@ public class NLSPropertyFileModifier {
 	 * @return the map containing the substitutions
 	 */
 	static HashMap<String, NLSSubstitution> getNewKeyToSubstitutionMap(NLSSubstitution[] substitutions) {
-		HashMap<String, NLSSubstitution> keyToSubstMap= new HashMap<>(substitutions.length);
+		HashMap<String, NLSSubstitution> keyToSubstMap= new HashMap<>(substitutions.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		// find all duplicates
-		for (NLSSubstitution curr : substitutions) {
+		for (NLSSubstitution curr : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getState() == NLSSubstitution.EXTERNALIZED) {
 				NLSSubstitution val= keyToSubstMap.get(curr.getKey());
 				if (val == null || (val.hasPropertyFileChange() && !curr.hasPropertyFileChange())) {
@@ -146,9 +146,9 @@ public class NLSPropertyFileModifier {
 	 * @return the map containing the substitutions
 	 */
 	static HashMap<String, NLSSubstitution> getOldKeyToSubstitutionMap(NLSSubstitution[] substitutions) {
-		HashMap<String, NLSSubstitution> keyToSubstMap= new HashMap<>(substitutions.length);
+		HashMap<String, NLSSubstitution> keyToSubstMap= new HashMap<>(substitutions.length); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		// find all duplicates
-		for (NLSSubstitution curr : substitutions) {
+		for (NLSSubstitution curr : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getInitialState() == NLSSubstitution.EXTERNALIZED) {
 				String key= curr.getInitialKey();
 				if (key != null) {
@@ -178,12 +178,12 @@ public class NLSPropertyFileModifier {
 	}
 
 	private static void addReplaceEdits(TextChange textChange, NLSSubstitution[] substitutions, Map<String, NLSSubstitution> newKeyToSubstMap, Map<String, NLSSubstitution> oldKeyToSubstMap, PropertyFileDocumentModel model) {
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (doReplace(substitution, newKeyToSubstMap, oldKeyToSubstMap)) {
 				KeyValuePair initialPair= new KeyValuePair(substitution.getInitialKey(), substitution.getInitialValue());
 
 				String key= PropertyFileDocumentModel.escape(substitution.getKey(), false);
-				String value= PropertyFileDocumentModel.escape(substitution.getValueNonEmpty(), true) + model.getLineDelimiter();
+				String value= PropertyFileDocumentModel.escape(substitution.getValueNonEmpty(), true) + model.getLineDelimiter(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				KeyValuePair newPair= new KeyValuePair(key, value);
 				TextEdit edit= model.replace(initialPair, newPair);
 				if (edit != null) {
@@ -209,11 +209,11 @@ public class NLSPropertyFileModifier {
 	}
 
 	private static void addInsertEdits(TextChange textChange, NLSSubstitution[] substitutions, Map<String, NLSSubstitution> newKeyToSubstMap, Map<String, NLSSubstitution> oldKeyToSubstMap, PropertyFileDocumentModel model) {
-		ArrayList<KeyValuePair> keyValuePairsToAdd= new ArrayList<>();
+		ArrayList<KeyValuePair> keyValuePairsToAdd= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (doInsert(substitution, newKeyToSubstMap, oldKeyToSubstMap)) {
-				String value= PropertyFileDocumentModel.escape(substitution.getValueNonEmpty(), true) + model.getLineDelimiter();
+				String value= PropertyFileDocumentModel.escape(substitution.getValueNonEmpty(), true) + model.getLineDelimiter(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				String key= PropertyFileDocumentModel.escape(substitution.getKey(), false);
 				keyValuePairsToAdd.add(new KeyValuePair(key, value));
 			}
@@ -239,7 +239,7 @@ public class NLSPropertyFileModifier {
 	}
 
 	private static void addRemoveEdits(TextChange textChange, NLSSubstitution[] substitutions, Map<String, NLSSubstitution> newKeyToSubstMap, Map<String, NLSSubstitution> oldKeyToSubstMap, PropertyFileDocumentModel model) {
-		for (NLSSubstitution substitution : substitutions) {
+		for (NLSSubstitution substitution : substitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (doRemove(substitution, newKeyToSubstMap, oldKeyToSubstMap)) {
 				TextEdit edit= model.remove(substitution.getInitialKey());
 				if (edit != null) {

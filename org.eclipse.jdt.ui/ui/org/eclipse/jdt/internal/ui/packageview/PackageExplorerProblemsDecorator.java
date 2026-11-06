@@ -32,14 +32,14 @@ public class PackageExplorerProblemsDecorator extends TreeHierarchyLayoutProblem
 		super(isFlatLayout);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int computeAdornmentFlags(Object obj) {
 		if (!(obj instanceof IWorkingSet))
 			return super.computeAdornmentFlags(obj);
 
 		IWorkingSet workingSet= (IWorkingSet)obj;
 		int result= 0;
-		for (IAdaptable element : workingSet.getElements()) {
+		for (IAdaptable element : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int flags= super.computeAdornmentFlags(element);
 			if ((flags & JavaElementImageDescriptor.BUILDPATH_ERROR) != 0)
 				return JavaElementImageDescriptor.BUILDPATH_ERROR;

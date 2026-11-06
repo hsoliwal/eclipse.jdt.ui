@@ -60,7 +60,7 @@ public class DialogsTest2 extends TestCase {
 	private Shell getShell() {
 		return DialogCheck.getShell();
 	}
-	public void testCheckedTreeSelectionDialog() throws Exception {
+	public void testCheckedTreeSelectionDialog() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject jproject= JavaProjectHelper.createJavaProject(PROJECT_NAME, "bin");
 		JavaProjectHelper.addSourceContainer(jproject, "src1");
 		Object initSelection= JavaProjectHelper.addSourceContainer(jproject, "src2");
@@ -83,7 +83,7 @@ public class DialogsTest2 extends TestCase {
 		DialogCheck.assertDialog(dialog);
 
 		System.out.println("Result:");
-		for (Object checkedElement : dialog.getResult()) {
+		for (Object checkedElement : dialog.getResult()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			System.out.println(labelProvider.getText(checkedElement));
 		}
 

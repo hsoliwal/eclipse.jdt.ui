@@ -59,7 +59,7 @@ public class JavaElement extends ASTAttribute {
 			return ">java element: null"; //$NON-NLS-1$
 		} else {
 			String classname= fJavaElement.getClass().getName();
-			return "> " + classname.substring(classname.lastIndexOf('.') + 1) + ": " //$NON-NLS-1$ //$NON-NLS-2$
+			return "> " + classname.substring(classname.lastIndexOf('.') + 1) + ": " //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ JavaElementLabels.getElementLabel(fJavaElement, LABEL_OPTIONS)
 					+ (fJavaElement.exists() ? "" : " (does not exist)");  //$NON-NLS-1$//$NON-NLS-2$
 		}
@@ -75,7 +75,7 @@ public class JavaElement extends ASTAttribute {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

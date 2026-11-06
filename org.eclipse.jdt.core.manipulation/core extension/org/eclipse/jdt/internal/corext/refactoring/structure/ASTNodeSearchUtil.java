@@ -70,8 +70,8 @@ public class ASTNodeSearchUtil {
 	}
 
 	public static ASTNode[] getAstNodes(SearchMatch[] searchResults, CompilationUnit cuNode) {
-		List<ASTNode> result= new ArrayList<>(searchResults.length);
-		for (SearchMatch searchResult : searchResults) {
+		List<ASTNode> result= new ArrayList<>(searchResults.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchMatch searchResult : searchResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= getAstNode(searchResult, cuNode);
 			if (node != null)
 				result.add(node);
@@ -88,7 +88,7 @@ public class ASTNodeSearchUtil {
 		return selectedNode;
 	}
 
-	public static ASTNode getAstNode(CompilationUnit cuNode, int start, int length){
+	public static ASTNode getAstNode(CompilationUnit cuNode, int start, int length){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SelectionAnalyzer analyzer= new SelectionAnalyzer(Selection.createFromStartLength(start, length), true);
 		cuNode.accept(analyzer);
 		//XXX workaround for jdt core feature 23527
@@ -195,7 +195,7 @@ public class ASTNodeSearchUtil {
 
 	//returns an array because of the import container, which does not represent 1 node but many
 	//for fields, it returns the whole declaration node
-	public static ASTNode[] getDeclarationNodes(IJavaElement element, CompilationUnit cuNode) throws JavaModelException {
+	public static ASTNode[] getDeclarationNodes(IJavaElement element, CompilationUnit cuNode) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch(element.getElementType()){
 			case IJavaElement.FIELD:
 				return new ASTNode[]{getFieldOrEnumConstantDeclaration((IField) element, cuNode)};
@@ -232,7 +232,7 @@ public class ASTNodeSearchUtil {
 	public static ASTNode[] getImportNodes(IImportContainer reference, CompilationUnit cuNode) throws JavaModelException {
 		IJavaElement[] imps= reference.getChildren();
 		ASTNode[] result= new ASTNode[imps.length];
-		for (int i= 0; i < imps.length; i++) {
+		for (int i= 0; i < imps.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getImportDeclarationNode((IImportDeclaration)imps[i], cuNode);
 		}
 		return result;
@@ -257,8 +257,8 @@ public class ASTNodeSearchUtil {
 	}
 
 	public static ASTNode[] findNodes(SearchMatch[] searchResults, CompilationUnit cuNode) {
-		List<ASTNode> result= new ArrayList<>(searchResults.length);
-		for (SearchMatch searchResult : searchResults) {
+		List<ASTNode> result= new ArrayList<>(searchResults.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (SearchMatch searchResult : searchResults) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= findNode(searchResult, cuNode);
 			if (node != null)
 				result.add(node);

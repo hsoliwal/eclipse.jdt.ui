@@ -29,7 +29,7 @@ import org.eclipse.ui.actions.ActionGroup;
 
 public class WorkingSetShowActionGroup extends ActionGroup implements IWorkingSetActionGroup {
 
-	private List<IContributionItem> fContributions= new ArrayList<>();
+	private List<IContributionItem> fContributions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private ConfigureWorkingSetAction fConfigureWorkingSetAction;
 	private WorkingSetModel fWorkingSetModel;
 	private final IWorkbenchPartSite fSite;
@@ -63,7 +63,7 @@ public class WorkingSetShowActionGroup extends ActionGroup implements IWorkingSe
 
 	@Override
 	public void cleanViewMenu(IMenuManager menuManager) {
-		for (IContributionItem iContributionItem : fContributions) {
+		for (IContributionItem iContributionItem : fContributions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContributionItem removed= menuManager.remove(iContributionItem);
 			if (removed != null) {
 				removed.dispose();

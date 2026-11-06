@@ -102,7 +102,7 @@ public final class RenameSourceFolderProcessor extends JavaRenameProcessor {
 
 	@Override
 	public Object getNewElement() throws CoreException {
-		for (IPackageFragmentRoot root : fSourceFolder.getJavaProject().getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : fSourceFolder.getJavaProject().getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (root.getElementName().equals(getNewElementName())) {
 				return root;
 			}
@@ -139,7 +139,7 @@ public final class RenameSourceFolderProcessor extends JavaRenameProcessor {
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkNewElementName(String newName) throws CoreException {
 		Assert.isNotNull(newName, "new name"); //$NON-NLS-1$
 		if (! newName.trim().equals(newName))
@@ -185,7 +185,7 @@ public final class RenameSourceFolderProcessor extends JavaRenameProcessor {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor monitor) throws CoreException {
 		monitor.beginTask(RefactoringCoreMessages.RenameTypeRefactoring_creating_change, 1);
 		try {

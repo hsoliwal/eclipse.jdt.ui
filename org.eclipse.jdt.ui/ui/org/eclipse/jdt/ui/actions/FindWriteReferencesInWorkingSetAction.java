@@ -38,7 +38,7 @@ import org.eclipse.jdt.internal.ui.search.SearchMessages;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class FindWriteReferencesInWorkingSetAction extends FindReferencesInWorkingSetAction {
+public class FindWriteReferencesInWorkingSetAction extends FindReferencesInWorkingSetAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	/**
 	 * Creates a new <code>FindWriteReferencesInWorkingSetAction</code>. The action

@@ -23,7 +23,7 @@ import org.eclipse.jdt.ui.text.java.correction.ASTRewriteCorrectionProposal;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class MakeLocalVariableNonNullProposal extends ASTRewriteCorrectionProposal {
+public class MakeLocalVariableNonNullProposal extends ASTRewriteCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public MakeLocalVariableNonNullProposal(ICompilationUnit targetCU, IVariableBinding varBinding, CompilationUnit astRoot, int relevance, String nonNullAnnotationName) {
 		super("", targetCU, null, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), //$NON-NLS-1$

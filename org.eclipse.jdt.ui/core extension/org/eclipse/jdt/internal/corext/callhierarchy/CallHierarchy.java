@@ -124,7 +124,7 @@ public class CallHierarchy {
     public boolean isIgnored(String fullyQualifiedName) {
         StringMatcher[] ignoreFilters= getIgnoreFilters();
         if (ignoreFilters != null) {
-            for (StringMatcher ignoreFilter : ignoreFilters) {
+            for (StringMatcher ignoreFilter : ignoreFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 if (ignoreFilter.match(fullyQualifiedName)) {
                     return true;
                 }

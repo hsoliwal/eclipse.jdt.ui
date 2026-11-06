@@ -66,7 +66,7 @@ public class ParametricStructureComputer {
 			if (this == NONE)
 				return "NONE"; //$NON-NLS-1$
 			else
-				return "ParamStructure " + fBase.toString() + '<' + Arrays.asList(fParameters) + '>'; //$NON-NLS-1$
+				return "ParamStructure " + fBase.toString() + '<' + Arrays.asList(fParameters) + '>'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -94,9 +94,9 @@ public class ParametricStructureComputer {
 
 	private void dumpContainerStructure() {
 		System.out.println("\n*** Container Structure: ***\n"); //$NON-NLS-1$
-		for (ConstraintVariable2 v : fAllConstraintVariables) {
+		for (ConstraintVariable2 v : fAllConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elemStructure(v) != null && (elemStructure(v) != ParametricStructure.NONE))
-				System.out.println("elemStructure(" + v.toString() + ") = " + elemStructure(v)); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println("elemStructure(" + v.toString() + ") = " + elemStructure(v)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		System.out.println();
 	}
@@ -111,10 +111,10 @@ public class ParametricStructureComputer {
 	}
 
 	//TODO hard-wired to collections
-	private void initializeContainerStructure(){
+	private void initializeContainerStructure(){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (DEBUG_INITIALIZATION)
 			System.out.println("  *** Seeding container structure ***"); //$NON-NLS-1$
-		for (ConstraintVariable2 v : fAllConstraintVariables) {
+		for (ConstraintVariable2 v : fAllConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType varType= declaredTypeOf(v);
 
 			if (varType != null) {
@@ -123,11 +123,11 @@ public class ParametricStructureComputer {
 				// with formal arguments of binary methods, to permit passing
 				// List<String> to a binary method taking a raw List.
 				if (isParametricType(varType) && !isUnmodifiableFieldOrMethod(v)) {
-					if (DEBUG_INITIALIZATION) System.out.println("Entity has           container structure: " + v); //$NON-NLS-1$
+					if (DEBUG_INITIALIZATION) System.out.println("Entity has           container structure: " + v); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					setStructureAndPush(v, newParametricType(varType));
 				} else if (!mightBeParametric(varType)) {
 					// Not a supertype of any container type - can't have container structure
-					if (DEBUG_INITIALIZATION) System.out.println("Entity DOES NOT have container structure: " + v); //$NON-NLS-1$
+					if (DEBUG_INITIALIZATION) System.out.println("Entity DOES NOT have container structure: " + v); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					setStructureAndPush(v, ParametricStructure.NONE);
 				}
 				// else we're not sure yet whether this has container structure
@@ -167,7 +167,7 @@ public class ParametricStructureComputer {
 		//  - elemStructure(v) == null:                       we know nothing yet about its structure
 	}
 
-	protected static TType declaredTypeOf(ConstraintVariable2 cv) {
+	protected static TType declaredTypeOf(ConstraintVariable2 cv) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//TODO: record original type of CollectionElementVariable2 iff source already had type parameter
 		return cv.getType();
 
@@ -195,7 +195,7 @@ public class ParametricStructureComputer {
 		return isParametricType(type);//TODO check this is the only case?
 	}
 
-	private void computeContainerStructure() {
+	private void computeContainerStructure() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (DEBUG_INITIALIZATION)
 			System.out.println("\n*** Computing Container Structure ***\n"); //$NON-NLS-1$
 
@@ -204,10 +204,10 @@ public class ParametricStructureComputer {
 		if (DEBUG_INITIALIZATION)
 			dumpContainerStructure();
 
-		while (!fWorkList2.isEmpty()) {
+		while (!fWorkList2.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ConstraintVariable2 v= fWorkList2.pop();
 
-			for (ITypeConstraint2 constraint : fTCModel.getUsedIn(v)) {
+			for (ITypeConstraint2 constraint : fTCModel.getUsedIn(v)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SubTypeConstraint2 stc= (SubTypeConstraint2) constraint;
 
 				ConstraintVariable2 lhs= stc.getLeft();
@@ -219,7 +219,7 @@ public class ParametricStructureComputer {
 			TypeEquivalenceSet typeEquivalenceSet= v.getTypeEquivalenceSet();
 			if (typeEquivalenceSet != null) {
 				ConstraintVariable2[] contributingVariables= typeEquivalenceSet.getContributingVariables();
-				for (int i= 0; i + 1 < contributingVariables.length; i++) {
+				for (int i= 0; i + 1 < contributingVariables.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ConstraintVariable2 first= contributingVariables[i];
 					ConstraintVariable2 second= contributingVariables[i + 1];
 
@@ -231,13 +231,13 @@ public class ParametricStructureComputer {
 			dumpContainerStructure();
 	}
 
-	private void unifyContainerStructure(ConstraintVariable2 lhs, ConstraintVariable2 rhs) {
+	private void unifyContainerStructure(ConstraintVariable2 lhs, ConstraintVariable2 rhs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// RMF 8/19/2004 - exclude propagation through unmodifiable fields/methods
 		if (isUnmodifiableFieldOrMethod(lhs) || isUnmodifiableFieldOrMethod(rhs))
 			return;
 
 		if (DEBUG_INITIALIZATION)
-			System.out.println("Examining constraint " + lhs + " {" + elemStructure(lhs) + "} <= " + rhs + " {" + elemStructure(rhs) + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			System.out.println("Examining constraint " + lhs + " {" + elemStructure(lhs) + "} <= " + rhs + " {" + elemStructure(rhs) + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (updateStructureOfVar(lhs, elemStructure(rhs), TypeOperator.SubType)) {
 			if (lhs instanceof CollectionElementVariable2)
@@ -271,7 +271,7 @@ public class ParametricStructureComputer {
 	 * Updates the structure of the i'th type parameter of the given ParametricStructure
 	 * to be consistent with that of 'otherStructure'.
 	 */
-	private boolean updateStructureOfIthParamFrom(ParametricStructure structure1, int i, ParametricStructure otherStructure) {
+	private boolean updateStructureOfIthParamFrom(ParametricStructure structure1, int i, ParametricStructure otherStructure) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((otherStructure == null)) // no structure info to use to update 'structure1'
 			return false;
 
@@ -281,7 +281,7 @@ public class ParametricStructureComputer {
 
 		if (param1 == null) {
 			if (DEBUG_INITIALIZATION)
-				System.out.println("  setting param " + i + " of " + structure1 + " to " + otherStructure); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				System.out.println("  setting param " + i + " of " + structure1 + " to " + otherStructure); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			structure1.getParameters()[i]= otherStructure;
 			return true;
 		}
@@ -312,7 +312,7 @@ public class ParametricStructureComputer {
 		// Propagate structure from container variable to any subsidiary element variables
 		if (elemStructure(v) != ParametricStructure.NONE && fTCModel.getElementVariables(v).size() > 0) {
 			ParametricStructure t= elemStructure(v);
-			for (CollectionElementVariable2 typeVar : fTCModel.getElementVariables(v).values()) {
+			for (CollectionElementVariable2 typeVar : fTCModel.getElementVariables(v).values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int declarationTypeVariableIndex= typeVar.getDeclarationTypeVariableIndex();
 
 				if (declarationTypeVariableIndex != CollectionElementVariable2.NOT_DECLARED_TYPE_VARIABLE_INDEX)
@@ -325,7 +325,7 @@ public class ParametricStructureComputer {
 	 * Updates the structure of the parent container variable of the given
 	 * CollectionElementVariable2 from the structure of 'v1'.
 	 */
-	private void updateParentContainerStructureFrom(CollectionElementVariable2 elemVar, ConstraintVariable2 v1) {
+	private void updateParentContainerStructureFrom(CollectionElementVariable2 elemVar, ConstraintVariable2 v1) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ConstraintVariable2 elemContainer= elemVar.getParentConstraintVariable();
 
 		// This could be something that appears like it should have container
@@ -356,7 +356,7 @@ public class ParametricStructureComputer {
 			setStructureAndPush(elemVar, elemContainerStructure.getParameters()[parmIdx]);
 			fWorkList2.push(elemContainer);
 			if (DEBUG_INITIALIZATION)
-				System.out.println("  updated structure of " + elemContainer + " to " + elemContainerStructure); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println("  updated structure of " + elemContainer + " to " + elemContainerStructure); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -364,7 +364,7 @@ public class ParametricStructureComputer {
 		if (containingStructure == null)
 			return false;
 
-		for (ParametricStructure parameter : containingStructure.getParameters()) {
+		for (ParametricStructure parameter : containingStructure.getParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parameter == subStructure
 					|| containsSubStructure(parameter, subStructure)) {
 				return true;
@@ -378,7 +378,7 @@ public class ParametricStructureComputer {
 	 * copying the structure of type2's parameters (or its parameters' parameters)
 	 * into type1's parameters.
 	 */
-	private boolean updateStructureOfType(ParametricStructure type1, ParametricStructure type2) {
+	private boolean updateStructureOfType(ParametricStructure type1, ParametricStructure type2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type1 == null || type2 == null)
 			return false;
 
@@ -388,7 +388,7 @@ public class ParametricStructureComputer {
 
 		Assert.isTrue(parms1.length == parms2.length);
 
-		for(int i=0; i < parms1.length; i++) {
+		for(int i=0; i < parms1.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type1 == parms2[i]) { // avoid creating cyclic structures!
 				if (parms1[i] != ParametricStructure.NONE) {
 					parms1[i]= ParametricStructure.NONE;
@@ -420,7 +420,7 @@ public class ParametricStructureComputer {
 	 * with the structure of 'type2', in accordance with the given TypeOperator.
 	 * If any changes are made, pushes the variable onto fWorkList2.
 	 */
-	private boolean updateStructureOfVar(ConstraintVariable2 v, ParametricStructure type2, TypeOperator op) {
+	private boolean updateStructureOfVar(ConstraintVariable2 v, ParametricStructure type2, TypeOperator op) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((type2 == null)) // no structure info to use to update 'v'
 			return false ;
 
@@ -429,7 +429,7 @@ public class ParametricStructureComputer {
 
 		if ((vStructure == null)) {
 			if (DEBUG_INITIALIZATION)
-				System.out.println("  setting structure of " + v + " to " + type2); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println("  setting structure of " + v + " to " + type2); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			setStructureAndPush(v, type2);
 			return true;
 		}
@@ -470,14 +470,14 @@ public class ParametricStructureComputer {
 		return fElemStructureEnv.elemStructure(v);
 	}
 
-	public Collection<CollectionElementVariable2> createElemConstraintVariables() {
-		Collection<CollectionElementVariable2> newVars= new HashSet<>();
+	public Collection<CollectionElementVariable2> createElemConstraintVariables() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Collection<CollectionElementVariable2> newVars= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		computeContainerStructure();
 
 		if (DEBUG_INITIALIZATION)
 			System.out.println("\n*** Creating Element Variables: ***\n"); //$NON-NLS-1$
-		for (ConstraintVariable2 constraintVariable : fAllConstraintVariables) {
+		for (ConstraintVariable2 constraintVariable : fAllConstraintVariables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newVars.addAll(createVariablesFor(constraintVariable));
 		}
 
@@ -508,7 +508,7 @@ public class ParametricStructureComputer {
 		if (isParametricType(base)) {
 			return createAndInitVars(v, parmType);
 		}
-		throw new IllegalStateException("Attempt to create element variables for parametric variable of unknown type: " + parmType); //$NON-NLS-1$
+		throw new IllegalStateException("Attempt to create element variables for parametric variable of unknown type: " + parmType); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private Collection<CollectionElementVariable2> getElementVariables(GenericType base, ConstraintVariable2 parent) {
@@ -525,25 +525,25 @@ public class ParametricStructureComputer {
 		return result;
 	}
 
-	private Collection<CollectionElementVariable2> createVars(Collection<CollectionElementVariable2> cvs, ParametricStructure[] parms) {
+	private Collection<CollectionElementVariable2> createVars(Collection<CollectionElementVariable2> cvs, ParametricStructure[] parms) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parms.length > 0) { // happens, e.g., for Properties (non-parametric)
 //			Assert.isTrue(cvs.size() == parms.length, "cvs.length==" + cvs.size() + " parms.length=" + parms.length); //assumption is wrong in presence of NOT_DECLARED_TYPE_VARIABLE_INDEX
-			for (CollectionElementVariable2 childVar : cvs) {
+			for (CollectionElementVariable2 childVar : cvs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int declarationTypeVariableIndex= childVar.getDeclarationTypeVariableIndex();
 
 				if (declarationTypeVariableIndex != CollectionElementVariable2.NOT_DECLARED_TYPE_VARIABLE_INDEX)
 					setElemStructure(childVar, parms[declarationTypeVariableIndex]);
 			}
 		} else {
-			for (CollectionElementVariable2 childVar : cvs) {
+			for (CollectionElementVariable2 childVar : cvs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int declarationTypeVariableIndex= childVar.getDeclarationTypeVariableIndex();
 
 				if (declarationTypeVariableIndex != CollectionElementVariable2.NOT_DECLARED_TYPE_VARIABLE_INDEX)
 					setElemStructure(childVar, ParametricStructure.NONE);
 			}
 		}
-		List<CollectionElementVariable2> result= new ArrayList<>(cvs.size() * 2);//roughly
-		for (CollectionElementVariable2 childVar : cvs) {
+		List<CollectionElementVariable2> result= new ArrayList<>(cvs.size() * 2);//roughly //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CollectionElementVariable2 childVar : cvs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int declarationTypeVariableIndex= childVar.getDeclarationTypeVariableIndex();
 
 			if (declarationTypeVariableIndex != CollectionElementVariable2.NOT_DECLARED_TYPE_VARIABLE_INDEX) {

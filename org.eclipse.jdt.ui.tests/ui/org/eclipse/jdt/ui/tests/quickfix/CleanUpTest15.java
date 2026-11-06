@@ -48,7 +48,7 @@ public class CleanUpTest15 extends CleanUpTestCase {
 		return projectSetup.getDefaultClasspath();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -308,7 +308,7 @@ public class CleanUpTest15 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatToTextBlock2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -579,7 +579,7 @@ public class CleanUpTest15 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatInAnnotation1() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/824
 		IJavaProject project1= getProject();
 		JavaProjectHelper.addLibrary(project1, new Path(Java15ProjectTestSetup.getJdtAnnotations20Path()));
@@ -649,7 +649,7 @@ public class CleanUpTest15 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testConcatInAnnotation2() throws Exception { // https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/824
 		IJavaProject project1= getProject();
 		JavaProjectHelper.addLibrary(project1, new Path(Java15ProjectTestSetup.getJdtAnnotations20Path()));
@@ -717,7 +717,7 @@ public class CleanUpTest15 extends CleanUpTestCase {
 		assertRefactoringResultAsExpected(new ICompilationUnit[] { cu1 }, new String[] { expected1 }, null);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """
@@ -784,7 +784,7 @@ public class CleanUpTest15 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoConcatToTextBlock2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String sample= """

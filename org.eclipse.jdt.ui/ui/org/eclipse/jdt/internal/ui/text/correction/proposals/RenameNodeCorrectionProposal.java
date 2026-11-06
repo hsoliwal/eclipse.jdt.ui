@@ -20,7 +20,7 @@ import org.eclipse.jdt.ui.text.java.correction.CUCorrectionProposal;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class RenameNodeCorrectionProposal extends CUCorrectionProposal {
+public class RenameNodeCorrectionProposal extends CUCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public RenameNodeCorrectionProposal(RenameNodeCorrectionProposalCore core) {
 		super(core.getName(), core.getCompilationUnit(), core.getRelevance(), JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), core);
 	}

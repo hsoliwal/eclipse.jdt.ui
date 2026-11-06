@@ -105,7 +105,7 @@ public class CallHierarchyCore {
             }
         }
 
-        return new ArrayList<>(0);
+        return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
     }
 
     public Collection<IJavaElement> getInterfaceMethods(IMethod method) {
@@ -119,7 +119,7 @@ public class CallHierarchyCore {
             }
         }
 
-        return new ArrayList<>(0);
+        return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
     }
 
     public MethodWrapper[] getCallerRoots(IMember[] members) {
@@ -130,9 +130,9 @@ public class CallHierarchyCore {
         return getRoots(members, false);
     }
 
-	private MethodWrapper[] getRoots(IMember[] members, boolean callers) {
-		ArrayList<MethodWrapper> roots= new ArrayList<>();
-		for (IMember member : members) {
+	private MethodWrapper[] getRoots(IMember[] members, boolean callers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<MethodWrapper> roots= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (member instanceof IType) {
 				IType type= (IType) member;
 				try {
@@ -144,7 +144,7 @@ public class CallHierarchyCore {
 							if (type.isRecord()) {
 								addRoot(member, roots, callers);
 							}
-							for (IMethod constructor : constructors) {
+							for (IMethod constructor : constructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								addRoot(constructor, roots, callers);
 							}
 						}
@@ -210,7 +210,7 @@ public class CallHierarchyCore {
 	 */
     public boolean isIgnored(String fullyQualifiedName) {
         if ((getIgnoreFilters() != null) && (getIgnoreFilters().length > 0)) {
-        	for (StringMatcher ignoreFilter : getIgnoreFilters()) {
+        	for (StringMatcher ignoreFilter : getIgnoreFilters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         		String fullyQualifiedName1= fullyQualifiedName;
         		if (ignoreFilter.match(fullyQualifiedName1)) {
         			return true;
@@ -255,7 +255,7 @@ public class CallHierarchyCore {
      *
      * @return StringMatcher[]
      */
-    public StringMatcher[] getIgnoreFilters() {
+    public StringMatcher[] getIgnoreFilters() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (fFilters == null) {
             String filterString= null;
 
@@ -280,7 +280,7 @@ public class CallHierarchyCore {
     public static boolean arePossibleInputElements(List<?> elements) {
 		if (elements.size() < 1)
 			return false;
-		for (Object name : elements) {
+		for (Object name : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! isPossibleInputElement(name))
 				return false;
 		}
@@ -294,10 +294,10 @@ public class CallHierarchyCore {
 	 * @return an array of {@link StringMatcher} objects
 	 */
     private static StringMatcher[] parseList(String listString) {
-        List<StringMatcher> list= new ArrayList<>(10);
+        List<StringMatcher> list= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
         StringTokenizer tokenizer= new StringTokenizer(listString, ","); //$NON-NLS-1$
 
-        while (tokenizer.hasMoreTokens()) {
+        while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             String textFilter= tokenizer.nextToken().trim();
             list.add(new StringMatcher(textFilter, false, false));
         }
@@ -305,7 +305,7 @@ public class CallHierarchyCore {
         return list.toArray(new StringMatcher[list.size()]);
     }
 
-    static CompilationUnit getCompilationUnitNode(IMember member, boolean resolveBindings) {
+    static CompilationUnit getCompilationUnitNode(IMember member, boolean resolveBindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         ITypeRoot typeRoot= member.getTypeRoot();
         try {
             if (typeRoot != null && typeRoot.exists() && typeRoot.getBuffer() != null
@@ -349,7 +349,7 @@ public class CallHierarchyCore {
      *            contain {@code "UNKNOWN"} entries), or {@code null} to skip
      * @return the first matching member, or {@code null} if none found
      */
-    static IMember findFirstDeclaration(String elementName, int searchFor,
+    static IMember findFirstDeclaration(String elementName, int searchFor, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             IJavaSearchScope scope, IProgressMonitor monitor,
             int expectedArgCount, String receiverTypeFQN,
             List<String> declaringTypeCandidates,
@@ -365,7 +365,7 @@ public class CallHierarchyCore {
             new SearchEngine().search(pattern,
                     SearchEngine.getSearchParticipants(), scope,
                     new SearchRequestor() {
-                        @Override
+                        @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
                         public void acceptSearchMatch(SearchMatch match) {
                             if (result[0] != null) {
                                 return;
@@ -410,7 +410,7 @@ public class CallHierarchyCore {
      * Checks if a candidate method matches the expected argument count
      * and types from the call site.
      */
-    private static boolean matchesMethod(IMethod method,
+    private static boolean matchesMethod(IMethod method, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             int expectedArgCount, String[] expectedArgTypes) {
         int paramCount= method.getNumberOfParameters();
         // Argument count filter
@@ -430,7 +430,7 @@ public class CallHierarchyCore {
                 && expectedArgTypes.length == paramCount) {
             String[] paramSigs= method.getParameterTypes();
             IType declType= method.getDeclaringType();
-            for (int i= 0; i < paramCount; i++) {
+            for (int i= 0; i < paramCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 String callSiteType= expectedArgTypes[i];
                 if ("UNKNOWN".equals(callSiteType)) { //$NON-NLS-1$
                     continue;
@@ -453,7 +453,7 @@ public class CallHierarchyCore {
      * Resolves a JDT parameter type signature to a fully qualified
      * name using the declaring type's context.
      */
-    private static String resolveParameterType(String paramSig,
+    private static String resolveParameterType(String paramSig, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             IType declaringType) {
         try {
             String erasure= Signature.getTypeErasure(paramSig);
@@ -468,7 +468,7 @@ public class CallHierarchyCore {
             if (resolved != null && resolved.length > 0) {
                 String pkg= resolved[0][0];
                 String name= resolved[0][1];
-                return pkg.isEmpty() ? name : pkg + "." + name; //$NON-NLS-1$
+                return pkg.isEmpty() ? name : pkg + "." + name; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
             }
         } catch (JavaModelException e) {
             // can't resolve
@@ -496,7 +496,7 @@ public class CallHierarchyCore {
      * Checks if {@code candidateFQN} is the same as or a supertype of
      * {@code receiverFQN}. Uses the JDT type hierarchy when available.
      */
-    private static boolean isTypeOrSupertype(String candidateFQN,
+    private static boolean isTypeOrSupertype(String candidateFQN, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             String receiverFQN, IMember context) {
         if (candidateFQN.equals(receiverFQN)) {
             return true;
@@ -513,7 +513,7 @@ public class CallHierarchyCore {
                 if (receiverType != null) {
                     ITypeHierarchy hierarchy=
                             receiverType.newSupertypeHierarchy(null);
-                    for (IType superType
+                    for (IType superType //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                             : hierarchy.getAllSupertypes(receiverType)) {
                         if (candidateFQN.equals(
                                 superType.getFullyQualifiedName())) {
@@ -528,7 +528,7 @@ public class CallHierarchyCore {
         return false;
     }
 
-    public static boolean isPossibleInputElement(Object element){
+    public static boolean isPossibleInputElement(Object element){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (! (element instanceof IMember))
             return false;
 

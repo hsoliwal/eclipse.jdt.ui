@@ -34,7 +34,7 @@ public class BindingLabelProviderCore {
 
 
 
-	private static void getFieldLabel(IVariableBinding binding, long flags, StringBuffer buffer) {
+	private static void getFieldLabel(IVariableBinding binding, long flags, StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (((flags & JavaElementLabelsCore.F_PRE_TYPE_SIGNATURE) != 0) && !binding.isEnumConstant()) {
 			getTypeLabel(binding.getType(), (flags & JavaElementLabelsCore.T_TYPE_PARAMETERS), buffer);
 			buffer.append(' ');
@@ -63,7 +63,7 @@ public class BindingLabelProviderCore {
 		}
 	}
 
-	private static void getLocalVariableLabel(IVariableBinding binding, long flags, StringBuffer buffer) {
+	private static void getLocalVariableLabel(IVariableBinding binding, long flags, StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (((flags & JavaElementLabelsCore.F_PRE_TYPE_SIGNATURE) != 0)) {
 			getTypeLabel(binding.getType(), (flags & JavaElementLabelsCore.T_TYPE_PARAMETERS), buffer);
 			buffer.append(' ');
@@ -83,13 +83,13 @@ public class BindingLabelProviderCore {
 	}
 
 	private static void appendDimensions(int dim, StringBuffer buffer) {
-		for (int i=0 ; i < dim; i++) {
+		for (int i=0 ; i < dim; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buffer.append('[').append(']');
 		}
 	}
 
 
-	private static void getMethodLabel(IMethodBinding binding, long flags, StringBuffer buffer) {
+	private static void getMethodLabel(IMethodBinding binding, long flags, StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// return type
 		if ((flags & JavaElementLabelsCore.M_PRE_TYPE_PARAMETERS) != 0) {
 			if (binding.isGenericMethod()) {
@@ -127,7 +127,7 @@ public class BindingLabelProviderCore {
 		if ((flags & (JavaElementLabelsCore.M_PARAMETER_TYPES | JavaElementLabelsCore.M_PARAMETER_NAMES)) != 0) {
 			ITypeBinding[] parameters= ((flags & JavaElementLabelsCore.M_PARAMETER_TYPES) != 0) ? binding.getParameterTypes() : null;
 			if (parameters != null) {
-				for (int index= 0; index < parameters.length; index++) {
+				for (int index= 0; index < parameters.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (index > 0) {
 						buffer.append(JavaElementLabelsCore.COMMA_STRING);
 					}
@@ -152,7 +152,7 @@ public class BindingLabelProviderCore {
 			ITypeBinding[] exceptions= binding.getExceptionTypes();
 			if (exceptions.length > 0) {
 				buffer.append(" throws "); //$NON-NLS-1$
-				for (int index= 0; index < exceptions.length; index++) {
+				for (int index= 0; index < exceptions.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (index > 0) {
 						buffer.append(JavaElementLabelsCore.COMMA_STRING);
 					}
@@ -181,7 +181,7 @@ public class BindingLabelProviderCore {
 	}
 
 
-	private static void getTypeLabel(ITypeBinding binding, long flags, StringBuffer buffer) {
+	private static void getTypeLabel(ITypeBinding binding, long flags, StringBuffer buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ((flags & JavaElementLabelsCore.T_FULLY_QUALIFIED) != 0) {
 			final IPackageBinding pack= binding.getPackage();
 			if (pack != null && !pack.isUnnamed()) {
@@ -222,7 +222,7 @@ public class BindingLabelProviderCore {
 			String name= binding.getTypeDeclaration().getName();
 			if (name.length() == 0) {
 				if (binding.isEnum()) {
-					buffer.append('{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}');
+					buffer.append('{' + JavaElementLabelsCore.ELLIPSIS_STRING + '}'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else if (binding.isAnonymous()) {
 					ITypeBinding[] superInterfaces= binding.getInterfaces();
 					ITypeBinding baseType;
@@ -277,7 +277,7 @@ public class BindingLabelProviderCore {
 	private static void getTypeArgumentsLabel(ITypeBinding[] typeArgs, long flags, StringBuffer buf) {
 		if (typeArgs.length > 0) {
 			buf.append('<');
-			for (int i = 0; i < typeArgs.length; i++) {
+			for (int i = 0; i < typeArgs.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i > 0) {
 					buf.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -291,7 +291,7 @@ public class BindingLabelProviderCore {
 	private static void getTypeParametersLabel(ITypeBinding[] typeParameters, StringBuffer buffer) {
 		if (typeParameters.length > 0) {
 			buffer.append('<');
-			for (int index= 0; index < typeParameters.length; index++) {
+			for (int index= 0; index < typeParameters.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (index > 0) {
 					buffer.append(JavaElementLabelsCore.COMMA_STRING);
 				}
@@ -311,7 +311,7 @@ public class BindingLabelProviderCore {
 	 * @param flags The text flags as defined in {@link JavaElementLabelsCore}
 	 * @return the label of the binding
 	 */
-	public static String getBindingLabel(IBinding binding, long flags) {
+	public static String getBindingLabel(IBinding binding, long flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringBuffer buffer= new StringBuffer(60);
 		if (binding instanceof ITypeBinding) {
 			getTypeLabel(((ITypeBinding) binding), flags, buffer);

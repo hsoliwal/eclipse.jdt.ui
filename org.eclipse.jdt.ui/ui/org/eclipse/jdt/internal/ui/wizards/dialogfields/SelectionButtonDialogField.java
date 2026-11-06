@@ -59,7 +59,7 @@ public class SelectionButtonDialogField extends DialogField {
 	 */
 	public void attachDialogFields(DialogField[] dialogFields) {
 		fAttachedDialogFields= dialogFields;
-		for (DialogField dialogField : dialogFields) {
+		for (DialogField dialogField : dialogFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dialogField.setEnabled(fIsSelected);
 		}
 	}
@@ -69,7 +69,7 @@ public class SelectionButtonDialogField extends DialogField {
 	 */
 	public boolean isAttached(DialogField editor) {
 		if (fAttachedDialogFields != null) {
-			for (DialogField dialogField : fAttachedDialogFields) {
+			for (DialogField dialogField : fAttachedDialogFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (dialogField == editor) {
 					return true;
 				}
@@ -101,7 +101,7 @@ public class SelectionButtonDialogField extends DialogField {
 	}
 
 
-	public Control[] doFillIntoGridWithoutMargin(Composite parent, int nColumns, boolean indent) {
+	public Control[] doFillIntoGridWithoutMargin(Composite parent, int nColumns, boolean indent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertEnoughColumns(nColumns);
 		GridData gd= new GridData(GridData.FILL, GridData.FILL, true, false);
 		gd.horizontalSpan= 3;
@@ -137,7 +137,7 @@ public class SelectionButtonDialogField extends DialogField {
 	 * @param group The parent composite when called the first time, or <code>null</code>
 	 * after.
 	 */
-	public Button getSelectionButton(Composite group) {
+	public Button getSelectionButton(Composite group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fButton == null) {
 			assertCompositeNotNull(group);
 
@@ -146,7 +146,7 @@ public class SelectionButtonDialogField extends DialogField {
 			fButton.setText(fLabelText);
 			fButton.setEnabled(isEnabled());
 			fButton.setSelection(fIsSelected);
-			fButton.addSelectionListener(new SelectionListener() {
+			fButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					doWidgetSelected();
@@ -171,7 +171,7 @@ public class SelectionButtonDialogField extends DialogField {
 			fIsSelected= newState;
 			if (fAttachedDialogFields != null) {
 				boolean focusSet= false;
-				for (DialogField dialogField : fAttachedDialogFields) {
+				for (DialogField dialogField : fAttachedDialogFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					dialogField.setEnabled(fIsSelected);
 					if (fIsSelected && !focusSet) {
 						focusSet= dialogField.setFocus();

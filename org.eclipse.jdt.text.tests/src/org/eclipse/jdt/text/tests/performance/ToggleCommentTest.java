@@ -74,7 +74,7 @@ public class ToggleCommentTest extends TextPerformanceTestCase {
 
 	private void measureToggleComment(PerformanceMeter commentMeter, PerformanceMeter uncommentMeter, int runs) {
 		IAction toggleComment= fEditor.getAction("ToggleComment");
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			commentMeter.start();
 			runAction(toggleComment);
 			commentMeter.stop();

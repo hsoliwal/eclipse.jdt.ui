@@ -52,7 +52,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 
 //SelectedElements iff enabled: IPackageFragment || ICompilationUnit
-public class ExcludeFromBuildpathAction extends BuildpathModifierAction {
+public class ExcludeFromBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 
@@ -93,7 +93,7 @@ public class ExcludeFromBuildpathAction extends BuildpathModifierAction {
         return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
         final IJavaProject project;
         Object object= getSelectedElements().get(0);
@@ -104,7 +104,7 @@ public class ExcludeFromBuildpathAction extends BuildpathModifierAction {
         }
 
         try {
-			final IRunnableWithProgress runnable= monitor -> {
+			final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 			        List<IResource> result= exclude(getSelectedElements(), project, monitor);
 			        selectAndReveal(new StructuredSelection(result));
@@ -123,15 +123,15 @@ public class ExcludeFromBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	private List<IResource> exclude(List<?> javaElements, IJavaProject project, IProgressMonitor monitor) throws JavaModelException {
+	private List<IResource> exclude(List<?> javaElements, IJavaProject project, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
 		try {
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_Excluding, javaElements.size() + 4);
 
 			List<CPListElement> existingEntries= ClasspathModifier.getExistingEntries(project);
-			List<IResource> resources= new ArrayList<>();
-			for (int i= 0; i < javaElements.size(); i++) {
+			List<IResource> resources= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (int i= 0; i < javaElements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement javaElement= (IJavaElement) javaElements.get(i);
 				IPackageFragmentRoot root= (IPackageFragmentRoot) javaElement.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 				CPListElement entry= ClasspathModifier.getClasspathEntry(existingEntries, root);
@@ -154,12 +154,12 @@ public class ExcludeFromBuildpathAction extends BuildpathModifierAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
         if (elements.size() == 0)
             return false;
 
-        for (Object element : elements) {
+        for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IPackageFragment) {
 				IPackageFragment fragment= (IPackageFragment)element;
 				if (ClasspathModifier.isDefaultFragment(fragment))

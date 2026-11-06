@@ -67,7 +67,7 @@ public class TemplateCompletionTests {
 		JavaProjectHelper.delete(fJProject);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testEmptyFile() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("   $");
@@ -82,7 +82,7 @@ public class TemplateCompletionTests {
 		applyProposal(viewer, proposals, "new_class", completionIndex);
 		String lineSeparator= System.lineSeparator();
 		StringBuffer expected= new StringBuffer();
-		expected.append("   package test;" + lineSeparator +
+		expected.append("   package test;" + lineSeparator + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				lineSeparator +
 				"public class EmptyFile  {" + lineSeparator +
 				lineSeparator +
@@ -102,10 +102,10 @@ public class TemplateCompletionTests {
 		List<ICompletionProposal> proposals= computeCompletionProposals(cu, completionIndex);
 
 		boolean fail= proposals.stream().anyMatch(p -> "new_class - create new class".equals(p.getDisplayString()));
-		assertFalse(fail, "Proposal '" + propDisplay + "' should not exist");
+		assertFalse(fail, "Proposal '" + propDisplay + "' should not exist"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRegressionBug574267() throws Exception {
 		String propDisplay= "sysout - print to standard out";
 		StringBuffer buf= new StringBuffer();
@@ -167,7 +167,7 @@ public class TemplateCompletionTests {
 	}
 
 	private void assertProposalsExist(List<String> expected, List<ICompletionProposal> proposals) {
-		for (String propDisplay : expected) {
+		for (String propDisplay : expected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(proposals.stream().anyMatch(p -> propDisplay.equals(p.getDisplayString())));
 		}
 	}

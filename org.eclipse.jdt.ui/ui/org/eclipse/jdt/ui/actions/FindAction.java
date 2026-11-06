@@ -71,7 +71,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public abstract class FindAction extends SelectionDispatchAction {
+public abstract class FindAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	// A dummy which can't be selected in the UI
 	private static final IJavaElement RETURN_WITHOUT_BEEP= JavaCore.create(JavaPlugin.getWorkspace().getRoot());
@@ -113,7 +113,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 			return false;
 		}
 		IJavaElement[] elements= getJavaElements(sel, true);
-		for (IJavaElement iJavaElement : elements) {
+		for (IJavaElement iJavaElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!canOperateOn(iJavaElement)) {
 				return false;
 			}
@@ -125,7 +125,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 		if (element == null || fValidTypes == null || fValidTypes.length == 0 || !ActionUtil.isOnBuildPath(element))
 			return false;
 
-		for (Class<?> fValidType : fValidTypes) {
+		for (Class<?> fValidType : fValidTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fValidType.isInstance(element)) {
 				if (element.getElementType() == IJavaElement.PACKAGE_FRAGMENT)
 					return hasChildren((IPackageFragment)element);
@@ -160,10 +160,10 @@ public abstract class FindAction extends SelectionDispatchAction {
 		}
 	}
 
-	IJavaElement[] getJavaElements(IStructuredSelection selection, boolean silent) {
+	IJavaElement[] getJavaElements(IStructuredSelection selection, boolean silent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] javaElements= new IJavaElement[selection.size()];
 		int index= 0;
-		for (Object firstElement : selection) {
+		for (Object firstElement : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement elem= null;
 			if (firstElement instanceof IJavaElement)
 				elem= (IJavaElement) firstElement;
@@ -189,7 +189,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 		return SearchMessages.JavaElementAction_operationUnavailable_generic;
 	}
 
-	private IJavaElement findType(ICompilationUnit cu, boolean silent) {
+	private IJavaElement findType(ICompilationUnit cu, boolean silent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType[] types= null;
 		try {
 			types= cu.getAllTypes();
@@ -228,7 +228,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 	@Override
 	public void run(IStructuredSelection selection) {
 		IJavaElement[] elements= getJavaElements(selection, false);
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element == null || !element.exists()) {
 				showOperationUnavailableDialog();
 				return;
@@ -243,7 +243,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 	/*
 	 * Method declared on SelectionChangedAction.
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		if (!ActionUtil.isProcessable(fEditor))
 			return;
@@ -307,9 +307,9 @@ public abstract class FindAction extends SelectionDispatchAction {
 		// will return true except for debugging purposes.
 		try {
 			numberOfElements= elements.length;
-			List<QuerySpecification> queryList= new ArrayList<>(numberOfElements);
+			List<QuerySpecification> queryList= new ArrayList<>(numberOfElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			processedElementIndex= 0;
-			for (IJavaElement element : elements) {
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processedElementIndex++;
 				queryList.add(createQuery(element));
 			}
@@ -321,7 +321,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 		}
 	}
 
-	private void performNewSearch(JavaSearchQuery query) {
+	private void performNewSearch(JavaSearchQuery query) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (query.canRunInBackground()) {
 			/*
 			 * This indirection with Object as parameter is needed to prevent the loading
@@ -372,7 +372,7 @@ public abstract class FindAction extends SelectionDispatchAction {
 	 * @return {@link QuerySpecification} for given object and action, that depends on action state
 	 * @throws InterruptedException if working sets query fail
 	 */
-	static QuerySpecification createQueryWithWorkingSets(IJavaElement element, FindAction action, AtomicReference<IWorkingSet[]> toUpdate) throws InterruptedException {
+	static QuerySpecification createQueryWithWorkingSets(IJavaElement element, FindAction action, AtomicReference<IWorkingSet[]> toUpdate) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JavaSearchScopeFactory factory= JavaSearchScopeFactory.getInstance();
 
 		final IWorkingSet[] workingSets;

@@ -114,7 +114,7 @@ public class SearchUtil {
 		String result= ""; //$NON-NLS-1$
 		if (workingSets != null && workingSets.length > 0) {
 			boolean firstFound= false;
-			for (IWorkingSet workingSet : workingSets) {
+			for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String workingSetLabel= BasicElementLabels.getWorkingSetLabel(workingSet);
 				if (firstFound)
 					result= Messages.format(SearchMessages.SearchUtil_workingSetConcatenation, new String[] {result, workingSetLabel});
@@ -146,12 +146,12 @@ public class SearchUtil {
 		IWorkingSet[] workingSets;
 		Iterator<IWorkingSet[]> iter= fgLRUWorkingSets.iterator();
 		int i= 0;
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			workingSets= iter.next();
 			String[] names= new String[workingSets.length];
-			for (int j= 0; j < workingSets.length; j++)
+			for (int j= 0; j < workingSets.length; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				names[j]= workingSets[j].getName();
-			settingsStore.put(STORE_LRU_WORKING_SET_NAMES + i, names);
+			settingsStore.put(STORE_LRU_WORKING_SET_NAMES + i, names); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			i++;
 		}
 	}
@@ -163,16 +163,16 @@ public class SearchUtil {
 		return fgLRUWorkingSets;
 	}
 
-	private static void restoreState() {
+	private static void restoreState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fgLRUWorkingSets= new LRUWorkingSetsList(LRU_WORKINGSET_LIST_SIZE);
 		IDialogSettings settingsStore= getDialogStoreSection();
 
 		boolean foundLRU= false;
-		for (int i= LRU_WORKINGSET_LIST_SIZE - 1; i >= 0; i--) {
-			String[] lruWorkingSetNames= settingsStore.getArray(STORE_LRU_WORKING_SET_NAMES + i);
+		for (int i= LRU_WORKINGSET_LIST_SIZE - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String[] lruWorkingSetNames= settingsStore.getArray(STORE_LRU_WORKING_SET_NAMES + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if (lruWorkingSetNames != null) {
-				Set<IWorkingSet> workingSets= new HashSet<>(2);
-				for (String lruWorkingSetName : lruWorkingSetNames) {
+				Set<IWorkingSet> workingSets= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (String lruWorkingSetName : lruWorkingSetNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IWorkingSet workingSet= PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSet(lruWorkingSetName);
 					if (workingSet != null) {
 						workingSets.add(workingSet);
@@ -195,14 +195,14 @@ public class SearchUtil {
 		return settingsStore;
 	}
 
-	private static void restoreFromOldFormat() {
+	private static void restoreFromOldFormat() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fgLRUWorkingSets= new LRUWorkingSetsList(LRU_WORKINGSET_LIST_SIZE);
 		IDialogSettings settingsStore= getDialogStoreSection();
 
 		boolean foundLRU= false;
 		String[] lruWorkingSetNames= settingsStore.getArray(STORE_LRU_WORKING_SET_NAMES);
 		if (lruWorkingSetNames != null) {
-			for (int i= lruWorkingSetNames.length - 1; i >= 0; i--) {
+			for (int i= lruWorkingSetNames.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IWorkingSet workingSet= PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSet(lruWorkingSetNames[i]);
 				if (workingSet != null) {
 					foundLRU= true;

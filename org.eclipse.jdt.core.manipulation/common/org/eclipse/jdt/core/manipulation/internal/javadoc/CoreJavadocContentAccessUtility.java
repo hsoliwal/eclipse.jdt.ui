@@ -111,12 +111,12 @@ public class CoreJavadocContentAccessUtility {
 	 * @return the reader content as string
 	 */
 	public static String getString(Reader reader) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		char[] buffer= new char[1024];
 		int count;
 		try {
-			while ((count= reader.read(buffer)) != -1)
-				buf.append(buffer, 0, count);
+			while ((count= reader.read(buffer)) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(buffer, 0, count); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} catch (IOException e) {
 			return null;
 		}
@@ -148,7 +148,7 @@ public class CoreJavadocContentAccessUtility {
 	}
 
 
-	@SuppressWarnings("resource")
+	@SuppressWarnings("resource") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public static String getFileContentFromAttachedSource(IPackageFragmentRoot root, String filePath) throws CoreException {
 		IPath sourceAttachmentPath= root.getSourceAttachmentPath();
 		if (sourceAttachmentPath != null) {
@@ -180,16 +180,16 @@ public class CoreJavadocContentAccessUtility {
 				}
 			}
 
-			if (file == null || !file.exists())
+			if (file == null || !file.exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				file= sourceAttachmentPath.toFile();
 
-			if (file.isDirectory()) {
+			if (file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				//the path is an absolute filesystem path to the source folder
 				IPath packagedocPath= sourceAttachmentPath.append(filePath);
-				if (packagedocPath.toFile().exists())
+				if (packagedocPath.toFile().exists()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return getFileContent(packagedocPath.toFile());
 
-			} else if (file.exists()) {
+			} else if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				//the package documentation is in a Jar/Zip
 				IPath sourceAttachmentRootPath= root.getSourceAttachmentRootPath();
 				String packagedocPath;
@@ -202,10 +202,10 @@ public class CoreJavadocContentAccessUtility {
 				ZipFile zipFile= null;
 				InputStream in= null;
 				try {
-					zipFile= new ZipFile(file, ZipFile.OPEN_READ);
+					zipFile= new ZipFile(file, ZipFile.OPEN_READ); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 					ZipEntry packagedocFile= zipFile.getEntry(packagedocPath);
 					if (packagedocFile != null) {
-						in= zipFile.getInputStream(packagedocFile);
+						in= zipFile.getInputStream(packagedocFile); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 						if (encoding == null)
 							encoding= getSourceAttachmentEncoding(root);
 						return getContentsFromInputStream(in, encoding);
@@ -243,7 +243,7 @@ public class CoreJavadocContentAccessUtility {
 		if (entry != null) {
 			int kind= entry.getEntryKind();
 			if (kind == IClasspathEntry.CPE_LIBRARY || kind == IClasspathEntry.CPE_VARIABLE) {
-				for (IClasspathAttribute attrib : entry.getExtraAttributes()) {
+				for (IClasspathAttribute attrib : entry.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (IClasspathAttribute.SOURCE_ATTACHMENT_ENCODING.equals(attrib.getName())) {
 						return attrib.getValue();
 					}
@@ -254,9 +254,9 @@ public class CoreJavadocContentAccessUtility {
 		return encoding;
 	}
 
-	public static String getContentsFromInputStream(InputStream in, String encoding) throws CoreException {
+	public static String getContentsFromInputStream(InputStream in, String encoding) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int defaultFileSize= 15 * 1024;
-		StringBuilder buffer= new StringBuilder(defaultFileSize);
+		StringBuilder buffer= new StringBuilder(defaultFileSize); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		Reader reader= null;
 
 		try {
@@ -265,8 +265,8 @@ public class CoreJavadocContentAccessUtility {
 			char[] readBuffer= new char[2048];
 			int charCount= reader.read(readBuffer);
 
-			while (charCount > 0) {
-				buffer.append(readBuffer, 0, charCount);
+			while (charCount > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buffer.append(readBuffer, 0, charCount); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				charCount= reader.read(readBuffer);
 			}
 
@@ -314,7 +314,7 @@ public class CoreJavadocContentAccessUtility {
 		//Caveat: Javadoc nodes are not available when Javadoc processing has been disabled!
 		//https://bugs.eclipse.org/bugs/show_bug.cgi?id=212207
 
-		String source= rawJavadoc + "class C{}"; //$NON-NLS-1$
+		String source= rawJavadoc + "class C{}"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		CompilationUnit root= createAST(element, source);
 		if (root == null)
 			return null;
@@ -480,7 +480,7 @@ public class CoreJavadocContentAccessUtility {
 		return null;
 	}
 
-	private static Reader findDocInHierarchy(IMethod method, boolean isHTML, boolean useAttachedJavadoc) throws JavaModelException {
+	private static Reader findDocInHierarchy(IMethod method, boolean isHTML, boolean useAttachedJavadoc) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Catch ExternalJavaProject in which case
 		 * no hierarchy can be built.
@@ -493,7 +493,7 @@ public class CoreJavadocContentAccessUtility {
 
 		MethodOverrideTester tester= new MethodOverrideTester(type, hierarchy);
 
-		for (IType curr : hierarchy.getAllSupertypes(type)) {
+		for (IType curr : hierarchy.getAllSupertypes(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethod overridden= tester.findOverriddenMethodInType(curr, method);
 			if (overridden != null) {
 				if (isHTML) {

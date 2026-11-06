@@ -45,7 +45,7 @@ public class TypeOccurrenceCollector extends CuCollectingSearchRequestor {
 		collectMatch(acceptSearchMatch2(unit, match));
 	}
 
-	public SearchMatch acceptSearchMatch2(ICompilationUnit unit, SearchMatch match) throws CoreException {
+	public SearchMatch acceptSearchMatch2(ICompilationUnit unit, SearchMatch match) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start= match.getOffset();
 		int length= match.getLength();
 
@@ -71,7 +71,7 @@ public class TypeOccurrenceCollector extends CuCollectingSearchRequestor {
 		int simpleNameEnd= -1;
 		try {
 			int token = scanner.getNextToken();
-			while (token != ITerminalSymbols.TokenNameEOF) {
+			while (token != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (token == ITerminalSymbols.TokenNameIdentifier) { // type reference can occur in module-info.java and collide with a restricted keyword.
 					simpleNameStart= scanner.getCurrentTokenStartPosition();
 					simpleNameEnd= scanner.getCurrentTokenEndPosition();

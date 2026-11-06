@@ -17,6 +17,7 @@
 package org.eclipse.jdt.internal.ui.jarpackagerfat;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -51,10 +52,15 @@ public final class FatJarPackagerUtil {
 
 		final boolean[] returnValue= new boolean[1];
 		Runnable runnable= () -> returnValue[0]= MessageDialog.openQuestion(parent, title, message);
-		display.syncExec(runnable);
+		display.syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 
 		return returnValue[0];
 	}
+
+	private static final Pattern NEXT_NUMBERED_FILE_NAME_PATTERN = Pattern.compile(".*[_]\\d+[.][^.]*"); //$NON-NLS-1$
+	private static final Pattern NAME_PATTERN = Pattern.compile("(.*)[_](\\d+)([.][^.]*)"); //$NON-NLS-1$
+	private static final Pattern NEXT_NUMBERED_FILE_NAME_PATTERN_2 = Pattern.compile(".*[.][^.]*"); //$NON-NLS-1$
+	private static final Pattern NAME_PATTERN_2 = Pattern.compile("(.*)([.][^.]*)"); //$NON-NLS-1$
 
 	/**
 	 * Increments [nr] for files in the format "[name][_nr][.ext]".<br>
@@ -65,24 +71,25 @@ public final class FatJarPackagerUtil {
 	 * @param fileName the file name to increment
 	 * @return incremented filename
 	 */
-	public static String nextNumberedFileName(String fileName) {
+	public static String nextNumberedFileName(String fileName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name;
 		String number;
 		String ext;
-		if (fileName.matches(".*[_]\\d+[.][^.]*")) { //$NON-NLS-1$
-			name= fileName.replaceFirst("(.*)[_](\\d+)([.][^.]*)", "$1"); //$NON-NLS-1$ //$NON-NLS-2$
-			number= fileName.replaceFirst("(.*)[_](\\d+)([.][^.]*)", "$2"); //$NON-NLS-1$ //$NON-NLS-2$
-			ext= fileName.replaceFirst("(.*)[_](\\d+)([.][^.]*)", "$3"); //$NON-NLS-1$ //$NON-NLS-2$
-		} else if (fileName.matches(".*[.][^.]*")) { //$NON-NLS-1$
-			name= fileName.replaceFirst("(.*)([.][^.]*)", "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+		if (NEXT_NUMBERED_FILE_NAME_PATTERN.matcher(fileName).matches()) {
+			name= NAME_PATTERN.matcher(fileName).replaceFirst("$1"); //$NON-NLS-1$
+			number= NAME_PATTERN.matcher(fileName).replaceFirst("$2"); //$NON-NLS-1$
+			ext= NAME_PATTERN.matcher(fileName).replaceFirst("$3"); //$NON-NLS-1$
+		} else if (NEXT_NUMBERED_FILE_NAME_PATTERN_2.matcher(fileName).matches()) {
+			name= NAME_PATTERN_2.matcher(fileName).replaceFirst("$1"); //$NON-NLS-1$
 			number= "1"; //$NON-NLS-1$
-			ext= fileName.replaceFirst("(.*)([.][^.]*)", "$2"); //$NON-NLS-1$ //$NON-NLS-2$
+			ext= NAME_PATTERN_2.matcher(fileName).replaceFirst("$2"); //$NON-NLS-1$
+			// preserved predecessor annotation: //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		} else {
 			name= fileName;
 			number= "1"; //$NON-NLS-1$
 			ext= ""; //$NON-NLS-1$
 		}
-		fileName= name + "_" + (Integer.parseInt(number) + 1) + ext; //$NON-NLS-1$
+		fileName= name + "_" + (Integer.parseInt(number) + 1) + ext; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return fileName;
 	}
 

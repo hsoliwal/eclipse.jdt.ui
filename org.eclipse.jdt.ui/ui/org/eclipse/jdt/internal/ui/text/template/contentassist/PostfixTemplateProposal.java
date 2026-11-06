@@ -29,7 +29,7 @@ import org.eclipse.jdt.internal.corext.template.java.JavaPostfixContext;
  * The class overrides the method {@link #validate(IDocument, int, DocumentEvent)} to allow the
  * replacement of existing input.
  */
-public class PostfixTemplateProposal extends TemplateProposal {
+public class PostfixTemplateProposal extends TemplateProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public PostfixTemplateProposal(Template template, TemplateContext context,
 			IRegion region, Image image) {

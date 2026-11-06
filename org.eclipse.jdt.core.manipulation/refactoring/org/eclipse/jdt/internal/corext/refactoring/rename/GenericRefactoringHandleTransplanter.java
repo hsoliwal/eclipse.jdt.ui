@@ -36,7 +36,7 @@ import org.eclipse.jdt.core.ITypeParameter;
 
 public class GenericRefactoringHandleTransplanter {
 
-	public final IJavaElement transplantHandle(IJavaElement element) {
+	public final IJavaElement transplantHandle(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement parent= element.getParent();
 		if (parent != null)
 			parent= transplantHandle(parent); // recursive
@@ -116,7 +116,7 @@ public class GenericRefactoringHandleTransplanter {
 		return parent.getClassFile(element.getElementName());
 	}
 
-	protected IType transplantHandle(IJavaElement parent, IType element) {
+	protected IType transplantHandle(IJavaElement parent, IType element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (parent.getElementType()) {
 			case IJavaElement.COMPILATION_UNIT:
 				return ((ICompilationUnit) parent).getType(element.getElementName());

@@ -47,7 +47,7 @@ public class ConvertingSelectionProvider implements ISelectionProvider {
 	private final ISelectionProvider fProvider;
 	private SelectionChangedListener fListener;
 
-	private class SelectionChangedListener implements ISelectionChangedListener {
+	private class SelectionChangedListener implements ISelectionChangedListener { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		ListenerList<ISelectionChangedListener> fListeners= new ListenerList<>();
 
@@ -55,7 +55,7 @@ public class ConvertingSelectionProvider implements ISelectionProvider {
 		public void selectionChanged(SelectionChangedEvent event) {
 			ISelection selection= convertFrom(event.getSelection());
 			SelectionChangedEvent newEvent= new SelectionChangedEvent(ConvertingSelectionProvider.this, selection);
-			for (ISelectionChangedListener listener : fListeners) {
+			for (ISelectionChangedListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.selectionChanged(newEvent);
 			}
 		}
@@ -96,12 +96,12 @@ public class ConvertingSelectionProvider implements ISelectionProvider {
 	}
 
 
-	private ISelection convertFromUsingDefaultMechanism(ISelection viewerSelection) {
+	private ISelection convertFromUsingDefaultMechanism(ISelection viewerSelection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (! (viewerSelection instanceof IStructuredSelection))
 			return viewerSelection;
 		IStructuredSelection selection= (IStructuredSelection)viewerSelection;
-		List<Object> result= new ArrayList<>(selection.size());
-		for (Object element : selection) {
+		List<Object> result= new ArrayList<>(selection.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IResource
 					|| element instanceof IJavaElement
 					|| !(element instanceof IAdaptable)) {
@@ -151,7 +151,7 @@ public class ConvertingSelectionProvider implements ISelectionProvider {
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		if (fListener == null) {
 			fListener= new SelectionChangedListener();
-			fProvider.addSelectionChangedListener(fListener);
+			fProvider.addSelectionChangedListener(fListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		}
 		fListener.addListener(listener);
 	}

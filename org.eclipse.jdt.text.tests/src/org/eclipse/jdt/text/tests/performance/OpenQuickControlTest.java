@@ -38,7 +38,7 @@ public abstract class OpenQuickControlTest extends TextPerformanceTestCase {
 
 	private static final String ORIG_NAME= "StyledText";
 
-	private static final String ORIG_FILE= PATH + ORIG_NAME + ".java";
+	private static final String ORIG_FILE= PATH + ORIG_NAME + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static Test suite() {
 		TestSuite suite= new TestSuite(THIS.getName());
@@ -50,7 +50,7 @@ public abstract class OpenQuickControlTest extends TextPerformanceTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		ResourceTestHelper.delete(PATH + ORIG_NAME, ".java", getWarmUpRuns() + getMeasuredRuns());
+		ResourceTestHelper.delete(PATH + ORIG_NAME, ".java", getWarmUpRuns() + getMeasuredRuns()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public abstract class OpenQuickControlTest extends TextPerformanceTestCase {
 		super.setUp();
 		setWarmUpRuns(WARM_UP_RUNS);
 		setMeasuredRuns(MEASURED_RUNS);
-		ResourceTestHelper.replicate(ORIG_FILE, PATH + ORIG_NAME, ".java", getWarmUpRuns() + getMeasuredRuns(), ORIG_NAME, ORIG_NAME, ResourceTestHelper.OVERWRITE_IF_EXISTS);
+		ResourceTestHelper.replicate(ORIG_FILE, PATH + ORIG_NAME, ".java", getWarmUpRuns() + getMeasuredRuns(), ORIG_NAME, ORIG_NAME, ResourceTestHelper.OVERWRITE_IF_EXISTS); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		ResourceTestHelper.incrementalBuild();
 		EditorTestHelper.bringToTop();
 		EditorTestHelper.joinJobs(1000, 10000, 100);
@@ -76,9 +76,9 @@ public abstract class OpenQuickControlTest extends TextPerformanceTestCase {
 	}
 
 	private void measureOpenQuickControl(PerformanceMeter coldMeter, PerformanceMeter warmMeter, int index, int runs) throws Exception {
-		for (int i= 0; i < runs; i++) {
-			String name= ORIG_NAME + (index + i);
-			String file= PATH + name + ".java";
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String name= ORIG_NAME + (index + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			String file= PATH + name + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			AbstractTextEditor editor= (AbstractTextEditor) EditorTestHelper.openInEditor(ResourceTestHelper.findFile(file), true);
 			EditorTestHelper.joinReconciler(EditorTestHelper.getSourceViewer(editor), 100, 10000, 100);
 

@@ -110,7 +110,7 @@ public class ProjectsView extends JavaBrowsingPart {
 	@Override
 	protected void hookViewerListeners() {
 		super.hookViewerListeners();
-		getViewer().addDoubleClickListener(event -> {
+		getViewer().addDoubleClickListener(event -> { //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 			TreeViewer viewer= (TreeViewer)getViewer();
 			Object element= ((IStructuredSelection)event.getSelection()).getFirstElement();
 			if (viewer.isExpandable(element))
@@ -121,7 +121,7 @@ public class ProjectsView extends JavaBrowsingPart {
 	@Override
 	protected void setInitialInput() {
 		IJavaElement root= JavaCore.create(JavaPlugin.getWorkspace().getRoot());
-		getViewer().setInput(root);
+		getViewer().setInput(root); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		updateTitle();
 	}
 
@@ -155,7 +155,7 @@ public class ProjectsView extends JavaBrowsingPart {
 	 * @param je	the Java element which has the focus
 	 * @return the element to select
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement findElementToSelect(IJavaElement je) {
 		if (je == null)
 			return null;
@@ -225,7 +225,7 @@ public class ProjectsView extends JavaBrowsingPart {
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection sel= (IStructuredSelection)selection;
 			Iterator<?> iter= sel.iterator();
-			while (iter.hasNext()) {
+			while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object selectedElement= iter.next();
 				if (selectedElement instanceof LogicalPackage) {
 					selection= new StructuredSelection(((LogicalPackage)selectedElement).getJavaProject());

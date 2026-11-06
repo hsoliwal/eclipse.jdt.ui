@@ -29,7 +29,7 @@ public class JUnitUIPreferencesConstants {
 	 * Boolean preference controlling whether newly launched JUnit tests should be shown in all
 	 * JUnit views (in all windows).
 	 */
-	public static final String SHOW_IN_ALL_VIEWS= JUnitPlugin.PLUGIN_ID + ".show_in_all_views"; //$NON-NLS-1$
+	public static final String SHOW_IN_ALL_VIEWS= JUnitPlugin.PLUGIN_ID + ".show_in_all_views"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static final boolean SHOW_IN_ALL_VIEWS_DEFAULT= false; // would need a PreferenceInitializer if this was changed to true!
 

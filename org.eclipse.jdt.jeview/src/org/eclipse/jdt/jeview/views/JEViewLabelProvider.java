@@ -48,7 +48,7 @@ public class JEViewLabelProvider extends LabelProvider /*implements IColorProvid
 		return super.getText(element);
 	}
 
-	@SuppressWarnings("incomplete-switch")
+	@SuppressWarnings("incomplete-switch") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof JavaElement) {

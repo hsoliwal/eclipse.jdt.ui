@@ -43,12 +43,12 @@ public class TTypes {
 			return result;
 		}
 
-		private void pushSupertypes(TType type) {
+		private void pushSupertypes(TType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (type.isJavaLangObject())
 				return;
 
 			if (type.isTypeVariable() || type.isCaptureType()) {
-				for (TType bound : ((AbstractTypeVariable) type).getBounds()) {
+				for (TType bound : ((AbstractTypeVariable) type).getBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fWorklist.push(bound.getTypeDeclaration());
 				}
 
@@ -60,7 +60,7 @@ public class TTypes {
 				} else {
 					fWorklist.push(superclass.getTypeDeclaration());
 				}
-				for (TType intf : type.getInterfaces()) {
+				for (TType intf : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fWorklist.push(intf.getTypeDeclaration());
 				}
 			}
@@ -88,7 +88,7 @@ public class TTypes {
 		@Override
 		public TType next() {
 			TType result= fWorklist.pop();
-			for (TType subType : result.getSubTypes()) {
+			for (TType subType : result.getSubTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fWorklist.push(subType.getTypeDeclaration());
 			}
 
@@ -127,7 +127,7 @@ public class TTypes {
 	 * @return <code>true</code> iff an expression of type 'rhs' can be assigned to a variable of type 'lhs'.
 	 * Type arguments of generic / raw / parameterized types are <b>not</b> considered.
 	 */
-	public static boolean canAssignTo(TType rhs, TType lhs) {
+	public static boolean canAssignTo(TType rhs, TType lhs) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (rhs.isHierarchyType() && lhs.isHierarchyType()) {
 			HierarchyType rhsGeneric= (HierarchyType) rhs.getTypeDeclaration();
 			HierarchyType lhsGeneric= (HierarchyType) lhs.getTypeDeclaration();
@@ -136,7 +136,7 @@ public class TTypes {
 		} else if (rhs.isTypeVariable()) {
 			if (rhs.canAssignTo(lhs))
 				return true;
-			for (TType bound : ((TypeVariable) rhs).getBounds()) {
+			for (TType bound : ((TypeVariable) rhs).getBounds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canAssignTo(bound, lhs)) {
 					return true;
 				}

@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  * A toolbar action which toggles the enabling state of the
  * editor's text hover.
  */
-public class ToggleTextHoverAction extends TextEditorAction implements IPropertyChangeListener {
+public class ToggleTextHoverAction extends TextEditorAction implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 
 	private IPreferenceStore fStore;

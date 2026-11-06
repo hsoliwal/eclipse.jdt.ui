@@ -51,9 +51,9 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
 public class TemplateEngine {
 
-	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Pattern $_LINE_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.LineSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
-	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Pattern $_WORD_SELECTION_PATTERN= Pattern.compile("\\$\\{(.*:)?" + GlobalTemplateVariables.WordSelection.NAME + "(\\(.*\\))?\\}"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	private static String Switch_Name = "switch"; //$NON-NLS-1$
 	private static String Switch_Default = "switch case statement"; //$NON-NLS-1$
@@ -63,9 +63,9 @@ public class TemplateEngine {
 	/** The context type. */
 	private TemplateContextType fContextType;
 	/** The result proposals. */
-	private ArrayList<TemplateProposal> fProposals= new ArrayList<>();
+	private ArrayList<TemplateProposal> fProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	/** Positions created on the key documents to remove in reset. */
-	private final Map<IDocument, Position> fPositions= new HashMap<>();
+	private final Map<IDocument, Position> fPositions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/**
 	 * Creates the template engine for the given <code>contextType</code>.
@@ -85,7 +85,7 @@ public class TemplateEngine {
 	 */
 	public void reset() {
 		fProposals.clear();
-		for (Entry<IDocument, Position> entry : fPositions.entrySet()) {
+		for (Entry<IDocument, Position> entry : fPositions.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IDocument doc= entry.getKey();
 			Position position= entry.getValue();
 			doc.removePosition(position);
@@ -127,7 +127,7 @@ public class TemplateEngine {
 	 * @param completionPosition the context position in the document of the text viewer
 	 * @param compilationUnit the compilation unit (may be <code>null</code>)
 	 */
-	public void complete(ITextViewer viewer, Point selectedRange, int completionPosition, ICompilationUnit compilationUnit) {
+	public void complete(ITextViewer viewer, Point selectedRange, int completionPosition, ICompilationUnit compilationUnit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    IDocument document= viewer.getDocument();
 
 		if (!(fContextType instanceof CompilationUnitContextType)) {
@@ -155,7 +155,7 @@ public class TemplateEngine {
 		Template[] templates= JavaPlugin.getDefault().getTemplateStore().getTemplates();
 		boolean needsCheck= !isJava12OrHigherProject(compilationUnit);
 		if (selectedRange.y == 0) {
-			for (Template template : templates) {
+			for (Template template : templates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canEvaluate(context, template, needsCheck)) {
 					fProposals.add(new TemplateProposal(template, context, region, getImage()));
 				}
@@ -168,12 +168,12 @@ public class TemplateEngine {
 
 			boolean multipleLinesSelected= areMultipleLinesSelected(document, selectedRange);
 
-			for (Template template : templates) {
+			for (Template template : templates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canEvaluate(context, template, needsCheck))
 				{
-					Matcher wordSelectionMatcher= $_WORD_SELECTION_PATTERN.matcher(template.getPattern());
-					Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template.getPattern());
-					if ((!multipleLinesSelected && wordSelectionMatcher.find()) || (multipleLinesSelected && lineSelectionMatcher.find())) {
+					Matcher wordSelectionMatcher= $_WORD_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					Matcher lineSelectionMatcher= $_LINE_SELECTION_PATTERN.matcher(template.getPattern()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+					if ((!multipleLinesSelected && wordSelectionMatcher.find()) || (multipleLinesSelected && lineSelectionMatcher.find())) { //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						fProposals.add(new TemplateProposal(template, context, region, getImage()));
 					}
 				}
@@ -237,7 +237,7 @@ public class TemplateEngine {
 	 * @param selectedRange the range
 	 * @return <code>true</code> if one or multiple lines are selected
 	 */
-	private boolean areMultipleLinesSelected(IDocument document, Point selectedRange) {
+	private boolean areMultipleLinesSelected(IDocument document, Point selectedRange) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (document == null || selectedRange == null) {
 			return false;
 		}

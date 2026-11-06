@@ -48,7 +48,7 @@ public class JavaTestPlugin extends AbstractUIPlugin {
 
 	public File getFileInPlugin(IPath path) throws CoreException {
 		try {
-			URL installURL= getBundle().getEntry("/"+ path.toString());
+			URL installURL= getBundle().getEntry("/"+ path.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			URL localURL= FileLocator.toFileURL(installURL);
 			return new File(localURL.getFile());
 		} catch (IOException e) {

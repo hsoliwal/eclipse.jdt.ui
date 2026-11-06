@@ -152,20 +152,20 @@ public class JavaFormatter {
 			return fBuffer;
 		}
 
-		private List<TypedPosition> createRangeMarkers(TemplateVariable[] variables, IDocument document) throws MalformedTreeException, BadLocationException {
-			Map<ReplaceEdit, String> markerToOriginal= new HashMap<>();
+		private List<TypedPosition> createRangeMarkers(TemplateVariable[] variables, IDocument document) throws MalformedTreeException, BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			Map<ReplaceEdit, String> markerToOriginal= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 			MultiTextEdit root= new MultiTextEdit(0, document.getLength());
-			List<TextEdit> edits= new ArrayList<>();
+			List<TextEdit> edits= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean hasModifications= false;
-			for (final TemplateVariable variable : variables) {
+			for (final TemplateVariable variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int[] offsets= variable.getOffsets();
 
 				String value= variable.getDefaultValue();
 				if (isWhitespaceVariable(value)) {
 					// replace whitespace positions with unformattable comments
-					String placeholder= COMMENT_START + value + COMMENT_END;
-					for (int offset : offsets) {
+					String placeholder= COMMENT_START + value + COMMENT_END; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					for (int offset : offsets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ReplaceEdit replace= new ReplaceEdit(offset, value.length(), placeholder);
 						root.addChild(replace);
 						hasModifications= true;
@@ -173,7 +173,7 @@ public class JavaFormatter {
 						edits.add(replace);
 					}
 				} else {
-					for (int offset : offsets) {
+					for (int offset : offsets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						RangeMarker marker= new RangeMarker(offset, value.length());
 						root.addChild(marker);
 						edits.add(marker);
@@ -186,8 +186,8 @@ public class JavaFormatter {
 				root.apply(document, TextEdit.UPDATE_REGIONS);
 			}
 
-			List<TypedPosition> positions= new ArrayList<>();
-			for (TextEdit edit : edits) {
+			List<TypedPosition> positions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (TextEdit edit : edits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
 					// abuse TypedPosition to piggy back the original contents of the position
 					final TypedPosition pos= new TypedPosition(edit.getOffset(), edit.getLength(), markerToOriginal.get(edit));
@@ -206,10 +206,10 @@ public class JavaFormatter {
 			return length == 0 || Character.isWhitespace(value.charAt(0)) || Character.isWhitespace(value.charAt(length - 1));
 		}
 
-		private void removeRangeMarkers(List<TypedPosition> positions, IDocument document, TemplateVariable[] variables) throws MalformedTreeException, BadLocationException, BadPositionCategoryException {
+		private void removeRangeMarkers(List<TypedPosition> positions, IDocument document, TemplateVariable[] variables) throws MalformedTreeException, BadLocationException, BadPositionCategoryException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			// revert previous changes
-			for (TypedPosition position : positions) {
+			for (TypedPosition position : positions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// remove and re-add in order to not confuse ExclusivePositionUpdater
 				document.removePosition(CATEGORY, position);
 				final String original= position.getType();
@@ -221,9 +221,9 @@ public class JavaFormatter {
 			}
 
 			Iterator<TypedPosition> it= positions.iterator();
-			for (TemplateVariable variable : variables) {
+			for (TemplateVariable variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int[] offsets= new int[variable.getOffsets().length];
-				for (int j= 0; j != offsets.length; j++)
+				for (int j= 0; j != offsets.length; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					offsets[j]= it.next().getOffset();
 
 				variable.setOffsets(offsets);
@@ -282,7 +282,7 @@ public class JavaFormatter {
 
 	private void convertLineDelimiters(IDocument document) throws BadLocationException {
 		int lines= document.getNumberOfLines();
-		for (int line= 0; line < lines; line++) {
+		for (int line= 0; line < lines; line++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IRegion region= document.getLineInformation(line);
 			String lineDelimiter= document.getLineDelimiter(line);
 			if (lineDelimiter != null)
@@ -292,13 +292,13 @@ public class JavaFormatter {
 
 	private void trimStart(IDocument document) throws BadLocationException {
 		int i= 0;
-		while ((i != document.getLength()) && Character.isWhitespace(document.getChar(i)))
+		while ((i != document.getLength()) && Character.isWhitespace(document.getChar(i))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			i++;
 
 		document.replace(0, i, ""); //$NON-NLS-1$
 	}
 
-	private boolean isReplacedAreaEmpty(TemplateContext context) {
+	private boolean isReplacedAreaEmpty(TemplateContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// don't trim the buffer if the replacement area is empty
 		// case: surrounding empty lines with block
 		if (context instanceof DocumentTemplateContext) {
@@ -323,7 +323,7 @@ public class JavaFormatter {
 		return false;
 	}
 
-	private void format(IDocument doc, CompilationUnitContext context) throws BadLocationException {
+	private void format(IDocument doc, CompilationUnitContext context) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Map<String, String> options;
 		IJavaProject project= context.getJavaProject();
 		if (project != null)
@@ -334,7 +334,7 @@ public class JavaFormatter {
 		String contents= doc.get();
 		int[] kinds= { CodeFormatter.K_EXPRESSION, CodeFormatter.K_STATEMENTS, CodeFormatter.K_UNKNOWN};
 		TextEdit edit= null;
-		for (int i= 0; i < kinds.length && edit == null; i++) {
+		for (int i= 0; i < kinds.length && edit == null; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			edit= CodeFormatterUtil.format2(kinds[i], contents, fInitialIndentLevel, fLineDelimiter, options);
 		}
 

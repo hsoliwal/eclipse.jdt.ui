@@ -88,7 +88,7 @@ public class RefactoringHandleTransplanter {
 			addElements((IMember) parent, chain);
 	}
 
-	private IMember[] convertElements(IMember[] oldElements) {
+	private IMember[] convertElements(IMember[] oldElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final IMember[] newElements= new IMember[oldElements.length];
 		final IMember first= oldElements[0];
@@ -107,7 +107,7 @@ public class RefactoringHandleTransplanter {
 		 * relevant; neither is information about generic specifics in types.
 		 */
 
-		for (int i= 1; i < oldElements.length; i++) {
+		for (int i= 1; i < oldElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IJavaElement newParent= newElements[i - 1];
 			final IJavaElement currentElement= oldElements[i];
 			switch (newParent.getElementType()) {
@@ -170,7 +170,7 @@ public class RefactoringHandleTransplanter {
 		return newElements;
 	}
 
-	private String[] resolveParameterTypes(IMethod method) {
+	private String[] resolveParameterTypes(IMethod method) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String[] oldParameterTypes= method.getParameterTypes();
 		final String[] newparams= new String[oldParameterTypes.length];
 
@@ -188,9 +188,9 @@ public class RefactoringHandleTransplanter {
 
 		// Textually replace all occurrences
 		// This handles stuff like Map<SomeClass, some.package.SomeClass>
-		for (int i= 0; i < oldParameterTypes.length; i++) {
+		for (int i= 0; i < oldParameterTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newparams[i]= oldParameterTypes[i];
-			for (int j= 0; j < possibleOldSigs.length; j++) {
+			for (int j= 0; j < possibleOldSigs.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newparams[i]= replaceAll(newparams[i], possibleOldSigs[j], possibleNewSigs[j]);
 			}
 		}
@@ -218,15 +218,15 @@ public class RefactoringHandleTransplanter {
 	}
 
     private static String replaceAll(final String source, final String replaceFrom, final String replaceTo) {
-		final StringBuilder buf= new StringBuilder(source.length());
+		final StringBuilder buf= new StringBuilder(source.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int currentIndex= 0;
 		int matchIndex;
-		while ((matchIndex= source.indexOf(replaceFrom, currentIndex)) != -1) {
-			buf.append(source.substring(currentIndex, matchIndex));
-			buf.append(replaceTo);
+		while ((matchIndex= source.indexOf(replaceFrom, currentIndex)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(source.substring(currentIndex, matchIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(replaceTo); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			currentIndex= matchIndex + replaceFrom.length();
 		}
-		buf.append(source.substring(currentIndex));
+		buf.append(source.substring(currentIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 }

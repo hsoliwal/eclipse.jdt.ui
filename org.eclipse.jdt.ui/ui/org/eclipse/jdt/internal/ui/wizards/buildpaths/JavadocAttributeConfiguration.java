@@ -45,7 +45,7 @@ public class JavadocAttributeConfiguration extends ClasspathAttributeConfigurati
 		return NewWizardMessages.CPListLabelProvider_javadoc_location_label;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getValueLabel(ClasspathAttributeAccess access) {
 		String arg= null;
 		String str= access.getClasspathAttribute().getValue();

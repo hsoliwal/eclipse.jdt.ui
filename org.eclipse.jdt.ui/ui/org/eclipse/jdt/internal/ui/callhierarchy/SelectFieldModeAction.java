@@ -28,7 +28,7 @@ public class SelectFieldModeAction extends Action {
     private CallHierarchyViewPart fView;
     private int fMode;
 
-    public SelectFieldModeAction(CallHierarchyViewPart v, int mode) {
+    public SelectFieldModeAction(CallHierarchyViewPart v, int mode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(null, AS_RADIO_BUTTON);
 		switch (mode) {
 			case IJavaSearchConstants.REFERENCES:

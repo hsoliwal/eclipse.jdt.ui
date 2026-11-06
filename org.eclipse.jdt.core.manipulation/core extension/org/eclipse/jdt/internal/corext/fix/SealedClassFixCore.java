@@ -84,7 +84,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 			this.fSealedType= sealedType;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			AST ast= fPermittedTypeDeclaration.getAST();
 			String sealedTypeName= fSealedType.getName().getIdentifier();
@@ -105,7 +105,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 		}
 	}
 
-	public static SealedClassFixCore addTypeAsPermittedSubTypeProposal(CompilationUnit cu, IProblemLocation problem) {
+	public static SealedClassFixCore addTypeAsPermittedSubTypeProposal(CompilationUnit cu, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(cu);
 
 		IType sealedType= getSealedType(selectedNode);
@@ -113,7 +113,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 			return null;
 		}
 
-		while (selectedNode.getParent() instanceof Type) {
+		while (selectedNode.getParent() instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 
@@ -148,7 +148,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 		return new SealedClassFixCore(label, cuRewrite.getRoot(), op);
 	}
 
-	public static SealedClassFixCore addSealedAsDirectSuperTypeProposal(CompilationUnit cu, IProblemLocation problem) {
+	public static SealedClassFixCore addSealedAsDirectSuperTypeProposal(CompilationUnit cu, IProblemLocation problem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode selectedNode= problem.getCoveringNode(cu);
 
 		TypeDeclaration sealedType= getSealedTypeNodeFromPermitsNode(selectedNode);
@@ -210,7 +210,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 	 * @param selectedNode The selected node representing a type that is inherited by the class
 	 * @return an IType representing the sealed type from the inheriting class or null if not applicable
 	 */
-	public static IType getSealedType(ASTNode selectedNode) {
+	public static IType getSealedType(ASTNode selectedNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedNode == null) {
 			return null;
 		}
@@ -218,7 +218,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 			return null;
 		}
 
-		while (selectedNode.getParent() instanceof Type) {
+		while (selectedNode.getParent() instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 		if (selectedNode.getLocationInParent() != TypeDeclaration.SUPERCLASS_TYPE_PROPERTY
@@ -251,7 +251,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 			return null;
 		}
 
-		while (selectedNode.getParent() instanceof Type) {
+		while (selectedNode.getParent() instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 		if (selectedNode.getLocationInParent() != TypeDeclaration.PERMITS_TYPES_PROPERTY) {
@@ -276,7 +276,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 	 * @param selectedNode The selected node representing a 'permits' node type
 	 * @return an IType representing the permitted type node or null if not applicable
 	 */
-	public static IType getPermittedType(ASTNode selectedNode) {
+	public static IType getPermittedType(ASTNode selectedNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (selectedNode == null) {
 			return null;
 		}
@@ -284,7 +284,7 @@ public class SealedClassFixCore extends CompilationUnitRewriteOperationsFixCore 
 			return null;
 		}
 
-		while (selectedNode.getParent() instanceof Type) {
+		while (selectedNode.getParent() instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			selectedNode= selectedNode.getParent();
 		}
 		if (selectedNode.getLocationInParent() != TypeDeclaration.PERMITS_TYPES_PROPERTY) {

@@ -149,7 +149,7 @@ import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
  * when a resource is selected in the packages view the corresponding editor is activated.
  */
 
-public class PackageExplorerPart extends ViewPart
+public class PackageExplorerPart extends ViewPart //FLLDCIM: MARK — T06  IMPLEMENTS
 	implements ISetSelectionTarget, IMenuListener,
 		IShowInTarget, IRefreshable,
 		IPackagesViewPart,  IPropertyChangeListener,
@@ -204,7 +204,7 @@ public class PackageExplorerPart extends ViewPart
 	private final IDialogSettings fDialogSettings;
 
 
-	private final IPartListener2 fLinkWithEditorListener= new IPartListener2() {
+	private final IPartListener2 fLinkWithEditorListener= new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 		@Override
 		public void partVisible(IWorkbenchPartReference partRef) {}
 		@Override
@@ -234,7 +234,7 @@ public class PackageExplorerPart extends ViewPart
 
 	};
 
-	private final ITreeViewerListener fExpansionListener= new ITreeViewerListener() {
+	private final ITreeViewerListener fExpansionListener= new ITreeViewerListener() { //FLLDCIM: MARK — T22  ANONYMOUS
 		@Override
 		public void treeCollapsed(TreeExpansionEvent event) {
 		}
@@ -255,7 +255,7 @@ public class PackageExplorerPart extends ViewPart
 
 		public PackageExplorerProblemTreeViewer(Composite parent, int style) {
 			super(parent, style);
-			fPendingRefreshes= Collections.synchronizedList(new ArrayList<>());
+			fPendingRefreshes= Collections.synchronizedList(new ArrayList<>()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		@Override
 		public void add(Object parentElement, Object... childElements) {
@@ -314,15 +314,15 @@ public class PackageExplorerPart extends ViewPart
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void handleInvalidSelection(ISelection invalidSelection, ISelection newSelection) {
 			IStructuredSelection is= (IStructuredSelection)invalidSelection;
-			List<Object> ns= new ArrayList<>();
+			List<Object> ns= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (newSelection instanceof IStructuredSelection) {
 				ns.addAll(((IStructuredSelection) newSelection).toList());
 			}
 			boolean changed= false;
-			for (Object element : is) {
+			for (Object element : is) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IJavaProject) {
 					IProject project= ((IJavaProject)element).getProject();
 					if (!project.isOpen() && project.exists()) {
@@ -356,7 +356,7 @@ public class PackageExplorerPart extends ViewPart
 
 	}
 
-	public PackageExplorerPart() {
+	public PackageExplorerPart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// exception: initialize from preference
 		fDialogSettings= JavaPlugin.getDefault().getDialogSettingsSection(getClass().getName());
@@ -380,7 +380,7 @@ public class PackageExplorerPart extends ViewPart
 
 	}
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void init(IViewSite site, IMemento memento) throws PartInitException {
 		super.init(site, memento);
 		if (memento == null) {
@@ -449,7 +449,7 @@ public class PackageExplorerPart extends ViewPart
 		}
 	}
 
-	 @Override
+	 @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		XMLMemento memento= XMLMemento.createWriteRoot("packageExplorer"); //$NON-NLS-1$
 		saveState(memento);
@@ -480,7 +480,7 @@ public class PackageExplorerPart extends ViewPart
 		super.dispose();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 
 		final PerformanceStats stats= PerformanceStats.getStats(PERF_CREATE_PART_CONTROL, this);
@@ -504,7 +504,7 @@ public class PackageExplorerPart extends ViewPart
 
 		MenuManager menuMgr= new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(this);
+		menuMgr.addMenuListener(this); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		fContextMenu= menuMgr.createContextMenu(fViewer.getTree());
 		fViewer.getTree().setMenu(fContextMenu);
 
@@ -517,11 +517,11 @@ public class PackageExplorerPart extends ViewPart
 
 		// Set input after filter and sorter has been set. This avoids resorting and refiltering.
 		restoreFilterAndSorter();
-		fViewer.setInput(findInputElement());
+		fViewer.setInput(findInputElement()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		initFrameActions();
 		initKeyListener();
 
-		fViewer.addDoubleClickListener(event -> fActionSet.handleDoubleClick(event));
+		fViewer.addDoubleClickListener(event -> fActionSet.handleDoubleClick(event)); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
 		fOpenAndLinkWithEditorHelper= new OpenAndLinkWithEditorHelper(fViewer) {
 			@Override
@@ -548,8 +548,8 @@ public class PackageExplorerPart extends ViewPart
 		};
 
 		IStatusLineManager slManager= getViewSite().getActionBars().getStatusLineManager();
-		fViewer.addSelectionChangedListener(new StatusBarUpdater(slManager));
-		fViewer.addTreeListener(fExpansionListener);
+		fViewer.addSelectionChangedListener(new StatusBarUpdater(slManager)); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+		fViewer.addTreeListener(fExpansionListener); //FLLDCIM: MARK — T22 EXPAND_STATE_LANE CALL
 
 		// Set help for the view
 		JavaUIHelp.setHelp(fViewer, IJavaHelpContextIds.PACKAGES_VIEW);
@@ -601,7 +601,7 @@ public class PackageExplorerPart extends ViewPart
 		fLabelProvider= createLabelProvider();
 		fLabelProvider.setIsFlatLayout(fIsCurrentLayoutFlat);
 		fDecoratingLabelProvider= new DecoratingJavaLabelProvider(fLabelProvider, false, fIsCurrentLayoutFlat);
-		fViewer.setLabelProvider(fDecoratingLabelProvider);
+		fViewer.setLabelProvider(fDecoratingLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		// problem decoration provided by PackageLabelProvider
 	}
 
@@ -611,7 +611,7 @@ public class PackageExplorerPart extends ViewPart
 
 		fContentProvider.setShowLibrariesNode(enabled);
 		fViewer.getControl().setRedraw(false);
-		fViewer.refresh();
+		fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		fViewer.getControl().setRedraw(true);
 	}
 
@@ -631,7 +631,7 @@ public class PackageExplorerPart extends ViewPart
 			fDecoratingLabelProvider.setFlatPackageMode(isFlatLayout());
 
 			fViewer.getControl().setRedraw(false);
-			fViewer.refresh();
+			fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fViewer.getControl().setRedraw(true);
 		}
 	}
@@ -666,7 +666,7 @@ public class PackageExplorerPart extends ViewPart
 		fActionSet.fillActionBars(actionBars);
 	}
 
-	private Object findInputElement() {
+	private Object findInputElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getRootMode() == WORKING_SETS_AS_ROOTS) {
 			return fWorkingSetModel;
 		} else {
@@ -705,7 +705,7 @@ public class PackageExplorerPart extends ViewPart
 	 * @param element the element
 	 * @return the tooltip
 	 */
-	String getToolTipText(Object element) {
+	String getToolTipText(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String result;
 		if (!(element instanceof IResource)) {
 			if (element instanceof IJavaModel) {
@@ -739,7 +739,7 @@ public class PackageExplorerPart extends ViewPart
 				FrameList frameList= fActionSet.getFrameList();
 				int index= frameList.getCurrentIndex();
 				IWorkingSet ws= null;
-				while(index >= 0) {
+				while(index >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Frame frame= frameList.getFrame(index);
 					if (frame instanceof TreeFrame) {
 						Object input= ((TreeFrame)frame).getInput();
@@ -819,8 +819,8 @@ public class PackageExplorerPart extends ViewPart
 
 	@Override
 	public void refresh(IStructuredSelection selection) {
-		for (Object selectedElement : selection.toArray()) {
-			fViewer.refresh(selectedElement);
+		for (Object selectedElement : selection.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			fViewer.refresh(selectedElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -841,7 +841,7 @@ public class PackageExplorerPart extends ViewPart
 		Object[] elements= ((IStructuredSelection)s).toArray();
 
 		boolean changed= false;
-		for (int i= 0; i < elements.length; i++) {
+		for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object convertedElement= convertElement(elements[i]);
 			changed= changed || convertedElement != elements[i];
 			elements[i]= convertedElement;
@@ -852,7 +852,7 @@ public class PackageExplorerPart extends ViewPart
 			return s;
 	}
 
-	private Object convertElement(Object original) {
+	private Object convertElement(Object original) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (original instanceof IJavaElement) {
 			if (original instanceof ICompilationUnit) {
 				ICompilationUnit cu= (ICompilationUnit) original;
@@ -925,7 +925,7 @@ public class PackageExplorerPart extends ViewPart
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveState(IMemento memento) {
 		if (fViewer == null && fMemento != null) {
 			// part has not been created -> keep the old state
@@ -971,7 +971,7 @@ public class PackageExplorerPart extends ViewPart
 	}
 
 	private void restoreFilterAndSorter() {
-		fViewer.addFilter(new OutputFolderFilter());
+		fViewer.addFilter(new OutputFolderFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		setComparator();
 		if (fMemento != null)
 			fActionSet.restoreFilterAndSorterState(fMemento);
@@ -986,7 +986,7 @@ public class PackageExplorerPart extends ViewPart
 	 * Create the KeyListener for doing the refresh on the viewer.
 	 */
 	private void initKeyListener() {
-		fDisplayArea.addKeyListener(new KeyAdapter() {
+		fDisplayArea.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 			@Override
 			public void keyReleased(KeyEvent event) {
 				fActionSet.handleKeyEvent(event);
@@ -1012,7 +1012,7 @@ public class PackageExplorerPart extends ViewPart
 			getTreeViewer().getTree().showSelection();
 	}
 
-	private Object getInputFromEditor(IEditorInput editorInput) {
+	private Object getInputFromEditor(IEditorInput editorInput) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object input= JavaUI.getEditorInputJavaElement(editorInput);
 		if (input instanceof ICompilationUnit) {
 			ICompilationUnit cu= (ICompilationUnit) input;
@@ -1043,7 +1043,7 @@ public class PackageExplorerPart extends ViewPart
 		return input.equals(selectionAsInput);
 	}
 
-	boolean showInput(Object input) {
+	boolean showInput(Object input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object element= null;
 
 		if (input instanceof IFile && isOnClassPath((IFile)input)) {
@@ -1060,7 +1060,7 @@ public class PackageExplorerPart extends ViewPart
 			} else {
 				fViewer.setSelection(newSelection, true);
 
-				while (element != null && fViewer.getSelection().isEmpty()) {
+				while (element != null && fViewer.getSelection().isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// Try to select parent in case element is filtered
 					element= getParent(element);
 					if (element != null) {
@@ -1101,7 +1101,7 @@ public class PackageExplorerPart extends ViewPart
 	 * the main type.
 	 * @param element the element
 	 */
-	void expandMainType(Object element) {
+	void expandMainType(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IType type= null;
 			if (element instanceof ICompilationUnit) {
@@ -1118,7 +1118,7 @@ public class PackageExplorerPart extends ViewPart
 				final IType type2= type;
 				Control ctrl= fViewer.getControl();
 				if (ctrl != null && !ctrl.isDisposed()) {
-					ctrl.getDisplay().asyncExec(() -> {
+					ctrl.getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 						Control ctrl2= fViewer.getControl();
 						if (ctrl2 != null && !ctrl2.isDisposed())
 							fViewer.expandToLevel(type2, 1);
@@ -1185,7 +1185,7 @@ public class PackageExplorerPart extends ViewPart
 	/*
 	 * @see IPropertyChangeListener#propertyChange(PropertyChangeEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void propertyChange(PropertyChangeEvent event) {
 		if (fViewer == null)
 			return;
@@ -1207,7 +1207,7 @@ public class PackageExplorerPart extends ViewPart
 			}
 
 			if (refreshViewer)
-				fViewer.refresh();
+				fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		});
 	}
 
@@ -1228,7 +1228,7 @@ public class PackageExplorerPart extends ViewPart
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean show(ShowInContext context) {
 		ISelection selection= context.getSelection();
 		if (selection instanceof IStructuredSelection) {
@@ -1299,7 +1299,7 @@ public class PackageExplorerPart extends ViewPart
 		}
 	}
 
-    public int tryToReveal(Object element) {
+    public int tryToReveal(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (revealElementOrParent(element))
             return IStatus.OK;
 
@@ -1344,7 +1344,7 @@ public class PackageExplorerPart extends ViewPart
             }
         }
         FrameAction action= fActionSet.getUpAction();
-        while (action.getFrameList().getCurrentIndex() > 0) {
+        while (action.getFrameList().getCurrentIndex() > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
         	// only try to go up if there is a parent frame
         	// fix for bug# 63769 Endless loop after Show in Package Explorer
         	if (action.getFrameList().getSource().getFrame(IFrameSource.PARENT_FRAME, 0) == null)
@@ -1356,7 +1356,7 @@ public class PackageExplorerPart extends ViewPart
 
         //we tried removing filters, still element was not found. we can try to select any possible element in it's parent hierarchy. Like 'Link with Editor'
         ISelection newSelection= new StructuredSelection(element);
-		while (element != null && fViewer.getSelection().isEmpty()) {
+		while (element != null && fViewer.getSelection().isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// Try to select parent in case element is filtered
 			element= getParent(element);
 			if (element != null) {
@@ -1390,7 +1390,7 @@ public class PackageExplorerPart extends ViewPart
         return false;
     }
 
-    private Object getVisibleParent(Object object) {
+    private Object getVisibleParent(Object object) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	// Fix for http://dev.eclipse.org/bugs/show_bug.cgi?id=19104
     	if (object == null)
     		return null;
@@ -1422,7 +1422,7 @@ public class PackageExplorerPart extends ViewPart
     	return ! getSite().getSelectionProvider().getSelection().isEmpty();
     }
 
-	public void rootModeChanged(int newMode) {
+	public void rootModeChanged(int newMode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fRootMode= newMode;
 		saveDialogSettings();
 
@@ -1440,13 +1440,13 @@ public class PackageExplorerPart extends ViewPart
 		try {
 			fViewer.getControl().setRedraw(false);
 			if (isRootInputChange) {
-				fViewer.setInput(null);
+				fViewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 			setProviders();
 			setComparator();
 			fActionSet.getWorkingSetActionGroup().fillFilters(fViewer);
 			if (isRootInputChange) {
-				fViewer.setInput(findInputElement());
+				fViewer.setInput(findInputElement()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 			fViewer.setSelection(selection, true);
 		} finally {

@@ -67,23 +67,23 @@ public class StringBufferToStringBuilderCleanUpCore extends AbstractCleanUp {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(CleanUpConstants.STRINGBUFFER_TO_STRINGBUILDER) && !isEnabled(CleanUpConstants.STRINGBUFFER_TO_STRINGBUILDER_FOR_LOCALS)) {
-			bld.append("public void foo(StringBuilder x) {\n"); //$NON-NLS-1$
+			bld.append("public void foo(StringBuilder x) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("public void foo(StringBuffer x) {\n"); //$NON-NLS-1$
+			bld.append("public void foo(StringBuffer x) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isEnabled(CleanUpConstants.STRINGBUFFER_TO_STRINGBUILDER)) {
-			bld.append("    StringBuilder y = new StringBuilder();\n"); //$NON-NLS-1$
+			bld.append("    StringBuilder y = new StringBuilder();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("    StringBuffer y = new StringBuffer();\n"); //$NON-NLS-1$
+			bld.append("    StringBuffer y = new StringBuffer();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		bld.append("    y.append(\"a string\");\n"); //$NON-NLS-1$
-		bld.append("    System.out.println(y.toString());\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("    y.append(\"a string\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    System.out.println(y.toString());\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return bld.toString();
 	}

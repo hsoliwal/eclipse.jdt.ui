@@ -60,7 +60,7 @@ public class TextRangeUtil {
 	public static int calculateTabCountInLine(String lineSource, int lastCharOffset){
 		int acc= 0;
 		int charCount= 0;
-		for(int i= 0; charCount < lastCharOffset - 1; i++){
+		for(int i= 0; charCount < lastCharOffset - 1; i++){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if ('\t' == lineSource.charAt(i)){
 				acc++;
 				charCount += getTabWidth();

@@ -94,14 +94,14 @@ public class PropertiesFilePartitionScanner extends RuleBasedPartitionScanner im
 	/**
 	 * Creates the partitioner and sets up the appropriate rules.
 	 */
-	public PropertiesFilePartitionScanner() {
+	public PropertiesFilePartitionScanner() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 
 		IToken comment= new Token(COMMENT);
 		IToken propertyValue= new Token(PROPERTY_VALUE);
 		IToken key= new Token(IDocument.DEFAULT_CONTENT_TYPE);
 
-		List<IPredicateRule> rules= new ArrayList<>();
+		List<IPredicateRule> rules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add rule for leading white space.
 		rules.add(new LeadingWhitespacePredicateRule(key, "\t")); //$NON-NLS-1$

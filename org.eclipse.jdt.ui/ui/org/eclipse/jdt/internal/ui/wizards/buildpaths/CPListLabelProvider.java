@@ -95,7 +95,7 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 		fDecorateWithoutTestCode= decoratorMgr.getEnabled("org.eclipse.jdt.internal.ui.without.test.code.decorator"); //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getText(Object element) {
 		if (element instanceof CPListElement) {
 			CPListElement cp = (CPListElement) element;
@@ -135,7 +135,7 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 		return name;
 	}
 
-	public String getCPListElementAttributeText(CPListElementAttribute attrib) {
+	public String getCPListElementAttributeText(CPListElementAttribute attrib) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String notAvailable= NewWizardMessages.CPListLabelProvider_none;
 		String key= attrib.getKey();
 		switch (key) {
@@ -168,14 +168,14 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 				IPath[] patterns= (IPath[]) attrib.getValue();
 				if (patterns != null && patterns.length > 0) {
 					int patternsCount= 0;
-					StringBuilder buf= new StringBuilder();
-					for (IPath p : patterns) {
+					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					for (IPath p : patterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (p.segmentCount() > 0) {
 							String pattern= BasicElementLabels.getPathLabel(p, false);
 							if (patternsCount > 0) {
-								buf.append(NewWizardMessages.CPListLabelProvider_exclusion_filter_separator);
+								buf.append(NewWizardMessages.CPListLabelProvider_exclusion_filter_separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
-							buf.append(pattern);
+							buf.append(pattern); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							patternsCount++;
 						}
 					}
@@ -194,14 +194,14 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 				IPath[] patterns= (IPath[]) attrib.getValue();
 				if (patterns != null && patterns.length > 0) {
 					int patternsCount= 0;
-					StringBuilder buf= new StringBuilder();
-					for (IPath p : patterns) {
+					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					for (IPath p : patterns) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (p.segmentCount() > 0) {
 							String pattern= BasicElementLabels.getPathLabel(p, false);
 							if (patternsCount > 0) {
-								buf.append(NewWizardMessages.CPListLabelProvider_inclusion_filter_separator);
+								buf.append(NewWizardMessages.CPListLabelProvider_inclusion_filter_separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							}
-							buf.append(pattern);
+							buf.append(pattern); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							patternsCount++;
 						}
 					}
@@ -270,7 +270,7 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 				if (value instanceof ModuleEncapsulationDetail[]) {
 					boolean limitModules= false;
 					boolean modifiesEncaps= false;
-					for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[]) value) {
+					for (ModuleEncapsulationDetail detail : (ModuleEncapsulationDetail[]) value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (detail instanceof LimitModules) {
 							limitModules= true;
 						} else {
@@ -326,7 +326,7 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 		}
 	}
 
-	public String getCPListElementText(CPListElement cpentry) {
+	public String getCPListElementText(CPListElement cpentry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath path= cpentry.getPath();
 		switch (cpentry.getEntryKind()) {
 			case IClasspathEntry.CPE_LIBRARY: {
@@ -336,42 +336,42 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 				}
 				IResource resource= cpentry.getResource();
 				if (resource instanceof IContainer) {
-					StringBuilder buf= new StringBuilder(BasicElementLabels.getPathLabel(path, false));
+					StringBuilder buf= new StringBuilder(BasicElementLabels.getPathLabel(path, false)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					IPath linkTarget= cpentry.getLinkTarget();
 					if (linkTarget != null) {
-						buf.append(JavaElementLabels.CONCAT_STRING);
-						buf.append(BasicElementLabels.getPathLabel(linkTarget, true));
+						buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buf.append(BasicElementLabels.getPathLabel(linkTarget, true)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append(' ');
-					buf.append(fClassLabel);
+					buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(fClassLabel); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (!resource.exists()) {
-						buf.append(' ');
+						buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						if (cpentry.isMissing()) {
-							buf.append(fMissing);
+							buf.append(fMissing); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							buf.append(fNewLabel);
+							buf.append(fNewLabel); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 					return buf.toString();
 				} else {
-					StringBuilder label= new StringBuilder(getPathString(path, resource == null));
+					StringBuilder label= new StringBuilder(getPathString(path, resource == null)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					if (cpentry.isMissing()) {
-						label.append(' ').append(fMissing);
+						label.append(' ').append(fMissing); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 					return label.toString();
 				}
 			}
 			case IClasspathEntry.CPE_VARIABLE: {
-				StringBuilder label= new StringBuilder(getVariableString(path));
+				StringBuilder label= new StringBuilder(getVariableString(path)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (cpentry.isMissing()) {
-					label.append(' ').append(fMissing);
+					label.append(' ').append(fMissing); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				return label.toString();
 			}
 			case IClasspathEntry.CPE_PROJECT:
-				StringBuilder label= new StringBuilder(path.lastSegment());
+				StringBuilder label= new StringBuilder(path.lastSegment()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				if (cpentry.isMissing()) {
-					label.append(' ').append(fMissing);
+					label.append(' ').append(fMissing); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				return label.toString();
 			case IClasspathEntry.CPE_CONTAINER:
@@ -391,23 +391,23 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 				return BasicElementLabels.getPathLabel(path, false);
 			case IClasspathEntry.CPE_SOURCE: {
 				String pathLabel= BasicElementLabels.getPathLabel(path, false);
-				StringBuilder buf= new StringBuilder(pathLabel);
+				StringBuilder buf= new StringBuilder(pathLabel); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				IPath linkTarget= cpentry.getLinkTarget();
 				if (linkTarget != null) {
-					buf.append(JavaElementLabels.CONCAT_STRING);
-					buf.append(BasicElementLabels.getPathLabel(linkTarget, true));
+					buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(BasicElementLabels.getPathLabel(linkTarget, true)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				IResource resource= cpentry.getResource();
 				if (resource != null && !resource.exists()) {
-					buf.append(' ');
+					buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					if (cpentry.isMissing()) {
-						buf.append(fMissing);
+						buf.append(fMissing); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					} else {
-						buf.append(fNewLabel);
+						buf.append(fNewLabel); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				} else if (cpentry.getOrginalPath() == null) {
-					buf.append(' ');
-					buf.append(fNewLabel);
+					buf.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(fNewLabel); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				return buf.toString();
 			}
@@ -444,7 +444,7 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 		return getCPListElementBaseImage(cpentry, isTest);
 	}
 
-	private ImageDescriptor getCPListElementBaseImage(CPListElement cpentry, boolean isTest) {
+	private ImageDescriptor getCPListElementBaseImage(CPListElement cpentry, boolean isTest) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean useTestIcon = isTest && fDecorateTestCodeContainerIcons;
 
 		switch (cpentry.getEntryKind()) {
@@ -516,7 +516,7 @@ public class CPListLabelProvider extends LabelProvider implements IStyledLabelPr
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage(Object element) {
 		if (element instanceof CPListElement) {
 			CPListElement cpentry= (CPListElement) element;

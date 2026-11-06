@@ -31,7 +31,7 @@ class ToggleOrientationAction extends Action {
     private CallHierarchyViewPart fView;
     private int fActionOrientation;
 
-    public ToggleOrientationAction(CallHierarchyViewPart v, int orientation) {
+    public ToggleOrientationAction(CallHierarchyViewPart v, int orientation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         super("", AS_RADIO_BUTTON); //$NON-NLS-1$
 		switch (orientation) {
 		case CallHierarchyViewPart.VIEW_ORIENTATION_HORIZONTAL:

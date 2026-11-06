@@ -130,7 +130,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
  *
  * @since 3.2
  */
-public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable {
+public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	private interface IHashCodeAccessProvider {
 
@@ -222,7 +222,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	private int fDoubleCount;
 
 	/** The primitive types to generate custom hashCode() methods for */
-	private List<ITypeBinding> fCustomHashCodeTypes= new ArrayList<>();
+	private List<ITypeBinding> fCustomHashCodeTypes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/** <code>true</code> to use 'instanceof' to compare types, <code>false</code> otherwise */
 	private final boolean fUseInstanceOf;
@@ -256,7 +256,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	 * @param save <code>true</code> if the changed compilation unit should be
 	 *            saved, <code>false</code> otherwise
 	 */
-	public GenerateHashCodeEqualsOperation(final ITypeBinding type, final IVariableBinding[] fields, final CompilationUnit unit,
+	public GenerateHashCodeEqualsOperation(final ITypeBinding type, final IVariableBinding[] fields, final CompilationUnit unit, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final IJavaElement insert, final CodeGenerationSettings settings, final boolean useInstanceof, final boolean useJ7HashEquals, final boolean force, final boolean apply,
 			final boolean save) {
 		Assert.isNotNull(type);
@@ -311,7 +311,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	/*
 	 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IProgressMonitor monitor) throws CoreException {
 		if (monitor == null)
 			monitor= new NullProgressMonitor();
@@ -349,7 +349,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 				addMethod(rewriter, equalsMethod, hashCodeMethod, oldHash);
 
 				// helpers
-				for (ITypeBinding binding : fCustomHashCodeTypes) {
+				for (ITypeBinding binding : fCustomHashCodeTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (findMethodToReplace(list, METHODNAME_HASH_CODE, objectAsParam) == null) {
 						final MethodDeclaration helperDecl= createHashCodeHelper(binding);
 						addHelper(rewriter, null, helperDecl);
@@ -377,7 +377,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	}
 
 	private BodyDeclaration findMethodToReplace(final List<BodyDeclaration> list, String name, ITypeBinding[] paramTypes) {
-		for (BodyDeclaration bodyDecl : list) {
+		for (BodyDeclaration bodyDecl : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (bodyDecl instanceof MethodDeclaration) {
 				final MethodDeclaration method= (MethodDeclaration) bodyDecl;
 				final IMethodBinding binding= method.resolveBinding();
@@ -411,7 +411,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 
 	// ******************* HASHCODE *******************
 
-	private MethodDeclaration createHashCodeMethod() throws CoreException {
+	private MethodDeclaration createHashCodeMethod() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		MethodDeclaration hashCodeMethod= fAst.newMethodDeclaration();
 		hashCodeMethod.modifiers().addAll(ASTNodeFactory.newModifiers(fAst, Modifier.PUBLIC));
@@ -467,7 +467,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 			}
 
 			MethodInvocation j7Invoc= fAst.newMethodInvocation();
-			for (IVariableBinding field : fFields) {
+			for (IVariableBinding field : fFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (field.getType().isArray()) {
 					body.statements().add(createAddArrayHashCode(field));
 				} else if (fUseJ7HashEquals) {
@@ -494,7 +494,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		if (fSettings != null) {
 			ITypeBinding object= fAst.resolveWellKnownType(JAVA_LANG_OBJECT);
 			IMethodBinding objectMethod= null;
-			for (IMethodBinding objm : object.getDeclaredMethods()) {
+			for (IMethodBinding objm : object.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (METHODNAME_HASH_CODE.equals(objm.getName()) && objm.getParameterTypes().length == 0) {
 					objectMethod= objm;
 				}
@@ -509,9 +509,9 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return Arrays.stream(fFields).map(IVariableBinding::getType).noneMatch(ITypeBinding::isArray);
 	}
 
-	private MethodInvocation createStandaloneJ7HashCall() {
+	private MethodInvocation createStandaloneJ7HashCall() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodInvocation j7Invoc= fAst.newMethodInvocation();
-		for (IVariableBinding field : fFields) {
+		for (IVariableBinding field : fFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (field.getType().isPrimitive()) {
 				MethodInvocation invocation= fAst.newMethodInvocation();
 				invocation.setName(fAst.newSimpleName("valueOf")); //$NON-NLS-1$
@@ -562,9 +562,9 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return prepareAssignment(hashAccess);
 	}
 
-	private Statement[] createAddSimpleHashCode(ITypeBinding type, IHashCodeAccessProvider provider, String name, boolean singleTemp) {
+	private Statement[] createAddSimpleHashCode(ITypeBinding type, IHashCodeAccessProvider provider, String name, boolean singleTemp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		List<Statement> statements= new ArrayList<>();
+		List<Statement> statements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (!type.isPrimitive()) {
 			// (element == null ? 0 : element.hashCode())
@@ -642,7 +642,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return prepareAssignment(invoc);
 	}
 
-	private MethodDeclaration createGetEnclosingInstanceHelper() {
+	private MethodDeclaration createGetEnclosingInstanceHelper() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String enclosingTypeName= fType.getDeclaringClass().getTypeDeclaration().getName();
 
 		MethodDeclaration helperMethod= fAst.newMethodDeclaration();
@@ -665,7 +665,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	}
 
 
-	private MethodDeclaration createHashCodeHelper(ITypeBinding binding) {
+	private MethodDeclaration createHashCodeHelper(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(!binding.isArray());
 
 		MethodDeclaration hashCodeMethod= fAst.newMethodDeclaration();
@@ -780,7 +780,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return hashCodeMethod;
 	}
 
-	private Statement createAddQualifiedHashCode(IVariableBinding binding) {
+	private Statement createAddQualifiedHashCode(IVariableBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		MethodInvocation invoc= fAst.newMethodInvocation();
 		invoc.setExpression(getThisAccessForHashCode(binding.getName()));
@@ -799,7 +799,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return prepareAssignment(parenthesize(cexpr));
 	}
 
-	private Expression createShiftAssignment(Expression shift1, Expression shift2) {
+	private Expression createShiftAssignment(Expression shift1, Expression shift2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// (int)(element ^ (element >>> 32));
 		// see implementation in Arrays.hashCode(), Double.hashCode() and
 		// Long.hashCode()
@@ -820,7 +820,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return ce;
 	}
 
-	private Statement prepareAssignment(Expression rightHand) {
+	private Statement prepareAssignment(Expression rightHand) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// result = PRIME*result + (...)
 		InfixExpression mul= fAst.newInfixExpression();
 		mul.setLeftOperand(fAst.newSimpleName(VARIABLE_NAME_PRIME));
@@ -842,7 +842,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 
 	// *************** EQUALS ***************
 
-	private MethodDeclaration createEqualsMethod() throws CoreException {
+	private MethodDeclaration createEqualsMethod() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		MethodDeclaration equalsMethodDeclaration= fAst.newMethodDeclaration();
 		equalsMethodDeclaration.modifiers().addAll(ASTNodeFactory.newModifiers(fAst, Modifier.PUBLIC));
@@ -937,7 +937,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		if (fUseJ7HashEquals && fFields.length > 0) {
 			body.statements().add(createJ7EqualsStatement());
 		} else {
-			for (IVariableBinding field : fFields) {
+			for (IVariableBinding field : fFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding type= field.getType();
 				if (type.isPrimitive() || type.isEnum())
 					body.statements().add(createSimpleComparison(field));
@@ -962,7 +962,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		if (fSettings != null) {
 			ITypeBinding object= fAst.resolveWellKnownType(JAVA_LANG_OBJECT);
 			IMethodBinding objectMethod= null;
-			for (IMethodBinding objm : object.getDeclaredMethods()) {
+			for (IMethodBinding objm : object.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (METHODNAME_EQUALS.equals(objm.getName()) && objm.getParameterTypes().length == 1 && JAVA_LANG_OBJECT.equals(objm.getParameterTypes()[0].getQualifiedName())) {
 					objectMethod= objm;
 				}
@@ -973,7 +973,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return equalsMethodDeclaration;
 	}
 
-	private Statement createJ7EqualsStatement() {
+	private Statement createJ7EqualsStatement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// return Object.equals(anObjet, other.anObject) && ... ;
 		ReturnStatement returnStatement= fAst.newReturnStatement();
 
@@ -984,7 +984,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 			InfixExpression exp= fAst.newInfixExpression();
 			exp.setLeftOperand(equalsExp);
 			InfixExpression refExp= exp;
-			for (int i= 1; i < fFields.length; i++) {
+			for (int i= 1; i < fFields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				equalsExp= createJ7EqualsExpression(fFields[i]);
 
 				refExp.setOperator(Operator.CONDITIONAL_AND);
@@ -1002,7 +1002,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		return returnStatement;
 	}
 
-	private Expression createJ7EqualsExpression(IVariableBinding variable) {
+	private Expression createJ7EqualsExpression(IVariableBinding variable) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding type= variable.getType();
 		String name= variable.getName();
 		if (type.isPrimitive() || type.isEnum()) {
@@ -1039,7 +1039,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 		}
 	}
 
-	private Statement createEnclosingInstanceComparison() {
+	private Statement createEnclosingInstanceComparison() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MethodInvocation enclosing1= fAst.newMethodInvocation();
 		enclosing1.setName(fAst.newSimpleName(METHODNAME_GET_ENCLOSING_INSTANCE));
 
@@ -1124,7 +1124,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	 * @param name the field name
 	 * @return the comparison statement
 	 */
-	private Statement createQualifiedComparison(String name) {
+	private Statement createQualifiedComparison(String name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InfixExpression newCondition= fAst.newInfixExpression();
 		newCondition.setOperator(Operator.EQUALS);
 		newCondition.setLeftOperand(getThisAccessForEquals(name));
@@ -1236,7 +1236,7 @@ public final class GenerateHashCodeEqualsOperation implements IWorkspaceRunnable
 	}
 
 	private boolean isPrimitiveType(ITypeBinding type, PrimitiveType.Code[] codes) {
-		for (Code code : codes) {
+		for (Code code : codes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isPrimitiveType(type, code))
 				return true;
 		}

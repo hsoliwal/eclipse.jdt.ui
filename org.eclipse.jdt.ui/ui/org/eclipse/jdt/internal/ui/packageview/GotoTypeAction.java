@@ -53,7 +53,7 @@ class GotoTypeAction extends Action {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this, IJavaHelpContextIds.GOTO_TYPE_ACTION);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		Shell shell= JavaPlugin.getActiveWorkbenchShell();
 		SelectionDialog dialog= null;
@@ -79,7 +79,7 @@ class GotoTypeAction extends Action {
 		}
 	}
 
-	private void gotoType(IType type) {
+	private void gotoType(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= (ICompilationUnit) type.getAncestor(IJavaElement.COMPILATION_UNIT);
 		IJavaElement element= null;
 		if (cu != null) {

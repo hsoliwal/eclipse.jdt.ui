@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 public class MultiElementListSelectorExample {
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 
 		ISelectionStatusValidator validator= selection -> {
@@ -61,11 +61,11 @@ public class MultiElementListSelectorExample {
 
 		int nPages= 3;
 		Object[][] elements= new Object[nPages][];
-		for (int i= 0; i < nPages; i++) {
+		for (int i= 0; i < nPages; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int size= random.nextInt(15);
 			elements[i]= new String[size];
-			for (int k= 0; k < size; k++) {
-				elements[i][k]= "elem-" + i + "-" + k;
+			for (int k= 0; k < size; k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				elements[i][k]= "elem-" + i + "-" + k; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -81,7 +81,7 @@ public class MultiElementListSelectorExample {
 
 		Object[] res= d.getResult();
 		if (res != null) {
-			for (Object obj : res) {
+			for (Object obj : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				System.out.println(obj);
 			}
 		}

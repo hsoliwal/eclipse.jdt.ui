@@ -85,18 +85,18 @@ abstract class JavaMatchFilter extends MatchFilter {
 	}
 
 	private static String encodeFilters(MatchFilter[] enabledFilters) {
-		StringBuilder buf= new StringBuilder();
-		for (MatchFilter matchFilter : enabledFilters) {
-			buf.append(matchFilter.getID());
-			buf.append(';');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (MatchFilter matchFilter : enabledFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(matchFilter.getID()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
 
 	private static JavaMatchFilter[] decodeFiltersString(String encodedString) {
 		StringTokenizer tokenizer= new StringTokenizer(encodedString, String.valueOf(';'));
-		HashSet<JavaMatchFilter> result= new HashSet<>();
-		while (tokenizer.hasMoreTokens()) {
+		HashSet<JavaMatchFilter> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			JavaMatchFilter curr= findMatchFilter(tokenizer.nextToken());
 			if (curr != null) {
 				result.add(curr);
@@ -150,8 +150,8 @@ abstract class JavaMatchFilter extends MatchFilter {
 	}
 
 	public static JavaMatchFilter[] allFilters(JavaSearchQuery query) {
-		ArrayList<JavaMatchFilter> res= new ArrayList<>();
-		for (JavaMatchFilter curr : ALL_FILTERS) {
+		ArrayList<JavaMatchFilter> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (JavaMatchFilter curr : ALL_FILTERS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isApplicable(query)) {
 				res.add(curr);
 			}
@@ -160,7 +160,7 @@ abstract class JavaMatchFilter extends MatchFilter {
 	}
 
 	private static JavaMatchFilter findMatchFilter(String id) {
-		for (JavaMatchFilter matchFilter : ALL_FILTERS) {
+		for (JavaMatchFilter matchFilter : ALL_FILTERS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matchFilter.getID().equals(id))
 				return matchFilter;
 		}
@@ -317,11 +317,11 @@ class ImportFilter extends JavaMatchFilter {
 		return SearchMessages.MatchFilter_ImportFilter_description;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isApplicable(JavaSearchQuery query) {
 		List<QuerySpecification> specList= query.getSpecification();
 		boolean isApplicable= false;
-		for (QuerySpecification spec : specList) {
+		for (QuerySpecification spec : specList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (spec instanceof ElementQuerySpecification) {
 				ElementQuerySpecification elementSpec= (ElementQuerySpecification) spec;
 				IJavaElement element= elementSpec.getElement();
@@ -384,11 +384,11 @@ class StaticImportFilter extends ImportFilter {
 }
 
 abstract class VariableFilter extends JavaMatchFilter {
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isApplicable(JavaSearchQuery query) {
 		List<QuerySpecification> speclist= query.getSpecification();
 		boolean isApplicable= false;
-		for (QuerySpecification spec : speclist) {
+		for (QuerySpecification spec : speclist) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (spec instanceof ElementQuerySpecification) {
 				ElementQuerySpecification elementSpec= (ElementQuerySpecification) spec;
 				IJavaElement element= elementSpec.getElement();
@@ -500,11 +500,11 @@ class PolymorphicFilter extends JavaMatchFilter {
         return SearchMessages.MatchFilter_PolymorphicFilter_description;
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isApplicable(JavaSearchQuery query) {
 		List<QuerySpecification> speclist= query.getSpecification();
 		boolean isApplicable= false;
-		for (QuerySpecification spec : speclist) {
+		for (QuerySpecification spec : speclist) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (spec.getLimitTo()) {
 				case IJavaSearchConstants.REFERENCES:
 				case IJavaSearchConstants.ALL_OCCURRENCES:
@@ -534,7 +534,7 @@ abstract class GenericTypeFilter extends JavaMatchFilter {
 	public boolean isApplicable(JavaSearchQuery query) {
 		List<QuerySpecification> specList= query.getSpecification();
 		boolean isApplicable= false;
-		for (QuerySpecification spec : specList) {
+		for (QuerySpecification spec : specList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (spec instanceof ElementQuerySpecification) {
 				ElementQuerySpecification elementSpec= (ElementQuerySpecification) spec;
 				IJavaElement element= elementSpec.getElement();
@@ -549,8 +549,8 @@ abstract class GenericTypeFilter extends JavaMatchFilter {
 		return isApplicable;
 	}
 
-	private static boolean isParameterizedElement(IJavaElement element) {
-		while (element != null) {
+	private static boolean isParameterizedElement(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (element != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeParameter[] typeParameters= null;
 			try {
 				if (element instanceof IType) {

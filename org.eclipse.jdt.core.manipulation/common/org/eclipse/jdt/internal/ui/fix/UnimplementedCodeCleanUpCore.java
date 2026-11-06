@@ -63,27 +63,27 @@ public class UnimplementedCodeCleanUpCore extends AbstractMultiFix {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if (isEnabled(MAKE_TYPE_ABSTRACT)) {
-			bld.append("public abstract class Face implements IFace {\n"); //$NON-NLS-1$
+			bld.append("public abstract class Face implements IFace {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("public class Face implements IFace {\n"); //$NON-NLS-1$
+			bld.append("public class Face implements IFace {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isEnabled(CleanUpConstants.ADD_MISSING_METHODES)) {
 			boolean createComments= Boolean.parseBoolean(JavaManipulation.getPreference(CodeGenerationSettingsConstants.CODEGEN_ADD_COMMENTS, null));
 			if (createComments)
-				bld.append(indent(getOverridingMethodComment(), "    ")); //$NON-NLS-1$
+				bld.append(indent(getOverridingMethodComment(), "    ")); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
-			bld.append("    @Override\n"); //$NON-NLS-1$
-			bld.append("    public void method() {\n"); //$NON-NLS-1$
-			bld.append(indent(getMethodBody(), "        ")); //$NON-NLS-1$
-			bld.append("    }\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("    @Override\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    public void method() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append(indent(getMethodBody(), "        ")); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("}\n\n\n\n\n\n"); //$NON-NLS-1$
+			bld.append("}\n\n\n\n\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
@@ -125,8 +125,8 @@ public class UnimplementedCodeCleanUpCore extends AbstractMultiFix {
 
 		IProblemLocation[] locations= filter(convertProblems(compilationUnit.getProblems()), new int[] { IProblem.AbstractMethodMustBeImplemented, IProblem.EnumConstantMustImplementAbstractMethod });
 
-		HashSet<ASTNode> types= new HashSet<>();
-		for (IProblemLocation location : locations) {
+		HashSet<ASTNode> types= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IProblemLocation location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode type= UnimplementedCodeFixCore.getSelectedTypeNode(compilationUnit, location);
 			if (type != null) {
 				types.add(type);
@@ -136,7 +136,7 @@ public class UnimplementedCodeCleanUpCore extends AbstractMultiFix {
 		return types.size();
 	}
 
-	private String getOverridingMethodComment() {
+	private String getOverridingMethodComment() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String templateName= CodeTemplateContextType.OVERRIDECOMMENT_ID;
 
 		Template template= getCodeTemplate(templateName);
@@ -191,15 +191,15 @@ public class UnimplementedCodeCleanUpCore extends AbstractMultiFix {
 		if (code.length() == 0)
 			return code;
 
-		StringBuilder buf= new StringBuilder();
-		buf.append(indent);
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(indent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		char[] codeArray= code.toCharArray();
-		for (char element : codeArray) {
-			buf.append(element);
+		for (char element : codeArray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(element); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (element == '\n')
-				buf.append(indent);
+				buf.append(indent); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("\n"); //$NON-NLS-1$
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buf.toString();
 	}

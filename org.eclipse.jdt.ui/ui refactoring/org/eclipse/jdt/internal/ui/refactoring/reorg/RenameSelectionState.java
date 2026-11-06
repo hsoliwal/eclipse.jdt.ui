@@ -41,10 +41,10 @@ public class RenameSelectionState {
 	private final List<IWorkbenchPart> fParts;
 	private final List<IStructuredSelection> fSelections;
 
-	public RenameSelectionState(Object element) {
+	public RenameSelectionState(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fElement= element;
-		fParts= new ArrayList<>();
-		fSelections= new ArrayList<>();
+		fParts= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fSelections= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		IWorkbenchWindow dw = JavaPlugin.getActiveWorkbenchWindow();
 		if (dw ==  null) {
@@ -55,15 +55,15 @@ public class RenameSelectionState {
 		IWorkbenchPage page = dw.getActivePage();
 		if (page == null)
 			return;
-		for (IViewReference vref : page.getViewReferences()) {
+		for (IViewReference vref : page.getViewReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			consider(vref.getPart(false));
 		}
-		for (IEditorReference ref : page.getEditorReferences()) {
+		for (IEditorReference ref : page.getEditorReferences()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			consider(ref.getPart(false));
 		}
 	}
 
-	private void consider(IWorkbenchPart part) {
+	private void consider(IWorkbenchPart part) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (part == null)
 			return;
 		ISetSelectionTarget target= null;
@@ -87,10 +87,10 @@ public class RenameSelectionState {
 		fSelections.add(selection);
 	}
 
-	public void restore(Object newElement) {
+	public void restore(Object newElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fDisplay == null)
 			return;
-		for (int i= 0; i < fParts.size(); i++) {
+		for (int i= 0; i < fParts.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IStructuredSelection currentSelection= fSelections.get(i);
 			boolean changed= false;
 			final ISetSelectionTarget target= (ISetSelectionTarget)fParts.get(i);
@@ -99,7 +99,7 @@ public class RenameSelectionState {
 			if (currentSelection instanceof TreeSelection) {
 				TreeSelection treeSelection= (TreeSelection)currentSelection;
 				TreePath[] paths= treeSelection.getPaths();
-				for (int p= 0; p < paths.length; p++) {
+				for (int p= 0; p < paths.length; p++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TreePath path= paths[p];
 					if (path.getSegmentCount() > 0 && path.getLastSegment().equals(fElement)) {
 						paths[p]= createTreePath(path, newElement);
@@ -111,7 +111,7 @@ public class RenameSelectionState {
 				}
 			} else {
 				Object[] elements= currentSelection.toArray();
-				for (int e= 0; e < elements.length; e++) {
+				for (int e= 0; e < elements.length; e++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (elements[e].equals(fElement)) {
 						elements[e]= newElement;
 						changed= true;
@@ -122,7 +122,7 @@ public class RenameSelectionState {
 				}
 			}
 			if (changed) {
-				fDisplay.asyncExec(() -> target.selectReveal(newSelection[0]));
+				fDisplay.asyncExec(() -> target.selectReveal(newSelection[0])); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 		}
 	}
@@ -131,7 +131,7 @@ public class RenameSelectionState {
 	private TreePath createTreePath(TreePath old, Object newElement) {
 		int count= old.getSegmentCount();
 		Object[] newObjects= new Object[count];
-		for (int i= 0; i < count - 1; i++) {
+		for (int i= 0; i < count - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newObjects[i]= old.getSegment(i);
 		}
 		newObjects[count - 1]= newElement;

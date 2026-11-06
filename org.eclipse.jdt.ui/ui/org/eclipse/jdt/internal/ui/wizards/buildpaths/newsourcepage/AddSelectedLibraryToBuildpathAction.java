@@ -53,7 +53,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.ModuleEncapsulationDetail;
 
 //SelectedElements iff enabled: IFile
-public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction {
+public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final IRunnableContext fContext;
 	private boolean fForTestOnly;
@@ -77,7 +77,7 @@ public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction
 		setToolTipText(forTestOnly ? NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_AddSelLibToTestCP_tooltip : NewWizardMessages.NewSourceContainerWorkbookPage_ToolBar_AddSelLibToCP_tooltip);
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getDetailedDescription() {
 		if (!isEnabled())
 			return null;
@@ -97,12 +97,12 @@ public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction
         return NewWizardMessages.PackageExplorerActionGroup_FormText_Default_toBuildpath;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		try {
 			final IFile[] files= getSelectedElements().toArray(new IFile[getSelectedElements().size()]);
 
-			final IRunnableWithProgress runnable= monitor -> {
+			final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 			        IJavaProject project= JavaCore.create(files[0].getProject());
 			        List<IJavaElement> result= addLibraryEntries(files, project, monitor);
@@ -122,11 +122,11 @@ public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction
 		}
 	}
 
-	private List<IJavaElement> addLibraryEntries(IFile[] resources, IJavaProject project, IProgressMonitor monitor) throws CoreException {
-		List<CPListElement> addedEntries= new ArrayList<>();
+	private List<IJavaElement> addLibraryEntries(IFile[] resources, IJavaProject project, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<CPListElement> addedEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 			monitor.beginTask(NewWizardMessages.ClasspathModifier_Monitor_AddToBuildpath, 4);
-			for (IFile res : resources) {
+			for (IFile res : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CPListElement cpListElement= new CPListElement(project, IClasspathEntry.CPE_LIBRARY, res.getFullPath(), res);
 				if(fForTestOnly) {
 					cpListElement.setAttribute(IClasspathAttribute.TEST, "true"); //$NON-NLS-1$
@@ -147,8 +147,8 @@ public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction
         	delta.setNewEntries(existingEntries.toArray(new CPListElement[existingEntries.size()]));
         	informListeners(delta);
 
-			List<IJavaElement> result= new ArrayList<>(addedEntries.size());
-			for (IResource res : resources) {
+			List<IJavaElement> result= new ArrayList<>(addedEntries.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IResource res : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement elem= project.getPackageFragmentRoot(res);
 				if (elem != null) {
 					result.add(elem);
@@ -162,13 +162,13 @@ public class AddSelectedLibraryToBuildpathAction extends BuildpathModifierAction
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean canHandle(IStructuredSelection elements) {
 		if (elements.size() == 0)
 			return false;
 
 		try {
-			for (Object element : elements) {
+			for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element instanceof IFile) {
 					IFile file= (IFile)element;
 					IJavaProject project= JavaCore.create(file.getProject());

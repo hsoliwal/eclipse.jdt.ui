@@ -107,11 +107,11 @@ public class WorkingSetModel {
 	}
 
 	private static class ElementMapper {
-		private final Map<IAdaptable, Object> fElementToWorkingSet= new HashMap<>();
-		private final Map<IWorkingSet, IAdaptable[]> fWorkingSetToElement= new IdentityHashMap<>();
+		private final Map<IAdaptable, Object> fElementToWorkingSet= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		private final Map<IWorkingSet, IAdaptable[]> fWorkingSetToElement= new IdentityHashMap<>(); //FLLDCIM: MARK — M06 M3_IDENTITY_WEAK_LANES NEW
 
-		private final Map<IAdaptable, Object> fResourceToWorkingSet= new HashMap<>();
-		private final List<IAdaptable> fNonProjectTopLevelElements= new ArrayList<>();
+		private final Map<IAdaptable, Object> fResourceToWorkingSet= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		private final List<IAdaptable> fNonProjectTopLevelElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public void clear() {
 			fElementToWorkingSet.clear();
@@ -121,22 +121,22 @@ public class WorkingSetModel {
 		}
 		public void rebuild(IWorkingSet[] workingSets) {
 			clear();
-			for (IWorkingSet workingSet : workingSets) {
+			for (IWorkingSet workingSet : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				put(workingSet);
 			}
 		}
-		public IAdaptable[] refresh(IWorkingSet ws) {
+		public IAdaptable[] refresh(IWorkingSet ws) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IAdaptable[] oldElements= fWorkingSetToElement.get(ws);
 			if (oldElements == null)
 				return null;
 			IAdaptable[] newElements= ws.getElements();
-			List<IAdaptable> toRemove= new ArrayList<>(Arrays.asList(oldElements));
-			List<IAdaptable> toAdd= new ArrayList<>(Arrays.asList(newElements));
+			List<IAdaptable> toRemove= new ArrayList<>(Arrays.asList(oldElements)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<IAdaptable> toAdd= new ArrayList<>(Arrays.asList(newElements)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			computeDelta(toRemove, toAdd, oldElements, newElements);
-			for (IAdaptable iAdaptable : toAdd) {
+			for (IAdaptable iAdaptable : toAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addElement(iAdaptable, ws);
 			}
-			for (IAdaptable iAdaptable : toRemove) {
+			for (IAdaptable iAdaptable : toRemove) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeElement(iAdaptable, ws);
 			}
 			if (toRemove.size() > 0 || toAdd.size() > 0)
@@ -144,10 +144,10 @@ public class WorkingSetModel {
 			return oldElements;
 		}
 		private void computeDelta(List<IAdaptable> toRemove, List<IAdaptable> toAdd, IAdaptable[] oldElements, IAdaptable[] newElements) {
-			for (IAdaptable oldElement : oldElements) {
+			for (IAdaptable oldElement : oldElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toAdd.remove(oldElement);
 			}
-			for (IAdaptable newElement : newElements) {
+			for (IAdaptable newElement : newElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				toRemove.remove(newElement);
 			}
 
@@ -174,7 +174,7 @@ public class WorkingSetModel {
 				return;
 			IAdaptable[] elements= ws.getElements();
 			fWorkingSetToElement.put(ws, elements);
-			for (IAdaptable element : elements) {
+			for (IAdaptable element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addElement(element, ws);
 				if (!(element instanceof IProject) && !(element instanceof IJavaProject)) {
 					fNonProjectTopLevelElements.add(element);
@@ -200,7 +200,7 @@ public class WorkingSetModel {
 			if (obj == null) {
 				map.put(key, value);
 			} else if (obj instanceof IWorkingSet) {
-				List<IWorkingSet> l= new ArrayList<>(2);
+				List<IWorkingSet> l= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				l.add((IWorkingSet) obj);
 				l.add(value);
 				map.put(key, l);
@@ -210,7 +210,7 @@ public class WorkingSetModel {
 				sets.add(value);
 			}
 		}
-		private void removeFromMap(Map<IAdaptable, Object> map, IAdaptable key, IWorkingSet value) {
+		private void removeFromMap(Map<IAdaptable, Object> map, IAdaptable key, IWorkingSet value) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Object current= map.get(key);
 			if (current == null) {
 				return;
@@ -248,7 +248,7 @@ public class WorkingSetModel {
 			}
 			if (obj == null)
 				return Collections.emptyList();
-			List<IWorkingSet> result= new ArrayList<>(1);
+			List<IWorkingSet> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			result.add((IWorkingSet) obj);
 			return result;
 		}
@@ -257,11 +257,11 @@ public class WorkingSetModel {
 	/**
 	 * @param memento a memento, or <code>null</code>
 	 */
-	public WorkingSetModel(IMemento memento) {
+	public WorkingSetModel(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fLocalWorkingSetManager= PlatformUI.getWorkbench().createLocalWorkingSetManager();
 		addListenersToWorkingSetManagers();
-		fActiveWorkingSets= new ArrayList<>();
-		fAllWorkingSets= new ArrayList<>();
+		fActiveWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fAllWorkingSets= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (memento == null || ! restoreState(memento)) {
 			IWorkingSet others= fLocalWorkingSetManager.createWorkingSet(WorkingSetMessages.WorkingSetModel_others_name, new IAdaptable[0]);
@@ -310,9 +310,9 @@ public class WorkingSetModel {
 		return fElementMapper.getAllWorkingSets(element).toArray();
 	}
 
-	public Object[] addWorkingSets(Object[] elements) {
+	public Object[] addWorkingSets(Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<? super IWorkingSet> result= null;
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			List<IWorkingSet> sets= null;
 			if (element instanceof IResource) {
 				sets= fElementMapper.getAllWorkingSetsForResource((IResource)element);
@@ -321,7 +321,7 @@ public class WorkingSetModel {
 			}
 			if (sets != null && sets.size() > 0) {
 				if (result == null)
-					result= new ArrayList<>(Arrays.asList(elements));
+					result= new ArrayList<>(Arrays.asList(elements)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				result.addAll(sets);
 			}
 		}
@@ -382,20 +382,20 @@ public class WorkingSetModel {
 	 * @since 3.7
 	 */
 	private List<IWorkingSet> getActiveAndAllWorkingSetsFromManagers() {
-		List<IWorkingSet> result= new ArrayList<>(fActiveWorkingSets);
-		for (IWorkingSet local : fLocalWorkingSetManager.getWorkingSets()) {
+		List<IWorkingSet> result= new ArrayList<>(fActiveWorkingSets); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IWorkingSet local : fLocalWorkingSetManager.getWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!result.contains(local) && isSupportedAsTopLevelElement(local)) {
 				result.add(local);
 			}
 		}
-		for (IWorkingSet global : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) {
+		for (IWorkingSet global : PlatformUI.getWorkbench().getWorkingSetManager().getWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!result.contains(global) && isSupportedAsTopLevelElement(global)) {
 				result.add(global);
 			}
 		}
 
 		if (fIsSortingEnabled)
-			Collections.sort(result, new WorkingSetComparator(true));
+			Collections.sort(result, new WorkingSetComparator(true)); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		return result;
 	}
 
@@ -406,7 +406,7 @@ public class WorkingSetModel {
 	 * @since 3.7
 	 */
 	private void addNewlyCreatedWorkingSets(List<IWorkingSet> result) {
-		for (IWorkingSet set : result) {
+		for (IWorkingSet set : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!fAllWorkingSets.contains(set))
 				fAllWorkingSets.add(set);
 		}
@@ -427,15 +427,15 @@ public class WorkingSetModel {
 	public void setWorkingSets(IWorkingSet[] allWorkingSets, boolean isSortingEnabled, IWorkingSet[] activeWorkingSets) {
 		if (!Arrays.asList(allWorkingSets).containsAll(Arrays.asList(activeWorkingSets))) {
 			throw new IllegalArgumentException(
-					Arrays.stream(allWorkingSets).map(IWorkingSet::getName).sorted().toList() + " does not contain all " + Arrays.stream(activeWorkingSets).map(IWorkingSet::getName).sorted().toList()); //$NON-NLS-1$
+					Arrays.stream(allWorkingSets).map(IWorkingSet::getName).sorted().toList() + " does not contain all " + Arrays.stream(activeWorkingSets).map(IWorkingSet::getName).sorted().toList()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (isOrderDifferentInWorkingSetLists(Arrays.asList(allWorkingSets), Arrays.asList(activeWorkingSets))) {
 			throw new IllegalArgumentException(
-					Arrays.stream(allWorkingSets).map(IWorkingSet::getName).toList() + " has different order then " + Arrays.stream(activeWorkingSets).map(IWorkingSet::getName).toList()); //$NON-NLS-1$
+					Arrays.stream(allWorkingSets).map(IWorkingSet::getName).toList() + " has different order then " + Arrays.stream(activeWorkingSets).map(IWorkingSet::getName).toList()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (isSortingEnabled)
 			Arrays.sort(allWorkingSets, new WorkingSetComparator(true));
-		fAllWorkingSets= new ArrayList<>(Arrays.asList(allWorkingSets));
+		fAllWorkingSets= new ArrayList<>(Arrays.asList(allWorkingSets)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		setActiveWorkingSets(activeWorkingSets, isSortingEnabled);
 	}
 
@@ -455,7 +455,7 @@ public class WorkingSetModel {
 		if (fIsSortingEnabled) {
 			Arrays.sort(workingSets, new WorkingSetComparator(true));
 		}
-		fActiveWorkingSets= new ArrayList<>(Arrays.asList(workingSets));
+		fActiveWorkingSets= new ArrayList<>(Arrays.asList(workingSets)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isOrderDifferentInWorkingSetLists(fAllWorkingSets, fActiveWorkingSets)) { //see bug 338531
 			adjustOrderingOfAllWorkingSets();
 		}
@@ -472,7 +472,7 @@ public class WorkingSetModel {
 	 */
 	private void adjustOrderingOfAllWorkingSets() {
 		int countActive= 0;
-		for (IWorkingSet set : fAllWorkingSets) {
+		for (IWorkingSet set : fAllWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fActiveWorkingSets.contains(set)) {
 				IWorkingSet workingSet= fActiveWorkingSets.get(countActive++);
 				if (!workingSet.equals(set)) {
@@ -497,7 +497,7 @@ public class WorkingSetModel {
 	 */
 	private boolean isOrderDifferentInWorkingSetLists(List<IWorkingSet> allWorkingSets, List<IWorkingSet> activeWorkingSets) {
 		int count= 0;
-		for (IWorkingSet set : allWorkingSets) {
+		for (IWorkingSet set : allWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (activeWorkingSets.contains(set)) {
 				if (!activeWorkingSets.get(count++).equals(set))
 					return true;
@@ -522,11 +522,11 @@ public class WorkingSetModel {
 		memento.putBoolean(TAG_SORT_WORKING_SETS, fIsSortingEnabled);
 		memento.putBoolean(TAG_CONFIGURED, fConfigured);
 		fLocalWorkingSetManager.saveState(memento.createChild(TAG_LOCAL_WORKING_SET_MANAGER));
-		for (IWorkingSet workingSet : fActiveWorkingSets) {
+		for (IWorkingSet workingSet : fActiveWorkingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento active= memento.createChild(TAG_ACTIVE_WORKING_SET);
 			active.putString(TAG_WORKING_SET_NAME, workingSet.getName());
 		}
-		for (IWorkingSet workingSet : Arrays.asList(getAllWorkingSets())) {
+		for (IWorkingSet workingSet : Arrays.asList(getAllWorkingSets())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMemento allWorkingSet= memento.createChild(TAG_ALL_WORKING_SETS);
 			if (isSupportedAsTopLevelElement(workingSet))
 				allWorkingSet.putString(TAG_WORKING_SET_NAME, workingSet.getName());
@@ -543,14 +543,14 @@ public class WorkingSetModel {
 	 * @param memento a memento
 	 * @return whether the restore was successful
 	 */
-	private boolean restoreState(IMemento memento) {
+	private boolean restoreState(IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String configured= memento.getString(TAG_CONFIGURED);
 		if (configured == null)
 			return false;
 
 		fConfigured= Boolean.parseBoolean(configured);
 		fLocalWorkingSetManager.restoreState(memento.getChild(TAG_LOCAL_WORKING_SET_MANAGER));
-		for (IWorkingSet ws : fLocalWorkingSetManager.getAllWorkingSets()) {
+		for (IWorkingSet ws : fLocalWorkingSetManager.getAllWorkingSets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (IWorkingSetIDs.OTHERS.equals(ws.getId())) {
 				// have to set the label again, since the locale could have been changed (bug 272737)
 				String otherProjectsLabel= WorkingSetMessages.WorkingSetModel_others_name;
@@ -567,7 +567,7 @@ public class WorkingSetModel {
 			fIsSortingEnabled= Boolean.parseBoolean(isSortingEnabled);
 		}
 
-		for (IMemento active : memento.getChildren(TAG_ACTIVE_WORKING_SET)) {
+		for (IMemento active : memento.getChildren(TAG_ACTIVE_WORKING_SET)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= active.getString(TAG_WORKING_SET_NAME);
 			if (name != null) {
 				IWorkingSet ws= fLocalWorkingSetManager.getWorkingSet(name);
@@ -579,7 +579,7 @@ public class WorkingSetModel {
 				}
 			}
 		}
-		for (IMemento allWorkingSet : memento.getChildren(TAG_ALL_WORKING_SETS)) {
+		for (IMemento allWorkingSet : memento.getChildren(TAG_ALL_WORKING_SETS)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= allWorkingSet.getString(TAG_WORKING_SET_NAME);
 			if (name != null) {
 				IWorkingSet ws= fLocalWorkingSetManager.getWorkingSet(name);
@@ -597,7 +597,7 @@ public class WorkingSetModel {
 			addNewlyCreatedWorkingSets(result);
 		return true;
 	}
-	private void workingSetManagerChanged(PropertyChangeEvent event) {
+	private void workingSetManagerChanged(PropertyChangeEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String property= event.getProperty();
 		if (IWorkingSetManager.CHANGE_WORKING_SET_UPDATER_INSTALLED.equals(property) && event.getSource() == fLocalWorkingSetManager) {
 			IWorkingSetUpdater updater= (IWorkingSetUpdater)event.getNewValue();
@@ -613,12 +613,12 @@ public class WorkingSetModel {
 			IWorkingSet workingSet= (IWorkingSet)event.getNewValue();
 			if (isSupportedAsTopLevelElement(workingSet)) {
 				IWorkingSetManager manager= PlatformUI.getWorkbench().getWorkingSetManager();
-				List<IWorkingSet> allWorkingSets= new ArrayList<>(Arrays.asList(manager.getAllWorkingSets()));
+				List<IWorkingSet> allWorkingSets= new ArrayList<>(Arrays.asList(manager.getAllWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (allWorkingSets.contains(workingSet)) {
-					List<IWorkingSet> elements= new ArrayList<>(fActiveWorkingSets);
+					List<IWorkingSet> elements= new ArrayList<>(fActiveWorkingSets); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (workingSet.isVisible() && !fActiveWorkingSets.contains(workingSet))
 						elements.add(workingSet);
-					List<IWorkingSet> allElements= new ArrayList<>(Arrays.asList(getAllWorkingSets()));
+					List<IWorkingSet> allElements= new ArrayList<>(Arrays.asList(getAllWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					if (!allElements.contains(workingSet))
 						allElements.add(workingSet);
 					setWorkingSets(allElements.toArray(new IWorkingSet[allElements.size()]), fIsSortingEnabled, elements.toArray(new IWorkingSet[elements.size()]));
@@ -641,9 +641,9 @@ public class WorkingSetModel {
 			}
 			case IWorkingSetManager.CHANGE_WORKING_SET_REMOVE: {
 				IWorkingSet workingSet= (IWorkingSet)event.getOldValue();
-				List<IWorkingSet> elements= new ArrayList<>(fActiveWorkingSets);
+				List<IWorkingSet> elements= new ArrayList<>(fActiveWorkingSets); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				elements.remove(workingSet);
-				List<IWorkingSet> allElements= new ArrayList<>(Arrays.asList(getAllWorkingSets()));
+				List<IWorkingSet> allElements= new ArrayList<>(Arrays.asList(getAllWorkingSets())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				allElements.remove(workingSet);
 				setWorkingSets(allElements.toArray(new IWorkingSet[allElements.size()]), fIsSortingEnabled, elements.toArray(new IWorkingSet[elements.size()]));
 				break;
@@ -670,7 +670,7 @@ public class WorkingSetModel {
 	 * @return <code>true</code> if the given working set is supported as top-level element
 	 * @since 3.6
 	 */
-	public static boolean isSupportedAsTopLevelElement(IWorkingSet workingSet) {
+	public static boolean isSupportedAsTopLevelElement(IWorkingSet workingSet) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object id= workingSet.getId();
 		if (IWorkingSetIDs.OTHERS.equals(id) || IWorkingSetIDs.JAVA.equals(id) || IWorkingSetIDs.RESOURCE.equals(id)) {
 			return true;
@@ -682,7 +682,7 @@ public class WorkingSetModel {
 			return false;
 		}
 
-		for (IAdaptable element : workingSet.getElements()) {
+		for (IAdaptable element : workingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject p= element.getAdapter(IProject.class);
 			if (p != null && p.exists())
 				return true;
@@ -692,7 +692,7 @@ public class WorkingSetModel {
 
 
 	private void fireEvent(PropertyChangeEvent event) {
-		for (IPropertyChangeListener listener : fListeners) {
+		for (IPropertyChangeListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChange(event);
 		}
 	}

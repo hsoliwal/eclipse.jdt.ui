@@ -58,10 +58,10 @@ public class TextSearchTableContentProvider implements IStructuredContentProvide
 
 	public void elementsChanged(Object[] updatedElements) {
 		//TODO: copied from JavaSearchTableContentProvider
-		for (Object updatedElement : updatedElements) {
+		for (Object updatedElement : updatedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fSearchResult.getMatchCount(updatedElement) > 0) {
 				if (fTableViewer.testFindItem(updatedElement) != null) {
-					fTableViewer.refresh(updatedElement);
+					fTableViewer.refresh(updatedElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				} else {
 					fTableViewer.add(updatedElement);
 				}
@@ -73,6 +73,6 @@ public class TextSearchTableContentProvider implements IStructuredContentProvide
 
 	public void clear() {
 		//TODO: copied from JavaSearchTableContentProvider
-		fTableViewer.refresh();
+		fTableViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 }

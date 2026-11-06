@@ -39,7 +39,7 @@ public class TypeVariableResolver extends TemplateVariableResolver {
 	 * @see org.eclipse.jface.text.templates.TemplateVariableResolver#resolve(org.eclipse.jface.text.templates.TemplateVariable, org.eclipse.jface.text.templates.TemplateContext)
 	 * @since 3.3
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		if (!(variable instanceof MultiVariable)) {
 			super.resolve(variable, context);
@@ -74,15 +74,15 @@ public class TypeVariableResolver extends TemplateVariableResolver {
 		super.resolve(variable, context);
 	}
 
-	private void resolve(MultiVariable mv, JavaVariable master, int index, JavaContext context) {
+	private void resolve(MultiVariable mv, JavaVariable master, int index, JavaContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] choices= master.getChoices();
 		if (choices instanceof Variable[]) {
 			context.addDependency(master, mv);
 			Variable[] variables= (Variable[]) choices;
 			String type= master.getParamType();
-			for (int i= 0; i < choices.length; i++) {
+			for (int i= 0; i < choices.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String[] bounds= variables[i].getTypeArgumentBoundSignatures(type, index);
-				for (int j= 0; j < bounds.length; j++)
+				for (int j= 0; j < bounds.length; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					bounds[j]= Signature.getSignatureSimpleName(bounds[j]);
 				mv.setChoices(variables[i], bounds);
 			}

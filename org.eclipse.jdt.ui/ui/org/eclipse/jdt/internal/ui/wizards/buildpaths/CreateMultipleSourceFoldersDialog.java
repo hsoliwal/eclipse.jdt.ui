@@ -63,7 +63,7 @@ import org.eclipse.jdt.internal.ui.wizards.TypedViewerFilter;
 
 public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 
-	private final class FakeFolderBaseWorkbenchContentProvider extends BaseWorkbenchContentProvider {
+	private final class FakeFolderBaseWorkbenchContentProvider extends BaseWorkbenchContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		@Override
 		public Object getParent(Object element) {
 			Object object= fNonExistingFolders.get(element);
@@ -75,10 +75,10 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 
 		@Override
 		public Object[] getChildren(Object element) {
-			List<Object> result= new ArrayList<>();
+			List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			//all keys with value element
 			Set<IFolder> keys= fNonExistingFolders.keySet();
-			for (IFolder iFolder : keys) {
+			for (IFolder iFolder : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object key= iFolder;
 				if (fNonExistingFolders.get(key).equals(element)) {
 					result.add(key);
@@ -106,32 +106,32 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 		fJavaProject= javaProject;
 		fExistingElements= existingElements;
 		fOutputLocation= outputLocation;
-		fRemovedElements= new HashSet<>();
-		fModifiedElements= new HashSet<>();
-		fInsertedElements= new HashSet<>();
+		fRemovedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		fModifiedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		fInsertedElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fNonExistingFolders= new Hashtable<>();
 
-		for (CPListElement cur : existingElements) {
+		for (CPListElement cur : existingElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cur.getResource() == null || !cur.getResource().exists()) {
 				addFakeFolder(fJavaProject.getProject(), cur);
 			}
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
 		Class<?>[] acceptedClasses= new Class<?>[] { IProject.class, IFolder.class };
 		List<IResource> existingContainers= getExistingContainers(fExistingElements);
 
 		IProject[] allProjects= ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		ArrayList<IProject> rejectedElements= new ArrayList<>(allProjects.length);
+		ArrayList<IProject> rejectedElements= new ArrayList<>(allProjects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IProject currProject= fJavaProject.getProject();
-		for (IProject project : allProjects) {
+		for (IProject project : allProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.equals(currProject)) {
 				rejectedElements.add(project);
 			}
 		}
-		ViewerFilter filter= new TypedViewerFilter(acceptedClasses, rejectedElements.toArray()){
+		ViewerFilter filter= new TypedViewerFilter(acceptedClasses, rejectedElements.toArray()){ //FLLDCIM: MARK — T23  ANONYMOUS
 
 			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
@@ -149,7 +149,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 		String message= NewWizardMessages.SourceContainerWorkbookPage_ExistingSourceFolderDialog_edit_description;
 
 
-		MultipleFolderSelectionDialog dialog= new MultipleFolderSelectionDialog(getShell(), lp, cp) {
+		MultipleFolderSelectionDialog dialog= new MultipleFolderSelectionDialog(getShell(), lp, cp) { //FLLDCIM: MARK — T04  ANONYMOUS
 			@Override
 			protected Control createDialogArea(Composite parent) {
 				Control result= super.createDialogArea(parent);
@@ -157,7 +157,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 				return result;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			protected Object createFolder(final IContainer container) {
 				final Object[] result= new Object[1];
 				final CPListElement newElement= new CPListElement(fJavaProject, IClasspathEntry.CPE_SOURCE);
@@ -169,7 +169,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 					}
 				};
 				action.setShell(getShell());
-				action.addPropertyChangeListener(event -> {
+				action.addPropertyChangeListener(event -> { //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 					if (IAction.RESULT.equals(event.getProperty())) {
 						if (event.getNewValue().equals(Boolean.TRUE)) {
 							result[0]= addFakeFolder(fJavaProject.getProject(), newElement);
@@ -190,7 +190,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 		dialog.setInitialFocus(fJavaProject.getProject());
 
 		if (dialog.open() == Window.OK) {
-			for (Object element : dialog.getResult()) {
+			for (Object element : dialog.getResult()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource res= (IResource) element;
 				fInsertedElements.add(new CPListElement(fJavaProject, IClasspathEntry.CPE_SOURCE, res.getFullPath(), res));
 			}
@@ -199,15 +199,15 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 				CPListElement existingElement= fExistingElements[0];
 				if (existingElement.getResource() instanceof IProject) {
 					if (!removeProjectFromBP(existingElement)) {
-						ArrayList<CPListElement> added= new ArrayList<>(fInsertedElements);
-						HashSet<CPListElement> updatedEclusionPatterns= new HashSet<>();
+						ArrayList<CPListElement> added= new ArrayList<>(fInsertedElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						HashSet<CPListElement> updatedEclusionPatterns= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 						addExlusionPatterns(added, updatedEclusionPatterns);
 						fModifiedElements.addAll(updatedEclusionPatterns);
 					}
 				}
 			} else {
-				ArrayList<CPListElement> added= new ArrayList<>(fInsertedElements);
-				HashSet<CPListElement> updatedEclusionPatterns= new HashSet<>();
+				ArrayList<CPListElement> added= new ArrayList<>(fInsertedElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				HashSet<CPListElement> updatedEclusionPatterns= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				addExlusionPatterns(added, updatedEclusionPatterns);
 				fModifiedElements.addAll(updatedEclusionPatterns);
 			}
@@ -218,15 +218,15 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 	}
 
 	public List<CPListElement> getInsertedElements() {
-		return new ArrayList<>(fInsertedElements);
+		return new ArrayList<>(fInsertedElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public List<CPListElement> getRemovedElements() {
-		return new ArrayList<>(fRemovedElements);
+		return new ArrayList<>(fRemovedElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public List<CPListElement> getModifiedElements() {
-		return new ArrayList<>(fModifiedElements);
+		return new ArrayList<>(fModifiedElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public IPath getOutputLocation() {
@@ -239,7 +239,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 	 * @param existing the element to remove
 	 * @return returns <code>true</code> if the element has been removed
 	 */
-	private boolean removeProjectFromBP(CPListElement existing) {
+	private boolean removeProjectFromBP(CPListElement existing) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath outputFolder= new Path(fOutputLocation);
 
 		IPath newOutputFolder= null;
@@ -278,8 +278,8 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 	}
 
 	private List<IResource> getExistingContainers(CPListElement[] existingElements) {
-		List<IResource> res= new ArrayList<>();
-		for (CPListElement existingElement : existingElements) {
+		List<IResource> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CPListElement existingElement : existingElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= existingElement.getResource();
 			if (resource instanceof IContainer) {
 				res.add(resource);
@@ -290,7 +290,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 		return res;
 	}
 
-	private IFolder addFakeFolder(final IContainer container, final CPListElement element) {
+	private IFolder addFakeFolder(final IContainer container, final CPListElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFolder result;
 		IPath projectPath= fJavaProject.getPath();
 		IPath path= element.getPath();
@@ -299,7 +299,7 @@ public class CreateMultipleSourceFoldersDialog extends TrayDialog {
 		}
 		result= container.getFolder(path);
 		IFolder folder= result;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IContainer parent= folder.getParent();
 			fNonExistingFolders.put(folder, parent);
 			if (parent instanceof IFolder) {

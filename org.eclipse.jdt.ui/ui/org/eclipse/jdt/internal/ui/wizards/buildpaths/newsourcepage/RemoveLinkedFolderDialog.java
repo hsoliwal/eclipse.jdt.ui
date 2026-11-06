@@ -61,20 +61,20 @@ class RemoveLinkedFolderDialog extends MessageDialog {
 		Assert.isTrue(folder.isLinked());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createCustomArea(final Composite parent) {
 
 		final Composite composite= new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout());
 
 		fRemoveBuildPathAndFolder= new Button(composite, SWT.RADIO);
-		fRemoveBuildPathAndFolder.addSelectionListener(selectionListener);
+		fRemoveBuildPathAndFolder.addSelectionListener(selectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fRemoveBuildPathAndFolder.setText(NewWizardMessages.ClasspathModifierQueries_delete_linked_folder);
 		fRemoveBuildPathAndFolder.setFont(parent.getFont());
 
 		fRemoveBuildPath= new Button(composite, SWT.RADIO);
-		fRemoveBuildPath.addSelectionListener(selectionListener);
+		fRemoveBuildPath.addSelectionListener(selectionListener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		fRemoveBuildPath.setText(NewWizardMessages.ClasspathModifierQueries_do_not_delete_linked_folder);
 		fRemoveBuildPath.setFont(parent.getFont());

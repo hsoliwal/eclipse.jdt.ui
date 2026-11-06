@@ -63,7 +63,7 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 
 	public static void chooseNewTarget(MoveInstanceMethodProcessor processor, int newTargetType, String newTargetName) {
 		IVariableBinding target= null;
-		for (IVariableBinding candidate : processor.getPossibleTargets()) {
+		for (IVariableBinding candidate : processor.getPossibleTargets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (candidate.getName().equals(newTargetName) && typeMatches(newTargetType, candidate)) {
 				target= candidate;
 				break;
@@ -89,12 +89,12 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 
 	private ICompilationUnit[] createCUs(String[] qualifiedNames) throws Exception {
 		ICompilationUnit[] cus= new ICompilationUnit[qualifiedNames.length];
-		for (int i= 0; i < qualifiedNames.length; i++) {
+		for (int i= 0; i < qualifiedNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Assert.isNotNull(qualifiedNames[i]);
 			String qualifier= getQualifier(qualifiedNames[i]);
-			String[] sections= qualifier.split("[.]");
+			String[] sections= qualifier.split("[.]"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			if (sections.length == 2) {
-				cus[i]= createCUfromTestFile(getRoot().createPackageFragment(getQualifier(qualifiedNames[i]), true, null), getSimpleName(qualifiedNames[i]), sections[1] + "/");
+				cus[i]= createCUfromTestFile(getRoot().createPackageFragment(getQualifier(qualifiedNames[i]), true, null), getSimpleName(qualifiedNames[i]), sections[1] + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				cus[i]= createCUfromTestFile(getRoot().createPackageFragment(getQualifier(qualifiedNames[i]), true, null), getSimpleName(qualifiedNames[i]));
 			}
@@ -106,7 +106,7 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 		failHelper1(new String[] { cuQName}, cuQName, startLine, startColumn, endLine, endColumn, newReceiverType, newReceiverName, inlineDelegator, removeDelegator);
 	}
 
-	private void failHelper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, int newReceiverType, String newReceiverName, String newMethodName, String newTargetName, boolean inlineDelegator, boolean removeDelegator) throws Exception {
+	private void failHelper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, int newReceiverType, String newReceiverName, String newMethodName, String newTargetName, boolean inlineDelegator, boolean removeDelegator) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(0 <= selectionCuIndex && selectionCuIndex < cuQNames.length);
 
 		toSucceed= false;
@@ -152,7 +152,7 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 	}
 
 	private int firstIndexOf(String one, String[] others) {
-		for (int i= 0; i < others.length; i++)
+		for (int i= 0; i < others.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (one == null && others[i] == null || one.equals(others[i]))
 				return i;
 		return -1;
@@ -165,14 +165,14 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 
 	@Override
 	protected String getRefactoringPath() {
-		return REFACTORING_PATH + successPath();
+		return REFACTORING_PATH + successPath(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private String getSimpleName(String qualifiedName) {
 		return qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
 	}
 
-	private void helper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, int newTargetType, String newTargetName, String newMethodName, boolean inlineDelegator, boolean removeDelegator) throws Exception {
+	private void helper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, int newTargetType, String newTargetName, String newMethodName, boolean inlineDelegator, boolean removeDelegator) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(0 <= selectionCuIndex && selectionCuIndex < cuQNames.length);
 
 		toSucceed= true;
@@ -205,21 +205,21 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 
 		performChange(ref, false);
 
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String cuName= cuQNames[i];
-			String[] sections= cuName.split("[.]");
+			String[] sections= cuName.split("[.]"); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 			if (sections.length == 3) {
-				String outputTestFileName= getOutputTestFileName(getSimpleName(cuQNames[i]), sections[1] + "/");
-				assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource());
+				String outputTestFileName= getOutputTestFileName(getSimpleName(cuQNames[i]), sections[1] + "/"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				String outputTestFileName= getOutputTestFileName(getSimpleName(cuQNames[i]));
-				assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource());
+				assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
-	private void helper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, int newTargetType, String newTargetName, String newMethodName, boolean inlineDelegator, boolean removeDelegator, boolean deprecate) throws Exception {
+	private void helper1(String[] cuQNames, int selectionCuIndex, int startLine, int startColumn, int endLine, int endColumn, int newTargetType, String newTargetName, String newMethodName, boolean inlineDelegator, boolean removeDelegator, boolean deprecate) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(0 <= selectionCuIndex && selectionCuIndex < cuQNames.length);
 
 		toSucceed= true;
@@ -252,9 +252,9 @@ public class MoveInstanceMethodTests extends GenericRefactoringTest {
 
 		performChange(ref, false);
 
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String outputTestFileName= getOutputTestFileName(getSimpleName(cuQNames[i]));
-			assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource());
+			assertEqualLines("Incorrect inline in " + outputTestFileName, getFileContents(outputTestFileName), cus[i].getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 

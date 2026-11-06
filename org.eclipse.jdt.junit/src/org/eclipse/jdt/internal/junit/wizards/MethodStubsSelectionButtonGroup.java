@@ -58,7 +58,7 @@ public class MethodStubsSelectionButtonGroup {
 	 * @param jver the JUnit version
 	 * @param nColumns column count
 	 */
-	public MethodStubsSelectionButtonGroup(int buttonsStyle, JUnitVersion jver, int nColumns) {
+	public MethodStubsSelectionButtonGroup(int buttonsStyle, JUnitVersion jver, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fEnabled= true;
 		fLabel= null;
 		fLabelText= ""; //$NON-NLS-1$
@@ -67,7 +67,7 @@ public class MethodStubsSelectionButtonGroup {
 		int nButtons= updateButtons(jver);
 		fButtonsSelected= new boolean[nButtons];
 		fButtonsEnabled= new boolean[nButtons];
-		for (int i= 0; i < nButtons; i++) {
+		for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fButtonsSelected[i]= false;
 			fButtonsEnabled[i]= true;
 		}
@@ -86,7 +86,7 @@ public class MethodStubsSelectionButtonGroup {
 		fButtonNames= jver.buttonNames;
 		int nButtons= fButtonNames.length;
 		if (fButtons != null) {
-			for (int i= 0; i < nButtons; i++) {
+			for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fButtons[i].setText(jver.buttonNames[i]);
 				fButtons[i].requestLayout();
 			}
@@ -97,7 +97,7 @@ public class MethodStubsSelectionButtonGroup {
 	/*
 	 * @see DialogField#doFillIntoGrid
 	 */
-	public Control[] doFillIntoGrid(Composite parent, int nColumns) {
+	public Control[] doFillIntoGrid(Composite parent, int nColumns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertEnoughColumns(nColumns);
 
 		if (fGroupBorderStyle == SWT.NONE) {
@@ -131,7 +131,7 @@ public class MethodStubsSelectionButtonGroup {
 		button.setText(fButtonNames[index]);
 		button.setEnabled(isEnabled() && isEnabled(index));
 		button.setSelection(isSelected(index));
-		button.addSelectionListener(listener);
+		button.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		return button;
 	}
 
@@ -142,7 +142,7 @@ public class MethodStubsSelectionButtonGroup {
 	 * after.
 	 * @return the created composite
 	 */
-	public Composite getSelectionButtonsGroup(Composite parent) {
+	public Composite getSelectionButtonsGroup(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fButtonComposite == null) {
 			assertCompositeNotNull(parent);
 
@@ -176,12 +176,12 @@ public class MethodStubsSelectionButtonGroup {
 			int nButtons= fButtonNames.length;
 			fButtons= new Button[nButtons];
 
-			for (int i= 0; i < nButtons; i++) {
+			for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fButtons[i]= createSelectionButton(i, fButtonComposite, listener);
 			}
 			int nRows= nButtons / fGroupNumberOfColumns;
 			int nFillElements= nRows * fGroupNumberOfColumns - nButtons;
-			for (int i= 0; i < nFillElements; i++) {
+			for (int i= 0; i < nFillElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				createEmptySpace(fButtonComposite);
 			}
 		}
@@ -190,7 +190,7 @@ public class MethodStubsSelectionButtonGroup {
 
 	protected void doWidgetSelected(SelectionEvent e) {
 		Button button= (Button)e.widget;
-		for (int i= 0; i < fButtons.length; i++) {
+		for (int i= 0; i < fButtons.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fButtons[i] == button) {
 				fButtonsSelected[i]= button.getSelection();
 				return;
@@ -246,7 +246,7 @@ public class MethodStubsSelectionButtonGroup {
 	 * @param index of the button
 	 * @param enabled  the new enabled state of a button
 	 */
-	public void setEnabled(int index, boolean enabled) {
+	public void setEnabled(int index, boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index >= 0 && index < fButtonsEnabled.length) {
 			if (fButtonsEnabled[index] != enabled) {
 				fButtonsEnabled[index]= enabled;
@@ -271,7 +271,7 @@ public class MethodStubsSelectionButtonGroup {
 		}
 		if (fButtons != null) {
 			boolean enabled= isEnabled();
-			for (int i= 0; i < fButtons.length; i++) {
+			for (int i= 0; i < fButtons.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Button button= fButtons[i];
 				if (isOkToUse(button)) {
 					button.setEnabled(enabled && fButtonsEnabled[i]);

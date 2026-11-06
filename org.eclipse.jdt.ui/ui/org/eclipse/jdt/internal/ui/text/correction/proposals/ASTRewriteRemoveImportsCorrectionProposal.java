@@ -23,7 +23,7 @@ import org.eclipse.jdt.internal.corext.refactoring.structure.ImportRemover;
 
 import org.eclipse.jdt.ui.text.java.correction.ASTRewriteCorrectionProposal;
 
-public class ASTRewriteRemoveImportsCorrectionProposal extends ASTRewriteCorrectionProposal {
+public class ASTRewriteRemoveImportsCorrectionProposal extends ASTRewriteCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public ASTRewriteRemoveImportsCorrectionProposal(String name, ICompilationUnit cu, ASTRewrite rewrite, int relevance) {
 		super(name, cu, rewrite, relevance, null, new ASTRewriteRemoveImportsCorrectionProposalCore(name, cu, rewrite, relevance));

@@ -117,7 +117,7 @@ public class ChangedValueChecker extends AbstractChecker {
 		fConflict= false;
 		fPosSet= ConcurrentHashMap.newKeySet();
 		PathVisitor pathVisitor= new PathVisitor(startOffset, endOffset, fNode2, candidateList);
-		while (fBodyNode != null && (fBodyNode.getStartPosition() + fBodyNode.getLength() < pathVisitor.endOffset
+		while (fBodyNode != null && (fBodyNode.getStartPosition() + fBodyNode.getLength() < pathVisitor.endOffset //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				|| fBodyNode.getStartPosition() > pathVisitor.startOffset)) {
 			fBodyNode= fBodyNode.getParent();
 		}
@@ -133,11 +133,11 @@ public class ChangedValueChecker extends AbstractChecker {
 		fDependSet.addAll(readVisitor.readSet);
 	}
 
-	public boolean hasConflict() {
+	public boolean hasConflict() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try (ExecutorService threadPool= new ThreadPoolExecutor(5, 10, 5, TimeUnit.SECONDS,
 				new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy())) {
 			try {
-				for (ASTNode node : fMiddleNodes) {
+				for (ASTNode node : fMiddleNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fConflict) {
 						break;
 					}
@@ -154,7 +154,7 @@ public class ChangedValueChecker extends AbstractChecker {
 				}
 				if (!fConflict) {
 					threadPool.shutdown();
-					while (!threadPool.isTerminated() && !fConflict) {
+					while (!threadPool.isTerminated() && !fConflict) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						threadPool.awaitTermination(10, TimeUnit.MILLISECONDS);
 					}
 				}
@@ -167,7 +167,7 @@ public class ChangedValueChecker extends AbstractChecker {
 	}
 	private class FunctionSearchRequestor extends SearchRequestor {
 
-		public List<SearchMatch> results= new ArrayList<>();
+		public List<SearchMatch> results= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public List<SearchMatch> getResults() {
 			return results;
@@ -191,7 +191,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			null);
 	}
 
-	private MethodDeclaration findFunctionDefinition(ITypeBinding iTypeBinding, IMethodBinding methodBinding) {
+	private MethodDeclaration findFunctionDefinition(ITypeBinding iTypeBinding, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (methodBinding == null || iTypeBinding == null) {
 			return null;
 		}
@@ -232,7 +232,7 @@ public class ChangedValueChecker extends AbstractChecker {
 					return null;
 				}
 				List<SearchMatch> results= requestor.getResults();
-				for (SearchMatch result : results) {
+				for (SearchMatch result : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object obj= result.getElement();
 					if (obj instanceof IType resultType) {
 						ICompilationUnit icu= resultType.getCompilationUnit();
@@ -268,7 +268,7 @@ public class ChangedValueChecker extends AbstractChecker {
 	}
 
 	private ASTNode getOriginalExpression(ASTNode node) {
-		while (node != null) {
+		while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node instanceof ParenthesizedExpression) {
 				ParenthesizedExpression pe= (ParenthesizedExpression) node;
 				node= pe.getExpression();
@@ -286,7 +286,7 @@ public class ChangedValueChecker extends AbstractChecker {
 
 		Elem e;
 
-		public Elem(ASTNode node, boolean flag) {
+		public Elem(ASTNode node, boolean flag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (node instanceof SimpleName) {
 				SimpleName sn= (SimpleName) node;
 				IBinding resolveBinding= sn.resolveBinding();
@@ -355,7 +355,7 @@ public class ChangedValueChecker extends AbstractChecker {
 				str2= ((Elem) this.memberKey).toString();
 			}
 			if (!str1.equals("")) //$NON-NLS-1$
-				return str1 + str2;
+				return str1 + str2; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
 				return str2;
 		}
@@ -406,8 +406,8 @@ public class ChangedValueChecker extends AbstractChecker {
 		ASTNode selectedExpression;
 
 		public PathVisitor(int startOffset, int endOffset, ASTNode node, ArrayList<IASTFragment> candidateList) {
-			nodes= new ArrayList<>();
-			posSet= new HashSet<>();
+			nodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			posSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			this.startOffset= startOffset;
 			this.endOffset= endOffset;
 			this.selectedExpression= node;
@@ -416,9 +416,9 @@ public class ChangedValueChecker extends AbstractChecker {
 			extend2EndOfLoop(selectedExpression);
 		}
 
-		private void extend2EndOfLoop(ASTNode node) {
+		private void extend2EndOfLoop(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode temp= node;
-			while (temp != null && !(temp instanceof MethodDeclaration)) {
+			while (temp != null && !(temp instanceof MethodDeclaration)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (temp instanceof EnhancedForStatement || temp instanceof WhileStatement
 						|| temp instanceof ForStatement || temp instanceof DoStatement) {
 					int offset= temp.getStartPosition();
@@ -438,7 +438,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean preVisit2(ASTNode node) {
 			if (state == TraversalStatus.NOT_YET_BETWEEN_EXPRESSIONS && node.getStartPosition() >= startOffset && node.getStartPosition() + node.getLength() <= endOffset) {
 				state= TraversalStatus.BETWEEN_EXPRESSIONS;
@@ -456,10 +456,10 @@ public class ChangedValueChecker extends AbstractChecker {
 						is.getElseStatement() != null && ASTNodes.isParent(selectedExpression, is.getElseStatement())) {
 					int offset= is.getThenStatement().getStartPosition();
 					int length= is.getThenStatement().getLength();
-					for (int i= 0; i < candidateList.size(); ++i) {
+					for (int i= 0; i < candidateList.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (candidateList.get(i).getStartPosition() >= offset &&
 								candidateList.get(i).getStartPosition() <= offset + length) {
-							while (i < candidateList.size() - 1 && candidateList.get(1 + i).getStartPosition() >= offset &&
+							while (i < candidateList.size() - 1 && candidateList.get(1 + i).getStartPosition() >= offset && //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									candidateList.get(1 + i).getStartPosition() <= offset + length)
 								i++;
 							if (i < candidateList.size()) {
@@ -499,7 +499,7 @@ public class ChangedValueChecker extends AbstractChecker {
 		private boolean visitMethodCall;
 
 		public ReadVisitor(boolean visitMethodCall) {
-			this.readSet= new HashSet<>();
+			this.readSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			this.visitMethodCall= visitMethodCall;
 		}
 
@@ -534,7 +534,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(MethodInvocation methodInvocation) {
 			final IMethodBinding resolveMethodBinding= methodInvocation.resolveMethodBinding();
 			if (resolveMethodBinding == null) {
@@ -549,7 +549,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			if (md != null && md.getLength() < THRESHOLD) {
 				ReadVisitor rv= new ReadVisitor(false);
 				md.accept(rv);
-				for (Elem e : rv.readSet) {
+				for (Elem e : rv.readSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addToList(new Elem(methodInvocation, visitMethodCall, e));
 				}
 			}
@@ -568,7 +568,7 @@ public class ChangedValueChecker extends AbstractChecker {
 		private Expression ignoreAssignmentToExpression;
 
 		public UpdateVisitor(Set<Elem> dependSet, boolean visitMethodCall, Expression ignoreAssignmentToExpression) {
-			this.updateSet= new HashSet<>();
+			this.updateSet= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			this.visitMethodCall= visitMethodCall;
 			this.ignoreAssignmentToExpression= ignoreAssignmentToExpression;
 			this.dependSet= dependSet;
@@ -582,7 +582,7 @@ public class ChangedValueChecker extends AbstractChecker {
 		}
 
 		private boolean hasConflict() {
-			for (Elem e : dependSet) {
+			for (Elem e : dependSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (updateSet.contains(e)) {
 					return true;
 				}
@@ -599,7 +599,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			}
 			ReadVisitor v= new ReadVisitor(visitMethodCall);
 			assignment.getLeftHandSide().accept(v);
-			for (Elem e : v.readSet) {
+			for (Elem e : v.readSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addToList(e);
 			}
 			return super.visit(assignment);
@@ -611,7 +611,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			if (op == PrefixExpression.Operator.INCREMENT || op == PrefixExpression.Operator.DECREMENT) {
 				ReadVisitor v= new ReadVisitor(visitMethodCall);
 				prefixExpression.getOperand().accept(v);
-				for (Elem e : v.readSet) {
+				for (Elem e : v.readSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addToList(e);
 				}
 			}
@@ -624,7 +624,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			if (op == PostfixExpression.Operator.INCREMENT || op == PostfixExpression.Operator.DECREMENT) {
 				ReadVisitor v= new ReadVisitor(visitMethodCall);
 				postfixExpression.getOperand().accept(v);
-				for (Elem e : v.readSet) {
+				for (Elem e : v.readSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addToList(e);
 				}
 			}
@@ -642,7 +642,7 @@ public class ChangedValueChecker extends AbstractChecker {
 			if (md != null && md.getLength() < THRESHOLD) {
 				UpdateVisitor uv= new UpdateVisitor(dependSet, false, ignoreAssignmentToExpression);
 				md.accept(uv);
-				for (Elem e : uv.updateSet) {
+				for (Elem e : uv.updateSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addToList(new Elem(methodInvocation, visitMethodCall, e));
 				}
 			}

@@ -33,9 +33,9 @@ public class BasicElementLabels {
 
 
 	// TextProcessor delimiters
-	private static final String CODE_DELIMITERS= TextProcessor.getDefaultDelimiters() + "<>()?,{}+-*!%=^|&;[]~"; //$NON-NLS-1$
-	private static final String FILE_PATTERN_DELIMITERS= TextProcessor.getDefaultDelimiters() + "*.?"; //$NON-NLS-1$
-	private static final String URL_DELIMITERS= TextProcessor.getDefaultDelimiters() + ":@?-"; //$NON-NLS-1$
+	private static final String CODE_DELIMITERS= TextProcessor.getDefaultDelimiters() + "<>()?,{}+-*!%=^|&;[]~"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String FILE_PATTERN_DELIMITERS= TextProcessor.getDefaultDelimiters() + "*.?"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String URL_DELIMITERS= TextProcessor.getDefaultDelimiters() + ":@?-"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	/**

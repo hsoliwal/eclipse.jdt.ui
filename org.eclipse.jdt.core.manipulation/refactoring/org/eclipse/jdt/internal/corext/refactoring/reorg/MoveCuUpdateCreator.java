@@ -90,8 +90,8 @@ public class MoveCuUpdateCreator {
 		Assert.isNotNull(pack);
 		fCus= cus;
 		fDestination= pack;
-		fImportRewrites= new HashMap<>();
-		fNewPackage= fDestination.isDefaultPackage() ? "" : fDestination.getElementName() + '.'; //$NON-NLS-1$
+		fImportRewrites= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fNewPackage= fDestination.isDefaultPackage() ? "" : fDestination.getElementName() + '.'; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public TextChangeManager createChangeManager(IProgressMonitor pm, RefactoringStatus status) throws JavaModelException{
@@ -112,7 +112,7 @@ public class MoveCuUpdateCreator {
 	}
 
 	private void addImportRewriteUpdates(TextChangeManager changeManager) throws CoreException {
-		for (Map.Entry<ICompilationUnit, ImportRewrite> entry : fImportRewrites.entrySet()) {
+		for (Map.Entry<ICompilationUnit, ImportRewrite> entry : fImportRewrites.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit cu = entry.getKey();
 			ImportRewrite importRewrite= entry.getValue();
 			if (importRewrite != null && importRewrite.hasRecordedChanges()) {
@@ -123,7 +123,7 @@ public class MoveCuUpdateCreator {
 
 	private void addUpdates(TextChangeManager changeManager, IProgressMonitor pm, RefactoringStatus status) throws CoreException {
 		pm.beginTask("", fCus.length);  //$NON-NLS-1$
-		for (ICompilationUnit cu : fCus) {
+		for (ICompilationUnit cu : fCus) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
 			addUpdates(changeManager, cu, Progress.subMonitor(pm, 1), status);
@@ -148,14 +148,14 @@ public class MoveCuUpdateCreator {
 		}
 	}
 
-	private void addReferenceUpdates(TextChangeManager changeManager, ICompilationUnit movedUnit, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException, CoreException {
+	private void addReferenceUpdates(TextChangeManager changeManager, ICompilationUnit movedUnit, IProgressMonitor pm, RefactoringStatus status) throws JavaModelException, CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<ICompilationUnit> cuList= Arrays.asList(fCus);
-		for (SearchResultGroup searchResultGroup : getReferences(movedUnit, pm, status)) {
+		for (SearchResultGroup searchResultGroup : getReferences(movedUnit, pm, status)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ICompilationUnit referencingCu= searchResultGroup.getCompilationUnit();
 			if (referencingCu == null)
 				continue;
 			boolean simpleReferencesNeedNewImport= simpleReferencesNeedNewImport(movedUnit, referencingCu, cuList);
-			for (SearchMatch result : searchResultGroup.getSearchResults()) {
+			for (SearchMatch result : searchResultGroup.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// TODO: should update type references with results from addImport
 				TypeReference reference= (TypeReference) result;
 				if (reference.isImportDeclaration()) {
@@ -186,13 +186,13 @@ public class MoveCuUpdateCreator {
 		String old= importDecl.getElementName();
 		int oldPackLength= movedUnit.getParent().getElementName().length();
 
-		StringBuilder result= new StringBuilder(fDestination.getElementName());
+		StringBuilder result= new StringBuilder(fDestination.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (oldPackLength == 0) // move FROM default package
-			result.append('.').append(old);
+			result.append('.').append(old); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else if (result.length() == 0) // move TO default package
-			result.append(old.substring(oldPackLength + 1)); // cut "."
+			result.append(old.substring(oldPackLength + 1)); // cut "." //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
-			result.append(old.substring(oldPackLength));
+			result.append(old.substring(oldPackLength)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		int index= result.lastIndexOf("."); //$NON-NLS-1$
 		if (index > 0 && index < result.length() - 1)
 			rewrite.addStaticImport(result.substring(0, index), result.substring(index + 1, result.length()), true);
@@ -202,35 +202,35 @@ public class MoveCuUpdateCreator {
 		if (packageName.length() == 0)
 			return typeName;
 		else
-			return packageName + '.' + typeName;
+			return packageName + '.' + typeName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
     private String createStringForNewImport(ICompilationUnit movedUnit, IImportDeclaration importDecl) {
     	String old= importDecl.getElementName();
 		int oldPackLength= movedUnit.getParent().getElementName().length();
 
-		StringBuilder result= new StringBuilder(fDestination.getElementName());
+		StringBuilder result= new StringBuilder(fDestination.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (oldPackLength == 0) // move FROM default package
-			result.append('.').append(old);
+			result.append('.').append(old); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else if (result.length() == 0) // move TO default package
-			result.append(old.substring(oldPackLength + 1)); // cut "."
+			result.append(old.substring(oldPackLength + 1)); // cut "." //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
-			result.append(old.substring(oldPackLength));
+			result.append(old.substring(oldPackLength)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
     }
 
 	private void removeImportsToDestinationPackageTypes(ICompilationUnit movedUnit) throws CoreException{
 		ImportRewrite importEdit= getImportRewrite(movedUnit);
-		for (IType destinationType : getDestinationPackageTypes()) {
+		for (IType destinationType : getDestinationPackageTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			importEdit.removeImport(destinationType.getFullyQualifiedName('.'));
 		}
 		importEdit.removeImport(fDestination.getElementName().concat(".*")); //$NON-NLS-1$
 	}
 
 	private IType[] getDestinationPackageTypes() throws JavaModelException {
-		List<IType> types= new ArrayList<>();
+		List<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (fDestination.exists()) {
-			for (ICompilationUnit cu : fDestination.getCompilationUnits()) {
+			for (ICompilationUnit cu : fDestination.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				types.addAll(Arrays.asList(cu.getTypes()));
 			}
 		}
@@ -243,7 +243,7 @@ public class MoveCuUpdateCreator {
 		ImportRewrite importEdit= getImportRewrite(movedUnit);
 		importEdit.setFilterImplicitImports(false);
 		IPackageFragment srcPack= (IPackageFragment)movedUnit.getParent();
-		for (IType type : ReferenceFinderUtil.getTypesReferencedIn(allCuTypes, pm)) {
+		for (IType type : ReferenceFinderUtil.getTypesReferencedIn(allCuTypes, pm)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! type.exists())
 				continue;
 			if (!JavaModelUtil.isSamePackage(type.getPackageFragment(), srcPack))
@@ -262,7 +262,7 @@ public class MoveCuUpdateCreator {
 		return importEdit;
 	}
 
-	private boolean simpleReferencesNeedNewImport(ICompilationUnit movedUnit, ICompilationUnit referencingCu, List<ICompilationUnit> cuList) {
+	private boolean simpleReferencesNeedNewImport(ICompilationUnit movedUnit, ICompilationUnit referencingCu, List<ICompilationUnit> cuList) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (referencingCu.equals(movedUnit))
 			return false;
 		if (cuList.contains(referencingCu))
@@ -274,7 +274,7 @@ public class MoveCuUpdateCreator {
 		}
 
 		//heuristic
-		if (referencingCu.getImport(movedUnit.getParent().getElementName() + ".*").exists()) //$NON-NLS-1$
+		if (referencingCu.getImport(movedUnit.getParent().getElementName() + ".*").exists()) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return true; // has old star import
 		if (referencingCu.getParent().equals(movedUnit.getParent()))
 			return true; //is moved away from same package
@@ -329,7 +329,7 @@ public class MoveCuUpdateCreator {
 	        }
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void acceptSearchMatch(SearchMatch match) throws CoreException {
 			if (filterMatch(match))
 				return;
@@ -372,7 +372,7 @@ public class MoveCuUpdateCreator {
 			int lastIdentifierStart= -1;
 			try {
 				int tokenType= fScanner.getNextToken();
-				while (tokenType != ITerminalSymbols.TokenNameEOF) {
+				while (tokenType != ITerminalSymbols.TokenNameEOF) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (tokenType == ITerminalSymbols.TokenNameIdentifier) // TODO: could we be in the context of module-info.java, conflicting with restricted keywords?
 						lastIdentifierStart= fScanner.getCurrentTokenStartPosition();
 					tokenType= fScanner.getNextToken();

@@ -103,8 +103,8 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 	}
 
 	private static class TypeBindingCollector extends ASTVisitor {
-		private final List<ITypeBinding> fResult= new ArrayList<>();
-		private final List<ITypeBinding> fWildcards= new ArrayList<>();
+		private final List<ITypeBinding> fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		private final List<ITypeBinding> fWildcards= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		@Override
 		public boolean visit(FieldDeclaration node) {
 			List<VariableDeclarationFragment> fragments= node.fragments();
@@ -118,9 +118,9 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 		}
 		@Override
 		public void endVisit(CompilationUnit node) {
-			for (ITypeBinding binding : fResult) {
+			for (ITypeBinding binding : fResult) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (binding.isParameterizedType()) {
-					for (ITypeBinding arg : binding.getTypeArguments()) {
+					for (ITypeBinding arg : binding.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (arg.isWildcardType()) {
 							fWildcards.add(arg);
 						}
@@ -137,7 +137,7 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 	}
 
 	private static class CaptureTypeBindingCollector extends ASTVisitor {
-		private final List<ITypeBinding> fResult= new ArrayList<>();
+		private final List<ITypeBinding> fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		@Override
 		public boolean visit(Assignment node) {
 			Expression expression= node.getRightHandSide();
@@ -149,7 +149,7 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 		private void collectTypeArgumentBindings(ITypeBinding typeBinding, List<ITypeBinding> result) {
 			if (! typeBinding.isParameterizedType())
 				return;
-			for (ITypeBinding typeArgument : typeBinding.getTypeArguments()) {
+			for (ITypeBinding typeArgument : typeBinding.getTypeArguments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (BUG_83616_core_wildcard_assignments && typeArgument.isParameterizedType() && typeArgument.getTypeArguments()[0].isWildcardType())
 					continue;
 				result.add(typeArgument);
@@ -176,7 +176,7 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 
 	@Override
 	protected String adaptName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java";
+		return Character.toUpperCase(name.charAt(0)) + name.substring(1) + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private ASTNode createAST(IPackageFragment pack) throws Exception {
@@ -240,10 +240,10 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 		testAssignment(collector.getWildcards());
 	}
 
-	private void testBindings(ITypeBinding[] bindings) throws Exception {
+	private void testBindings(ITypeBinding[] bindings) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TType[] types= new TType[bindings.length];
 		TypeEnvironment environment= new TypeEnvironment();
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			types[i]= environment.create(bindings[i]);
 			assertEquals("Not same name", bindings[i].getName(), types[i].getName());
 			assertEquals("Not same signature", PrettySignatures.get(bindings[i]), types[i].getPrettySignature());
@@ -254,18 +254,18 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 			assertSame("Not same type", types[i], environment.create(bindings[i]));
 
 		}
-		for (int o= 0; o < bindings.length; o++) {
-			for (int i= 0; i < bindings.length; i++) {
+		for (int o= 0; o < bindings.length; o++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkCanAssignTo(bindings[o], bindings[i], types[o], types[i]);
 			}
 		}
 		TypeEnvironment secondEnvironment= new TypeEnvironment();
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertEquals("Equal to second environment", types[i], secondEnvironment.create(bindings[i]));
 		}
 		ITypeBinding[] restoredBindings= TypeEnvironment.createTypeBindings(types, mts.getProject());
 		assertEquals("Not same length", restoredBindings.length, bindings.length);
-		for (int i= 0; i < restoredBindings.length; i++) {
+		for (int i= 0; i < restoredBindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue("Not same binding", bindings[i].isEqualTo(restoredBindings[i]));
 		}
 	}
@@ -273,19 +273,19 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 	private void checkCanAssignTo(ITypeBinding rhsBinding, ITypeBinding lhsBinding, TType rhs, TType lhs) {
 		boolean coreResult= rhsBinding.isAssignmentCompatible(lhsBinding);
 		boolean uiResult= rhs.canAssignTo(lhs);
-		assertEquals("Different assignment rule(" +
+		assertEquals("Different assignment rule(" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			PrettySignatures.get(lhsBinding) + "= " + PrettySignatures.get(rhsBinding) +
 			"): ", coreResult, uiResult);
 	}
 
-	private void testAssignment(ITypeBinding[] bindings) {
+	private void testAssignment(ITypeBinding[] bindings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TType[] types= new TType[bindings.length];
 		TypeEnvironment environment= new TypeEnvironment();
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			types[i]= environment.create(bindings[i]);
 		}
-		for (int o= 0; o < bindings.length; o++) {
-			for (int i= 0; i < bindings.length; i++) {
+		for (int o= 0; o < bindings.length; o++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeBinding oBinding= bindings[o];
 				ITypeBinding iBinding= bindings[i];
 				boolean coreResult= oBinding.isAssignmentCompatible(iBinding);
@@ -294,7 +294,7 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 				boolean uiResult= oType.canAssignTo(iType);
 				if (!BUG_83616_core_wildcard_assignments) {
 					if (coreResult != uiResult && !oType.isWildcardType()) {
-						System.out.println("Different assignment rule(" +
+						System.out.println("Different assignment rule(" + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								PrettySignatures.get(iBinding) + "= " + PrettySignatures.get(oBinding) +
 								"): Bindings<" + coreResult +
 								"> TType<" + uiResult + ">");
@@ -347,10 +347,10 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 		ITypeBinding[] bindings= collector.getResult();
 		TType[] types= new TType[bindings.length];
 		TypeEnvironment environment= new TypeEnvironment();
-		for (int i= 0; i < bindings.length; i++) {
+		for (int i= 0; i < bindings.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			types[i]= environment.create(bindings[i]);
 		}
-		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[1]) +
+		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[1]) + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			": " + bindings[1].isAssignmentCompatible(bindings[0]));
 		// types[1].canAssignTo(types[0]);
 	}
@@ -361,12 +361,12 @@ public class TypeEnvironmentTests extends AbstractJunit4CUTestCase {
 		node.accept(collector);
 		ITypeBinding[] bindings= collector.getResult();
 		bindings[0]= bindings[0].getTypeDeclaration();
-		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[1]) +
+		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[1]) + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			": " + bindings[1].isAssignmentCompatible(bindings[0]));
-		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[0]) +
+		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[0]) + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			": " + bindings[0].isAssignmentCompatible(bindings[0]));
 		bindings[1]= bindings[1].getTypeDeclaration();
-		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[1]) +
+		System.out.println(PrettySignatures.get(bindings[0]) + "= " + PrettySignatures.get(bindings[1]) + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			": " + bindings[1].isAssignmentCompatible(bindings[0]));
 	}
 }

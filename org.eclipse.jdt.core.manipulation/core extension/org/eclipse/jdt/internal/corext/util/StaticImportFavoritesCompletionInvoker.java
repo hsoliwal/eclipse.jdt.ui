@@ -45,7 +45,7 @@ public class StaticImportFavoritesCompletionInvoker {
 		}
 	}
 
-	public String [] getStaticImportFavorites (final String elementName, boolean isMethod) throws JavaModelException {
+	public String [] getStaticImportFavorites (final String elementName, boolean isMethod) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fNewCU == null) {
 			fNewCU= fCu.getWorkingCopy(null);
 		}
@@ -57,12 +57,12 @@ public class StaticImportFavoritesCompletionInvoker {
 		String dummyCuContent = res[0];
 		int offset= Integer.parseInt(res[1]);
 		fNewCU.getBuffer().setContents(dummyCuContent);
-		final HashSet<String> result= new HashSet<>();
+		final HashSet<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		CompletionRequestor requestor= new CompletionRequestor(true) {
 			@Override
 			public void accept(CompletionProposal proposal) {
 				if (elementName.equals(new String(proposal.getName()))) {
-					for (CompletionProposal curr : proposal.getRequiredProposals()) {
+					for (CompletionProposal curr : proposal.getRequiredProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (curr.getKind() == CompletionProposal.METHOD_IMPORT || curr.getKind() == CompletionProposal.FIELD_IMPORT) {
 							result.add(JavaModelUtil.concatenateName(Signature.toCharArray(curr.getDeclarationSignature()), curr.getName()));
 						}
@@ -84,18 +84,18 @@ public class StaticImportFavoritesCompletionInvoker {
 	}
 
 	private String[] createNewCompilationUnit (final String elementName) {
-		StringBuilder dummyCU= new StringBuilder();
+		StringBuilder dummyCU= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String packName= fCu.getParent().getElementName();
 		IType type= fCu.findPrimaryType();
 		if (type == null)
 			return new String[0];
 
 		if (packName.length() > 0) {
-			dummyCU.append("package ").append(packName).append(';'); //$NON-NLS-1$
+			dummyCU.append("package ").append(packName).append(';'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		dummyCU.append("public class ").append(type.getElementName()).append("{\n static {\n").append(elementName); // static initializer  //$NON-NLS-1$//$NON-NLS-2$
+		dummyCU.append("public class ").append(type.getElementName()).append("{\n static {\n").append(elementName); // static initializer  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String offset = Integer.toString(dummyCU.length());
-		dummyCU.append("\n}\n }"); //$NON-NLS-1$
+		dummyCU.append("\n}\n }"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return new String [] {dummyCU.toString(), offset};
 	}
 }

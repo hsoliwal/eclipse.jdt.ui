@@ -79,7 +79,7 @@ public class AddModuleRequiresCorrectionProposalCore extends ChangeCorrectionPro
 		return getChangeDescription();
 	}
 
-	private CompilationUnitChange createAddRequiresChange() throws CoreException {
+	private CompilationUnitChange createAddRequiresChange() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (getModuleName() == null || getModuleCu() == null) {
 			return null;
 		}
@@ -96,7 +96,7 @@ public class AddModuleRequiresCorrectionProposalCore extends ChangeCorrectionPro
 		List<ModuleDirective> moduleStatements= moduleDecl.moduleStatements();
 		ModuleDirective lastModuleRequiresDirective= null;
 		if (moduleStatements != null) {
-			for (ModuleDirective directive : moduleStatements) {
+			for (ModuleDirective directive : moduleStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (directive instanceof RequiresDirective) {
 					Name name= ((RequiresDirective) directive).getName();
 					if (getModuleName().equals(name.getFullyQualifiedName())) {
@@ -148,13 +148,13 @@ public class AddModuleRequiresCorrectionProposalCore extends ChangeCorrectionPro
 	 * @param javaElement limits the search scope to this element
 	 * @return list of package fragments for the matching types
 	 */
-	public static List<IPackageFragment> getPackageFragmentsOfMatchingTypesImpl(String stringPattern, int typeRule, IJavaElement javaElement) {
+	public static List<IPackageFragment> getPackageFragmentsOfMatchingTypesImpl(String stringPattern, int typeRule, IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int matchRule= SearchPattern.R_ERASURE_MATCH | SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE;
 		SearchPattern searchPattern= SearchPattern.createPattern(stringPattern, typeRule, IJavaSearchConstants.DECLARATIONS, matchRule);
 		if (searchPattern == null) {
 			return null;
 		}
-		List<IPackageFragment> packageFragments= new ArrayList<>();
+		List<IPackageFragment> packageFragments= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SearchRequestor requestor= new SearchRequestor() {
 			@Override
 			public void acceptSearchMatch(SearchMatch match) throws CoreException {
@@ -177,7 +177,7 @@ public class AddModuleRequiresCorrectionProposalCore extends ChangeCorrectionPro
 		return packageFragments;
 	}
 
-	public static IModuleDescription getModuleDescription(IJavaElement element) {
+	public static IModuleDescription getModuleDescription(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IModuleDescription projectModule= null;
 		try {
 			switch (element.getElementType()) {

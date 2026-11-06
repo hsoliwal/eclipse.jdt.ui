@@ -47,18 +47,18 @@ public class PropertiesFileSpellingEngine extends SpellingEngine {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.spelling.SpellingEngine#check(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.IRegion[], org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellChecker, org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void check(IDocument document, IRegion[] regions, ISpellChecker checker, ISpellingProblemCollector collector, IProgressMonitor monitor) {
 		SpellEventListener listener= new SpellEventListener(collector, document);
 		boolean isIgnoringAmpersand= PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.SPELLING_IGNORE_AMPERSAND_IN_PROPERTIES);
 		try {
-			List<ITypedRegion> partitionList= new ArrayList<>();
-			for (IRegion region : regions) {
+			List<ITypedRegion> partitionList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IRegion region : regions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				partitionList.addAll(Arrays.asList(TextUtilities.computePartitioning(document, IPropertiesFilePartitions.PROPERTIES_FILE_PARTITIONING, region.getOffset(), region.getLength(), false)));
 			}
 			ITypedRegion[] partitions= partitionList.toArray(new ITypedRegion[partitionList.size()]);
 
-			for (int i= 0; i < partitions.length; i++) {
+			for (int i= 0; i < partitions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (monitor != null && monitor.isCanceled())
 					return;
 				if (listener.isProblemsThresholdReached())
@@ -66,7 +66,7 @@ public class PropertiesFileSpellingEngine extends SpellingEngine {
 
 				ITypedRegion partition= partitions[i];
 				if (IPropertiesFilePartitions.COMMENT.equals(partition.getType())) {
-					for (; i < partitions.length - 1; i++) {
+					for (; i < partitions.length - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ITypedRegion next= partitions[i+1];
 						int gapOffset= partition.getOffset() + partition.getLength();
 						int gapLength= next.getOffset() - gapOffset;
@@ -102,7 +102,7 @@ public class PropertiesFileSpellingEngine extends SpellingEngine {
 	 */
 	private boolean isWhitespace(IDocument document, int offset, int length) {
 		try {
-			for (int i= 0; i < length; i++)
+			for (int i= 0; i < length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!Character.isWhitespace(document.getChar(offset + i)))
 					return false;
 			return true;

@@ -74,18 +74,18 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 				return startNode == node;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final IfStatement visited) {
 				if (result && ASTNodes.fallsThrough(visited.getThenStatement())) {
-					List<IfStatement> duplicateIfBlocks= new ArrayList<>(ASTNodes.EXCESSIVE_OPERAND_NUMBER - 1);
-					Set<String> patternNames= new HashSet<>();
+					List<IfStatement> duplicateIfBlocks= new ArrayList<>(ASTNodes.EXCESSIVE_OPERAND_NUMBER - 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					Set<String> patternNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					PatternNameVisitor visitor= new PatternNameVisitor();
 					visited.accept(visitor);
 					patternNames= visitor.getPatternNames();
 					AtomicInteger operandCount= new AtomicInteger(ASTNodes.getNbOperands(visited.getExpression()));
 					duplicateIfBlocks.add(visited);
 
-					while (addOneMoreIf(duplicateIfBlocks, patternNames, operandCount)) {
+					while (addOneMoreIf(duplicateIfBlocks, patternNames, operandCount)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// OK continue
 					}
 
@@ -100,7 +100,7 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 			}
 
 			private class PatternNameVisitor extends ASTVisitor {
-				private Set<String> patternNames= new HashSet<>();
+				private Set<String> patternNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 				@Override
 				public boolean visit(PatternInstanceofExpression node) {
@@ -117,7 +117,7 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 				}
 			}
 
-			private boolean addOneMoreIf(final List<IfStatement> duplicateIfBlocks, final Set<String> patternNames, final AtomicInteger operandCount) {
+			private boolean addOneMoreIf(final List<IfStatement> duplicateIfBlocks, final Set<String> patternNames, final AtomicInteger operandCount) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				IfStatement lastBlock= duplicateIfBlocks.get(duplicateIfBlocks.size() - 1);
 
 				if (lastBlock.getElseStatement() == null) {
@@ -130,7 +130,7 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 						PatternNameVisitor visitor= new PatternNameVisitor();
 						nextSibling.getExpression().accept(visitor);
 						Set<String> siblingPatternNames= visitor.getPatternNames();
-						for (String siblingPatternName : siblingPatternNames) {
+						for (String siblingPatternName : siblingPatternNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (!patternNames.add(siblingPatternName)) {
 								return false;
 							}
@@ -153,7 +153,7 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 			this.duplicateIfBlocks= duplicateIfBlocks;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -169,9 +169,9 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 				}
 			});
 
-			List<Expression> newConditions= new ArrayList<>(duplicateIfBlocks.size());
+			List<Expression> newConditions= new ArrayList<>(duplicateIfBlocks.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (IfStatement ifStatement : duplicateIfBlocks) {
+			for (IfStatement ifStatement : duplicateIfBlocks) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				InfixExpression oneOriginalCondition= ASTNodes.as(ifStatement.getExpression(), InfixExpression.class);
 
 				if (ASTNodes.hasOperator(oneOriginalCondition, InfixExpression.Operator.CONDITIONAL_OR)) {
@@ -187,7 +187,7 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 			newCondition.setRightOperand(newConditions.remove(0));
 			newCondition.extendedOperands().addAll(newConditions);
 
-			for (int i= 0; i < duplicateIfBlocks.size() - 1; i++) {
+			for (int i= 0; i < duplicateIfBlocks.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNodes.removeButKeepComment(rewrite, duplicateIfBlocks.get(i), group);
 			}
 
@@ -196,7 +196,7 @@ public class OneIfRatherThanDuplicateBlocksThatFallThroughFixCore extends Compil
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		OneIfRatherThanDuplicateBlocksThatFallThroughFinder finder= new OneIfRatherThanDuplicateBlocksThatFallThroughFinder(operations);
 		compilationUnit.accept(finder);
 

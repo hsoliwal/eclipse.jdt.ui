@@ -30,7 +30,7 @@ import org.eclipse.jdt.internal.ui.fix.CodeFormatCleanUp;
 /**
  * @since 3.4
  */
-public class MultiFormatAction extends CleanUpAction {
+public class MultiFormatAction extends CleanUpAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public MultiFormatAction(IWorkbenchSite site) {
 		super(site);

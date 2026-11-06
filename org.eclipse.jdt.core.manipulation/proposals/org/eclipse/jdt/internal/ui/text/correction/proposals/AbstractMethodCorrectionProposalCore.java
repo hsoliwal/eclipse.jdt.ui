@@ -77,7 +77,7 @@ public abstract class AbstractMethodCorrectionProposalCore extends LinkedCorrect
 		return fSenderBinding;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		CompilationUnit astRoot= ASTResolving.findParentCompilationUnit(fNode);
 		ASTNode typeDecl= astRoot.findDeclaringNode(fSenderBinding);
@@ -117,7 +117,7 @@ public abstract class AbstractMethodCorrectionProposalCore extends LinkedCorrect
 		return null;
 	}
 
-	private MethodDeclaration getStub(ASTRewrite rewrite, ASTNode targetTypeDecl) throws CoreException {
+	private MethodDeclaration getStub(ASTRewrite rewrite, ASTNode targetTypeDecl) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImportRewriteContext context=new ContextSensitiveImportRewriteContext(targetTypeDecl, getImportRewrite());
 
 		AST ast= targetTypeDecl.getAST();
@@ -129,12 +129,12 @@ public abstract class AbstractMethodCorrectionProposalCore extends LinkedCorrect
 
 		addNewModifiers(rewrite, targetTypeDecl, decl.modifiers());
 
-		ArrayList<String> takenNames= new ArrayList<>();
+		ArrayList<String> takenNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addNewTypeParameters(rewrite, takenNames, decl.typeParameters(), context);
 
 		decl.setName(newNameNode);
 
-		for (IVariableBinding declaredField : fSenderBinding.getDeclaredFields()) {
+		for (IVariableBinding declaredField : fSenderBinding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// avoid to take parameter names that are equal to field names
 			takenNames.add(declaredField.getName());
 		}
@@ -181,7 +181,7 @@ public abstract class AbstractMethodCorrectionProposalCore extends LinkedCorrect
 
 	private int findMethodInsertIndex(List<BodyDeclaration> decls, int currPos) {
 		int nDecls= decls.size();
-		for (int i= 0; i < nDecls; i++) {
+		for (int i= 0; i < nDecls; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration curr= decls.get(i);
 			if (curr instanceof MethodDeclaration && currPos < curr.getStartPosition() + curr.getLength()) {
 				return i + 1;
@@ -193,7 +193,7 @@ public abstract class AbstractMethodCorrectionProposalCore extends LinkedCorrect
 	private int findConstructorInsertIndex(List<BodyDeclaration> decls) {
 		int nDecls= decls.size();
 		int lastMethod= 0;
-		for (int i= nDecls - 1; i >= 0; i--) {
+		for (int i= nDecls - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			BodyDeclaration curr= decls.get(i);
 			if (curr instanceof MethodDeclaration) {
 				if (((MethodDeclaration) curr).isConstructor()) {

@@ -71,7 +71,7 @@ public abstract class TypingInvocationCountTest extends TextPerformanceTestCase 
 			super(test);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setUp() throws Exception {
 			@SuppressWarnings("restriction")
 			AnnotationPreference preference= org.eclipse.ui.internal.editors.text.EditorsPlugin.getDefault().getAnnotationPreferenceLookup().getAnnotationPreference(SEARCH_ANNOTATION_TYPE);
@@ -107,10 +107,10 @@ public abstract class TypingInvocationCountTest extends TextPerformanceTestCase 
 
 		@Override
 		protected String getFile() {
-			return "/" + PROJECT + "/src/" + FILE;
+			return "/" + PROJECT + "/src/" + FILE; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void tearDown () throws Exception {
 			super.tearDown();
 			if (!fWasSearchViewShown)
@@ -220,7 +220,7 @@ public abstract class TypingInvocationCountTest extends TextPerformanceTestCase 
 		measure(line, column, ch, false);
 	}
 
-	private void measure(int line, int column, char ch,  boolean sendKeyCode) throws Exception {
+	private void measure(int line, int column, char ch,  boolean sendKeyCode) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		InvocationCountPerformanceMeter performanceMeter= createInvocationCountPerformanceMeter(new Method[] {
 				AnnotationPainter.class.getMethod("paintControl", PaintEvent.class),
 		});

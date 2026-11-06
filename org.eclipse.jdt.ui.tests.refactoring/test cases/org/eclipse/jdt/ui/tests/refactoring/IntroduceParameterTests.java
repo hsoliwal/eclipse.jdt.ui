@@ -78,7 +78,7 @@ public class IntroduceParameterTests extends LineColumnSelectionTestCase {
 		perform(RefactoringStatus.FATAL, RefactoringStatus.FATAL);
 	}
 
-	protected void perform(int expectedActivationStatus, int expectedInputStatus) throws Exception {
+	protected void perform(int expectedActivationStatus, int expectedInputStatus) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String packageName= adaptPackage(getName());
 		IPackageFragment packageFragment= rts.getDefaultSourceFolder().createPackageFragment(packageName, true , null);
 		ICompilationUnit cu= createCU(packageFragment, getName());
@@ -105,7 +105,7 @@ public class IntroduceParameterTests extends LineColumnSelectionTestCase {
 		if (status.getSeverity() == RefactoringStatus.FATAL)
 			return;
 
-		String out= getProofedContent(packageName + SLASH_OUT, getName());
+		String out= getProofedContent(packageName + SLASH_OUT, getName()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		performTest(cu, refactoring, out);
 	}
 

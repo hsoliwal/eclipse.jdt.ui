@@ -76,7 +76,7 @@ public class ChangeRecordSignatureWizard extends RefactoringWizard{
 			Dialog.applyDialogFont(composite);
 		}
 
-		private Control createRecordParameterControl(Composite parent) {
+		private Control createRecordParameterControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite border= new Composite(parent, SWT.NONE);
 			border.setLayout(new GridLayout());
 			border.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -104,7 +104,7 @@ public class ChangeRecordSignatureWizard extends RefactoringWizard{
 			updateStatus(displayErrorMessage);
 		}
 
-		private void updateStatus(boolean displayErrorMessage) {
+		private void updateStatus(boolean displayErrorMessage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try{
 				if (getChangeRecordSignatureProcessor().isSignatureSameAsInitial()) {
 					if (displayErrorMessage)

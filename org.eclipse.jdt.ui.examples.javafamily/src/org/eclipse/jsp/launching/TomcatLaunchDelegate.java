@@ -30,7 +30,7 @@ import org.eclipse.jdt.launching.JavaLaunchDelegate;
 /**
  * Launch delegate for a local Tomcat server
  */
-public class TomcatLaunchDelegate extends JavaLaunchDelegate {
+public class TomcatLaunchDelegate extends JavaLaunchDelegate { //FLLDCIM: MARK — T27  IMPLEMENTS
 
 	/**
 	 * Identifier for Tomcat launch configurations.
@@ -61,7 +61,7 @@ public class TomcatLaunchDelegate extends JavaLaunchDelegate {
 	 * @return the value of the <code>${catalina_home}</code> launch variable
 	 * @exception CoreException if the variable or value is undefined
 	 */
-	public static String getCatalinaHome() throws CoreException {
+	public static String getCatalinaHome() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IValueVariable variable = VariablesPlugin.getDefault().getStringVariableManager().getValueVariable("catalina_home"); //$NON-NLS-1$
 		IStatus err = null;
 		if (variable == null) {
@@ -70,7 +70,7 @@ public class TomcatLaunchDelegate extends JavaLaunchDelegate {
 			String home = variable.getValue();
 			if (home != null && home.length() > 0) {
 				File file = new File(home);
-				if (file.exists() && file.isDirectory()) {
+				if (file.exists() && file.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return home;
 				} else {
 					err = new Status(IStatus.ERROR, JspUIPlugin.getDefault().getBundle().getSymbolicName(), 0, MessageFormat.format(LaunchingMessages.TomcatLaunchDelegate_7, home), null);

@@ -64,7 +64,7 @@ import org.eclipse.jdt.ui.PreferenceConstants;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
-public class ClassPathDetector implements IResourceProxyVisitor {
+public class ClassPathDetector implements IResourceProxyVisitor { //FLLDCIM: MARK — T07  IMPLEMENTS
 
 	private HashMap<IPath, List<IPath>> fSourceFolders;
 	private List<IResource> fClassFiles;
@@ -87,9 +87,9 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 
 
 	public ClassPathDetector(IProject project, IProgressMonitor monitor) throws CoreException {
-		fSourceFolders= new HashMap<>();
-		fJARFiles= new HashSet<>(10);
-		fClassFiles= new ArrayList<>(100);
+		fSourceFolders= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fJARFiles= new HashSet<>(10); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		fClassFiles= new ArrayList<>(100); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fProject= project;
 
 		fResultClasspath= null;
@@ -104,7 +104,7 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 
 
 	private boolean isNested(IPath path, Iterator<IPath> iter) {
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath other= iter.next();
 			if (other.isPrefixOf(path)) {
 				return true;
@@ -119,7 +119,7 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 	 * @param monitor The progress monitor (not null)
 	 * @throws CoreException in case of any failure
 	 */
-	private void detectClasspath(IProgressMonitor monitor) throws CoreException {
+	private void detectClasspath(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			monitor.beginTask(NewWizardMessages.ClassPathDetector_operation_description, 4);
 
@@ -127,7 +127,7 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 			fProject.accept(this, IResource.NONE);
 			monitor.worked(1);
 
-			ArrayList<IClasspathEntry> cpEntries= new ArrayList<>();
+			ArrayList<IClasspathEntry> cpEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 			detectSourceFolders(cpEntries);
 			if (monitor.isCanceled()) {
@@ -168,7 +168,7 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 
 	private IPath findInSourceFolders(IPath path) {
 		Iterator<IPath> iter= fSourceFolders.keySet().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object key= iter.next();
 			List<IPath> cus= fSourceFolders.get(key);
 			if (cus.contains(path)) {
@@ -178,10 +178,10 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 		return null;
 	}
 
-	private IPath detectOutputFolder() throws CoreException {
-		HashSet<IPath> classFolders= new HashSet<>();
+	private IPath detectOutputFolder() throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashSet<IPath> classFolders= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (IResource iResource : fClassFiles) {
+		for (IResource iResource : fClassFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IFile file= (IFile) iResource;
 			IClassFileReader reader= null;
 			try (InputStream content= file.getContents()) {
@@ -226,8 +226,8 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 			return projPath;
 		} else {
 			IPath path= projPath.append(PreferenceConstants.getPreferenceStore().getString(PreferenceConstants.SRCBIN_BINNAME));
-			while (classFolders.contains(path)) {
-				path= new Path(path.toString() + '1');
+			while (classFolders.contains(path)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				path= new Path(path.toString() + '1'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return path;
 		}
@@ -235,9 +235,9 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 
 
 	private void detectLibraries(ArrayList<IClasspathEntry> cpEntries, IPath outputLocation) {
-		ArrayList<IClasspathEntry> res= new ArrayList<>();
+		ArrayList<IClasspathEntry> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Set<IPath> sourceFolderSet= fSourceFolders.keySet();
-		for (IPath path : fJARFiles) {
+		for (IPath path : fJARFiles) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isNested(path, sourceFolderSet.iterator())) {
 				continue;
 			}
@@ -247,17 +247,17 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 			IClasspathEntry entry= JavaCore.newLibraryEntry(path, null, null);
 			res.add(entry);
 		}
-		Collections.sort(res, new CPSorter());
+		Collections.sort(res, new CPSorter()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		cpEntries.addAll(res);
 	}
 
 
-	private void detectSourceFolders(ArrayList<IClasspathEntry> resEntries) {
-		ArrayList<IClasspathEntry> res= new ArrayList<>();
+	private void detectSourceFolders(ArrayList<IClasspathEntry> resEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IClasspathEntry> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Set<IPath> sourceFolderSet= fSourceFolders.keySet();
-		for (IPath path : sourceFolderSet) {
-			ArrayList<IPath> excluded= new ArrayList<>();
-			for (IPath other : sourceFolderSet) {
+		for (IPath path : sourceFolderSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			ArrayList<IPath> excluded= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPath other : sourceFolderSet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!path.equals(other) && path.isPrefixOf(other)) {
 					IPath pathToExclude= other.removeFirstSegments(path.segmentCount()).addTrailingSeparator();
 					excluded.add(pathToExclude);
@@ -267,11 +267,11 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 			IClasspathEntry entry= JavaCore.newSourceEntry(path, excludedPaths);
 			res.add(entry);
 		}
-		Collections.sort(res, new CPSorter());
+		Collections.sort(res, new CPSorter()); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		resEntries.addAll(res);
 	}
 
-	private void visitCompilationUnit(IFile file) {
+	private void visitCompilationUnit(IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= JavaCore.createCompilationUnitFrom(file);
 		if (cu != null) {
 			ASTParser parser= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
@@ -297,7 +297,7 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 	private void addToMap(HashMap<IPath, List<IPath>> map, IPath folderPath, IPath relPath) {
 		List<IPath> list= map.get(folderPath);
 		if (list == null) {
-			list= new ArrayList<>(50);
+			list= new ArrayList<>(50); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			map.put(folderPath, list);
 		}
 		list.add(relPath);
@@ -322,7 +322,7 @@ public class ClassPathDetector implements IResourceProxyVisitor {
 		return !JavaConventionsUtil.validateCompilationUnitName(name, JavaCore.create(fProject)).matches(IStatus.ERROR);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(IResourceProxy proxy) {
 		if (fMonitor.isCanceled()) {
 			throw new OperationCanceledException();

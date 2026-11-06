@@ -252,7 +252,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 		}
 
 		protected void disposeDeferredCreatedContent() {
-			for (Control child : fParent.getChildren()) {
+			for (Control child : fParent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				child.dispose();
 			}
 			ToolBarManager toolBarManager= getToolBarManager();
@@ -311,7 +311,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 		 * Create content of the hover. This is called after
 		 * the input has been set.
 		 */
-		protected void deferredCreateContent() {
+		protected void deferredCreateContent() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fillToolbar();
 
 			createAnnotationInformation(fParent, getAnnotationInfo().annotation);
@@ -355,7 +355,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 		 * @return A proposal that opens javadoc hover on apply or null if javadoc could not be
 		 *         found.
 		 */
-		private ICompletionProposal createJavadocProposal() {
+		private ICompletionProposal createJavadocProposal() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement javaElement= getJavaElement();
 			if (javaElement == null) {
 				return null;
@@ -379,7 +379,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 		 * Store the quick fix hover bounds so the Javadoc hover can be positioned relative to it
 		 * when the user clicks on the Javadoc proposal.
 		 */
-		private void storeShellBoundsForJavadoc() {
+		private void storeShellBoundsForJavadoc() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Shell shell = getShell();
 			if (shell != null && !shell.isDisposed()) {
 				// Install listener only once per control instance
@@ -393,12 +393,12 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 							fMouseTrackListener = null;
 						}
 					};
-					shell.addMouseTrackListener(fMouseTrackListener);
+					shell.addMouseTrackListener(fMouseTrackListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				}
 			}
 		}
 
-		private IJavaElement getJavaElement() {
+		private IJavaElement getJavaElement() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			AnnotationInfo annotationInfo= getAnnotationInfo();
 			if (annotationInfo.annotation instanceof IJavaAnnotation javaAnnotation) {
 				ICompilationUnit cu= javaAnnotation.getCompilationUnit();
@@ -417,7 +417,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			return null;
 		}
 
-		private final class ShowJavadocProposal implements ICompletionProposal {
+		private final class ShowJavadocProposal implements ICompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 			private final String fJavadocHtmlForProposal;
 
 			private final IJavaElement fElementForProposal;
@@ -429,7 +429,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 
 			@Override
 			public void apply(IDocument document) {
-				Display.getDefault().asyncExec(() -> showJavadoc(fElementForProposal, fJavadocHtmlForProposal));
+				Display.getDefault().asyncExec(() -> showJavadoc(fElementForProposal, fJavadocHtmlForProposal)); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			}
 
 			@Override
@@ -458,7 +458,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			}
 		}
 
-		private void showJavadoc(final IJavaElement elementForProposal, final String javadocHtmlForProposal) {
+		private void showJavadoc(final IJavaElement elementForProposal, final String javadocHtmlForProposal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Shell shell= JavaPlugin.getActiveWorkbenchShell();
 			if (shell == null) {
 				return;
@@ -517,13 +517,13 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			control.setFont(font);
 
 			if (control instanceof Composite) {
-				for (Control child : ((Composite) control).getChildren()) {
+				for (Control child : ((Composite) control).getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					setColorAndFont(child, foreground, background, font);
 				}
 			}
 		}
 
-		private void createAnnotationInformation(Composite parent, final Annotation annotation) {
+		private void createAnnotationInformation(Composite parent, final Annotation annotation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite composite= new Composite(parent, SWT.NONE);
 			composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 			GridLayout layout= new GridLayout(2, false);
@@ -537,7 +537,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			gridData.widthHint= 17;
 			gridData.heightHint= 16;
 			canvas.setLayoutData(gridData);
-			canvas.addPaintListener(e -> {
+			canvas.addPaintListener(e -> { //FLLDCIM: MARK — T10 PAINT_DAMAGE CALL
 				e.gc.setFont(null);
 				fMarkerAnnotationAccess.paint(annotation, e.gc, canvas, new Rectangle(0, 0, 16, 16));
 			});
@@ -551,7 +551,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 				text.setText(annotationText);
 		}
 
-		private void createCompletionProposalsControl(Composite parent, ICompletionProposal[] proposals) {
+		private void createCompletionProposalsControl(Composite parent, ICompletionProposal[] proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Composite composite= new Composite(parent, SWT.NONE);
 			composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 			GridLayout layout2= new GridLayout(1, false);
@@ -580,7 +580,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			createCompletionProposalsList(composite, proposals);
 		}
 
-		private void createCompletionProposalsList(Composite parent, ICompletionProposal[] proposals) {
+		private void createCompletionProposalsList(Composite parent, ICompletionProposal[] proposals) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final ScrolledComposite scrolledComposite= new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 			GridData gridData= new GridData(SWT.FILL, SWT.FILL, true, true);
 			scrolledComposite.setLayoutData(gridData);
@@ -594,8 +594,8 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			layout.verticalSpacing= 2;
 			composite.setLayout(layout);
 
-			List<Link> list= new ArrayList<>();
-			for (ICompletionProposal prop : proposals) {
+			List<Link> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (ICompletionProposal prop : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				list.add(createCompletionProposalLink(composite, prop, 1)); // Original link for single fix, hence pass 1 for count
 				if (prop instanceof FixCorrectionProposal) {
 					FixCorrectionProposal proposal= (FixCorrectionProposal) prop;
@@ -628,10 +628,10 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			}
 
 			fFocusControl= links[0];
-			for (int i= 0; i < links.length; i++) {
+			for (int i= 0; i < links.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final int index= i;
 				final Link link= links[index];
-				link.addKeyListener(new KeyListener() {
+				link.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 					@Override
 					public void keyPressed(KeyEvent e) {
 						switch (e.keyCode) {
@@ -655,7 +655,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 					}
 				});
 
-				link.addFocusListener(new FocusListener() {
+				link.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 					@Override
 					public void focusGained(FocusEvent e) {
 						int currentPosition= scrolledComposite.getOrigin().y;
@@ -679,7 +679,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			}
 		}
 
-		private Link createCompletionProposalLink(Composite parent, final ICompletionProposal proposal, int count) {
+		private Link createCompletionProposalLink(Composite parent, final ICompletionProposal proposal, int count) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			final boolean isMultiFix= count > 1;
 			if (isMultiFix) {
 				new Label(parent, SWT.NONE); // spacer to fill image cell
@@ -696,7 +696,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			if (image != null) {
 				proposalImage.setImage(image);
 
-				proposalImage.addMouseListener(new MouseListener() {
+				proposalImage.addMouseListener(new MouseListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 					@Override
 					public void mouseDoubleClick(MouseEvent e) {
@@ -724,9 +724,9 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			} else {
 				linkText= proposal.getDisplayString();
 			}
-			proposalLink.setText("<a>" + linkText + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$
+			proposalLink.setText("<a>" + linkText + "</a>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			proposalLink.setLayoutData(layoutData);
-			proposalLink.addSelectionListener(new SelectionAdapter() {
+			proposalLink.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				/*
 				 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
 				 */
@@ -738,7 +738,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			return proposalLink;
 		}
 
-		private void apply(ICompletionProposal p, ITextViewer viewer, int offset, boolean isMultiFix) {
+		private void apply(ICompletionProposal p, ITextViewer viewer, int offset, boolean isMultiFix) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			//Focus needs to be in the text viewer, otherwise linked mode does not work
 			dispose();
 
@@ -781,7 +781,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 	 *
 	 * @since 3.4
 	 */
-	private static final class PresenterControlCreator extends AbstractReusableInformationControlCreator {
+	private static final class PresenterControlCreator extends AbstractReusableInformationControlCreator { //FLLDCIM: MARK — T01  IMPLEMENTS
 		/*
 		 * @see org.eclipse.jdt.internal.ui.text.java.hover.AbstractReusableInformationControlCreator#doCreateInformationControl(org.eclipse.swt.widgets.Shell)
 		 */
@@ -797,7 +797,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 	 *
 	 * @since 3.4
 	 */
-	private static final class HoverControlCreator extends AbstractReusableInformationControlCreator {
+	private static final class HoverControlCreator extends AbstractReusableInformationControlCreator { //FLLDCIM: MARK — T01  IMPLEMENTS
 		private final IInformationControlCreator fPresenterControlCreator;
 
 		public HoverControlCreator(IInformationControlCreator presenterControlCreator) {
@@ -906,7 +906,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 	 * @see org.eclipse.jdt.internal.ui.text.java.hover.AbstractJavaEditorTextHover#getHoverInfo2(org.eclipse.jface.text.ITextViewer, org.eclipse.jface.text.IRegion)
 	 * @since 3.4
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getHoverInfo2(ITextViewer textViewer, IRegion hoverRegion) {
 		IPath path;
 		IAnnotationModel model;
@@ -932,7 +932,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 			int layer= -1;
 			Annotation annotation= null;
 			Position position= null;
-			while (e.hasNext()) {
+			while (e.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Annotation a= e.next();
 
 				AnnotationPreference preference= getAnnotationPreference(a);
@@ -1011,7 +1011,7 @@ public abstract class AbstractAnnotationHover extends AbstractJavaEditorTextHove
 		return null;
 	}
 
-	private IAnnotationModel getAnnotationModel(IPath path) {
+	private IAnnotationModel getAnnotationModel(IPath path) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (path == null)
 			return null;
 

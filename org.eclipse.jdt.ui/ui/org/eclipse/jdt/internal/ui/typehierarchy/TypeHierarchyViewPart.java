@@ -261,7 +261,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	private boolean fKeepShowingEmptyViewers= true;
 
 
-	public TypeHierarchyViewPart() {
+	public TypeHierarchyViewPart() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelectedType= null;
 		fInputElements= null;
 		fIsVisible= false;
@@ -278,7 +278,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 		fIsEnableMemberFilter= false;
 
-		fInputHistory= new ArrayList<>();
+		fInputHistory= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fAllViewers= null;
 
 		fViewActions= new ToggleViewAction[] {
@@ -311,7 +311,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 		fFocusOnSelectionAction= new FocusOnSelectionAction(this);
 
-		fPartListener= new IPartListener2() {
+		fPartListener= new IPartListener2() { //FLLDCIM: MARK — T20  ANONYMOUS
 			@Override
 			public void partVisible(IWorkbenchPartReference ref) {
 				IWorkbenchPart part= ref.getPart(false);
@@ -359,7 +359,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		String property= event.getProperty();
 		if (fMethodsViewer != null) {
 			if (MembersOrderPreferenceCacheCommon.isMemberOrderProperty(event.getProperty())) {
-				fMethodsViewer.refresh();
+				fMethodsViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		}
 		if (IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE.equals(property)) {
@@ -373,7 +373,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @param entry The new entry
 	 */
 	private void addHistoryEntry(IJavaElement[] entry) {
-		for (Iterator<IJavaElement[]> iter= fInputHistory.iterator(); iter.hasNext();) {
+		for (Iterator<IJavaElement[]> iter= fInputHistory.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement[] elem= iter.next();
 			if (Arrays.equals(elem, entry)) {
 				iter.remove();
@@ -385,8 +385,8 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	}
 
 	private void updateHistoryEntries() {
-		for (int i= fInputHistory.size() - 1; i >= 0; i--) {
-			for (IJavaElement elem : fInputHistory.get(i)) {
+		for (int i= fInputHistory.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IJavaElement elem : fInputHistory.get(i)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (elem != null && !elem.exists()) {
 					fInputHistory.remove(i);
 					break;
@@ -424,7 +424,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @param elems the history elements to set
 	 */
 	public void setHistoryEntries(IJavaElement[] elems) {
-		List<IJavaElement[]> list= new ArrayList<>(1);
+		List<IJavaElement[]> list= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		list.add(elems);
 		setHistoryEntries(list);
 	}
@@ -437,7 +437,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 */
 	public void setHistoryEntries(List<IJavaElement[]> elems) {
 		fInputHistory.clear();
-		for (IJavaElement[] elements : elems) {
+		for (IJavaElement[] elements : elems) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elements != null && elements.length != 0)
 				fInputHistory.add(elements);
 		}
@@ -448,7 +448,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * Selects an member in the methods list or in the current hierarchy.
 	 * @param member The member to select
 	 */
-	public void selectMember(IMember member) {
+	public void selectMember(IMember member) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSelectInEditor= false;
 		if (member.getElementType() != IJavaElement.TYPE) {
 			Control methodControl= fMethodsViewer.getControl();
@@ -533,12 +533,12 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @param javaElements the input java elements
 	 * @since 3.7
 	 */
-	public void setInputElements(IJavaElement[] javaElements) {
+	public void setInputElements(IJavaElement[] javaElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] newElements= null;
 		IMember memberToSelect= null;
 		if (javaElements != null) {
 			newElements= new IJavaElement[javaElements.length];
-			for (int i= 0; i < javaElements.length; i++) {
+			for (int i= 0; i < javaElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				newElements[i]= javaElements[i];
 				memberToSelect= null;
 				if (newElements[i] != null) {
@@ -574,7 +574,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	/*
 	 * Changes the input to a new type
 	 */
-	private void updateInput(IJavaElement[] inputElements) {
+	private void updateInput(IJavaElement[] inputElements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] prevInput= fInputElements;
 
 		synchronized (this) {
@@ -600,8 +600,8 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 			clearInput();
 		} else {
 			if (!Arrays.equals(inputElements,prevInput)) {
-				for (TypeHierarchyViewer viewer : fAllViewers) {
-					viewer.setInput(null);
+				for (TypeHierarchyViewer viewer : fAllViewers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					viewer.setInput(null); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			}
 			fInputElements= inputElements;
@@ -631,7 +631,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 *
 	 * @since 3.6
 	 */
-	public void updateViewers() {
+	public void updateViewers() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fInputElements == null)
 			return;
 		if (!fHierarchyLifeCycle.isRefreshJobRunning()) {
@@ -681,7 +681,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	/*
 	 * @see IWorkbenchPart#dispose
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (fHierarchyLifeCycle != null) {
 			fHierarchyLifeCycle.freeHierarchy();
@@ -725,7 +725,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		return super.getAdapter(key);
 	}
 
-	private Control createTypeViewerControl(Composite parent) {
+	private Control createTypeViewerControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fViewerbook= new PageBook(parent, SWT.NULL);
 
 		KeyListener keyListener= createKeyListener();
@@ -757,9 +757,9 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 		fEmptyTypesViewer= new Label(fViewerbook, SWT.TOP | SWT.LEFT | SWT.WRAP);
 
-		for (TypeHierarchyViewer viewer : fAllViewers) {
+		for (TypeHierarchyViewer viewer : fAllViewers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			WorkbenchViewerSetup.setupViewer(viewer);
-			viewer.setInput(viewer);
+			viewer.setInput(viewer); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 
 		// force the update
@@ -769,7 +769,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		return fViewerbook;
 	}
 
-	private KeyListener createKeyListener() {
+	private KeyListener createKeyListener() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent event) {
@@ -791,17 +791,17 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 	private void initializeTypesViewer(final TypeHierarchyViewer typesViewer, KeyListener keyListener, String cotextHelpId) {
 		typesViewer.getControl().setVisible(false);
-		typesViewer.getControl().addKeyListener(keyListener);
+		typesViewer.getControl().addKeyListener(keyListener); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 		typesViewer.initContextMenu(menu -> fillTypesViewerContextMenu(typesViewer, menu), cotextHelpId,	getSite());
-		typesViewer.addPostSelectionChangedListener(fSelectionChangedListener);
+		typesViewer.addPostSelectionChangedListener(fSelectionChangedListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		typesViewer.setQualifiedTypeName(isQualifiedTypeNamesEnabled());
 		typesViewer.setWorkingSetFilter(fWorkingSetActionGroup.getWorkingSetFilter());
 	}
 
-	private Control createMethodViewerControl(Composite parent) {
+	private Control createMethodViewerControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fMethodsViewer= new MethodsViewer(parent, fHierarchyLifeCycle);
 		fMethodsViewer.initContextMenu(this::fillMethodsViewerContextMenu, IContextMenuConstants.TARGET_ID_MEMBERS_VIEW, getSite());
-		fMethodsViewer.addPostSelectionChangedListener(fSelectionChangedListener);
+		fMethodsViewer.addPostSelectionChangedListener(fSelectionChangedListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		new OpenAndLinkWithEditorHelper(fMethodsViewer) {
 			@Override
@@ -828,8 +828,8 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		};
 
 		Control control= fMethodsViewer.getTable();
-		control.addKeyListener(createKeyListener());
-		control.addFocusListener(new FocusListener() {
+		control.addKeyListener(createKeyListener()); //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+		control.addFocusListener(new FocusListener() { //FLLDCIM: MARK — T15 FOCUS CALL
 			@Override
 			public void focusGained(FocusEvent e) {
 				fSelectAllAction.setEnabled(true);
@@ -845,7 +845,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	}
 
 	private void initDragAndDrop() {
-		for (TypeHierarchyViewer viewer : fAllViewers) {
+		for (TypeHierarchyViewer viewer : fAllViewers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addDragAdapters(viewer);
 			addDropAdapters(viewer);
 		}
@@ -855,7 +855,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		//DND on empty hierarchy
 		DropTarget dropTarget = new DropTarget(fPagebook, DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK | DND.DROP_DEFAULT);
 		dropTarget.setTransfer(LocalSelectionTransfer.getTransfer());
-		dropTarget.addDropListener(new TypeHierarchyTransferDropAdapter(this, fAllViewers[0]));
+		dropTarget.addDropListener(new TypeHierarchyTransferDropAdapter(this, fAllViewers[0])); //FLLDCIM: MARK — T25 DND CALL
 	}
 
 	private void addDropAdapters(AbstractTreeViewer viewer) {
@@ -886,7 +886,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * Returns the inner component in a workbench part.
 	 * @see IWorkbenchPart#createPartControl(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite container) {
 		fParent= container;
     	addResizeListener(container);
@@ -901,7 +901,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 		// page 2 of page book (viewers)
 
-		fTypeMethodsSplitter= new SashForm(fPagebook, SWT.VERTICAL);
+		fTypeMethodsSplitter= new SashForm(fPagebook, SWT.VERTICAL); //FLLDCIM: MARK — M26 SPLIT_PANEL NEW
 		fTypeMethodsSplitter.setVisible(false);
 
 		fTypeViewerViewForm= new ViewForm(fTypeMethodsSplitter, SWT.NONE);
@@ -949,7 +949,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		// set the filter menu items
 		IActionBars actionBars= getViewSite().getActionBars();
 		IMenuManager viewMenu= actionBars.getMenuManager();
-		for (ToggleViewAction action : fViewActions) {
+		for (ToggleViewAction action : fViewActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			viewMenu.add(action);
 			action.setEnabled(false);
 		}
@@ -961,7 +961,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 		IMenuManager layoutSubMenu= new MenuManager(TypeHierarchyMessages.TypeHierarchyViewPart_layout_submenu);
 		viewMenu.add(layoutSubMenu);
-		for (ToggleOrientationAction action : fToggleOrientationActions) {
+		for (ToggleOrientationAction action : fToggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			layoutSubMenu.add(action);
 		}
 		viewMenu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -983,7 +983,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		trackedViewers[nHierarchyViewers]= fMethodsViewer;
 		fSelectionProviderMediator= new SelectionProviderMediator(trackedViewers, getCurrentViewer());
 		IStatusLineManager slManager= getViewSite().getActionBars().getStatusLineManager();
-		fSelectionProviderMediator.addSelectionChangedListener(new StatusBarUpdater(slManager));
+		fSelectionProviderMediator.addSelectionChangedListener(new StatusBarUpdater(slManager)); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 
 		getSite().setSelectionProvider(fSelectionProviderMediator);
 		getSite().getPage().addPartListener(fPartListener);
@@ -1017,7 +1017,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	}
 
 	private void addResizeListener(Composite parent) {
-		parent.addControlListener(new ControlListener() {
+		parent.addControlListener(new ControlListener() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
 			@Override
 			public void controlMoved(ControlEvent e) {
 			}
@@ -1031,7 +1031,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setViewLayout(int layout) {
 		if (fCurrentLayout != layout || layout == VIEW_LAYOUT_AUTOMATIC) {
 			fInComputeLayout= true;
@@ -1099,7 +1099,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	}
 
 	private void updateCheckedState() {
-		for (ToggleOrientationAction action : fToggleOrientationActions) {
+		for (ToggleOrientationAction action : fToggleOrientationActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.setChecked(getViewLayout() == action.getOrientation());
 		}
 	}
@@ -1121,7 +1121,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 	private void fillMainToolBar(IToolBarManager tbmanager) {
 		tbmanager.removeAll();
-		for (ToggleViewAction action : fViewActions) {
+		for (ToggleViewAction action : fViewActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tbmanager.add(action);
 		}
 		tbmanager.add(fHistoryDropDownAction);
@@ -1181,7 +1181,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 */
 	private void setMemberFilter(IMember[] memberFilter) {
 		Assert.isNotNull(fAllViewers);
-		for (TypeHierarchyViewer viewer : fAllViewers) {
+		for (TypeHierarchyViewer viewer : fAllViewers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			viewer.setMemberFilter(memberFilter);
 		}
 	}
@@ -1198,7 +1198,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		TypeHierarchyViewer viewer= getCurrentViewer();
 		viewer.removePostSelectionChangedListener(fSelectionChangedListener);
 		viewer.setSelection(elem != null ? new StructuredSelection(elem) : StructuredSelection.EMPTY, reveal);
-		viewer.addPostSelectionChangedListener(fSelectionChangedListener);
+		viewer.addPostSelectionChangedListener(fSelectionChangedListener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 	}
 
 	/*
@@ -1224,11 +1224,11 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		}
 	}
 
-	private void updateMethodViewer(final IType input) {
+	private void updateMethodViewer(final IType input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fIsEnableMemberFilter && fCurrentLayout != VIEW_LAYOUT_SINGLE) {
 			if (input == fMethodsViewer.getInput()) {
 				if (input != null) {
-					Runnable runnable= () -> fMethodsViewer.refresh();
+					Runnable runnable= () -> fMethodsViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					BusyIndicator.showWhile(getDisplay(), runnable);
 				}
 			} else {
@@ -1239,7 +1239,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 					fMethodViewerPaneLabel.setText(""); //$NON-NLS-1$
 					fMethodViewerPaneLabel.setImage(null);
 				}
-				Runnable runnable= () -> fMethodsViewer.setInput(input);
+				Runnable runnable= () -> fMethodsViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				BusyIndicator.showWhile(getDisplay(), runnable);
 			}
 		}
@@ -1255,7 +1255,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 
 
 
-	private void methodSelectionChanged(ISelection sel) {
+	private void methodSelectionChanged(ISelection sel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (sel instanceof IStructuredSelection) {
 			List<?> selected= ((IStructuredSelection)sel).toList();
 			int nSelected= selected.size();
@@ -1276,13 +1276,13 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		}
 	}
 
-	private void typeSelectionChanged(ISelection sel) {
+	private void typeSelectionChanged(ISelection sel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (sel instanceof IStructuredSelection) {
 			List<?> selected= ((IStructuredSelection)sel).toList();
 			int nSelected= selected.size();
 			if (nSelected != 0) {
-				List<Object> types= new ArrayList<>(nSelected);
-				for (int i= nSelected-1; i >= 0; i--) {
+				List<Object> types= new ArrayList<>(nSelected); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (int i= nSelected-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object elem= selected.get(i);
 					if (elem instanceof IType && !types.contains(elem)) {
 						types.add(elem);
@@ -1304,7 +1304,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		}
 	}
 
-	private void revealElementInEditor(Object elem, StructuredViewer originViewer) {
+	private void revealElementInEditor(Object elem, StructuredViewer originViewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// only allow revealing when the type hierarchy is the active page
 		// no revealing after selection events due to model changes
 
@@ -1333,7 +1333,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	}
 
 	private boolean isChildVisible(Composite pb, Control child) {
-		for (Control c : pb.getChildren()) {
+		for (Control c : pb.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (c == child && c.isVisible()) {
 				return true;
 			}
@@ -1341,7 +1341,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		return false;
 	}
 
-	private void updateToolTipAndDescription() {
+	private void updateToolTipAndDescription() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String tooltip= ""; //$NON-NLS-1$
 		String description;
 		if (fInputElements != null && fInputElements.length != 0) {
@@ -1392,7 +1392,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	private void updateToolbarButtons() {
 		boolean isNull= fInputElements == null;
 		boolean isType= !isNull && fInputElements.length == 1 && fInputElements[0] instanceof IType;
-		for (ToggleViewAction action : fViewActions) {
+		for (ToggleViewAction action : fViewActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (action.getViewerIndex() == HIERARCHY_MODE_CLASSIC) {
 				action.setEnabled(!isNull);
 			} else {
@@ -1402,7 +1402,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setHierarchyMode(int viewerIndex) {
 		Assert.isNotNull(fAllViewers);
 		if (viewerIndex < fAllViewers.length && fCurrentViewerIndex != viewerIndex) {
@@ -1452,7 +1452,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 			};
 
 		}
-		for (ToggleViewAction action : fViewActions) {
+		for (ToggleViewAction action : fViewActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.setChecked(fCurrentViewerIndex == action.getViewerIndex());
 		}
 	}
@@ -1466,7 +1466,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		return fAllViewers[fCurrentViewerIndex];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void showMembersInHierarchy(boolean on) {
 		if (on != fIsEnableMemberFilter) {
 			fIsEnableMemberFilter= on;
@@ -1502,7 +1502,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		if (on != fShowQualifiedTypeNames) {
 			fShowQualifiedTypeNames= on;
 			if (fAllViewers != null) {
-				for (TypeHierarchyViewer viewer : fAllViewers) {
+				for (TypeHierarchyViewer viewer : fAllViewers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					viewer.setQualifiedTypeName(on);
 				}
 			}
@@ -1522,7 +1522,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @param typeHierarchy Hierarchy that has changed
 	 * @param changedTypes Types in the hierarchy that have change or <code>null</code> if the full hierarchy has changed
 	 */
-	protected void doTypeHierarchyChanged(final TypeHierarchyLifeCycle typeHierarchy, final IType[] changedTypes) {
+	protected void doTypeHierarchyChanged(final TypeHierarchyLifeCycle typeHierarchy, final IType[] changedTypes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fIsVisible) {
 			fNeedRefresh= true;
 			return;
@@ -1534,7 +1534,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		Display display= getDisplay();
 		if (display != null) {
 			fIsRefreshRunnablePosted= true;
-			display.asyncExec(() -> {
+			display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				try {
 					if (fPagebook != null && !fPagebook.isDisposed()) {
 						doTypeHierarchyChangedOnViewers(changedTypes);
@@ -1546,7 +1546,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		}
 	}
 
-	protected void doTypeHierarchyChangedOnViewers(IType[] changedTypes) {
+	protected void doTypeHierarchyChangedOnViewers(IType[] changedTypes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fHierarchyLifeCycle.getHierarchy() == null || !fHierarchyLifeCycle.getHierarchy().exists()) {
 			clearInput();
 		} else {
@@ -1561,17 +1561,17 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 				} catch (InterruptedException e) {
 					return;
 				}
-				fMethodsViewer.refresh();
+				fMethodsViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				updateHierarchyViewer(false);
 			} else {
 				// elements in hierarchy modified
 				Object methodViewerInput= fMethodsViewer.getInput();
-				fMethodsViewer.refresh();
+				fMethodsViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fMethodViewerPaneLabel.setText(fPaneLabelProvider.getText(methodViewerInput));
 				fMethodViewerPaneLabel.setImage(fPaneLabelProvider.getImage(methodViewerInput));
 				if (getCurrentViewer().isMethodFiltering()) {
 					if (changedTypes.length == 1) {
-						getCurrentViewer().refresh(changedTypes[0]);
+						getCurrentViewer().refresh(changedTypes[0]); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 					} else {
 						updateHierarchyViewer(false);
 					}
@@ -1594,7 +1594,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	/*
 	 * @see ViewPart#saveState(IMemento)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void saveState(IMemento memento) {
 		if (fPagebook == null) {
 			// part has not been created
@@ -1605,9 +1605,9 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		}
 		if (fInputElements != null) {
 			memento.putString(TAG_INPUT, fInputElements[0].getHandleIdentifier());
-			for (int i= 1; i < fInputElements.length; i++) {
+			for (int i= 1; i < fInputElements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement element= fInputElements[i];
-				memento.putString(TAG_INPUT + i, element.getHandleIdentifier());
+				memento.putString(TAG_INPUT + i, element.getHandleIdentifier()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		memento.putInteger(TAG_VIEW, getHierarchyMode());
@@ -1636,19 +1636,19 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	/*
 	 * Restores the type hierarchy settings from a memento.
 	 */
-	private void restoreState(final IMemento memento) {
+	private void restoreState(final IMemento memento) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement input= null;
-		List<IJavaElement> inputList= new ArrayList<>();
+		List<IJavaElement> inputList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String elementId= memento.getString(TAG_INPUT);
 		int i= 0;
-		while (elementId != null) {
+		while (elementId != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			input= JavaCore.create(elementId);
 			if (input == null || !input.exists()) {
 				inputList= null;
 				break;
 			}
 			inputList.add(input);
-			elementId= memento.getString(TAG_INPUT + ++i);
+			elementId= memento.getString(TAG_INPUT + ++i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (inputList == null || inputList.isEmpty()) {
 			doRestoreState(memento, input);
@@ -1685,7 +1685,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 		fHierarchyLifeCycle.doHierarchyRefresh(hierarchyInput, monitor);
 		final boolean doRestore= !monitor.isCanceled();
 		if (doRestore) {
-			Display.getDefault().asyncExec(() -> {
+			Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				// running async: check first if view still exists
 				if (fPagebook != null && !fPagebook.isDisposed()) {
 					JavaCore.runReadOnly(() -> doRestoreState(memento, hierarchyInput));
@@ -1706,7 +1706,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @param input the input java elements
 	 * @since 3.7
 	 */
-	final void doRestoreState(IMemento memento, IJavaElement[] input) {
+	final void doRestoreState(IMemento memento, IJavaElement[] input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		synchronized (this) {
 			if (fRestoreStateJob == null) {
 				return;
@@ -1771,7 +1771,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * Link selection to active editor.
 	 * @param editor The activated editor
 	 */
-	protected void editorActivated(IEditorPart editor) {
+	protected void editorActivated(IEditorPart editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!isLinkingEnabled()) {
 			return;
 		}
@@ -1841,7 +1841,7 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @since 3.6
 	 */
 	public void showEmptyViewer() {
-		Display.getDefault().asyncExec(() -> {
+		Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			if (isDisposed())
 				return;
 
@@ -1878,8 +1878,8 @@ public class TypeHierarchyViewPart extends ViewPart implements ITypeHierarchyVie
 	 * @since 3.6
 	 */
 	public void setViewersInput() {
-		for (TypeHierarchyViewer viewer : fAllViewers) {
-			viewer.setInput(viewer);
+		for (TypeHierarchyViewer viewer : fAllViewers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			viewer.setInput(viewer); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 		setKeepShowingEmptyViewers(false);
 	}

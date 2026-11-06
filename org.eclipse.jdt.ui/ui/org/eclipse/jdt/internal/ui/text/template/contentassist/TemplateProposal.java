@@ -90,7 +90,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 /**
  * A template proposal.
  */
-public class TemplateProposal
+public class TemplateProposal //FLLDCIM: MARK — T30  IMPLEMENTS
 		implements IJavaCompletionProposal, ICompletionProposalExtension2, ICompletionProposalExtension3, ICompletionProposalExtension4, ICompletionProposalExtension6, ICompletionProposalExtension7 {
 
 	private final Template fTemplate;
@@ -133,7 +133,7 @@ public class TemplateProposal
 	 *
 	 * @return a sensible relevance value.
 	 */
-	private int computeRelevance() {
+	private int computeRelevance() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// see org.eclipse.jdt.internal.codeassist.RelevanceConstants
 		final int R_DEFAULT= 30;
 		final int R_INTERESTING= 5;
@@ -208,7 +208,7 @@ public class TemplateProposal
 	/*
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension2#apply(org.eclipse.jface.text.ITextViewer, char, int, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 
 		IDocument document= viewer.getDocument();
@@ -248,7 +248,7 @@ public class TemplateProposal
 			MultiVariableGuess guess= fContext instanceof JavaContext ? ((JavaContext) fContext).getMultiVariableGuess() : null;
 
 			boolean hasPositions= false;
-			for (TemplateVariable variable : variables) {
+			for (TemplateVariable variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (variable.isUnambiguous())
 					continue;
 
@@ -264,7 +264,7 @@ public class TemplateProposal
 				} else {
 					String[] values= variable.getValues();
 					ICompletionProposal[] proposals= new ICompletionProposal[values.length];
-					for (int j= 0; j < values.length; j++) {
+					for (int j= 0; j < values.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ensurePositionCategoryInstalled(document, model);
 						Position pos= new Position(offsets[0] + start, length);
 						document.addPosition(getCategory(), pos);
@@ -277,7 +277,7 @@ public class TemplateProposal
 						first= new LinkedPosition(document, offsets[0] + start, length);
 				}
 
-				for (int j= 0; j != offsets.length; j++)
+				for (int j= 0; j != offsets.length; j++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (j == 0)
 						group.addPosition(first);
 					else
@@ -341,7 +341,7 @@ public class TemplateProposal
 			return null;
 	}
 
-	private void ensurePositionCategoryInstalled(final IDocument document, LinkedModeModel model) {
+	private void ensurePositionCategoryInstalled(final IDocument document, LinkedModeModel model) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!document.containsPositionCategory(getCategory())) {
 			document.addPositionCategory(getCategory());
 			fUpdater= new InclusivePositionUpdater(getCategory());
@@ -377,13 +377,13 @@ public class TemplateProposal
 	}
 
 	private String getCategory() {
-		return "TemplateProposalCategory_" + toString(); //$NON-NLS-1$
+		return "TemplateProposalCategory_" + toString(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private int getCaretOffset(TemplateBuffer buffer) {
 
 	    TemplateVariable[] variables= buffer.getVariables();
-		for (TemplateVariable variable : variables) {
+		for (TemplateVariable variable : variables) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (GlobalTemplateVariables.Cursor.NAME.equals(variable.getType()))
 				return variable.getOffsets()[0];
 		}
@@ -438,7 +438,7 @@ public class TemplateProposal
 	/*
 	 * @see ICompletionProposal#getAdditionalProposalInfo()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getAdditionalProposalInfo() {
 	    try {
 		    fContext.setReadOnly(true);
@@ -486,7 +486,7 @@ public class TemplateProposal
 		fDisplayString= displayString;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public StyledString getStyledDisplayString(IDocument document, int offset, final BoldStylerProvider boldStylerProvider) {
 		StyledString styledDisplayString= new StyledString();
 		styledDisplayString.append(getStyledDisplayString());
@@ -517,7 +517,7 @@ public class TemplateProposal
 				}
 				int[] matchingRegions= SearchPattern.getMatchingRegions(pattern, displayString, matchRule);
 				if (hasBracket && matchingRegions != null) {
-					for (int i= 0; i < matchingRegions.length; i+= 2) {
+					for (int i= 0; i < matchingRegions.length; i+= 2) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						matchingRegions[i]++;
 					}
 				}
@@ -596,7 +596,7 @@ public class TemplateProposal
 	/*
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension2#validate(org.eclipse.jface.text.IDocument, int, org.eclipse.jface.text.DocumentEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean validate(IDocument document, int offset, DocumentEvent event) {
 		try {
 			int replaceOffset= getReplaceOffset();

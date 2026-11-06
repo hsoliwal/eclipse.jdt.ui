@@ -165,7 +165,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	/*
 	 * @see org.eclipse.ltk.core.refactoring.Refactoring#checkFinalConditions(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		HashMap<IJavaProject, ArrayList<IJavaElement>> projectsToElements= getJavaElementsPerProject(fElements);
 		pm.beginTask("", projectsToElements.size() + 2); //$NON-NLS-1$
@@ -174,7 +174,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 			fTCModel= new InferTypeArgumentsTCModel();
 			final InferTypeArgumentsConstraintCreator unitCollector= new InferTypeArgumentsConstraintCreator(fTCModel, fAssumeCloneReturnsSameType);
 
-			for (Entry<IJavaProject, ArrayList<IJavaElement>> entry : projectsToElements.entrySet()) {
+			for (Entry<IJavaProject, ArrayList<IJavaElement>> entry : projectsToElements.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaProject project= entry.getKey();
 				ArrayList<IJavaElement> javaElementsList= entry.getValue();
 				IJavaElement[] javaElements= javaElementsList.toArray(new IJavaElement[javaElementsList.size()]);
@@ -184,7 +184,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 				IProgressMonitor projectMonitor= Progress.subMonitor(pm, 1);
 				projectMonitor.beginTask("", batches); //$NON-NLS-1$
 				projectMonitor.setTaskName(RefactoringCoreMessages.InferTypeArgumentsRefactoring_building);
-				for (int i= 0; i < batches; i++) {
+				for (int i= 0; i < batches; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<ICompilationUnit> batch= cus.subList(i * batchSize, Math.min(cus.size(), (i + 1) * batchSize));
 					ICompilationUnit[] batchCus= batch.toArray(new ICompilationUnit[batch.size()]);
 					final IProgressMonitor batchMonitor= Progress.subMonitor(projectMonitor, 1);
@@ -194,13 +194,13 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 					parser.setCompilerOptions(RefactoringASTParser.getCompilerOptions(project));
 					parser.setResolveBindings(true);
 					parser.createASTs(batchCus, new String[0], new ASTRequestor() {
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public void acceptAST(final ICompilationUnit source, final CompilationUnit ast) {
 							batchMonitor.subTask(BasicElementLabels.getFileName(source));
 							SafeRunner.run(new ISafeRunnable() {
 								@Override
 								public void run() throws Exception {
-									for (IProblem problem : ast.getProblems()) {
+									for (IProblem problem : ast.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (problem.isError()) {
 											String cuName= JavaElementLabelsCore.getElementLabel(source, JavaElementLabelsCore.CU_QUALIFIED);
 											String msg= Messages.format(RefactoringCoreMessages.InferTypeArgumentsRefactoring_error_in_cu_skipped, new Object[] {cuName});
@@ -263,12 +263,12 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	}
 
 	private HashMap<IJavaProject, ArrayList<IJavaElement>> getJavaElementsPerProject(IJavaElement[] elements) {
-		HashMap<IJavaProject, ArrayList<IJavaElement>> result= new HashMap<>();
-		for (IJavaElement element : elements) {
+		HashMap<IJavaProject, ArrayList<IJavaElement>> result= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject javaProject= element.getJavaProject();
 			ArrayList<IJavaElement> javaElements= result.get(javaProject);
 			if (javaElements == null) {
-				javaElements= new ArrayList<>();
+				javaElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				result.put(javaProject, javaElements);
 			}
 			javaElements.add(element);
@@ -278,9 +278,9 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 
 	private RefactoringStatus check15() {
 		RefactoringStatus result= new RefactoringStatus();
-		HashSet<IJavaProject> checkedProjects= new HashSet<>();
+		HashSet<IJavaProject> checkedProjects= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (IJavaElement element : fElements) {
+		for (IJavaElement element : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaProject javaProject= element.getJavaProject();
 			if (! checkedProjects.contains(javaProject)) {
 				checkedProjects.add(javaProject);
@@ -289,13 +289,13 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 		return result;
 	}
 
-	private void rewriteDeclarations(InferTypeArgumentsUpdate update, IProgressMonitor pm) throws CoreException {
+	private void rewriteDeclarations(InferTypeArgumentsUpdate update, IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		HashMap<ICompilationUnit, CuUpdate> updates= update.getUpdates();
 
 		Set<Entry<ICompilationUnit, CuUpdate>> entrySet= updates.entrySet();
 		pm.beginTask("", entrySet.size()); //$NON-NLS-1$
 		pm.setTaskName(RefactoringCoreMessages.InferTypeArgumentsRefactoring_creatingChanges);
-		for (Entry<ICompilationUnit, CuUpdate> entry : entrySet) {
+		for (Entry<ICompilationUnit, CuUpdate> entry : entrySet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (pm.isCanceled())
 				throw new OperationCanceledException();
 
@@ -307,10 +307,10 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 			rewrite.setResolveBindings(false);
 			CuUpdate cuUpdate= entry.getValue();
 
-			for (ConstraintVariable2 cv : cuUpdate.getDeclarations()) {
+			for (ConstraintVariable2 cv : cuUpdate.getDeclarations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewriteConstraintVariable(cv, rewrite, fTCModel, fLeaveUnconstrainedRaw, null);
 			}
-			for (CastVariable2 castCv : cuUpdate.getCastsToRemove()) {
+			for (CastVariable2 castCv : cuUpdate.getCastsToRemove()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				rewriteCastVariable(castCv, rewrite, fTCModel);
 			}
 
@@ -323,14 +323,14 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	}
 
 	public static ParameterizedType[] inferArguments(SimpleType[] types, InferTypeArgumentsUpdate update, InferTypeArgumentsTCModel model, CompilationUnitRewrite rewrite) {
-		for (SimpleType type : types) {
+		for (SimpleType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			type.setProperty(REWRITTEN, null);
 		}
-		List<ParameterizedType> result= new ArrayList<>();
+		List<ParameterizedType> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		HashMap<ICompilationUnit, CuUpdate> updates= update.getUpdates();
-		for (Entry<ICompilationUnit, CuUpdate> entry : updates.entrySet()) {
+		for (Entry<ICompilationUnit, CuUpdate> entry : updates.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			rewrite.setResolveBindings(false);
-			for (ConstraintVariable2 cv : entry.getValue().getDeclarations()) {
+			for (ConstraintVariable2 cv : entry.getValue().getDeclarations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ParameterizedType newNode= rewriteConstraintVariable(cv, rewrite, model, false, types);
 				if (newNode != null)
 					result.add(newNode);
@@ -352,7 +352,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 		return null;
 	}
 
-	private static ParameterizedType rewriteTypeVariable(TypeVariable2 typeCv, CompilationUnitRewrite rewrite, InferTypeArgumentsTCModel tCModel, boolean leaveUnconstraindRaw, SimpleType[] types) {
+	private static ParameterizedType rewriteTypeVariable(TypeVariable2 typeCv, CompilationUnitRewrite rewrite, InferTypeArgumentsTCModel tCModel, boolean leaveUnconstraindRaw, SimpleType[] types) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= typeCv.getRange().getNode(rewrite.getRoot());
 		if (node instanceof Name && node.getParent() instanceof Type) {
 			Type originalType= (Type) node.getParent();
@@ -393,7 +393,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	}
 
 	private static boolean has(SimpleType[] types, Type originalType) {
-		for (SimpleType type : types) {
+		for (SimpleType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type == originalType) {
 				return true;
 			}
@@ -410,12 +410,12 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	 *            <code>false</code> to infer <code>&lt;?&gt;</code> if possible
 	 * @return the new type arguments, or <code>null</code> iff an argument could not be inferred
 	 */
-	private static Type[] getTypeArguments(Type baseType, ArrayList<CollectionElementVariable2> typeArgumentCvs, CompilationUnitRewrite rewrite, InferTypeArgumentsTCModel tCModel, boolean leaveUnconstraindRaw) {
+	private static Type[] getTypeArguments(Type baseType, ArrayList<CollectionElementVariable2> typeArgumentCvs, CompilationUnitRewrite rewrite, InferTypeArgumentsTCModel tCModel, boolean leaveUnconstraindRaw) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (typeArgumentCvs.isEmpty())
 			return null;
 
 		Type[] typeArguments= new Type[typeArgumentCvs.size()];
-		for (int i= 0; i < typeArgumentCvs.size(); i++) {
+		for (int i= 0; i < typeArgumentCvs.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CollectionElementVariable2 elementCv= typeArgumentCvs.get(i);
 			Type typeArgument;
 			TType chosenType= InferTypeArgumentsConstraintsSolver.getChosenType(elementCv);
@@ -473,11 +473,11 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 
 	private static ArrayList<CollectionElementVariable2> getTypeArgumentCvs(ConstraintVariable2 baseCv, InferTypeArgumentsTCModel tCModel) {
 		Map<String, CollectionElementVariable2> elementCvs= tCModel.getElementVariables(baseCv);
-		ArrayList<CollectionElementVariable2> typeArgumentCvs= new ArrayList<>();
-		for (CollectionElementVariable2 elementCv : elementCvs.values()) {
+		ArrayList<CollectionElementVariable2> typeArgumentCvs= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CollectionElementVariable2 elementCv : elementCvs.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int index= elementCv.getDeclarationTypeVariableIndex();
 			if (index != CollectionElementVariable2.NOT_DECLARED_TYPE_VARIABLE_INDEX) {
-				while (index >= typeArgumentCvs.size())
+				while (index >= typeArgumentCvs.size()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					typeArgumentCvs.add(null); // fill with null until set(index, ..) is possible
 				typeArgumentCvs.set(index, elementCv);
 			}
@@ -487,7 +487,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 
 	private static boolean unboundedWildcardAllowed(Type originalType) {
 		ASTNode parent= originalType.getParent();
-		while (parent instanceof Type)
+		while (parent instanceof Type) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 
 		if (parent instanceof ClassInstanceCreation
@@ -498,7 +498,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 		return true;
 	}
 
-	private static ASTNode rewriteCastVariable(CastVariable2 castCv, CompilationUnitRewrite rewrite, InferTypeArgumentsTCModel tCModel) {//, List positionGroups) {
+	private static ASTNode rewriteCastVariable(CastVariable2 castCv, CompilationUnitRewrite rewrite, InferTypeArgumentsTCModel tCModel) {//, List positionGroups) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= castCv.getRange().getNode(rewrite.getRoot());
 
 		ConstraintVariable2 expressionVariable= castCv.getExpressionVariable();
@@ -527,7 +527,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	}
 
 	private static boolean hasUnboundElement(ConstraintVariable2 methodReceiverCv, InferTypeArgumentsTCModel tCModel) {
-		for (CollectionElementVariable2 elementCv : getTypeArgumentCvs(methodReceiverCv, tCModel)) {
+		for (CollectionElementVariable2 elementCv : getTypeArgumentCvs(methodReceiverCv, tCModel)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType chosenElementType= InferTypeArgumentsConstraintsSolver.getChosenType(elementCv);
 			if (chosenElementType == null)
 				return true;
@@ -538,22 +538,22 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 	/*
 	 * @see org.eclipse.ltk.core.refactoring.Refactoring#createChange(org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		pm.beginTask("", 1); //$NON-NLS-1$
 		try {
 			DynamicValidationStateChange result= new DynamicValidationStateChange(RefactoringCoreMessages.InferTypeArgumentsRefactoring_name, fChangeManager.getAllChanges()) {
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public final ChangeDescriptor getDescriptor() {
-					final Map<String, String> arguments= new HashMap<>();
+					final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 					final IJavaProject project= getSingleProject();
 					final String description= RefactoringCoreMessages.InferTypeArgumentsRefactoring_descriptor_description;
 					final String header= project != null ? Messages.format(RefactoringCoreMessages.InferTypeArgumentsRefactoring_descriptor_description_project, BasicElementLabels.getJavaElementName(project.getElementName())) : RefactoringCoreMessages.InferTypeArgumentsRefactoring_descriptor_description;
 					final String name= project != null ? project.getElementName() : null;
 					final JDTRefactoringDescriptorComment comment= new JDTRefactoringDescriptorComment(name, this, header);
 					final String[] settings= new String[fElements.length];
-					for (int index= 0; index < settings.length; index++)
+					for (int index= 0; index < settings.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						settings[index]= JavaElementLabelsCore.getTextLabel(fElements[index], JavaElementLabelsCore.ALL_FULLY_QUALIFIED);
 					comment.addSetting(JDTRefactoringDescriptorComment.createCompositeSetting(RefactoringCoreMessages.InferTypeArgumentsRefactoring_original_elements, settings));
 					if (fAssumeCloneReturnsSameType)
@@ -561,8 +561,8 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 					if (fLeaveUnconstrainedRaw)
 						comment.addSetting(RefactoringCoreMessages.InferTypeArgumentsRefactoring_leave_unconstrained);
 					final InferTypeArgumentsDescriptor descriptor= RefactoringSignatureDescriptorFactory.createInferTypeArgumentsDescriptor(name, description, comment.asString(), arguments, RefactoringDescriptor.STRUCTURAL_CHANGE | RefactoringDescriptor.MULTI_CHANGE);
-					for (int index= 0; index < fElements.length; index++)
-						arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1), JavaRefactoringDescriptorUtil.elementToHandle(name, fElements[index]));
+					for (int index= 0; index < fElements.length; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + (index + 1), JavaRefactoringDescriptorUtil.elementToHandle(name, fElements[index])); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					arguments.put(ATTRIBUTE_CLONE, Boolean.toString(fAssumeCloneReturnsSameType));
 					arguments.put(ATTRIBUTE_LEAVE, Boolean.toString(fLeaveUnconstrainedRaw));
 					return new RefactoringChangeDescriptor(descriptor);
@@ -576,7 +576,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 
 	private IJavaProject getSingleProject() {
 		IJavaProject first= null;
-		for (IJavaElement element : fElements) {
+		for (IJavaElement element : fElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IJavaProject project= element.getJavaProject();
 			if (project != null) {
 				if (first == null)
@@ -588,7 +588,7 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 		return first;
 	}
 
-	private RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	private RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String clone= arguments.getAttribute(ATTRIBUTE_CLONE);
 		if (clone != null) {
 			fAssumeCloneReturnsSameType= Boolean.parseBoolean(clone);
@@ -600,18 +600,18 @@ public class InferTypeArgumentsRefactoring extends Refactoring {
 		} else
 			return RefactoringStatus.createFatalErrorStatus(Messages.format(RefactoringCoreMessages.InitializableRefactoring_argument_not_exist, ATTRIBUTE_LEAVE));
 		int count= 1;
-		final List<IJavaElement> elements= new ArrayList<>();
+		final List<IJavaElement> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		String handle= null;
-		String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+		String attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		final RefactoringStatus status= new RefactoringStatus();
-		while ((handle= arguments.getAttribute(attribute)) != null) {
+		while ((handle= arguments.getAttribute(attribute)) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
 			if (element == null || !element.exists())
 				return JavaRefactoringDescriptorUtil.createInputFatalStatus(element, getName(), IJavaRefactorings.INFER_TYPE_ARGUMENTS);
 			else
 				elements.add(element);
 			count++;
-			attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count;
+			attribute= JavaRefactoringDescriptorUtil.ATTRIBUTE_ELEMENT + count; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		fElements= elements.toArray(new IJavaElement[elements.size()]);
 		if (elements.isEmpty())

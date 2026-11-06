@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters non-public types
  */
-public class NonPublicTypeFilter extends ViewerFilter {
+public class NonPublicTypeFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

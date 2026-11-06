@@ -48,7 +48,7 @@ public class CodeFormatCleanUp extends AbstractCleanUp {
 		return new CleanUpRequirements(false, false, requiresChangedRegions, null);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICleanUpFix createFix(CleanUpContext context) throws CoreException {
 		ICompilationUnit compilationUnit= context.getCompilationUnit();
 		if (compilationUnit == null)
@@ -69,15 +69,15 @@ public class CodeFormatCleanUp extends AbstractCleanUp {
 					removeWhitespaces && isEnabled(CleanUpConstants.FORMAT_REMOVE_TRAILING_WHITESPACES_IGNORE_EMPTY),
 					isEnabled(CleanUpConstants.FORMAT_CORRECT_INDENTATION));
 		} catch (CoreException e) {
-			throw new CoreException(Status.error("Error formating " + compilationUnit.getPath(), e)); //$NON-NLS-1$
+			throw new CoreException(Status.error("Error formating " + compilationUnit.getPath(), e)); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} catch (RuntimeException e) {
-			throw new RuntimeException("Error formating " + compilationUnit.getPath(), e); //$NON-NLS-1$
+			throw new RuntimeException("Error formating " + compilationUnit.getPath(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String[] getStepDescriptions() {
-		ArrayList<String> result= new ArrayList<>();
+		ArrayList<String> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isEnabled(CleanUpConstants.FORMAT_SOURCE_CODE))
 			result.add(MultiFixMessages.CodeFormatCleanUp_description);
 
@@ -95,28 +95,28 @@ public class CodeFormatCleanUp extends AbstractCleanUp {
 		return result.toArray(new String[result.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
-		buf.append("/**\n"); //$NON-NLS-1$
-		buf.append(" *A Javadoc comment\n"); //$NON-NLS-1$
-		buf.append("* @since 2007\n"); //$NON-NLS-1$
-		buf.append(" */\n"); //$NON-NLS-1$
-		buf.append("public class Engine {\n"); //$NON-NLS-1$
-		buf.append("  public void start() {}\n"); //$NON-NLS-1$
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("/**\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" *A Javadoc comment\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("* @since 2007\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" */\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Engine {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("  public void start() {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.FORMAT_REMOVE_TRAILING_WHITESPACES) && isEnabled(CleanUpConstants.FORMAT_REMOVE_TRAILING_WHITESPACES_ALL)) {
-			buf.append("\n"); //$NON-NLS-1$
+			buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("    \n"); //$NON-NLS-1$
+			buf.append("    \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isEnabled(CleanUpConstants.FORMAT_REMOVE_TRAILING_WHITESPACES)) {
-			buf.append("    public\n"); //$NON-NLS-1$
+			buf.append("    public\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("    public \n"); //$NON-NLS-1$
+			buf.append("    public \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("        void stop() {\n"); //$NON-NLS-1$
-		buf.append("    }\n"); //$NON-NLS-1$
-		buf.append("}\n"); //$NON-NLS-1$
+		buf.append("        void stop() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buf.toString();
 	}

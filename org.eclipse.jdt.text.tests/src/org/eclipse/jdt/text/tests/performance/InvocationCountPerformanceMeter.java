@@ -124,14 +124,14 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 * Continuously reads and handles events that are coming from
 		 * the event queue.
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run() {
 			try {
 				synchronized (fThread) {
 					enableBreakpoints();
 					fThread.notifyAll();
 				}
-				while (!fIsStopping) {
+				while (!fIsStopping) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					try {
 						EventSet eventSet;
 						if (fTimeout == -1)
@@ -146,7 +146,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 						}
 
 						EventIterator iterator= eventSet.eventIterator();
-						while (iterator.hasNext()) {
+						while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Event event= iterator.nextEvent();
 							if (event instanceof BreakpointEvent)
 								handleBreakpointEvent((BreakpointEvent) event);
@@ -179,7 +179,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 * Enables all breakpoint request.
 		 */
 		private void enableBreakpoints() {
-			for (BreakpointRequest breakpointRequest : fBreakpointRequests) {
+			for (BreakpointRequest breakpointRequest : fBreakpointRequests) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				breakpointRequest.enable();
 			}
 		}
@@ -188,7 +188,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 * Disables all breakpoint request.
 		 */
 		private void disableBreakpoints() {
-			for (BreakpointRequest breakpointRequest : fBreakpointRequests) {
+			for (BreakpointRequest breakpointRequest : fBreakpointRequests) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				breakpointRequest.disable();
 			}
 		}
@@ -204,8 +204,8 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 				try {
 					ObjectReference thisObject= event.thread().frame(0).thisObject();
 					Method method= event.location().method();
-					String classKey= method.declaringType().name() + "#" + method.name() + method.signature(); //$NON-NLS-1$
-					String instanceKey= fCollectInstanceResults ? (thisObject.referenceType().name() + " (id=" + thisObject.uniqueID() + ")") : "all instances"; //$NON-NLS-1$ //$NON-NLS-2$
+					String classKey= method.declaringType().name() + "#" + method.name() + method.signature(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+					String instanceKey= fCollectInstanceResults ? (thisObject.referenceType().name() + " (id=" + thisObject.uniqueID() + ")") : "all instances"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fResults.update(classKey, instanceKey);
 				} catch (Exception x) {
 					x.printStackTrace();
@@ -219,7 +219,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	public static class Results {
 
 		/** The result map */
-		private final Map<Object, Map<Object, Integer>> fResultsMap= new HashMap<>();
+		private final Map<Object, Map<Object, Integer>> fResultsMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		/**
 		 * Updates the results for the given pair of keys.
@@ -229,7 +229,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 */
 		public void update(Object key1, Object key2) {
 			int value;
-			Map<Object, Integer> results;
+			Map<Object, Integer> results; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
 			if (fResultsMap.containsKey(key1)) {
 				results= fResultsMap.get(key1);
 				if (results.containsKey(key2))
@@ -237,7 +237,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 				else
 					value= 0;
 			} else {
-				results= new HashMap<>();
+				results= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				fResultsMap.put(key1, results);
 				value= 0;
 			}
@@ -255,7 +255,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 * Prints the results.
 		 */
 		public void print() {
-			for (Object object : fResultsMap.keySet())
+			for (Object object : fResultsMap.keySet()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				print(object);
 		}
 
@@ -265,11 +265,11 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		 * @param key1 the first key
 		 */
 		public void print(Object key1) {
-			System.out.println(key1.toString() + ":"); //$NON-NLS-1$
-			Map<Object, Integer> results= fResultsMap.get(key1);
-			for (Map.Entry<Object, Integer> entry : results.entrySet()) {
+			System.out.println(key1.toString() + ":"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			Map<Object, Integer> results= fResultsMap.get(key1); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+			for (Map.Entry<Object, Integer> entry : results.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object key = entry.getKey();
-				System.out.println("\t" + key + ": " + entry.getValue().intValue()); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println("\t" + key + ": " + entry.getValue().intValue()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
@@ -375,17 +375,17 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	/*
 	 * @see org.eclipse.test.performance.PerformanceMeter#start()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void start() {
 		try {
 			String localhost = InetAddress.getLocalHost().getCanonicalHostName();
 			attach(localhost, PORT);
 
-			List<BreakpointRequest> requests= new ArrayList<>();
-			for (java.lang.reflect.Method method : fMethods) {
+			List<BreakpointRequest> requests= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (java.lang.reflect.Method method : fMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				requests.add(createBreakpointRequest(method));
 			}
-			for (Constructor<?> constructor : fConstructors) {
+			for (Constructor<?> constructor : fConstructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				requests.add(createBreakpointRequest(constructor));
 			}
 			fBreakpointRequests= requests.toArray(new BreakpointRequest[requests.size()]);
@@ -448,7 +448,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	 */
 	@Override
 	public Sample getSample() {
-		Map<Dim, Scalar> map= new HashMap<>(1);
+		Map<Dim, Scalar> map= new HashMap<>(1); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		map.put(InternalDimensions.INVOCATION_COUNT, new Scalar(InternalDimensions.INVOCATION_COUNT, fInvocationCount));
 		DataPoint[] dataPoints= new DataPoint[] { new DataPoint(AFTER, map) };
 		return new Sample(getScenarioName(), fStartTime, null, dataPoints);
@@ -543,7 +543,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	 * @return the JNI style signature
 	 */
 	private String getJNISignature(java.lang.reflect.Method method) {
-		return getJNISignature(method.getParameterTypes()) + getJNISignature(method.getReturnType());
+		return getJNISignature(method.getParameterTypes()) + getJNISignature(method.getReturnType()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -555,7 +555,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	 * @return the JNI style signature
 	 */
 	private String getJNISignature(Constructor<?> constructor) {
-		return getJNISignature(constructor.getParameterTypes()) + "V";
+		return getJNISignature(constructor.getParameterTypes()) + "V"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -567,11 +567,11 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	 * @return the JNI style signature
 	 */
 	private String getJNISignature(Class<?>[] paramTypes) {
-		StringBuilder signature= new StringBuilder();
-		signature.append('(');
-		for (Class<?> paramType : paramTypes)
-			signature.append(getJNISignature(paramType));
-		signature.append(')');
+		StringBuilder signature= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		signature.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (Class<?> paramType : paramTypes) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			signature.append(getJNISignature(paramType)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		signature.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return signature.toString();
 	}
 
@@ -583,14 +583,14 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	 * @param clazz the class
 	 * @return the JNI style signature
 	 */
-	private String getJNISignature(Class<?> clazz) {
+	private String getJNISignature(Class<?> clazz) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String qualifiedName= getName(clazz);
-		StringBuilder signature= new StringBuilder();
+		StringBuilder signature= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		int index= qualifiedName.indexOf('[') + 1;
-		while (index > 0) {
+		while (index > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			index= qualifiedName.indexOf('[', index) + 1;
-			signature.append('[');
+			signature.append('['); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		int nameEndOffset= qualifiedName.indexOf('[');
@@ -601,40 +601,40 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 		String name= qualifiedName.substring(0, nameEndOffset);
 		switch (name) {
 		case "byte": //$NON-NLS-1$
-			signature.append('B');
+			signature.append('B'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "boolean": //$NON-NLS-1$
-			signature.append('Z');
+			signature.append('Z'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "int": //$NON-NLS-1$
-			signature.append('I');
+			signature.append('I'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "double": //$NON-NLS-1$
-			signature.append('D');
+			signature.append('D'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "short": //$NON-NLS-1$
-			signature.append('S');
+			signature.append('S'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "char": //$NON-NLS-1$
-			signature.append('C');
+			signature.append('C'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "long": //$NON-NLS-1$
-			signature.append('J');
+			signature.append('J'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "float": //$NON-NLS-1$
-			signature.append('F');
+			signature.append('F'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		case "void": //$NON-NLS-1$
-			signature.append('V');
+			signature.append('V'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return signature.toString();
 		default:
 			break;
 		}
 
 		// Class type
-		signature.append('L');
-		signature.append(name.replace('.','/'));
-		signature.append(';');
+		signature.append('L'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		signature.append(name.replace('.','/')); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		signature.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return signature.toString();
 	}
 
@@ -646,7 +646,7 @@ public class InvocationCountPerformanceMeter extends InternalPerformanceMeter {
 	 */
 	private String getName(Class<?> clazz) {
 		if (clazz.isArray())
-			return getName(clazz.getComponentType()) + "[]"; //$NON-NLS-1$
+			return getName(clazz.getComponentType()) + "[]"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return clazz.getName();
 	}
 

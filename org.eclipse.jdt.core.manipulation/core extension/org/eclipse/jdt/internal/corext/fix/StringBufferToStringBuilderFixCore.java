@@ -156,7 +156,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 			if (returnType != null) {
 				checkType(returnType);
 			}
-			for (Object obj : visited.parameters()) {
+			for (Object obj : visited.parameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SingleVariableDeclaration parm= (SingleVariableDeclaration)obj;
 				Type type= parm.getType();
 				checkType(type);
@@ -188,18 +188,18 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 		@Override
 		public boolean visit(final ParameterizedType visited) {
 			List<Type> types= visited.typeArguments();
-			for (Type type : types) {
+			for (Type type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				checkType(type);
 			}
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final TypeDeclaration visited) {
 			List<TypeParameter> typeParameters= visited.typeParameters();
-			for (TypeParameter typeParameter : typeParameters) {
+			for (TypeParameter typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<Type> types= typeParameter.typeBounds();
-				for (Type type : types) {
+				for (Type type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(type);
 				}
 			}
@@ -209,7 +209,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 			}
 			if (ASTHelper.isSealedTypeSupportedInAST(visited.getAST())) {
 				List<Type> permittedTypes= visited.permittedTypes();
-				for (Type type : permittedTypes) {
+				for (Type type : permittedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(type);
 				}
 			}
@@ -219,9 +219,9 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 		@Override
 		public boolean visit(final RecordDeclaration visited) {
 			List<TypeParameter> typeParameters= visited.typeParameters();
-			for (TypeParameter typeParameter : typeParameters) {
+			for (TypeParameter typeParameter : typeParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				List<Type> types= typeParameter.typeBounds();
-				for (Type type : types) {
+				for (Type type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					checkType(type);
 				}
 			}
@@ -266,7 +266,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 		@Override
 		public boolean visit(final TagElement visited) {
 			List<ASTNode> fragments= visited.fragments();
-			for (ASTNode fragment : fragments) {
+			for (ASTNode fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fragment instanceof SimpleName && ((SimpleName)fragment).getFullyQualifiedName().equals(StringBuffer.class.getSimpleName())) {
 					fOperations.add(new ChangeStringBufferToStringBuilder((SimpleName)fragment));
 				}
@@ -283,7 +283,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 			fMethodDeclarations= methodDeclarations;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(MethodDeclaration visited) {
 			IMethodBinding methodBinding= visited.resolveBinding();
 			if (methodBinding != null) {
@@ -299,11 +299,11 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 							fLocalVarsOnly= localVarsOnly;
 						}
 
-						public boolean isValid() {
+						public boolean isValid() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 							ASTVisitor visitor= new ASTVisitor() {
 
 
-								@Override
+								@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								public boolean visit(FieldAccess visitedField) {
 									IVariableBinding binding= visitedField.resolveFieldBinding();
 									if (binding == null) {
@@ -323,7 +323,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 									return true;
 								}
 
-								@Override
+								@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								public boolean visit(SuperFieldAccess visitedField) {
 									IVariableBinding binding= visitedField.resolveFieldBinding();
 									if (binding == null) {
@@ -343,7 +343,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 									return true;
 								}
 
-								@Override
+								@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								public boolean visit(MethodInvocation methodInvocation) {
 									if (fLocalVarsOnly) {
 										IMethodBinding methodInvocationBinding= methodInvocation.resolveMethodBinding();
@@ -373,7 +373,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 									return true;
 								}
 
-								@Override
+								@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								public boolean visit(CastExpression castExpression) {
 									Type castType= castExpression.getType();
 									ITypeBinding typeBinding= castType.resolveBinding();
@@ -401,7 +401,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 									return true;
 								}
 
-								@Override
+								@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 								public boolean visit(SimpleName simpleName) {
 									IBinding simpleNameBinding= simpleName.resolveBinding();
 									if (simpleNameBinding == null) {
@@ -449,14 +449,14 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 
 					}
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public boolean visit(MethodInvocation methodInvocation) {
 						IMethodBinding methodInvocationBinding= methodInvocation.resolveMethodBinding();
 						if (methodInvocationBinding == null) {
 							throw new AbortSearchException();
 						}
 						Expression exp= ASTNodes.getUnparenthesedExpression(methodInvocation.getExpression());
-						while (exp instanceof MethodInvocation) {
+						while (exp instanceof MethodInvocation) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							exp= ((MethodInvocation)exp).getExpression();
 						}
 						if (exp instanceof SimpleName) {
@@ -502,10 +502,10 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 						return checkMethodArgs(classInstanceCreation.arguments(), constructorBinding);
 					}
 
-					private boolean checkMethodArgs(List<Expression> methodArgs, IMethodBinding methodInvocationBinding) {
+					private boolean checkMethodArgs(List<Expression> methodArgs, IMethodBinding methodInvocationBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						ITypeBinding[] parameterTypes= methodInvocationBinding.getParameterTypes();
 						int len= methodArgs.size() <= parameterTypes.length ? methodArgs.size() : parameterTypes.length;
-						for (int i= 0; i < len; ++i) {
+						for (int i= 0; i < len; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding methodArgBinding= methodArgs.get(i).resolveTypeBinding();
 							if (isStringBufferType(parameterTypes[i]) ||
 									(isStringBufferType(methodArgBinding) && isObjectType(parameterTypes[i]))) {
@@ -518,7 +518,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 							}
 						}
 						if (methodInvocationBinding.isVarargs() && methodArgs.size() > parameterTypes.length) {
-							for (int i= parameterTypes.length; i < methodArgs.size(); ++i) {
+							for (int i= parameterTypes.length; i < methodArgs.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								ITypeBinding methodArgBinding= methodArgs.get(i).resolveTypeBinding();
 								if (isStringBufferType(methodArgBinding)) {
 									CheckNodeForValidReferences checkNode= new CheckNodeForValidReferences(methodArgs.get(i), false);
@@ -539,7 +539,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 						ITypeBinding varDeclTypeBinding= varDeclType.resolveBinding();
 						if (isStringBufferType(varDeclTypeBinding)) {
 							List<VariableDeclarationFragment> frags= varDeclStatement.fragments();
-							for (VariableDeclarationFragment frag : frags) {
+							for (VariableDeclarationFragment frag : frags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Expression initializer= frag.getInitializer();
 								if (initializer != null) {
 									CheckNodeForValidReferences checkNode= new CheckNodeForValidReferences(initializer, true);
@@ -552,13 +552,13 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 						return true;
 					}
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public boolean visit(Assignment assignment) {
 						ITypeBinding assignmentTypeBinding= assignment.resolveTypeBinding();
 						if (isStringBufferType(assignmentTypeBinding)) {
 							Expression leftSide= assignment.getLeftHandSide();
 							if (leftSide instanceof ArrayAccess) {
-								while (leftSide instanceof ArrayAccess) {
+								while (leftSide instanceof ArrayAccess) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									leftSide= ((ArrayAccess)leftSide).getArray();
 								}
 							}
@@ -602,7 +602,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 						return true;
 					}
 
-					@Override
+					@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					public boolean visit(ReturnStatement returnStatement) {
 						Expression exp= returnStatement.getExpression();
 						if (exp != null) {
@@ -646,7 +646,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 						return checkFieldAccess(superFieldAccess, fieldBinding);
 					}
 
-					private boolean checkFieldAccess(ASTNode node, IVariableBinding fieldBinding) {
+					private boolean checkFieldAccess(ASTNode node, IVariableBinding fieldBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						ITypeBinding fieldTypeBinding= fieldBinding.getType();
 						if (isStringBufferType(fieldTypeBinding)) {
 							if (node.getLocationInParent() == MethodInvocation.EXPRESSION_PROPERTY) {
@@ -720,7 +720,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 			fNode= node;
 		}
 
-		public boolean isValid() {
+		public boolean isValid() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTVisitor visitor= new ASTVisitor() {
 				@Override
 				public boolean visit(final SimpleName visited) {
@@ -766,7 +766,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final ClassInstanceCreation visited) {
 			Type type= visited.getType();
 			ITypeBinding typeBinding= type.resolveBinding();
@@ -829,7 +829,7 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 			this.fInvocation= node;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			ImportRewrite importRewrite= cuRewrite.getImportRewrite();
@@ -864,15 +864,15 @@ public class StringBufferToStringBuilderFixCore extends CompilationUnitRewriteOp
 		}
 	}
 
-	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit, boolean forLocalsOnly) {
-		List<CompilationUnitRewriteOperation> operations= new ArrayList<>();
+	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit, boolean forLocalsOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (forLocalsOnly) {
-			List<MethodDeclaration> validMethodDeclarations= new ArrayList<>();
+			List<MethodDeclaration> validMethodDeclarations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ValidLocalMethodFinder finder= new ValidLocalMethodFinder(validMethodDeclarations);
 			compilationUnit.accept(finder);
 			LocalsOnlyStringBufferFinder localsFinder= new LocalsOnlyStringBufferFinder(operations);
-			for (MethodDeclaration methodDeclaration : validMethodDeclarations) {
+			for (MethodDeclaration methodDeclaration : validMethodDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				methodDeclaration.accept(localsFinder);
 			}
 		} else {

@@ -70,7 +70,7 @@ public class GotoReferencedTestAction implements IWorkbenchWindowActionDelegate 
 		}
 	}
 
-	private void runWithEditorSelection() {
+	private void runWithEditorSelection() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			JavaEditor editor= getActiveEditor();
 			if (editor == null)
@@ -113,15 +113,15 @@ public class GotoReferencedTestAction implements IWorkbenchWindowActionDelegate 
 		JavaUI.revealInEditor(part, result);
 	}
 
-	private IJavaElement[] getSelectedElements(IStructuredSelection selection) {
+	private IJavaElement[] getSelectedElements(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> elements= selection.toList();
 		int size= elements.size();
 		if (size == 0)
 			return new IJavaElement[0];
 
-		ArrayList<IJavaElement> result= new ArrayList<>(size);
+		ArrayList<IJavaElement> result= new ArrayList<>(size); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object e= elements.get(i);
 			if (e instanceof ICompilationUnit) {
 				ICompilationUnit unit= (ICompilationUnit) e;

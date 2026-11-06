@@ -93,7 +93,7 @@ public class SmartBackspaceManager {
 			Assert.isLegal(lives >= 0);
 			Assert.isLegal(edits != null);
 			Assert.isLegal(edits.length > 0);
-			for (TextEdit edit : edits) {
+			for (TextEdit edit : edits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Assert.isLegal(edit != null);
 			}
 
@@ -111,7 +111,7 @@ public class SmartBackspaceManager {
 		/*
 		 * @see org.eclipse.swt.custom.VerifyKeyListener#verifyKey(org.eclipse.swt.events.VerifyEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void verifyKey(VerifyEvent event) {
 			if (fViewer != null && isBackspace(event)) {
 				int offset= getCaretOffset();
@@ -119,7 +119,7 @@ public class SmartBackspaceManager {
 				if (spec != null) {
 					try {
 						beginChange();
-						for (TextEdit undoEdit : spec.undoEdits) {
+						for (TextEdit undoEdit : spec.undoEdits) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							undoEdit.apply(getDocument(), TextEdit.UPDATE_REGIONS);
 						}
 						fViewer.setSelectedRange(spec.selection.getOffset(), spec.selection.getLength());
@@ -167,7 +167,7 @@ public class SmartBackspaceManager {
 
 	private ITextViewer fViewer;
 	private BackspaceListener fBackspaceListener;
-	private Map<Integer, UndoSpec> fSpecs;
+	private Map<Integer, UndoSpec> fSpecs; //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 	private TypingRunDetector fRunDetector;
 	private ITypingRunListener fRunListener;
 
@@ -227,11 +227,11 @@ public class SmartBackspaceManager {
 	 *
 	 * @param viewer the text viewer
 	 */
-	public void install(ITextViewer viewer) {
+	public void install(ITextViewer viewer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(viewer != null);
 
 		fViewer= viewer;
-		fSpecs= new HashMap<>();
+		fSpecs= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		fRunDetector= new TypingRunDetector();
 		fRunDetector.install(viewer);
 		fRunListener= new ITypingRunListener() {
@@ -258,7 +258,7 @@ public class SmartBackspaceManager {
 	}
 
 	private void prune() {
-		for (Iterator<UndoSpec> it= fSpecs.values().iterator(); it.hasNext();) {
+		for (Iterator<UndoSpec> it= fSpecs.values().iterator(); it.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			UndoSpec spec= it.next();
 			if (--spec.lives < 0)
 				it.remove();

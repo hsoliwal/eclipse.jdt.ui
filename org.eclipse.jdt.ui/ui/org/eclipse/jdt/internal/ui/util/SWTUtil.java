@@ -189,7 +189,7 @@ public class SWTUtil {
 				r.run();
 			}
 		} else {
-			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+			PlatformUI.getWorkbench().getDisplay().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				Control ctrl = supplier.get();
 				if (ctrl != null && !ctrl.isDisposed()) {
 					r.run();

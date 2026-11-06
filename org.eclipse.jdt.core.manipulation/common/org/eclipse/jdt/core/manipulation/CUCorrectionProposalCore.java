@@ -148,7 +148,7 @@ public class CUCorrectionProposalCore extends ChangeCorrectionProposalCore imple
 		performChange();
 	}
 
-	public TextChange getNewChange() {
+	public TextChange getNewChange() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= getCompilationUnit();
 		String name= getName();
 		TextChange change;

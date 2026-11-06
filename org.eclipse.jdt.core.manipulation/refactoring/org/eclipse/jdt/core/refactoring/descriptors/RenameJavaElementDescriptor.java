@@ -190,7 +190,7 @@ public final class RenameJavaElementDescriptor extends JavaRefactoringDescriptor
 	 *
 	 * @since 1.2
 	 */
-	public RenameJavaElementDescriptor(String id, String project, String description, String comment, Map<String, String> arguments, int flags) {
+	public RenameJavaElementDescriptor(String id, String project, String description, String comment, Map<String, String> arguments, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(id, project, description, comment, arguments, flags);
 		Assert.isLegal(checkId(id), "Refactoring id is not a rename refactoring id"); //$NON-NLS-1$
 		fName= JavaRefactoringDescriptorUtil.getString(fArguments, ATTRIBUTE_NAME);
@@ -263,7 +263,7 @@ public final class RenameJavaElementDescriptor extends JavaRefactoringDescriptor
 	 *            the refactoring id
 	 * @return the outcome of the validation
 	 */
-	private boolean checkId(final String id) {
+	private boolean checkId(final String id) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(id);
 		switch (id) {
 		case IJavaRefactorings.RENAME_COMPILATION_UNIT:
@@ -296,7 +296,7 @@ public final class RenameJavaElementDescriptor extends JavaRefactoringDescriptor
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void populateArgumentMap() {
 		super.populateArgumentMap();
 		JavaRefactoringDescriptorUtil.setString(fArguments, ATTRIBUTE_NAME, fName);
@@ -611,7 +611,7 @@ public final class RenameJavaElementDescriptor extends JavaRefactoringDescriptor
 		fTextual= update;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus validateDescriptor() {
 		RefactoringStatus status= super.validateDescriptor();
 		if (fName == null || "".equals(fName)) //$NON-NLS-1$

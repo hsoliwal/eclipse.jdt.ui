@@ -24,7 +24,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ProblemTreeViewer;
  * library containers are shown that are empty or have all children filtered out by other filters.
  * The filter is only applicable on a {@link ProblemTreeViewer}
  */
-public class EmptyLibraryContainerFilter extends ViewerFilter {
+public class EmptyLibraryContainerFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {

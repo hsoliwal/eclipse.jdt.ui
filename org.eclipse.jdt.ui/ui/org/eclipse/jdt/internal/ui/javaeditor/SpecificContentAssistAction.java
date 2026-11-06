@@ -127,7 +127,7 @@ final class SpecificContentAssistAction extends Action implements IUpdate {
 	 * @param selection the selection
 	 * @return <code>true</code> if there are any computers for the selection
 	 */
-    private boolean isValidSelection(ISelection selection) {
+    private boolean isValidSelection(ISelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (!(selection instanceof ITextSelection))
     		return false;
     	int offset= ((ITextSelection) selection).getOffset();

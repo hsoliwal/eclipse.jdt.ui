@@ -77,7 +77,7 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 		return executeCallChainSearch();
 	}
 
-	private boolean initializeRequiredContext(final ContentAssistInvocationContext context) {
+	private boolean initializeRequiredContext(final ContentAssistInvocationContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(context instanceof JavaContentAssistInvocationContext)) {
 			return false;
 		}
@@ -115,9 +115,9 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 				|| ChainElementAnalyzer.getExpectedType(ctx.getProject(), ctx.getCoreContext()) != null;
 	}
 
-	private boolean findEntrypoints() {
+	private boolean findEntrypoints() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		entrypoints= new LinkedList<>();
-		for (IJavaCompletionProposal prop : collector.getJavaCompletionProposals()) {
+		for (IJavaCompletionProposal prop : collector.getJavaCompletionProposals()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (prop instanceof AbstractJavaCompletionProposal) {
 				AbstractJavaCompletionProposal aprop= (AbstractJavaCompletionProposal) prop;
 				IJavaElement e= aprop.getJavaElement();
@@ -130,7 +130,7 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 					}
 				} else {
 					IJavaElement[] visibleElements= ctx.getCoreContext().getVisibleElements(null);
-					for (IJavaElement ve : visibleElements) {
+					for (IJavaElement ve : visibleElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (ve.getElementName().equals(aprop.getReplacementString()) && matchesExpectedPrefix(ve)
 								&& !ChainFinder.isFromExcludedType(Arrays.asList(excludedTypes), ve)) {
 							ChainElement ce= new ChainElement(ve, false);
@@ -151,7 +151,7 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 		return String.valueOf(element.getElementName()).startsWith(prefix);
 	}
 
-	private List<ICompletionProposal> executeCallChainSearch() {
+	private List<ICompletionProposal> executeCallChainSearch() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int maxChains, minDepth, maxDepth;
 		try {
 			maxChains= Integer.parseInt(JavaManipulation.getPreference(PreferenceConstants.PREF_MAX_CHAINS, ctx.getProject()));
@@ -163,9 +163,9 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 
 		String excludedTypesVal = JavaManipulation.getPreference(PreferenceConstants.PREF_CHAIN_IGNORED_TYPES, ctx.getProject());
 		if (excludedTypesVal != null) {
-			excludedTypes= excludedTypesVal.split("\\|"); //$NON-NLS-1$
-			for (int i= 0; i < excludedTypes.length; ++i) {
-				excludedTypes[i]= "L" + excludedTypes[i].replace('.', '/'); //$NON-NLS-1$
+			excludedTypes= excludedTypesVal.split("\\|"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+			for (int i= 0; i < excludedTypes.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				excludedTypes[i]= "L" + excludedTypes[i].replace('.', '/'); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
@@ -199,7 +199,7 @@ public class ChainCompletionProposalComputer implements IJavaCompletionProposalC
 
 	private List<ICompletionProposal> buildCompletionProposals(final List<Chain> chains) {
 		final List<ICompletionProposal> proposals= new LinkedList<>();
-		for (final Chain chain : chains) {
+		for (final Chain chain : chains) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final TemplateProposal proposal= ChainCompletionTemplateBuilder.create(chain, ctx);
 			final ChainCompletionProposal completionProposal= new ChainCompletionProposal(proposal, chain);
 			proposals.add(completionProposal);

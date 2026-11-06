@@ -68,7 +68,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 		fScanner= new TokenScanner(fCUnit);
 	}
 
-	protected void checkSelectedNodes() {
+	protected void checkSelectedNodes() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode[] nodes= getSelectedNodes();
 		if (nodes.length == 0)
 			return;
@@ -162,7 +162,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 		ASTNode[] selectedNodes= getSelectedNodes();
 		if (doAfterValidation(node, selectedNodes)) {
 			List<SwitchCase> cases= getSwitchCases(node);
-			for (ASTNode topNode : selectedNodes) {
+			for (ASTNode topNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cases.contains(topNode)) {
 					invalidSelection(JavaManipulationMessages.StatementAnalyzer_switch_statement);
 					break;
@@ -177,7 +177,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 		ASTNode[] selectedNodes= getSelectedNodes();
 		if (doAfterValidation(node, selectedNodes)) {
 			List<SwitchCase> cases= getSwitchCases(node);
-			for (ASTNode topNode : selectedNodes) {
+			for (ASTNode topNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cases.contains(topNode)) {
 					invalidSelection(JavaManipulationMessages.StatementAnalyzer_switch_expression);
 					break;
@@ -198,7 +198,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 		super.endVisit(node);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(TryStatement node) {
 		ASTNode firstSelectedNode= getFirstSelectedNode();
 		if (getSelection().getEndVisitSelectionMode(node) == Selection.AFTER) {
@@ -206,7 +206,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 				invalidSelection(JavaManipulationMessages.StatementAnalyzer_try_statement);
 			} else {
 				List<CatchClause> catchClauses= node.catchClauses();
-				for (CatchClause element : catchClauses) {
+				for (CatchClause element : catchClauses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element == firstSelectedNode || element.getBody() == firstSelectedNode) {
 						invalidSelection(JavaManipulationMessages.StatementAnalyzer_try_statement);
 					} else if (element.getException() == firstSelectedNode) {
@@ -244,14 +244,14 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 	}
 
 	private static List<SwitchCase> getSwitchCases(ASTNode node) {
-		List<SwitchCase> result= new ArrayList<>();
-		List<Statement> statements= new ArrayList<>();
+		List<SwitchCase> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<Statement> statements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (node instanceof SwitchStatement) {
 			statements= ((SwitchStatement) node).statements();
 		} else if (node instanceof SwitchExpression) {
 			statements= ((SwitchExpression) node).statements();
 		}
-		for (Statement statement : statements) {
+		for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object element= statement;
 			if (element instanceof SwitchCase)
 				result.add((SwitchCase) element);
@@ -260,7 +260,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 	}
 
 	protected static boolean contains(ASTNode[] nodes, ASTNode node) {
-		for (ASTNode n : nodes) {
+		for (ASTNode n : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (n == node) {
 				return true;
 			}
@@ -269,7 +269,7 @@ public class StatementAnalyzer extends SelectionAnalyzer {
 	}
 
 	protected static boolean contains(ASTNode[] nodes, List<Expression> list) {
-		for (ASTNode node : nodes) {
+		for (ASTNode node : nodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (list.contains(node)) {
 				return true;
 			}

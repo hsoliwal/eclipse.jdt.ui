@@ -89,7 +89,7 @@ public class EnumConstructorTargetFinder extends ASTVisitor {
 		UNBOXED,
 		ASSIGNEMENT_COMPATIBLE
 	}
-	private ASTNode findEnumConstructor(CompilationUnit cu, EnumConstantDeclaration enumNode) {
+	private ASTNode findEnumConstructor(CompilationUnit cu, EnumConstantDeclaration enumNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode enumDeclarationNode= ASTResolving.findParentType(enumNode);
 		if (enumDeclarationNode == null) {
 			return null;
@@ -111,9 +111,9 @@ public class EnumConstructorTargetFinder extends ASTVisitor {
 		return foundEnumDeclaration;
 	}
 
-	private ASTNode findEnumDeclaration(CompilationUnit cu, EnumDeclaration enumDeclaration,
+	private ASTNode findEnumDeclaration(CompilationUnit cu, EnumDeclaration enumDeclaration, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<ASTNode> enumNodeArguments, List<ASTNode> enumBodyDeclarations, CheckEnum checkEnum) {
-		declarationLoop: for (ASTNode enumBodyDeclarationNode : enumBodyDeclarations) {
+		declarationLoop: for (ASTNode enumBodyDeclarationNode : enumBodyDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (enumBodyDeclarationNode.getNodeType() != ASTNode.METHOD_DECLARATION) {
 				continue;
 			}
@@ -128,7 +128,7 @@ public class EnumConstructorTargetFinder extends ASTVisitor {
 				continue;
 			}
 
-			for (int i= 0; i < enumBodyDeclarationNodeParameters.size(); i++) {
+			for (int i= 0; i < enumBodyDeclarationNodeParameters.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode nodeArgument= enumNodeArguments.get(i);
 				SingleVariableDeclaration singleVariableDeclaration= enumBodyDeclarationNodeParameters.get(i);
 				Type parameterType= singleVariableDeclaration.getType();

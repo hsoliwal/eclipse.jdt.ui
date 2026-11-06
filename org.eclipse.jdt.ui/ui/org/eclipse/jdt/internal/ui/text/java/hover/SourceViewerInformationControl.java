@@ -91,7 +91,7 @@ import org.eclipse.jdt.internal.ui.text.java.hover.JavaSourceHover.JavaSourceSem
  *
  * @since 3.0
  */
-public class SourceViewerInformationControl
+public class SourceViewerInformationControl //FLLDCIM: MARK — T01  IMPLEMENTS
 		implements IInformationControl, IInformationControlExtension, IInformationControlExtension2, IInformationControlExtension3, IInformationControlExtension5, DisposeListener {
 
 	/** The control's shell */
@@ -141,7 +141,7 @@ public class SourceViewerInformationControl
 	private Color fBackgroundColor;
 
 	private JavaSourceViewerConfiguration fViewerConfiguration;
-	private Map<String, JavaSourceViewerConfiguration> fKindToViewerConfiguration= new HashMap<>();
+	private Map<String, JavaSourceViewerConfiguration> fKindToViewerConfiguration= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/** Hidden source viewer used to prepare semantic highlighting of displayed source viewer content */
 	private JavaSourceViewer fSemanticHighlightingViewer;
@@ -175,7 +175,7 @@ public class SourceViewerInformationControl
 	 * @param statusFieldText the text to be used in the optional status field
 	 *            or <code>null</code> if the status field should be hidden
 	 */
-	public SourceViewerInformationControl(Shell parent, IEditorPart editor, boolean isResizable, int orientation, String statusFieldText) {
+	public SourceViewerInformationControl(Shell parent, IEditorPart editor, boolean isResizable, int orientation, String statusFieldText) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		Assert.isLegal(orientation == SWT.RIGHT_TO_LEFT || orientation == SWT.LEFT_TO_RIGHT || orientation == SWT.NONE);
 		fOrientation= orientation;
@@ -227,7 +227,7 @@ public class SourceViewerInformationControl
 
 		initializeFont();
 
-		fText.addKeyListener(new KeyListener() {
+		fText.addKeyListener(new KeyListener() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 
 			@Override
 			public void keyPressed(KeyEvent e)  {
@@ -251,7 +251,7 @@ public class SourceViewerInformationControl
 			fStatusField.setText(statusFieldText);
 			Font font= fStatusField.getFont();
 			FontData[] fontDatas= font.getFontData();
-			for (FontData fontData : fontDatas) {
+			for (FontData fontData : fontDatas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fontData.setHeight(fontData.getHeight() * 9 / 10);
 			}
 			fStatusTextFont= new Font(fStatusField.getDisplay(), fontDatas);
@@ -373,7 +373,7 @@ public class SourceViewerInformationControl
 		styledText.setFont(fTextFont);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setInput(Object input) {
 		String content= null;
 		boolean doSetInformation= true;
@@ -401,7 +401,7 @@ public class SourceViewerInformationControl
 		if (fShell != null && !fShell.isDisposed()) {
 			Display display= fShell.getDisplay();
 			if (!display.isDisposed()) {
-				display.asyncExec(() -> {
+				display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					IJavaElement javaElement= null;
 					if (input instanceof JavaSourceInformationInput) {
 						javaElement= ((JavaSourceInformationInput) input).getJavaElement();
@@ -428,7 +428,7 @@ public class SourceViewerInformationControl
 		viewer.setInput(doc);
 	}
 
-	private void updateViewerConfiguration(IJavaElement input) {
+	private void updateViewerConfiguration(IJavaElement input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fKindToViewerConfiguration != null) {
 			JavaSourceViewerConfiguration oldViewerConfiguration= fViewerConfiguration;
 			if (JavaModelUtil.isModule(input)) {
@@ -532,7 +532,7 @@ public class SourceViewerInformationControl
 	 */
 	@Override
 	public void addDisposeListener(DisposeListener listener) {
-		fShell.addDisposeListener(listener);
+		fShell.addDisposeListener(listener); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 	}
 
 	/*
@@ -581,7 +581,7 @@ public class SourceViewerInformationControl
 	 */
 	@Override
 	public void addFocusListener(FocusListener listener) {
-		fText.addFocusListener(listener);
+		fText.addFocusListener(listener); //FLLDCIM: MARK — T15 FOCUS CALL
 	}
 
 	/*
@@ -677,7 +677,7 @@ public class SourceViewerInformationControl
 	 */
 	@Override
 	public boolean containsControl(Control control) {
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (control == fShell)
 				return true;
 			if (control instanceof Shell)
@@ -719,10 +719,10 @@ public class SourceViewerInformationControl
 		fViewer.getTextWidget().setStyleRanges(other.getTextWidget().getStyleRanges());
 	}
 
-	private class SourceViewerSemanticHighlightingManager extends SemanticHighlightingManager {
+	private class SourceViewerSemanticHighlightingManager extends SemanticHighlightingManager { //FLLDCIM: MARK — T06  IMPLEMENTS
 		volatile JavaSourceSemanticInformationInput fInput;
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected SemanticHighlightingReconciler createSemanticHighlightingReconciler() {
 			return new SemanticHighlightingReconciler() {
 
@@ -743,9 +743,9 @@ public class SourceViewerInformationControl
 			};
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected SemanticHighlightingPresenter createSemanticHighlightingPresenter() {
-			return new SemanticHighlightingPresenter() {
+			return new SemanticHighlightingPresenter() { //FLLDCIM: MARK — T28  ANONYMOUS
 
 				@Override
 				public Runnable createUpdateRunnable(TextPresentation textPresentation, List<Position> addedPositions, List<Position> removedPositions) {

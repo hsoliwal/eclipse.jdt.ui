@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 public class FiltersDialogTest {
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	void testRegex() throws Exception {
 		// Valid java names with globs
 		assertTrue(matches("a"));
@@ -51,6 +51,6 @@ public class FiltersDialogTest {
 	}
 
 	private boolean matches(String string) {
-		return string.matches(FiltersDialog.METHOD_NAME_GLOB_PATTERN);
+		return string.matches(FiltersDialog.METHOD_NAME_GLOB_PATTERN); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 	}
 }

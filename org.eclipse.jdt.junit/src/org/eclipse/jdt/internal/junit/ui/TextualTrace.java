@@ -33,7 +33,7 @@ public class TextualTrace {
 		fTrace = filterStack(trace, filterPatterns);
 	}
 
-	public void display(ITraceDisplay display, int maxLabelLength) {
+	public void display(ITraceDisplay display, int maxLabelLength) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringReader stringReader = new StringReader(fTrace);
 		BufferedReader bufferedReader = new BufferedReader(stringReader);
 		String line;
@@ -48,7 +48,7 @@ public class TextualTrace {
 					LINE_TYPE_EXCEPTION);
 
 			// the stack frames of the trace
-			while ((line = readLine(bufferedReader)) != null) {
+			while ((line = readLine(bufferedReader)) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int type = isAStackFrame(line) ? LINE_TYPE_STACKFRAME
 						: LINE_TYPE_NORMAL;
 				displayWrappedLine(display, maxLabelLength, line, type);
@@ -68,7 +68,7 @@ public class TextualTrace {
 			// failure message
 			display.addTraceLine(type, line.substring(0, maxLabelLength));
 			int offset = maxLabelLength;
-			while (offset < labelLength) {
+			while (offset < labelLength) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int nextOffset = Math.min(labelLength, offset + maxLabelLength);
 				display.addTraceLine(LINE_TYPE_NORMAL, line.substring(offset,
 						nextOffset));
@@ -77,10 +77,10 @@ public class TextualTrace {
 		}
 	}
 
-	private boolean filterLine(String[] patterns, String line) {
+	private boolean filterLine(String[] patterns, String line) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String pattern;
 		int len;
-		for (int i = (patterns.length - 1); i >= 0; --i) {
+		for (int i = (patterns.length - 1); i >= 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pattern = patterns[i];
 			len = pattern.length() - 1;
 			if (pattern.charAt(len) == '*') {
@@ -88,7 +88,7 @@ public class TextualTrace {
 				pattern = pattern.substring(0, len);
 			} else if (Character.isUpperCase(pattern.charAt(0))) {
 				// class in the default package
-				pattern = FailureTrace.FRAME_PREFIX + pattern + '.';
+				pattern = FailureTrace.FRAME_PREFIX + pattern + '.'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				// class names start w/ an uppercase letter after the .
 				final int lastDotIndex = pattern.lastIndexOf('.');
@@ -104,7 +104,7 @@ public class TextualTrace {
 		return false;
 	}
 
-	private String filterStack(String stackTrace, String[] filterPatterns) {
+	private String filterStack(String stackTrace, String[] filterPatterns) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (filterPatterns.length == 0 || stackTrace == null)
 			return stackTrace;
 
@@ -118,7 +118,7 @@ public class TextualTrace {
 		boolean firstLine= true;
 		boolean stackFrameSeen= false;
 		try {
-			while ((line= bufferedReader.readLine()) != null) {
+			while ((line= bufferedReader.readLine()) != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (firstLine || !stackFrameSeen || !filterLine(patterns, line))
 					printWriter.println(line);
 				firstLine= false;

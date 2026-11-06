@@ -48,16 +48,16 @@ public class PartitionTokenScannerTest {
 	}
 
 	// read sample java file
-	private IDocument getDocument(String name, String lineDelimiter) {
+	private IDocument getDocument(String name, String lineDelimiter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			InputStream stream= getClass().getResourceAsStream(name);
 			try (BufferedReader reader= new BufferedReader(new InputStreamReader(stream))) {
 
-				StringBuilder buffer= new StringBuilder();
+				StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				String line= reader.readLine();
-				while (line != null) {
-					buffer.append(line);
-					buffer.append(lineDelimiter);
+				while (line != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					buffer.append(line); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buffer.append(lineDelimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					line= reader.readLine();
 				}
 				return new Document(buffer.toString());
@@ -72,11 +72,11 @@ public class PartitionTokenScannerTest {
 
 	public static IDocument getRandomDocument(int size) {
 		final char[] characters= {'/', '*', '\'', '"', '\r', '\n', '\\'};
-		final StringBuilder buffer= new StringBuilder();
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int randomIndex= (int) (Math.random() * characters.length);
-			buffer.append(characters[randomIndex]);
+			buffer.append(characters[randomIndex]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return new Document(buffer.toString());
@@ -129,9 +129,9 @@ public class PartitionTokenScannerTest {
 		final long testeeTime= getTime(fTestee, document, COUNT);
 
 		if (DEBUG) {
-			System.out.println("reference time = " + referenceTime / 1000.0f);
-			System.out.println("testee time = " + testeeTime / 1000.0f);
-			System.out.println("factor = " + (float) referenceTime / testeeTime);
+			System.out.println("reference time = " + referenceTime / 1000.0f); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("testee time = " + testeeTime / 1000.0f); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			System.out.println("factor = " + (float) referenceTime / testeeTime); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		// dangerous: assert no regression in performance
@@ -145,7 +145,7 @@ public class PartitionTokenScannerTest {
 		fTestee.setRange(document, 2, 4);
 
 		IToken refToken= null;
-		while (refToken == null || !refToken.isEOF()) {
+		while (refToken == null || !refToken.isEOF()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			refToken=fReference.nextToken();
 			IToken testeeToken=fTestee.nextToken();
 			assertTokenEquals(refToken, testeeToken);
@@ -155,7 +155,7 @@ public class PartitionTokenScannerTest {
 	private long getTime(IPartitionTokenScanner scanner, IDocument document, int count) {
 		final long start= System.currentTimeMillis();
 
-		for (int i= 0; i < count; i++)
+		for (int i= 0; i < count; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			testPerformance(scanner, document);
 
 		final long end= System.currentTimeMillis();
@@ -163,14 +163,14 @@ public class PartitionTokenScannerTest {
 		return end - start;
 	}
 
-	private void testConformance(final IDocument document) {
+	private void testConformance(final IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		final StringBuilder message= new StringBuilder();
+		final StringBuilder message= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		fReference.setRange(document, 0, document.getLength());
 		fTestee.setRange(document, 0, document.getLength());
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			message.setLength(0);
 
@@ -180,13 +180,13 @@ public class PartitionTokenScannerTest {
 
 			final int referenceOffset= fReference.getTokenOffset();
 			final int testeeOffset= fTestee.getTokenOffset();
-			message.append(", offset = " + referenceOffset);
-			message.append(", " + extractString(document, referenceOffset));
+			message.append(", offset = " + referenceOffset); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			message.append(", " + extractString(document, referenceOffset)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			assertEquals(referenceOffset, testeeOffset, message.toString());
 
 			final int referenceLength= fReference.getTokenLength();
 			final int testeeLength= fTestee.getTokenLength();
-			message.append(", length = " + referenceLength);
+			message.append(", length = " + referenceLength); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			assertEquals(referenceLength, testeeLength, message.toString());
 
 			if (referenceToken.isEOF())
@@ -199,7 +199,7 @@ public class PartitionTokenScannerTest {
 		scanner.setRange(document, 0, document.getLength());
 
 		IToken token;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			token= scanner.nextToken();
 			scanner.getTokenOffset();
 			scanner.getTokenLength();
@@ -214,8 +214,8 @@ public class PartitionTokenScannerTest {
 		assertEquals(expected.isWhitespace(), actual.isWhitespace());
 	}
 
-	private static String extractString(IDocument document, int offset) {
-		final StringBuilder buffer= new StringBuilder();
+	private static String extractString(IDocument document, int offset) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		try {
 			IRegion region= document.getLineInformationOfOffset(offset);
@@ -227,11 +227,11 @@ public class PartitionTokenScannerTest {
 			if (offsetIndex > line.length())
 				offsetIndex= line.length();
 
-			buffer.append("line = " + document.getLineOfOffset(offset) + ": [");
-			buffer.append(line.substring(0, offsetIndex));
-			buffer.append("<POS>");
-			buffer.append(line.substring(offsetIndex));
-			buffer.append(']');
+			buffer.append("line = " + document.getLineOfOffset(offset) + ": ["); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(line.substring(0, offsetIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append("<POS>"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(line.substring(offsetIndex)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(']'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		} catch (BadLocationException e) {
 		}
@@ -245,27 +245,27 @@ public class PartitionTokenScannerTest {
 	 * @param string the string to escape
 	 * @return the escaped string
 	 */
-	public static String escape(String string) {
-		final StringBuilder buffer= new StringBuilder();
+	public static String escape(String string) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		final int length= string.length();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final char character= string.charAt(i);
 			switch (character) {
 			case '\t':
-				buffer.append("\\t");
+				buffer.append("\\t"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 
 			case '\r':
-				buffer.append("\\r");
+				buffer.append("\\r"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 
 			case '\n':
-				buffer.append("\\n");
+				buffer.append("\\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 
 			default:
-				buffer.append(character);
+				buffer.append(character); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			}
 		}

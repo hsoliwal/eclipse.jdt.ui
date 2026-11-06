@@ -121,7 +121,7 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 			}
 	}
 
-	public JarPackageData readXML(JarPackageData jarPackage) throws IOException, SAXException {
+	public JarPackageData readXML(JarPackageData jarPackage) throws IOException, SAXException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	  	DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
     	factory.setValidating(false);
 		DocumentBuilder parser= null;
@@ -139,7 +139,7 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 			throw new IOException(JarPackagerMessages.JarPackageReader_error_badFormat);
 		}
 		NodeList topLevelElements= xmlJarDesc.getChildNodes();
-		for (int i= 0; i < topLevelElements.getLength(); i++) {
+		for (int i= 0; i < topLevelElements.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node= topLevelElements.item(i);
 			if (node.getNodeType() != Node.ELEMENT_NODE)
 				continue;
@@ -175,19 +175,19 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 		}
 	}
 
-	private void xmlReadRefactoring(JarPackageData jarPackage, Element element) throws java.io.IOException {
+	private void xmlReadRefactoring(JarPackageData jarPackage, Element element) throws java.io.IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ("storedRefactorings".equals(element.getNodeName())) { //$NON-NLS-1$
 			jarPackage.setExportStructuralOnly(getBooleanAttribute(element, "structuralOnly", jarPackage.isExportStructuralOnly())); //$NON-NLS-1$
 			jarPackage.setDeprecationAware(getBooleanAttribute(element, "deprecationInfo", jarPackage.isDeprecationAware())); //$NON-NLS-1$
-			List<IAdaptable> elements= new ArrayList<>();
+			List<IAdaptable> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			int count= 1;
-			String value= element.getAttribute("project" + count); //$NON-NLS-1$
-			while (value != null && !"".equals(value)) { //$NON-NLS-1$
+			String value= element.getAttribute("project" + count); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			while (value != null && !"".equals(value)) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				final IProject project= ResourcesPlugin.getWorkspace().getRoot().getProject(value);
 				if (project.exists())
 					elements.add(project);
 				count++;
-				value= element.getAttribute("project" + count); //$NON-NLS-1$
+				value= element.getAttribute("project" + count); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			jarPackage.setRefactoringProjects(elements.toArray(new IProject[elements.size()]));
 			elements.clear();
@@ -195,8 +195,8 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 			IRefactoringHistoryService service= RefactoringCore.getHistoryService();
 			try {
 				service.connect();
-				value= element.getAttribute("refactoring" + count); //$NON-NLS-1$
-				while (value != null && !"".equals(value)) { //$NON-NLS-1$
+				value= element.getAttribute("refactoring" + count); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				while (value != null && !"".equals(value)) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					final ByteArrayInputStream stream= new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
 					try {
 						final RefactoringHistory history= service.readRefactoringHistory(stream, RefactoringDescriptor.NONE);
@@ -210,7 +210,7 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 						JavaPlugin.log(exception);
 					}
 					count++;
-					value= element.getAttribute("refactoring" + count); //$NON-NLS-1$
+					value= element.getAttribute("refactoring" + count); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			} finally {
 				service.disconnect();
@@ -232,14 +232,14 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 		}
 	}
 
-	private void xmlReadSealingInfo(JarPackageData jarPackage, Element element) throws java.io.IOException {
+	private void xmlReadSealingInfo(JarPackageData jarPackage, Element element) throws java.io.IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Try to find sealing info. Could ask for single child node
 		 * but this would stop others from adding more child nodes to
 		 * the manifest node.
 		 */
 		NodeList sealingElementContainer= element.getChildNodes();
-		for (int j= 0; j < sealingElementContainer.getLength(); j++) {
+		for (int j= 0; j < sealingElementContainer.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node sealingNode= sealingElementContainer.item(j);
 			if (sealingNode.getNodeType() == Node.ELEMENT_NODE
 				&& "sealing".equals(sealingNode.getNodeName())) { //$NON-NLS-1$
@@ -252,14 +252,14 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 		}
 	}
 
-	private void xmlReadSelectedElements(JarPackageData jarPackage, Element element) throws java.io.IOException {
+	private void xmlReadSelectedElements(JarPackageData jarPackage, Element element) throws java.io.IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ("selectedElements".equals(element.getNodeName())) { //$NON-NLS-1$
 			jarPackage.setExportClassFiles(getBooleanAttribute(element, "exportClassFiles")); //$NON-NLS-1$
 			jarPackage.setExportOutputFolders(getBooleanAttribute(element, "exportOutputFolder", false)); //$NON-NLS-1$
 			jarPackage.setExportJavaFiles(getBooleanAttribute(element, "exportJavaFiles")); //$NON-NLS-1$
 			NodeList selectedElements= element.getChildNodes();
-			Set<IAdaptable> elementsToExport= new HashSet<>(selectedElements.getLength());
-			for (int j= 0; j < selectedElements.getLength(); j++) {
+			Set<IAdaptable> elementsToExport= new HashSet<>(selectedElements.getLength()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (int j= 0; j < selectedElements.getLength(); j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node selectedNode= selectedElements.item(j);
 				if (selectedNode.getNodeType() != Node.ELEMENT_NODE)
 					continue;
@@ -289,8 +289,8 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 	private void xmlReadSelectedProjects(JarPackageData jarPackage, Element element) throws java.io.IOException {
 		if ("selectedProjects".equals(element.getNodeName())) { //$NON-NLS-1$
 			NodeList selectedElements= element.getChildNodes();
-			Set<IAdaptable> selectedProjects= new HashSet<>(selectedElements.getLength());
-			for (int index= 0; index < selectedElements.getLength(); index++) {
+			Set<IAdaptable> selectedProjects= new HashSet<>(selectedElements.getLength()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (int index= 0; index < selectedElements.getLength(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Node node= selectedElements.item(index);
 				if (node.getNodeType() != Node.ELEMENT_NODE)
 					continue;
@@ -363,14 +363,14 @@ public class JarPackageReader extends Object implements IJarDescriptionReader {
 			selectedElements.add(je);
 	}
 
-	private IPackageFragment[] getPackages(NodeList list) throws IOException {
+	private IPackageFragment[] getPackages(NodeList list) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (list.getLength() > 1)
 			throw new IOException(Messages.format(JarPackagerMessages.JarPackageReader_error_duplicateTag, list.item(0).getNodeName()));
 		if (list.getLength() == 0)
 			return null; // optional entry is not present
 		NodeList packageNodes= list.item(0).getChildNodes();
-		List<IJavaElement> packages= new ArrayList<>(packageNodes.getLength());
-		for (int i= 0; i < packageNodes.getLength(); i++) {
+		List<IJavaElement> packages= new ArrayList<>(packageNodes.getLength()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < packageNodes.getLength(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node packageNode= packageNodes.item(i);
 			if (packageNode.getNodeType() == Node.ELEMENT_NODE && "package".equals(packageNode.getNodeName())) { //$NON-NLS-1$
 				String handleId= ((Element)packageNode).getAttribute("handleIdentifier"); //$NON-NLS-1$

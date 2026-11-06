@@ -46,7 +46,7 @@ public class RenameKeysDialog extends StatusDialog {
 		if (prefix.length() == 0) {
 			fNameField.setLabelText(NLSUIMessages.RenameKeysDialog_description_noprefix);
 		} else {
-			fNameField.setLabelText(NLSUIMessages.RenameKeysDialog_description_withprefix + prefix + ':');
+			fNameField.setLabelText(NLSUIMessages.RenameKeysDialog_description_withprefix + prefix + ':'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -62,8 +62,8 @@ public class RenameKeysDialog extends StatusDialog {
 	@Override
 	protected void okPressed() {
 		String prefix= fNameField.getText();
-		for (NLSSubstitution sub : fSelectedSubstitutions) {
-			String newKey= prefix + sub.getKey().substring(fCommonPrefixLength);
+		for (NLSSubstitution sub : fSelectedSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			String newKey= prefix + sub.getKey().substring(fCommonPrefixLength); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			sub.setKey(newKey);
 		}
 		super.okPressed();
@@ -71,7 +71,7 @@ public class RenameKeysDialog extends StatusDialog {
 
 	private String getInitialPrefix(List<NLSSubstitution> selectedSubstitutions) {
 		String prefix= null;
-		for (NLSSubstitution sub : selectedSubstitutions) {
+		for (NLSSubstitution sub : selectedSubstitutions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curr= sub.getKey();
 			if (prefix == null) {
 				prefix= curr;
@@ -88,7 +88,7 @@ public class RenameKeysDialog extends StatusDialog {
 	private String getCommonPrefix(String a, String b) {
 		String shorter= a.length() <= b.length() ? a : b;
 		int len= shorter.length();
-		for (int i= 0; i < len; i++) {
+		for (int i= 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (a.charAt(i) != b.charAt(i)) {
 				return a.substring(0, i);
 			}

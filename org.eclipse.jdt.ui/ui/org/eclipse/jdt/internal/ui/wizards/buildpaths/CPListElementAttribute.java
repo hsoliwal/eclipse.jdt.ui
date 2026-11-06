@@ -152,7 +152,7 @@ public class CPListElementAttribute {
 	    return result;
     }
 
-    public ClasspathAttributeAccess getClasspathAttributeAccess() {
+    public ClasspathAttributeAccess getClasspathAttributeAccess() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	if (fCachedAccess == null) {
 	    	fCachedAccess= new ClasspathAttributeAccess() {
 	    		@Override

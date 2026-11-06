@@ -126,7 +126,7 @@ public class SelectionTransferDropAdapter extends JdtViewerDropAdapter implement
 		return result;
 	}
 
-	private int internalDetermineOperation(Object target, int operation, int operations) {
+	private int internalDetermineOperation(Object target, int operation, int operations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		initializeSelection();
 
@@ -161,7 +161,7 @@ public class SelectionTransferDropAdapter extends JdtViewerDropAdapter implement
 	}
 
 	private boolean contains(IResource[] resources, Object target) {
-		for (IResource resource : resources) {
+		for (IResource resource : resources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource.equals(target)) {
 				return true;
 			}
@@ -171,7 +171,7 @@ public class SelectionTransferDropAdapter extends JdtViewerDropAdapter implement
 	}
 
 	private boolean contains(IJavaElement[] elements, Object target) {
-		for (IJavaElement element : elements) {
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.equals(target)) {
 				return true;
 			}
@@ -197,7 +197,7 @@ public class SelectionTransferDropAdapter extends JdtViewerDropAdapter implement
 		return fSelection;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performDrop(Object data) {
 		try{
 			switch(getCurrentOperation()) {
@@ -230,7 +230,7 @@ public class SelectionTransferDropAdapter extends JdtViewerDropAdapter implement
 		return handleValidateCopy(target);
 	}
 
-	private int handleValidateMove(Object target) throws JavaModelException{
+	private int handleValidateMove(Object target) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fMoveProcessor == null) {
 			IMovePolicy policy= ReorgPolicyFactory.createMovePolicy(ReorgUtilsCore.getResources(fElements), ReorgUtilsCore.getJavaElements(fElements));
 			if (policy.canEnable())
@@ -269,7 +269,7 @@ public class SelectionTransferDropAdapter extends JdtViewerDropAdapter implement
 		return false;
 	}
 
-	private int handleValidateCopy(Object target) throws JavaModelException{
+	private int handleValidateCopy(Object target) throws JavaModelException{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fCopyProcessor == null) {
 			final ICopyPolicy policy= ReorgPolicyFactory.createCopyPolicy(ReorgUtilsCore.getResources(fElements), ReorgUtilsCore.getJavaElements(fElements));

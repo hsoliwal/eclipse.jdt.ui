@@ -65,7 +65,7 @@ public class TemplateCompletionProposalComputer extends AbstractTemplateCompleti
 		return new TemplateEngine(contextType);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TemplateEngine computeCompletionEngine(JavaContentAssistInvocationContext context) {
 		try {
 			String partition= TextUtilities.getContentType(context.getDocument(), IJavaPartitions.JAVA_PARTITIONING, context.getInvocationOffset(), true);

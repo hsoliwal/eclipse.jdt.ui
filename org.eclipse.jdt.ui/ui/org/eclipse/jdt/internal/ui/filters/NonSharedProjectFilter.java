@@ -32,7 +32,7 @@ import org.eclipse.jdt.core.IJavaProject;
  *
  * @since 2.1
  */
-public class NonSharedProjectFilter extends ViewerFilter {
+public class NonSharedProjectFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * Layer breaker needed to identify imported PDE project's as non-shared,

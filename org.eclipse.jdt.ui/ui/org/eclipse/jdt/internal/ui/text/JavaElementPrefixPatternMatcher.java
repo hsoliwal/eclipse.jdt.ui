@@ -49,13 +49,13 @@ public class JavaElementPrefixPatternMatcher {
 		fElementNamePattern= elementNameEnd == 0 ? null : new PatternMatcher(elementName);
 
 		boolean ignoreCase= rest.toLowerCase().equals(rest);
-		fRestPattern= new StringMatcher(rest + STAR, ignoreCase, false);
+		fRestPattern= new StringMatcher(rest + STAR, ignoreCase, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private int findNameEnd(String pattern) {
 		int len= pattern.length();
 		if (len != 0 && Character.isJavaIdentifierStart(pattern.charAt(0))) {
-			for (int i= 1; i < len; i++) {
+			for (int i= 1; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (! Character.isJavaIdentifierPart(pattern.charAt(i)))
 					return i;
 			}

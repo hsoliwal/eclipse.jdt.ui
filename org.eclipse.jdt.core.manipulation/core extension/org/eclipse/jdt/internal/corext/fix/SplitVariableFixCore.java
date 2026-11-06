@@ -56,7 +56,7 @@ public final class SplitVariableFixCore extends CompilationUnitRewriteOperations
 		super(name, compilationUnit, operations);
 	}
 
-	public static SplitVariableFixCore createSplitVariableFix(CompilationUnit compilationUnit, ASTNode node) {
+	public static SplitVariableFixCore createSplitVariableFix(CompilationUnit compilationUnit, ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		VariableDeclarationFragment fragment;
 		if (node instanceof VariableDeclarationFragment) {
 			fragment= (VariableDeclarationFragment) node;
@@ -124,7 +124,7 @@ public final class SplitVariableFixCore extends CompilationUnitRewriteOperations
 			this.property= property;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			final CompilationUnit cup= (CompilationUnit) fragment.getRoot();
@@ -140,19 +140,19 @@ public final class SplitVariableFixCore extends CompilationUnitRewriteOperations
 				List<VariableDeclarationFragment> oldFragments= oldVarDecl.fragments();
 				ListRewrite forListRewrite= rewrite.getListRewrite(forStatement, ForStatement.INITIALIZERS_PROPERTY);
 				// create the new initializers
-				for (VariableDeclarationFragment oldFragment : oldFragments) {
+				for (VariableDeclarationFragment oldFragment : oldFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int extendedStartPositionFragment= cup.getExtendedStartPosition(oldFragment);
 					int extendedLengthFragment= cup.getExtendedLength(oldFragment);
-					StringBuilder codeFragment= new StringBuilder(
+					StringBuilder codeFragment= new StringBuilder( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 							buffer.getText(extendedStartPositionFragment, extendedLengthFragment));
 					if (oldFragment.getInitializer() == null) {
 						ITypeBinding typeBinding= type.resolveBinding();
 						if ("Z".equals(typeBinding.getBinaryName())) { //$NON-NLS-1$
-							codeFragment.append(" = false"); //$NON-NLS-1$
+							codeFragment.append(" = false"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else if (type.isPrimitiveType()) {
-							codeFragment.append(" = 0"); //$NON-NLS-1$
+							codeFragment.append(" = 0"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						} else {
-							codeFragment.append(" = null"); //$NON-NLS-1$
+							codeFragment.append(" = null"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 					Assignment newAssignmentFragment= (Assignment) rewrite.createStringPlaceholder(codeFragment.toString(),
@@ -173,7 +173,7 @@ public final class SplitVariableFixCore extends CompilationUnitRewriteOperations
 						commentToken= buffer.getText(extendedStatementStart,
 								oldVarDecl.getStartPosition() - extendedStatementStart);
 					}
-					codeDeclaration= commentToken + codeDeclaration;
+					codeDeclaration= commentToken + codeDeclaration; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					nType= (Type) rewrite.createStringPlaceholder(codeDeclaration.trim(), type.getNodeType());
 				} else {
 					int extendedStartPositionDeclaration= cup.getExtendedStartPosition(oldVarDecl);
@@ -190,7 +190,7 @@ public final class SplitVariableFixCore extends CompilationUnitRewriteOperations
 				newFrag.extraDimensions()
 						.addAll(DimensionRewrite.copyDimensions(oldFragments.get(0).extraDimensions(), rewrite));
 
-				for (int i= 1; i < oldFragments.size(); i++) {
+				for (int i= 1; i < oldFragments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment oldFragment= oldFragments.get(i);
 					newFrag= ast.newVariableDeclarationFragment();
 					newFrag.setName(ast.newSimpleName(oldFragment.getName().getIdentifier()));

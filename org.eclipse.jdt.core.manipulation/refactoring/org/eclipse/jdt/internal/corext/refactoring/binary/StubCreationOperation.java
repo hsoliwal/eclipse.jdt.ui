@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
  *
  * @since 3.2
  */
-public class StubCreationOperation extends AbstractCodeCreationOperation {
+public class StubCreationOperation extends AbstractCodeCreationOperation { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/** Should stubs for private member be generated as well? */
 	protected final boolean fStubInvisible;
@@ -97,7 +97,7 @@ public class StubCreationOperation extends AbstractCodeCreationOperation {
 				if (type.isAnonymous() || type.isLocal() || type.isMember())
 					return;
 				String source= new StubCreator(fStubInvisible).createStub(type, subProgressMonitor);
-				createCompilationUnit(parent, type.getElementName() + JavaModelUtil.DEFAULT_CU_SUFFIX, source, monitor);
+				createCompilationUnit(parent, type.getElementName() + JavaModelUtil.DEFAULT_CU_SUFFIX, source, monitor); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} finally {
 			monitor.done();

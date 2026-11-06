@@ -54,9 +54,9 @@ public class HtmlTagDictionary extends AbstractSpellDictionary {
 
 		unload();
 
-		for (String tag : IHtmlTagConstants.HTML_GENERAL_TAGS) {
-			hashWord(IHtmlTagConstants.HTML_TAG_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX);
-			hashWord(IHtmlTagConstants.HTML_CLOSE_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX);
+		for (String tag : IHtmlTagConstants.HTML_GENERAL_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			hashWord(IHtmlTagConstants.HTML_TAG_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+			hashWord(IHtmlTagConstants.HTML_CLOSE_PREFIX + tag + IHtmlTagConstants.HTML_TAG_POSTFIX); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return true;
 	}

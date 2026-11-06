@@ -40,34 +40,34 @@ public class PatternStrings {
 	}
 
 	public static String getMethodSignature(IMethod method) {
-		StringBuilder buffer= new StringBuilder();
-		buffer.append(JavaElementLabels.getElementLabel(
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buffer.append(JavaElementLabels.getElementLabel( //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			method.getDeclaringType(),
 			JavaElementLabels.T_FULLY_QUALIFIED | JavaElementLabels.USE_RESOLVED));
 		boolean isConstructor= method.getElementName().equals(method.getDeclaringType().getElementName());
 		if (!isConstructor) {
-			buffer.append('.');
+			buffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buffer.append(getUnqualifiedMethodSignature(method, !isConstructor));
+		buffer.append(getUnqualifiedMethodSignature(method, !isConstructor)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buffer.toString();
 	}
 
-	private static String getUnqualifiedMethodSignature(IMethod method, boolean includeName) {
-		StringBuilder buffer= new StringBuilder();
+	private static String getUnqualifiedMethodSignature(IMethod method, boolean includeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (includeName) {
-			buffer.append(method.getElementName());
+			buffer.append(method.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buffer.append('(');
+		buffer.append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		String[] types= method.getParameterTypes();
-		for (int i= 0; i < types.length; i++) {
+		for (int i= 0; i < types.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0)
-				buffer.append(", "); //$NON-NLS-1$
+				buffer.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String typeSig= Signature.toString(types[i]);
-			buffer.append(typeSig);
+			buffer.append(typeSig); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buffer.append(')');
+		buffer.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buffer.toString();
 	}

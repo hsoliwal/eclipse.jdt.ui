@@ -81,7 +81,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 		JavaProjectHelper.addRTJar18(fProject);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testViewAndIgnoredFilterAreUpdated() throws Exception {
 		IWorkbenchPage activePage= JUnitPlugin.getActivePage();
 		TestRunnerViewPart testRunnerViewPart= (TestRunnerViewPart) activePage.showView(TestRunnerViewPart.NAME);
@@ -122,7 +122,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMixedEnabledAndDisabledTestsAreCounted() throws Exception {
 		String source=
 				"""
@@ -145,7 +145,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 		assertSession(runTest(source, new ChangeRecordingListener()), 2, 1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleDisabledParameterizedTestsAreCountedOnceEach() throws Exception {
 		String source=
 				"""
@@ -169,7 +169,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 		assertSession(runTest(source, new ChangeRecordingListener()), 2, 2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDisabledClassCountsNormalAndParameterizedTests() throws Exception {
 		String source=
 				"""
@@ -192,7 +192,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 		assertSession(runTest(source, new ChangeRecordingListener()), 2, 2);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIgnoredSuiteDoesNotHideFailureAfterRoundTrip() throws Exception {
 		TestRunSession session= new TestRunSession("ignored failure", fProject); //$NON-NLS-1$
 		TestSuiteElement ignoredFailure= (TestSuiteElement) session.createTestElement(session.getTestRoot(),
@@ -229,11 +229,11 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 			if (importedSession != null) {
 				JUnitCorePlugin.getModel().removeTestRunSession(importedSession);
 			}
-			Files.deleteIfExists(file.toPath());
+			Files.deleteIfExists(file.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		}
 	}
 
-	private TestRunSession runTest(String source, ChangeRecordingListener changeListener) throws Exception {
+	private TestRunSession runTest(String source, ChangeRecordingListener changeListener) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType testType= createType(source, "pack", "ATestCase.java"); //$NON-NLS-1$ //$NON-NLS-2$
 		TestRunLog log= new TestRunLog();
 		AtomicReference<TestRunSession> finishedSession= new AtomicReference<>();
@@ -275,7 +275,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 
 	private static int countIgnoredElements(ITestElement[] elements) {
 		int ignored= 0;
-		for (ITestElement element : elements) {
+		for (ITestElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getTestResult(false) == Result.IGNORED) {
 				ignored++;
 			}
@@ -288,7 +288,7 @@ public class DisabledParameterizedTestViewTest extends AbstractTestRunListenerTe
 
 	private static class ChangeRecordingListener extends TestRunListenerTest5.TestSessionListener {
 		final List<ProgressState> fProgressStates= new CopyOnWriteArrayList<>();
-		final List<Boolean> fIgnoredStates= new CopyOnWriteArrayList<>();
+		final List<Boolean> fIgnoredStates= new CopyOnWriteArrayList<>(); //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 
 		@Override
 		public void testChanged(TestElement testElement) {

@@ -42,7 +42,7 @@ public abstract class UnInitializedFinalFieldBaseSubProcessor<T> {
 	public UnInitializedFinalFieldBaseSubProcessor() {
 	}
 
-	public void addProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException {
+	public void addProposals(IInvocationContext context, IProblemLocation problem, Collection<T> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= context.getCompilationUnit();
 
 		CompilationUnit astRoot= context.getASTRoot();

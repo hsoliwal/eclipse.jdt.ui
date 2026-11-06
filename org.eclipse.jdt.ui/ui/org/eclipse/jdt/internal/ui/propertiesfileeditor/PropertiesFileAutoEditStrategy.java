@@ -75,7 +75,7 @@ public class PropertiesFileAutoEditStrategy implements IAutoEditStrategy {
 		showProposal(escape(command), document);
 	}
 
-	private ICompletionProposal escape(DocumentCommand command) {
+	private ICompletionProposal escape(DocumentCommand command) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			String charsetName= fFile.getCharset();
 			if (!charsetName.equals(fCharsetName)) {
@@ -102,9 +102,9 @@ public class PropertiesFileAutoEditStrategy implements IAutoEditStrategy {
 		return null;
 	}
 
-	private void showProposal(final ICompletionProposal proposal, final IDocument document) {
+	private void showProposal(final ICompletionProposal proposal, final IDocument document) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (proposal != null && fSourceViewer instanceof ISourceViewerExtension3) {
-			final WorkbenchJob job= new WorkbenchJob(PropertiesFileEditorMessages.PropertiesFileAutoEditStrategy_showQuickAssist) {
+			final WorkbenchJob job= new WorkbenchJob(PropertiesFileEditorMessages.PropertiesFileAutoEditStrategy_showQuickAssist) { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					IQuickAssistAssistant assistant= ((ISourceViewerExtension3)fSourceViewer).getQuickAssistAssistant();
@@ -127,7 +127,7 @@ public class PropertiesFileAutoEditStrategy implements IAutoEditStrategy {
 				}
 			});
 
-			final IDocumentListener documentListener= new IDocumentListener() {
+			final IDocumentListener documentListener= new IDocumentListener() { //FLLDCIM: MARK — T28  ANONYMOUS
 				private boolean pasteComplete= false;
 				@Override
 				public void documentAboutToBeChanged(DocumentEvent event) {

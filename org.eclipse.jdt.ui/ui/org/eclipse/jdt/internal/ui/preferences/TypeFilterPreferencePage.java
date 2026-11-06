@@ -63,7 +63,7 @@ public class TypeFilterPreferencePage extends PreferencePage implements IWorkben
 	private SelectionButtonDialogField fHideForbiddenField;
 	private SelectionButtonDialogField fHideDiscouragedField;
 
-	public TypeFilterPreferencePage() {
+	public TypeFilterPreferencePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		setPreferenceStore(JavaPlugin.getDefault().getPreferenceStore());
 		setDescription(PreferencesMessages.TypeFilterPreferencePage_description);
@@ -102,7 +102,7 @@ public class TypeFilterPreferencePage extends PreferencePage implements IWorkben
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.TYPE_FILTER_PREFERENCE_PAGE);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -124,7 +124,7 @@ public class TypeFilterPreferencePage extends PreferencePage implements IWorkben
 		spacer.setLayoutData(gd);
 
 		String label= PreferencesMessages.TypeFilterPreferencePage_restricted_link;
-		Map<String, String> targetInfo= new java.util.HashMap<>(2);
+		Map<String, String> targetInfo= new java.util.HashMap<>(2); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		targetInfo.put(ProblemSeveritiesPreferencePage.DATA_SELECT_OPTION_KEY,	JavaCore.COMPILER_PB_FORBIDDEN_REFERENCE);
 		targetInfo.put(ProblemSeveritiesPreferencePage.DATA_SELECT_OPTION_QUALIFIER, JavaCore.PLUGIN_ID);
 		createPreferencePageLink(composite, label, targetInfo);
@@ -140,7 +140,7 @@ public class TypeFilterPreferencePage extends PreferencePage implements IWorkben
 		final Link link= new Link(composite, SWT.NONE);
 		link.setText(label);
 		link.setLayoutData(new GridData(SWT.BEGINNING, SWT.BEGINNING, true, false, 2, 1));
-		link.addSelectionListener(new SelectionAdapter() {
+		link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PreferencesUtil.createPreferenceDialogOn(link.getShell(), e.text, null, targetInfo);

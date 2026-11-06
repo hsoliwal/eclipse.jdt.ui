@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class ImplementInterfaceProposal extends LinkedCorrectionProposal {
+public class ImplementInterfaceProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public ImplementInterfaceProposal(ICompilationUnit targetCU, ITypeBinding binding, CompilationUnit astRoot, ITypeBinding newInterface, int relevance) {
 		super("", targetCU, null, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), new ImplementInterfaceProposalCore(targetCU, binding, astRoot, newInterface, relevance)); //$NON-NLS-1$

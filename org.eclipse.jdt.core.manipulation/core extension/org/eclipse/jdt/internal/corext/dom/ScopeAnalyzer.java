@@ -106,8 +106,8 @@ public class ScopeAnalyzer {
 		public DefaultBindingRequestor(ITypeBinding parentTypeBinding, int flags) {
 			fParentTypeBinding= parentTypeBinding;
 			fFlags= flags;
-			fResult= new ArrayList<>();
-			fNamesAdded= new HashSet<>();
+			fResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fNamesAdded= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 
 		public DefaultBindingRequestor() {
@@ -126,9 +126,9 @@ public class ScopeAnalyzer {
 			return false;
 		}
 
-		public List<IBinding> getResult() {
+		public List<IBinding> getResult() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (hasFlag(CHECK_VISIBILITY, fFlags)) {
-				for (int i= fResult.size() - 1; i >= 0; i--) {
+				for (int i= fResult.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IBinding binding= fResult.get(i);
 					if (!isVisible(binding, fParentTypeBinding)) {
 						fResult.remove(i);
@@ -136,7 +136,7 @@ public class ScopeAnalyzer {
 				}
 			}
 			if (hasFlag(NO_FIELDS, fFlags)) {
-				for (int i= fResult.size() - 1; i >= 0; i--) {
+				for (int i= fResult.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IBinding binding= fResult.get(i);
 					if (binding instanceof IVariableBinding && ((IVariableBinding) binding).isField()) {
 						fResult.remove(i);
@@ -153,7 +153,7 @@ public class ScopeAnalyzer {
 	private final CompilationUnit fRoot;
 
 	public ScopeAnalyzer(CompilationUnit root) {
-		fTypesVisited= new HashSet<>();
+		fTypesVisited= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		fRoot= root;
 	}
 
@@ -161,31 +161,31 @@ public class ScopeAnalyzer {
 		fTypesVisited.clear();
 	}
 
-	private static String getSignature(IBinding binding, int flags) {
+	private static String getSignature(IBinding binding, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding != null) {
 			switch (binding.getKind()) {
 				case IBinding.METHOD:
-					StringBuilder buf= new StringBuilder();
-					buf.append('M');
-					buf.append(binding.getName()).append('(');
+					StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+					buf.append('M'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					buf.append(binding.getName()).append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					ITypeBinding[] parameters= ((IMethodBinding) binding).getParameterTypes();
-					for (int i= 0; i < parameters.length; i++) {
+					for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (i > 0) {
-							buf.append(',');
+							buf.append(','); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 						ITypeBinding paramType= parameters[i].getErasure();
-						buf.append(paramType.getQualifiedName());
+						buf.append(paramType.getQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					buf.append(')');
+					buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					return buf.toString();
 
 				case IBinding.VARIABLE:
 					if (hasFlag(NO_FIELDS, flags) && ((IVariableBinding) binding).isField()) {
-						return 'F' + binding.getName();
+						return 'F' + binding.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
-					return 'V' + binding.getName();
+					return 'V' + binding.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				case IBinding.TYPE:
-					return 'T' + binding.getName();
+					return 'T' + binding.getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		return null;
@@ -206,12 +206,12 @@ public class ScopeAnalyzer {
 		return addInherited(binding, false, flags, requestor);
 	}
 
-	private boolean addInherited(ITypeBinding binding, boolean isSuperInterfaceBinding, int flags, IBindingRequestor requestor) {
+	private boolean addInherited(ITypeBinding binding, boolean isSuperInterfaceBinding, int flags, IBindingRequestor requestor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!fTypesVisited.add(binding)) {
 			return false;
 		}
 		if (hasFlag(VARIABLES, flags)) {
-			for (IVariableBinding variableBinding : binding.getDeclaredFields()) {
+			for (IVariableBinding variableBinding : binding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (requestor.acceptBinding(variableBinding)) {
 					return true;
 				}
@@ -219,7 +219,7 @@ public class ScopeAnalyzer {
 		}
 
 		if (hasFlag(METHODS, flags)) {
-			for (IMethodBinding curr : binding.getDeclaredMethods()) {
+			for (IMethodBinding curr : binding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isSuperInterfaceBinding && Modifier.isStatic(curr.getModifiers())) {
 					continue;
 				}
@@ -231,7 +231,7 @@ public class ScopeAnalyzer {
 		}
 
 		if (hasFlag(TYPES, flags)) {
-			for (ITypeBinding curr : binding.getDeclaredTypes()) {
+			for (ITypeBinding curr : binding.getDeclaredTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (requestor.acceptBinding(curr))
 					return true;
 			}
@@ -247,7 +247,7 @@ public class ScopeAnalyzer {
 				return true;
 		}
 
-		for (ITypeBinding intf : binding.getInterfaces()) {// includes looking for methods: abstract, unimplemented methods
+		for (ITypeBinding intf : binding.getInterfaces()) {// includes looking for methods: abstract, unimplemented methods //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (addInherited(intf, true, flags, requestor)) {
 				return true;
 			}
@@ -263,12 +263,12 @@ public class ScopeAnalyzer {
 	 * @param requestor the requestor to which all results are reported
 	 * @return return <code>true</code> if the requestor has reported the binding as found and no further results are required
 	 */
-	private boolean addTypeDeclarations(ITypeBinding binding, int flags, IBindingRequestor requestor) {
+	private boolean addTypeDeclarations(ITypeBinding binding, int flags, IBindingRequestor requestor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (hasFlag(TYPES, flags) && !binding.isAnonymous()) {
 			if (requestor.acceptBinding(binding))
 				return true;
 
-			for (ITypeBinding typeParameter : binding.getTypeParameters()) {
+			for (ITypeBinding typeParameter : binding.getTypeParameters()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (requestor.acceptBinding(typeParameter)) {
 					return true;
 				}
@@ -287,7 +287,7 @@ public class ScopeAnalyzer {
 			} else if (hasFlag(TYPES, flags)) {
 				if (fRoot.findDeclaringNode(binding) != null) {
 					List<AbstractTypeDeclaration> types= fRoot.types();
-					for (AbstractTypeDeclaration type : types) {
+					for (AbstractTypeDeclaration type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (requestor.acceptBinding(type.resolveBinding()))
 							return true;
 					}
@@ -297,7 +297,7 @@ public class ScopeAnalyzer {
 		return false;
 	}
 
-	private boolean addOuterDeclarationsForLocalType(ITypeBinding localBinding, int flags, IBindingRequestor requestor) {
+	private boolean addOuterDeclarationsForLocalType(ITypeBinding localBinding, int flags, IBindingRequestor requestor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode node= fRoot.findDeclaringNode(localBinding);
 		if (node == null) {
 			return false;
@@ -324,7 +324,7 @@ public class ScopeAnalyzer {
 		return null;
 	}
 
-	private static ITypeBinding getQualifier(SimpleName selector) {
+	private static ITypeBinding getQualifier(SimpleName selector) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= selector.getParent();
 		switch (parent.getNodeType()) {
 			case ASTNode.METHOD_INVOCATION:
@@ -373,7 +373,7 @@ public class ScopeAnalyzer {
 		}
 	}
 
-	public IBinding[] getDeclarationsInScope(SimpleName selector, int flags) {
+	public IBinding[] getDeclarationsInScope(SimpleName selector, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// special case for switch on enum
 			StructuralPropertyDescriptor locationInParent= selector.getLocationInParent();
@@ -426,7 +426,7 @@ public class ScopeAnalyzer {
 			fIsVisible= true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean acceptBinding(IBinding binding) {
 			if (fFound)
 				return true;
@@ -471,7 +471,7 @@ public class ScopeAnalyzer {
 		}
 	}
 
-	public boolean isDeclaredInScope(IBinding declaration, SimpleName selector, int flags) {
+	public boolean isDeclaredInScope(IBinding declaration, SimpleName selector, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			// special case for switch on enum
 			StructuralPropertyDescriptor locationInParent= selector.getLocationInParent();
@@ -513,8 +513,8 @@ public class ScopeAnalyzer {
 
 	private IVariableBinding[] getEnumContants(ITypeBinding binding) {
 		IVariableBinding[] declaredFields= binding.getDeclaredFields();
-		ArrayList<IVariableBinding> res= new ArrayList<>(declaredFields.length);
-		for (IVariableBinding curr : declaredFields) {
+		ArrayList<IVariableBinding> res= new ArrayList<>(declaredFields.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IVariableBinding curr : declaredFields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.isEnumConstant()) {
 				res.add(curr);
 			}
@@ -523,14 +523,14 @@ public class ScopeAnalyzer {
 	}
 
 	private boolean hasEnumContants(IBinding declaration, ITypeBinding binding) {
-		for (IVariableBinding curr : binding.getDeclaredFields()) {
+		for (IVariableBinding curr : binding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr == declaration)
 				return true;
 		}
 		return false;
 	}
 
-	public IBinding[] getDeclarationsInScope(int offset, int flags) {
+	public IBinding[] getDeclarationsInScope(int offset, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		org.eclipse.jdt.core.dom.NodeFinder finder= new org.eclipse.jdt.core.dom.NodeFinder(fRoot, offset, 0);
 		ASTNode node= finder.getCoveringNode();
 		if (node == null) {
@@ -577,7 +577,7 @@ public class ScopeAnalyzer {
 	 * @param context The context to test in
 	 * @return Returns
 	 */
-	public static boolean isVisible(IBinding binding, ITypeBinding context) {
+	public static boolean isVisible(IBinding binding, ITypeBinding context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.getKind() == IBinding.VARIABLE && !((IVariableBinding) binding).isField()) {
 			return true; // all local variables found are visible
 		}
@@ -610,7 +610,7 @@ public class ScopeAnalyzer {
 
 	private static boolean isTypeInScope(ITypeBinding declaring, ITypeBinding context, boolean includeHierarchy) {
 		ITypeBinding curr= context.getTypeDeclaration();
-		while (curr != null && curr != declaring) {
+		while (curr != null && curr != declaring) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (includeHierarchy && isInSuperTypeHierarchy(declaring, curr)) {
 				return true;
 			}
@@ -622,7 +622,7 @@ public class ScopeAnalyzer {
 	/*
 	 * This method is different from Binding.isSuperType as type declarations are compared
 	 */
-	private static boolean isInSuperTypeHierarchy(ITypeBinding possibleSuperTypeDecl, ITypeBinding type) {
+	private static boolean isInSuperTypeHierarchy(ITypeBinding possibleSuperTypeDecl, ITypeBinding type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (type == possibleSuperTypeDecl) {
 			return true;
 		}
@@ -633,7 +633,7 @@ public class ScopeAnalyzer {
 			}
 		}
 		if (possibleSuperTypeDecl.isInterface()) {
-			for (ITypeBinding superInterface : type.getInterfaces()) {
+			for (ITypeBinding superInterface : type.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (isInSuperTypeHierarchy(possibleSuperTypeDecl, superInterface.getTypeDeclaration())) {
 					return true;
 				}
@@ -643,7 +643,7 @@ public class ScopeAnalyzer {
 	}
 
 
-	public IBinding[] getDeclarationsAfter(int offset, int flags) {
+	public IBinding[] getDeclarationsAfter(int offset, int flags) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			org.eclipse.jdt.core.dom.NodeFinder finder= new org.eclipse.jdt.core.dom.NodeFinder(fRoot, offset, 0);
 			ASTNode node= finder.getCoveringNode();
@@ -652,7 +652,7 @@ public class ScopeAnalyzer {
 			}
 
 			ASTNode declaration= ASTResolving.findParentStatement(node);
-			while (declaration instanceof Statement && declaration.getNodeType() != ASTNode.BLOCK) {
+			while (declaration instanceof Statement && declaration.getNodeType() != ASTNode.BLOCK) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				declaration= declaration.getParent();
 			}
 
@@ -719,7 +719,7 @@ public class ScopeAnalyzer {
 			if (hasFlag(VARIABLES, fFlags) && !node.isDefault()) {
 				if (ASTHelper.isSwitchCaseExpressionsSupportedInAST(node.getAST())) {
 					List<Expression> expressions= node.expressions();
-					for (Expression expression : expressions) {
+					for (Expression expression : expressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						visitExpression(node, expression);
 					}
 				} else {
@@ -730,7 +730,7 @@ public class ScopeAnalyzer {
 			return false;
 		}
 
-		private void visitExpression(SwitchCase node, Expression expression) {
+		private void visitExpression(SwitchCase node, Expression expression) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (isInside(expression)) {
 				ASTNode caseParent= node.getParent();
 				ITypeBinding binding= null;
@@ -742,7 +742,7 @@ public class ScopeAnalyzer {
 					binding= switchExpression.getExpression().resolveTypeBinding();
 				}
 				if (binding != null && binding.isEnum()) {
-					for (IVariableBinding curr : binding.getDeclaredFields()) {
+					for (IVariableBinding curr : binding.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (curr.isEnumConstant()) {
 							fBreak= fRequestor.acceptBinding(curr);
 							if (fBreak)
@@ -837,7 +837,7 @@ public class ScopeAnalyzer {
 			if (fBreak)
 				return;
 
-			for (int i= list.size() - 1; i >= 0; i--) {
+			for (int i= list.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode curr= list.get(i);
 				if (curr.getStartPosition() <  fPosition) {
 					curr.accept(this);
@@ -904,15 +904,15 @@ public class ScopeAnalyzer {
 	}
 
 	public Collection<String> getUsedVariableNames(int offset, int length) {
-		HashSet<String> result= new HashSet<>();
-		for (IBinding b : getDeclarationsInScope(offset, VARIABLES | CHECK_VISIBILITY)) {
+		HashSet<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IBinding b : getDeclarationsInScope(offset, VARIABLES | CHECK_VISIBILITY)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(b.getName());
 		}
-		for (IBinding b : getDeclarationsAfter(offset + length, VARIABLES | CHECK_VISIBILITY)) {
+		for (IBinding b : getDeclarationsAfter(offset + length, VARIABLES | CHECK_VISIBILITY)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(b.getName());
 		}
 		List<ImportDeclaration> imports= fRoot.imports();
-		for (ImportDeclaration decl : imports) {
+		for (ImportDeclaration decl : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (decl.isStatic() && !decl.isOnDemand()) {
 				result.add(ASTNodes.getSimpleNameIdentifier(decl.getName()));
 			}

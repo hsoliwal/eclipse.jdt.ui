@@ -45,7 +45,7 @@ class SignatureStylingColorSubMenuItem extends Action implements IMenuCreator {
 		setMenuCreator(this);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Menu getMenu(Menu parent) {
 		// we keep it simple here and just re-create new menu with correct items
 		dispose();
@@ -60,7 +60,7 @@ class SignatureStylingColorSubMenuItem extends Action implements IMenuCreator {
 			if (typeParamsReferencesCount == 0) {
 				new ActionContributionItem(new NoSignatureStylingTypeParametersMenuItem()).fill(menu, -1);
 			} else {
-				for (int i= 1; i <= typeParamsReferencesCount; i++) {
+				for (int i= 1; i <= typeParamsReferencesCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					var item= new ActionContributionItem(new SignatureStylingColorPreferenceMenuItem(
 							parentShell,
 							JavadocStylingMessages.JavadocStyling_colorPreferences_typeParameter,
@@ -77,7 +77,7 @@ class SignatureStylingColorSubMenuItem extends Action implements IMenuCreator {
 				new Separator().fill(menu, -1);
 			}
 
-			for (int i= 0; i < typeParamsReferenceIndices.length; i++) {
+			for (int i= 0; i < typeParamsReferenceIndices.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (typeParamsReferenceIndices[i] > typeParamsReferencesCount) {
 					new ActionContributionItem(new UnusedColorPreferenceMenuItem(
 							JavadocStylingMessages.JavadocStyling_colorPreferences_typeParameter, typeParamsReferenceIndices[i]))
@@ -124,7 +124,7 @@ class SignatureStylingColorSubMenuItem extends Action implements IMenuCreator {
 	private static final class UnusedColorPreferenceMenuItem extends Action {
 		public UnusedColorPreferenceMenuItem(String textPrefix, int colorIdx) {
 			super(Messages.format(textPrefix, colorIdx));
-			setId(UnusedColorPreferenceMenuItem.class.getSimpleName() + "_" + colorIdx); //$NON-NLS-1$
+			setId(UnusedColorPreferenceMenuItem.class.getSimpleName() + "_" + colorIdx); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			setToolTipText(JavadocStylingMessages.JavadocStyling_colorPreferences_unusedTypeParameter);
 			setEnabled(false);
 		}

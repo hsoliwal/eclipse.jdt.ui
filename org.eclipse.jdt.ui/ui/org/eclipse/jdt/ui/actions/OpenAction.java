@@ -80,7 +80,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenAction extends SelectionDispatchAction {
+public class OpenAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -125,7 +125,7 @@ public class OpenAction extends SelectionDispatchAction {
 	private boolean checkEnabled(IStructuredSelection selection) {
 		if (selection.isEmpty())
 			return false;
-		for (Object element : selection) {
+		for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ISourceReference)
 				continue;
 			if (element instanceof IFile)
@@ -137,7 +137,7 @@ public class OpenAction extends SelectionDispatchAction {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		ITypeRoot input= EditorUtility.getEditorInputJavaElement(fEditor, false);
 		if (input == null) {
@@ -187,13 +187,13 @@ public class OpenAction extends SelectionDispatchAction {
 		}
 	}
 
-	private boolean needsUserSelection(IJavaElement[] elements, ITypeRoot input) {
+	private boolean needsUserSelection(IJavaElement[] elements, ITypeRoot input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements[0] instanceof IPackageFragment) {
 			IJavaProject javaProject= input.getJavaProject();
 			if (JavaModelUtil.is9OrHigher(javaProject)) {
 				try {
 					if (javaProject.getModuleDescription() != null) {
-						for (IJavaElement element : elements) {
+						for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IPackageFragmentRoot root= (IPackageFragmentRoot) element.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 							if (root.getModuleDescription() != null)
 								return true;
@@ -231,8 +231,8 @@ public class OpenAction extends SelectionDispatchAction {
 	 * @since 3.4
 	 */
 	private IJavaElement[] selectOpenableElements(IJavaElement[] elements) {
-		List<IJavaElement> result= new ArrayList<>(elements.length);
-		for (IJavaElement element : elements) {
+		List<IJavaElement> result= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (element.getElementType()) {
 				case IJavaElement.PACKAGE_DECLARATION:
 				case IJavaElement.PACKAGE_FRAGMENT_ROOT:
@@ -261,13 +261,13 @@ public class OpenAction extends SelectionDispatchAction {
 	 *
 	 * @noreference This method is not intended to be referenced by clients.
 	 */
-	public void run(Object[] elements) {
+	public void run(Object[] elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements == null)
 			return;
 
 		MultiStatus status= new MultiStatus(JavaUI.ID_PLUGIN, IStatus.OK, ActionMessages.OpenAction_multistatus_message, null);
 
-		for (Object element : elements) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				Object javaElement= getElementToOpen(element);
 				if (javaElement instanceof IPackageFragment) {
@@ -322,7 +322,7 @@ public class OpenAction extends SelectionDispatchAction {
 		return object;
 	}
 
-	private Object getPackageFragmentObjectToOpen(IPackageFragment packageFragment) throws JavaModelException {
+	private Object getPackageFragmentObjectToOpen(IPackageFragment packageFragment) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeRoot typeRoot= null;
 		IPackageFragmentRoot root= (IPackageFragmentRoot) packageFragment.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 		if (root.getKind() == IPackageFragmentRoot.K_BINARY)
@@ -333,7 +333,7 @@ public class OpenAction extends SelectionDispatchAction {
 			return typeRoot;
 
 		Object[] nonJavaResources= (packageFragment).getNonJavaResources();
-		for (Object nonJavaResource : nonJavaResources) {
+		for (Object nonJavaResource : nonJavaResources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nonJavaResource instanceof IFile) {
 				IFile file= (IFile) nonJavaResource;
 				if (file.exists() && JavaModelUtil.PACKAGE_HTML.equals(file.getName())) {

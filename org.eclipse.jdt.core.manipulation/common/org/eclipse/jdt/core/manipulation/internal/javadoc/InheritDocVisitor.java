@@ -80,8 +80,8 @@ abstract class InheritDocVisitor {
 	 *         calls returned a result
 	 * @throws JavaModelException unexpected problem
 	 */
-	public Object visitInheritDoc(IType currentType, ITypeHierarchy typeHierarchy) throws JavaModelException {
-		ArrayList<IType> visited= new ArrayList<>();
+	public Object visitInheritDoc(IType currentType, ITypeHierarchy typeHierarchy) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IType> visited= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		visited.add(currentType);
 		Object result= visitInheritDocInterfaces(visited, currentType, typeHierarchy);
 		if (result != InheritDocVisitor.CONTINUE)
@@ -93,7 +93,7 @@ abstract class InheritDocVisitor {
 		else
 			superClass= typeHierarchy.getSuperclass(currentType);
 
-		while (superClass != null && !visited.contains(superClass)) {
+		while (superClass != null && !visited.contains(superClass)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result= visit(superClass);
 			if (result == InheritDocVisitor.STOP_BRANCH) {
 				return null;
@@ -122,9 +122,9 @@ abstract class InheritDocVisitor {
 	 * @return the result, or {@link #CONTINUE} if no result has been found
 	 * @throws JavaModelException unexpected problem
 	 */
-	private Object visitInheritDocInterfaces(ArrayList<IType> visited, IType currentType, ITypeHierarchy typeHierarchy) throws JavaModelException {
-		ArrayList<IType> toVisitChildren= new ArrayList<>();
-		for (IType superInterface : typeHierarchy.getSuperInterfaces(currentType)) {
+	private Object visitInheritDocInterfaces(ArrayList<IType> visited, IType currentType, ITypeHierarchy typeHierarchy) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<IType> toVisitChildren= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IType superInterface : typeHierarchy.getSuperInterfaces(currentType)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (visited.contains(superInterface))
 				continue;
 			visited.add(superInterface);
@@ -137,7 +137,7 @@ abstract class InheritDocVisitor {
 				return result;
 			}
 		}
-		for (IType child : toVisitChildren) {
+		for (IType child : toVisitChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object result= visitInheritDocInterfaces(visited, child, typeHierarchy);
 			if (result != InheritDocVisitor.CONTINUE)
 				return result;

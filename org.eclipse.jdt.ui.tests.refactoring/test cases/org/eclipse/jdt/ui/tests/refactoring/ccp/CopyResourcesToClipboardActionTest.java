@@ -60,15 +60,15 @@ public class CopyResourcesToClipboardActionTest extends GenericRefactoringTest{
 		return file;
 	}
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void before() throws Exception {
 		fClipboard= new MockClipboard(Display.getDefault());
 		fDefaultPackage= rts.getDefaultSourceFolder().createPackageFragment("", true, null);
 
-		fCuA= createCU(getPackageP(), CU_A_NAME + ".java", "package p; class A{}");
+		fCuA= createCU(getPackageP(), CU_A_NAME + ".java", "package p; class A{}"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		fPackage_Q= rts.getDefaultSourceFolder().createPackageFragment("q", true, null);
-		fCuB= createCU(fPackage_Q, CU_B_NAME + ".java", "package q; class B{}");
+		fCuB= createCU(fPackage_Q, CU_B_NAME + ".java", "package q; class B{}"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		fPackage_Q_R= rts.getDefaultSourceFolder().createPackageFragment("q.r", true, null);
 

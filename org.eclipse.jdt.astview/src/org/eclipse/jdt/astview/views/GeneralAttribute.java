@@ -27,7 +27,7 @@ public class GeneralAttribute extends ASTAttribute {
 
 	public GeneralAttribute(Object parent, String name, Object value) {
 		fParent= parent;
-		fLabel= name + ": " + String.valueOf(value);
+		fLabel= name + ": " + String.valueOf(value); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fChildren= EMPTY;
 	}
 
@@ -40,20 +40,20 @@ public class GeneralAttribute extends ASTAttribute {
 	public GeneralAttribute(Object parent, String name, Object[] children) {
 		fParent= parent;
 		if (children == null) {
-			fLabel= name + ": null";
+			fLabel= name + ": null"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fChildren= EMPTY;
 		} else if (children.length == 0) {
-			fLabel= name + " (0)";
+			fLabel= name + " (0)"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fChildren= EMPTY;
 		} else {
 			fChildren= createChildren(children);
-			fLabel= name + " (" + String.valueOf(fChildren.length) + ')';
+			fLabel= name + " (" + String.valueOf(fChildren.length) + ')'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	private Object[] createChildren(Object[] children) {
 		ASTAttribute[] res= new ASTAttribute[children.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object child= children[i];
 			String name= String.valueOf(i);
 			res[i]= Binding.createValueAttribute(this, name, child);
@@ -84,7 +84,7 @@ public class GeneralAttribute extends ASTAttribute {
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

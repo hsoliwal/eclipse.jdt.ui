@@ -46,7 +46,7 @@ public class InnerExpressionResolver extends SimpleTemplateVariableResolver {
 		return ((JavaPostfixContext) context).getAffectedStatement();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void resolve(TemplateVariable variable, TemplateContext context) {
 		if (context instanceof JavaPostfixContext && variable instanceof JavaVariable) {
 			JavaPostfixContext c= (JavaPostfixContext) context;

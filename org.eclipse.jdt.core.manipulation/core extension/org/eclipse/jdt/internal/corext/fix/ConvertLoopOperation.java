@@ -147,8 +147,8 @@ public abstract class ConvertLoopOperation extends CompilationUnitRewriteOperati
 		}
 	}
 
-	protected String[] getUsedVariableNames() {
-		final List<String> results= new ArrayList<>();
+	protected String[] getUsedVariableNames() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final List<String> results= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ForStatement forStatement= getForStatement();
 		CompilationUnit root= (CompilationUnit)forStatement.getRoot();
@@ -194,9 +194,9 @@ public abstract class ConvertLoopOperation extends CompilationUnitRewriteOperati
 		ASTNodes.replaceButKeepComment(rewrite, node, statement, group);
 	}
 
-	public static String modifyBaseName(String suggestedName) {
+	public static String modifyBaseName(String suggestedName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= suggestedName;
-		for(String prefix : CUT_PREFIX) {
+		for(String prefix : CUT_PREFIX) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(prefix.length() >= suggestedName.length()) {
 				continue;
 			}
@@ -216,19 +216,19 @@ public abstract class ConvertLoopOperation extends CompilationUnitRewriteOperati
 				}
 			}
 		}
-		for(Map.Entry<String, String> entry : IRREG_NOUNS.entrySet()) {
+		for(Map.Entry<String, String> entry : IRREG_NOUNS.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String suffix = entry.getKey();
 			if(name.toLowerCase().endsWith(suffix.toLowerCase())) {
 				String firstPart= name.substring(0, name.length() - suffix.length());
-				return firstPart + entry.getValue();
+				return firstPart + entry.getValue(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
-		for(String varname : NO_BASE_TYPES) {
+		for(String varname : NO_BASE_TYPES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(name.equalsIgnoreCase(varname)) {
 				return FOR_LOOP_ELEMENT_IDENTIFIER;
 			}
 		}
-		for(String suffix : IRREG_ENDINGS) {
+		for(String suffix : IRREG_ENDINGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(name.toLowerCase().endsWith(suffix)) {
 				return FOR_LOOP_ELEMENT_IDENTIFIER;
 			}

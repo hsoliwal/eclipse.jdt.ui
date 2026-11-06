@@ -39,11 +39,11 @@ public class FatJarRsrcUrlManifestProvider extends FatJarManifestProvider {
 	}
 
 	private void setManifestRsrcClasspath(Manifest ownManifest, JarPackageData jarPackage) {
-		ArrayList<String> jarNames= new ArrayList<>();
-		for (Object element : jarPackage.getElements()) {
+		ArrayList<String> jarNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : jarPackage.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IPackageFragmentRoot && ((IPackageFragmentRoot) element).isArchive()) {
 				String jarName= ((IPackageFragmentRoot) element).getPath().toFile().getName();
-				while (jarNames.contains(jarName)) {
+				while (jarNames.contains(jarName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					jarName= FatJarPackagerUtil.nextNumberedFileName(jarName);
 				}
 				jarNames.add(jarName);
@@ -54,15 +54,15 @@ public class FatJarRsrcUrlManifestProvider extends FatJarManifestProvider {
 	}
 
 	public String getManifestRsrcClasspath(ArrayList<String> jarNames) {
-		StringBuilder result= new StringBuilder();
-		result.append(JIJConstants.CURRENT_DIR);
-		for (String jarName : jarNames) {
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append(JIJConstants.CURRENT_DIR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (String jarName : jarNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				jarName= URLEncoder.encode(jarName, "UTF-8"); //$NON-NLS-1$
 			} catch (UnsupportedEncodingException e) {
 				JavaPlugin.log(e); // does not happen
 			}
-			result.append(" ").append(jarName); //$NON-NLS-1$
+			result.append(" ").append(jarName); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}

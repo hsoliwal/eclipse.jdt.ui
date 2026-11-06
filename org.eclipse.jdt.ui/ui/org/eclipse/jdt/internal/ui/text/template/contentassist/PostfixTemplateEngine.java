@@ -65,7 +65,7 @@ public class PostfixTemplateEngine extends TemplateEngine {
 		complete(viewer, viewer.getSelectedRange(), completionPosition, compilationUnit);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void complete(ITextViewer viewer, Point selectedRange, int completionPosition, ICompilationUnit compilationUnit) {
 		IDocument document= viewer.getDocument();
 
@@ -88,7 +88,7 @@ public class PostfixTemplateEngine extends TemplateEngine {
 
 		Template[] templates= JavaPlugin.getDefault().getTemplateStore().getTemplates(getContextType().getId());
 
-		for (Template template : templates) {
+		for (Template template : templates) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (context.canEvaluate(template)) {
 				getProposals().add(new PostfixTemplateProposal(template, context, region, getImage()));
 			}

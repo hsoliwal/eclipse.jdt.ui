@@ -51,8 +51,8 @@ public final class JavaModelMerger extends AbstractResourceMappingMerger {
 	@Override
 	protected IProject[] getDependencies(final IProject[] projects) {
 		Assert.isNotNull(projects);
-		final Set<IProject> set= new HashSet<>();
-		for (IProject project : projects) {
+		final Set<IProject> set= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IProject project : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			getDependentProjects(set, project);
 		}
 		final IProject[] result= new IProject[set.size()];
@@ -68,15 +68,15 @@ public final class JavaModelMerger extends AbstractResourceMappingMerger {
 	 * @param project
 	 *            the project to get its dependent projects
 	 */
-	private void getDependentProjects(final Set<IProject> set, final IProject project) {
+	private void getDependentProjects(final Set<IProject> set, final IProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(set);
 		Assert.isNotNull(project);
 		final IJavaModel model= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 		if (model != null) {
 			try {
 				final String name= project.getName();
-				for (IJavaProject p : model.getJavaProjects()) {
-					for (String n : p.getRequiredProjectNames()) {
+				for (IJavaProject p : model.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					for (String n : p.getRequiredProjectNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (name.equals(n)) {
 							set.add(p.getProject());
 						}

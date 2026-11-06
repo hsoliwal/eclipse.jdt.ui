@@ -38,7 +38,7 @@ class LineReader implements AutoCloseable {
 		fReader= new BufferedReader(reader);
 	}
 
-	public int readLine(StringBuffer sb) throws IOException {
+	public int readLine(StringBuffer sb) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int ch= -1;
 		sb.setLength(0);
 		if (fPushback) {
@@ -46,7 +46,7 @@ class LineReader implements AutoCloseable {
 			fPushback= false;
 		} else
 			ch= fReader.read();
-		while (ch >= 0) {
+		while (ch >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ch == LF)
 				return 1;
 			if (ch == CR) {

@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.IPackageFragment;
  * the initial packages list and parent types (i.e. package fragment
  * root, Java project and Java model)
  */
-class SealPackagesFilter  extends ViewerFilter {
+class SealPackagesFilter  extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private List<IPackageFragment> fAllowedPackages;
 

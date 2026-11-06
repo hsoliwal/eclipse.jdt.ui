@@ -71,11 +71,11 @@ public class MultiMoveTest extends GenericRefactoringTest {
 	}
 
 	private ICompilationUnit createCu(IPackageFragment pack, String cuPath, String cuName) throws Exception {
-		return createCU(pack, cuName, getFileContents(getRefactoringPath() + cuPath));
+		return createCU(pack, cuName, getFileContents(getRefactoringPath() + cuPath)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	//--------
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test0() throws Exception {
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -83,12 +83,12 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java");
-		ICompilationUnit p1B= createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java");
+		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		ICompilationUnit p1B= createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String p2Name= "p2";
 		IPackageFragment packP2= createPackage(p2Name);
-		ICompilationUnit p2C= createCu(packP2, getName() + inDir + p2Name + "/C.java", "C.java");
+		ICompilationUnit p2C= createCu(packP2, getName() + inDir + p2Name + "/C.java", "C.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] handles= ParticipantTesting.createHandles(new Object[] {
 				p1A, p1A.getTypes()[0],
@@ -111,13 +111,13 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		assertEquals("p1 files", 0, packP1.getChildren().length);
 		assertEquals("p2 files", 3, packP2.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/A.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of A", expectedSource, packP2.getCompilationUnit("A.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/B.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of B", expectedSource, packP2.getCompilationUnit("B.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/C.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/C.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of C", expectedSource, p2C.getSource());
 		ParticipantTesting.testMove(
 				handles,
@@ -133,7 +133,7 @@ public class MultiMoveTest extends GenericRefactoringTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test1() throws Exception {
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -141,12 +141,12 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java");
-		ICompilationUnit p1B= createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java");
+		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		ICompilationUnit p1B= createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String p2Name= "p2";
 		IPackageFragment packP2= createPackage(p2Name);
-		ICompilationUnit p2C= createCu(packP2, getName() + inDir + p2Name + "/C.java", "C.java");
+		ICompilationUnit p2C= createCu(packP2, getName() + inDir + p2Name + "/C.java", "C.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] handles= ParticipantTesting.createHandles(new Object[] {
 				p1A, p1A.getTypes()[0],
@@ -169,13 +169,13 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		assertEquals("p1 files", 0, packP1.getChildren().length);
 		assertEquals("p2 files", 3, packP2.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/A.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of A", expectedSource, packP2.getCompilationUnit("A.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/B.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of B", expectedSource, packP2.getCompilationUnit("B.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/C.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/C.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of C", expectedSource, p2C.getSource());
 		ParticipantTesting.testMove(
 				handles,
@@ -189,7 +189,7 @@ public class MultiMoveTest extends GenericRefactoringTest {
 				});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2() throws Exception {
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -197,12 +197,12 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		final String outDir= "/out/";
 
 		IPackageFragment packP1= createPackage(p1Name);
-		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java");
-		createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java");
+		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/A.java", "A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		createCu(packP1, getName() + inDir + p1Name + "/B.java", "B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String p2Name= "p2";
 		IPackageFragment packP2= createPackage(p2Name);
-		ICompilationUnit p2C= createCu(packP2, getName() + inDir + p2Name + "/C.java", "C.java");
+		ICompilationUnit p2C= createCu(packP2, getName() + inDir + p2Name + "/C.java", "C.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] handles= ParticipantTesting.createHandles(new Object[] {
 				p1A, p1A.getTypes()[0],
@@ -224,13 +224,13 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		assertEquals("p1 files", 1, packP1.getChildren().length);
 		assertEquals("p2 files", 2, packP2.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/A.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/A.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of A", expectedSource, packP2.getCompilationUnit("A.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/B.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p1Name + "/B.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of B", expectedSource, packP1.getCompilationUnit("B.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/C.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/C.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of C", expectedSource, p2C.getSource());
 
 		ParticipantTesting.testMove(
@@ -242,7 +242,7 @@ public class MultiMoveTest extends GenericRefactoringTest {
 				});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test3() throws Exception {
 		ParticipantTesting.reset();
 		final String p1Name= "p1";
@@ -252,8 +252,8 @@ public class MultiMoveTest extends GenericRefactoringTest {
 
 		IPackageFragment packP1= createPackage(p1Name);
 		IPackageFragment packP3= createPackage(p3Name);
-		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/Outer.java", "Outer.java");
-		createCu(packP3, getName() + inDir + p3Name + "/Test.java", "Test.java");
+		ICompilationUnit p1A= createCu(packP1, getName() + inDir + p1Name + "/Outer.java", "Outer.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		createCu(packP3, getName() + inDir + p3Name + "/Test.java", "Test.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String p2Name= "p2";
 		IPackageFragment packP2= createPackage(p2Name);
@@ -279,10 +279,10 @@ public class MultiMoveTest extends GenericRefactoringTest {
 		assertEquals("p2 files", 1, packP2.getChildren().length);
 		assertEquals("p1 files", 1, packP3.getChildren().length);
 
-		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/Outer.java");
+		String expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p2Name + "/Outer.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of Outer", expectedSource, packP2.getCompilationUnit("Outer.java").getSource());
 
-		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p3Name + "/Test.java");
+		expectedSource= getFileContents(getRefactoringPath() + getName() + outDir + p3Name + "/Test.java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("incorrect update of Test", expectedSource, packP3.getCompilationUnit("Test.java").getSource());
 		ParticipantTesting.testMove(
 				handles,
@@ -294,7 +294,7 @@ public class MultiMoveTest extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageMoveParticipants() throws Exception {
 		ParticipantTesting.reset();
 		IPackageFragmentRoot r1= JavaProjectHelper.addSourceContainer(rts.getProject(), "src1");
@@ -325,7 +325,7 @@ public class MultiMoveTest extends GenericRefactoringTest {
 				});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageMoveParticipants2() throws Exception {
 		fIsPreDeltaTest= false;
 		ParticipantTesting.reset();
@@ -368,7 +368,7 @@ public class MultiMoveTest extends GenericRefactoringTest {
 				});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPackageMoveParticipants3() throws Exception {
 		ParticipantTesting.reset();
 		IPackageFragmentRoot r1= JavaProjectHelper.addSourceContainer(rts.getProject(), "src1");

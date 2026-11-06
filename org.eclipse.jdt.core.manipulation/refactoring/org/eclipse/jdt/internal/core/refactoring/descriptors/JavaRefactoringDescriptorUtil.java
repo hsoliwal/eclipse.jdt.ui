@@ -91,7 +91,7 @@ public class JavaRefactoringDescriptorUtil {
 	 * @return the corresponding java element, or <code>null</code> if no such
 	 *         element exists
 	 */
-	public static IJavaElement handleToElement(final WorkingCopyOwner owner, final String project, final String handle, final boolean check) {
+	public static IJavaElement handleToElement(final WorkingCopyOwner owner, final String project, final String handle, final boolean check) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement element= null;
 		if (owner != null)
 			element= JavaCore.create(handle, owner);
@@ -101,9 +101,9 @@ public class JavaRefactoringDescriptorUtil {
 			final IJavaProject javaProject= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()).getJavaProject(project);
 			final String identifier= javaProject.getHandleIdentifier();
 			if (owner != null)
-				element= JavaCore.create(identifier + handle, owner);
+				element= JavaCore.create(identifier + handle, owner); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			else
-				element= JavaCore.create(identifier + handle);
+				element= JavaCore.create(identifier + handle); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		if (check && element instanceof IMethod) {
 			/*
@@ -182,7 +182,7 @@ public class JavaRefactoringDescriptorUtil {
 		if (value == null) {
 			if (allowNull)
 				return null;
-			throw new IllegalArgumentException("The map does not contain the attribute '" + attribute + "'"); //$NON-NLS-1$//$NON-NLS-2$
+			throw new IllegalArgumentException("The map does not contain the attribute '" + attribute + "'"); //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return value;
 	}
@@ -214,7 +214,7 @@ public class JavaRefactoringDescriptorUtil {
 	public static String[] getStringArray(Map<String, String> map, String countAttribute, String arrayAttribute, int offset) throws IllegalArgumentException{
 		int count= getInt(map, countAttribute);
 		String[] result= new String[count];
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getString(map, getAttributeName(arrayAttribute, i + offset));
 		}
 		return result;
@@ -234,7 +234,7 @@ public class JavaRefactoringDescriptorUtil {
 		try {
 			return Integer.parseInt(value);
 		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid int '" + value + "'"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid int '" + value + "'"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -255,7 +255,7 @@ public class JavaRefactoringDescriptorUtil {
 		try {
 			return Integer.parseInt(value);
 		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid int '" + value + "'"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid int '" + value + "'"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -272,7 +272,7 @@ public class JavaRefactoringDescriptorUtil {
 	public static int[] getIntArray(Map<String, String> map, String countAttribute, String arrayAttribute)  throws IllegalArgumentException {
 		int count= getInt(map, countAttribute);
 		int[] result= new int[count];
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getInt(map, getAttributeName(arrayAttribute, i));
 		}
 		return result;
@@ -286,7 +286,7 @@ public class JavaRefactoringDescriptorUtil {
 	 * @return the attribute name for the ith element of an attribute
 	 */
 	public static String getAttributeName(String attribute, int index) {
-		return attribute + index;
+		return attribute + index; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -340,14 +340,14 @@ public class JavaRefactoringDescriptorUtil {
 		if (countAttribute != null) {
 			int count= getInt(map, countAttribute);
 			IJavaElement[] result= (IJavaElement[]) Array.newInstance(arrayClass, count);
-			for (int i= 0; i < count; i++) {
+			for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= getJavaElement(map, getAttributeName(arrayAttribute, i + offset), project);
 			}
 			return result;
 		} else {
-			ArrayList<IJavaElement> result= new ArrayList<>();
+			ArrayList<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			IJavaElement element= null;
-			while ((element= getJavaElement(map, arrayAttribute, project, true)) != null){
+			while ((element= getJavaElement(map, arrayAttribute, project, true)) != null){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(element);
 			}
 			return (IJavaElement[]) result.toArray((Object[]) Array.newInstance(arrayClass, result.size()));
@@ -385,7 +385,7 @@ public class JavaRefactoringDescriptorUtil {
 	public static IPath[] getResourcePathArray(Map<String, String> map, String countAttribute, String arrayAttribute, int offset, String project)  throws IllegalArgumentException{
 		int count= getInt(map, countAttribute);
 		IPath[] result= new IPath[count];
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getResourcePath(map, getAttributeName(arrayAttribute, i + offset), project);
 		}
 		return result;
@@ -405,7 +405,7 @@ public class JavaRefactoringDescriptorUtil {
 	public static boolean[] getBooleanArray(Map<String, String> map, String countAttribute, String arrayAttribute, int offset) throws IllegalArgumentException {
 		int count= getInt(map, countAttribute);
 		boolean[] result= new boolean[count];
-		for (int i= 0; i < count; i++) {
+		for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= getBoolean(map, getAttributeName(arrayAttribute, i + offset));
 		}
 		return result;
@@ -427,7 +427,7 @@ public class JavaRefactoringDescriptorUtil {
 			return true;
 		if (LOWER_CASE_FALSE.equals(value))
 			return false;
-		throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid boolean: '" + value + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid boolean: '" + value + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class JavaRefactoringDescriptorUtil {
 
 		if (LOWER_CASE_FALSE.equals(value))
 			return true;
-		throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid boolean: '" + value + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid boolean: '" + value + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -472,7 +472,7 @@ public class JavaRefactoringDescriptorUtil {
 			return true;
 		if (LOWER_CASE_FALSE.equals(value))
 			return false;
-		throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid boolean: '" + value + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		throw new IllegalArgumentException("The attribute '" + attribute + "' does not contain a valid boolean: '" + value + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -488,7 +488,7 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setJavaElement(Map<String, String> arguments, String attribute, String project, IJavaElement element)  throws IllegalArgumentException{
 		if (element == null)
-			throw new IllegalArgumentException("The element for attribute '" + attribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("The element for attribute '" + attribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setString(arguments, attribute, elementToHandle(project, element));
 	}
 
@@ -505,7 +505,7 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setResourcePath(Map<String, String> arguments, String attribute, String project, IPath resourcePath)  throws IllegalArgumentException{
 		if (resourcePath == null)
-			throw new IllegalArgumentException("The resource for attribute '" + attribute + "' may not be null");  //$NON-NLS-1$//$NON-NLS-2$
+			throw new IllegalArgumentException("The resource for attribute '" + attribute + "' may not be null");  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setString(arguments, attribute, resourcePathToHandle(project, resourcePath));
 	}
 
@@ -548,10 +548,10 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setBooleanArray(Map<String, String> arguments, String countAttribute, String arrayAttribute, boolean[] value, int offset) {
 		if (value == null)
-			throw new IllegalArgumentException("The values for arrayAttribute '" + arrayAttribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("The values for arrayAttribute '" + arrayAttribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (countAttribute != null)
 			setInt(arguments, countAttribute, value.length);
-		for (int i= 0; i < value.length; i++) {
+		for (int i= 0; i < value.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setBoolean(arguments, getAttributeName(arrayAttribute, i + offset), value[i]);
 		}
 	}
@@ -567,7 +567,7 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setString(Map<String, String> arguments, String attribute, String value)  throws IllegalArgumentException{
 		if (attribute == null || "".equals(attribute) || attribute.indexOf(' ') != -1) //$NON-NLS-1$
-			throw new IllegalArgumentException("Attribute '" + attribute + "' is not valid: '" + value + "'"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			throw new IllegalArgumentException("Attribute '" + attribute + "' is not valid: '" + value + "'"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (value != null)
 			arguments.put(attribute, value);
 		else
@@ -587,10 +587,10 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setStringArray(Map<String, String> arguments, String countAttribute, String arrayAttribute, String[] value, int offset) {
 		if (value == null)
-			throw new IllegalArgumentException("The values for arrayAttribute '" + arrayAttribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("The values for arrayAttribute '" + arrayAttribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (countAttribute != null)
 			setInt(arguments, countAttribute, value.length);
-		for (int i= 0; i < value.length; i++) {
+		for (int i= 0; i < value.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String string= value[i];
 			setString(arguments, getAttributeName(arrayAttribute, i + offset), string);
 		}
@@ -607,7 +607,7 @@ public class JavaRefactoringDescriptorUtil {
 	 * @throws IllegalArgumentException if the attribute name is invalid
 	 */
 	public static void setSelection(Map<String, String> arguments, String attribute, int offset, int length)  throws IllegalArgumentException{
-		String value= Integer.toString(offset) + " " + Integer.toString(length); //$NON-NLS-1$
+		String value= Integer.toString(offset) + " " + Integer.toString(length); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		setString(arguments, attribute, value);
 	}
 
@@ -625,10 +625,10 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setResourcePathArray(Map<String, String> arguments, String countAttribute, String arrayAttribute, String project, IPath[] resourcePaths, int offset)  throws IllegalArgumentException{
 		if (resourcePaths == null)
-			throw new IllegalArgumentException("The resources for arrayAttribute '" + arrayAttribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("The resources for arrayAttribute '" + arrayAttribute + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (countAttribute != null)
 			setInt(arguments, countAttribute, resourcePaths.length);
-		for (int i= 0; i < resourcePaths.length; i++) {
+		for (int i= 0; i < resourcePaths.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPath resourcePath= resourcePaths[i];
 			setResourcePath(arguments, getAttributeName(arrayAttribute, offset + i), project, resourcePath);
 		}
@@ -648,10 +648,10 @@ public class JavaRefactoringDescriptorUtil {
 	 */
 	public static void setJavaElementArray(Map<String, String> arguments, String countAttribute, String arrayAttributePrefix, String project, IJavaElement[] elements, int offset)  throws IllegalArgumentException{
 		if (elements == null)
-			throw new IllegalArgumentException("The elements for arrayAttribute '" + arrayAttributePrefix + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("The elements for arrayAttribute '" + arrayAttributePrefix + "' may not be null"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (countAttribute != null)
 			setInt(arguments, countAttribute, elements.length);
-		for (int i= 0; i < elements.length; i++) {
+		for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IJavaElement element= elements[i];
 			setJavaElement(arguments, getAttributeName(arrayAttributePrefix, offset + i), project, element);
 		}

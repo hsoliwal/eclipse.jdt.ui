@@ -21,7 +21,7 @@ import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.jdt.core.ICompilationUnit;
 
 
-public class RefactoringCorrectionProposal extends LinkedCorrectionProposal {
+public class RefactoringCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public RefactoringCorrectionProposal(String name, ICompilationUnit cu, Refactoring refactoring, int relevance, Image image) {
 		super(name, cu, null, relevance, image, new RefactoringCorrectionProposalCore(name, cu, refactoring, relevance));
 	}

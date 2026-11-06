@@ -249,7 +249,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 
 	//----activation checking ----------------------------------------------------------
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 		if (fVisibility < 0)
 			fVisibility= getFieldVisibility();
@@ -319,7 +319,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return result;
 	}
 
-	private static void checkName(RefactoringStatus status, String name, List<IMethodBinding> usedNames, IType type, boolean reUseExistingField, IField field) {
+	private static void checkName(RefactoringStatus status, String name, List<IMethodBinding> usedNames, IType type, boolean reUseExistingField, IField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if ("".equals(name)) { //$NON-NLS-1$
 			status.addFatalError(RefactoringCoreMessages.Checks_Choose_name);
 			return;
@@ -331,7 +331,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 			JavaManipulationPlugin.log(e);
 		}
 		status.merge(Checks.checkMethodName(name, field));
-		for (IMethodBinding method : usedNames) {
+		for (IMethodBinding method : usedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String selector= method.getName();
 			if (selector.equals(name)) {
 				if (!reUseExistingField) {
@@ -357,7 +357,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return (this.getField().getFlags() & (Flags.AccPublic | Flags.AccProtected | Flags.AccPrivate));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm) throws CoreException {
 		pm.beginTask(NO_NAME, 12);
 		pm.setTaskName(RefactoringCoreMessages.SelfEncapsulateField_checking_preconditions);
@@ -397,7 +397,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		ICompilationUnit owner= fField.getCompilationUnit();
 		List<TextEditGroup> ownerDescriptions= fParentRefactoring != null
 				? fParentRefactoring.getDescriptionsForUnit(owner)
-				: new ArrayList<>();
+				: new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fRewriter = fParentRefactoring != null
 				? fParentRefactoring.getRewriterForUnit(owner, fRoot)
 				: ASTRewrite.create(fRoot.getAST());
@@ -405,7 +405,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 				? fParentRefactoring.getImportRewriterForUnit(owner, fRoot)
 				: StubUtility.createImportRewrite(fRoot, true);
 
-		for (ICompilationUnit unit : affectedCUs) {
+		for (ICompilationUnit unit : affectedCUs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sub.subTask(BasicElementLabels.getFileName(unit));
 			CompilationUnit root= null;
 			ASTRewrite rewriter= null;
@@ -425,7 +425,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 						: ASTRewrite.create(root.getAST());
 				descriptions= fParentRefactoring != null
 						? fParentRefactoring.getDescriptionsForUnit(unit)
-						: new ArrayList<>();
+						: new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				importRewrite= fParentRefactoring != null
 						? fParentRefactoring.getImportRewriterForUnit(unit, root)
 						: StubUtility.createImportRewrite(root, true);
@@ -472,12 +472,12 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 			return fGetterConflict;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(TypeDeclaration node) {
 			ITypeBinding typeBinding= node.resolveBinding();
-			while (typeBinding != null) {
+			while (typeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IMethodBinding[] methodBindings= typeBinding.getDeclaredMethods();
-				for (IMethodBinding methodBinding : methodBindings) {
+				for (IMethodBinding methodBinding : methodBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (methodBinding.getName().equals(getGetterName()) && methodBinding.getParameterNames().length == 0) {
 						fTypeName= typeBinding.getName();
 						fGetterConflict= true;
@@ -500,7 +500,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 	private void checkAffectedCUs(RefactoringStatus result, ICompilationUnit[] affectedCUs) {
 		AffectedCUVisitor visitor= new AffectedCUVisitor();
 		try {
-			for (ICompilationUnit cu : affectedCUs) {
+			for (ICompilationUnit cu : affectedCUs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CompilationUnit root= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL).parse(cu, true);
 				root.accept(visitor);
 			}
@@ -515,12 +515,12 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		change.setEdit(root);
 		root.addChild(importRewrite.rewriteImports(null));
 		root.addChild(rewriter.rewriteAST());
-		for (TextEditGroup textEditGroup : groups) {
+		for (TextEditGroup textEditGroup : groups) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			change.addTextEditGroup(textEditGroup);
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 		String project= null;
 		IJavaProject javaProject= fField.getJavaProject();
@@ -543,7 +543,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		TextChange[] changes= fChangeManager.getAllChanges();
 		pm.beginTask(NO_NAME, changes.length);
 		pm.setTaskName(RefactoringCoreMessages.SelfEncapsulateField_create_changes);
-		for (TextChange change : changes) {
+		for (TextChange change : changes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(change);
 			pm.worked(1);
 		}
@@ -551,12 +551,12 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return result;
 	}
 
-	public Map<String, String> getArgumentsForDescriptor() {
+	public Map<String, String> getArgumentsForDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= fField.getJavaProject();
 		String project= null;
 		if (javaProject != null)
 			project= javaProject.getElementName();
-		final Map<String, String> arguments= new HashMap<>();
+		final Map<String, String> arguments= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		arguments.put(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT, JavaRefactoringDescriptorUtil.elementToHandle(project, fField));
 		arguments.put(ATTRIBUTE_VISIBILITY, Integer.toString(fVisibility));
 		arguments.put(ATTRIBUTE_INSERTION, Integer.toString(fInsertionIndex));
@@ -571,7 +571,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return arguments;
 	}
 
-	public JDTRefactoringDescriptorComment getCommentsForDescriptor() {
+	public JDTRefactoringDescriptorComment getCommentsForDescriptor() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject javaProject= fField.getJavaProject();
 		String project= null;
 		if (javaProject != null)
@@ -607,7 +607,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 	//---- Helper methods -------------------------------------------------------------
 
 	private void checkCompileErrors(RefactoringStatus result, CompilationUnit root, ICompilationUnit element) {
-		for (IProblem problem : root.getProblems()) {
+		for (IProblem problem : root.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isIgnorableProblem(problem)) {
 				result.addWarning(Messages.format(
 					RefactoringCoreMessages.SelfEncapsulateField_compiler_errors_update,
@@ -633,7 +633,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		}
 	}
 
-	public static void checkMethodInHierarchy(ITypeBinding type, String methodName, ITypeBinding returnType, ITypeBinding[] parameters, RefactoringStatus result, boolean reUseMethod) {
+	public static void checkMethodInHierarchy(ITypeBinding type, String methodName, ITypeBinding returnType, ITypeBinding[] parameters, RefactoringStatus result, boolean reUseMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IMethodBinding method= Bindings.findMethodInHierarchy(type, methodName, parameters);
 		if (method != null) {
 			boolean returnTypeClash= false;
@@ -668,11 +668,11 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 	}
 
 	private void computeUsedNames() {
-		fUsedReadNames= new ArrayList<>(0);
-		fUsedModifyNames= new ArrayList<>(0);
+		fUsedReadNames= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fUsedModifyNames= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IVariableBinding binding= fFieldDeclaration.resolveBinding();
 		ITypeBinding type= binding.getType();
-		for (IMethodBinding method : binding.getDeclaringClass().getDeclaredMethods()) {
+		for (IMethodBinding method : binding.getDeclaringClass().getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding[] parameters = method.getParameterTypes();
 			if (parameters == null || parameters.length == 0) {
 				fUsedReadNames.add(method);
@@ -682,14 +682,14 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		}
 	}
 
-	private List<TextEditGroup> addGetterSetterChanges(CompilationUnit root, ASTRewrite rewriter, String lineDelimiter, boolean usingLocalSetter, boolean usingLocalGetter) throws CoreException {
-		List<TextEditGroup> result= new ArrayList<>(2);
+	private List<TextEditGroup> addGetterSetterChanges(CompilationUnit root, ASTRewrite rewriter, String lineDelimiter, boolean usingLocalSetter, boolean usingLocalGetter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<TextEditGroup> result= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		AST ast= root.getAST();
 		FieldDeclaration decl= (FieldDeclaration)ASTNodes.getParent(fFieldDeclaration, ASTNode.FIELD_DECLARATION);
 		int position= 0;
 		int numberOfMethods= 0;
 		List<BodyDeclaration> members= ASTNodes.getBodyDeclarations(decl.getParent());
-		for (BodyDeclaration element : members) {
+		for (BodyDeclaration element : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element.getNodeType() == ASTNode.METHOD_DECLARATION) {
 				if (fInsertionIndex == -1) {
 					break;
@@ -743,7 +743,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return null;
 	}
 
-	private MethodDeclaration createSetterMethod(AST ast, ASTRewrite rewriter, String lineDelimiter) throws CoreException {
+	private MethodDeclaration createSetterMethod(AST ast, ASTRewrite rewriter, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FieldDeclaration field= ASTNodes.getParent(fFieldDeclaration, FieldDeclaration.class);
 		Type type= field.getType();
 		MethodDeclaration result= ast.newMethodDeclaration();
@@ -757,7 +757,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		param.setName(ast.newSimpleName(fArgName));
 		param.setType((Type)rewriter.createCopyTarget(type));
 		List<IExtendedModifier> modifiers= field.modifiers();
-		for (IExtendedModifier modifier : modifiers) {
+		for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier.isAnnotation()) {
 				String annotationName= ((Annotation)modifier).getTypeName().getFullyQualifiedName();
 				if ("NonNull".equals(annotationName) || "Nullable".equals(annotationName)) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -803,14 +803,14 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return result;
 	}
 
-	private MethodDeclaration createGetterMethod(AST ast, ASTRewrite rewriter, String lineDelimiter) throws CoreException {
+	private MethodDeclaration createGetterMethod(AST ast, ASTRewrite rewriter, String lineDelimiter) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		FieldDeclaration field= ASTNodes.getParent(fFieldDeclaration, FieldDeclaration.class);
 		Type type= field.getType();
 		MethodDeclaration result= ast.newMethodDeclaration();
 		result.setName(ast.newSimpleName(fGetterName));
 		result.modifiers().addAll(ASTNodeFactory.newModifiers(ast, createModifiers()));
 		List<IExtendedModifier> modifiers= field.modifiers();
-		for (IExtendedModifier modifier : modifiers) {
+		for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (modifier.isAnnotation()) {
 				String annotationName= ((Annotation)modifier).getTypeName().getFullyQualifiedName();
 				if ("NonNull".equals(annotationName) || "Nullable".equals(annotationName)) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -871,7 +871,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 			}
 		} else {
 			if (nameConflict || StubUtility.useThisForFieldAccess(fField.getJavaProject())) {
-				return "this." + fieldName; //$NON-NLS-1$
+				return "this." + fieldName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 		return fieldName;
@@ -887,7 +887,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		}
 		if ( (isStatic && fArgName.equals(fieldName) && fieldName.equals(fField.getDeclaringType().getElementName()))
 				|| JavaConventionsUtil.validateIdentifier(fArgName, fField).getSeverity() == IStatus.ERROR) {
-			fArgName= "_" + fArgName; //$NON-NLS-1$
+			fArgName= "_" + fArgName; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
@@ -902,7 +902,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 		return null;
 	}
 
-	public RefactoringStatus initialize(JavaRefactoringArguments arguments) {
+	public RefactoringStatus initialize(JavaRefactoringArguments arguments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final String handle= arguments.getAttribute(JavaRefactoringDescriptorUtil.ATTRIBUTE_INPUT);
 		if (handle != null) {
 			final IJavaElement element= JavaRefactoringDescriptorUtil.handleToElement(arguments.getProject(), handle, false);
@@ -970,7 +970,7 @@ public class SelfEncapsulateFieldRefactoring extends Refactoring {
 	}
 
 	private static boolean checkName(String name, List<IMethodBinding> usedNames) {
-		for (IMethodBinding method : usedNames) {
+		for (IMethodBinding method : usedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String selector= method.getName();
 			if (selector.equals(name)) {
 				return true;

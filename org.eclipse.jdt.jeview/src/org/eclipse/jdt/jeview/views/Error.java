@@ -33,7 +33,7 @@ public class Error extends JEAttribute {
 		return fParent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -71,7 +71,7 @@ public class Error extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		return (fName == null ? "" : fName + ": ") + fException.toString();
+		return (fName == null ? "" : fName + ": ") + fException.toString(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public Exception getException() {

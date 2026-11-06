@@ -79,31 +79,31 @@ public class UtilitiesTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGuessBindingForTypeReference() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("import java.util.HashMap;\n");
-		buf.append("public class E<T> {\n");
-		buf.append("\n"); // array types
-		buf.append("    public class F<U> {}\n");
-		buf.append("    X[] x1= new String[0];\n");
-		buf.append("    X[][] x2= new String[][0];\n");
-		buf.append("    X[][] x3= new String[][][0];\n");
-		buf.append("\n"); // parameterized types
-		buf.append("    ArrayList<X> x4= new ArrayList<String>();\n");
-		buf.append("    X<String> x5= new ArrayList<String>();\n");
-		buf.append("    HashMap<ArrayList<String>, X> x6= new HashMap<ArrayList<String>, Number>();\n");
-		buf.append("    HashMap<ArrayList<X>, Number> x7= new HashMap<ArrayList<String>, Number>();\n");
-		buf.append("\n"); // wildcard types
-		buf.append("    HashMap<? extends X, Number> x8= new HashMap<? extends Number, Number>();\n");
-		buf.append("\n"); // qualified types
-		buf.append("    E<String>.F<X> x9 = new E<String>().new F<Number>();\n");
-		buf.append("    E<String>.X<Number> x10 = new E<String>().new F<Number>();\n");
-		buf.append("    X<String>.F<Number> x11 = new E<String>().new F<Number>();\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.HashMap;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E<T> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); // array types //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public class F<U> {}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X[] x1= new String[0];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X[][] x2= new String[][0];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X[][] x3= new String[][][0];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); // parameterized types //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    ArrayList<X> x4= new ArrayList<String>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X<String> x5= new ArrayList<String>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    HashMap<ArrayList<String>, X> x6= new HashMap<ArrayList<String>, Number>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    HashMap<ArrayList<X>, Number> x7= new HashMap<ArrayList<String>, Number>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); // wildcard types //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    HashMap<? extends X, Number> x8= new HashMap<? extends Number, Number>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); // qualified types //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    E<String>.F<X> x9 = new E<String>().new F<Number>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    E<String>.X<Number> x10 = new E<String>().new F<Number>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X<String>.F<Number> x11 = new E<String>().new F<Number>();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		String[] expected= {
@@ -115,77 +115,77 @@ public class UtilitiesTest extends QuickFixTest {
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		FieldDeclaration[] fields= ((TypeDeclaration) astRoot.types().get(0)).getFields();
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= NodeFinder.perform(astRoot, buf.indexOf("X", fields[i].getStartPosition()), 1);
 			ITypeBinding actualBinding= ASTResolving.guessBindingForTypeReference(node);
 			String actual= actualBinding != null ? actualBinding.getQualifiedName() : "null";
 			if (!actual.equals(expected[i])) {
-				assertEquals("Guessing failed for " + fields[i].toString(), expected[i], actual);
+				assertEquals("Guessing failed for " + fields[i].toString(), expected[i], actual); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGuessBindingForTypeReference2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.List;\n");
-		buf.append("public class E {\n");
-		buf.append("    private Object o;\n");
-		buf.append("    public void foo(String s) {\n");
-		buf.append("        foo((X) o);\n");
-		buf.append("    }\n");
-		buf.append("    public void foo2(List<Number> s) {\n");
-		buf.append("        foo2((X<Number>) o);\n");
-		buf.append("    }\n");
-		buf.append("    public void foo3() {\n");
-		buf.append("        X.foo3();\n");
-		buf.append("    }\n");
-		buf.append("    public Class[][] foo4() {\n");
-		buf.append("        return new X[][];\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.List;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    private Object o;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo(String s) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        foo((X) o);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo2(List<Number> s) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        foo2((X<Number>) o);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void foo3() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        X.foo3();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public Class[][] foo4() {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return new X[][];\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		String[] expected= { "java.lang.String", "java.util.List<java.lang.Number>", "null",  "java.lang.Class" };
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		MethodDeclaration[] methods= ((TypeDeclaration) astRoot.types().get(0)).getMethods();
-		for (int i= 0; i < methods.length; i++) {
+		for (int i= 0; i < methods.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= NodeFinder.perform(astRoot, buf.indexOf("X", methods[i].getStartPosition()), 1);
 			ITypeBinding actualBinding= ASTResolving.guessBindingForTypeReference(node);
 			String actual= actualBinding != null ? actualBinding.getQualifiedName() : "null";
 			if (!actual.equals(expected[i])) {
-				assertEquals("Guessing failed for " + methods[i].toString(), expected[i], actual);
+				assertEquals("Guessing failed for " + methods[i].toString(), expected[i], actual); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetPossibleTypeKinds() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("import java.util.ArrayList;\n");
-		buf.append("import java.util.HashMap;\n");
-		buf.append("public class E<T> {\n");
-		buf.append("    X x1;\n");
-		buf.append("    X[] x2;\n");
-		buf.append("    X<String> x3;\n");
-		buf.append("    ArrayList<X> x4;\n");
-		buf.append("    ArrayList<? extends X> x5;\n");
-		buf.append("\n");
-		buf.append("    E<String>.X x6;\n");
-		buf.append("    X<String>.A x7;\n");
-		buf.append("    Object x8= new X();\n");
-		buf.append("    Object x9= new X() { };\n");
-		buf.append("    Object x10= (X) x1;\n");
-		buf.append("\n");
-		buf.append("    X.A x11;\n");
-		buf.append("    Object x12= X.class;\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.ArrayList;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import java.util.HashMap;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class E<T> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X x1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X[] x2;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X<String> x3;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    ArrayList<X> x4;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    ArrayList<? extends X> x5;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    E<String>.X x6;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X<String>.A x7;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    Object x8= new X();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    Object x9= new X() { };\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    Object x10= (X) x1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    X.A x11;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    Object x12= X.class;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		int[] expected= {
@@ -207,25 +207,25 @@ public class UtilitiesTest extends QuickFixTest {
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		FieldDeclaration[] fields= ((TypeDeclaration) astRoot.types().get(0)).getFields();
-		for (int i= 0; i < fields.length; i++) {
+		for (int i= 0; i < fields.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ASTNode node= NodeFinder.perform(astRoot, buf.indexOf("X", fields[i].getStartPosition()), 1);
 			int kinds= ASTResolving.getPossibleTypeKinds(node);
 			if (kinds != expected[i]) {
-				assertEquals("Guessing failed for " + fields[i].toString(), expected[i], kinds);
+				assertEquals("Guessing failed for " + fields[i].toString(), expected[i], kinds); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGetPossibleTypeKindsForTypes() throws Exception {
 		JavaProjectHelper.set17CompilerOptions(fJProject1, true);
 
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public sealed interface E permits X {}\n");
-		buf.append("public sealed class F permits X {}\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public sealed interface E permits X {}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public sealed class F permits X {}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("E.java", buf.toString(), false, null);
 
 		int[] expected= {
@@ -234,11 +234,11 @@ public class UtilitiesTest extends QuickFixTest {
 		};
 
 		CompilationUnit astRoot= getASTRoot(cu);
-		for (int i = 0; i < astRoot.types().size(); i++) {
+		for (int i = 0; i < astRoot.types().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeDeclaration typeDecl = (TypeDeclaration) astRoot.types().get(i);
 			ASTNode node= NodeFinder.perform(astRoot, buf.indexOf("X", typeDecl.getStartPosition()), 1);
 			int kinds= ASTResolving.getPossibleTypeKinds(node);
-			assertEquals("Guessing failed for " + node.toString(), expected[i], kinds);
+			assertEquals("Guessing failed for " + node.toString(), expected[i], kinds); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 }

@@ -43,9 +43,9 @@ public class SampleSqlSemanticTokensProvider implements ISemanticTokensProvider 
 
 	private static final String SQL_PREFIX = "SQL:";
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Collection<SemanticToken> computeSemanticTokens(CompilationUnit ast) {
-		List<SemanticToken> tokens = new ArrayList<>();
+		List<SemanticToken> tokens = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ast.accept(new ASTVisitor() {
 
 			@Override
@@ -85,9 +85,9 @@ public class SampleSqlSemanticTokensProvider implements ISemanticTokensProvider 
 		if (text == null) {
 			return Collections.emptyList();
 		}
-		List<SemanticToken> tokens = new ArrayList<>();
-		Matcher matcher= Pattern.compile("[\\w*=><!]+").matcher(text);
-		while (matcher.find()) {
+		List<SemanticToken> tokens = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		Matcher matcher= Pattern.compile("[\\w*=><!]+").matcher(text); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		while (matcher.find()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 			String token = matcher.group();
 			if (!token.isBlank()) {
 				int start = matcher.start();
@@ -98,7 +98,7 @@ public class SampleSqlSemanticTokensProvider implements ISemanticTokensProvider 
 		return tokens;
 	}
 
-	private TokenType getTokenType(String token) {
+	private TokenType getTokenType(String token) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (token.startsWith("_")) { //$NON-NLS-1$
 			return null;
 		}

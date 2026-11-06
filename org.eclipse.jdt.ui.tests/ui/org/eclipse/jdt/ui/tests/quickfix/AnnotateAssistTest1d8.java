@@ -90,10 +90,10 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 		 *  </ul>
 		 */
 		public TestCustomContainerInitializer(String... elementsWithSourcesAndAnnotationPaths) {
-			this.allEntries = new ArrayList<>();
-			this.sourceEntries = new HashMap<>();
-			this.elementAnnotationPaths = new HashMap<>();
-			for (int i = 0; i < elementsWithSourcesAndAnnotationPaths.length; i+=3) {
+			this.allEntries = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			this.sourceEntries = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			this.elementAnnotationPaths = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (int i = 0; i < elementsWithSourcesAndAnnotationPaths.length; i+=3) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String entryPath = elementsWithSourcesAndAnnotationPaths[i];
 				this.allEntries.add(entryPath);
 				this.sourceEntries.put(entryPath, elementsWithSourcesAndAnnotationPaths[i+1]);
@@ -118,10 +118,10 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			@Override public int getKind() { return 0; }
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void initialize(IPath containerPath, IJavaProject project) throws CoreException {
-			List<IClasspathEntry> entries = new ArrayList<>();
-			for (String entryPath : this.allEntries) {
+			List<IClasspathEntry> entries = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (String entryPath : this.allEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String elementAnnotationPath = this.elementAnnotationPaths.get(entryPath);
 
 				IClasspathAttribute[] extraAttributes;
@@ -169,12 +169,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Apply the second proposal and check the effect.
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_TypeArgument() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -185,7 +185,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -226,7 +226,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -246,12 +246,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Assert NO proposals on the primitive leaf type of an array type.
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_ArrayOfPrimitive() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -282,12 +282,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Apply the second proposal and check the effect.
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_WildcardBound() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -298,7 +298,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -339,7 +339,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -363,12 +363,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d5#testAnnotateParameter_Array1()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Array2() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -379,7 +379,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"class pack/age/X\n" +
 				"test\n";
@@ -416,7 +416,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -440,12 +440,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d5#testAnnotateParameter_Array1()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Array3() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -456,7 +456,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -497,7 +497,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -521,12 +521,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d8#testAnnotateParameter_Array3()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Array4() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -537,7 +537,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -578,7 +578,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -602,12 +602,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d8#testAnnotateParameter_Array3()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Array5() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -618,7 +618,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -659,7 +659,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -682,12 +682,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 *
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateMethod_Array1() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -698,7 +698,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -738,7 +738,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -761,12 +761,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 *
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateMethod_Array2() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -777,7 +777,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -817,7 +817,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -840,12 +840,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d8#testAnnotateParameter_Array3()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Varargs1() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -856,7 +856,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -896,7 +896,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -920,12 +920,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d8#testAnnotateParameter_Varargs1()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Varargs2() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -936,7 +936,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -977,7 +977,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -1000,12 +1000,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Cf. {@link AnnotateAssistTest1d8#testAnnotateParameter_Array3()}
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateParameter_Varargs3() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -1016,7 +1016,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				};
 		addLibrary(fJProject1, "lib.jar", "lib.zip", pathAndContents, ANNOTATION_PATH, JavaCore.VERSION_1_8, null);
 
-		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+		IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		String initialContent=
 				"""
 			class pack/age/X
@@ -1056,7 +1056,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -1078,12 +1078,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Then repeat for another type parameter (to check merging of changes)
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateMethod_TypeParameter1() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -1124,7 +1124,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -1163,7 +1163,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			expectedContent=
@@ -1185,12 +1185,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Then repeat for another type parameter (to check merging of changes)
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateMethod_TypeParameter2() throws Exception {
 
 		String X_PATH= "pack/age/X";
 		String[] pathAndContents= new String[] {
-					X_PATH+".java",
+					X_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -1231,7 +1231,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -1269,7 +1269,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea"));
+			annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(X_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			expectedContent=
@@ -1289,12 +1289,12 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 * Apply the second proposal and check the effect.
 	 * @throws Exception multiple causes
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateField1() throws Exception {
 
 		String NODE_PATH= "pack/age/Node";
 		String[] pathAndContents= new String[] {
-					NODE_PATH+".java",
+					NODE_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						import java.util.List;
@@ -1334,7 +1334,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(NODE_PATH+".eea"));
+			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(NODE_PATH+".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -1358,11 +1358,11 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 	 *
 	 * @throws Exception Any exception
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotateReturnInSourceFolder() throws Exception {
 		String MY_MAP_PATH= "pack/age/MyMap";
 		String[] pathAndContents= new String[] {
-					MY_MAP_PATH+".java",
+					MY_MAP_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"""
 						package pack.age;
 						public interface MyMap<K,V> {
@@ -1370,7 +1370,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 						}
 						"""
 				};
-		JarUtil.createSourceDir(pathAndContents, fJProject1.getProject().getLocation()+"/src");
+		JarUtil.createSourceDir(pathAndContents, fJProject1.getProject().getLocation()+"/src"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fJProject1.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 
 		IClasspathEntry[] rawClasspath= fJProject1.getRawClasspath();
@@ -1420,7 +1420,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 			proposal.apply(document);
 
-			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(MY_MAP_PATH + ".eea"));
+			IFile annotationFile= fJProject1.getProject().getFile(new Path(ANNOTATION_PATH).append(MY_MAP_PATH + ".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertTrue("Annotation file should have been created", annotationFile.exists());
 
 			String expectedContent=
@@ -1436,7 +1436,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotationsInProjectReferencedViaContainer() throws Exception {
 		ClasspathContainerInitializer prev = MyClasspathContainerInitializer.initializerDelegate;
 
@@ -1444,7 +1444,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 		String eeaProjectName = "my.eeas";
 		MyClasspathContainerInitializer.setInitializer(new TestCustomContainerInitializer(
 				"/TestSetupProject1d8/lib.jar", "/TestSetupProject1d8/lib.zip", null,
-				'/'+eeaProjectName, null, null));
+				'/'+eeaProjectName, null, null)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		IJavaProject eeaProject = null;
 		try {
@@ -1454,7 +1454,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 			// create the library
 			String MY_MAP_PATH= "pack/age/MyMap";
 			String[] pathAndContents= new String[] {
-						MY_MAP_PATH+".java",
+						MY_MAP_PATH+".java", //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						"""
 							package pack.age;
 							public interface MyMap<K,V> {
@@ -1471,7 +1471,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 					JavaCore.newSourceEntry(fJProject1.getPath().append("src")),
 					JavaCore.newContainerEntry(
 							new Path(MyClasspathContainerInitializer.CONTAINER_NAME), null/*access rules*/,
-							externalAnnotationExtraAttributes(MyClasspathContainerInitializer.CONTAINER_NAME+"/my.eeas"),
+							externalAnnotationExtraAttributes(MyClasspathContainerInitializer.CONTAINER_NAME+"/my.eeas"), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							false/*exported*/)
 				},
 				null);
@@ -1506,7 +1506,7 @@ public class AnnotateAssistTest1d8 extends AbstractAnnotateAssistTests {
 				IDocument document= javaEditor.getDocumentProvider().getDocument(javaEditor.getEditorInput());
 				proposal.apply(document);
 
-				IFile annotationFile= eeaProject.getProject().getFile(new Path(MY_MAP_PATH + ".eea"));
+				IFile annotationFile= eeaProject.getProject().getFile(new Path(MY_MAP_PATH + ".eea")); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				assertTrue("Annotation file should have been created", annotationFile.exists());
 
 				String expectedContent=

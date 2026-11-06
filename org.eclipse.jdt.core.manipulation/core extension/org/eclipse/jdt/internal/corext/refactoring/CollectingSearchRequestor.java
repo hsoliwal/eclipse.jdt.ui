@@ -44,7 +44,7 @@ public class CollectingSearchRequestor extends SearchRequestor {
 	}
 
 	public CollectingSearchRequestor(ReferencesInBinaryContext binaryRefs) {
-		fFound= new ArrayList<>();
+		fFound= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		fBinaryRefs= binaryRefs;
 	}
 
@@ -88,7 +88,7 @@ public class CollectingSearchRequestor extends SearchRequestor {
 		return false;
 	}
 
-	private static boolean isBinaryElement(Object element) throws JavaModelException {
+	private static boolean isBinaryElement(Object element) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IMember) {
 			return ((IMember)element).isBinary();
 

@@ -55,7 +55,7 @@ public class JavaSpellingReconcileStrategy extends SpellingReconcileStrategy {
 		/*
 		 * @see org.eclipse.ui.texteditor.spelling.ISpellingProblemCollector#accept(org.eclipse.ui.texteditor.spelling.SpellingProblem)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void accept(SpellingProblem problem) {
 			IProblemRequestor requestor= fRequestor;
 			if (requestor != null) {

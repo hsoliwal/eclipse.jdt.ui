@@ -29,7 +29,7 @@ public final class SuperWildcardType extends WildcardType {
 		return SUPER_WILDCARD_TYPE;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		switch(lhs.getKind()) {
 			case STANDARD_TYPE:
@@ -50,7 +50,7 @@ public final class SuperWildcardType extends WildcardType {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean checkTypeArgument(TType rhs) {
 		switch(rhs.getKind()) {
 			case ARRAY_TYPE:

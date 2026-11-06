@@ -50,14 +50,14 @@ public abstract class AbstractScrollAnnotatedJavaEditorTest extends ScrollEditor
 	}
 
 	private void renameMemberDecls(IDocument document, IMember[] members) throws JavaModelException, BadLocationException {
-		for (IMember member : members) {
+		for (IMember member : members) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ISourceRange range= member.getNameRange();
 			if (range != null)
 				document.replace(range.getOffset(), 2, "XX");
 		}
 	}
 
-	private void createAnnotations(IEditorPart editor) throws BadLocationException, JavaModelException {
+	private void createAnnotations(IEditorPart editor) throws BadLocationException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// produce a lot of annotations: rename all declarations
 		ITextViewerExtension extension= null;
 		JavaEditor javaEditor= (JavaEditor) editor;
@@ -69,7 +69,7 @@ public abstract class AbstractScrollAnnotatedJavaEditorTest extends ScrollEditor
 		try {
 			IDocument document= EditorTestHelper.getDocument((ITextEditor) editor);
 			ICompilationUnit unit= JavaPlugin.getDefault().getWorkingCopyManager().getWorkingCopy(javaEditor.getEditorInput());
-			for (IType type : unit.getAllTypes()) {
+			for (IType type : unit.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				renameMemberDecls(document, type.getMethods());
 				renameMemberDecls(document, type.getFields());
 			}

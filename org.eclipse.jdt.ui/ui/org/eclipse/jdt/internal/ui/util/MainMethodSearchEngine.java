@@ -68,7 +68,7 @@ public class MainMethodSearchEngine{
 				return (fStyle & IJavaElementSearchConstants.CONSIDER_BINARIES) != 0;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void acceptSearchMatch(SearchMatch match) throws CoreException {
 				Object enclosingElement= match.getElement();
 				if (enclosingElement instanceof IMethod) { // defensive code
@@ -110,7 +110,7 @@ public class MainMethodSearchEngine{
 	 * @return the types found
 	 */
 	public IType[] searchMainMethods(IProgressMonitor pm, IJavaSearchScope scope, int style) throws CoreException {
-		List<IType> typesFound= new ArrayList<>(200);
+		List<IType> typesFound= new ArrayList<>(200); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Since Java 25 a main method may also be an instance method or have no parameters, so search all
 		// methods named 'main'. Otherwise keep the old pattern. The collector filters per project compliance.
@@ -147,7 +147,7 @@ public class MainMethodSearchEngine{
 
 		final IType[][] res= new IType[1][];
 
-		IRunnableWithProgress runnable= pm -> {
+		IRunnableWithProgress runnable= pm -> { //FLLDCIM: MARK — T09  LAMBDA
 			try {
 				res[0]= searchMainMethods(pm, scope, style);
 			} catch (CoreException e) {

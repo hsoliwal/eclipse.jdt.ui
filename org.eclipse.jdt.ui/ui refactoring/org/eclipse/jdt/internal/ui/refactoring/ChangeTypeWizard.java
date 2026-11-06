@@ -78,14 +78,14 @@ public class ChangeTypeWizard extends RefactoringWizard {
 	static String print(Collection<ITypeBinding> types){
 		if (types.isEmpty())
 			return "{ }"; //$NON-NLS-1$
-		StringBuilder result = new StringBuilder("{ "); //$NON-NLS-1$
-		for (Iterator<ITypeBinding> it=types.iterator(); it.hasNext(); ){
+		StringBuilder result = new StringBuilder("{ "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (Iterator<ITypeBinding> it=types.iterator(); it.hasNext(); ){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding type= it.next();
-			result.append(type.getQualifiedName());
+			result.append(type.getQualifiedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (it.hasNext()){
-				result.append(", ");  //$NON-NLS-1$
+				result.append(", ");  //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				result.append(" }"); //$NON-NLS-1$
+				result.append(" }"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return result.toString();
@@ -104,7 +104,7 @@ public class ChangeTypeWizard extends RefactoringWizard {
 
 		public ChangeTypeLabelProvider(){
 			fGrayColor= Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
-			fGrayImages= new HashMap<>();
+			fGrayImages= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 
 		private Collection<ITypeBinding> fInvalidTypes;
@@ -158,7 +158,7 @@ public class ChangeTypeWizard extends RefactoringWizard {
 
 		@Override
 		public void dispose() {
-			for (Image image : fGrayImages.values()) {
+			for (Image image : fGrayImages.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 			fGrayImages.clear();
@@ -182,12 +182,12 @@ public class ChangeTypeWizard extends RefactoringWizard {
 		private class ValidTypesTask implements Runnable {
 			private Collection<ITypeBinding> fInvalidTypes;
 			private Collection<ITypeBinding> fValidTypes;
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
-				IRunnableWithProgress runnable= pm -> {
+				IRunnableWithProgress runnable= pm -> { //FLLDCIM: MARK — T09  LAMBDA
 					pm.beginTask(RefactoringMessages.ChangeTypeWizard_analyzing, 1000);
 					ChangeTypeRefactoring ct= (ChangeTypeRefactoring)ChangeTypeWizard.this.getRefactoring();
-					fInvalidTypes = new HashSet<>();
+					fInvalidTypes = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					fInvalidTypes.addAll(fCT.getAllSuperTypes(ct.getOriginalType()));
 					fValidTypes= ct.computeValidTypes(Progress.subMonitor(pm, 950));
 					fInvalidTypes.add(ct.getOriginalType());
@@ -226,7 +226,7 @@ public class ChangeTypeWizard extends RefactoringWizard {
 
 			// first, find a most general valid type (there may be more than one)
 			ITypeBinding type= types.iterator().next();
-			for (ITypeBinding other : types) {
+			for (ITypeBinding other : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (getGeneralizeTypeRefactoring().isSubTypeOf(type, other)){
 					type= other;
 				}
@@ -237,12 +237,12 @@ public class ChangeTypeWizard extends RefactoringWizard {
 		}
 
 		private TreeItem findItem(TreeItem[] items, ITypeBinding type){
-			for (TreeItem item : items) {
+			for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item.getData().equals(type)) {
 					return item;
 				}
 			}
-			for (TreeItem ti : items) {
+			for (TreeItem ti : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TreeItem item= findItem(ti.getItems(), type);
 				if (item != null) return item;
 			}
@@ -272,7 +272,7 @@ public class ChangeTypeWizard extends RefactoringWizard {
 		 * Tree-viewer that shows the allowable types in a tree view.
 		 * @param parent the parent
 		 */
-		private void addTreeComponent(Composite parent) {
+		private void addTreeComponent(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fTreeViewer= new TreeViewer(parent, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 
 			GridData gd= new GridData(GridData.FILL_BOTH);
@@ -285,13 +285,13 @@ public class ChangeTypeWizard extends RefactoringWizard {
 
 			fTreeViewer.setContentProvider(new ChangeTypeContentProvider(((ChangeTypeRefactoring)getRefactoring())));
 			fLabelProvider= new ChangeTypeLabelProvider();
-			fTreeViewer.setLabelProvider(fLabelProvider);
-			ISelectionChangedListener listener= event -> {
+			fTreeViewer.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
+			ISelectionChangedListener listener= event -> { //FLLDCIM: MARK — T04  LAMBDA
 				IStructuredSelection selection= (IStructuredSelection)event.getSelection();
 				typeSelected((ITypeBinding)selection.getFirstElement());
 			};
-			fTreeViewer.addSelectionChangedListener(listener);
-			fTreeViewer.setInput(new ChangeTypeContentProvider.RootType(getGeneralizeTypeRefactoring().getOriginalType()));
+			fTreeViewer.addSelectionChangedListener(listener); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			fTreeViewer.setInput(new ChangeTypeContentProvider.RootType(getGeneralizeTypeRefactoring().getOriginalType())); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fTreeViewer.expandToLevel(10);
 		}
 
@@ -349,7 +349,7 @@ public class ChangeTypeWizard extends RefactoringWizard {
 			if (visible && fTreeViewer != null)
 				fTreeViewer.getTree().setFocus();
 				if (!fTreeUpdated){
-					fTreeViewer.getTree().getDisplay().asyncExec(new ValidTypesTask());
+					fTreeViewer.getTree().getDisplay().asyncExec(new ValidTypesTask()); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					fTreeUpdated= true;
 				}
 		}

@@ -75,7 +75,7 @@ public class ConvertLineDelimitersProjectTest extends TextPerformanceTestCase {
 	}
 
 	private void measure(PerformanceMeter performanceMeter, int runs) throws Exception {
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			performanceMeter.start();
 			runOperation();
 			performanceMeter.stop();
@@ -91,7 +91,7 @@ public class ConvertLineDelimitersProjectTest extends TextPerformanceTestCase {
 
 	private static IPath[] getLocations(IResource[] files) {
 		IPath[] locations= new IPath[files.length];
-		for (int i= 0; i < locations.length; i++)
+		for (int i= 0; i < locations.length; i++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			locations[i]= files[i].getFullPath();
 		return locations;
 	}

@@ -71,7 +71,7 @@ public final class PrimitiveType extends TType {
 		return fId;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean doCanAssignTo(TType lhs) {
 		if (lhs.getKind() != PRIMITIVE_TYPE) {
 			if (lhs.getKind() == STANDARD_TYPE) {

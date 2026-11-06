@@ -42,7 +42,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
-public class BytecodeReferenceView extends ViewPart implements IPartListener2, ISelectionListener {
+public class BytecodeReferenceView extends ViewPart implements IPartListener2, ISelectionListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 	private static final String VIEW_ID = "org.eclipse.jdt.bcoview.views.BytecodeOutlineView"; //$NON-NLS-1$
 
@@ -56,12 +56,12 @@ public class BytecodeReferenceView extends ViewPart implements IPartListener2, I
 		super();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createPartControl(Composite parent) {
 		browser = new Browser(parent, SWT.BORDER);
 		final IWorkbenchWindow workbenchWindow = getSite().getWorkbenchWindow();
 		linkWithView = BytecodeOutlinePlugin.getDefault().getPreferenceStore().getBoolean(BCOConstants.LINK_REF_VIEW_TO_EDITOR);
-		linkWithViewAction = new DefaultToggleAction(BCOConstants.LINK_REF_VIEW_TO_EDITOR) {
+		linkWithViewAction = new DefaultToggleAction(BCOConstants.LINK_REF_VIEW_TO_EDITOR) { //FLLDCIM: MARK — T06  ANONYMOUS
 			@Override
 			public void run(boolean newState) {
 				linkWithView = newState;
@@ -122,7 +122,7 @@ public class BytecodeReferenceView extends ViewPart implements IPartListener2, I
 	public void partOpened(IWorkbenchPartReference partRef) {
 		// WORKAROUND  - sometimes Eclipse does not invoke partVisible(),
 		// but only partOpened()...
-		partVisible(partRef);
+		partVisible(partRef); //FLLDCIM: MARK — T20 PART_VISIBILITY CALL
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class BytecodeReferenceView extends ViewPart implements IPartListener2, I
 		//
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		boolean isBytecodePartSelection = part instanceof IBytecodePart;
 		if (!linkWithView || !isBytecodePartSelection) {

@@ -32,7 +32,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
  * - propose field instance
  * </pre>
  */
-public class CreateObjectReferenceProposal extends LinkedCorrectionProposal {
+public class CreateObjectReferenceProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public CreateObjectReferenceProposal(ICompilationUnit cu, ASTNode selectedNode, ITypeBinding typeNode, int relevance) {
 		super("", cu, null, relevance, null, new CreateObjectReferenceProposalCore(cu, selectedNode, typeNode, relevance)); //$NON-NLS-1$

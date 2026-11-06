@@ -92,13 +92,13 @@ public class MyProjectCreationWizard2 extends Wizard implements IExecutableExten
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addPages() {
 		super.addPages();
 
 		// simplified main page: no extrenal laoctaion, no src/bin selection always create our own layout
 		fMainPage= new NewJavaProjectWizardPageOne() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void createControl(Composite parent) {
 				initializeDialogUnits(parent);
 
@@ -165,9 +165,9 @@ public class MyProjectCreationWizard2 extends Wizard implements IExecutableExten
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
-		WorkspaceModifyOperation op= new WorkspaceModifyOperation() {
+		WorkspaceModifyOperation op= new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
 				fJavaPage.performFinish(monitor);

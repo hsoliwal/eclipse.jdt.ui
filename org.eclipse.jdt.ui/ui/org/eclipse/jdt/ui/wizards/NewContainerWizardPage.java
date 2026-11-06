@@ -152,7 +152,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 	 *            preferred.
 	 * @since 3.14
 	 */
-	protected void initContainerPage(IJavaElement elem, boolean preferTestSourceFolder) {
+	protected void initContainerPage(IJavaElement elem, boolean preferTestSourceFolder) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPackageFragmentRoot initRoot= null;
 		if (elem != null) {
 			initRoot= JavaModelUtil.getPackageFragmentRoot(elem);
@@ -163,7 +163,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 						IJavaProject jproject= elem.getJavaProject();
 						if (jproject != null) {
 							if (jproject.exists()) {
-								for (IPackageFragmentRoot root : jproject.getPackageFragmentRoots()) {
+								for (IPackageFragmentRoot root : jproject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (root.getKind() == IPackageFragmentRoot.K_SOURCE && root.getResolvedClasspathEntry().isTest()) {
 										testInitRoot= root;
 										break;
@@ -181,7 +181,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 					if (jproject != null) {
 							initRoot= null;
 							if (jproject.exists()) {
-								for (IPackageFragmentRoot root : jproject.getPackageFragmentRoots()) {
+								for (IPackageFragmentRoot root : jproject.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
 										initRoot= root;
 										break;
@@ -207,7 +207,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 	 * @return a Java element to be used as the initial selection, or <code>null</code>,
 	 * if no Java element exists in the given selection
 	 */
-	protected IJavaElement getInitialJavaElement(IStructuredSelection selection) {
+	protected IJavaElement getInitialJavaElement(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement jelem= null;
 		if (selection != null && !selection.isEmpty()) {
 			Object selectedElement= selection.getFirstElement();
@@ -219,7 +219,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 					jelem= null;
 					IResource resource= adaptable.getAdapter(IResource.class);
 					if (resource != null && resource.getType() != IResource.ROOT) {
-						while (jelem == null && resource.getType() != IResource.PROJECT) {
+						while (jelem == null && resource.getType() != IResource.PROJECT) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							resource= resource.getParent();
 							jelem= resource.getAdapter(IJavaElement.class);
 						}
@@ -248,7 +248,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 			try {
 				IJavaProject[] projects= JavaCore.create(getWorkspaceRoot()).getJavaProjects();
 				if (projects.length == 1) {
-					for (IClasspathEntry p : projects[0].getRawClasspath()) {
+					for (IClasspathEntry p : projects[0].getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (p.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 							// add only if the project contains a source folder
 							jelem= projects[0];
@@ -366,7 +366,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 	 *
 	 * @return the model's error status
 	 */
-	protected IStatus containerChanged() {
+	protected IStatus containerChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 
 		fCurrRoot= null;
@@ -520,7 +520,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 	 *
 	 * @since 3.2
 	 */
-	protected IPackageFragmentRoot chooseContainer() {
+	protected IPackageFragmentRoot chooseContainer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement initElement= getPackageFragmentRoot();
 		Class<?>[] acceptedClasses= new Class[] { IPackageFragmentRoot.class, IJavaProject.class };
 		TypedElementSelectionValidator validator= new TypedElementSelectionValidator(acceptedClasses, false) {
@@ -543,7 +543,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 		};
 
 		acceptedClasses= new Class[] { IJavaModel.class, IPackageFragmentRoot.class, IJavaProject.class };
-		ViewerFilter filter= new TypedViewerFilter(acceptedClasses) {
+		ViewerFilter filter= new TypedViewerFilter(acceptedClasses) { //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parent, Object element) {
 				if (element instanceof IPackageFragmentRoot) {
@@ -565,7 +565,7 @@ public abstract class NewContainerWizardPage extends NewElementWizardPage {
 		dialog.setComparator(new JavaElementComparator());
 		dialog.setTitle(NewWizardMessages.NewContainerWizardPage_ChooseSourceContainerDialog_title);
 		dialog.setMessage(NewWizardMessages.NewContainerWizardPage_ChooseSourceContainerDialog_description);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(JavaCore.create(fWorkspaceRoot));
 		dialog.setInitialSelection(initElement);
 		dialog.setHelpAvailable(false);

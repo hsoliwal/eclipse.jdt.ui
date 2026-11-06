@@ -33,7 +33,7 @@ public class JavaFamilyExamplePreferencePage extends PreferencePage implements I
 
 		final Button b= new Button(c, SWT.NULL);
 		b.setText(getButtonLabel());
-		b.addSelectionListener(new SelectionAdapter() {
+		b.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				JspUIPlugin.getDefault().controlJSPIndexing(!JspUIPlugin.getDefault().isJSPIndexingOn());

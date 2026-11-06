@@ -56,7 +56,7 @@ public class LocalVariableIndex extends ASTVisitor {
 		// type can reference final variables from the outer scope.
 		BodyDeclaration target= methodOrInitializer;
 		ASTNode parent= target.getParent();
-		while (parent != null) {
+		while (parent != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent instanceof MethodDeclaration || parent instanceof Initializer || parent instanceof FieldDeclaration) {
 				target= (BodyDeclaration)parent;
 			}

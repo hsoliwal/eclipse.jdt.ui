@@ -100,7 +100,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		fCheckLoopVarUsed= checkLoopVarUsed;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IStatus satisfiesPreconditions() {
 		ForStatement statement= getForStatement();
 		CompilationUnit ast= (CompilationUnit)statement.getRoot();
@@ -136,7 +136,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 	 * <li>int , [result]= 0;</li>
 	 * </ul>
 	 */
-	private boolean validateInitializers(ForStatement statement) {
+	private boolean validateInitializers(ForStatement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Expression> initializers= statement.initializers();
 		if (initializers.size() != 1)
 			return false;
@@ -232,7 +232,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 	 * <li>[lengthBinding] != [indexBinding];</li>
 	 * </ul>
 	 */
-	private boolean validateExpression(ForStatement statement) {
+	private boolean validateExpression(ForStatement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression expression= statement.getExpression();
 		if (!(expression instanceof InfixExpression))
 			return false;
@@ -287,7 +287,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 	 * <li>[result].size()</li>
 	 * </ul>
 	 */
-	private boolean validateLengthQuery(Expression lengthQuery) {
+	private boolean validateLengthQuery(Expression lengthQuery) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (lengthQuery instanceof QualifiedName) {
 			QualifiedName qualifiedName= (QualifiedName)lengthQuery;
 			SimpleName name= qualifiedName.getName();
@@ -364,7 +364,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		return false;
 	}
 
-	private boolean isCollection(ITypeBinding classBinding) {
+	private boolean isCollection(ITypeBinding classBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (classBinding.getErasure().getQualifiedName().startsWith("java.util.Collection")) { //$NON-NLS-1$
 			return true;
 		}
@@ -375,7 +375,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 			return true;
 		}
 
-		for (ITypeBinding binding : classBinding.getInterfaces()) {
+		for (ITypeBinding binding : classBinding.getInterfaces()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isCollection(binding)) {
 				return true;
 			}
@@ -394,7 +394,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 	 * <li>[indexBinding]= 1 + [indexBinding]</li>
 	 * <ul>
 	 */
-	private boolean validateUpdaters(ForStatement statement) {
+	private boolean validateUpdaters(ForStatement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<Expression> updaters= statement.updaters();
 		if (updaters.size() != 1)
 			return false;
@@ -464,11 +464,11 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 	 * </ul>
 	 * within <code>body</code>
 	 */
-	private boolean validateBody(ForStatement statement) {
+	private boolean validateBody(ForStatement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Statement body= statement.getBody();
 		try {
 			body.accept(new GenericVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				protected boolean visitNode(ASTNode node) {
 					if (node instanceof ContinueStatement) {
 						return false;
@@ -581,7 +581,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 				}
 
 				private boolean isAssigned(ASTNode current) {
-					while (current != null && !(current instanceof Statement)) {
+					while (current != null && !(current instanceof Statement)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (current.getLocationInParent() == Assignment.LEFT_HAND_SIDE_PROPERTY)
 							return true;
 
@@ -615,7 +615,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 					return super.visit(node);
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(MethodInvocation node) {
 					if (fElementDeclaration != null || !fIsCollection)
 						return super.visit(node);
@@ -645,7 +645,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		return true;
 	}
 
-	private static boolean areTypeBindingEqual(ITypeBinding binding1, ITypeBinding binding2) {
+	private static boolean areTypeBindingEqual(ITypeBinding binding1, ITypeBinding binding2) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding1 == null
 				|| binding2 == null) {
 			return false;
@@ -696,7 +696,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Statement convert(CompilationUnitRewrite cuRewrite, TextEditGroup group, LinkedProposalModelCore positionGroups) throws CoreException {
 		ASTRewrite rewrite= cuRewrite.getASTRewrite();
 		ImportRewrite importRewrite= cuRewrite.getImportRewrite();
@@ -722,7 +722,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		LinkedProposalPositionGroupCore pg= positionGroups.getPositionGroup(parameterName, true);
 		if (fElementDeclaration != null)
 			pg.addProposal(parameterName, 10);
-		for (String proposal : proposals) {
+		for (String proposal : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			pg.addProposal(proposal, 10);
 		}
 
@@ -755,7 +755,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		return result;
 	}
 
-	private void convertBody(Statement body, final IBinding indexBinding, final IBinding arrayBinding, final String parameterName, final ASTRewrite rewrite, final TextEditGroup editGroup, final LinkedProposalPositionGroupCore pg) {
+	private void convertBody(Statement body, final IBinding indexBinding, final IBinding arrayBinding, final String parameterName, final ASTRewrite rewrite, final TextEditGroup editGroup, final LinkedProposalPositionGroupCore pg) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AST ast= body.getAST();
 
 		body.accept(new GenericVisitor() {
@@ -772,7 +772,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 				return super.visit(node);
 			}
 
-			private void replaceAccess(ASTNode node) {
+			private void replaceAccess(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (fElementDeclaration != null && node.getLocationInParent() == VariableDeclarationFragment.INITIALIZER_PROPERTY) {
 					VariableDeclarationFragment fragment= (VariableDeclarationFragment)node.getParent();
 					IBinding targetBinding= fragment.getName().resolveBinding();
@@ -800,7 +800,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		});
 	}
 
-	private SingleVariableDeclaration createParameterDeclaration(String parameterName, VariableDeclarationFragment fragement, Expression arrayAccess, ForStatement statement, ImportRewrite importRewrite, ASTRewrite rewrite, TextEditGroup group, LinkedProposalPositionGroupCore pg, boolean makeFinal) {
+	private SingleVariableDeclaration createParameterDeclaration(String parameterName, VariableDeclarationFragment fragement, Expression arrayAccess, ForStatement statement, ImportRewrite importRewrite, ASTRewrite rewrite, TextEditGroup group, LinkedProposalPositionGroupCore pg, boolean makeFinal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit compilationUnit= (CompilationUnit)arrayAccess.getRoot();
 		AST ast= compilationUnit.getAST();
 
@@ -843,7 +843,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		return result;
 	}
 
-	private String[] getVariableNameProposalsCollection(MethodInvocation sizeMethodAccess, IJavaProject project) {
+	private String[] getVariableNameProposalsCollection(MethodInvocation sizeMethodAccess, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] variableNames= getUsedVariableNames();
 		Expression exp= sizeMethodAccess.getExpression();
 		String name= exp instanceof SimpleName ? ((SimpleName)exp).getFullyQualifiedName() : ""; //$NON-NLS-1$
@@ -869,7 +869,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		return result;
 	}
 
-	private void convertBodyCollection(Statement body, final IBinding indexBinding, final IBinding getBinding, final String parameterName, final ASTRewrite rewrite, final TextEditGroup editGroup, final LinkedProposalPositionGroupCore pg) {
+	private void convertBodyCollection(Statement body, final IBinding indexBinding, final IBinding getBinding, final String parameterName, final ASTRewrite rewrite, final TextEditGroup editGroup, final LinkedProposalPositionGroupCore pg) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final AST ast= body.getAST();
 
 		body.accept(new GenericVisitor() {
@@ -887,7 +887,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 				return super.visit(node);
 			}
 
-			private void replaceAccess(MethodInvocation node) {
+			private void replaceAccess(MethodInvocation node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (fElementDeclaration != null && node.getLocationInParent() == VariableDeclarationFragment.INITIALIZER_PROPERTY) {
 					VariableDeclarationFragment fragment= (VariableDeclarationFragment)node.getParent();
 					IBinding targetBinding= fragment.getName().resolveBinding();
@@ -915,7 +915,7 @@ public class ConvertForLoopOperation extends ConvertLoopOperation {
 		});
 	}
 
-	private SingleVariableDeclaration createParameterDeclarationCollection(String parameterName, VariableDeclarationFragment fragment, Expression sizeAccess, ForStatement statement, ImportRewrite importRewrite, ASTRewrite rewrite, TextEditGroup group, LinkedProposalPositionGroupCore pg, boolean makeFinal) {
+	private SingleVariableDeclaration createParameterDeclarationCollection(String parameterName, VariableDeclarationFragment fragment, Expression sizeAccess, ForStatement statement, ImportRewrite importRewrite, ASTRewrite rewrite, TextEditGroup group, LinkedProposalPositionGroupCore pg, boolean makeFinal) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit compilationUnit= (CompilationUnit)sizeAccess.getRoot();
 		AST ast= compilationUnit.getAST();
 

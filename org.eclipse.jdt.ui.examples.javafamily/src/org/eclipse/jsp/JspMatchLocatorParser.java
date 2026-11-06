@@ -52,7 +52,7 @@ public class JspMatchLocatorParser extends AbstractJspParser {
 		}
 	}
 
-	public void match(IFile resource, String matchString, ISearchResultCollector collector) {
+	public void match(IFile resource, String matchString, ISearchResultCollector collector) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fResource= resource;
 		fMatchString= matchString;

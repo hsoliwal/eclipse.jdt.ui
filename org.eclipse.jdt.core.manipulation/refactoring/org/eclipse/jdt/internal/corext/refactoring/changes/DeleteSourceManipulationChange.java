@@ -90,7 +90,7 @@ public class DeleteSourceManipulationChange extends AbstractDeleteChange {
 	/*
 	 * @see DeleteChange#doDelete(IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Change doDelete(IProgressMonitor pm) throws CoreException {
 		ISourceManipulation element= getSourceManipulation();
 		// we have to save dirty compilation units before deleting them. Otherwise
@@ -110,7 +110,7 @@ public class DeleteSourceManipulationChange extends AbstractDeleteChange {
 		} else if (element instanceof IPackageFragment) {
 			ICompilationUnit[] units= ((IPackageFragment)element).getCompilationUnits();
 			pm.beginTask("", units.length + 1); //$NON-NLS-1$
-			for (ICompilationUnit unit : units) {
+			for (ICompilationUnit unit : units) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// fix https://bugs.eclipse.org/bugs/show_bug.cgi?id=66835
 				saveCUnitIfNeeded(unit, SubMonitor.convert(pm, 1));
 			}

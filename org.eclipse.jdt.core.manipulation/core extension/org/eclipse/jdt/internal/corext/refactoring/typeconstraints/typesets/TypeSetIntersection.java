@@ -52,7 +52,7 @@ public class TypeSetIntersection extends TypeSet {
 		return this; //new TypeSetIntersection(fLHS.makeClone(), fRHS.makeClone());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean isEmpty() {
 		if (fLHS.isEmpty() || fRHS.isEmpty())
 			return true;
@@ -129,7 +129,7 @@ public class TypeSetIntersection extends TypeSet {
 		return xsect.upperBound();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public TypeSet lowerBound() {
 		if (fLHS.hasUniqueLowerBound() && fRHS.hasUniqueLowerBound()) {
 			TType lhsBound= fLHS.uniqueLowerBound();
@@ -151,7 +151,7 @@ public class TypeSetIntersection extends TypeSet {
 		return xsect.lowerBound();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TypeSet specialCasesIntersectedWith(TypeSet s2) {
 		if (s2.equals(fLHS)) // xsect(s2,xsect(s2,?)) = xsect(s2,?)
 			return this;
@@ -183,7 +183,7 @@ public class TypeSetIntersection extends TypeSet {
 		if (fEnumCache != null) return fEnumCache.isSingleton();
 
 		int count= 0;
-		for(Iterator<TType> lhsIter= fLHS.iterator(); lhsIter.hasNext(); ) {
+		for(Iterator<TType> lhsIter= fLHS.iterator(); lhsIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= lhsIter.next();
 			if (fRHS.contains(t))
 				count++;
@@ -197,7 +197,7 @@ public class TypeSetIntersection extends TypeSet {
 	public TType anyMember() {
 		if (fEnumCache != null) return fEnumCache.anyMember();
 
-		for(Iterator<TType> lhsIter= fLHS.iterator(); lhsIter.hasNext(); ) {
+		for(Iterator<TType> lhsIter= fLHS.iterator(); lhsIter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= lhsIter.next();
 			if (fRHS.contains(t))
 				return t;
@@ -205,7 +205,7 @@ public class TypeSetIntersection extends TypeSet {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Iterator<TType> iterator() {
 		return enumerate().iterator();
 
@@ -257,7 +257,7 @@ public class TypeSetIntersection extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "<" + fID + ": intersect(" + fLHS + "," + fRHS + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "<" + fID + ": intersect(" + fLHS + "," + fRHS + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

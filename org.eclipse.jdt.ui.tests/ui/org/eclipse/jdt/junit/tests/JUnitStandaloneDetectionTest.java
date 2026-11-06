@@ -115,7 +115,7 @@ public class JUnitStandaloneDetectionTest {
 		assertThat(CoreTestSearchEngine.hasJUnit6TestAnnotation(javaProject)).isFalse();
 	}
 
-	private static IJavaProject createProjectWithStandaloneJar(String jarName, String specificationVersion, String jupiterVersion) throws Exception {
+	private static IJavaProject createProjectWithStandaloneJar(String jarName, String specificationVersion, String jupiterVersion) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= JavaProjectHelper.createJavaProject("JUnitStandaloneDetectionTest", "bin");
 		JavaProjectHelper.addRTJar_17(project, false);
 		File jar= new File(project.getProject().getLocation().toFile(), jarName);

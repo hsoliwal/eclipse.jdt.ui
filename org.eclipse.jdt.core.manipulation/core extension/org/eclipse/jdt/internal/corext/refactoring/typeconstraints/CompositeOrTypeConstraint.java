@@ -42,12 +42,12 @@ public class CompositeOrTypeConstraint implements ITypeConstraint{
 
 	@Override
 	public String toResolvedString() {
-		StringBuilder buff= new StringBuilder();
-		for (int i= 0; i < fConstraints.length; i++) {
+		StringBuilder buff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < fConstraints.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeConstraint constraint= fConstraints[i];
 			if (i > 0)
-				buff.append(" or ");			 //$NON-NLS-1$
-			buff.append(constraint.toResolvedString());
+				buff.append(" or ");			 //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buff.append(constraint.toResolvedString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buff.toString();
 	}
@@ -59,12 +59,12 @@ public class CompositeOrTypeConstraint implements ITypeConstraint{
 
 	@Override
 	public String toString() {
-		StringBuilder buff= new StringBuilder();
-		for (int i= 0; i < fConstraints.length; i++) {
+		StringBuilder buff= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < fConstraints.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeConstraint constraint= fConstraints[i];
 			if (i > 0)
-				buff.append(" or ");			 //$NON-NLS-1$
-			buff.append(constraint.toString());
+				buff.append(" or ");			 //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buff.append(constraint.toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buff.toString();
 	}

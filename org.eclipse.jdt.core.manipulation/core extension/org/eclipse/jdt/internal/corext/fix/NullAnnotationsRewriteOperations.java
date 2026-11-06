@@ -82,7 +82,7 @@ import org.eclipse.jdt.ui.text.java.IProblemLocation;
 
 public class NullAnnotationsRewriteOperations {
 
-	static final String TYPE_USE_NAME= ElementType.class.getName()+'.'+ElementType.TYPE_USE.name();
+	static final String TYPE_USE_NAME= ElementType.class.getName()+'.'+ElementType.TYPE_USE.name(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	// reduced copy of org.eclipse.jdt.annotation.DefaultLocation:
 	enum DefaultLocation {
@@ -144,9 +144,9 @@ public class NullAnnotationsRewriteOperations {
 			return cuRewrite.getASTRewrite().getListRewrite(declaration, declAnnotationsProperty);
 		}
 
-		boolean checkExisting(ListRewrite listRewrite, TextEditGroup editGroup) {
+		boolean checkExisting(ListRewrite listRewrite, TextEditGroup editGroup) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			List<IExtendedModifier> existingModifiers= listRewrite.getOriginalList();
-			for (IExtendedModifier mod : existingModifiers) {
+			for (IExtendedModifier mod : existingModifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (mod instanceof MarkerAnnotation) {
 					MarkerAnnotation annotation= (MarkerAnnotation) mod;
 					String existingName= annotation.getTypeName().getFullyQualifiedName();
@@ -167,7 +167,7 @@ public class NullAnnotationsRewriteOperations {
 			return true;
 		}
 
-		boolean hasNonNullDefault(ASTNode astNode, IBinding enclosingElement, int parameterRank, DefaultLocation defaultLocation) {
+		boolean hasNonNullDefault(ASTNode astNode, IBinding enclosingElement, int parameterRank, DefaultLocation defaultLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!fRemoveIfNonNullByDefault || fNonNullByDefaultNames == null)
 				return false;
 			ITypeBinding affectedType= null;
@@ -217,7 +217,7 @@ public class NullAnnotationsRewriteOperations {
 
 		ReturnAnnotationRewriteOperation(MethodDeclaration method, String message, Builder builder) {
 			super(builder);
-			fKey= method.resolveBinding().getKey() + "<return>"; //$NON-NLS-1$
+			fKey= method.resolveBinding().getKey() + "<return>"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fBodyDeclaration= method;
 			fMessage= message;
 		}
@@ -270,7 +270,7 @@ public class NullAnnotationsRewriteOperations {
 				return new ParameterAnnotationRewriteOperation(lambdaMethodBinding, parameters, parameter.index, message, builder);
 			}
 			// shouldn't happen, we've checked that paramName indeed denotes a parameter.
-			throw new RuntimeException("Argument " + parameter.name + " not found in method " + lambda.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new RuntimeException("Argument " + parameter.name + " not found in method " + lambda.toString()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		// for method parameter:
@@ -287,7 +287,7 @@ public class NullAnnotationsRewriteOperations {
 			fMessage= message;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			AST ast= cuRewrite.getRoot().getAST();
 			Type argType= fArgument.getType();
@@ -340,7 +340,7 @@ public class NullAnnotationsRewriteOperations {
 			fProblem= problem;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 			TextEditGroup group= createTextEditGroup(FixMessages.NullAnnotationsRewriteOperations_remove_redundant_nullness_annotation, cuRewrite);
 			ASTRewrite astRewrite= cuRewrite.getASTRewrite();
@@ -366,7 +366,7 @@ public class NullAnnotationsRewriteOperations {
 					return;
 				}
 
-				for (IExtendedModifier modifier : modifiers) {
+				for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (modifier instanceof MarkerAnnotation) {
 						MarkerAnnotation annotation= (MarkerAnnotation) modifier;
 						IAnnotationBinding annotationBinding= annotation.resolveAnnotationBinding();
@@ -418,7 +418,7 @@ public class NullAnnotationsRewriteOperations {
 			fProblem= problem;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 
 			if (fProblem.getProblemId() == IProblem.MissingNonNullByDefaultAnnotationOnPackage) {
@@ -465,20 +465,20 @@ public class NullAnnotationsRewriteOperations {
 			fUseNullTypeAnnotations= usesNullTypeAnnotations(unit.getJavaElement(), annotationToAdd);
 		}
 
-		private boolean usesNullTypeAnnotations(IJavaElement cu, String annotationName) {
+		private boolean usesNullTypeAnnotations(IJavaElement cu, String annotationName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaProject project= (IJavaProject) cu.getAncestor(IJavaElement.JAVA_PROJECT);
 			try {
 				IType annotationType= project.findType(annotationName);
 				if (annotationType == null) {
 					return false;
 				}
-				for (IAnnotation annotation : annotationType.getAnnotations()) {
+				for (IAnnotation annotation : annotationType.getAnnotations()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (annotationType.isBinary()) {
 						if (annotation.getElementName().equals(Target.class.getName())) {
-							for (IMemberValuePair valuePair : annotation.getMemberValuePairs()) {
+							for (IMemberValuePair valuePair : annotation.getMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Object value= valuePair.getValue();
 								if (value instanceof Object[]) {
-									for (Object val : (Object[]) value) {
+									for (Object val : (Object[]) value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (TYPE_USE_NAME.equals(val)) {
 											return true;
 										}
@@ -493,14 +493,14 @@ public class NullAnnotationsRewriteOperations {
 						String[][] resolveType= annotationType.resolveType(annotation.getElementName());
 						if (resolveType != null && resolveType.length == 1 && (resolveType[0][0].equals(Target.class.getPackage().getName())
 							&& resolveType[0][1].equals(Target.class.getSimpleName()))) {
-							for (IMemberValuePair valuePair : annotation.getMemberValuePairs()) {
+							for (IMemberValuePair valuePair : annotation.getMemberValuePairs()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								final Object value= valuePair.getValue();
 								if (value instanceof String) {
 									if (((String) value).endsWith(ElementType.TYPE_USE.name())) {
 										return true;
 									}
 								} else if (value instanceof Object[]) {
-									for (Object v : (Object[]) value) {
+									for (Object v : (Object[]) value) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 										if (v instanceof String) {
 											if (((String) v).endsWith(ElementType.TYPE_USE.name())) {
 												return true;
@@ -556,7 +556,7 @@ public class NullAnnotationsRewriteOperations {
 			return result;
 		}
 
-		private SignatureAnnotationRewriteOperation createAddAnnotationOperation(boolean changeTargetMethod, boolean thisUnitOnly) {
+		private SignatureAnnotationRewriteOperation createAddAnnotationOperation(boolean changeTargetMethod, boolean thisUnitOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode selectedNode= getCoveringNode();
 			if (selectedNode == null)
 				return null;
@@ -691,7 +691,7 @@ public class NullAnnotationsRewriteOperations {
 			return null;
 		}
 
-		private SignatureAnnotationRewriteOperation createAddAnnotationToOverriddenOperation() {
+		private SignatureAnnotationRewriteOperation createAddAnnotationToOverriddenOperation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode selectedNode= getCoveringNode();
 			if (selectedNode == null)
 				return null;
@@ -776,12 +776,12 @@ public class NullAnnotationsRewriteOperations {
 			return null;
 		}
 
-		private ParameterAnnotationRewriteOperation.IndexedParameter findReferencedParameter(ASTNode selectedNode) {
+		private ParameterAnnotationRewriteOperation.IndexedParameter findReferencedParameter(ASTNode selectedNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (selectedNode.getNodeType() == ASTNode.SIMPLE_NAME) {
 				IBinding binding= ((SimpleName) selectedNode).resolveBinding();
 				if (binding.getKind() == IBinding.VARIABLE && ((IVariableBinding) binding).isParameter()) {
 					ASTNode current= selectedNode.getParent();
-					while (current != null) {
+					while (current != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						List<?> parameters= null;
 						switch (current.getNodeType()) {
 							case ASTNode.METHOD_DECLARATION:
@@ -794,7 +794,7 @@ public class NullAnnotationsRewriteOperations {
 								/* continue traversing outwards */
 						}
 						if (parameters != null) {
-							for (int i= 0; i < parameters.size(); i++) {
+							for (int i= 0; i < parameters.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								VariableDeclaration parameter= (VariableDeclaration) parameters.get(i);
 								if (parameter.resolveBinding() == binding) {
 									return new ParameterAnnotationRewriteOperation.IndexedParameter(current, i, binding.getName());
@@ -812,7 +812,7 @@ public class NullAnnotationsRewriteOperations {
 			List<IExtendedModifier> modifiers= decl.modifiers();
 			String nonnull= NullAnnotationsFixCore.getNonNullAnnotationName(decl.resolveBinding().getJavaElement(), false);
 			String nullable= NullAnnotationsFixCore.getNullableAnnotationName(decl.resolveBinding().getJavaElement(), false);
-			for (Object mod : modifiers) {
+			for (Object mod : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (mod instanceof Annotation) {
 					Name annotationName= ((Annotation) mod).getTypeName();
 					String fullyQualifiedName= annotationName.getFullyQualifiedName();
@@ -857,7 +857,7 @@ public class NullAnnotationsRewriteOperations {
 			return (MethodDeclaration) methodDecl;
 		}
 
-		private CompilationUnit findCUForMethod(CompilationUnit compilationUnit, ICompilationUnit cu, IMethodBinding methodBinding) {
+		private CompilationUnit findCUForMethod(CompilationUnit compilationUnit, ICompilationUnit cu, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			ASTNode methodDecl= compilationUnit.findDeclaringNode(methodBinding.getMethodDeclaration());
 			if (methodDecl == null) {
 				// is methodDecl defined in another CU?
@@ -879,7 +879,7 @@ public class NullAnnotationsRewriteOperations {
 
 		/* The relevant declaring node of a return statement is the enclosing method or lambda. */
 		private static ASTNode getDeclaringNode(ASTNode selectedNode) {
-			while (selectedNode != null) {
+			while (selectedNode != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				switch (selectedNode.getNodeType()) {
 					case ASTNode.METHOD_DECLARATION:
 					case ASTNode.LAMBDA_EXPRESSION:

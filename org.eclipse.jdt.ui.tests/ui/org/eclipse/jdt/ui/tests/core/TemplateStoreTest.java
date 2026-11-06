@@ -77,7 +77,7 @@ public class TemplateStoreTest extends CoreTests {
 	};
 
 	private TemplatePersistenceData find(String id, TemplatePersistenceData[] templateData) {
-		for (TemplatePersistenceData t : templateData) {
+		for (TemplatePersistenceData t : templateData) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (t.getId().equals(id)) {
 				return t;
 			}
@@ -85,13 +85,13 @@ public class TemplateStoreTest extends CoreTests {
 		return null;
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInstanceCodeTemplates() throws Exception {
 		ProjectTemplateStore store= new ProjectTemplateStore(null);
 		store.load();
 		TemplatePersistenceData[] allTemplateDatas= store.getTemplateData();
 		assertEquals(ALL_CODE_TEMPLATES.length, allTemplateDatas.length);
-		for (String t : ALL_CODE_TEMPLATES) {
+		for (String t : ALL_CODE_TEMPLATES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// get it from the array
 			TemplatePersistenceData fromArray= find(t, allTemplateDatas);
 			assertNotNull(fromArray);
@@ -116,7 +116,7 @@ public class TemplateStoreTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testProjectCodeTemplates1() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		try {
@@ -128,7 +128,7 @@ public class TemplateStoreTest extends CoreTests {
 
 			TemplatePersistenceData[] allTemplateDatas= projectStore.getTemplateData();
 			assertEquals(ALL_CODE_TEMPLATES.length, allTemplateDatas.length);
-			for (String t : ALL_CODE_TEMPLATES) {
+			for (String t : ALL_CODE_TEMPLATES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// get it from the array
 				TemplatePersistenceData fromArray= find(t, allTemplateDatas);
 				assertNotNull(fromArray);
@@ -184,7 +184,7 @@ public class TemplateStoreTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testProjectCodeTemplates2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		try {

@@ -45,7 +45,7 @@ public class ExtractInterfacePerfAcceptanceTests extends RefactoringPerformanceT
 	@Rule
 	public RefactoringPerformanceTestSetup rpts= new RefactoringPerformanceTestSetup();
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		super.setUp();
 		fProject= new SWTTestProject();
@@ -54,8 +54,8 @@ public class ExtractInterfacePerfAcceptanceTests extends RefactoringPerformanceT
 		ExtractInterfaceProcessor processor= new ExtractInterfaceProcessor(control, JavaPreferencesSettings.getCodeGenerationSettings(fProject.getProject()));
 		fRefactoring= new ProcessorBasedRefactoring(processor);
 
-		List<IMethod> extractedMembers= new ArrayList<>();
-		for (IMethod method : control.getMethods()) {
+		List<IMethod> extractedMembers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IMethod method : control.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int flags= method.getFlags();
 			if (Flags.isPublic(flags) && !Flags.isStatic(flags) && !method.isConstructor()) {
 				extractedMembers.add(method);

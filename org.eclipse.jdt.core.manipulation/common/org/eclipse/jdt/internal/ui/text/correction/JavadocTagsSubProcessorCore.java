@@ -38,8 +38,8 @@ import org.eclipse.jdt.internal.corext.dom.ASTNodes;
 public class JavadocTagsSubProcessorCore {
 
 	public static Set<String> getPreviousProvidesNames(List<ModuleDirective> directives, ASTNode missingNode) {
-		Set<String> previousNames= new HashSet<>();
-		for (int i= 0; i < directives.size() && missingNode != directives.get(i); i++) {
+		Set<String> previousNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i= 0; i < directives.size() && missingNode != directives.get(i); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ModuleDirective directive= directives.get(i);
 			if (directive instanceof ProvidesDirective) {
 				ProvidesDirective providesDirective= (ProvidesDirective) directive;
@@ -50,8 +50,8 @@ public class JavadocTagsSubProcessorCore {
 	}
 
 	public static Set<String> getPreviousUsesNames(List<ModuleDirective> directives, ASTNode missingNode) {
-		Set<String> previousNames= new HashSet<>();
-		for (int i= 0; i < directives.size() && missingNode != directives.get(i); i++) {
+		Set<String> previousNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i= 0; i < directives.size() && missingNode != directives.get(i); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ModuleDirective directive= directives.get(i);
 			if (directive instanceof UsesDirective) {
 				UsesDirective usesDirective= (UsesDirective) directive;
@@ -62,8 +62,8 @@ public class JavadocTagsSubProcessorCore {
 	}
 
 	static Set<String> getPreviousExceptionNames(List<Type> list, ASTNode missingNode) {
-		Set<String> previousNames=  new HashSet<>();
-		for (int i= 0; i < list.size() && missingNode != list.get(i); i++) {
+		Set<String> previousNames=  new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int i= 0; i < list.size() && missingNode != list.get(i); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type curr= list.get(i);
 			previousNames.add(ASTNodes.getTypeName(curr));
 		}
@@ -71,8 +71,8 @@ public class JavadocTagsSubProcessorCore {
 	}
 
 	static Set<String> getPreviousParamNames(List<SingleVariableDeclaration> params, ASTNode missingNode) {
-		Set<String> previousNames=  new HashSet<>();
-		for (SingleVariableDeclaration curr : params) {
+		Set<String> previousNames=  new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (SingleVariableDeclaration curr : params) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr == missingNode) {
 				return previousNames;
 			}
@@ -82,19 +82,19 @@ public class JavadocTagsSubProcessorCore {
 	}
 
 	public static Set<String> getPreviousTypeParamNames(List<TypeParameter> typeParams, ASTNode missingNode) {
-		Set<String> previousNames=  new HashSet<>();
-		for (TypeParameter curr : typeParams) {
+		Set<String> previousNames=  new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (TypeParameter curr : typeParams) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr == missingNode) {
 				return previousNames;
 			}
-			previousNames.add('<' + curr.getName().getIdentifier() + '>');
+			previousNames.add('<' + curr.getName().getIdentifier() + '>'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return previousNames;
 	}
 
 	public static TagElement findTag(Javadoc javadoc, String name, String arg) {
 		List<TagElement> tags= javadoc.tags();
-		for (TagElement curr : tags) {
+		for (TagElement curr : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (name.equals(curr.getTagName())) {
 				if (arg != null) {
 					String argument= getArgument(curr);
@@ -111,7 +111,7 @@ public class JavadocTagsSubProcessorCore {
 
 	public static TagElement findParamTag(Javadoc javadoc, String arg) {
 		List<TagElement> tags= javadoc.tags();
-		for (TagElement curr : tags) {
+		for (TagElement curr : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String currName= curr.getTagName();
 			if (TagElement.TAG_PARAM.equals(currName)) {
 				String argument= getArgument(curr);
@@ -126,7 +126,7 @@ public class JavadocTagsSubProcessorCore {
 
 	public static TagElement findThrowsTag(Javadoc javadoc, String arg) {
 		List<TagElement> tags= javadoc.tags();
-		for (TagElement curr : tags) {
+		for (TagElement curr : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String currName= curr.getTagName();
 			if (TagElement.TAG_THROWS.equals(currName) || TagElement.TAG_EXCEPTION.equals(currName)) {
 				String argument= getArgument(curr);
@@ -142,14 +142,14 @@ public class JavadocTagsSubProcessorCore {
 		insertTag(rewriter, newElement, sameKindLeadingNames, null);
 	}
 
-	public static void insertTag(ListRewrite rewriter, TagElement newElement, Set<String> sameKindLeadingNames, TextEditGroup groupDescription) {
+	public static void insertTag(ListRewrite rewriter, TagElement newElement, Set<String> sameKindLeadingNames, TextEditGroup groupDescription) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<? extends ASTNode> tags= rewriter.getRewrittenList();
 
 		String insertedTagName= newElement.getTagName();
 
 		ASTNode after= null;
 		int tagRanking= getTagRanking(insertedTagName);
-		for (int i= tags.size() - 1; i >= 0; i--) {
+		for (int i= tags.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TagElement curr= (TagElement) tags.get(i);
 			String tagName= curr.getTagName();
 			if (tagName == null || tagRanking > getTagRanking(tagName)) {
@@ -197,7 +197,7 @@ public class JavadocTagsSubProcessorCore {
 		if (TagElement.TAG_EXCEPTION.equals(tagName)) {
 			tagName= TagElement.TAG_THROWS;
 		}
-		for (int i= 0; i < TAG_ORDER.length; i++) {
+		for (int i= 0; i < TAG_ORDER.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (tagName.equals(TAG_ORDER[i])) {
 				return i;
 			}
@@ -205,7 +205,7 @@ public class JavadocTagsSubProcessorCore {
 		return TAG_ORDER.length;
 	}
 
-	private static String getArgument(TagElement curr) {
+	private static String getArgument(TagElement curr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<? extends ASTNode> fragments= curr.fragments();
 		if (!fragments.isEmpty()) {
 			Object first= fragments.get(0);
@@ -217,7 +217,7 @@ public class JavadocTagsSubProcessorCore {
 					Object second= fragments.get(1);
 					Object third= fragments.get(2);
 					if (second instanceof Name && third instanceof TextElement && ">".equals(((TextElement) third).getText())) { //$NON-NLS-1$
-						return '<' + ASTNodes.getSimpleNameIdentifier((Name) second) + '>';
+						return '<' + ASTNodes.getSimpleNameIdentifier((Name) second) + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				} else if (text.startsWith(String.valueOf('<')) && text.endsWith(String.valueOf('>')) && text.length() > 2) {
 					return text.substring(1, text.length() - 1);

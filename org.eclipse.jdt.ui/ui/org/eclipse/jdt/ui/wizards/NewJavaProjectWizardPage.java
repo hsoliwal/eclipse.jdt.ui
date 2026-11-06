@@ -314,9 +314,9 @@ public class NewJavaProjectWizardPage extends NewElementWizardPage {
 	 *
 	 * @return the runnable
 	 */
-	@Deprecated
+	@Deprecated //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IRunnableWithProgress getRunnable() {
-		return monitor -> {
+		return monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			if (monitor == null) {
 				monitor= new NullProgressMonitor();
 			}

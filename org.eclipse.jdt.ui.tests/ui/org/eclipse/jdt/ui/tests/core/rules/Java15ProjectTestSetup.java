@@ -67,8 +67,8 @@ public class Java15ProjectTestSetup extends ProjectTestSetup {
 		Bundle[] annotationsBundles= JavaPlugin.getDefault().getBundles("org.eclipse.jdt.annotation", "2.0.0"); //$NON-NLS-1$
 		File bundleFile= FileLocator.getBundleFileLocation(annotationsBundles[0]).get();
 		String path= bundleFile.getPath();
-		if (bundleFile.isDirectory()) {
-			path= bundleFile.getPath() + "/bin";
+		if (bundleFile.isDirectory()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			path= bundleFile.getPath() + "/bin"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return path;
 	}

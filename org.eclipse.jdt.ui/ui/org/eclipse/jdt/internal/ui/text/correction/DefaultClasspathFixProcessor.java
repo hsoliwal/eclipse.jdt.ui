@@ -105,14 +105,14 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 
 	@Override
 	public ClasspathFixProposal[] getFixImportProposals(IJavaProject project, String missingType) throws CoreException {
-		ArrayList<DefaultClasspathFixProposal> res= new ArrayList<>();
+		ArrayList<DefaultClasspathFixProposal> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (!missingType.startsWith(DefaultModulepathFixProcessor.MODULE_SEARCH)) {
 			collectProposals(project, missingType, res);
 		}
 		return res.toArray(new ClasspathFixProposal[res.size()]);
 	}
 
-	private void collectProposals(IJavaProject project, String name, Collection<DefaultClasspathFixProposal> proposals) throws CoreException {
+	private void collectProposals(IJavaProject project, String name, Collection<DefaultClasspathFixProposal> proposals) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int idx= name.lastIndexOf('.');
 		char[] packageName= idx != -1 ? name.substring(0, idx).toCharArray() : null; // no package provided
 		char[] typeName= name.substring(idx + 1).toCharArray();
@@ -122,7 +122,7 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 		}
 
 		IJavaSearchScope scope= SearchEngine.createWorkspaceScope();
-		ArrayList<TypeNameMatch> res= new ArrayList<>();
+		ArrayList<TypeNameMatch> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		TypeNameMatchCollector requestor= new TypeNameMatchCollector(res);
 		int matchMode= SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE;
 		new SearchEngine().searchAllTypeNames(packageName, matchMode, typeName,
@@ -140,12 +140,12 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 			}
 		}
 
-		HashMap<IClasspathEntry, TypeNameMatch> classPathEntryToTypeNameMatch= new HashMap<>();
-		HashMap<TypeNameMatch, String> typeNameMatchToModuleName= new HashMap<>();
-		HashSet<IClasspathEntry> classpaths= new HashSet<>();
-		HashSet<TypeNameMatch> typesWithModule= new HashSet<>();
+		HashMap<IClasspathEntry, TypeNameMatch> classPathEntryToTypeNameMatch= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashMap<TypeNameMatch, String> typeNameMatchToModuleName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashSet<IClasspathEntry> classpaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		HashSet<TypeNameMatch> typesWithModule= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		if (currentModuleDescription != null) {
-			for (TypeNameMatch curr : res) {
+			for (TypeNameMatch curr : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType type= curr.getType();
 				if (type != null) {
 					IPackageFragmentRoot root= (IPackageFragmentRoot) type.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
@@ -194,8 +194,8 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 		}
 
 
-		HashSet<Object> addedClaspaths= new HashSet<>();
-		for (TypeNameMatch curr : res) {
+		HashSet<Object> addedClaspaths= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (TypeNameMatch curr : res) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType type= curr.getType();
 			if (type != null) {
 				IPackageFragmentRoot root= (IPackageFragmentRoot) type.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
@@ -241,7 +241,7 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 							String desc= label;
 							if (cuChange != null) {
 								String additionalLabel= cuChange.getName();
-								additionalLabel= additionalLabel.substring(0, 1).toLowerCase() + additionalLabel.substring(1);
+								additionalLabel= additionalLabel.substring(0, 1).toLowerCase() + additionalLabel.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								change= new CompositeChange(change.getName(), new Change[] { change, cuChange });
 								String[] arguments= { label, additionalLabel };
 								label= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_combine_two_proposals_info, arguments);
@@ -278,7 +278,7 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 		}
 	}
 
-	protected void addLibraryProposal(IJavaProject project, IPackageFragmentRoot root, IClasspathEntry entry, Collection<Object> addedClaspaths, Collection<DefaultClasspathFixProposal> proposals,
+	protected void addLibraryProposal(IJavaProject project, IPackageFragmentRoot root, IClasspathEntry entry, Collection<Object> addedClaspaths, Collection<DefaultClasspathFixProposal> proposals, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Change additionalChange) throws JavaModelException {
 		if (isJREContainer(entry.getPath()) && hasJREInClassPath(project)) {
 			return;
@@ -290,7 +290,7 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 				if (change != null) {
 					if (additionalChange != null) {
 						String additionalLabel= additionalChange.getName();
-						additionalLabel= additionalLabel.substring(0, 1).toLowerCase() + additionalLabel.substring(1);
+						additionalLabel= additionalLabel.substring(0, 1).toLowerCase() + additionalLabel.substring(1); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						String[] arguments= { label, additionalLabel };
 						label= Messages.format(CorrectionMessages.UnresolvedElementsSubProcessor_combine_two_proposals_info, arguments);
 						change= new CompositeChange(change.getName(), new Change[] { change, additionalChange });
@@ -325,7 +325,7 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 	protected boolean hasJREInClassPath(IJavaProject javaProject) {
 		if (javaProject != null) {
 			try {
-				for (IClasspathEntry oldClasspath : javaProject.getRawClasspath()) {
+				for (IClasspathEntry oldClasspath : javaProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (isJREContainer(oldClasspath.getPath())) {
 						return true;
 					}
@@ -337,7 +337,7 @@ public class DefaultClasspathFixProcessor extends ClasspathFixProcessor {
 		return false;
 	}
 
-	protected static String getAddClasspathLabel(IClasspathEntry entry, IPackageFragmentRoot root, IJavaProject project) {
+	protected static String getAddClasspathLabel(IClasspathEntry entry, IPackageFragmentRoot root, IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (entry.getEntryKind()) {
 			case IClasspathEntry.CPE_LIBRARY:
 				if (root.isArchive()) {

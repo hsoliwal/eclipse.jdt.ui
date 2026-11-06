@@ -47,7 +47,7 @@ public final class ASTProvider implements IASTSharedValues {
 	 *
 	 * @since 3.0
 	 */
-	private class ActivationListener implements IPartListener2, IWindowListener {
+	private class ActivationListener implements IPartListener2, IWindowListener { //FLLDCIM: MARK — T20  IMPLEMENTS
 
 
 		/*
@@ -75,7 +75,7 @@ public final class ASTProvider implements IASTSharedValues {
 		public void partClosed(IWorkbenchPartReference ref) {
 			if (isActiveEditor(ref)) {
 				if (JavaPlugin.DEBUG_AST_PROVIDER)
-					System.out.println(CoreASTProvider.getThreadName() + " - " + CoreASTProvider.DEBUG_PREFIX + "closed active editor: " + ref.getTitle()); //$NON-NLS-1$ //$NON-NLS-2$
+					System.out.println(CoreASTProvider.getThreadName() + " - " + CoreASTProvider.DEBUG_PREFIX + "closed active editor: " + ref.getTitle()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				activeJavaEditorChanged(null);
 			}
@@ -146,7 +146,7 @@ public final class ASTProvider implements IASTSharedValues {
 		public void windowClosed(IWorkbenchWindow window) {
 			if (fActiveEditor != null && fActiveEditor.getSite() != null && window == fActiveEditor.getSite().getWorkbenchWindow()) {
 				if (JavaPlugin.DEBUG_AST_PROVIDER)
-					System.out.println(CoreASTProvider.getThreadName() + " - " + CoreASTProvider.DEBUG_PREFIX + "closed active editor: " + fActiveEditor.getTitle()); //$NON-NLS-1$ //$NON-NLS-2$
+					System.out.println(CoreASTProvider.getThreadName() + " - " + CoreASTProvider.DEBUG_PREFIX + "closed active editor: " + fActiveEditor.getTitle()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				activeJavaEditorChanged(null);
 			}
@@ -210,11 +210,11 @@ public final class ASTProvider implements IASTSharedValues {
 
 		// Ensure existing windows get connected
 		IWorkbenchWindow[] windows= PlatformUI.getWorkbench().getWorkbenchWindows();
-		for (IWorkbenchWindow window : windows)
+		for (IWorkbenchWindow window : windows) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			window.getPartService().addPartListener(fActivationListener);
 	}
 
-	void activeJavaEditorChanged(IWorkbenchPart editor) {
+	void activeJavaEditorChanged(IWorkbenchPart editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		ITypeRoot javaElement= null;
 		if (editor instanceof JavaEditor)
@@ -227,7 +227,7 @@ public final class ASTProvider implements IASTSharedValues {
 		}
 
 		if (JavaPlugin.DEBUG_AST_PROVIDER)
-			System.out.println(CoreASTProvider.getThreadName() + " - " + CoreASTProvider.DEBUG_PREFIX + "active editor is: " + INSTANCE.toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println(CoreASTProvider.getThreadName() + " - " + CoreASTProvider.DEBUG_PREFIX + "active editor is: " + INSTANCE.toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (INSTANCE.isReconciling() && (INSTANCE.getReconcilingJavaElement() == null || !INSTANCE.getReconcilingJavaElement().equals(javaElement))
 				|| javaElement == null) {

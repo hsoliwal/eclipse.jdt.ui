@@ -57,9 +57,9 @@ public class RenameTypeParticipant extends RenameParticipant {
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
-		final Map changes= new HashMap();
+		final Map changes= new HashMap(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final String newName= computeNewName();
 		ISearchResultCollector collector= (resource, start, length) -> {
 			TextFileChange change= (TextFileChange)changes.get(resource);
@@ -74,7 +74,7 @@ public class RenameTypeParticipant extends RenameParticipant {
 		if (changes.isEmpty())
 			return null;
 		CompositeChange result= new CompositeChange("JSP updates"); //$NON-NLS-1$
-		for (Iterator iter= changes.values().iterator(); iter.hasNext();) {
+		for (Iterator iter= changes.values().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add((Change)iter.next());
 		}
 		return result;
@@ -86,7 +86,7 @@ public class RenameTypeParticipant extends RenameParticipant {
 		int pos= currentName.lastIndexOf('.');
 		if (pos == -1)
 			return newName;
-		return currentName.substring(0, pos + 1) + newName;
+		return currentName.substring(0, pos + 1) + newName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

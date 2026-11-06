@@ -58,7 +58,7 @@ public class JUnitWorkspaceTestSetup extends ExternalResource {
 	}
 
 	public static String getProjectPath() {
-		return WORKSPACE_PATH + fgProject.getElementName() + '/';
+		return WORKSPACE_PATH + fgProject.getElementName() + '/'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class JUnitWorkspaceTestSetup extends ExternalResource {
 			JavaProjectHelper.addToClasspath(fgProject, cpe);
 		}
 		fgRoot= JavaProjectHelper.addSourceContainer(fgProject, SRC_NAME);
-		JavaProjectHelper.importResources((IFolder) fgRoot.getResource(), JavaTestPlugin.getDefault().getBundle(), getProjectPath() + SRC_NAME);
+		JavaProjectHelper.importResources((IFolder) fgRoot.getResource(), JavaTestPlugin.getDefault().getBundle(), getProjectPath() + SRC_NAME); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

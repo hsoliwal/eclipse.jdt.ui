@@ -40,7 +40,7 @@ public class SuperTypesOfSingleton extends TypeSet {
 		return this; //new SuperTypesOfSingleton(fLowerBound, getTypeSetEnvironment());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected TypeSet specialCasesIntersectedWith(TypeSet other) {
 		if (other.isSingleton() && other.anyMember().equals(fLowerBound))
 			return other;		// xsect(superTypes(A),A) = A
@@ -123,7 +123,7 @@ public class SuperTypesOfSingleton extends TypeSet {
 		return TTypes.canAssignTo(fLowerBound, t);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean containsAll(TypeSet other) {
 		// Optimization: if other is also a SubTypeOfSingleton, just compare bounds
 		if (other instanceof SuperTypesOfSingleton) {
@@ -135,7 +135,7 @@ public class SuperTypesOfSingleton extends TypeSet {
 			SuperTypesSet otherSuper= (SuperTypesSet) other;
 			TypeSet otherLowerBounds= otherSuper.lowerBound();
 
-			for(Iterator<TType> iter= otherLowerBounds.iterator(); iter.hasNext(); ) {
+			for(Iterator<TType> iter= otherLowerBounds.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TType t= iter.next();
 				if (! TTypes.canAssignTo(fLowerBound, t))
 					return false;
@@ -146,7 +146,7 @@ public class SuperTypesOfSingleton extends TypeSet {
 			return false;
 		}
 		// For now, no more tricks up my sleeve; get an iterator
-		for(Iterator<TType> iter= other.iterator(); iter.hasNext(); ) {
+		for(Iterator<TType> iter= other.iterator(); iter.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TType t= iter.next();
 
 			if (! TTypes.canAssignTo(fLowerBound, t))
@@ -155,7 +155,7 @@ public class SuperTypesOfSingleton extends TypeSet {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Iterator<TType> iterator() {
 		return enumerate().iterator();
 //		return new Iterator() {
@@ -224,6 +224,6 @@ public class SuperTypesOfSingleton extends TypeSet {
 
 	@Override
 	public String toString() {
-		return "<" + fID + ": superTypes(" + fLowerBound.getPrettySignature() + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "<" + fID + ": superTypes(" + fLowerBound.getPrettySignature() + ")>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

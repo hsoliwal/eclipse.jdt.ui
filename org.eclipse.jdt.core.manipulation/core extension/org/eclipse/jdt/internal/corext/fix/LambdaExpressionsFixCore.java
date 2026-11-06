@@ -102,7 +102,7 @@ import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 
 public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFixCore {
 	public static final class FunctionalAnonymousClassesFinder extends ASTVisitor {
-		private final ArrayList<ClassInstanceCreation> fNodes= new ArrayList<>();
+		private final ArrayList<ClassInstanceCreation> fNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public static ArrayList<ClassInstanceCreation> perform(ASTNode node) {
 			FunctionalAnonymousClassesFinder finder= new FunctionalAnonymousClassesFinder();
@@ -120,7 +120,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 	}
 
 	public static final class LambdaExpressionsFinder extends ASTVisitor {
-		private final ArrayList<LambdaExpression> fNodes= new ArrayList<>();
+		private final ArrayList<LambdaExpression> fNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public static ArrayList<LambdaExpression> perform(ASTNode node) {
 			LambdaExpressionsFinder finder= new LambdaExpressionsFinder();
@@ -228,7 +228,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		}
 
 		private ASTNode findFieldDeclaration(ASTNode node) {
-			while (node != null) {
+			while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof FieldDeclaration) {
 					return node;
 				}
@@ -394,7 +394,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		private IMethodBinding fMethodBinding;
 		private ASTNode fFieldDeclaration;
 
-		private static boolean isRecursiveLocal(MethodDeclaration node) {
+		private static boolean isRecursiveLocal(MethodDeclaration node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				MethodRecursionFinder finder= new MethodRecursionFinder();
 				finder.fMethodDeclaration= node;
@@ -416,7 +416,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 
 		private ASTNode findFieldDeclaration(ASTNode node) {
 			ASTNode originalNode= node;
-			while (node != null) {
+			while (node != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (node instanceof FieldDeclaration) {
 					return node;
 				}
@@ -451,7 +451,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 	 * @return true if the parameters are obvious
 	 */
 	private static boolean areSameIdentifiers(MethodDeclaration node, List<Expression> arguments) {
-		for (int i= 0; i < node.parameters().size(); i++) {
+		for (int i= 0; i < node.parameters().size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Expression expression= ASTNodes.getUnparenthesedExpression(arguments.get(i));
 
 			if (!(expression instanceof SimpleName) || !isSameIdentifier(node, i, (SimpleName) expression)) {
@@ -473,7 +473,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 
 	private static record MethodInvocationStatus(MethodRefStatus status, ITypeBinding classBinding) {}
 
-	public static MethodInvocationStatus checkMethodInvocation(MethodDeclaration visited, MethodInvocation methodInvocation) {
+	public static MethodInvocationStatus checkMethodInvocation(MethodDeclaration visited, MethodInvocation methodInvocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Expression calledExpression= methodInvocation.getExpression();
 		List<Expression> arguments= methodInvocation.arguments();
 		MethodRefStatus actionType= MethodRefStatus.NO_REF;
@@ -499,7 +499,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 							List<Type> argumentTypes= methodInvocation.typeArguments();
 							String[] parameterTypeNames= new String[methodInvocation.arguments().size()];
 
-							for (int i= 0; i < argumentTypes.size(); i++) {
+							for (int i= 0; i < argumentTypes.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Type argumentType= argumentTypes.get(i);
 
 								if (argumentType.resolveBinding() == null) {
@@ -509,7 +509,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 								parameterTypeNames[i]= argumentType.resolveBinding().getQualifiedName();
 							}
 
-							for (IMethodBinding declaredMethods : enclosingTypeBinding.getDeclaredMethods()) {
+							for (IMethodBinding declaredMethods : enclosingTypeBinding.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (ASTNodes.usesGivenSignature(declaredMethods, enclosingTypeBinding.getQualifiedName(), methodInvocation.getName().getIdentifier(), parameterTypeNames)) {
 									calledType= enclosingTypeBinding;
 									break;
@@ -528,7 +528,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 							&& arguments.get(0).resolveTypeBinding().isSubTypeCompatible(calledType)) {
 						String[] remainingParams= new String[arguments.size() - 1];
 
-						for (int i= 0; i < arguments.size() - 1; i++) {
+						for (int i= 0; i < arguments.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding resolveTypeBinding= arguments.get(i + 1).resolveTypeBinding();
 
 							if (resolveTypeBinding == null) {
@@ -540,7 +540,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						}
 
 						if (valid) {
-							for (IMethodBinding declaredMethodBinding : calledType.getDeclaredMethods()) {
+							for (IMethodBinding declaredMethodBinding : calledType.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (!Modifier.isStatic(declaredMethodBinding.getModifiers())
 										&& ASTNodes.usesGivenSignature(declaredMethodBinding, calledType.getQualifiedName(), methodInvocation.getName().getIdentifier(), remainingParams)) {
 									valid= false;
@@ -590,7 +590,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			if (isSameIdentifier(visited, 0, calledObject)) {
 				boolean valid= true;
 
-				for (int i= 0; i < arguments.size(); i++) {
+				for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ASTNode expression= ASTNodes.getUnparenthesedExpression(arguments.get(i));
 
 					if (!(expression instanceof SimpleName) || !isSameIdentifier(visited, i + 1, (SimpleName) expression)) {
@@ -612,7 +612,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						String[] cumulativeParams= new String[arguments.size() + 1];
 						cumulativeParams[0]= klass.getQualifiedName();
 
-						for (int i= 0; i < arguments.size(); i++) {
+						for (int i= 0; i < arguments.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding resolveTypeBinding= arguments.get(i).resolveTypeBinding();
 
 							if (resolveTypeBinding == null) {
@@ -624,7 +624,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						}
 
 						if (valid) {
-							for (IMethodBinding declaredMethodBinding : klass.getDeclaredMethods()) {
+							for (IMethodBinding declaredMethodBinding : klass.getDeclaredMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (Modifier.isStatic(declaredMethodBinding.getModifiers())
 										&& ASTNodes.usesGivenSignature(declaredMethodBinding, klass.getQualifiedName(), methodInvocation.getName().getIdentifier(), cumulativeParams)) {
 									valid= false;
@@ -644,7 +644,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		return new MethodInvocationStatus(actionType, classBinding);
 	}
 
-	private static Type copyType(final CompilationUnitRewrite cuRewrite, final AST ast, final ASTNode node, final ITypeBinding typeBinding) {
+	private static Type copyType(final CompilationUnitRewrite cuRewrite, final AST ast, final ASTNode node, final ITypeBinding typeBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ImportRewrite importRewrite= cuRewrite.getImportRewrite();
 		ImportRewriteContext importContext= new ContextSensitiveImportRewriteContext(node, importRewrite);
 		ITypeBinding modifiedType;
@@ -676,15 +676,15 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			fSimplifyLambda= simplifyLambda;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore model) throws CoreException {
 
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			ImportRemover importRemover= cuRewrite.getImportRemover();
 			final AST ast= rewrite.getAST();
 
-			HashMap<ClassInstanceCreation, HashSet<String>> cicToNewNames= new HashMap<>();
-			for (int i= 0; i < fExpressions.size(); i++) {
+			HashMap<ClassInstanceCreation, HashSet<String>> cicToNewNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (int i= 0; i < fExpressions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ClassInstanceCreation classInstanceCreation= fExpressions.get(i);
 
 				AnonymousClassDeclaration anonymTypeDecl= classInstanceCreation.getAnonymousClassDeclaration();
@@ -696,9 +696,9 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					continue;
 				}
 
-				HashSet<String> excludedNames= new HashSet<>();
+				HashSet<String> excludedNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				if (i != 0) {
-					for (ClassInstanceCreation convertedCic : fExpressions.subList(0, i)) {
+					for (ClassInstanceCreation convertedCic : fExpressions.subList(0, i)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (ASTNodes.isParent(convertedCic, classInstanceCreation)) {
 							excludedNames.addAll(cicToNewNames.get(convertedCic));
 						}
@@ -708,7 +708,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 				final MethodDeclaration methodDeclaration= (MethodDeclaration) object;
 				TextEditGroup group= createTextEditGroup(FixMessages.LambdaExpressionsFix_convert_to_lambda_expression, cuRewrite);
 				HashSet<String> newNames= makeNamesUnique(excludedNames, methodDeclaration, rewrite, group);
-				cicToNewNames.put(classInstanceCreation, new HashSet<>(newNames));
+				cicToNewNames.put(classInstanceCreation, new HashSet<>(newNames)); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				List<SingleVariableDeclaration> methodParameters= methodDeclaration.parameters();
 
 				Block body= methodDeclaration.getBody();
@@ -736,7 +736,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 
 				// use short form with inferred parameter types and without parentheses if possible
 				boolean createExplicitlyTypedParameters= false;
-				for (SingleVariableDeclaration methodParameter : methodParameters) {
+				for (SingleVariableDeclaration methodParameter : methodParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (AnnotationsFinder.hasAnnotations(methodParameter)) {
 						createExplicitlyTypedParameters= true;
 						break;
@@ -799,7 +799,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					LambdaExpression lambdaExpression= ast.newLambdaExpression();
 					List<VariableDeclaration> lambdaParameters= lambdaExpression.parameters();
 					lambdaExpression.setParentheses(createExplicitlyTypedParameters || methodParameters.size() != 1);
-					for (SingleVariableDeclaration methodParameter : methodParameters) {
+					for (SingleVariableDeclaration methodParameter : methodParameters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (createExplicitlyTypedParameters) {
 							lambdaParameters.add((SingleVariableDeclaration) rewrite.createCopyTarget(methodParameter));
 							importRemover.registerRetainedNode(methodParameter);
@@ -810,11 +810,11 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						}
 					}
 
-					final Set<ITypeBinding> inheritedTypes= new HashSet<>();
+					final Set<ITypeBinding> inheritedTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					collectInheritedTypes(anonymTypeDecl.resolveBinding(), inheritedTypes);
 
 					ASTVisitor inheritedFieldsVisitor= new ASTVisitor() {
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public boolean visit(final SimpleName node) {
 							if ((!(node.getParent() instanceof QualifiedName) || node.getLocationInParent() != QualifiedName.NAME_PROPERTY)
 									&& (!(node.getParent() instanceof FieldAccess) || node.getLocationInParent() != FieldAccess.NAME_PROPERTY)
@@ -829,7 +829,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 										&& inheritedTypes.contains(variableBinding.getDeclaringClass())) {
 									ITypeBinding cicBinding= classInstanceCreation.getType().resolveBinding();
 									if (cicBinding != null) {
-										Name replacement= ast.newName(cicBinding.getName() + "." + node.getFullyQualifiedName()); //$NON-NLS-1$
+										Name replacement= ast.newName(cicBinding.getName() + "." + node.getFullyQualifiedName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 										rewrite.replace(node, replacement, group);
 									}
 									return false;
@@ -842,7 +842,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						private boolean isMemberClass(ITypeBinding declaringClass) {
 							ITypeBinding cicBinding= classInstanceCreation.getType().resolveBinding();
 							if (cicBinding != null) {
-								while (declaringClass != null) {
+								while (declaringClass != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (cicBinding.isEqualTo(declaringClass)) {
 										return true;
 									}
@@ -852,7 +852,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 							return false;
 						}
 
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public boolean visit(final QualifiedName node) {
 							IBinding binding= node.resolveBinding();
 							if (binding != null
@@ -862,8 +862,8 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 									&& (inheritedTypes.contains(variableBinding.getDeclaringClass())
 											|| isMemberClass(variableBinding.getDeclaringClass()))) {
 								ITypeBinding cicBinding= classInstanceCreation.getType().resolveBinding();
-								if (cicBinding != null && !node.getFullyQualifiedName().startsWith(cicBinding.getName() + ".")) { //$NON-NLS-1$
-									Name replacement= ast.newName(cicBinding.getName() + "." + node.getFullyQualifiedName()); //$NON-NLS-1$
+								if (cicBinding != null && !node.getFullyQualifiedName().startsWith(cicBinding.getName() + ".")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+									Name replacement= ast.newName(cicBinding.getName() + "." + node.getFullyQualifiedName()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									rewrite.replace(node, replacement, group);
 								}
 								return false;
@@ -871,7 +871,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 
 							return false;
 						}
-						@Override
+						@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						public boolean visit(final FieldAccess node) {
 							IVariableBinding variableBinding= node.resolveFieldBinding();
 
@@ -882,8 +882,8 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 									&& (inheritedTypes.contains(variableBinding.getDeclaringClass())
 											|| isMemberClass(variableBinding.getDeclaringClass()))) {
 								ITypeBinding cicBinding= classInstanceCreation.getType().resolveBinding();
-								if (cicBinding != null && !nodeName.getFullyQualifiedName().startsWith(cicBinding.getName() + ".")) { //$NON-NLS-1$
-									Name replacement= ast.newName(cicBinding.getName() + "." + nodeName.getFullyQualifiedName() + "." + node.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+								if (cicBinding != null && !nodeName.getFullyQualifiedName().startsWith(cicBinding.getName() + ".")) { //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+									Name replacement= ast.newName(cicBinding.getName() + "." + nodeName.getFullyQualifiedName() + "." + node.getName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 									rewrite.replace(node, replacement, group);
 								}
 								return false;
@@ -907,10 +907,10 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 							if (declarationClass != null) {
 								TypeDeclaration typeDeclaration= declarationClass;
 
-								final List<FieldDeclaration> nextFields= new ArrayList<>(typeDeclaration.getFields().length);
+								final List<FieldDeclaration> nextFields= new ArrayList<>(typeDeclaration.getFields().length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 								boolean isBefore= true;
 
-								for (FieldDeclaration oneField : typeDeclaration.getFields()) {
+								for (FieldDeclaration oneField : typeDeclaration.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (oneField == fieldDeclaration) {
 										isBefore= false;
 									}
@@ -921,7 +921,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 								}
 
 								ASTVisitor visitor= new ASTVisitor() {
-									@Override
+									@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 									public boolean visit(final MethodInvocation node) {
 										ITypeBinding fieldType= fieldDeclaration.getType().resolveBinding();
 										ASTNode declaration= ASTNodes.findDeclaration(node.resolveMethodBinding(), declarationClass);
@@ -947,7 +947,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 										return true;
 									}
 
-									@Override
+									@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 									public boolean visit(final SimpleName node) {
 										if ((!(node.getParent() instanceof QualifiedName) || node.getLocationInParent() != QualifiedName.NAME_PROPERTY)
 												&& (!(node.getParent() instanceof FieldAccess) || node.getLocationInParent() != FieldAccess.NAME_PROPERTY)
@@ -1021,7 +1021,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			}
 		}
 
-		private boolean needCastForWildcardArgument(ClassInstanceCreation classInstanceCreation) {
+		private boolean needCastForWildcardArgument(ClassInstanceCreation classInstanceCreation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (classInstanceCreation.getLocationInParent() == MethodInvocation.ARGUMENTS_PROPERTY) {
 				MethodInvocation parent= (MethodInvocation)classInstanceCreation.getParent();
 				List<Expression> arguments= parent.arguments();
@@ -1029,7 +1029,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 				if (methodBinding != null) {
 					ITypeBinding[] parameterTypes= methodBinding.getParameterTypes();
 					int index= -1;
-					for (int i= 0; i < arguments.size(); ++i) {
+					for (int i= 0; i < arguments.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (arguments.get(i) == classInstanceCreation) {
 							index= i;
 							break;
@@ -1045,7 +1045,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						ITypeBinding classInstanceParameterizedType= classInstanceCreation.getType().resolveBinding();
 						ITypeBinding[] classInstanceTypeArguments= classInstanceParameterizedType.getTypeArguments();
 						ITypeBinding[] typeArguments= parameterTypeBinding.getTypeArguments();
-						for (int i= 0; i < typeArguments.length; ++i) {
+						for (int i= 0; i < typeArguments.length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding typeArgument= typeArguments[i];
 							if (typeArgument.isWildcardType()) {
 								ITypeBinding bound= typeArgument.getBound();
@@ -1064,7 +1064,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			return false;
 		}
 
-		private Expression castMethodRefIfNeeded(final CompilationUnitRewrite cuRewrite, AST ast, Expression methodRef, Expression visited) {
+		private Expression castMethodRefIfNeeded(final CompilationUnitRewrite cuRewrite, AST ast, Expression methodRef, Expression visited) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean needCast= false;
 			Expression replacementNode= methodRef;
 			if (visited.getLocationInParent() == MethodInvocation.ARGUMENTS_PROPERTY) {
@@ -1073,9 +1073,9 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 				IMethodBinding parentBinding= parent.resolveMethodBinding();
 				if (parentBinding != null) {
 					ITypeBinding parentTypeBinding= parentBinding.getDeclaringClass();
-					while (parentTypeBinding != null) {
+					while (parentTypeBinding != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IMethodBinding[] parentTypeMethods= parentTypeBinding.getDeclaredMethods();
-						for (IMethodBinding parentTypeMethod : parentTypeMethods) {
+						for (IMethodBinding parentTypeMethod : parentTypeMethods) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (parentTypeMethod.getName().equals(parentBinding.getName())
 									&& parentTypeMethod.getParameterTypes().length == args.size()
 									&& !parentTypeMethod.isEqualTo(parentBinding)) {
@@ -1090,7 +1090,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						}
 					}
 					if (needCast) {
-						for (Expression arg : args) {
+						for (Expression arg : args) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (arg == visited) {
 								CastExpression cast= ast.newCastExpression();
 								cast.setExpression(methodRef);
@@ -1110,7 +1110,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			return replacementNode;
 		}
 
-		private static void collectInheritedTypes(final ITypeBinding anonymType, final Set<ITypeBinding> inheritedTypes) {
+		private static void collectInheritedTypes(final ITypeBinding anonymType, final Set<ITypeBinding> inheritedTypes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (anonymType != null) {
 				ITypeBinding motherType= anonymType.getSuperclass();
 
@@ -1124,23 +1124,23 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 				if (interfaces != null && interfaces.length > 0) {
 					Collections.addAll(inheritedTypes, interfaces);
 
-					for (ITypeBinding iTypeBinding : interfaces) {
+					for (ITypeBinding iTypeBinding : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						collectInheritedTypes(iTypeBinding, inheritedTypes);
 					}
 				}
 			}
 		}
 
-		private HashSet<String> makeNamesUnique(HashSet<String> namesFromUpperScope, MethodDeclaration methodDeclaration, ASTRewrite rewrite, TextEditGroup group) {
-			HashSet<String> newNames= new HashSet<>();
+		private HashSet<String> makeNamesUnique(HashSet<String> namesFromUpperScope, MethodDeclaration methodDeclaration, ASTRewrite rewrite, TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			HashSet<String> newNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			namesFromUpperScope.addAll(ASTNodes.getVisibleLocalVariablesInScope(methodDeclaration));
 			List<SimpleName> simpleNamesInMethod= getNamesInMethod(methodDeclaration);
-			List<String> namesInMethod= new ArrayList<>();
-			for (SimpleName name : simpleNamesInMethod) {
+			List<String> namesInMethod= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (SimpleName name : simpleNamesInMethod) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				namesInMethod.add(name.getIdentifier());
 			}
 
-			for (int i= 0; i < simpleNamesInMethod.size(); i++) {
+			for (int i= 0; i < simpleNamesInMethod.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SimpleName name= simpleNamesInMethod.get(i);
 				String identifier= namesInMethod.get(i);
 				if (namesFromUpperScope.contains(identifier)) {
@@ -1148,7 +1148,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					namesFromUpperScope.add(newIdentifier);
 					newNames.add(newIdentifier);
 					SimpleName[] references= LinkedNodeFinder.findByNode(name.getRoot(), name);
-					for (SimpleName ref : references) {
+					for (SimpleName ref : references) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						rewrite.set(ref, SimpleName.IDENTIFIER_PROPERTY, newIdentifier, group);
 					}
 				}
@@ -1157,11 +1157,11 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			return newNames;
 		}
 
-		private List<SimpleName> getNamesInMethod(MethodDeclaration methodDeclaration) {
+		private List<SimpleName> getNamesInMethod(MethodDeclaration methodDeclaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			class NamesCollector extends HierarchicalASTVisitor {
 				private int fTypeCounter;
 
-				private List<SimpleName> fNames= new ArrayList<>();
+				private List<SimpleName> fNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				@Override
 				public boolean visit(AbstractTypeDeclaration node) {
@@ -1204,8 +1204,8 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		private String createName(String candidate, HashSet<String> excludedNames, List<String> namesInMethod, HashSet<String> newNames) {
 			int i= 1;
 			String result= candidate;
-			while (excludedNames.contains(result) || newNames.contains(result) || namesInMethod.contains(result)) {
-				result= candidate + i++;
+			while (excludedNames.contains(result) || newNames.contains(result) || namesInMethod.contains(result)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				result= candidate + i++; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return result;
 		}
@@ -1243,19 +1243,19 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			rewriteAST(this, cuRewrite, model);
 		}
 
-		public void rewriteAST(IAnonymousClassCreationOperation op, CompilationUnitRewrite cuRewrite, @SuppressWarnings("unused") LinkedProposalModelCore model) throws CoreException {
+		public void rewriteAST(IAnonymousClassCreationOperation op, CompilationUnitRewrite cuRewrite, @SuppressWarnings("unused") LinkedProposalModelCore model) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= rewrite.getAST();
 
-			for (LambdaExpression lambdaExpression : fExpressions) {
+			for (LambdaExpression lambdaExpression : fExpressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TextEditGroup group= createTextEditGroup(FixMessages.LambdaExpressionsFix_convert_to_anonymous_class_creation, cuRewrite);
 
 				ITypeBinding lambdaTypeBinding= lambdaExpression.resolveTypeBinding();
 				IMethodBinding methodBinding= lambdaTypeBinding.getFunctionalInterfaceMethod();
 				List<VariableDeclaration> parameters= lambdaExpression.parameters();
 				String[] parameterNames= new String[parameters.size()];
-				for (int i= 0; i < parameterNames.length; i++) {
+				for (int i= 0; i < parameterNames.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					parameterNames[i]= parameters.get(i).getName().getIdentifier();
 				}
 
@@ -1351,7 +1351,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		return new LambdaExpressionsFixCore(FixMessages.LambdaExpressionsFix_convert_to_anonymous_class_creation, root, new CompilationUnitRewriteOperation[] { op });
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, boolean useLambda, boolean useAnonymous, boolean simplifyLambda) {
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, boolean useLambda, boolean useAnonymous, boolean simplifyLambda) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (useLambda) {
 			ArrayList<ClassInstanceCreation> convertibleNodes= FunctionalAnonymousClassesFinder.perform(compilationUnit);
 			if (convertibleNodes.isEmpty()) {
@@ -1380,7 +1380,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		super(name, compilationUnit, fixRewriteOperations);
 	}
 
-	public static boolean isFunctionalAnonymous(ClassInstanceCreation node) {
+	public static boolean isFunctionalAnonymous(ClassInstanceCreation node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITypeBinding typeBinding= node.resolveTypeBinding();
 		if (typeBinding == null) {
 			return false;
@@ -1454,7 +1454,7 @@ public class LambdaExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 	public static void checkAnnotationsRemoval(IMethodBinding methodBinding) {
 		fConversionRemovesAnnotations= false;
 		IAnnotationBinding[] declarationAnnotations= methodBinding.getAnnotations();
-		for (IAnnotationBinding declarationAnnotation : declarationAnnotations) {
+		for (IAnnotationBinding declarationAnnotation : declarationAnnotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding annotationType= declarationAnnotation.getAnnotationType();
 			if (annotationType != null) {
 				String qualifiedName= annotationType.getQualifiedName();

@@ -25,7 +25,7 @@ public class AutoboxingSemanticHighlightingTest extends AbstractSemanticHighligh
 	@RegisterExtension
 	public SemanticHighlightingTestSetup shts=new SemanticHighlightingTestSetup("/SHTest/src/Autoboxing.java");
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void autoboxingHighlighting() throws Exception {
 		setUpSemanticHighlighting(SemanticHighlightings.AUTOBOXING);
 		Position[] expected= new Position[] {

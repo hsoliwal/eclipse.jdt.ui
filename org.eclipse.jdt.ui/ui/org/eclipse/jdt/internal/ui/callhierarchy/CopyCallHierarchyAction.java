@@ -79,7 +79,7 @@ class CopyCallHierarchyAction extends Action {
 	 */
 	@Override
 	public void run() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		addCalls(fViewer.getTree().getSelection()[0], 0, buf);
 
 		TextTransfer plainTextTransfer= TextTransfer.getInstance();
@@ -103,28 +103,28 @@ class CopyCallHierarchyAction extends Action {
 	 * @param buf the string buffer
 	 */
 	private void addCalls(TreeItem item, int indent, StringBuilder buf) {
-		for (int i= 0; i < indent; i++) {
-			buf.append(INDENTATION);
+		for (int i= 0; i < indent; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(INDENTATION); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		buf.append(TextProcessor.deprocess(item.getText()));
-		buf.append('\n');
+		buf.append(TextProcessor.deprocess(item.getText())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (item.getExpanded()) {
-			for (TreeItem i : item.getItems()) {
+			for (TreeItem i : item.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addCalls(i, indent + 1, buf);
 			}
 		}
 	}
 
-	static String convertLineTerminators(String in) {
+	static String convertLineTerminators(String in) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringWriter stringWriter= new StringWriter();
 		PrintWriter printWriter= new PrintWriter(stringWriter);
 		StringReader stringReader= new StringReader(in);
 		BufferedReader bufferedReader= new BufferedReader(stringReader);
 		try {
 			String line= bufferedReader.readLine();
-			while (line != null) {
+			while (line != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				printWriter.print(line);
 				line= bufferedReader.readLine();
 				if (line != null && line.length() != 0)

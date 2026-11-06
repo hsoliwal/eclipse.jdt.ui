@@ -67,7 +67,7 @@ public class TestModelProvider extends ModelProvider {
 		LAST_DELTA= null;
 	}
 
-	private static boolean assertTrue(IResourceDelta expected, IResourceDelta actual) {
+	private static boolean assertTrue(IResourceDelta expected, IResourceDelta actual) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		assertEqual(expected.getResource(), actual.getResource());
 		int actualKind= actual.getKind();
 		int actualFlags= actual.getFlags();
@@ -94,7 +94,7 @@ public class TestModelProvider extends ModelProvider {
 		}
 		Arrays.sort(expectedChildren, COMPARATOR);
 		Arrays.sort(actualChildren, COMPARATOR);
-		for (int i= 0; i < expectedChildren.length; i++) {
+		for (int i= 0; i < expectedChildren.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean res= assertTrue(expectedChildren[i], actualChildren[i]);
 			if (!res) {
 				Assert.assertEquals(printDelta(expected), printDelta(actual));
@@ -109,8 +109,8 @@ public class TestModelProvider extends ModelProvider {
 		return buf.toString();
 	}
 
-	private static StringBuffer appendDelta(IResourceDelta delta, int indent, StringBuffer buf) {
-		for (int i= 0; i < indent; i++) {
+	private static StringBuffer appendDelta(IResourceDelta delta, int indent, StringBuffer buf) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int i= 0; i < indent; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			buf.append("  ");
 		}
 		buf.append(delta.getResource().toString());
@@ -123,7 +123,7 @@ public class TestModelProvider extends ModelProvider {
 		IResourceDelta[] affectedChildren= delta.getAffectedChildren();
 		Arrays.sort(affectedChildren, COMPARATOR);
 
-		for (IResourceDelta resourcedelta : affectedChildren) {
+		for (IResourceDelta resourcedelta : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			appendDelta(resourcedelta, indent + 1, buf);
 		}
 		return buf;
@@ -174,7 +174,7 @@ public class TestModelProvider extends ModelProvider {
 
 
 
-	private static void assertEqual(IResource expected, IResource actual) {
+	private static void assertEqual(IResource expected, IResource actual) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// This is a simple approach to deal with renamed resources in the deltas.
 		// However it will not work if there is more than on child per delta since
 		// the children will be sorted and their order might change.
@@ -182,7 +182,7 @@ public class TestModelProvider extends ModelProvider {
 			IPath expectedPath= expected.getFullPath();
 			IPath actualPath= actual.getFullPath();
 			Assert.assertEquals("Same path length", expectedPath.segmentCount(), actualPath.segmentCount());
-			for(int i= 0; i < expectedPath.segmentCount(); i++) {
+			for(int i= 0; i < expectedPath.segmentCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String expectedSegment= expectedPath.segment(i);
 				if (expectedSegment.startsWith("UnusedName") || "unusedName".equals(expectedSegment))
 					continue;
@@ -194,8 +194,8 @@ public class TestModelProvider extends ModelProvider {
 	}
 
 	private static IResourceDelta[] getExpectedChildren(IResourceDelta delta) {
-		List<IResourceDelta> result= new ArrayList<>();
-		for (IResourceDelta child : delta.getAffectedChildren()) {
+		List<IResourceDelta> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResourceDelta child : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= child.getResource();
 			if (resource != null && isIgnorable(resource))
 				continue;
@@ -218,17 +218,17 @@ public class TestModelProvider extends ModelProvider {
 		return name.startsWith(".");
 	}
 
-	private static IResourceDelta[] getActualChildren(IResourceDelta delta, IResourceDelta[] expectedChildren) {
-		List<IResourceDelta> result= new ArrayList<>();
+	private static IResourceDelta[] getActualChildren(IResourceDelta delta, IResourceDelta[] expectedChildren) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<IResourceDelta> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (!IS_COPY_TEST) {
-			for (IResourceDelta resourcedelta : delta.getAffectedChildren()) {
+			for (IResourceDelta resourcedelta : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= resourcedelta.getResource();
 				if (resource != null && isIgnorable(resource))
 					continue;
 				result.add(resourcedelta);
 			}
 		} else {
-			for (IResourceDelta resourcedelta : delta.getAffectedChildren()) {
+			for (IResourceDelta resourcedelta : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IResource resource= resourcedelta.getResource();
 				if (resource != null && isIgnorable(resource))
 					continue;
@@ -244,7 +244,7 @@ public class TestModelProvider extends ModelProvider {
 
 	private static boolean contains(IResourceDelta[] expectedChildren, IResourceDelta actualDelta) {
 		IResource actualResource= actualDelta.getResource();
-		for (IResourceDelta resourcedelta : expectedChildren) {
+		for (IResourceDelta resourcedelta : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSameResourceInCopy(resourcedelta.getResource(), actualResource)) {
 				return true;
 			}
@@ -257,7 +257,7 @@ public class TestModelProvider extends ModelProvider {
 		IPath actualPath= actual.getFullPath();
 		if (expectedPath.segmentCount()!= actualPath.segmentCount())
 			return false;
-		for(int i= 0; i < expectedPath.segmentCount(); i++) {
+		for(int i= 0; i < expectedPath.segmentCount(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String expectedSegment= expectedPath.segment(i);
 			if (expectedSegment.startsWith("UnusedName") || "unusedName".equals(expectedSegment))
 				continue;
@@ -269,7 +269,7 @@ public class TestModelProvider extends ModelProvider {
 
 	private static void assertCopySource(IResourceDelta delta) {
 		try {
-			delta.accept(d -> {
+			delta.accept(d -> { //FLLDCIM: MARK — T07  LAMBDA
 				Assert.assertEquals("Not a copy delta", 0, (d.getKind() & ~IResourceDelta.CHANGED));
 				return true;
 			});

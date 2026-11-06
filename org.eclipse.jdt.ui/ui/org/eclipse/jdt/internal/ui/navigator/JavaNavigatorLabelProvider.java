@@ -72,7 +72,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 	public JavaNavigatorLabelProvider() {
 
 	}
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		fStateModel = commonContentExtensionSite.getExtensionStateModel();
 		fContentProvider = (PackageExplorerContentProvider) commonContentExtensionSite.getExtension().getContentProvider();
@@ -80,7 +80,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 
 		delegeteLabelProvider.setIsFlatLayout(fStateModel
 				.getBooleanProperty(Values.IS_LAYOUT_FLAT));
-		fLayoutPropertyListener = event -> {
+		fLayoutPropertyListener = event -> { //FLLDCIM: MARK — T06  LAMBDA
 			if (Values.IS_LAYOUT_FLAT.equals(event.getProperty())) {
 				if (event.getNewValue() != null) {
 					boolean newValue = ((Boolean) event.getNewValue()) ? true : false;
@@ -117,7 +117,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		delegeteLabelProvider.addListener(listener);
+		delegeteLabelProvider.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 	}
 
 	public Color getBackground(Object element) {
@@ -190,7 +190,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 	private String formatResourceMessage(IResource element) {
 		IContainer parent = element.getParent();
 		if (parent != null && parent.getType() != IResource.ROOT)
-			return BasicElementLabels.getResourceName(element.getName()) + JavaElementLabels.CONCAT_STRING
+			return BasicElementLabels.getResourceName(element.getName()) + JavaElementLabels.CONCAT_STRING //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ BasicElementLabels.getPathLabel(parent.getFullPath(), false);
 		else
 			return BasicElementLabels.getResourceName(element.getName());

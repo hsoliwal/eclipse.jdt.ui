@@ -164,7 +164,7 @@ public class BuildPathsBlock {
 	private final static int IDX_SELECT_ALL= 6;
 	private final static int IDX_UNSELECT_ALL= 7;
 
-	public BuildPathsBlock(IRunnableContext runnableContext, IStatusChangeListener context, int pageToShow, boolean useNewPage, IWorkbenchPreferenceContainer pageContainer) {
+	public BuildPathsBlock(IRunnableContext runnableContext, IStatusChangeListener context, int pageToShow, boolean useNewPage, IWorkbenchPreferenceContainer pageContainer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPageContainer= pageContainer;
 		fWorkspaceRoot= JavaPlugin.getWorkspace().getRoot();
 		fContext= context;
@@ -214,7 +214,7 @@ public class BuildPathsBlock {
 
 	// -------- UI creation ---------
 
-	public Control createControl(Composite parent) {
+	public Control createControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fSWTWidget= parent;
 
 		Composite composite= new Composite(parent, SWT.NONE);
@@ -262,7 +262,7 @@ public class BuildPathsBlock {
 
 		// a non shared image
 		Image cpoImage= JavaPluginImages.DESC_TOOL_CLASSPATH_ORDER.createImage();
-		composite.addDisposeListener(new ImageDisposer(cpoImage));
+		composite.addDisposeListener(new ImageDisposer(cpoImage)); //FLLDCIM: MARK — T01 LIFECYCLE_RESIDENCY CALL
 
 		ClasspathOrderingWorkbookPage ordpage= new ClasspathOrderingWorkbookPage(fClassPathList);
 		item= new CTabItem(folder, SWT.NONE);
@@ -288,7 +288,7 @@ public class BuildPathsBlock {
 
 		folder.setSelection(fPageIndex);
 		fCurrPage= (BuildPathBasePage) folder.getItem(fPageIndex).getData();
-		folder.addSelectionListener(new SelectionAdapter() {
+		folder.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				tabChanged(e.item);
@@ -318,7 +318,7 @@ public class BuildPathsBlock {
 	 * is passed, jdt default settings are used, or - if the project is an existing Java project - the
 	 * classpath entries of the existing project
 	 */
-	public void init(IJavaProject jproject, IPath outputLocation, IClasspathEntry[] classpathEntries) {
+	public void init(IJavaProject jproject, IPath outputLocation, IClasspathEntry[] classpathEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fCurrJProject= jproject;
 		List<CPListElement> newClassPath= null;
 		IProject project= fCurrJProject.getProject();
@@ -344,8 +344,8 @@ public class BuildPathsBlock {
 			newClassPath= getDefaultClassPath(jproject);
 		}
 
-		List<CPListElement> exportedEntries = new ArrayList<>();
-		for (int i= 0; i < newClassPath.size(); i++) {
+		List<CPListElement> exportedEntries = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < newClassPath.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement curr= newClassPath.get(i);
 			if (curr.isExported() || curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				exportedEntries.add(curr);
@@ -380,7 +380,7 @@ public class BuildPathsBlock {
 		if (Display.getCurrent() != null) {
 			doUpdateUI();
 		} else {
-			Display.getDefault().asyncExec(() -> {
+			Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (fSWTWidget == null || fSWTWidget.isDisposed()) {
 					return;
 				}
@@ -412,7 +412,7 @@ public class BuildPathsBlock {
 
 		int nElements= fClassPathList.getSize();
 		buf.append('[').append(nElements).append(']');
-		for (int i= 0; i < nElements; i++) {
+		for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement elem= fClassPathList.getElement(i);
 			elem.appendEncodedSettings(buf);
 		}
@@ -441,8 +441,8 @@ public class BuildPathsBlock {
 
 	private ArrayList<CPListElement> getCPListElements(IClasspathEntry[] classpathEntries, IClasspathEntry[] existingEntries) {
 		List<IClasspathEntry> existing= existingEntries == null ? Collections.<IClasspathEntry>emptyList() : Arrays.asList(existingEntries);
-		ArrayList<CPListElement> newClassPath= new ArrayList<>();
-		for (IClasspathEntry curr : classpathEntries) {
+		ArrayList<CPListElement> newClassPath= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IClasspathEntry curr : classpathEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			newClassPath.add(CPListElement.create(curr, ! existing.contains(curr), fCurrJProject));
 		}
 		return newClassPath;
@@ -473,7 +473,7 @@ public class BuildPathsBlock {
 		int nElements= elements.size();
 		IClasspathEntry[] entries= new IClasspathEntry[elements.size()];
 
-		for (int i= 0; i < nElements; i++) {
+		for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement currElement= elements.get(i);
 			entries[i]= currElement.getClasspathEntry();
 		}
@@ -488,7 +488,7 @@ public class BuildPathsBlock {
 	// -------- evaluate default settings --------
 
 	private List<CPListElement> getDefaultClassPath(IJavaProject jproj) {
-		List<CPListElement> list= new ArrayList<>();
+		List<CPListElement> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IResource srcFolder;
 		IPreferenceStore store= PreferenceConstants.getPreferenceStore();
 		String sourceFolderName= store.getString(PreferenceConstants.SRCBIN_SRCNAME);
@@ -598,7 +598,7 @@ public class BuildPathsBlock {
 	/**
 	 * Validates the build path.
 	 */
-	public void updateClassPathStatus() {
+	public void updateClassPathStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fClassPathStatus.setOK();
 
 		List<CPListElement> elements= fClassPathList.getElements();
@@ -607,7 +607,7 @@ public class BuildPathsBlock {
 		CPListElement entryDeprecated= null;
 		int nEntriesMissing= 0;
 
-		for (int i= elements.size()-1 ; i >= 0 ; i--) {
+		for (int i= elements.size()-1 ; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement currElement= elements.get(i);
 			boolean isChecked= fClassPathList.isChecked(currElement);
 			if (currElement.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
@@ -648,7 +648,7 @@ public class BuildPathsBlock {
 	/**
 	 * Validates output location & build path.
 	 */
-	private void updateOutputLocationStatus() {
+	private void updateOutputLocationStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fOutputLocationPath= null;
 
 		String text= fBuildPathDialogField.getText();
@@ -688,7 +688,7 @@ public class BuildPathsBlock {
 		List<CPListElement> elements= fClassPathList.getElements();
 		IClasspathEntry[] entries= new IClasspathEntry[elements.size()];
 
-		for (int i= elements.size()-1 ; i >= 0 ; i--) {
+		for (int i= elements.size()-1 ; i >= 0 ; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement currElement= elements.get(i);
 			entries[i]= currElement.getClasspathEntry();
 		}
@@ -737,7 +737,7 @@ public class BuildPathsBlock {
 	 * @throws CoreException if flushing failed
 	 * @throws OperationCanceledException if flushing has been cancelled
 	 */
-	public static void flush(List<CPListElement> classPathEntries, IPath outputLocation, IJavaProject javaProject, String newProjectCompliance, IProgressMonitor monitor) throws CoreException, OperationCanceledException {
+	public static void flush(List<CPListElement> classPathEntries, IPath outputLocation, IJavaProject javaProject, String newProjectCompliance, IProgressMonitor monitor) throws CoreException, OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (monitor == null) {
 			monitor= new NullProgressMonitor();
 		}
@@ -790,7 +790,7 @@ public class BuildPathsBlock {
 			IClasspathEntry[] classpath= new IClasspathEntry[nEntries];
 			int i= 0;
 
-			for (CPListElement entry : classPathEntries) {
+			for (CPListElement entry : classPathEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if(entry.isRootNodeForPath()){
 					continue;
 				}
@@ -901,7 +901,7 @@ public class BuildPathsBlock {
 			return true;
 		}
 		if (resource instanceof IContainer) {
-			for (IResource member : ((IContainer) resource).members()) {
+			for (IResource member : ((IContainer) resource).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (hasClassfiles(member)) {
 					return true;
 				}
@@ -915,16 +915,16 @@ public class BuildPathsBlock {
 		if (resource.isDerived()) {
 			resource.delete(false, null);
 		} else if (resource instanceof IContainer) {
-			for (IResource member : ((IContainer) resource).members()) {
+			for (IResource member : ((IContainer) resource).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeOldClassfiles(member);
 			}
 		}
 	}
 
-	public static IRemoveOldBinariesQuery getRemoveOldBinariesQuery(final Shell shell) {
+	public static IRemoveOldBinariesQuery getRemoveOldBinariesQuery(final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return (removeFolder, oldOutputLocation) -> {
 			final int[] res= new int[] { 1 };
-			Display.getDefault().syncExec(() -> {
+			Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				Shell sh= shell != null ? shell : JavaPlugin.getActiveWorkbenchShell();
 				String title= NewWizardMessages.BuildPathsBlock_RemoveBinariesDialog_title;
 				String message;
@@ -949,13 +949,13 @@ public class BuildPathsBlock {
 
 	// ---------- util method ------------
 
-	private IContainer chooseContainer() {
+	private IContainer chooseContainer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Class<?>[] acceptedClasses= new Class[] { IProject.class, IFolder.class };
 		ISelectionStatusValidator validator= new TypedElementSelectionValidator(acceptedClasses, false);
 		IProject[] allProjects= fWorkspaceRoot.getProjects();
-		ArrayList<IProject> rejectedElements= new ArrayList<>(allProjects.length);
+		ArrayList<IProject> rejectedElements= new ArrayList<>(allProjects.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IProject currProject= fCurrJProject.getProject();
-		for (IProject project : allProjects) {
+		for (IProject project : allProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!project.equals(currProject)) {
 				rejectedElements.add(project);
 			}
@@ -974,7 +974,7 @@ public class BuildPathsBlock {
 		dialog.setTitle(NewWizardMessages.BuildPathsBlock_ChooseOutputFolderDialog_title);
 		dialog.setValidator(validator);
 		dialog.setMessage(NewWizardMessages.BuildPathsBlock_ChooseOutputFolderDialog_description);
-		dialog.addFilter(filter);
+		dialog.addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 		dialog.setInput(fWorkspaceRoot);
 		dialog.setInitialSelection(initSelection);
 		dialog.setComparator(new ResourceComparator(ResourceComparator.NAME));
@@ -1016,10 +1016,10 @@ public class BuildPathsBlock {
 		return 0;
 	}
 
-	private CPListElement findElement(IClasspathEntry entry) {
+	private CPListElement findElement(IClasspathEntry entry) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElement prefixMatch= null;
 		int entryKind= entry.getEntryKind();
-		for (int i= 0, len= fClassPathList.getSize(); i < len; i++) {
+		for (int i= 0, len= fClassPathList.getSize(); i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			CPListElement curr= fClassPathList.getElement(i);
 			if (curr.getEntryKind() == entryKind) {
 				IPath entryPath= entry.getPath();
@@ -1042,7 +1042,7 @@ public class BuildPathsBlock {
 		return prefixMatch;
 	}
 
-	public void setElementToReveal(IClasspathEntry entry, String attributeKey) {
+	public void setElementToReveal(IClasspathEntry entry, String attributeKey) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int pageIndex= getPageIndex(entry.getEntryKind());
 		if (fTabFolder == null) {
 			fPageIndex= pageIndex;
@@ -1059,7 +1059,7 @@ public class BuildPathsBlock {
 					}
 				}
 				BuildPathBasePage page= (BuildPathBasePage) fTabFolder.getItem(pageIndex).getData();
-				List<Object> selection= new ArrayList<>(1);
+				List<Object> selection= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				selection.add(elementToSelect);
 				page.setSelection(selection, true);
 			}

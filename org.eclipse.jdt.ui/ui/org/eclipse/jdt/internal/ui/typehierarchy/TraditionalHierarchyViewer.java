@@ -40,7 +40,7 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 	@Override
 	protected void hookUpdateContent(boolean expand) {
 		getTree().setRedraw(false);
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		if (expand) {
 			TraditionalHierarchyContentProvider contentProvider= (TraditionalHierarchyContentProvider) getContentProvider();
@@ -56,7 +56,7 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 	/**
 	 * Content provider for the 'traditional' type hierarchy.
 	 */
-	public static class TraditionalHierarchyContentProvider extends TypeHierarchyContentProvider {
+	public static class TraditionalHierarchyContentProvider extends TypeHierarchyContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 
 		public TraditionalHierarchyContentProvider(TypeHierarchyLifeCycle provider) {
@@ -76,11 +76,11 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 			return 2;
 		}
 
-		private int getDepth(ITypeHierarchy hierarchy, IType input) {
+		private int getDepth(ITypeHierarchy hierarchy, IType input) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int count= 0;
 			if (Flags.isInterface(hierarchy.getCachedFlags(input))) {
 				IType[] superInterfaces= hierarchy.getSuperInterfaces(input);
-				while (superInterfaces != null && superInterfaces.length > 0) {
+				while (superInterfaces != null && superInterfaces.length > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					count++;
 					IType superInterface= superInterfaces[0];
 					superInterfaces= hierarchy.getSuperInterfaces(superInterface);
@@ -88,7 +88,7 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 
 			} else {
 				IType superType= hierarchy.getSuperclass(input);
-				while (superType != null) {
+				while (superType != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					count++;
 					superType= hierarchy.getSuperclass(superType);
 				}
@@ -96,7 +96,7 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 			return count;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected final void getRootTypes(List<IType> res) {
 			ITypeHierarchy hierarchy= getHierarchy();
 			if (hierarchy != null) {
@@ -114,7 +114,7 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 						res.add(hierarchy.getSuperInterfaces(input)[0]);
 					} else {
 						IType[] roots= hierarchy.getRootClasses();
-						for (IType t : roots) {
+						for (IType t : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (isObject(t)) {
 								res.add(t);
 								return;
@@ -129,13 +129,13 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 		/*
 		 * @see TypeHierarchyContentProvider.getTypesInHierarchy
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected final void getTypesInHierarchy(IType type, List<IType> res) {
 			ITypeHierarchy hierarchy= getHierarchy();
 			if (hierarchy != null) {
 				IType[] types= hierarchy.getSubtypes(type);
 				if (isObject(type)) {
-					for (IType t : types) {
+					for (IType t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!isAnonymousFromInterface(t)) { // no anonymous classes on 'Object' -> will be children of interface
 							res.add(t);
 						}
@@ -146,7 +146,7 @@ public class TraditionalHierarchyViewer extends TypeHierarchyViewer {
 					if (isClass || isHierarchyOnType) {
 						res.addAll(Arrays.asList(types));
 					} else {
-						for (IType t : types) {
+						for (IType t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							// no classes implementing interfaces, only if anonymous
 							if (Flags.isInterface(hierarchy.getCachedFlags(t)) || isAnonymous(t)) {
 								res.add(t);

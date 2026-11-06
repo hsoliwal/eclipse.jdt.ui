@@ -98,16 +98,16 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					|| statement instanceof TryStatement
 					|| statement instanceof WhileStatement;
 		}
-		private SwitchExpressionsFixOperation getOperation(SwitchStatement switchStatement) {
-			final List<SwitchCase> throwList= new ArrayList<>();
-			final List<SwitchCase> returnList= new ArrayList<>();
+		private SwitchExpressionsFixOperation getOperation(SwitchStatement switchStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			final List<SwitchCase> throwList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			final List<SwitchCase> returnList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			boolean defaultFound= false;
 			boolean useSwitchStatement= false;
 			boolean isSwitchLabeledRule= false;
 			List<Statement> currentBlock= null;
 			SwitchCase currentCase= null;
-			Map<SwitchCase, List<Statement>> caseMap= new LinkedHashMap<>();
-			for (Iterator<Statement> iter= switchStatement.statements().iterator(); iter.hasNext();) {
+			Map<SwitchCase, List<Statement>> caseMap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+			for (Iterator<Statement> iter= switchStatement.statements().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Statement statement= iter.next();
 				if (statement instanceof SwitchCase) {
 					SwitchCase switchCase= (SwitchCase)statement;
@@ -123,7 +123,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					if (currentCase != null) {
 						caseMap.put(currentCase, currentBlock);
 					}
-					currentBlock= new ArrayList<>();
+					currentBlock= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					currentCase= switchCase;
 				} else if (statement instanceof ReturnStatement) {
 					if (((ReturnStatement)statement).getExpression() == null) {
@@ -165,7 +165,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					if (statement instanceof Block) {
 						Block block= (Block)statement;
 						// allow one level of block with no invalid statements inside
-						for (Iterator<Statement> blockIter= block.statements().iterator(); blockIter.hasNext();) {
+						for (Iterator<Statement> blockIter= block.statements().iterator(); blockIter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Statement blockStatement= blockIter.next();
 							if (isInvalidStatement(blockStatement) || blockStatement instanceof Block) {
 								return null;
@@ -210,7 +210,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			if (returnList.size() > 0) {
 				createReturnStatement= true;
 				int caseCount= 0;
-				for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) {
+				for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					List<Statement> entryStatements= entry.getValue();
 					if (entryStatements.size() > 0) {
 						++caseCount;
@@ -221,7 +221,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 				}
 			}
 			if (!createReturnStatement) {
-				for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) {
+				for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					SwitchCase entryCase= entry.getKey();
 					List<Statement> entryStatements= entry.getValue();
 					if (throwList.contains(entryCase) || entryStatements.size() == 0) {
@@ -284,7 +284,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			if (binding != null && binding.isEnum()) {
 				IVariableBinding[] fields= binding.getDeclaredFields();
 				int enumCount= 0;
-				for (IVariableBinding field : fields) {
+				for (IVariableBinding field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (field.isEnumConstant()) {
 						++enumCount;
 					}
@@ -297,7 +297,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			}
 			boolean forceOldStyle= false;
 			// if there are comments at end of case statements, we have to use old style cases
-			for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) {
+			for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SwitchCase oldSwitchCase= entry.getKey();
 				List<Comment> trailingComments= ASTNodes.getTrailingComments(oldSwitchCase);
 				if (trailingComments != null && !trailingComments.isEmpty()) {
@@ -335,14 +335,14 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			this.useSwitchStatement= useSwitchStatement;
 		}
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings("rawtypes") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		@Override
 		public void rewriteAST(CompilationUnitRewrite cuRewrite, LinkedProposalModelCore linkedModel) throws CoreException {
 
 			final ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			final AST ast= rewrite.getAST();
 
-			List<Statement> statements= new ArrayList<>();
+			List<Statement> statements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			SwitchStatement newSwitchStatement= null;
 			SwitchExpression newSwitchExpression= null;
 
@@ -364,7 +364,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 
 			// build switch expression
 			boolean defaultFallThrough= false;
-			for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) {
+			for (Map.Entry<SwitchCase, List<Statement>> entry : caseMap.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SwitchCase oldSwitchCase= entry.getKey();
 				List<Statement> oldStatements= entry.getValue();
 				if (oldStatements.isEmpty()) {
@@ -385,7 +385,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 								lastSwitchCase.setSwitchLabeledRule(true);
 								statements.add(lastSwitchCase);
 							}
-							for (Object obj : oldSwitchCase.expressions()) {
+							for (Object obj : oldSwitchCase.expressions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Expression oldExpression= (Expression)obj;
 								Expression newExpression= (Expression)rewrite.createCopyTarget(oldExpression);
 								lastSwitchCase.expressions().add(newExpression);
@@ -417,14 +417,14 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 						needDuplicateDefault= true;
 					}
 					lastSwitchCase= null;
-					for (Object obj : oldSwitchCase.expressions()) {
+					for (Object obj : oldSwitchCase.expressions()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Expression oldExpression= (Expression)obj;
 						Expression newExpression= (Expression)rewrite.createCopyTarget(oldExpression);
 						switchCase.expressions().add(newExpression);
 					}
 				}
 
-				while (true) {
+				while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (oldStatements.size() == 1 && oldStatements.get(0) instanceof Block) {
 						oldStatements= ((Block)oldStatements.get(0)).statements();
 					}
@@ -478,7 +478,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 					} else {
 						Block newBlock= ast.newBlock();
 						int statementsLen= oldStatements.size();
-						for (int i= 0; i < statementsLen - 1; ++i) {
+						for (int i= 0; i < statementsLen - 1; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							Statement oldSwitchCaseStatement= oldStatements.get(i);
 							newBlock.statements().add(rewrite.createCopyTarget(oldSwitchCaseStatement));
 						}
@@ -534,7 +534,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 							Block block= (Block)parent;
 							List blockStatements= block.statements();
 							ListRewrite listRewrite= rewrite.getListRewrite(block, Block.STATEMENTS_PROPERTY);
-							for (int i= 0; i < blockStatements.size(); ++i) {
+							for (int i= 0; i < blockStatements.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								Statement statement= (Statement)blockStatements.get(i);
 								if (statement instanceof VariableDeclarationStatement) {
 									VariableDeclarationStatement decl= (VariableDeclarationStatement)statement;
@@ -605,68 +605,68 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			return b;
 		}
 
-		public static Statement getNewStatementFromReturn(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, ReturnStatement oldStatement) throws JavaModelException {
+		public static Statement getNewStatementFromReturn(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, ReturnStatement oldStatement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Statement newStatement;
 			Expression exp= oldStatement.getExpression();
 			// Ugly hack to tack on trailing comments
 			IBuffer buffer= cuRewrite.getCu().getBuffer();
-			StringBuilder b= new StringBuilder();
+			StringBuilder b= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			List<Comment> leadingComments= ASTNodes.getLeadingComments(oldStatement);
-			for (Comment comment : leadingComments) {
+			for (Comment comment : leadingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (comment.isLineComment()) {
-					b.append("/*" + buffer.getText(comment.getStartPosition() + 2, comment.getLength() - 2) + " */ "); //$NON-NLS-1$ //$NON-NLS-2$
+					b.append("/*" + buffer.getText(comment.getStartPosition() + 2, comment.getLength() - 2) + " */ "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + " "); //$NON-NLS-1$
+					b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + " "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
-			b.append(buffer.getText(exp.getStartPosition(), exp.getLength()) + ";"); //$NON-NLS-1$
+			b.append(buffer.getText(exp.getStartPosition(), exp.getLength()) + ";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			List<Comment> trailingComments= ASTNodes.getTrailingComments(oldStatement);
-			for (Comment comment : trailingComments) {
-				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$
+			for (Comment comment : trailingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			newStatement= (Statement) rewrite.createStringPlaceholder(b.toString(), ASTNode.EXPRESSION_STATEMENT);
 			return newStatement;
 		}
 
-		public static Statement getNewStatementForCase(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, Statement oldStatement) throws JavaModelException {
+		public static Statement getNewStatementForCase(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, Statement oldStatement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Statement newStatement;
 			ExpressionStatement oldExpStatement= (ExpressionStatement)oldStatement;
 			Assignment oldAssignment= (Assignment)oldExpStatement.getExpression();
 			Expression rhs= oldAssignment.getRightHandSide();
 			// Ugly hack to tack on trailing comments
 			IBuffer buffer= cuRewrite.getCu().getBuffer();
-			StringBuilder b= new StringBuilder();
+			StringBuilder b= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			List<Comment> leadingComments= ASTNodes.getLeadingComments(oldExpStatement);
-			for (Comment comment : leadingComments) {
+			for (Comment comment : leadingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (comment.isLineComment()) {
-					b.append("/*" + buffer.getText(comment.getStartPosition() + 2, comment.getLength() - 2) + " */ "); //$NON-NLS-1$ //$NON-NLS-2$
+					b.append("/*" + buffer.getText(comment.getStartPosition() + 2, comment.getLength() - 2) + " */ "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + " "); //$NON-NLS-1$
+					b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + " "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			}
-			b.append(buffer.getText(rhs.getStartPosition(), rhs.getLength()) + ";"); //$NON-NLS-1$
+			b.append(buffer.getText(rhs.getStartPosition(), rhs.getLength()) + ";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			List<Comment> trailingComments= ASTNodes.getTrailingComments(oldExpStatement);
-			for (Comment comment : trailingComments) {
-				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$
+			for (Comment comment : trailingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			newStatement= (Statement) rewrite.createStringPlaceholder(b.toString(), ASTNode.EXPRESSION_STATEMENT);
 			return newStatement;
 		}
 
-		public static YieldStatement getNewYieldStatement(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, ExpressionStatement oldExpStatement) throws JavaModelException {
+		public static YieldStatement getNewYieldStatement(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, ExpressionStatement oldExpStatement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assignment oldAssignment= (Assignment)oldExpStatement.getExpression();
 			Expression rhs= oldAssignment.getRightHandSide();
 			IBuffer buffer= cuRewrite.getCu().getBuffer();
-			StringBuilder b= new StringBuilder();
+			StringBuilder b= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			List<Comment> leadingComments= ASTNodes.getLeadingComments(oldExpStatement);
-			for (Comment comment : leadingComments) {
-				b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + "\n"); //$NON-NLS-1$
+			for (Comment comment : leadingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			b.append("yield "); //$NON-NLS-1$
+			b.append("yield "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			List<Comment> trailingComments= ASTNodes.getTrailingComments(oldExpStatement);
-			b.append(buffer.getText(rhs.getStartPosition(), rhs.getLength()) + ";"); //$NON-NLS-1$
-			for (Comment comment : trailingComments) {
-				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$
+			b.append(buffer.getText(rhs.getStartPosition(), rhs.getLength()) + ";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (Comment comment : trailingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			YieldStatement newYield = (YieldStatement)rewrite.createStringPlaceholder(b.toString(), ASTNode.YIELD_STATEMENT);
@@ -675,19 +675,19 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			return newYield;
 		}
 
-		public static YieldStatement getNewYieldStatementFromReturn(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, ReturnStatement oldStatement) throws JavaModelException {
+		public static YieldStatement getNewYieldStatementFromReturn(CompilationUnitRewrite cuRewrite, final ASTRewrite rewrite, ReturnStatement oldStatement) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Expression exp= oldStatement.getExpression();
 			IBuffer buffer= cuRewrite.getCu().getBuffer();
-			StringBuilder b= new StringBuilder();
+			StringBuilder b= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			List<Comment> leadingComments= ASTNodes.getLeadingComments(oldStatement);
-			for (Comment comment : leadingComments) {
-				b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + "\n"); //$NON-NLS-1$
+			for (Comment comment : leadingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				b.append(buffer.getText(comment.getStartPosition(), comment.getLength()) + "\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			b.append("yield "); //$NON-NLS-1$
+			b.append("yield "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			List<Comment> trailingComments= ASTNodes.getTrailingComments(oldStatement);
-			b.append(buffer.getText(exp.getStartPosition(), exp.getLength()) + ";"); //$NON-NLS-1$
-			for (Comment comment : trailingComments) {
-				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$
+			b.append(buffer.getText(exp.getStartPosition(), exp.getLength()) + ";"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (Comment comment : trailingComments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				b.append(" " + buffer.getText(comment.getStartPosition(), comment.getLength())); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			YieldStatement newYield = (YieldStatement)rewrite.createStringPlaceholder(b.toString(), ASTNode.YIELD_STATEMENT);
@@ -696,7 +696,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 			return newYield;
 		}
 
-		public static void replaceWithLeadingComments(CompilationUnitRewrite cuRewrite, ListRewrite listRewrite,
+		public static void replaceWithLeadingComments(CompilationUnitRewrite cuRewrite, ListRewrite listRewrite, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				ASTNode oldNode, TextEditGroup group, ASTNode newNode) throws JavaModelException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			List<Comment> comments= ASTNodes.getLeadingComments(oldNode);
@@ -705,7 +705,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 				String commentString= cuRewrite.getCu().getBuffer().getText(firstComment.getStartPosition(), firstComment.getLength());
 				ASTNode lastComment= rewrite.createStringPlaceholder(commentString, firstComment.isBlockComment() ? ASTNode.BLOCK_COMMENT : ASTNode.LINE_COMMENT);
 				listRewrite.replace(oldNode, lastComment, group);
-				for (int j= 1; j < comments.size(); ++j) {
+				for (int j= 1; j < comments.size(); ++j) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Comment comment= comments.get(j);
 					commentString= cuRewrite.getCu().getBuffer().getText(comment.getStartPosition(), comment.getLength());
 					ASTNode newComment= rewrite.createStringPlaceholder(commentString, comment.isBlockComment() ? ASTNode.BLOCK_COMMENT : ASTNode.LINE_COMMENT);
@@ -725,7 +725,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		if (!JavaModelUtil.is14OrHigher(root.getJavaElement().getJavaProject()))
 			return null;
 
-		List<SwitchExpressionsFixOperation> operations= new ArrayList<>();
+		List<SwitchExpressionsFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SwitchExpressionsFixCore.SwitchStatementsFinder finder= new SwitchExpressionsFixCore.SwitchStatementsFinder(operations);
 		switchStatement.accept(finder);
 		if (operations.isEmpty())
@@ -737,7 +737,7 @@ public class SwitchExpressionsFixCore extends CompilationUnitRewriteOperationsFi
 		if (!JavaModelUtil.is14OrHigher(compilationUnit.getJavaElement().getJavaProject()))
 			return null;
 
-		List<SwitchExpressionsFixOperation> operations= new ArrayList<>();
+		List<SwitchExpressionsFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		SwitchStatementsFinder finder= new SwitchStatementsFinder(operations);
 		compilationUnit.accept(finder);
 		if (operations.isEmpty())

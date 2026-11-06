@@ -103,7 +103,7 @@ public abstract class TType {
 	 *
 	 * @param binding the binding to initialize from
 	 */
-	protected void initialize(ITypeBinding binding) {
+	protected void initialize(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fBindingKey= binding.getKey();
 		Assert.isNotNull(fBindingKey);
 		fModifiers= binding.getModifiers();

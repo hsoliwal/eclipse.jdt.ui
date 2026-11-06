@@ -74,7 +74,7 @@ public class OrganizeImportsPerfTest extends JdtPerformanceTestCaseCommon {
 	public MyTestSetup stup= new MyTestSetup();
 
 	private void addAllCUs(IJavaElement[] children, List<IJavaElement> result) throws JavaModelException {
-		for (IJavaElement element : children) {
+		for (IJavaElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				result.add(element);
 			} else if (element instanceof IPackageFragmentRoot) {
@@ -89,7 +89,7 @@ public class OrganizeImportsPerfTest extends JdtPerformanceTestCaseCommon {
 
 	private CompilationUnit[] createASTs(ICompilationUnit[] cus) {
 		CompilationUnit[] result= new CompilationUnit[cus.length];
-		for (int i= 0; i < cus.length; i++) {
+		for (int i= 0; i < cus.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result[i]= SharedASTProviderCore.getAST(cus[i], SharedASTProviderCore.WAIT_YES, new NullProgressMonitor());
 		}
 		return result;
@@ -107,9 +107,9 @@ public class OrganizeImportsPerfTest extends JdtPerformanceTestCaseCommon {
 		Performance.getDefault().assertPerformance(fPerformanceMeter);
 	}
 
-	private void measure(PerformanceMeter performanceMeter, int runs) throws Exception {
-		for (int j= 0; j < runs; j++) {
-			List<IJavaElement> cusList= new ArrayList<>();
+	private void measure(PerformanceMeter performanceMeter, int runs) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		for (int j= 0; j < runs; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			List<IJavaElement> cusList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			addAllCUs(MyTestSetup.fJProject1.getChildren(), cusList);
 			ICompilationUnit[] cus= cusList.toArray(new ICompilationUnit[cusList.size()]);
 			CompilationUnit[] roots= createASTs(cus);
@@ -117,7 +117,7 @@ public class OrganizeImportsPerfTest extends JdtPerformanceTestCaseCommon {
 			joinBackgroudActivities();
 
 			performanceMeter.start();
-			for (int i= 0; i < roots.length; i++) {
+			for (int i= 0; i < roots.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				OrganizeImportsOperation op= new OrganizeImportsOperation(cus[i], roots[i], true, true, true, null);
 				op.run(new NullProgressMonitor());
 			}

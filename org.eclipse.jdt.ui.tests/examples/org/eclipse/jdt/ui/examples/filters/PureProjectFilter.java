@@ -22,13 +22,13 @@ import org.eclipse.jface.viewers.ViewerFilter;
 
 import org.eclipse.jdt.core.IJavaProject;
 
-public class PureProjectFilter extends ViewerFilter {
+public class PureProjectFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	public PureProjectFilter() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		if (element instanceof IJavaProject) {
 			element= ((IJavaProject) element).getResource();

@@ -33,7 +33,7 @@ import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
  *
  * @since 3.2
  */
-public final class JavaModelContentProvider extends StandardJavaElementContentProvider {
+public final class JavaModelContentProvider extends StandardJavaElementContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	/** The name of the settings folder */
 	private static final String NAME_SETTINGS_FOLDER= ".settings"; //$NON-NLS-1$
@@ -45,16 +45,16 @@ public final class JavaModelContentProvider extends StandardJavaElementContentPr
 		super(true);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(final Object element) {
 		if (element instanceof ICompilationUnit)
 			return NO_CHILDREN;
 		else if (element instanceof RefactoringHistory)
 			return ((RefactoringHistory) element).getDescriptors();
 		else if (element instanceof IJavaProject) {
-			final List<Object> elements= new ArrayList<>();
+			final List<Object> elements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			elements.add(((IJavaProject) element).getProject().getFolder(NAME_SETTINGS_FOLDER));
-			for (Object child : super.getChildren(element)) {
+			for (Object child : super.getChildren(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!elements.contains(child)) {
 					elements.add(child);
 				}

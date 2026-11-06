@@ -104,7 +104,7 @@ public class ExtractConstantWizard extends RefactoringWizard {
 			fConstNameProposals= guessedNames;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			Composite result= new Composite(parent, SWT.NONE);
 			setControl(result);
@@ -139,7 +139,7 @@ public class ExtractConstantWizard extends RefactoringWizard {
 			PlatformUI.getWorkbench().getHelpSystem().setHelp(getControl(), IJavaHelpContextIds.EXTRACT_CONSTANT_WIZARD_PAGE);
 		}
 
-		private void addAccessModifierGroup(Composite result, RowLayouter layouter) {
+		private void addAccessModifierGroup(Composite result, RowLayouter layouter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			fAccessModifier= getExtractConstantRefactoring().getVisibility();
 			if (getExtractConstantRefactoring().getTargetIsInterface())
 				return;
@@ -165,13 +165,13 @@ public class ExtractConstantWizard extends RefactoringWizard {
 										  JdtFlags.VISIBILITY_STRING_PRIVATE }; //
 
 			updateContentAssistImage();
-			for (int i= 0; i < labels.length; i++) {
+			for (int i= 0; i < labels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Button radio= new Button(group, SWT.RADIO);
 				radio.setText(labels[i]);
 				radio.setData(data[i]);
 				if (Objects.equals(data[i], fAccessModifier))
 					radio.setSelection(true);
-				radio.addSelectionListener(new SelectionAdapter() {
+				radio.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent event) {
 						setAccessModifier((String)event.widget.getData());
@@ -181,7 +181,7 @@ public class ExtractConstantWizard extends RefactoringWizard {
 			layouter.perform(label, group, 1);
 		}
 
-		private void updateContentAssistImage() {
+		private void updateContentAssistImage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fContentAssistProcessor == null)
 				return;
 
@@ -211,7 +211,7 @@ public class ExtractConstantWizard extends RefactoringWizard {
 			boolean defaultValue= getExtractConstantRefactoring().replaceAllOccurrences();
 			final Button checkBox= createCheckbox(result,  title, defaultValue, layouter);
 			getExtractConstantRefactoring().setReplaceAllOccurrences(checkBox.getSelection());
-			checkBox.addSelectionListener(new SelectionAdapter(){
+			checkBox.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getExtractConstantRefactoring().setReplaceAllOccurrences(checkBox.getSelection());
@@ -224,7 +224,7 @@ public class ExtractConstantWizard extends RefactoringWizard {
 			boolean defaultValue= getBooleanSetting(QUALIFY_REFERENCES, getExtractConstantRefactoring().qualifyReferencesWithDeclaringClassName());
 			fQualifyReferences= createCheckbox(result,  title, defaultValue, layouter);
 			getExtractConstantRefactoring().setQualifyReferencesWithDeclaringClassName(fQualifyReferences.getSelection());
-			fQualifyReferences.addSelectionListener(new SelectionAdapter(){
+			fQualifyReferences.addSelectionListener(new SelectionAdapter(){ //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					getExtractConstantRefactoring().setQualifyReferencesWithDeclaringClassName(fQualifyReferences.getSelection());
@@ -250,7 +250,7 @@ public class ExtractConstantWizard extends RefactoringWizard {
 		private void updatePreviewLabel(){
 			try {
 				if (fLabel != null)
-					fLabel.setText(RefactoringMessages.ExtractConstantInputPage_signature_preview + getExtractConstantRefactoring().getConstantSignaturePreview());
+					fLabel.setText(RefactoringMessages.ExtractConstantInputPage_signature_preview + getExtractConstantRefactoring().getConstantSignaturePreview()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} catch(JavaModelException e) {
 				ExceptionHandler.handle(e, RefactoringMessages.ExtractTempInputPage_extract_local, RefactoringMessages.ExtractConstantInputPage_exception);
 			}

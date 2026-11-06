@@ -144,7 +144,7 @@ public class TokenScanner {
 	 */
 	public int readNext(boolean ignoreComments) throws CoreException {
 		int curr= 0;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				curr= fScanner.getNextToken();
 				if (curr == ITerminalSymbols.TokenNameEOF) {
@@ -166,7 +166,7 @@ public class TokenScanner {
 	 */
 	private int readNextWithEOF(boolean ignoreComments) throws CoreException {
 		int curr= 0;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				curr= fScanner.getNextToken();
 			} catch (InvalidInputException e) {
@@ -223,7 +223,7 @@ public class TokenScanner {
 	 */
 	public void readToToken(int tok) throws CoreException {
 		int curr= 0;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			curr= readNext(false);
 		} while (curr != tok);
 	}
@@ -278,7 +278,7 @@ public class TokenScanner {
 		setOffset(startOffset);
 		int res= startOffset;
 		int curr= readNext(false);
-		while (curr != token) {
+		while (curr != token) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res= getCurrentEndOffset();
 			curr= readNext(false);
 		}
@@ -293,7 +293,7 @@ public class TokenScanner {
 	 * @return Returns the start offset of comments directly ahead of a token.
 	 * @exception CoreException Thrown when a lexical error was detected while scanning (code LEXICAL_ERROR)
 	 */
-	public int getTokenCommentStart(int lastPos, int nodeStart) throws CoreException {
+	public int getTokenCommentStart(int lastPos, int nodeStart) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		setOffset(lastPos);
 
 		int prevEndPos= lastPos;
@@ -305,7 +305,7 @@ public class TokenScanner {
 		int curr= readNextWithEOF(false);
 		int currStartPos= getCurrentStartOffset();
 		int currStartLine= getLineOfOffset(currStartPos);
-		while (curr != ITerminalSymbols.TokenNameEOF && nodeStart > currStartPos) {
+		while (curr != ITerminalSymbols.TokenNameEOF && nodeStart > currStartPos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (TokenScanner.isComment(curr)) {
 				int linesDifference= currStartLine - prevEndLine;
 				if ((linesDifference > 1) || (res == -1 && (linesDifference != 0 || nodeLine == currStartLine))) {
@@ -342,7 +342,7 @@ public class TokenScanner {
 	 * @exception CoreException Thrown when the end of the file has been reached (code END_OF_FILE)
 	 * or a lexical error was detected while scanning (code LEXICAL_ERROR)
 	 */
-	public int getTokenCommentEnd(int nodeEnd, int nextTokenStart) throws CoreException {
+	public int getTokenCommentEnd(int nodeEnd, int nextTokenStart) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// assign comments to the previous comments as long they are all on the same line as the
 		// node end position or if they are on the next line but there is a separation from the next
 		// node
@@ -366,7 +366,7 @@ public class TokenScanner {
 
 
 		int curr= readNextWithEOF(false);
-		while (curr == ITerminalSymbols.TokenNameCOMMENT_LINE || curr == ITerminalSymbols.TokenNameCOMMENT_BLOCK) {
+		while (curr == ITerminalSymbols.TokenNameCOMMENT_LINE || curr == ITerminalSymbols.TokenNameCOMMENT_BLOCK) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int currStartLine= getLineOfOffset(getCurrentStartOffset());
 			int linesDifference= currStartLine - prevEndLine;
 
@@ -406,7 +406,7 @@ public class TokenScanner {
 			try {
 				return fDocument.getLineOfOffset(offset);
 			} catch (BadLocationException e) {
-				String message= "Illegal offset: " + offset; //$NON-NLS-1$
+				String message= "Illegal offset: " + offset; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				throw new CoreException(createError(DOCUMENT_ERROR, message, e));
 			}
 		}
@@ -419,7 +419,7 @@ public class TokenScanner {
 				IRegion region= fDocument.getLineInformation(line);
 				return region.getOffset() + region.getLength();
 			} catch (BadLocationException e) {
-				String message= "Illegal line: " + line; //$NON-NLS-1$
+				String message= "Illegal line: " + line; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				throw new CoreException(createError(DOCUMENT_ERROR, message, e));
 			}
 		}
@@ -431,7 +431,7 @@ public class TokenScanner {
 			|| token == ITerminalSymbols.TokenNameCOMMENT_LINE || token == ITerminalSymbols.TokenNameCOMMENT_MARKDOWN;
 	}
 
-	public static boolean isModifier(int token) {
+	public static boolean isModifier(int token) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (token) {
 			case ITerminalSymbols.TokenNamepublic:
 			case ITerminalSymbols.TokenNameprotected:

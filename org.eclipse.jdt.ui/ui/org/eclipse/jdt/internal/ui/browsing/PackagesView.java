@@ -85,7 +85,7 @@ public class PackagesView extends JavaBrowsingPart{
 	private static final int TREE_VIEW_STATE= 1;
 
 
-	private static class StatusBarUpdater4LogicalPackage extends StatusBarUpdater {
+	private static class StatusBarUpdater4LogicalPackage extends StatusBarUpdater { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 		private StatusBarUpdater4LogicalPackage(IStatusLineManager statusLineManager) {
 			super(statusLineManager);
@@ -103,26 +103,26 @@ public class PackagesView extends JavaBrowsingPart{
 			return super.formatMessage(sel);
 		}
 
-		private String formatLogicalPackageMessage(LogicalPackage logicalPackage) {
+		private String formatLogicalPackageMessage(LogicalPackage logicalPackage) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPackageFragment[] fragments= logicalPackage.getFragments();
-			StringBuilder buf= new StringBuilder(logicalPackage.getElementName());
-			buf.append(JavaElementLabels.CONCAT_STRING);
+			StringBuilder buf= new StringBuilder(logicalPackage.getElementName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			buf.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String message= ""; //$NON-NLS-1$
 			boolean firstTime= true;
-			for (IPackageFragment fragment : fragments) {
+			for (IPackageFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement element= fragment.getParent();
 				if (element instanceof IPackageFragmentRoot) {
 					IPackageFragmentRoot root= (IPackageFragmentRoot) element;
 					String label= JavaElementLabels.getElementLabel(root, JavaElementLabels.DEFAULT_QUALIFIED | JavaElementLabels.ROOT_QUALIFIED);
 					if (firstTime) {
-						buf.append(label);
+						buf.append(label); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						firstTime= false;
 					}
 					else
 						message= Messages.format(JavaBrowsingMessages.StatusBar_concat, new String[] {message, label});
 				}
 			}
-			buf.append(message);
+			buf.append(message); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return buf.toString();
 		}
 	}
@@ -143,8 +143,8 @@ public class PackagesView extends JavaBrowsingPart{
 	@Override
 	protected void addFilters() {
 		super.addFilters();
-		getViewer().addFilter(createNonJavaElementFilter());
-		getViewer().addFilter(new LibraryFilter());
+		getViewer().addFilter(createNonJavaElementFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
+		getViewer().addFilter(new LibraryFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 
@@ -154,7 +154,7 @@ public class PackagesView extends JavaBrowsingPart{
 	 * @return NonJavaElementFilter
 	 */
 	protected NonJavaElementFilter createNonJavaElementFilter() {
-		return new NonJavaElementFilter(){
+		return new NonJavaElementFilter(){ //FLLDCIM: MARK — T23  ANONYMOUS
 			@Override
 			public boolean select(Viewer viewer, Object parent, Object element){
 				return ((element instanceof IJavaElement) || (element instanceof LogicalPackage) || (element instanceof IFolder));
@@ -174,10 +174,10 @@ public class PackagesView extends JavaBrowsingPart{
 		if (memento == null) {
 			//read state from the preference store
 			IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
-			fCurrViewState= store.getInt(this.getViewSite().getId() + TAG_VIEW_STATE);
+			fCurrViewState= store.getInt(this.getViewSite().getId() + TAG_VIEW_STATE); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		} else {
 			//restore from memento
-			Integer integer= memento.getInteger(this.getViewSite().getId() + TAG_VIEW_STATE);
+			Integer integer= memento.getInteger(this.getViewSite().getId() + TAG_VIEW_STATE); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			if ((integer == null) || !isValidState(integer)) {
 				fCurrViewState= LIST_VIEW_STATE;
 			} else fCurrViewState= integer;
@@ -196,7 +196,7 @@ public class PackagesView extends JavaBrowsingPart{
 	@Override
 	public void saveState(IMemento memento) {
 		super.saveState(memento);
-		memento.putInteger(this.getViewSite().getId()+TAG_VIEW_STATE,fCurrViewState);
+		memento.putInteger(this.getViewSite().getId()+TAG_VIEW_STATE,fCurrViewState); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override
@@ -354,11 +354,11 @@ public class PackagesView extends JavaBrowsingPart{
 
 
 
-	private void setUpViewer(StructuredViewer viewer){
+	private void setUpViewer(StructuredViewer viewer){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(viewer != null);
 
 		JavaUILabelProvider labelProvider= createLabelProvider();
-		viewer.setLabelProvider(createDecoratingLabelProvider(labelProvider));
+		viewer.setLabelProvider(createDecoratingLabelProvider(labelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 
 		viewer.setComparator(createJavaElementComparator());
 		viewer.setUseHashlookup(true);
@@ -380,7 +380,7 @@ public class PackagesView extends JavaBrowsingPart{
 	}
 
 	//alter sorter to include LogicalPackages
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected JavaElementComparator createJavaElementComparator() {
 		return new JavaElementComparator(){
 			@Override
@@ -493,14 +493,14 @@ public class PackagesView extends JavaBrowsingPart{
 		}
 	}
 
-	private void switchViewer(int state) {
+	private void switchViewer(int state) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		//Indicate which viewer is to be used
 		if (fCurrViewState == state)
 			return;
 		else {
 			fCurrViewState= state;
 			IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
-			store.setValue(getViewSite().getId() + TAG_VIEW_STATE, state);
+			store.setValue(getViewSite().getId() + TAG_VIEW_STATE, state); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		//get the information from the existing viewer
@@ -557,7 +557,7 @@ public class PackagesView extends JavaBrowsingPart{
 
 	}
 
-	protected IJavaElement findInputForJavaElement(IJavaElement je, boolean canChangeInputType) {
+	protected IJavaElement findInputForJavaElement(IJavaElement je, boolean canChangeInputType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (je == null || !je.exists())
 			return null;
 
@@ -582,7 +582,7 @@ public class PackagesView extends JavaBrowsingPart{
 	 *
 	 * @see org.eclipse.jdt.internal.ui.browsing.JavaBrowsingPart#createDecoratingLabelProvider(JavaUILabelProvider)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected DecoratingJavaLabelProvider createDecoratingLabelProvider(JavaUILabelProvider provider) {
 		return new DecoratingJavaLabelProvider(provider, false, isInListState()) {
 
@@ -601,7 +601,7 @@ public class PackagesView extends JavaBrowsingPart{
 					ILabelDecorator decorator= getLabelDecorator();
 
 					Image image= super.getImage(el);
-					for (IPackageFragment fragment : el.getFragments()) {
+					for (IPackageFragment fragment : el.getFragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						Image decoratedImage= decorator.decorateImage(image, fragment);
 						if(decoratedImage != null)
 							image= decoratedImage;

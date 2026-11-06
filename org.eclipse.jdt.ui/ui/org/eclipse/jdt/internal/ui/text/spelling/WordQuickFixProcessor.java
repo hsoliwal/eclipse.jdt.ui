@@ -53,7 +53,7 @@ public class WordQuickFixProcessor implements IQuickFixProcessor {
 	/*
 	 * @see org.eclipse.jdt.ui.text.java.IQuickFixProcessor#getCorrections(org.eclipse.jdt.ui.text.java.IInvocationContext,org.eclipse.jdt.ui.text.java.IProblemLocation[])
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IJavaCompletionProposal[] getCorrections(IInvocationContext invocationContext, IProblemLocation[] locations) throws CoreException {
 
 		final int threshold= PreferenceConstants.getPreferenceStore().getInt(PreferenceConstants.SPELLING_PROPOSAL_THRESHOLD);
@@ -75,7 +75,7 @@ public class WordQuickFixProcessor implements IQuickFixProcessor {
 
 		if (checker != null) {
 
-			for (int index= 0; index < locations.length; index++) {
+			for (int index= 0; index < locations.length; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				location= locations[index];
 
 				ISourceViewer sourceViewer= null;
@@ -96,12 +96,12 @@ public class WordQuickFixProcessor implements IQuickFixProcessor {
 							result= new IJavaCompletionProposal[] { new ChangeCaseProposal(arguments, location.getOffset(), location.getLength(), context, engine.getLocale())};
 						else {
 
-							proposals= new ArrayList<>(checker.getProposals(arguments[0], sentence));
+							proposals= new ArrayList<>(checker.getProposals(arguments[0], sentence)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 							size= proposals.size();
 
 							if (threshold > 0 && size > threshold) {
 
-								Collections.sort(proposals);
+								Collections.sort(proposals); //FLLDCIM: MARK — M16 SORT_LANE CALL
 								proposals= proposals.subList(size - threshold - 1, size - 1);
 								size= proposals.size();
 							}
@@ -109,7 +109,7 @@ public class WordQuickFixProcessor implements IQuickFixProcessor {
 							boolean extendable= !fixed ? (checker.acceptsWords() || AddWordProposal.canAskToConfigure()) : false;
 							result= new IJavaCompletionProposal[size + (extendable ? 3 : 2)];
 
-							for (index= 0; index < size; index++) {
+							for (index= 0; index < size; index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 								proposal= proposals.get(index);
 								result[index]= new WordCorrectionProposal(proposal.getText(), arguments, location.getOffset(), location.getLength(), context, proposal.getRank());

@@ -44,7 +44,7 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 
 import org.eclipse.jdt.internal.ui.util.BusyIndicatorRunnableContext;
 
-public final class JUnitAddLibraryProposal implements IJavaCompletionProposal {
+public final class JUnitAddLibraryProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final IInvocationContext fContext;
 	private final boolean fIsJunit4;
@@ -61,7 +61,7 @@ public final class JUnitAddLibraryProposal implements IJavaCompletionProposal {
 		return fRelevance;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 		IJavaProject project= fContext.getCompilationUnit().getJavaProject();
 		Shell shell= JUnitPlugin.getActiveWorkbenchShell();
@@ -87,11 +87,11 @@ public final class JUnitAddLibraryProposal implements IJavaCompletionProposal {
 		}
 	}
 
-	private static boolean addToClasspath(Shell shell, final IJavaProject project, IClasspathEntry entry, IRunnableContext context) throws JavaModelException {
+	private static boolean addToClasspath(Shell shell, final IJavaProject project, IClasspathEntry entry, IRunnableContext context) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IClasspathEntry[] oldEntries= project.getRawClasspath();
-		ArrayList<IClasspathEntry> newEntries= new ArrayList<>(oldEntries.length + 1);
+		ArrayList<IClasspathEntry> newEntries= new ArrayList<>(oldEntries.length + 1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean added= false;
-		for (IClasspathEntry curr : oldEntries) {
+		for (IClasspathEntry curr : oldEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 				IPath path= curr.getPath();
 				if (path.equals(entry.getPath())) {
@@ -126,7 +126,7 @@ public final class JUnitAddLibraryProposal implements IJavaCompletionProposal {
 		final IClasspathEntry[] newCPEntries= newEntries.toArray(new IClasspathEntry[newEntries.size()]);
 		// fix for 64974 OCE in New JUnit Test Case wizard while workspace is locked [JUnit]
 		try {
-			context.run(true, false, monitor -> {
+			context.run(true, false, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					project.setRawClasspath(newCPEntries, monitor);
 				} catch (JavaModelException e) {

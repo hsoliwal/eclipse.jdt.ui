@@ -93,10 +93,10 @@ public class HelperVisitor<E extends HelperVisitorProvider<V, T, E>,V,T> {
 	 * @param dataholder - HelperVisitorProvider providing this HelperVisitor
 	 */
 	public HelperVisitor(Set<ASTNode> nodesprocessed, E dataholder) {
-		this.predicatemap= new LinkedHashMap<>();
-		this.consumermap= new LinkedHashMap<>();
-		this.predicatedata= new HashMap<>();
-		this.consumerdata= new HashMap<>();
+		this.predicatemap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		this.consumermap= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+		this.predicatedata= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		this.consumerdata= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		this.dataholder= dataholder;
 		dataholder.setHelperVisitor(this);

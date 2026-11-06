@@ -79,15 +79,15 @@ public class BinaryReferencesTests {
 
 	private static void assertContainsMatches(List<SearchMatch> matches, String[] expectedHandleIdentifiers) {
 		int matchCount= matches.size();
-		assertTrue("match count too small: " + matchCount, matchCount >= expectedHandleIdentifiers.length);
+		assertTrue("match count too small: " + matchCount, matchCount >= expectedHandleIdentifiers.length); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		List<String> actual= new ArrayList<>();
-		for (int i= 0; i < matchCount; i++) {
+		List<String> actual= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < matchCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchMatch match= matches.get(i);
 			String handleIdentifier= ((IJavaElement) match.getElement()).getHandleIdentifier();
 			actual.add(handleIdentifier);
 		}
-		List<String> expected= new ArrayList<>(Arrays.asList(expectedHandleIdentifiers));
+		List<String> expected= new ArrayList<>(Arrays.asList(expectedHandleIdentifiers)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		expected.removeAll(actual);
 		if (!expected.isEmpty())
 			assertEquals("not all expected matches", expected.toString(), actual.toString());
@@ -100,7 +100,7 @@ public class BinaryReferencesTests {
 	private static IMethod findMethod(IType type, String methodName) throws JavaModelException {
 		IMethod method= type.getMethod(methodName, new String[0]);
 		if (! method.exists()) {
-			for (IMethod m : type.getMethods()) {
+			for (IMethod m : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (m.getElementName().equals(methodName)) {
 					method= m;
 					break;
@@ -145,7 +145,7 @@ public class BinaryReferencesTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenameType02() throws Exception {
 		RenameJavaElementDescriptor descriptor= RefactoringSignatureDescriptorFactory.createRenameJavaElementDescriptor(IJavaRefactorings.RENAME_TYPE);
 		descriptor.setJavaElement(findType("source.Color"));
@@ -294,7 +294,7 @@ public class BinaryReferencesTests {
 		});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRenamePackage02() throws Exception {
 		RenameJavaElementDescriptor descriptor= RefactoringSignatureDescriptorFactory.createRenameJavaElementDescriptor(IJavaRefactorings.RENAME_PACKAGE);
 		IPackageFragment pack= findType("source.BaseClass").getPackageFragment();

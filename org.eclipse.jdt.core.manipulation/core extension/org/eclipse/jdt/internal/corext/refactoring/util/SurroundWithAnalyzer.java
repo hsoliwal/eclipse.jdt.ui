@@ -74,7 +74,7 @@ public class SurroundWithAnalyzer extends CodeAnalyzer {
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void endVisit(CompilationUnit node) {
 		postProcessSelectedNodes(internalGetSelectedNodes());
 		ASTNode enclosingNode= null;
@@ -141,7 +141,7 @@ public class SurroundWithAnalyzer extends CodeAnalyzer {
 	}
 
 	private boolean validSelectedNodes() {
-		for (ASTNode node : getSelectedNodes()) {
+		for (ASTNode node : getSelectedNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean isValidNode= node instanceof Statement;
 			if (fSurroundWithTryCatch) { // allow method reference and lambda's expression body also
 				isValidNode= isValidNode || node instanceof MethodReference || node.getLocationInParent() == LambdaExpression.BODY_PROPERTY;

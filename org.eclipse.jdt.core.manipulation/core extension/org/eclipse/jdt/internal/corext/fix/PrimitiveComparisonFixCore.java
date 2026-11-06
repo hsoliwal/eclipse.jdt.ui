@@ -47,13 +47,13 @@ public class PrimitiveComparisonFixCore extends CompilationUnitRewriteOperations
 			fResult= ops;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final MethodInvocation visited) {
 			if (visited.getExpression() != null
 					&& visited.arguments().size() == 1) {
 				Class<?>[] wrapperClasses= { Integer.class, Boolean.class, Long.class, Double.class, Character.class, Float.class, Short.class, Byte.class };
 
-				for (Class<?> wrapperClass : wrapperClasses) {
+				for (Class<?> wrapperClass : wrapperClasses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String canonicalName= wrapperClass.getCanonicalName();
 					String primitiveName= Bindings.getUnboxedTypeName(canonicalName);
 
@@ -106,7 +106,7 @@ public class PrimitiveComparisonFixCore extends CompilationUnitRewriteOperations
 			this.wrapperClass= wrapperClass;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -135,7 +135,7 @@ public class PrimitiveComparisonFixCore extends CompilationUnitRewriteOperations
 
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<PrimitiveComparisonFixOperation> operations= new ArrayList<>();
+		List<PrimitiveComparisonFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		PrimitiveComparisonFinder finder= new PrimitiveComparisonFinder(operations);
 		compilationUnit.accept(finder);
 

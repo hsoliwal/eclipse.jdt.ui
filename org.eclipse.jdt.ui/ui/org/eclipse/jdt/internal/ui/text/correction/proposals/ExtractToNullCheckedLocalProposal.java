@@ -72,7 +72,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
  *
  * @since 3.9
  */
-public class ExtractToNullCheckedLocalProposal extends LinkedCorrectionProposal {
+public class ExtractToNullCheckedLocalProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public ExtractToNullCheckedLocalProposal(ICompilationUnit cu, CompilationUnit compilationUnit, SimpleName fieldReference, ASTNode enclosingMethod) {
 		super(FixMessages.ExtractToNullCheckedLocalProposal_extractToCheckedLocal_proposalName, cu, null, 100, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE),

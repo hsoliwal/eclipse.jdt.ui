@@ -42,12 +42,12 @@ class LocationLabelProvider extends LabelProvider implements ITableLabelProvider
         return getColumnImage(element, COLUMN_ICON);
     }
 
-    private String removeWhitespaceOutsideStringLiterals(CallLocation callLocation) {
-    	StringBuilder buf = new StringBuilder();
+    private String removeWhitespaceOutsideStringLiterals(CallLocation callLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+    	StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
         boolean withinString = false;
 
         String s= callLocation.getCallText();
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             char ch = s.charAt(i);
 
             if (ch == '"') {
@@ -55,14 +55,14 @@ class LocationLabelProvider extends LabelProvider implements ITableLabelProvider
             }
 
             if (withinString || !Character.isWhitespace(ch)) {
-                buf.append(ch);
+                buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
             } else if (buf.length() == 0
                     || !Character.isWhitespace(buf.charAt(buf.length() - 1))) {
             	if (ch != ' ') {
             		ch = ' ';
             	}
             
-            	buf.append(ch);
+            	buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
             }
         }
 
@@ -77,7 +77,7 @@ class LocationLabelProvider extends LabelProvider implements ITableLabelProvider
         return null;
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getColumnText(Object element, int columnIndex) {
         if (element instanceof CallLocation) {
             CallLocation callLocation= (CallLocation) element;

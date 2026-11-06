@@ -125,7 +125,7 @@ public final class CoreASTProvider {
 	 * @param progressMonitor the progress monitor or <code>null</code>
 	 * @return the AST or <code>null</code> if the AST is not available
 	 */
-	public CompilationUnit getAST(final ITypeRoot input, WAIT_FLAG waitFlag, IProgressMonitor progressMonitor) {
+	public CompilationUnit getAST(final ITypeRoot input, WAIT_FLAG waitFlag, IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (input == null || waitFlag == null)
 			throw new IllegalArgumentException("input or wait flag are null"); //$NON-NLS-1$
 
@@ -138,13 +138,13 @@ public final class CoreASTProvider {
 			if (isActiveElement) {
 				if (fAST != null) {
 					if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-						System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "returning cached AST:" + toString(fAST) + " for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "returning cached AST:" + toString(fAST) + " for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 					return fAST;
 				}
 				if (waitFlag == CoreASTProvider.WAIT_NO) {
 					if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-						System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "returning null (WAIT_NO) for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$
+						System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "returning null (WAIT_NO) for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 					return null;
 
@@ -172,7 +172,7 @@ public final class CoreASTProvider {
 				synchronized (fWaitLock) {
 					if (isReconciling(input)) {
 						if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-							System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "waiting for AST for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$
+							System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "waiting for AST for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						fWaitLock.wait(30000); // XXX: The 30 seconds timeout is an attempt to at least avoid a deadlock. See https://bugs.eclipse.org/366048#c21
 					}
 				}
@@ -181,7 +181,7 @@ public final class CoreASTProvider {
 				synchronized (this) {
 					if (activeElement == fActiveJavaElement && fAST != null) {
 						if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-							System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "...got AST: " + toString(fAST) + " for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "...got AST: " + toString(fAST) + " for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 						return fAST;
 					}
@@ -200,14 +200,14 @@ public final class CoreASTProvider {
 			if (progressMonitor != null && progressMonitor.isCanceled()) {
 				ast= null;
 				if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-					System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "Ignore created AST for: " + input.getElementName() + " - operation has been cancelled"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "Ignore created AST for: " + input.getElementName() + " - operation has been cancelled"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 		} finally {
 			if (isActiveElement) {
 				if (fAST != null) {
 					// in the meantime, reconcile created a new AST. Return that one
 					if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-						System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "Ignore created AST for " + input.getElementName() + " - AST from reconciler is newer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "Ignore created AST for " + input.getElementName() + " - AST from reconciler is newer"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					reconciled(fAST, input, null);
 					return fAST;
 				} else
@@ -248,7 +248,7 @@ public final class CoreASTProvider {
 			return;
 
 		if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "about to reconcile: " + toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$
+			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "about to reconcile: " + toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		synchronized (fReconcileLock) {
 			fReconcilingJavaElement= javaElement;
@@ -265,7 +265,7 @@ public final class CoreASTProvider {
 	 * @param progressMonitor the progress monitor
 	 * @return AST
 	 */
-	private static CompilationUnit createAST(final ITypeRoot input, final IProgressMonitor progressMonitor) {
+	private static CompilationUnit createAST(final ITypeRoot input, final IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!hasSource(input))
 			return null;
 
@@ -290,7 +290,7 @@ public final class CoreASTProvider {
 					if (progressMonitor != null && progressMonitor.isCanceled())
 						return;
 					if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-						System.err.println(getThreadName() + " - " + DEBUG_PREFIX + "creating AST for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$
+						System.err.println(getThreadName() + " - " + DEBUG_PREFIX + "creating AST for: " + input.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					root[0]= (CompilationUnit)parser.createAST(progressMonitor);
 
 					//mark as unmodifiable
@@ -318,9 +318,9 @@ public final class CoreASTProvider {
 	 * See org.eclipse.jdt.internal.ui.text.java.IJavaReconcilingListener#reconciled(CompilationUnit,
 	 *      boolean, IProgressMonitor)
 	 */
-	public void reconciled(CompilationUnit ast, ITypeRoot javaElement, IProgressMonitor progressMonitor) {
+	public void reconciled(CompilationUnit ast, ITypeRoot javaElement, IProgressMonitor progressMonitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "reconciled: " + toString(javaElement) + ", AST: " + toString(ast)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "reconciled: " + toString(javaElement) + ", AST: " + toString(ast)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		synchronized (fReconcileLock) {
 			fIsReconciling= false;
@@ -328,7 +328,7 @@ public final class CoreASTProvider {
 			if (javaElement == null || !javaElement.equals(fReconcilingJavaElement)) {
 
 				if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-					System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "  ignoring AST of out-dated editor"); //$NON-NLS-1$ //$NON-NLS-2$
+					System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "  ignoring AST of out-dated editor"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				// Signal - threads might wait for wrong element
 				synchronized (fWaitLock) {
@@ -357,16 +357,16 @@ public final class CoreASTProvider {
 	 * @param ast the ast
 	 * @param javaElement the java element
 	 */
-	public synchronized void cache(CompilationUnit ast, ITypeRoot javaElement) {
+	public synchronized void cache(CompilationUnit ast, ITypeRoot javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (fActiveJavaElement != null && !fActiveJavaElement.equals(javaElement)) {
 			if (JavaManipulationPlugin.DEBUG_AST_PROVIDER && javaElement != null) // don't report call from disposeAST()
-				System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "don't cache AST for inactive: " + toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$
+				System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "don't cache AST for inactive: " + toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return;
 		}
 
 		if (JavaManipulationPlugin.DEBUG_AST_PROVIDER && (javaElement != null || ast != null)) // don't report call from disposeAST()
-			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "caching AST: " + toString(ast) + " for: " + toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "caching AST: " + toString(ast) + " for: " + toString(javaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		if (fAST != null)
 			disposeAST();
@@ -407,7 +407,7 @@ public final class CoreASTProvider {
 			return;
 
 		if (JavaManipulationPlugin.DEBUG_AST_PROVIDER)
-			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "disposing AST: " + toString(fAST) + " for: " + toString(fActiveJavaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			System.out.println(getThreadName() + " - " + DEBUG_PREFIX + "disposing AST: " + toString(fAST) + " for: " + toString(fActiveJavaElement)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		fAST= null;
 
@@ -440,7 +440,7 @@ public final class CoreASTProvider {
 
 		List<AbstractTypeDeclaration> types= ast.types();
 		if (types != null && types.size() > 0)
-			return types.get(0).getName().getIdentifier() + "(" + ast.hashCode() + ")"; //$NON-NLS-1$//$NON-NLS-2$
+			return types.get(0).getName().getIdentifier() + "(" + ast.hashCode() + ")"; //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		else
 			return "AST without any type"; //$NON-NLS-1$
 	}

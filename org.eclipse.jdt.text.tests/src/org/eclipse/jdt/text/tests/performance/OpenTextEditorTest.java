@@ -49,7 +49,7 @@ public class OpenTextEditorTest extends OpenEditorTest {
 
 		@Override
 		protected void setUp() throws Exception {
-			ResourceTestHelper.replicate("/" + PerformanceTestSetup.PROJECT + ORIG_FILE, PREFIX, FILE_SUFFIX, WARM_UP_RUNS + MEASURED_RUNS, ResourceTestHelper.SKIP_IF_EXISTS);
+			ResourceTestHelper.replicate("/" + PerformanceTestSetup.PROJECT + ORIG_FILE, PREFIX, FILE_SUFFIX, WARM_UP_RUNS + MEASURED_RUNS, ResourceTestHelper.SKIP_IF_EXISTS); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			ResourceTestHelper.copy(ORIG_LARGE_FILE, LARGE_FILE, ResourceTestHelper.SKIP_IF_EXISTS);
 			EditorTestHelper.showPerspective(EditorTestHelper.RESOURCE_PERSPECTIVE_ID);
 		}
@@ -78,15 +78,15 @@ public class OpenTextEditorTest extends OpenEditorTest {
 
 	private static final String FILE_SUFFIX= ".txt";
 
-	private static final String ORIG_FILE= PATH + FILE_PREFIX + ".java";
+	private static final String ORIG_FILE= PATH + FILE_PREFIX + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX;
+	private static final String PREFIX= "/" + PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String LARGE_FILE_PREFIX= "/org.eclipse.swt/Eclipse SWT Custom Widgets/common/org/eclipse/swt/custom/StyledText";
 
-	private static final String ORIG_LARGE_FILE= LARGE_FILE_PREFIX + ".java";
+	private static final String ORIG_LARGE_FILE= LARGE_FILE_PREFIX + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	private static final String LARGE_FILE= LARGE_FILE_PREFIX + ".txt";
+	private static final String LARGE_FILE= LARGE_FILE_PREFIX + ".txt"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public OpenTextEditorTest() {
 		super();
@@ -134,18 +134,18 @@ public class OpenTextEditorTest extends OpenEditorTest {
 
 	public void testOpenFirstEditor() throws Exception {
 		PerformanceMeter performanceMeter= createPerformanceMeterForSummary(SHORT_NAME_FIRST_RUN, Dimension.ELAPSED_PROCESS);
-		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, 0, 1), performanceMeter, false);
+		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, 0, 1), performanceMeter, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void testOpenTextEditor1() throws Exception {
-		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, 0, getWarmUpRuns()), Performance.getDefault().getNullPerformanceMeter(), false);
-		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, getWarmUpRuns(), getMeasuredRuns()), createPerformanceMeter(), false);
+		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, 0, getWarmUpRuns()), Performance.getDefault().getNullPerformanceMeter(), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, getWarmUpRuns(), getMeasuredRuns()), createPerformanceMeter(), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void testOpenTextEditor2() throws Exception {
-		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, 0, getWarmUpRuns()), Performance.getDefault().getNullPerformanceMeter(), false);
+		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, 0, getWarmUpRuns()), Performance.getDefault().getNullPerformanceMeter(), false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		PerformanceMeter performanceMeter= createPerformanceMeter();
-		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, getWarmUpRuns(), getMeasuredRuns()), performanceMeter, false);
+		measureOpenInEditor(ResourceTestHelper.findFiles(PerformanceTestSetup.PROJECT + PATH + FILE_PREFIX, FILE_SUFFIX, getWarmUpRuns(), getMeasuredRuns()), performanceMeter, false); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public void testOpenEditor3() throws Exception {

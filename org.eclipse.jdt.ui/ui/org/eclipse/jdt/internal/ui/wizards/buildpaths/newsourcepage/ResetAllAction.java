@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 
 //TODO: Use global history
-public class ResetAllAction extends BuildpathModifierAction {
+public class ResetAllAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final HintTextGroup fProvider;
 	private final IRunnableContext fContext;
@@ -69,7 +69,7 @@ public class ResetAllAction extends BuildpathModifierAction {
 		return NewWizardMessages.PackageExplorerActionGroup_FormText_Default_ResetAll;
 	}
 
-	public void setBreakPoint(IJavaProject javaProject) {
+	public void setBreakPoint(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fJavaProject= javaProject;
 		if (fJavaProject.exists()) {
 			try {
@@ -81,7 +81,7 @@ public class ResetAllAction extends BuildpathModifierAction {
             }
 			setEnabled(true);
 		} else {
-			JavaCore.addElementChangedListener(new IElementChangedListener() {
+			JavaCore.addElementChangedListener(new IElementChangedListener() { //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 
 				@Override
 				public void elementChanged(ElementChangedEvent event) {
@@ -103,11 +103,11 @@ public class ResetAllAction extends BuildpathModifierAction {
 		}
     }
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 
 		try {
-	        final IRunnableWithProgress runnable= monitor -> {
+	        final IRunnableWithProgress runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 
 				monitor.beginTask("", 3); //$NON-NLS-1$
 				try {
@@ -122,7 +122,7 @@ public class ResetAllAction extends BuildpathModifierAction {
 					fJavaProject.setOutputLocation(fOutputLocation, monitor);
 					delta.setDefaultOutputLocation(fOutputLocation);
 
-					for (IResource resource : fProvider.getCreatedResources()) {
+					for (IResource resource : fProvider.getCreatedResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						resource.delete(false, null);
 						delta.addDeletedResource(resource);
 					}
@@ -169,7 +169,7 @@ public class ResetAllAction extends BuildpathModifierAction {
             return true;
 
         int i= 0;
-		for (CPListElement oldEntry : fEntries) {
+		for (CPListElement oldEntry : fEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!oldEntry.getClasspathEntry().equals(currentEntries[i]))
 				return true;
 			i++;

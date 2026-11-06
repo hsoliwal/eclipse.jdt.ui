@@ -24,7 +24,7 @@ public class RevertJavaEditorTest extends RevertEditorTest {
 
 	private static final Class<RevertJavaEditorTest> THIS= RevertJavaEditorTest.class;
 
-	private static final String FILE= PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout.java";
+	private static final String FILE= PerformanceTestSetup.PROJECT + "/Eclipse SWT/win32/org/eclipse/swt/graphics/TextLayout.java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static Test suite() {
 		return new PerformanceTestSetup(new TestSuite(THIS));

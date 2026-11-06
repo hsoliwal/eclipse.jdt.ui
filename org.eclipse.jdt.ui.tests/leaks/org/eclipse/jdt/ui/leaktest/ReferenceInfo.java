@@ -43,19 +43,19 @@ public class ReferenceInfo {
 		fIsPosibleLeak= isPosibleLeak;
 	}
 
-	private BacklinkNode[] getBacklinkNodes(ReferencedObject curr) {
-		ArrayList<BacklinkNode> res= new ArrayList<>();
+	private BacklinkNode[] getBacklinkNodes(ReferencedObject curr) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<BacklinkNode> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		while (curr != null) {
+		while (curr != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String str;
 			if (curr instanceof ReferencedArrayElement) {
 				ReferencedArrayElement ref= (ReferencedArrayElement) curr;
 				String name= ref.getReferenceHolder().getValue().getClass().getComponentType().getName();
-				str= name + String.valueOf('[') + ref.getIndex() + String.valueOf(']');
+				str= name + String.valueOf('[') + ref.getIndex() + String.valueOf(']'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else if (curr instanceof ReferencedFieldElement) {
 				ReferencedFieldElement ref= (ReferencedFieldElement) curr;
 				String name= ref.getField().getDeclaringClass().getName();
-				str= name + "#" + ref.getField().getName();
+				str= name + "#" + ref.getField().getName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			} else {
 				str= curr.getValue().getClass().getName();
 			}
@@ -75,14 +75,14 @@ public class ReferenceInfo {
 
 	@Override
 	public String toString() {
-		StringBuilder buf= new StringBuilder();
-		buf.append(getReference().getClass().getName()).append('\n');
-		for (BacklinkNode backlinkNode : getBacklinkNodes()) {
-			buf.append("  ").append(backlinkNode.getBackLinkString());
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(getReference().getClass().getName()).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (BacklinkNode backlinkNode : getBacklinkNodes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("  ").append(backlinkNode.getBackLinkString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String value= backlinkNode.getValue().toString();
 			if (value.length() > 100)
 				value= value.substring(0, 99);
-			buf.append(" -> ").append(value).append('\n');
+			buf.append(" -> ").append(value).append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

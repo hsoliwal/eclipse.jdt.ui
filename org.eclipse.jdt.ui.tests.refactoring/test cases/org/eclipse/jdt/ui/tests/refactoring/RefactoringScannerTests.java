@@ -59,24 +59,24 @@ public class RefactoringScannerTests extends GenericRefactoringTest {
 	}
 
 	private void helper(String fileName, int expectedMatchCount)	throws Exception{
-		String text= getFileContents(getRefactoringPath() + fileName);
+		String text= getFileContents(getRefactoringPath() + fileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fScanner.scan(text);
 		assertEquals("results.length", expectedMatchCount, fScanner.getMatches().size());
 	}
 
 	private void helper2(String fileName, Position[] expectedMatches)	throws Exception{
-		String text= getFileContents(getRefactoringPath() + fileName);
+		String text= getFileContents(getRefactoringPath() + fileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fScanner.scan(text);
 
-		ArrayList<Integer> expectedMatchesList= new ArrayList<>(expectedMatches.length);
-		for (Position expectedMatch : expectedMatches) {
+		ArrayList<Integer> expectedMatchesList= new ArrayList<>(expectedMatches.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (Position expectedMatch : expectedMatches) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			expectedMatchesList.add(TextRangeUtil.getOffset(text, expectedMatch.fLine, expectedMatch.fColumn));
 		}
-		ArrayList<Integer> matchesList= new ArrayList<>();
-		for (TextMatch element : fScanner.getMatches()) {
+		ArrayList<Integer> matchesList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (TextMatch element : fScanner.getMatches()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			matchesList.add(element.getStartPosition());
 		}
-		Collections.sort(matchesList);
+		Collections.sort(matchesList); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		assertEquals("results", expectedMatchesList.toString(), matchesList.toString());
 	}
 

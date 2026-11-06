@@ -27,7 +27,7 @@ import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.PlatformUI;
 
 
-public class ColoredViewersManager implements IPropertyChangeListener {
+public class ColoredViewersManager implements IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	public static final String INHERITED_COLOR_NAME= "org.eclipse.jdt.ui.ColoredLabels.inherited"; //$NON-NLS-1$
 
@@ -39,7 +39,7 @@ public class ColoredViewersManager implements IPropertyChangeListener {
 	private Set<ColoringLabelProvider> fManagedLabelProviders;
 
 	public ColoredViewersManager() {
-		fManagedLabelProviders= new HashSet<>();
+		fManagedLabelProviders= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	public void installColoredLabels(ColoringLabelProvider labelProvider) {
@@ -49,7 +49,7 @@ public class ColoredViewersManager implements IPropertyChangeListener {
 		if (fManagedLabelProviders.isEmpty()) {
 			// first lp installed
 			PlatformUI.getPreferenceStore().addPropertyChangeListener(this);
-			JFaceResources.getColorRegistry().addListener(this);
+			JFaceResources.getColorRegistry().addListener(this); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 		}
 		fManagedLabelProviders.add(labelProvider);
 	}
@@ -76,12 +76,12 @@ public class ColoredViewersManager implements IPropertyChangeListener {
 				|| INHERITED_COLOR_NAME.equals(property)
 				|| IWorkbenchPreferenceConstants.USE_COLORED_LABELS.equals(property)
 		) {
-			Display.getDefault().asyncExec(this::updateAllViewers);
+			Display.getDefault().asyncExec(this::updateAllViewers); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		}
 	}
 
 	protected final void updateAllViewers() {
-		for (ColoringLabelProvider lp : fManagedLabelProviders) {
+		for (ColoringLabelProvider lp : fManagedLabelProviders) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			lp.update();
 		}
 	}

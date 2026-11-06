@@ -29,9 +29,9 @@ public class JavaSearchTableContentProvider extends JavaSearchContentProvider {
 	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof AbstractTextSearchResult) {
-			Set<Object> filteredElements= new HashSet<>();
+			Set<Object> filteredElements= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			int limit= getPage().getElementLimit();
-			for (Object rawElement : ((AbstractTextSearchResult)inputElement).getElements()) {
+			for (Object rawElement : ((AbstractTextSearchResult)inputElement).getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (getPage().getDisplayedMatchCount(rawElement) > 0) {
 					filteredElements.add(rawElement);
 					if (limit != -1 && limit < filteredElements.size()) {
@@ -44,7 +44,7 @@ public class JavaSearchTableContentProvider extends JavaSearchContentProvider {
 		return EMPTY_ARR;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void elementsChanged(Object[] updatedElements) {
 		if (getSearchResult() == null)
 			return;
@@ -52,10 +52,10 @@ public class JavaSearchTableContentProvider extends JavaSearchContentProvider {
 		int addLimit= getAddLimit();
 
 		TableViewer viewer= (TableViewer) getPage().getViewer();
-		Set<Object> updated= new HashSet<>();
-		Set<Object> added= new HashSet<>();
-		Set<Object> removed= new HashSet<>();
-		for (Object updatedElement : updatedElements) {
+		Set<Object> updated= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<Object> added= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<Object> removed= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object updatedElement : updatedElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (getPage().getDisplayedMatchCount(updatedElement) > 0) {
 				if (viewer.testFindItem(updatedElement) != null) {
 					updated.add(updatedElement);
@@ -90,7 +90,7 @@ public class JavaSearchTableContentProvider extends JavaSearchContentProvider {
 
 	@Override
 	public void clear() {
-		getPage().getViewer().refresh();
+		getPage().getViewer().refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 }

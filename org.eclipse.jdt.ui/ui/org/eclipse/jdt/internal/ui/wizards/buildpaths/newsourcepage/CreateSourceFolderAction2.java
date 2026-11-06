@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 import org.eclipse.ui.part.ISetSelectionTarget;
 
-public class CreateSourceFolderAction2 extends CreateSourceFolderAction {
+public class CreateSourceFolderAction2 extends CreateSourceFolderAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final HintTextGroup fProvider;
 

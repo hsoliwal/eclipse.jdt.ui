@@ -85,7 +85,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		return null;
 	}
 
-	private void fieldMethodHelper1(String[] fieldNames, String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods) throws Exception{
+	private void fieldMethodHelper1(String[] fieldNames, String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IField[] fields= getFields(type, fieldNames);
@@ -118,7 +118,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines(expected, actual);
 	}
 
-	private void fieldMethodHelper2(String[] fieldNames, String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods) throws Exception {
+	private void fieldMethodHelper2(String[] fieldNames, String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cuQ= createCUfromTestFile(getPackageQ(), "Asuper", "q/");
 		ICompilationUnit cuP= createCUfromTestFile(getPackageP(), "A", "p/");
 		createCUfromTestFile(getPackageP(), "C", "p/");
@@ -179,7 +179,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		processor.setDestinationType(getPossibleTargetClasses(processor)[possibleClasses.length - 1 - targetClassIndex]);
 	}
 
-	private void addRequiredMembersHelper(String[] fieldNames, String[] methodNames, String[][] methodSignatures, String[] expectedFieldNames, String[] expectedMethodNames, String[][] expectedMethodSignatures) throws Exception {
+	private void addRequiredMembersHelper(String[] fieldNames, String[] methodNames, String[][] methodSignatures, String[] expectedFieldNames, String[] expectedMethodNames, String[][] expectedMethodSignatures) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IField[] fields= getFields(type, fieldNames);
@@ -199,21 +199,21 @@ public class PullUpTests extends GenericRefactoringTest {
 		List<IMember> additionalRequired= Arrays.asList(processor.getAdditionalRequiredMembersToPullUp(testMonitor));
 		testMonitor.assertUsedUp();
 		testMonitor.prepare();
-		List<IMember> required= new ArrayList<>(additionalRequired);
+		List<IMember> required= new ArrayList<>(additionalRequired); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		required.addAll(Arrays.asList(members));
 		IField[] expectedFields= getFields(type, expectedFieldNames);
 		IMethod[] expectedMethods= getMethods(type, expectedMethodNames, expectedMethodSignatures);
 		List<IMember> expected= Arrays.asList(merge(expectedFields, expectedMethods));
 		assertEquals("incorrect size", expected.size(), required.size());
-		for (IMember each : expected) {
-			assertTrue ("required does not contain " + each, required.contains(each));
+		for (IMember each : expected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue ("required does not contain " + each, required.contains(each)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
-		for (IMember each : required) {
-			assertTrue ("expected does not contain " + each, expected.contains(each));
+		for (IMember each : required) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			assertTrue ("expected does not contain " + each, expected.contains(each)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private void fieldHelper1(String[] fieldNames, int targetClassIndex) throws Exception{
+	private void fieldHelper1(String[] fieldNames, int targetClassIndex) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IField[] fields= getFields(type, fieldNames);
@@ -238,7 +238,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines(expected, actual);
 	}
 
-	private void fieldHelper1b(String[] fieldNames, int targetClassIndex) throws Exception{
+	private void fieldHelper1b(String[] fieldNames, int targetClassIndex) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType typeC= getType(cu, "C");
 		IField[] fields= getFields(typeC, fieldNames);
@@ -263,7 +263,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines(expected, actual);
 	}
 
-	private void fieldHelper2(String[] fieldNames, int targetClassIndex) throws Exception{
+	private void fieldHelper2(String[] fieldNames, int targetClassIndex) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IField[] fields= getFields(type, fieldNames);
@@ -288,7 +288,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		return l.toArray(new IMethod[l.size()]);
 	}
 
-	private Refactoring createRefactoringPrepareForInputCheck(String[] selectedMethodNames, String[][] selectedMethodSignatures,
+	private Refactoring createRefactoringPrepareForInputCheck(String[] selectedMethodNames, String[][] selectedMethodSignatures, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String[] selectedFieldNames,
 			String[] selectedTypeNames, String[] namesOfMethodsToPullUp,
 			String[][] signaturesOfMethodsToPullUp,
@@ -373,7 +373,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines(expected, actual);
 	}
 
-	private void helper1(String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, int targetClassIndex) throws Exception{
+	private void helper1(String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, int targetClassIndex) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IMethod[] methods= getMethods(type, methodNames, signatures);
@@ -407,7 +407,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines(expected, actual);
 	}
 
-	private void helper2(String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, int targetClassIndex) throws Exception{
+	private void helper2(String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, int targetClassIndex) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IType type= getType(cu, "B");
 		IMethod[] methods= getMethods(type, methodNames, signatures);
@@ -435,7 +435,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertFalse("precondition was supposed to fail", checkInputResult.isOK());
 	}
 
-	private void helper3(String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, int targetClassIndex, boolean shouldActivationCheckPass) throws Exception {
+	private void helper3(String[] methodNames, String[][] signatures, boolean deleteAllInSourceType, boolean deleteAllMatchingMethods, int targetClassIndex, boolean shouldActivationCheckPass) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
 		IType type= getType(cuB, "B");
@@ -488,7 +488,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		helper1(new String[] { "mmm", "n" }, new String[][] { new String[0], new String[0] }, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test4() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -519,7 +519,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("B", cuB.getSource(), getFileContents(getOutputTestFileName("B")));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test5() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -580,7 +580,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		helper1(new String[] { "m" }, new String[][] { new String[0] }, true, false, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test12() throws Exception {
 		//printTestDisabledMessage("bug#6779 searchDeclarationsOfReferencedTyped - missing exception  types");
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -722,7 +722,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, new String[0], true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test28() throws Exception {
 //		printTestDisabledMessage("unimplemented (increase method visibility if declare abstract in superclass)");
 		String[] selectedMethodNames= { "m" };
@@ -932,7 +932,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, new String[0], true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test39() throws Exception {
 		String[] selectedMethodNames= { "m" };
 		String[][] selectedMethodSignatures= { new String[0] };
@@ -953,7 +953,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test40() throws Exception {
 		String[] selectedMethodNames= { "m" };
 		String[][] selectedMethodSignatures= { new String[0] };
@@ -974,7 +974,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test41() throws Exception {
 		String[] selectedMethodNames= {};
 		String[][] selectedMethodSignatures= {};
@@ -995,7 +995,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test42() throws Exception {
 		String[] selectedMethodNames= {};
 		String[][] selectedMethodSignatures= {};
@@ -1016,7 +1016,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test43() throws Exception {
 //		printTestDisabledMessage("bug 35562 Method pull up wrongly indents javadoc comment [refactoring]");
 
@@ -1039,7 +1039,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test44() throws Exception {
 		String[] selectedMethodNames= { "m" };
 		String[][] selectedMethodSignatures= { new String[0] };
@@ -1060,7 +1060,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test45() throws Exception {
 		String[] selectedMethodNames= { "m" };
 		String[][] selectedMethodSignatures= { new String[0] };
@@ -1081,7 +1081,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test46() throws Exception {
 		// for bug 196635
 
@@ -1104,7 +1104,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test47() throws Exception {
 		// for bug 211491
 
@@ -1127,7 +1127,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test48() throws Exception {
 		// for bug 211491, but with a super class
 
@@ -1150,7 +1150,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, false, false, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test49() throws Exception {
 		// for bug 228950
 
@@ -1173,7 +1173,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, false, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test50() throws Exception {
 		// for bug 125326
 
@@ -1203,7 +1203,7 @@ public class PullUpTests extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test51() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -1263,7 +1263,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, new String[0], true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test55() throws Exception {
 		// test for bug 355327
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1297,7 +1297,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("C", getFileContents(getOutputTestFileName("C")), cuC.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test56() throws Exception {
 		// test for bug 241035
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1334,7 +1334,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("C", getFileContents(getOutputTestFileName("C")), cuC.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test57() throws Exception {
 		// test for bug 241035
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1371,7 +1371,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("C", getFileContents(getOutputTestFileName("C")), cuC.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test58() throws Exception {
 		// test for bug 241035
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1408,7 +1408,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("C", getFileContents(getOutputTestFileName("C")), cuC.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test59() throws Exception {
 		// test for bug 241035
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1445,7 +1445,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("C", getFileContents(getOutputTestFileName("C")), cuC.getSource());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test60() throws Exception {
 		// test for bug 241035
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1492,7 +1492,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		helper1(new String[] { "foo" }, new String[][] { new String[0] }, true, false, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test63() throws Exception {
 		// test for bug 241035
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -1778,7 +1778,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, new String[0], true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail25() throws Exception {
 		String[] selectedMethodNames= {};
 		String[][] selectedMethodSignatures= {};
@@ -1799,7 +1799,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail26() throws Exception {
 		String[] selectedMethodNames= {};
 		String[][] selectedMethodSignatures= {};
@@ -1820,7 +1820,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail27() throws Exception {
 		String[] selectedMethodNames= {};
 		String[][] selectedMethodSignatures= {};
@@ -1841,7 +1841,7 @@ public class PullUpTests extends GenericRefactoringTest {
 				signaturesOfMethodsToDeclareAbstract, namesOfTypesToPullUp, true, true, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail28() throws Exception {
 		String[] selectedMethodNames= {};
 		String[][] selectedMethodSignatures= {};
@@ -1897,7 +1897,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		helper2(new String[] { "method" }, new String[][] { new String[0] }, true, false, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail36() throws Exception {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IJavaElement element= cu.getElementAt(322);
@@ -1918,7 +1918,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		testMonitor.prepare();
 		assertFalse("precondition was supposed to fail", checkInputResult.isOK());
 	}
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFail37() throws Exception {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "A");
 		IJavaElement element= cu.getElementAt(409);
@@ -2368,7 +2368,7 @@ public class PullUpTests extends GenericRefactoringTest {
 
 	//------------------ tests -------------
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports0() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -2399,7 +2399,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		assertEqualLines("B", cuB.getSource(), getFileContents(getOutputTestFileName("B")));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImports1() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -2450,7 +2450,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		helper1(new String[] { "mmm", "n" }, new String[][] { new String[] { "QT;" }, new String[0] }, true, true, 0);
 	}
 
-	@Ignore("see bug 75642")
+	@Ignore("see bug 75642") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void testGenerics4() throws Exception {
 
@@ -2475,7 +2475,7 @@ public class PullUpTests extends GenericRefactoringTest {
 //		assertEqualLines("B", cuB.getSource(), getFileContents(getOutputTestFileName("B")));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGenerics5() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -2538,7 +2538,7 @@ public class PullUpTests extends GenericRefactoringTest {
 		helper1(new String[] { "m" }, new String[][] { new String[0] }, true, false, 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGenerics12() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");

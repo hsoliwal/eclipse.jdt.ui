@@ -47,7 +47,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 	private HashSet<SimilarElement> fResult;
 	private boolean fExcludeTestCode;
 
-	private static boolean isTestSource(ICompilationUnit cu) {
+	private static boolean isTestSource(ICompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IJavaProject javaProject= cu.getJavaProject();
 			if(javaProject==null) {
@@ -55,7 +55,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 			}
 			IClasspathEntry[] resolvedClasspath= javaProject.getResolvedClasspath(true);
 			final IPath resourcePath= cu.getResource().getFullPath();
-			for (IClasspathEntry e : resolvedClasspath) {
+			for (IClasspathEntry e : resolvedClasspath) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (e.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					if (e.isTest()) {
 						if (e.getPath().isPrefixOf(resourcePath)) {
@@ -70,7 +70,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 		return false;
 	}
 
-	public static SimilarElement[] findSimilarElement(ICompilationUnit cu, Name name, int kind) throws JavaModelException {
+	public static SimilarElement[] findSimilarElement(ICompilationUnit cu, Name name, int kind) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int pos= name.getStartPosition();
 		int nArguments= -1;
 
@@ -118,7 +118,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 		}
 	}
 
-	private static ICompilationUnit createPreparedCU(ICompilationUnit cu, Javadoc comment, int wordStart) throws JavaModelException {
+	private static ICompilationUnit createPreparedCU(ICompilationUnit cu, Javadoc comment, int wordStart) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int startpos= comment.getStartPosition();
 		boolean isTopLevel= comment.getParent().getParent() instanceof CompilationUnit;
 		char[] content= cu.getBuffer().getCharacters().clone();
@@ -127,7 +127,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 			content[startpos++]= 'o'; content[startpos++]= 'r'; content[startpos++]= 't';
 		}
 		if (wordStart < content.length) {
-			for (int i= startpos; i < wordStart; i++) {
+			for (int i= startpos; i < wordStart; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				content[i]= ' ';
 			}
 		}
@@ -155,7 +155,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 		fKind= kind;
 		fExcludeTestCode= excludeTestCode;
 
-		fResult= new HashSet<>();
+		fResult= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		// nArguments and preferredType not yet used
 	}
 
@@ -182,7 +182,7 @@ public class SimilarElementsRequestor extends CompletionRequestor {
 	 */
 	private void processKeywords() {
 		if (isKind(TypeKinds.PRIMITIVETYPES)) {
-			for (String t : PRIM_TYPES) {
+			for (String t : PRIM_TYPES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (NameMatcher.isSimilarName(fName, t)) {
 					addResult(new SimilarElement(TypeKinds.PRIMITIVETYPES, t, 50));
 				}

@@ -147,7 +147,7 @@ public abstract class JdtViewerDropAdapter extends DropTargetAdapter {
      * @param event the event
      * @return one of the <code>LOCATION_* </code>constants defined in this class
      */
-    protected int determineLocation(DropTargetEvent event) {
+    protected int determineLocation(DropTargetEvent event) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (!(event.item instanceof Item)) {
             return LOCATION_NONE;
         }
@@ -390,7 +390,7 @@ public abstract class JdtViewerDropAdapter extends DropTargetAdapter {
      * target item has changed, notify the action and check
      * that it is still enabled.
      */
-    private void setFeedback(DropTargetEvent event, int location) {
+    private void setFeedback(DropTargetEvent event, int location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if (feedbackEnabled) {
             switch (location) {
             case LOCATION_BEFORE:

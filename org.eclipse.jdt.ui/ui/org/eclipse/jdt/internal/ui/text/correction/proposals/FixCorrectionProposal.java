@@ -63,7 +63,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ImageImageDescriptor;
  * proposal may have an {@link ICleanUp} attached which can be executed instead of the provided
  * IFix.
  */
-public class FixCorrectionProposal extends LinkedCorrectionProposal implements ICompletionProposalExtension2, IStatusLineProposal {
+public class FixCorrectionProposal extends LinkedCorrectionProposal implements ICompletionProposalExtension2, IStatusLineProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private ICleanUp fCleanUp;
 
@@ -82,7 +82,7 @@ public class FixCorrectionProposal extends LinkedCorrectionProposal implements I
 		this.fCleanUp= core.getCleanUp();
 	}
 
-	public void resolve(MultiFixTarget[] targets, final IProgressMonitor monitor) throws CoreException {
+	public void resolve(MultiFixTarget[] targets, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (targets.length == 0)
 			return;
 
@@ -98,13 +98,13 @@ public class FixCorrectionProposal extends LinkedCorrectionProposal implements I
 		}
 
 		final CleanUpRefactoring refactoring= new CleanUpRefactoring(changeName);
-		for (MultiFixTarget target : targets) {
+		for (MultiFixTarget target : targets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			refactoring.addCleanUpTarget(target);
 		}
 
 		refactoring.addCleanUp(fCleanUp);
 
-		IRunnableContext context= (_, _, runnable) -> runnable.run(monitor == null ? new NullProgressMonitor() : monitor);
+		IRunnableContext context= (unused, unused2, runnable) -> runnable.run(monitor == null ? new NullProgressMonitor() : monitor);
 
 		Shell shell= JavaPlugin.getActiveWorkbenchShell();
 		RefactoringExecutionHelper helper= new RefactoringExecutionHelper(refactoring, IStatus.INFO, IRefactoringSaveModes.SAVE_REFACTORING, shell, context);
@@ -129,7 +129,7 @@ public class FixCorrectionProposal extends LinkedCorrectionProposal implements I
 		return ((FixCorrectionProposalCore) getDelegate()).getFixStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage() {
 		FixCorrectionProposalCore d= ((FixCorrectionProposalCore) getDelegate());
 		IStatus status= d == null ? Status.OK_STATUS : d.getFixStatus();
@@ -196,7 +196,7 @@ public class FixCorrectionProposal extends LinkedCorrectionProposal implements I
 		return cleanUp instanceof IMultiFix ? ((IMultiFix) cleanUp).computeNumberOfFixes(cu) : -1;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 		if ((stateMask & SWT.MODIFIER_MASK) == SWT.CONTROL && fCleanUp != null) {
 			CleanUpRefactoring refactoring= new CleanUpRefactoring();

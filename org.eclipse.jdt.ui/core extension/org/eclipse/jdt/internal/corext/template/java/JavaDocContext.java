@@ -99,7 +99,7 @@ public class JavaDocContext extends CompilationUnitContext {
 	/*
 	 * @see DocumentTemplateContext#getStart()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int getStart() {
 		if (this.isManaged() && getCompletionLength() > 0)
 			return super.getStart();
@@ -113,7 +113,7 @@ public class JavaDocContext extends CompilationUnitContext {
 				if ((start != 0) && (document.getChar(start - 1) == HTML_TAG_END))
 					start--;
 
-				while ((start != 0) && Character.isUnicodeIdentifierPart(document.getChar(start - 1)))
+				while ((start != 0) && Character.isUnicodeIdentifierPart(document.getChar(start - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					start--;
 
 				if ((start != 0) && Character.isUnicodeIdentifierStart(document.getChar(start - 1)))
@@ -134,10 +134,10 @@ public class JavaDocContext extends CompilationUnitContext {
 			int start= getCompletionOffset();
 			int end= getCompletionOffset() + getCompletionLength();
 
-			while (start != 0 && Character.isUnicodeIdentifierPart(document.getChar(start - 1)))
+			while (start != 0 && Character.isUnicodeIdentifierPart(document.getChar(start - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start--;
 
-			while (start != end && Character.isWhitespace(document.getChar(start)))
+			while (start != end && Character.isWhitespace(document.getChar(start))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start++;
 
 			if (start == end)
@@ -154,7 +154,7 @@ public class JavaDocContext extends CompilationUnitContext {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.template.DocumentTemplateContext#getEnd()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int getEnd() {
 
 		if (this.isManaged() || getCompletionLength() == 0)
@@ -166,7 +166,7 @@ public class JavaDocContext extends CompilationUnitContext {
 			int start= getCompletionOffset();
 			int end= getCompletionOffset() + getCompletionLength();
 
-			while (start != end && Character.isWhitespace(document.getChar(end - 1)))
+			while (start != end && Character.isWhitespace(document.getChar(end - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				end--;
 
 			return end;
@@ -179,7 +179,7 @@ public class JavaDocContext extends CompilationUnitContext {
 	/*
 	 * @see org.eclipse.jdt.internal.corext.template.DocumentTemplateContext#getKey()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getKey() {
 
 		if (getCompletionLength() == 0)

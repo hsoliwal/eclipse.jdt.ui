@@ -81,7 +81,7 @@ public class BusyIndicatorRunnableContext implements IRunnableContext {
 				fThrowable= e;
 			}
 		}
-		private void internalRun(boolean fork, final IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException {
+		private void internalRun(boolean fork, final IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Thread thread= Thread.currentThread();
 			// Do not spawn another thread if we are already in a modal context
 			// thread or inside a busy context thread.

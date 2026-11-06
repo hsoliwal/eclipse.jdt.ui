@@ -42,10 +42,10 @@ public class JUnitPropertyTester extends PropertyTester {
 
 	private static final String PROPERTY_CAN_LAUNCH_AS_JUNIT_TEST= "canLaunchAsJUnit"; //$NON-NLS-1$
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		if (!(receiver instanceof IAdaptable)) {
-			throw new IllegalArgumentException("Element must be of type 'IAdaptable', is " + (receiver == null ? "null" : receiver.getClass().getName())); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalArgumentException("Element must be of type 'IAdaptable', is " + (receiver == null ? "null" : receiver.getClass().getName())); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		IJavaElement element;
@@ -71,10 +71,10 @@ public class JUnitPropertyTester extends PropertyTester {
 		} else if (PROPERTY_CAN_LAUNCH_AS_JUNIT_TEST.equals(property)) {
 			return canLaunchAsJUnitTest(element);
 		}
-		throw new IllegalArgumentException("Unknown test property '" + property + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("Unknown test property '" + property + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	private boolean canLaunchAsJUnitTest(IJavaElement element) {
+	private boolean canLaunchAsJUnitTest(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			switch (element.getElementType()) {
 				case IJavaElement.JAVA_PROJECT:
@@ -84,7 +84,7 @@ public class JUnitPropertyTester extends PropertyTester {
 					return ((IPackageFragment) element).hasChildren() || ((IPackageFragment) element).hasSubpackages();
 				case IJavaElement.COMPILATION_UNIT:
 					IType[] types= ((ICompilationUnit) element).getAllTypes();
-					for (IType type : types) {
+					for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (isJUnitTest(type)) {
 							return true;
 						}
@@ -106,7 +106,7 @@ public class JUnitPropertyTester extends PropertyTester {
 	/*
 	 * Return whether the target resource is a JUnit test.
 	 */
-	private boolean isJUnitTest(IJavaElement element) {
+	private boolean isJUnitTest(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			IType testType= null;
 			if (element instanceof ICompilationUnit) {

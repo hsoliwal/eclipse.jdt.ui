@@ -98,7 +98,7 @@ public class JavaCodeReader extends SingleCharacterReader {
 	}
 
 	private void gotoCommentEnd() throws BadLocationException {
-		while (fOffset < fEnd) {
+		while (fOffset < fEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char current= fDocument.getChar(fOffset++);
 			if (current == '*') {
 				if (fOffset < fEnd && fDocument.getChar(fOffset) == '/') {
@@ -110,7 +110,7 @@ public class JavaCodeReader extends SingleCharacterReader {
 	}
 
 	private void gotoStringEnd(char delimiter) throws BadLocationException {
-		while (fOffset < fEnd) {
+		while (fOffset < fEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char current= fDocument.getChar(fOffset++);
 			if (current == '\\') {
 				// ignore escaped characters
@@ -126,8 +126,8 @@ public class JavaCodeReader extends SingleCharacterReader {
 		fOffset= fDocument.getLineOffset(line + 1);
 	}
 
-	private int readForwards() throws BadLocationException {
-		while (fOffset < fEnd) {
+	private int readForwards() throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		while (fOffset < fEnd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char current= fDocument.getChar(fOffset++);
 
 			switch (current) {
@@ -172,7 +172,7 @@ public class JavaCodeReader extends SingleCharacterReader {
 			fCachedLineNumber= line;
 			fCachedLineOffset= fDocument.getLineOffset(line);
 			int offset= fOffset;
-			while (fCachedLineOffset < offset) {
+			while (fCachedLineOffset < offset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char current= fDocument.getChar(offset--);
 				if (current == '/' && fCachedLineOffset <= offset && fDocument.getChar(offset) == '/') {
 					fOffset= offset;
@@ -183,7 +183,7 @@ public class JavaCodeReader extends SingleCharacterReader {
 	}
 
 	private void gotoCommentStart() throws BadLocationException {
-		while (0 < fOffset) {
+		while (0 < fOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char current= fDocument.getChar(fOffset--);
 			if (current == '*' && 0 <= fOffset && fDocument.getChar(fOffset) == '/')
 				return;
@@ -191,7 +191,7 @@ public class JavaCodeReader extends SingleCharacterReader {
 	}
 
 	private void gotoStringStart(char delimiter) throws BadLocationException {
-		while (0 < fOffset) {
+		while (0 < fOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char current= fDocument.getChar(fOffset);
 			if (current == delimiter) {
 				if ((0 > fOffset) || (fDocument.getChar(fOffset -1) != '\\'))
@@ -201,9 +201,9 @@ public class JavaCodeReader extends SingleCharacterReader {
 		}
 	}
 
-	private int readBackwards() throws BadLocationException {
+	private int readBackwards() throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		while (0 < fOffset) {
+		while (0 < fOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			-- fOffset;
 
 			handleSingleLineComment();

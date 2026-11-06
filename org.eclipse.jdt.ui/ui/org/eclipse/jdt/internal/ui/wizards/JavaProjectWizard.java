@@ -79,7 +79,7 @@ public class JavaProjectWizard extends NewElementWizard implements IExecutableEx
 		fSecondPage.performFinish(monitor); // use the full progress monitor
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performFinish() {
 		boolean res= super.performFinish();
 		if (res) {
@@ -93,7 +93,7 @@ public class JavaProjectWizard extends NewElementWizard implements IExecutableEx
 			BasicNewProjectResourceWizard.updatePerspective(fConfigElement);
 			selectAndReveal(fSecondPage.getJavaProject().getProject());
 
-			Display.getDefault().asyncExec(() -> {
+			Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				IWorkbenchPart activePart= getActivePart();
 				if (activePart instanceof IPackagesViewPart) {
 					PackageExplorerPart view= PackageExplorerPart.openInActivePerspective();

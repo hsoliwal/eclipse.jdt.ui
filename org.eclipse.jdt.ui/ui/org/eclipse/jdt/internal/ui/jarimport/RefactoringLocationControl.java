@@ -117,7 +117,7 @@ public class RefactoringLocationControl extends Composite {
 			String[] locations= settings.getArray(fKey);
 			if (locations == null || locations.length == 0)
 				return;
-			for (String location : locations) {
+			for (String location : locations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCombo.add(location);
 			}
 			fCombo.select(0);
@@ -139,7 +139,7 @@ public class RefactoringLocationControl extends Composite {
 				locations.addFirst(text);
 			}
 			final int size= locations.size();
-			for (int index= 0; index < size - MAX_HISTORY_SIZE; index++)
+			for (int index= 0; index < size - MAX_HISTORY_SIZE; index++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				locations.removeLast();
 			settings.put(fKey, locations.toArray(new String[locations.size()]));
 		}

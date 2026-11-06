@@ -48,7 +48,7 @@ import org.eclipse.jdt.ui.text.java.IJavaCompletionProposal;
 
 import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 
-public class RemoveAnnotationProposal implements IJavaCompletionProposal {
+public class RemoveAnnotationProposal implements IJavaCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final IInvocationContext fContext;
 	private final MethodDeclaration fMethodDecl;
@@ -60,7 +60,7 @@ public class RemoveAnnotationProposal implements IJavaCompletionProposal {
 		fAnnotationQualifiedName = annotationQualifiedName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 		try {
 			CompilationUnit astRoot = fContext.getASTRoot();
@@ -73,13 +73,13 @@ public class RemoveAnnotationProposal implements IJavaCompletionProposal {
 			IMethodBinding methodBinding = fMethodDecl.resolveBinding();
 			if (methodBinding != null) {
 				IAnnotationBinding[] annotations = methodBinding.getAnnotations();
-				for (IAnnotationBinding annotationBinding : annotations) {
+				for (IAnnotationBinding annotationBinding : annotations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					ITypeBinding annotationType = annotationBinding.getAnnotationType();
 					if (annotationType != null && fAnnotationQualifiedName.equals(annotationType.getQualifiedName())) {
 						// Find the matching annotation node in the modifiers
 						List<?> modifiers = fMethodDecl.modifiers();
 
-						for (Object modifier : modifiers) {
+						for (Object modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (modifier instanceof Annotation) {
 								Annotation annotation = (Annotation) modifier;
 								if (annotation.resolveAnnotationBinding() == annotationBinding) {

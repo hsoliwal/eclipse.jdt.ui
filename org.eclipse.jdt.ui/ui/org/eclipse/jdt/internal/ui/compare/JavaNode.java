@@ -130,7 +130,7 @@ class JavaNode extends DocumentRangeNode implements ITypedElement {
 	 *
 	 * see ITypedInput.getImage
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Image getImage() {
 
 		ImageDescriptor id= null;
@@ -179,7 +179,7 @@ class JavaNode extends DocumentRangeNode implements ITypedElement {
 	 */
 	@Override
 	public String toString() {
-		return getType() + ": " + getName() //$NON-NLS-1$
+		return getType() + ": " + getName() //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				+ "[" + getRange().offset + "+" + getRange().length + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 }

@@ -96,7 +96,7 @@ public class JavaPartitionScanner extends RuleBasedPartitionScanner implements I
 	/**
 	 * Creates the partitioner and sets up the appropriate rules.
 	 */
-	public JavaPartitionScanner() {
+	public JavaPartitionScanner() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 
 		IToken string= new Token(JAVA_STRING);
@@ -105,7 +105,7 @@ public class JavaPartitionScanner extends RuleBasedPartitionScanner implements I
 		IToken multiLineComment= new Token(JAVA_MULTI_LINE_COMMENT);
 		IToken singleLineComment= new Token(JAVA_SINGLE_LINE_COMMENT);
 
-		List<IPredicateRule> rules= new ArrayList<>();
+		List<IPredicateRule> rules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		// Add rule for single line comments.
 		rules.add(new EndOfLineRule("//", singleLineComment)); //$NON-NLS-1$

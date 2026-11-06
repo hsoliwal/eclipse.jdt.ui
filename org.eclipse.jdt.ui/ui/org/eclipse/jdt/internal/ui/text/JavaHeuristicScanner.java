@@ -314,7 +314,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param bound the first position not to consider any more
 	 * @return a constant from {@link Symbols} describing the next token
 	 */
-	public int nextToken(int start, int bound) {
+	public int nextToken(int start, int bound) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int pos= scanForward(start, bound, fNonWSDefaultPart);
 		if (pos == NOT_FOUND)
 			return TokenEOF;
@@ -390,7 +390,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param bound the first position not to consider any more
 	 * @return a constant from {@link Symbols} describing the previous token
 	 */
-	public int previousToken(int start, int bound) {
+	public int previousToken(int start, int bound) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int pos= scanBackward(start, bound, fNonWSDefaultPart);
 		if (pos == NOT_FOUND)
 			return TokenEOF;
@@ -463,7 +463,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param s a scanned identifier
 	 * @return one of the constants defined in {@link Symbols}
 	 */
-	private int getToken(String s) {
+	private int getToken(String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(s);
 
 		switch (s) {
@@ -543,14 +543,14 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param closingPeer the closing peer character (e.g. '}')
 	 * @return the matching peer character position, or <code>NOT_FOUND</code>
 	 */
-	public int findClosingPeer(int start, int bound, final char openingPeer, final char closingPeer) {
+	public int findClosingPeer(int start, int bound, final char openingPeer, final char closingPeer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(start >= 0);
 
 		try {
 			CharacterMatch match= new CharacterMatch(new char[] {openingPeer, closingPeer});
 			int depth= 1;
 			start -= 1;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start= scanForward(start + 1, bound, match);
 				if (start == NOT_FOUND)
 					return NOT_FOUND;
@@ -598,14 +598,14 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param closingPeer the closing peer character (e.g. '}')
 	 * @return the matching peer character position, or <code>NOT_FOUND</code>
 	 */
-	public int findOpeningPeer(int start, int bound, char openingPeer, char closingPeer) {
+	public int findOpeningPeer(int start, int bound, char openingPeer, char closingPeer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(start < fDocument.getLength());
 
 		try {
 			final CharacterMatch match= new CharacterMatch(new char[] {openingPeer, closingPeer});
 			int depth= 1;
 			start += 1;
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start= scanBackward(start - 1, bound, match);
 				if (start == NOT_FOUND)
 					return NOT_FOUND;
@@ -711,7 +711,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @return the lowest position in [<code>start</code>, <code>bound</code>) for which
 	 *         <code>condition</code> holds, or <code>NOT_FOUND</code> if none can be found
 	 */
-	public int scanForward(int start, int bound, StopCondition condition) {
+	public int scanForward(int start, int bound, StopCondition condition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isLegal(start >= 0);
 
 		if (bound == UNBOUND)
@@ -721,7 +721,7 @@ public final class JavaHeuristicScanner implements Symbols {
 
 		try {
 			fPos= start;
-			while (fPos < bound) {
+			while (fPos < bound) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				fChar= fDocument.getChar(fPos);
 				if (condition.stop(fChar, fPos, true))
@@ -772,7 +772,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param condition the <code>StopCondition</code> to check
 	 * @return the highest position in (<code>bound</code>, <code>start</code> for which <code>condition</code> holds, or <code>NOT_FOUND</code> if none can be found
 	 */
-	public int scanBackward(int start, int bound, StopCondition condition) {
+	public int scanBackward(int start, int bound, StopCondition condition) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (bound == UNBOUND)
 			bound= -1;
 
@@ -781,7 +781,7 @@ public final class JavaHeuristicScanner implements Symbols {
 
 		try {
 			fPos= start;
-			while (fPos > bound) {
+			while (fPos > bound) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				fChar= fDocument.getChar(fPos);
 				if (condition.stop(fChar, fPos, false))
@@ -883,7 +883,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 * @param bound the lowest position to consider
 	 * @return <code>true</code> if the code is a conditional statement or loop without a block, <code>false</code> otherwise
 	 */
-	public boolean isBracelessBlockStart(int position, int bound) {
+	public boolean isBracelessBlockStart(int position, int bound) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (position < 1)
 			return false;
 
@@ -939,7 +939,7 @@ public final class JavaHeuristicScanner implements Symbols {
 		int token= previousToken(start - 1, bound);
 		if (token == Symbols.TokenIDENT) { // type name
 			token= previousToken(getPosition(), bound);
-			while (token == Symbols.TokenOTHER) { // dot of qualification
+			while (token == Symbols.TokenOTHER) { // dot of qualification //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				token= previousToken(getPosition(), bound);
 				if (token != Symbols.TokenIDENT) // qualification name
 					return false;
@@ -960,7 +960,7 @@ public final class JavaHeuristicScanner implements Symbols {
 	 *         type variable or type name, <code>false</code> if not
 	 * @since 3.2
 	 */
-	public static boolean isGenericStarter(CharSequence identifier) {
+	public static boolean isGenericStarter(CharSequence identifier) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/* This heuristic allows any identifiers if they start with an upper
 		 * case. This will fail when a comparison is made with constants:
 		 *
@@ -972,7 +972,7 @@ public final class JavaHeuristicScanner implements Symbols {
 		 */
 		int length= identifier.length();
 		if (length > 0 && Character.isUpperCase(identifier.charAt(0))) {
-			for (int i= 0; i < length; i++) {
+			for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (identifier.charAt(i) == '_')
 					return false;
 			}

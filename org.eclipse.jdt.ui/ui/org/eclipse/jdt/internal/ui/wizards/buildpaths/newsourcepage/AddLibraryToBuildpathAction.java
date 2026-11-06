@@ -53,7 +53,7 @@ import org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement;
 import org.eclipse.jdt.internal.ui.wizards.buildpaths.ClasspathContainerWizard;
 
 //SelectedElements: IJavaProject && size == 1
-public class AddLibraryToBuildpathAction extends BuildpathModifierAction {
+public class AddLibraryToBuildpathAction extends BuildpathModifierAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	public AddLibraryToBuildpathAction(IWorkbenchSite site) {
 		super(site, null, BuildpathModifierAction.ADD_LIB_TO_BP);
@@ -68,7 +68,7 @@ public class AddLibraryToBuildpathAction extends BuildpathModifierAction {
 	    return NewWizardMessages.PackageExplorerActionGroup_FormText_Default_toBuildpath_library;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run() {
 		final IJavaProject project= (IJavaProject)getSelectedElements().get(0);
 
@@ -87,10 +87,10 @@ public class AddLibraryToBuildpathAction extends BuildpathModifierAction {
 
 		ClasspathContainerWizard wizard= new ClasspathContainerWizard((IClasspathEntry) null, project, classpath) {
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean performFinish() {
 				if (super.performFinish()) {
-					IWorkspaceRunnable op= monitor -> {
+					IWorkspaceRunnable op= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 						try {
 							finishPage(monitor);
 						} catch (InterruptedException e) {
@@ -119,14 +119,14 @@ public class AddLibraryToBuildpathAction extends BuildpathModifierAction {
 				return false;
 			}
 
-			private void finishPage(IProgressMonitor pm) throws InterruptedException {
+			private void finishPage(IProgressMonitor pm) throws InterruptedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				IClasspathEntry[] selected= getNewEntries();
 				if (selected != null) {
 					try {
 						pm.beginTask(NewWizardMessages.ClasspathModifier_Monitor_AddToBuildpath, 4);
 
-						List<CPListElement> addedEntries= new ArrayList<>();
-						for (IClasspathEntry entry : selected) {
+						List<CPListElement> addedEntries= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						for (IClasspathEntry entry : selected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							addedEntries.add(CPListElement.create(entry, true, project));
 						}
 
@@ -145,8 +145,8 @@ public class AddLibraryToBuildpathAction extends BuildpathModifierAction {
 			        	delta.setNewEntries(existingEntries.toArray(new CPListElement[existingEntries.size()]));
 			        	informListeners(delta);
 
-						List<ClassPathContainer> result= new ArrayList<>(addedEntries.size());
-						for (int i= 0; i < addedEntries.size(); i++) {
+						List<ClassPathContainer> result= new ArrayList<>(addedEntries.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+						for (int i= 0; i < addedEntries.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							result.add(new ClassPathContainer(project, selected[i]));
 						}
 						selectAndReveal(new StructuredSelection(result));

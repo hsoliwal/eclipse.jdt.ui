@@ -78,7 +78,7 @@ public class CallHierarchyContentProviderTest {
     /*
      * Tests getChildren and hasChildren on an "ordinary" callee tree.
      */
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testGetChildrenOfCalleeRoot() throws Exception {
         helper.createSimpleClasses();
 
@@ -112,7 +112,7 @@ public class CallHierarchyContentProviderTest {
     /*
      * Tests getChildren and hasChildren on an "ordinary" callers tree.
      */
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testGetChildrenOfCallerRoot() throws Exception {
         helper.createSimpleClasses();
 
@@ -141,7 +141,7 @@ public class CallHierarchyContentProviderTest {
     /*
      * Tests getChildren and hasChildren on an callers tree which exceeds the max call depth.
      */
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testGetChildrenOfCallerMaxDepth() throws Exception {
         helper.createSimpleClasses();
 
@@ -172,7 +172,7 @@ public class CallHierarchyContentProviderTest {
     /*
      * Tests getChildren and hasChildren on an callee tree which exceeds the max call depth.
      */
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testGetChildrenOfCalleeMaxDepth() throws Exception {
         helper.createSimpleClasses();
 
@@ -208,7 +208,7 @@ public class CallHierarchyContentProviderTest {
     /*
     * Tests getChildren and hasChildren on an callers tree with recursion.
     */
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testGetChildrenOfCalleeRecursive() throws Exception {
         helper.createSimpleClasses();
 
@@ -234,7 +234,7 @@ public class CallHierarchyContentProviderTest {
     /*
      * Tests getChildren and hasChildren on an callees tree with recursion.
      */
-    @Test
+    @Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     public void testGetChildrenOfCallerRecursive() throws Exception {
         helper.createSimpleClasses();
 
@@ -293,13 +293,13 @@ public class CallHierarchyContentProviderTest {
     }
 
     private void assertCalleeMethodWrapperChildren(Object[] children) {
-    	for (Object child : children) {
+    	for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		assertTrue(child.getClass().getName().endsWith(".CalleeMethodWrapper"), "Wrong class returned");
     	}
     }
 
     private void assertCallerMethodWrapperChildren(Object[] children) {
-    	for (Object child : children) {
+    	for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
     		assertTrue(child.getClass().getName().endsWith(".CallerMethodWrapper"), "Wrong class returned");
     	}
     }

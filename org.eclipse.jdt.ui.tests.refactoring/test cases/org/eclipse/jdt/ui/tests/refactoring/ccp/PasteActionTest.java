@@ -86,7 +86,7 @@ public class PasteActionTest extends GenericRefactoringTest {
 	}
 
 	private static Object[] merge(Object[] array1, Object[] array2) {
-		Set<Object> elements= new HashSet<>(array1.length + array2.length);
+		Set<Object> elements= new HashSet<>(array1.length + array2.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		elements.addAll(Arrays.asList(array1));
 		elements.addAll(Arrays.asList(array2));
 		return elements.toArray();
@@ -143,10 +143,10 @@ public class PasteActionTest extends GenericRefactoringTest {
 	}
 
 	private void compareContents(String cuName) throws JavaModelException, IOException {
-		assertEqualLines(cuName, getFileContents(getOutputTestFileName(cuName)), getPackageP().getCompilationUnit(cuName + ".java").getSource());
+		assertEqualLines(cuName, getFileContents(getOutputTestFileName(cuName)), getPackageP().getCompilationUnit(cuName + ".java").getSource()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
-	@Ignore("not implemented yet")
+	@Ignore("not implemented yet") //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	@Test
 	public void test0() throws Exception {
 
@@ -169,7 +169,7 @@ public class PasteActionTest extends GenericRefactoringTest {
 		compareContents("B");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test2() throws Exception {
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
 		ICompilationUnit cuB= createCUfromTestFile(getPackageP(), "B");
@@ -190,7 +190,7 @@ public class PasteActionTest extends GenericRefactoringTest {
 		compareContents("B");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test3() throws Exception {
 //		printTestDisabledMessage("test for bug#19007");
 		ICompilationUnit cuA= createCUfromTestFile(getPackageP(), "A");
@@ -310,7 +310,7 @@ public class PasteActionTest extends GenericRefactoringTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPastingChildResourceIntoWorkingSet() throws Exception {
 		IFolder folder= rts.getProject().getProject().getFolder("folder");
 		folder.create(true, true, null);

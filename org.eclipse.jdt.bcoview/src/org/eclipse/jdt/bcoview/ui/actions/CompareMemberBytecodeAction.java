@@ -32,16 +32,16 @@ public class CompareMemberBytecodeAction extends BytecodeAction {
 		try {
 			exec(resources[0], resources[1]);
 		} catch (Exception e) {
-			BytecodeOutlinePlugin.error("Failed to run Compare: " + e.getMessage(), e); //$NON-NLS-1$
+			BytecodeOutlinePlugin.error("Failed to run Compare: " + e.getMessage(), e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement[] getSelectedResources() {
 		ArrayList<Object> resources = null;
 		if (!selection.isEmpty()) {
-			resources = new ArrayList<>();
-			for (Object next : selection) {
+			resources = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object next : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (next instanceof IMember) {
 					resources.add(next);
 					continue;

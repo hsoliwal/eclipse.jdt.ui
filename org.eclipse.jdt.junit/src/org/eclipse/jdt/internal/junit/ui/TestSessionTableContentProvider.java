@@ -34,14 +34,14 @@ public class TestSessionTableContentProvider implements IStructuredContentProvid
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		ArrayList<ITestElement> all= new ArrayList<>();
+		ArrayList<ITestElement> all= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		addAll(all, (TestRoot) inputElement);
 		return all.toArray();
 	}
 
 	private void addAll(ArrayList<ITestElement> all, TestSuiteElement suite) {
 		ITestElement[] children= suite.getChildren();
-		for (ITestElement element : children) {
+		for (ITestElement element : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof TestSuiteElement) {
 				TestSuiteElement testSuiteElement= (TestSuiteElement) element;
 				if (testSuiteElement.getSuiteStatus().isErrorOrFailure() || testSuiteElement.isIgnored())

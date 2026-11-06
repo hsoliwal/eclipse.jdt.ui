@@ -80,7 +80,7 @@ public class ExtractTempWizard extends RefactoringWizard {
 			fInitialValid= tempNameProposals.length > 0;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void createControl(Composite parent) {
 			loadSettings();
 			Composite result= new Composite(parent, SWT.NONE);
@@ -130,12 +130,12 @@ public class ExtractTempWizard extends RefactoringWizard {
 			getExtractTempRefactoring().setReplaceAllOccurrencesInThisFile(fSettings.getBoolean(REPLACE_ALL_IN_FILE));
 		}
 
-		private void addReplaceAllCheckbox(Composite result, RowLayouter layouter) {
+		private void addReplaceAllCheckbox(Composite result, RowLayouter layouter) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String title= RefactoringMessages.ExtractTempInputPage_replace_all;
 			boolean defaultValue= getExtractTempRefactoring().replaceAllOccurrences();
 			final Button checkBox= createCheckbox(result, title, defaultValue, layouter);
 			getExtractTempRefactoring().setReplaceAllOccurrences(checkBox.getSelection());
-			checkBox.addSelectionListener(new SelectionAdapter() {
+			checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fSettings.put(REPLACE_ALL, checkBox.getSelection());
@@ -158,7 +158,7 @@ public class ExtractTempWizard extends RefactoringWizard {
 			checkBoxForAllInFile= createCheckboxIndented(result, title, defaultValue, layouter);
 			getExtractTempRefactoring().setReplaceAllOccurrencesInThisFile(checkBoxForAllInFile.getSelection());
 			checkBoxForAllInFile.setEnabled(getExtractTempRefactoring().replaceAllOccurrences());
-			checkBoxForAllInFile.addSelectionListener(new SelectionAdapter() {
+			checkBoxForAllInFile.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fSettings.put(REPLACE_ALL_IN_FILE, checkBoxForAllInFile.getSelection());
@@ -173,7 +173,7 @@ public class ExtractTempWizard extends RefactoringWizard {
 			boolean defaultValue= getExtractTempRefactoring().declareFinal();
 			final Button checkBox= createCheckbox(result, title, defaultValue, layouter);
 			getExtractTempRefactoring().setDeclareFinal(checkBox.getSelection());
-			checkBox.addSelectionListener(new SelectionAdapter() {
+			checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fSettings.put(DECLARE_FINAL, checkBox.getSelection());
@@ -188,7 +188,7 @@ public class ExtractTempWizard extends RefactoringWizard {
 				boolean defaultValue= getExtractTempRefactoring().declareVarType();
 				final Button checkBox= createCheckbox(result, title, defaultValue, layouter);
 				getExtractTempRefactoring().setDeclareVarType(checkBox.getSelection());
-				checkBox.addSelectionListener(new SelectionAdapter() {
+				checkBox.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						fSettings.put(DECLARE_TYPE_VAR, checkBox.getSelection());

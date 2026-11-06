@@ -73,8 +73,8 @@ public class JavaElementLinks {
 
 	private static final String CHECKBOX_FORMATTING_ID = "formattingSwitch"; //$NON-NLS-1$
 	// browser on windows changes single quotes to double quotes (other platforms don't do that) thus we use / primarily search for this one
-	private static final String CHECKBOX_FORMATTING_ID_ATTR_DQUOTES= "id=\"" + CHECKBOX_FORMATTING_ID + "\""; //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String CHECKBOX_FORMATTING_ID_ATTR_SQUOTES= "id='" + CHECKBOX_FORMATTING_ID + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String CHECKBOX_FORMATTING_ID_ATTR_DQUOTES= "id=\"" + CHECKBOX_FORMATTING_ID + "\""; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String CHECKBOX_FORMATTING_ID_ATTR_SQUOTES= "id='" + CHECKBOX_FORMATTING_ID + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String PREFERENCE_KEY_POSTFIX_TYPE_PARAMETERS_REFERENCES_COLORING= "javadocElementsStyling.typeParamsReferencesColoring"; //$NON-NLS-1$
 
@@ -158,7 +158,7 @@ public class JavaElementLinks {
 
 		private boolean appendHoverParent= true;
 		private int nextNestingLevel= 1;
-		private Map<String, Integer> typesIds= new TreeMap<>();
+		private Map<String, Integer> typesIds= new TreeMap<>(); //FLLDCIM: MARK — M05 M3_SORTED_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
 		private int nextTypeNo= 1;
 		private int nextParamNo= 1;
 		private boolean appendingMethodQualification= false;
@@ -212,21 +212,21 @@ public class JavaElementLinks {
 			}
 		}
 
-		private String getPackageFragmentElementName(IJavaElement javaElement) {
+		private String getPackageFragmentElementName(IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IPackageFragmentRoot root= (IPackageFragmentRoot) javaElement.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 			String javaElementName= javaElement.getElementName();
 			String packageName= null;
-			StringBuilder strBuffer= new StringBuilder();
+			StringBuilder strBuffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-			for (String lastSegmentName : javaElementName.split("\\.")) { //$NON-NLS-1$
+			for (String lastSegmentName : javaElementName.split("\\.")) { //$NON-NLS-1$ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 				if (packageName != null) {
-					strBuffer.append('.');
-					packageName= packageName + '.' + lastSegmentName;
+					strBuffer.append('.'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+					packageName= packageName + '.' + lastSegmentName; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				} else {
 					packageName= lastSegmentName;
 				}
 				IPackageFragment subFragment= root.getPackageFragment(packageName);
-				strBuffer.append(getElementName(subFragment, lastSegmentName));
+				strBuffer.append(getElementName(subFragment, lastSegmentName)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			return strBuffer.toString();
@@ -255,7 +255,7 @@ public class JavaElementLinks {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected String getSimpleTypeName(IJavaElement enclosingElement, String typeSig) {
 			String typeName= super.getSimpleTypeName(enclosingElement, typeSig);
 
@@ -292,7 +292,7 @@ public class JavaElementLinks {
 		}
 
 		private String wrapWithTypeClass(String typeName, String value) {
-			return "<span class='" //$NON-NLS-1$
+			return "<span class='" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					+ getTypeStylingClass(typeName) + "'>" //$NON-NLS-1$
 					+ value
 					+ "</span>"; //$NON-NLS-1$
@@ -303,7 +303,7 @@ public class JavaElementLinks {
 			if ((typeId= typesIds.putIfAbsent(typeName, nextTypeNo)) == null) {
 				typeId= nextTypeNo++;
 			}
-			return CSS_CLASS_TYPE_PARAMETERS_REFERENCE_PREFIX + typeId;
+			return CSS_CLASS_TYPE_PARAMETERS_REFERENCE_PREFIX + typeId; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -324,7 +324,7 @@ public class JavaElementLinks {
 			fBuffer.append("</span>"); //$NON-NLS-1$
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void appendElementLabel(IJavaElement element, long flags) {
 			if (noEnhancements) {
 				super.appendElementLabel(element, flags);
@@ -339,7 +339,7 @@ public class JavaElementLinks {
 				appendHoverParent= false;
 
 				// formatting checkbox
-				fBuffer.append("<input type='checkbox' " + CHECKBOX_FORMATTING_ID_ATTR_DQUOTES + " "); //$NON-NLS-1$ //$NON-NLS-2$
+				fBuffer.append("<input type='checkbox' " + CHECKBOX_FORMATTING_ID_ATTR_DQUOTES + " "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if (enableFormatting) {
 					fBuffer.append("checked=true "); //$NON-NLS-1$
 				}
@@ -353,7 +353,7 @@ public class JavaElementLinks {
 				fBuffer.append("style='position: absolute; top: 32px; left: -23px;'/>"); //$NON-NLS-1$
 
 				// encompassing <span> for everything styled based on checkboxes checked state
-				fBuffer.append("<span class='" + CSS_CLASS_SWITCH_PARENT + "'>"); //$NON-NLS-1$ //$NON-NLS-2$
+				fBuffer.append("<span class='" + CSS_CLASS_SWITCH_PARENT + "'>"); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 				// actual signature content
 				super.appendElementLabel(element, flags);
@@ -464,7 +464,7 @@ public class JavaElementLinks {
 			}
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void appendWildcardTypeSignature(String prefix, IJavaElement enclosingElement, String typeSignature, long flags) {
 			if (noEnhancements) {
 				super.appendWildcardTypeSignature(prefix, enclosingElement, typeSignature, flags);
@@ -518,7 +518,7 @@ public class JavaElementLinks {
 		store.addPropertyChangeListener(ENHANCEMENTS_PROPERTIES_CHANGE_LISTENER);
 	}
 
-	public static void initDefaultColors(IPreferenceStore store) {
+	public static void initDefaultColors(IPreferenceStore store) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (store.getBoolean(PREFERENCE_KEY_DARK_MODE_DEFAULT_COLORS)) {
 			var color= new RGB(177, 102, 218); // semanticHighlighting.typeArgument.color in css\e4-dark_jdt_syntaxhighlighting.css
 			PreferenceConverter.setDefault(store, getColorPreferenceKey(PREFERENCE_KEY_PREFIX_TYPE_PARAMETERS_REFERENCE_COLOR, 1), color);
@@ -590,9 +590,9 @@ public class JavaElementLinks {
 	 * @param handler the handler to use to handle links
 	 * @return a new {@link LocationListener}
 	 */
-	public static LocationListener createLocationListener(final ILinkHandler handler) {
+	public static LocationListener createLocationListener(final ILinkHandler handler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new LocationAdapter() {
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void changing(LocationEvent event) {
 				String loc= event.location;
 
@@ -866,12 +866,12 @@ public class JavaElementLinks {
 		return browserContent.contains(CHECKBOX_FORMATTING_ID_ATTR_DQUOTES) || browserContent.contains(CHECKBOX_FORMATTING_ID_ATTR_SQUOTES);
 	}
 
-	public static String modifyCssStyleSheet(String css, StringBuilder buffer) {
+	public static String modifyCssStyleSheet(String css, StringBuilder buffer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int startPos= buffer.indexOf(CSS_CLASS_SWITCH_PARENT);
 		if (startPos < 0) {
 			return css;
 		}
-		StringBuilder cssContent= new StringBuilder();
+		StringBuilder cssContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		int maxTypeParamNo= getMaxIndexOfStyle(buffer, StringBuilder::indexOf, CSS_CLASS_TYPE_PARAMETERS_REFERENCE_PREFIX);
 
@@ -889,7 +889,7 @@ public class JavaElementLinks {
 				}
 			}
 			var processedUntil= processColoringSection(css, cssContent, maxTypeParamNo, locked);
-			cssContent.append(css, processedUntil, css.length());
+			cssContent.append(css, processedUntil, css.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return cssContent.toString();
 		} catch (Exception e) {
 			JavaPlugin.log(e);
@@ -901,22 +901,22 @@ public class JavaElementLinks {
 		}
 	}
 
-	private static int processColoringSection(String cssTemplate, StringBuilder outputCss, int iterations, boolean fragmentsCacheLock) {
+	private static int processColoringSection(String cssTemplate, StringBuilder outputCss, int iterations, boolean fragmentsCacheLock) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		var sectionStart= cssTemplate.indexOf(CSS_SECTION_START_TYPE_PARAMETERS_REFERENCES);
-		outputCss.append(cssTemplate, 0, sectionStart);
+		outputCss.append(cssTemplate, 0, sectionStart); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		sectionStart += CSS_SECTION_START_TYPE_PARAMETERS_REFERENCES.length();
 		var sectionEnd= cssTemplate.indexOf(CSS_SECTION_END_TYPE_PARAMETERS_REFERENCES, sectionStart);
-		for (int i= iterations - 1; i >= 0 ;  i--) {
+		for (int i= iterations - 1; i >= 0 ;  i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fragmentsCacheLock && CSS_FRAGMENTS_CACHE_TYPE_PARAMETERS_REFERENCES.length > i && CSS_FRAGMENTS_CACHE_TYPE_PARAMETERS_REFERENCES[i] != null) {
 				// re-use cached fragment
-				outputCss.append(CSS_FRAGMENTS_CACHE_TYPE_PARAMETERS_REFERENCES[i]);
+				outputCss.append(CSS_FRAGMENTS_CACHE_TYPE_PARAMETERS_REFERENCES[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
 				var section= cssTemplate.substring(sectionStart, sectionEnd);
-				var sectionBuf= new StringBuilder(section);
+				var sectionBuf= new StringBuilder(section); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				int pos;
 				int index = i + 1; // color styles in CSS and preference keys are 1-based
-				while ((pos= sectionBuf.indexOf(CSS_PLACEHOLDER_INDEX)) != -1) {
+				while ((pos= sectionBuf.indexOf(CSS_PLACEHOLDER_INDEX)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					sectionBuf.replace(pos, pos + CSS_PLACEHOLDER_INDEX.length(), String.valueOf(index));
 				}
 				pos= sectionBuf.indexOf(CSS_PLACEHOLDER_COLOR);
@@ -924,14 +924,14 @@ public class JavaElementLinks {
 				if (fragmentsCacheLock && CSS_FRAGMENTS_CACHE_TYPE_PARAMETERS_REFERENCES.length > i) { // cache fragment if possible
 					CSS_FRAGMENTS_CACHE_TYPE_PARAMETERS_REFERENCES[i]= sectionBuf.toString();
 				}
-				outputCss.append(sectionBuf);
+				outputCss.append(sectionBuf); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return sectionEnd + CSS_SECTION_END_TYPE_PARAMETERS_REFERENCES.length();
 	}
 
 	private static String getCssColor(RGB color) {
-		return "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static int getNumberOfTypeParamsReferences(String content) {
@@ -940,13 +940,13 @@ public class JavaElementLinks {
 
 	private static <T extends CharSequence> int getMaxIndexOfStyle(T content, BiFunction<T, String, Integer> indexOfGetter, String stylePrefix) {
 		int i= 0;
-		while (indexOfGetter.apply(content, stylePrefix + ++i) != -1) { /* no-op */ }
+		while (indexOfGetter.apply(content, stylePrefix + ++i) != -1) { /* no-op */ } //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		return i - 1;
 	}
 
 	public static Integer[] getColorPreferencesIndicesForTypeParamsReference() {
-		List<Integer> retVal= new ArrayList<>(MAX_COLOR_INDEX);
-		for (int i= 1; i <= MAX_COLOR_INDEX; i++) {
+		List<Integer> retVal= new ArrayList<>(MAX_COLOR_INDEX); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES LOCAL_VARIABLE
+		for (int i= 1; i <= MAX_COLOR_INDEX; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i <= 4) {
 				// pretend first 4 colors are always set (since we have defaults for them)
 				retVal.add(i);
@@ -960,12 +960,12 @@ public class JavaElementLinks {
 		return retVal.toArray(Integer[]::new);
 	}
 
-	public static void resetAllColorPreferencesToDefaults() {
+	public static void resetAllColorPreferencesToDefaults() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		var store= preferenceStore();
 		store.removePropertyChangeListener(COLOR_PROPERTIES_CHANGE_LISTENER);
 		store.removePropertyChangeListener(ENHANCEMENTS_PROPERTIES_CHANGE_LISTENER);
 		try {
-			for (int i= 1; i <= MAX_COLOR_INDEX; i++) {
+			for (int i= 1; i <= MAX_COLOR_INDEX; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String key= getColorPreferenceKey(PREFERENCE_KEY_PREFIX_TYPE_PARAMETERS_REFERENCE_COLOR, i);
 				if (!store.isDefault(key)) {
 					store.setToDefault(key);
@@ -980,7 +980,7 @@ public class JavaElementLinks {
 	}
 
 	private static String getColorPreferenceKey(String prefix, int index) {
-		return prefix + index;
+		return prefix + index; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static IPreferenceStore preferenceStore() {

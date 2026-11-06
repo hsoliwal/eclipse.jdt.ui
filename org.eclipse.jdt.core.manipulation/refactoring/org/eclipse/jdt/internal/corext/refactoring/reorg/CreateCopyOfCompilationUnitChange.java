@@ -59,7 +59,7 @@ import org.eclipse.jdt.internal.ui.util.Progress;
 
 public final class CreateCopyOfCompilationUnitChange extends CreateTextFileChange {
 
-	private static TextChangeManager createChangeManager(IProgressMonitor monitor, ICompilationUnit copy, String newName) throws CoreException {
+	private static TextChangeManager createChangeManager(IProgressMonitor monitor, ICompilationUnit copy, String newName) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		TextChangeManager manager= new TextChangeManager();
 		SearchResultGroup refs= getReferences(copy, monitor);
 		if (refs == null)
@@ -68,7 +68,7 @@ public final class CreateCopyOfCompilationUnitChange extends CreateTextFileChang
 			return manager;
 
 		String name= RefactoringCoreMessages.CopyRefactoring_update_ref;
-		for (SearchMatch searchResult : refs.getSearchResults()) {
+		for (SearchMatch searchResult : refs.getSearchResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (searchResult.getAccuracy() == SearchMatch.A_INACCURATE)
 				continue;
 			int offset= searchResult.getOffset();
@@ -101,7 +101,7 @@ public final class CreateCopyOfCompilationUnitChange extends CreateTextFileChang
 		}
 	}
 
-	private static SearchResultGroup getReferences(final ICompilationUnit copy, IProgressMonitor monitor) throws JavaModelException {
+	private static SearchResultGroup getReferences(final ICompilationUnit copy, IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final ICompilationUnit[] copies= new ICompilationUnit[] { copy};
 		IJavaSearchScope scope= SearchEngine.createJavaSearchScope(copies);
 		final IType type= copy.findPrimaryType();
@@ -131,7 +131,7 @@ public final class CreateCopyOfCompilationUnitChange extends CreateTextFileChang
 		// Assert.isTrue(results.length <= 1);
 		// just 1 file or none, but inaccurate matches can play bad here (see
 		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=106127)
-		for (Object result : engine.getResults()) {
+		for (Object result : engine.getResults()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SearchResultGroup group= (SearchResultGroup) result;
 			if (group.getCompilationUnit().equals(copy))
 				return group;
@@ -157,7 +157,7 @@ public final class CreateCopyOfCompilationUnitChange extends CreateTextFileChang
 		return Messages.format(RefactoringCoreMessages.CreateCopyOfCompilationUnitChange_create_copy, new String[] { cuName, cuContainerName});
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IFile getOldFile(IProgressMonitor monitor) throws OperationCanceledException {
 		try {
 			monitor.beginTask("", 12); //$NON-NLS-1$
@@ -195,7 +195,7 @@ public final class CreateCopyOfCompilationUnitChange extends CreateTextFileChang
 		return result;
 	}
 
-	private void setEncoding(ICompilationUnit unit) {
+	private void setEncoding(ICompilationUnit unit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IResource resource= unit.getResource();
 		// no file so the encoding is taken from the target
 		if (!(resource instanceof IFile))

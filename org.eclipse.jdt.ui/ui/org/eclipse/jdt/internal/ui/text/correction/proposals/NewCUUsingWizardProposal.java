@@ -95,7 +95,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewRecordCreationWizard;
  *
  * @see UnresolvedElementsSubProcessor#getTypeProposals(IInvocationContext, IProblemLocation, Collection)
  */
-public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
+public class NewCUUsingWizardProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	public static final int K_CLASS= 1;
 	public static final int K_INTERFACE= 2;
@@ -118,7 +118,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 		this(cu, node, typeKind, typeContainer, null, severity, false);
 	}
 
-	public NewCUUsingWizardProposal(ICompilationUnit cu, Name node, int typeKind, IJavaElement typeContainer, ITypeBinding superType, int severity, boolean callSemanticHighlightingReconciler) {
+	public NewCUUsingWizardProposal(ICompilationUnit cu, Name node, int typeKind, IJavaElement typeContainer, ITypeBinding superType, int severity, boolean callSemanticHighlightingReconciler) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super("", null, severity, null); //$NON-NLS-1$
 
 		fCompilationUnit= cu;
@@ -265,7 +265,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 		fShowDialog= true;
 	}
 
-	private static String getTypeName(int typeKind, Name node) {
+	private static String getTypeName(int typeKind, Name node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= ASTNodes.getSimpleNameIdentifier(node);
 
 		if (typeKind == K_CLASS || typeKind == K_INTERFACE) {
@@ -274,18 +274,18 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 				String typeArgBaseName= name.startsWith(String.valueOf('T')) ? String.valueOf('S') : String.valueOf('T'); // use 'S' or 'T'
 
 				int nTypeArgs= ((ParameterizedType) parent.getParent()).typeArguments().size();
-				StringBuilder buf= new StringBuilder(name);
-				buf.append('<');
+				StringBuilder buf= new StringBuilder(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+				buf.append('<'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (nTypeArgs == 1) {
-					buf.append(typeArgBaseName);
+					buf.append(typeArgBaseName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					for (int i= 0; i < nTypeArgs; i++) {
+					for (int i= 0; i < nTypeArgs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (i != 0)
-							buf.append(", "); //$NON-NLS-1$
-						buf.append(typeArgBaseName).append(i + 1);
+							buf.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+						buf.append(typeArgBaseName).append(i + 1); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
 				}
-				buf.append('>');
+				buf.append('>'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				return buf.toString();
 			}
 		}
@@ -293,7 +293,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document) {
 		StructuredSelection selection= new StructuredSelection(fCompilationUnit);
 		NewElementWizard wizard= createWizard(selection);
@@ -356,7 +356,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 		return (NewTypeWizardPage) pages[0];
 	}
 
-	private NewElementWizard createWizard(StructuredSelection selection) {
+	private NewElementWizard createWizard(StructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (fTypeKind) {
 			case K_CLASS: {
 				NewClassWizardPage page=  new NewClassWizardPage();
@@ -420,7 +420,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 	 * Fill-in the "Super Class" and "Super Interfaces" fields.
 	 * @param page the wizard page.
 	 */
-	private void fillInWizardPageSuperTypes(NewTypeWizardPage page) {
+	private void fillInWizardPageSuperTypes(NewTypeWizardPage page) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSuperType != null) {
 			if (fSuperType.isArray()) {
 				fSuperType= fSuperType.getElementType();
@@ -429,7 +429,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 				if (fSuperType.isClass() && (fTypeKind == K_CLASS)) {
 					page.setSuperClass(fSuperType, true);
 				} else if (fSuperType.isInterface()) {
-					List<ITypeBinding> superInterfaces= new ArrayList<>();
+					List<ITypeBinding> superInterfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					superInterfaces.add(fSuperType);
 					page.setSuperInterfacesList(superInterfaces, true);
 				}
@@ -445,7 +445,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 					if (type.isClass() && (fTypeKind == K_CLASS)) {
 						page.setSuperClass(type, true);
 					} else if (type.isInterface()) {
-						List<ITypeBinding> superInterfaces= new ArrayList<>();
+						List<ITypeBinding> superInterfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 						superInterfaces.add(type);
 						page.setSuperInterfacesList(superInterfaces, true);
 					}
@@ -454,7 +454,7 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 		}
 	}
 
-	private ITypeBinding getPossibleSuperTypeBinding(ASTNode node) {
+	private ITypeBinding getPossibleSuperTypeBinding(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (node == null) {
 			return null;
 		}
@@ -509,57 +509,57 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposalExtension5#getAdditionalProposalInfo(org.eclipse.core.runtime.IProgressMonitor)
 	 * @since 3.5
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getAdditionalProposalInfo(IProgressMonitor monitor) {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean noSpacingNeeded = false;
 		switch (fTypeKind) {
 			case K_CLASS:
-				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createclass_info);
+				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createclass_info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_INTERFACE:
-				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createinterface_info);
+				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createinterface_info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_ENUM:
-				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createenum_info);
+				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createenum_info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_ANNOTATION:
-				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createannotation_info);
+				buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_createannotation_info); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			default:
 				noSpacingNeeded = true;
 		}
 		// #2183: newlines at the start of the preview String mess with the formatting
 		if (!noSpacingNeeded) {
-			buf.append("<br>"); //$NON-NLS-1$
-			buf.append("<br>"); //$NON-NLS-1$
+			buf.append("<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (fTypeContainer instanceof IType) {
-			buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_tooltip_enclosingtype);
+			buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_tooltip_enclosingtype); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_tooltip_package);
+			buf.append(CorrectionMessages.NewCUCompletionUsingWizardProposal_tooltip_package); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(" <b>"); //$NON-NLS-1$
-		buf.append(JavaElementLabels.getElementLabel(fTypeContainer, JavaElementLabels.T_FULLY_QUALIFIED));
-		buf.append("</b><br>"); //$NON-NLS-1$
-		buf.append("public "); //$NON-NLS-1$
+		buf.append(" <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(JavaElementLabels.getElementLabel(fTypeContainer, JavaElementLabels.T_FULLY_QUALIFIED)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("</b><br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 
 		switch (fTypeKind) {
 			case K_CLASS:
-				buf.append("class <b>"); //$NON-NLS-1$
+				buf.append("class <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_INTERFACE:
-				buf.append("interface <b>"); //$NON-NLS-1$
+				buf.append("interface <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_ENUM:
-				buf.append("enum <b>"); //$NON-NLS-1$
+				buf.append("enum <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_ANNOTATION:
-				buf.append("@interface <b>"); //$NON-NLS-1$
+				buf.append("@interface <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case K_RECORD:
-				buf.append("record <b>"); //$NON-NLS-1$
+				buf.append("record <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 		}
 		if (fTypeNameWithParameters != null) {
@@ -576,34 +576,34 @@ public class NewCUUsingWizardProposal extends ChangeCorrectionProposal {
 		if (superclass != null) {
 			if (superclass.isClass()) {
 				if (fTypeKind == K_CLASS) {
-					buf.append("</b> extends <b>"); //$NON-NLS-1$
+					buf.append("</b> extends <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					nameToHTML(BindingLabelProvider.getBindingLabel(superclass, BindingLabelProvider.DEFAULT_TEXTFLAGS), buf);
 				}
 			} else {
 				if (fTypeKind == K_INTERFACE) {
-					buf.append("</b> extends <b>"); //$NON-NLS-1$
+					buf.append("</b> extends <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else {
-					buf.append("</b> implements <b>"); //$NON-NLS-1$
+					buf.append("</b> implements <b>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 				nameToHTML(BindingLabelProvider.getBindingLabel(superclass, BindingLabelProvider.DEFAULT_TEXTFLAGS), buf);
 			}
 		}
-		buf.append("</b> {<br>}<br>"); //$NON-NLS-1$
+		buf.append("</b> {<br>}<br>"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buf.toString();
 	}
 
 	private void nameToHTML(String name, StringBuilder buf) {
-		for (int i= 0; i < name.length(); i++) {
+		for (int i= 0; i < name.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= name.charAt(i);
 			switch (ch) {
 			case '>':
-				buf.append("&gt;"); //$NON-NLS-1$
+				buf.append("&gt;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			case '<':
-				buf.append("&lt;"); //$NON-NLS-1$
+				buf.append("&lt;"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			default:
-				buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			}
 		}

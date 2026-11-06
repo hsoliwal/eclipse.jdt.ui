@@ -60,7 +60,7 @@ public class CastCorrectionProposalCore extends LinkedCorrectionProposalCore {
 		setCommandId(CastCorrectionProposalCore.ADD_CAST_ID);
 	}
 
-	private Type getNewCastTypeNode(ASTRewrite rewrite, ImportRewrite importRewrite) {
+	private Type getNewCastTypeNode(ASTRewrite rewrite, ImportRewrite importRewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 
 		ImportRewriteContext context= new ContextSensitiveImportRewriteContext((CompilationUnit) fNodeToCast.getRoot(), fNodeToCast.getStartPosition(), importRewrite);
@@ -75,7 +75,7 @@ public class CastCorrectionProposalCore extends LinkedCorrectionProposalCore {
 			node= parent;
 			parent= parent.getParent();
 		}
-		while (parent instanceof ParenthesizedExpression) {
+		while (parent instanceof ParenthesizedExpression) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= parent;
 			parent= parent.getParent();
 		}
@@ -89,7 +89,7 @@ public class CastCorrectionProposalCore extends LinkedCorrectionProposalCore {
 
 					Type newTypeNode= importRewrite.addImport(first, ast, context, TypeLocation.CAST);
 					addLinkedPosition(rewrite.track(newTypeNode), true, "casttype"); //$NON-NLS-1$
-					for (ITypeBinding binding : bindings) {
+					for (ITypeBinding binding : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						addLinkedPositionProposal("casttype", binding); //$NON-NLS-1$
 					}
 					return newTypeNode;
@@ -106,7 +106,7 @@ public class CastCorrectionProposalCore extends LinkedCorrectionProposalCore {
 			return suggestedCasts[0];
 		}
 		ITypeBinding favourite= suggestedCasts[0];
-		for (ITypeBinding curr : suggestedCasts) {
+		for (ITypeBinding curr : suggestedCasts) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (nodeToCastBinding.isCastCompatible(curr)) {
 				return curr;
 			}
@@ -118,7 +118,7 @@ public class CastCorrectionProposalCore extends LinkedCorrectionProposalCore {
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		AST ast= fNodeToCast.getAST();
 		ASTRewrite rewrite= ASTRewrite.create(ast);

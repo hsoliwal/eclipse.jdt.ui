@@ -79,7 +79,7 @@ public class EnumSourceFilterTest {
 		JavaProjectHelper.clear(fJProject, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testExcludePreservesRangeAndCompiles() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -102,19 +102,19 @@ public class EnumSourceFilterTest {
 		assertExclusionTarget(method, 2, "BLUE"); //$NON-NLS-1$
 		assertNoExclusionTarget(method, 3);
 
-		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
 
 		String source= cu.getSource();
-		assertTrue("Expected the GREEN lower bound in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the GREEN lower bound in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("from = \"GREEN\"")); //$NON-NLS-1$
-		assertTrue("Expected the BLUE upper bound in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the BLUE upper bound in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("to = \"BLUE\"")); //$NON-NLS-1$
 		assertExcludedNames(method, List.of("GREEN")); //$NON-NLS-1$
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAppendExclusionWithoutDuplicates() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -133,17 +133,17 @@ public class EnumSourceFilterTest {
 				""");
 		IMethod method= getMethod(cu, "testWithEnum", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
-		assertFalse("Expected excludeEnumValue(GREEN) to be rejected for " + methodContext(method), //$NON-NLS-1$
+		assertFalse("Expected excludeEnumValue(GREEN) to be rejected for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "GREEN")); //$NON-NLS-1$
 		assertExcludedNames(method, List.of("RED", "GREEN")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("Expected one GREEN exclusion without duplicates in " + sourceContext(cu), //$NON-NLS-1$
+		assertEquals("Expected one GREEN exclusion without duplicates in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				1, countOccurrences(cu.getSource(), "\"GREEN\"")); //$NON-NLS-1$
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIncludeNamesCanExcludeValue() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -164,21 +164,21 @@ public class EnumSourceFilterTest {
 
 		assertExclusionTarget(method, 1, "RED"); //$NON-NLS-1$
 		assertExclusionTarget(method, 2, "BLUE"); //$NON-NLS-1$
-		assertTrue("Expected excludeEnumValue(BLUE) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(BLUE) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "BLUE")); //$NON-NLS-1$
 
 		String source= cu.getSource();
-		assertEquals("Expected BLUE to be removed from the INCLUDE list in " + sourceContext(cu), //$NON-NLS-1$
+		assertEquals("Expected BLUE to be removed from the INCLUDE list in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				0, countOccurrences(source, "\"BLUE\"")); //$NON-NLS-1$
-		assertEquals("Expected RED to remain in the INCLUDE list in " + sourceContext(cu), //$NON-NLS-1$
+		assertEquals("Expected RED to remain in the INCLUDE list in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				1, countOccurrences(source, "\"RED\"")); //$NON-NLS-1$
-		assertFalse("Expected INCLUDE semantics without EXCLUDE mode in " + sourceContext(cu), //$NON-NLS-1$
+		assertFalse("Expected INCLUDE semantics without EXCLUDE mode in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("Mode.EXCLUDE")); //$NON-NLS-1$
 		assertNoExclusionTarget(method, 1);
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRegexFiltersAreRejectedWithoutChanges() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -199,13 +199,13 @@ public class EnumSourceFilterTest {
 		String original= cu.getSource();
 
 		assertNoExclusionTarget(matched, 1);
-		assertFalse("Expected excludeEnumValue(RED) to be rejected for " + methodContext(matched), //$NON-NLS-1$
+		assertFalse("Expected excludeEnumValue(RED) to be rejected for " + methodContext(matched), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(matched, "RED")); //$NON-NLS-1$
 		assertEquals("Expected the unsupported regex source to remain unchanged", original, cu.getSource()); //$NON-NLS-1$
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFullyQualifiedAnnotationRemainsCompilable() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -223,15 +223,15 @@ public class EnumSourceFilterTest {
 				""");
 		IMethod method= getMethod(cu, "testWithEnum", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertTrue("Expected excludeEnumValue(RED) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(RED) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(method, "RED")); //$NON-NLS-1$
 
-		assertTrue("Expected the fully qualified EnumSource annotation in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the fully qualified EnumSource annotation in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				cu.getSource().contains("@org.junit.jupiter.params.provider.EnumSource(")); //$NON-NLS-1$
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReincludeAllPreservesRangeAndSharedModeImport() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -258,22 +258,22 @@ public class EnumSourceFilterTest {
 		IMethod first= getMethod(cu, "first", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 		IMethod second= getMethod(cu, "second", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertTrue("Expected removeExcludeMode() to succeed for " + methodContext(first), //$NON-NLS-1$
+		assertTrue("Expected removeExcludeMode() to succeed for " + methodContext(first), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeExcludeMode(first));
 
 		String source= cu.getSource();
-		assertTrue("Expected the RED lower bound in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the RED lower bound in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("from = \"RED\"")); //$NON-NLS-1$
-		assertTrue("Expected the BLUE upper bound in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the BLUE upper bound in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("to = \"BLUE\"")); //$NON-NLS-1$
-		assertTrue("Expected the shared Mode import to remain in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the shared Mode import to remain in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("import org.junit.jupiter.params.provider.EnumSource.Mode;")); //$NON-NLS-1$
 		assertFilterRemoved(first);
 		assertExcludeMode(second);
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReincludeLastValueRemovesUnusedModeImport() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -294,21 +294,21 @@ public class EnumSourceFilterTest {
 				""");
 		IMethod method= getMethod(cu, "testWithEnum", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertTrue("Expected removeValueFromExclusion(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected removeValueFromExclusion(GREEN) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "GREEN")); //$NON-NLS-1$
 
 		String source= cu.getSource();
-		assertFalse("Expected the unused Mode import to be removed from " + sourceContext(cu), //$NON-NLS-1$
+		assertFalse("Expected the unused Mode import to be removed from " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("import org.junit.jupiter.params.provider.EnumSource.Mode;")); //$NON-NLS-1$
-		assertTrue("Expected the GREEN lower bound in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the GREEN lower bound in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("from = \"GREEN\"")); //$NON-NLS-1$
-		assertTrue("Expected the BLUE upper bound in " + sourceContext(cu), //$NON-NLS-1$
+		assertTrue("Expected the BLUE upper bound in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				source.contains("to = \"BLUE\"")); //$NON-NLS-1$
 		assertFilterRemoved(method);
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReincludeSingleValuePreservesOtherExclusions() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -328,7 +328,7 @@ public class EnumSourceFilterTest {
 				""");
 		IMethod method= getMethod(cu, "testWithEnum", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertTrue("Expected removeValueFromExclusion(RED) to succeed for " + methodContext(method), //$NON-NLS-1$
+		assertTrue("Expected removeValueFromExclusion(RED) to succeed for " + methodContext(method), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.removeValueFromExclusion(method, "RED")); //$NON-NLS-1$
 
 		assertExcludedNames(method, List.of("GREEN")); //$NON-NLS-1$
@@ -336,7 +336,7 @@ public class EnumSourceFilterTest {
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOverloadedMethodChangesOnlyExactBinding() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -362,7 +362,7 @@ public class EnumSourceFilterTest {
 		IMethod colorMethod= getMethod(cu, "testValue", "QColor;"); //$NON-NLS-1$ //$NON-NLS-2$
 		IMethod shapeMethod= getMethod(cu, "testValue", "QShape;"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		assertTrue("Expected excludeEnumValue(CIRCLE) to succeed for " + methodContext(shapeMethod), //$NON-NLS-1$
+		assertTrue("Expected excludeEnumValue(CIRCLE) to succeed for " + methodContext(shapeMethod), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				EnumSourceValidator.excludeEnumValue(shapeMethod, "CIRCLE")); //$NON-NLS-1$
 
 		assertExcludedNames(colorMethod, List.of());
@@ -370,7 +370,7 @@ public class EnumSourceFilterTest {
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMultipleAndRepeatedArgumentSourcesAreRejected() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -403,7 +403,7 @@ public class EnumSourceFilterTest {
 		assertCompiles(cu);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvocationOrderHonorsRangeAndExclusions() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -428,7 +428,7 @@ public class EnumSourceFilterTest {
 		assertNoExclusionTarget(method, 3);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodFinderUsesParameterTypesAndRejectsAmbiguity() throws Exception {
 		ICompilationUnit cu= createCompilationUnit("""
 				package test1;
@@ -448,14 +448,14 @@ public class EnumSourceFilterTest {
 
 		IMethod stringMethod= TestMethodFinder.findMethod(
 				type, "overloaded", new String[] { "java.lang.String" }); //$NON-NLS-1$ //$NON-NLS-2$
-		assertNotNull("Expected the java.lang.String overload in " + sourceContext(cu), stringMethod); //$NON-NLS-1$
-		assertEquals("Expected the selected overload to take String in " + sourceContext(cu), //$NON-NLS-1$
+		assertNotNull("Expected the java.lang.String overload in " + sourceContext(cu), stringMethod); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Expected the selected overload to take String in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"QString;", stringMethod.getParameterTypes()[0]); //$NON-NLS-1$
-		assertNull("Expected overloads to be ambiguous without parameter metadata in " + sourceContext(cu), //$NON-NLS-1$
+		assertNull("Expected overloads to be ambiguous without parameter metadata in " + sourceContext(cu), //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				TestMethodFinder.findMethod(type, "overloaded", null)); //$NON-NLS-1$
 		IMethod unique= TestMethodFinder.findMethod(type, "unique", null); //$NON-NLS-1$
-		assertNotNull("Expected the unique method without parameter metadata in " + sourceContext(cu), unique); //$NON-NLS-1$
-		assertEquals("Expected the unique method to be selected in " + sourceContext(cu), "unique", unique.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNotNull("Expected the unique method without parameter metadata in " + sourceContext(cu), unique); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertEquals("Expected the unique method to be selected in " + sourceContext(cu), "unique", unique.getElementName()); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private ICompilationUnit createCompilationUnit(String source) throws Exception {
@@ -465,7 +465,7 @@ public class EnumSourceFilterTest {
 	private static int countOccurrences(String text, String pattern) {
 		int count= 0;
 		int index= 0;
-		while ((index= text.indexOf(pattern, index)) >= 0) {
+		while ((index= text.indexOf(pattern, index)) >= 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			count++;
 			index += pattern.length();
 		}

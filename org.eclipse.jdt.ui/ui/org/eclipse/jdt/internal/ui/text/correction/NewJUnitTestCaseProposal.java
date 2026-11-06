@@ -30,7 +30,7 @@ import org.eclipse.jdt.ui.text.java.correction.ChangeCorrectionProposal;
 import org.eclipse.jdt.internal.ui.wizards.NewTypeDropDownAction;
 import org.eclipse.jdt.internal.ui.wizards.NewTypeDropDownAction.OpenTypeWizardAction;
 
-public class NewJUnitTestCaseProposal extends ChangeCorrectionProposal {
+public class NewJUnitTestCaseProposal extends ChangeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private static final String JUNIT_NEW_TESTCASE_ID= "org.eclipse.jdt.junit.wizards.NewTestCaseCreationWizard"; //$NON-NLS-1$
 	private CompilationUnit fCompilationUnit;

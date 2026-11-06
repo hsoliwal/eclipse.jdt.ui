@@ -88,7 +88,7 @@ public final class SignatureUtil {
 	 * @param signature the signature
 	 * @return the upper bound signature of <code>signature</code>
 	 */
-	public static char[] getUpperBound(char[] signature) {
+	public static char[] getUpperBound(char[] signature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (signature.length < 1)
 			return signature;
 
@@ -151,7 +151,7 @@ public final class SignatureUtil {
 	 * @param signature the signature
 	 * @return the lower bound signature of <code>signature</code>
 	 */
-	public static char[] getLowerBound(char[] signature) {
+	public static char[] getLowerBound(char[] signature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (signature.length < 1)
 			return signature;
 
@@ -169,7 +169,7 @@ public final class SignatureUtil {
 				return NULL_TYPE_SIGNATURE_ARRAY;
 		}
 
-		for (char[] typeArgument : Signature.getTypeArguments(signature)) {
+		for (char[] typeArgument : Signature.getTypeArguments(signature)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Arrays.equals(typeArgument, NULL_TYPE_SIGNATURE_ARRAY)) {
 				return NULL_TYPE_SIGNATURE_ARRAY;
 			}
@@ -185,7 +185,7 @@ public final class SignatureUtil {
 	}
 
 	private static int indexOf(char[] signature, char ch) {
-		for (int i= 0; i < signature.length; i++) {
+		for (int i= 0; i < signature.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (signature[i] == ch)
 				return i;
 		}
@@ -216,7 +216,7 @@ public final class SignatureUtil {
 	 *        context is available
 	 * @return the qualified signature
 	 */
-	public static String qualifySignature(final String signature, final IType context) {
+	public static String qualifySignature(final String signature, final IType context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (context == null)
 			return signature;
 
@@ -264,7 +264,7 @@ public final class SignatureUtil {
 	 * @param signature the method signature to convert
 	 * @return the signature with no bounded types
 	 */
-	public static char[] unboundedSignature(char[] signature) {
+	public static char[] unboundedSignature(char[] signature) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (signature == null || signature.length < 2)
 			return signature;
 
@@ -275,12 +275,12 @@ public final class SignatureUtil {
 			signature= fix83600(signature);
 		}
 
-		StringBuilder res= new StringBuilder("("); //$NON-NLS-1$
-		for (char[] param : Signature.getParameterTypes(signature)) {
-			res.append(getLowerBound(param));
+		StringBuilder res= new StringBuilder("("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (char[] param : Signature.getParameterTypes(signature)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			res.append(getLowerBound(param)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		res.append(')');
-		res.append(getUpperBound(Signature.getReturnType(signature)));
+		res.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		res.append(getUpperBound(Signature.getReturnType(signature))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return res.toString().toCharArray();
 	}
 
@@ -299,9 +299,9 @@ public final class SignatureUtil {
 		return Signature.removeCapture(signature);
 	}
 
-	private static int typeEnd(char[] signature, int pos) {
+	private static int typeEnd(char[] signature, int pos) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int depth= 0;
-		while (pos < signature.length) {
+		while (pos < signature.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (signature[pos]) {
 				case Signature.C_GENERIC_START:
 					depth++;

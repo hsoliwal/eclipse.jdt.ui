@@ -23,7 +23,7 @@ import org.eclipse.jdt.core.IJavaElement;
 /**
  * Filters out all packages and folders
  */
-class ContainerFilter  extends ViewerFilter {
+class ContainerFilter  extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	private boolean fFilterContainers;
 

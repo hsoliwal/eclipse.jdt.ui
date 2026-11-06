@@ -27,7 +27,7 @@ public class JERoot extends JEAttribute {
 
 	private final List<JEAttribute> fJEAttributes;
 
-	public JERoot(Collection<?> javaElementsOrResources) {
+	public JERoot(Collection<?> javaElementsOrResources) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fJEAttributes= new Mapper<Object, JEAttribute>() {
 			@Override public JEAttribute map(Object element) {
 				if (element instanceof IJavaElement)
@@ -71,12 +71,12 @@ public class JERoot extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		StringBuilder buf = new StringBuilder("root: ");
+		StringBuilder buf = new StringBuilder("root: "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean first= true;
-		for (JEAttribute att : fJEAttributes) {
+		for (JEAttribute att : fJEAttributes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! first)
-				buf.append(", ");
-			buf.append(att.getLabel());
+				buf.append(", "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(att.getLabel()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			first= false;
 		}
 		return buf.toString();

@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.ProblemTreeViewer;
  *
  * @since 2.1
  */
-public class MockPluginView extends PackageExplorerPart {
+public class MockPluginView extends PackageExplorerPart { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	TreeViewer fViewer;
 	private ITreeContentProvider contentProvider;
@@ -56,8 +56,8 @@ public class MockPluginView extends PackageExplorerPart {
 	 */
 	public MockPluginView() {
 		super();
-		fRefreshedObjects= new ArrayList<>();
-		fRemovedObjects= new ArrayList<>();
+		fRefreshedObjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fRemovedObjects= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**

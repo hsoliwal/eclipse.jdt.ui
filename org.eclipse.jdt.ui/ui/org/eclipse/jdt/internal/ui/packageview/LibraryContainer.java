@@ -65,9 +65,9 @@ public class LibraryContainer extends PackageFragmentRootContainer {
 
 	@Override
 	public IPackageFragmentRoot[] getPackageFragmentRoots() {
-		List<IPackageFragmentRoot> list= new ArrayList<>();
+		List<IPackageFragmentRoot> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
-			for (IPackageFragmentRoot root : getJavaProject().getPackageFragmentRoots()) {
+			for (IPackageFragmentRoot root : getJavaProject().getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int classpathEntryKind= root.getRawClasspathEntry().getEntryKind();
 				if (classpathEntryKind == IClasspathEntry.CPE_LIBRARY || classpathEntryKind == IClasspathEntry.CPE_VARIABLE) {
 					list.add(root);

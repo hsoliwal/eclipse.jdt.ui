@@ -94,7 +94,7 @@ public abstract class AbstractSignatureProcessor extends RefactoringProcessor {
 
 	boolean isOrderSameAsInitial(){
 		int i= 0;
-		for (Iterator<ParameterInfo> iter= fParameterInfos.iterator(); iter.hasNext(); i++) {
+		for (Iterator<ParameterInfo> iter= fParameterInfos.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo info= iter.next();
 			if (info.getOldIndex() != i) // includes info.isAdded()
 				return false;
@@ -105,7 +105,7 @@ public abstract class AbstractSignatureProcessor extends RefactoringProcessor {
 	}
 
 	boolean areParameterTypesSameAsInitial() {
-		for (ParameterInfo info : fParameterInfos) {
+		for (ParameterInfo info : fParameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! info.isAdded() && ! info.isDeleted() && info.isTypeNameChanged())
 				return false;
 		}
@@ -113,7 +113,7 @@ public abstract class AbstractSignatureProcessor extends RefactoringProcessor {
 	}
 
 	boolean areNamesSameAsInitial() {
-		for (ParameterInfo info : fParameterInfos) {
+		for (ParameterInfo info : fParameterInfos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (info.isRenamed())
 				return false;
 		}
@@ -122,7 +122,7 @@ public abstract class AbstractSignatureProcessor extends RefactoringProcessor {
 
 	void checkParameterNamesAndValues(RefactoringStatus result) {
 		int i= 1;
-		for (Iterator<ParameterInfo> iter= fParameterInfos.iterator(); iter.hasNext(); i++) {
+		for (Iterator<ParameterInfo> iter= fParameterInfos.iterator(); iter.hasNext(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ParameterInfo info= iter.next();
 			if (info.isDeleted())
 				continue;

@@ -38,7 +38,7 @@ public class BuildpathIndicatorLabelDecorator extends AbstractJavaElementLabelDe
 		}
 	}
 
-	private ImageDescriptor getOverlay(Object element) {
+	private ImageDescriptor getOverlay(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IResource) {
 			IResource resource= (IResource) element;
 			IProject project= resource.getProject();
@@ -62,7 +62,7 @@ public class BuildpathIndicatorLabelDecorator extends AbstractJavaElementLabelDe
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void processDelta(IJavaElementDelta delta, List<IJavaElement> result) {
 		IJavaElement elem= delta.getElement();
 

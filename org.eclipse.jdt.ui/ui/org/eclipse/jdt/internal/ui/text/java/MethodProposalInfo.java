@@ -59,7 +59,7 @@ public final class MethodProposalInfo extends MemberProposalInfo {
 	 * @return the resolved member or <code>null</code> if none is found
 	 * @throws JavaModelException if accessing the java model fails
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IMember resolveMember() throws JavaModelException {
 		char[] declarationSignature= fProposal.getDeclarationSignature();
 		String typeName= SignatureUtil.stripSignatureToFQN(String.valueOf(declarationSignature));
@@ -67,7 +67,7 @@ public final class MethodProposalInfo extends MemberProposalInfo {
 		if (type != null) {
 			String name= String.valueOf(fProposal.getName());
 			String[] parameters= Signature.getParameterTypes(String.valueOf(SignatureUtil.fix83600(fProposal.getSignature())));
-			for (int i= 0; i < parameters.length; i++) {
+			for (int i= 0; i < parameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameters[i]= SignatureUtil.getLowerBound(parameters[i]);
 			}
 			boolean isConstructor= fProposal.isConstructor();
@@ -120,15 +120,15 @@ public final class MethodProposalInfo extends MemberProposalInfo {
 	 * @return a map from type variables to concrete type signatures
 	 * @throws JavaModelException if accessing the java model fails
 	 */
-	private Map<String, char[]> computeTypeVariables(IType type) throws JavaModelException {
-		Map<String, char[]> map= new HashMap<>();
+	private Map<String, char[]> computeTypeVariables(IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<String, char[]> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		char[] declarationSignature= fProposal.getDeclarationSignature();
 		if (declarationSignature == null) // array methods don't contain a declaration signature
 			return map;
 		char[][] concreteParameters= Signature.getTypeArguments(declarationSignature);
 
 		ITypeParameter[] typeParameters= type.getTypeParameters();
-		for (int i= 0; i < typeParameters.length; i++) {
+		for (int i= 0; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String variable= typeParameters[i].getElementName();
 			if (concreteParameters.length > i)
 				// use lower bound since method equality is only parameter based
@@ -158,7 +158,7 @@ public final class MethodProposalInfo extends MemberProposalInfo {
 	 */
 	private IMethod findMethod(String name, String[] paramTypes, boolean isConstructor, IType type, Map<String, char[]> typeVariables) throws JavaModelException {
 		IMethod[] methods = type.getMethods();
-		for (int i= methods.length - 1; i >= 0; i--) {
+		for (int i= methods.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSameMethodSignature(name, paramTypes, isConstructor, methods[i], typeVariables, type)) {
 				return methods[i];
 			}
@@ -182,7 +182,7 @@ public final class MethodProposalInfo extends MemberProposalInfo {
 	 *         parameter types and constructor state.
 	 * @throws JavaModelException if the method does not exist or if an exception occurs while accessing its corresponding resource
 	 */
-	private boolean isSameMethodSignature(String name, String[] paramTypes, boolean isConstructor, IMethod method, Map<String, char[]> typeVariables, IType type) throws JavaModelException {
+	private boolean isSameMethodSignature(String name, String[] paramTypes, boolean isConstructor, IMethod method, Map<String, char[]> typeVariables, IType type) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isConstructor || name.equals(method.getElementName())) {
 			if (isConstructor == method.isConstructor()) {
 				String[] otherParams= method.getParameterTypes(); // types may be type variables
@@ -197,7 +197,7 @@ public final class MethodProposalInfo extends MemberProposalInfo {
 					String[] otherParamsFromSignature= Signature.getParameterTypes(signature); // types are resolved / upper-bounded
 					// no need to check method type variables since these are
 					// not yet bound when proposing a method
-					for (int i= 0; i < paramTypes.length; i++) {
+					for (int i= 0; i < paramTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						String ourParamName= computeSimpleTypeName(paramTypes[i], typeVariables);
 						String otherParamName1= computeSimpleTypeName(otherParams[i + syntheticParameterCorrection], typeVariables);
 						String otherParamName2= computeSimpleTypeName(otherParamsFromSignature[i + syntheticParameterCorrection], typeVariables);

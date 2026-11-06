@@ -109,7 +109,7 @@ final class DisplayWaiter {
 	 * @param delay the delay from now in milliseconds
 	 * @return the timeout state which can be queried for its timed out status
 	 */
-	public Timeout start(long delay) {
+	public Timeout start(long delay) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.assertTrue(delay > 0);
 		synchronized (fMutex) {
 			switch (fState) {
@@ -151,7 +151,7 @@ final class DisplayWaiter {
 	 * @param delay the delay from now in milliseconds
 	 * @return the timeout state which can be queried for its timed out status
 	 */
-	public Timeout restart(long delay) {
+	public Timeout restart(long delay) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.assertTrue(delay > 0);
 		synchronized (fMutex) {
 			switch (fState) {
@@ -207,7 +207,7 @@ final class DisplayWaiter {
 	/**
 	 * Start the thread. Assume the current state is <code>STOPPED</code>.
 	 */
-	private void startThread() {
+	private void startThread() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		checkedTransition(STOPPED, RUNNING);
 		fCurrentTimeoutState= new Timeout(false);
 		fCurrentThread= new Thread() {
@@ -222,7 +222,7 @@ final class DisplayWaiter {
 			/*
 			 * @see java.lang.Runnable#run()
 			 */
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void run() {
 				try {
 					run2();
@@ -248,13 +248,13 @@ final class DisplayWaiter {
 			 * @throws InterruptedException if the thread was interrupted
 			 * @throws ThreadChangedException if the thread changed
 			 */
-			private void run2() throws InterruptedException, ThreadChangedException {
+			private void run2() throws InterruptedException, ThreadChangedException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				synchronized (fMutex) {
 					checkThread();
 					tryHold(); // wait / potential state change
 					assertStates(STOPPED | RUNNING);
 
-					while (isState(RUNNING)) {
+					while (isState(RUNNING)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						waitForTimeout(); // wait / potential state change
 
 						if (isState(RUNNING))
@@ -287,9 +287,9 @@ final class DisplayWaiter {
 			 */
 			private void waitForTimeout() throws InterruptedException, ThreadChangedException {
 				long delta;
-				while (isState(RUNNING) && (delta = fNextTimeout - System.currentTimeMillis()) > 0) {
+				while (isState(RUNNING) && (delta = fNextTimeout - System.currentTimeMillis()) > 0) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					delta= Math.max(delta, 50); // wait at least 50ms in order to avoid timing out before the display is going to sleep
-					Logger.getGlobal().finest("sleeping for " + delta + "ms");
+					Logger.getGlobal().finest("sleeping for " + delta + "ms"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fMutex.wait(delta);
 					checkThread();
 				}
@@ -321,7 +321,7 @@ final class DisplayWaiter {
 			 *         hold
 			 */
 			private void tryHold() throws InterruptedException, ThreadChangedException {
-				while (isState(IDLE)) {
+				while (isState(IDLE)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fMutex.wait(0);
 					checkThread();
 				}
@@ -344,11 +344,11 @@ final class DisplayWaiter {
 	 */
 	private boolean tryTransition(int possibleStates, int nextState) {
 		if (isState(possibleStates)) {
-			Logger.getGlobal().finer(name(fState) + " > " + name(nextState) + " (" + name(possibleStates) + ")");
+			Logger.getGlobal().finer(name(fState) + " > " + name(nextState) + " (" + name(possibleStates) + ")"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			fState= nextState;
 			return true;
 		}
-		Logger.getGlobal().finest("noTransition" + name(fState) + " !> " + name(nextState) + " (" + name(possibleStates) + ")");
+		Logger.getGlobal().finest("noTransition" + name(fState) + " !> " + name(nextState) + " (" + name(possibleStates) + ")"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return false;
 	}
 
@@ -361,7 +361,7 @@ final class DisplayWaiter {
 	 */
 	private void checkedTransition(int possibleStates, int nextState) {
 		assertStates(possibleStates);
-		Logger.getGlobal().finer(name(fState) + " > " + name(nextState));
+		Logger.getGlobal().finer(name(fState) + " > " + name(nextState)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fState= nextState;
 	}
 
@@ -394,23 +394,23 @@ final class DisplayWaiter {
 	 * @param states the states
 	 * @return a string representation of the states
 	 */
-	private String name(int states) {
-		StringBuilder buf= new StringBuilder();
+	private String name(int states) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean comma= false;
 		if ((states & RUNNING) == RUNNING) {
-			buf.append("RUNNING");
+			buf.append("RUNNING"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			comma= true;
 		}
 		if ((states & STOPPED) == STOPPED) {
 			if (comma)
-				buf.append(",");
-			buf.append("STOPPED");
+				buf.append(","); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("STOPPED"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			comma= true;
 		}
 		if ((states & IDLE) == IDLE) {
 			if (comma)
-				buf.append(",");
-			buf.append("IDLE");
+				buf.append(","); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("IDLE"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

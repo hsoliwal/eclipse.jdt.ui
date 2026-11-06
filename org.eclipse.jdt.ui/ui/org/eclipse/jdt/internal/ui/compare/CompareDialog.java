@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 
 class CompareDialog extends ResizableDialog {
 
-	class ViewerSwitchingPane extends CompareViewerSwitchingPane {
+	class ViewerSwitchingPane extends CompareViewerSwitchingPane { //FLLDCIM: MARK — T05  IMPLEMENTS
 
 		ViewerSwitchingPane(Composite parent, int style) {
 			super(parent, style, false);

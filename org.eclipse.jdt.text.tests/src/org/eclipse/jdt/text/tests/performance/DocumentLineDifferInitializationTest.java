@@ -64,12 +64,12 @@ public class DocumentLineDifferInitializationTest extends AbstractDocumentLineDi
 	private void runInitializationMeasurements(IDocument document) throws Exception {
 		PerformanceMeter meter= getNullPerformanceMeter();
 		int runs= getWarmUpRuns();
-		for (int run= 0; run < runs; run++)
+		for (int run= 0; run < runs; run++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			measureInitialization(meter, document);
 
 		meter= createPerformanceMeter();
 		runs= getMeasuredRuns();
-		for (int run= 0; run < runs; run++)
+		for (int run= 0; run < runs; run++) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			measureInitialization(meter, document);
 	}
 

@@ -41,7 +41,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 /**
  * A method proposal with filled in argument names.
  */
-public class FilledArgumentNamesMethodProposal extends JavaMethodCompletionProposal {
+public class FilledArgumentNamesMethodProposal extends JavaMethodCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private IRegion fSelectedRegion; // initialized by apply()
 	private int[] fArgumentOffsets;
@@ -54,7 +54,7 @@ public class FilledArgumentNamesMethodProposal extends JavaMethodCompletionPropo
 	/*
 	 * @see ICompletionProposalExtension#apply(IDocument, char)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(IDocument document, char trigger, int offset) {
 		super.apply(document, trigger, offset);
 		int baseOffset= getReplacementOffset();
@@ -63,7 +63,7 @@ public class FilledArgumentNamesMethodProposal extends JavaMethodCompletionPropo
 		if (fArgumentOffsets != null && getTextViewer() != null) {
 			try {
 				LinkedModeModel model= new LinkedModeModel();
-				for (int i= 0; i != fArgumentOffsets.length; i++) {
+				for (int i= 0; i != fArgumentOffsets.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					LinkedPositionGroup group= new LinkedPositionGroup();
 					group.addPosition(new LinkedPosition(document, baseOffset + fArgumentOffsets[i], fArgumentLengths[i], LinkedPositionGroup.NO_STOP));
 					model.addGroup(group);
@@ -104,7 +104,7 @@ public class FilledArgumentNamesMethodProposal extends JavaMethodCompletionPropo
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.LazyJavaCompletionProposal#computeReplacementString()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String computeReplacementString() {
 
 		if (!hasParameters() || !hasArgumentList())
@@ -125,7 +125,7 @@ public class FilledArgumentNamesMethodProposal extends JavaMethodCompletionPropo
 		if (prefs.afterOpeningParen)
 			buffer.append(SPACE);
 
-		for (int i= 0; i != count; i++) {
+		for (int i= 0; i != count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i != 0) {
 				if (prefs.beforeComma)
 					buffer.append(SPACE);

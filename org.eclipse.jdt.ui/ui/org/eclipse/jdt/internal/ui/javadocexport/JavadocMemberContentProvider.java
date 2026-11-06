@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 
-public class JavadocMemberContentProvider implements ITreeContentProvider {
+public class JavadocMemberContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	/*
 	 * @see ITreeContentProvider#getChildren(Object)

@@ -96,14 +96,14 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		RefactoringStatus result= performRefactoring(createRefactoringDescriptor(classA, newName));
 		assertNotNull("precondition was supposed to fail", result);
 		if (fIsVerbose)
-			DebugUtils.dump("result: " + result);
+			DebugUtils.dump("result: " + result); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void helper1() throws Exception{
 		helper1_0("A", "B");
 	}
 
-	private String[] helperWithTextual(String oldCuName, String oldName, String newName, String newCUName, boolean updateReferences, boolean updateTextualMatches) throws Exception{
+	private String[] helperWithTextual(String oldCuName, String oldName, String newName, String newCUName, boolean updateReferences, boolean updateTextualMatches) throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), oldCuName);
 		IType classA= getType(cu, oldName);
 		IJavaElement[] classAMembers= classA.getChildren();
@@ -120,15 +120,15 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		descriptor.setUpdateTextualOccurrences(updateTextualMatches);
 		Refactoring refactoring= createRefactoring(descriptor);
 		assertNull("was supposed to pass", performRefactoring(refactoring));
-		ICompilationUnit newcu= pack.getCompilationUnit(newCUName + ".java");
-		assertTrue("cu " + newcu.getElementName()+ " does not exist", newcu.exists());
+		ICompilationUnit newcu= pack.getCompilationUnit(newCUName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("cu " + newcu.getElementName()+ " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid renaming", getFileContents(getOutputTestFileName(newCUName)), newcu.getSource());
 
 		INameUpdating nameUpdating= refactoring.getAdapter(INameUpdating.class);
 		IType newElement = (IType) nameUpdating.getNewElement();
-		assertTrue("new element does not exist:\n" + newElement.toString(), newElement.exists());
+		assertTrue("new element does not exist:\n" + newElement.toString(), newElement.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-		checkMappers(refactoring, classA, newCUName + ".java", classAMembers);
+		checkMappers(refactoring, classA, newCUName + ".java", classAMembers); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		return renameHandles;
 	}
@@ -184,7 +184,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		IJavaElement[] similarElements= rtp.getSimilarElements();
 		if (similarElements == null)
 			return;
-		for (IJavaElement element : similarElements) {
+		for (IJavaElement element : similarElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! (element instanceof ILocalVariable)) {
 				IJavaElement newElement= mapper.getRefactoredJavaElement(element);
 				assertTrue(newElement.exists());
@@ -224,8 +224,8 @@ public class RenameTypeTests extends GenericRefactoringTest {
 	}
 
 	private void checkResultInClass(String typeName) throws JavaModelException, IOException {
-		ICompilationUnit newcu= getPackageP().getCompilationUnit(typeName + ".java");
-		assertTrue("cu " + newcu.getElementName()+ " does not exist", newcu.exists());
+		ICompilationUnit newcu= getPackageP().getCompilationUnit(typeName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		assertTrue("cu " + newcu.getElementName()+ " does not exist", newcu.exists()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid renaming", getFileContents(getOutputTestFileName(typeName)), newcu.getSource());
 	}
 
@@ -936,8 +936,8 @@ public class RenameTypeTests extends GenericRefactoringTest {
 			renameHandles,
 			new RenameArguments[] {
 				new RenameArguments(newName, true),
-				new RenameArguments(newName + ".java", true),
-				new RenameArguments(newName + ".java", true)});
+				new RenameArguments(newName + ".java", true), //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+				new RenameArguments(newName + ".java", true)}); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Test
@@ -1383,11 +1383,11 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		helperQualifiedName("Transient", "TransientEquipment", "mapping.hbm.xml", "*.xml");
 	}
 
-	private void helperQualifiedName(String oldName, String newName, String textFileName, String filePatterns) throws Exception {
+	private void helperQualifiedName(String oldName, String newName, String textFileName, String filePatterns) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), oldName);
 		IType classA= getType(cu, oldName);
 
-		String content= getFileContents(getTestPath() + getName() + TEST_INPUT_INFIX + textFileName);
+		String content= getFileContents(getTestPath() + getName() + TEST_INPUT_INFIX + textFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IProject project= classA.getJavaProject().getProject();
 		IFile file= project.getFile(textFileName);
 		file.create(new ByteArrayInputStream(content.getBytes()), true, null);
@@ -1398,15 +1398,15 @@ public class RenameTypeTests extends GenericRefactoringTest {
 
 		assertNull("was supposed to pass", performRefactoring(descriptor));
 
-		ICompilationUnit newcu= getPackageP().getCompilationUnit(newName + ".java");
+		ICompilationUnit newcu= getPackageP().getCompilationUnit(newName + ".java"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid renaming", getFileContents(getOutputTestFileName(newName)), newcu.getSource());
-		StringBuilder newContent= new StringBuilder();
+		StringBuilder newContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (InputStreamReader reader= new InputStreamReader(file.getContents(true))) {
 			int ch;
-			while ((ch= reader.read()) != -1)
-				newContent.append((char) ch);
+			while ((ch= reader.read()) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				newContent.append((char) ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		String definedContent= getFileContents(getTestPath() + getName() + TEST_OUTPUT_INFIX + textFileName);
+		String definedContent= getFileContents(getTestPath() + getName() + TEST_OUTPUT_INFIX + textFileName); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid updating", definedContent, newContent.toString());
 	}
 
@@ -1512,24 +1512,24 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		checkResultInClass("SomeOtherClass");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarElements05() throws Exception {
 		//qualified name updating
 		//includes textual updating
-		String content= getFileContents(getTestPath() + "testSimilarElements05/in/test.html");
+		String content= getFileContents(getTestPath() + "testSimilarElements05/in/test.html"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		IProject project= getPackageP().getJavaProject().getProject();
 		IFile file= project.getFile("test.html");
 		file.create(new ByteArrayInputStream(content.getBytes()), true, null);
 
 		helper3("SomeClass", "SomeDifferentClass", true, true, true, "test.html");
 
-		StringBuilder newContent= new StringBuilder();
+		StringBuilder newContent= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		try (InputStreamReader reader= new InputStreamReader(file.getContents(true))) {
 			int ch;
-			while((ch= reader.read()) != -1)
-				newContent.append((char)ch);
+			while((ch= reader.read()) != -1) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				newContent.append((char)ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		String definedContent= getFileContents(getTestPath() + "testSimilarElements05/out/test.html");
+		String definedContent= getFileContents(getTestPath() + "testSimilarElements05/out/test.html"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEqualLines("invalid updating test.html", newContent.toString(), definedContent);
 
 	}
@@ -1574,7 +1574,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		checkResultInClass("SomeOtherClass");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarElements11() throws Exception {
 		//Assure participants get notified of normal stuff (type rename
 		//and resource changes) AND similarly named elements.
@@ -1583,12 +1583,12 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		IType someClass= getType(cu, "SomeClass");
 		IType other= getClassFromTestFile(getPackageP(), "SomeOtherClass");
 
-		List<IAdaptable> handleList= new ArrayList<>();
-		List<RenameArguments> argumentList= new ArrayList<>();
+		List<IAdaptable> handleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<RenameArguments> argumentList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		List<String> similarOldHandleList= new ArrayList<>();
-		List<String> similarNewNameList= new ArrayList<>();
-		List<String> similarNewHandleList= new ArrayList<>();
+		List<String> similarOldHandleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> similarNewNameList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> similarNewHandleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		final String newName= "SomeNewClass";
 
@@ -1631,9 +1631,9 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		handleList.add(someClass);
 		argumentList.add(new RenameArguments(newName, true));
 		handleList.add(cu);
-		argumentList.add(new RenameArguments(newName + ".java", true));
+		argumentList.add(new RenameArguments(newName + ".java", true)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		handleList.add(cu.getResource());
-		argumentList.add(new RenameArguments(newName + ".java", true));
+		argumentList.add(new RenameArguments(newName + ".java", true)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] handles= ParticipantTesting.createHandles(handleList.toArray());
 		RenameArguments[] arguments= argumentList.toArray(new RenameArguments[0]);
@@ -1715,7 +1715,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		checkResultInClass("SomeClassSecond");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarElements22() throws Exception {
 		// Test transplanter for fields in types inside of initializers
 
@@ -1723,12 +1723,12 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "SomeClass");
 		IType someClass= getType(cu, "SomeClass");
 
-		List<IAdaptable> handleList= new ArrayList<>();
-		List<RenameArguments> argumentList= new ArrayList<>();
+		List<IAdaptable> handleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<RenameArguments> argumentList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		List<String> similarOldHandleList= new ArrayList<>();
-		List<String> similarNewNameList= new ArrayList<>();
-		List<String> similarNewHandleList= new ArrayList<>();
+		List<String> similarOldHandleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> similarNewNameList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> similarNewHandleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		final String newName= "SomeNewClass";
 
@@ -1742,9 +1742,9 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		handleList.add(someClass);
 		argumentList.add(new RenameArguments(newName, true));
 		handleList.add(cu);
-		argumentList.add(new RenameArguments(newName + ".java", true));
+		argumentList.add(new RenameArguments(newName + ".java", true)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		handleList.add(cu.getResource());
-		argumentList.add(new RenameArguments(newName + ".java", true));
+		argumentList.add(new RenameArguments(newName + ".java", true)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] handles= ParticipantTesting.createHandles(handleList.toArray());
 		RenameArguments[] arguments= argumentList.toArray(new RenameArguments[0]);
@@ -1761,7 +1761,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarElements23() throws Exception {
 		// Test transplanter for elements inside types inside fields
 
@@ -1769,12 +1769,12 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		ICompilationUnit cu= createCUfromTestFile(getPackageP(), "SomeClass");
 		IType someClass= getType(cu, "SomeClass");
 
-		List<IAdaptable> handleList= new ArrayList<>();
-		List<RenameArguments> argumentList= new ArrayList<>();
+		List<IAdaptable> handleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<RenameArguments> argumentList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		List<String> similarOldHandleList= new ArrayList<>();
-		List<String> similarNewNameList= new ArrayList<>();
-		List<String> similarNewHandleList= new ArrayList<>();
+		List<String> similarOldHandleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> similarNewNameList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<String> similarNewHandleList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		final String newName= "SomeNewClass";
 
@@ -1794,9 +1794,9 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		handleList.add(someClass);
 		argumentList.add(new RenameArguments(newName, true));
 		handleList.add(cu);
-		argumentList.add(new RenameArguments(newName + ".java", true));
+		argumentList.add(new RenameArguments(newName + ".java", true)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		handleList.add(cu.getResource());
-		argumentList.add(new RenameArguments(newName + ".java", true));
+		argumentList.add(new RenameArguments(newName + ".java", true)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		String[] handles= ParticipantTesting.createHandles(handleList.toArray());
 		RenameArguments[] arguments= argumentList.toArray(new RenameArguments[0]);
@@ -1812,7 +1812,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		ParticipantTesting.testSimilarElements(similarOldHandleList, similarNewNameList, similarNewHandleList);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarElements24() throws Exception {
 		// Test transplanter for ICompilationUnit and IFile
 
@@ -1832,7 +1832,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		checkMappers(ref, someClass, "SomeNewClass.java", someClassMembers);
 	}
 
-	private void checkMappers(Refactoring refactoring, IType type, String newCUName, IJavaElement[] someClassMembers) {
+	private void checkMappers(Refactoring refactoring, IType type, String newCUName, IJavaElement[] someClassMembers) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RenameTypeProcessor rtp= (RenameTypeProcessor)((RenameRefactoring) refactoring).getProcessor();
 
 		ICompilationUnit newUnit= (ICompilationUnit)rtp.getRefactoredJavaElement(type.getCompilationUnit());
@@ -1844,7 +1844,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		assertEquals(newFile.getName(), newCUName);
 
 		if ((type.getParent().getElementType() == IJavaElement.COMPILATION_UNIT)
-				&& (type.getElementName() + ".java").equals(type.getCompilationUnit().getElementName())) {
+				&& (type.getElementName() + ".java").equals(type.getCompilationUnit().getElementName())) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			assertFalse(type.getCompilationUnit().exists());
 			assertFalse(type.getResource().exists());
 		}
@@ -1853,7 +1853,7 @@ public class RenameTypeTests extends GenericRefactoringTest {
 		IPackageFragment newPackage= (IPackageFragment)rtp.getRefactoredJavaElement(oldPackage);
 		assertEquals(oldPackage, newPackage);
 
-		for (IJavaElement someClassMember : someClassMembers) {
+		for (IJavaElement someClassMember : someClassMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMember member= (IMember) someClassMember;
 			IJavaElement refactoredMember= rtp.getRefactoredJavaElement(member);
 			if (member instanceof IMethod && member.getElementName().equals(type.getElementName()))

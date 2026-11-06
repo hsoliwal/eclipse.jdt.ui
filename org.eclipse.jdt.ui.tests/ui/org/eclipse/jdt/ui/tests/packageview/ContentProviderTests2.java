@@ -193,7 +193,7 @@ public class ContentProviderTests2{
 
 
 	//-------------------Set up methods--------------------------------
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 
 
@@ -208,7 +208,7 @@ public class ContentProviderTests2{
 		fJProject3= JavaProjectHelper.createJavaProject("TestProject3", "bin"); //$NON-NLS-1$ //$NON-NLS-2$
 		assertNotNull(fJProject3, "project3 null"); //$NON-NLS-1$
 
-		for (Object object : fJProject3.getNonJavaResources()) {
+		for (Object object : fJProject3.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(object instanceof IFile){
 				IFile file = (IFile) object;
 				if(".classpath".equals(file.getName())) //$NON-NLS-1$
@@ -238,7 +238,7 @@ public class ContentProviderTests2{
 		//add an internal jar
 		File myInternalLibJar= JavaTestPlugin.getDefault().getFileInPlugin(new Path("testresources/myinternallib.jar")); //$NON-NLS-1$
 		assertNotNull(myInternalLibJar, "lib not found"); //$NON-NLS-1$
-		assertTrue(myInternalLibJar.exists(), "lib not found"); //$NON-NLS-1$
+		assertTrue(myInternalLibJar.exists(), "lib not found"); //$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		fInternalRoot1= JavaProjectHelper.addLibraryWithImport(fJProject3, Path.fromOSString(myInternalLibJar.getPath()), null, null);
 
 		//create internal PackageFragments
@@ -266,7 +266,7 @@ public class ContentProviderTests2{
 		setUpMockView();
 	}
 
-	public void setUpMockView() throws Exception {
+	public void setUpMockView() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 //		fWorkspace = ResourcesPlugin.getWorkspace();
 //		assertNotNull(fWorkspace);
 
@@ -312,7 +312,7 @@ public class ContentProviderTests2{
 	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
 		if(children.length!=expectedChildren.length)
 			return false;
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if(!contains(el, expectedChildren))
@@ -331,7 +331,7 @@ public class ContentProviderTests2{
 	 * @return boolean
 	 */
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if(expres.equals(res))
@@ -346,7 +346,7 @@ public class ContentProviderTests2{
 	 * @return boolean
 	 */
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if(expfrag.equals(fragment))

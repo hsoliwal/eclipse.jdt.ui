@@ -91,9 +91,9 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 		fRedundantTypeAnnotationsFilter= redundantNullnessTypeAnnotationsFilter;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int findInContext(String qualifier, String name, int kind) {
-		for (IBinding declaration : getDeclarationsInScope()) {
+		for (IBinding declaration : getDeclarationsInScope()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (declaration instanceof ITypeBinding) {
 				ITypeBinding typeBinding= (ITypeBinding) declaration;
 				if (isSameType(typeBinding, qualifier, name)) {
@@ -109,7 +109,7 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 		}
 
 
-		for (Name importedName : getImportedNames()) {
+		for (Name importedName : getImportedNames()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IBinding binding= importedName.resolveBinding();
 			if (binding instanceof ITypeBinding && !binding.isRecovered()) {
 				ITypeBinding typeBinding= (ITypeBinding)binding;
@@ -120,14 +120,14 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 		}
 
 		List<AbstractTypeDeclaration> list= fCompilationUnit.types();
-		for (AbstractTypeDeclaration type : list) {
+		for (AbstractTypeDeclaration type : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeBinding binding= type.resolveBinding();
 			if (binding != null) {
 				if (isSameType(binding, qualifier, name)) {
 					return RES_NAME_FOUND;
 				} else {
 					ITypeBinding decl= containingDeclaration(binding, qualifier, name);
-					while (decl != null && !decl.equals(binding)) {
+					while (decl != null && !decl.equals(binding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						int modifiers= decl.getModifiers();
 						if (Modifier.isPrivate(modifiers))
 							return RES_NAME_CONFLICT;
@@ -138,8 +138,8 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 		}
 
 		// check if qualifier matches a package provided by an import module statement
-		for (String moduleName : fImportRewrite.getAddedModuleImports()) {
-			for (String packageName : fImportRewrite.getAddedModuleExportedPackages(moduleName)) {
+		for (String moduleName : fImportRewrite.getAddedModuleImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (String packageName : fImportRewrite.getAddedModuleExportedPackages(moduleName)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (qualifier.equals(packageName)) {
 					return RES_NAME_FOUND;
 				}
@@ -147,7 +147,7 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 		}
 
 		String qualifiedName= JavaModelUtil.concatenateName(qualifier, name);
-		for (String addedImport : fImportRewrite.getAddedImports()) {
+		for (String addedImport : fImportRewrite.getAddedImports()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (qualifiedName.equals(addedImport)) {
 				return RES_NAME_FOUND;
 			} else {
@@ -162,8 +162,8 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 			if (typeRoot != null) {
 				IPackageFragment packageFragment= (IPackageFragment) typeRoot.getParent();
 				try {
-					for (ICompilationUnit cu : packageFragment.getCompilationUnits()) {
-						for (IType type : cu.getAllTypes()) {
+					for (ICompilationUnit cu : packageFragment.getCompilationUnits()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+						for (IType type : cu.getAllTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							String packageTypeName= type.getFullyQualifiedName();
 							if (isConflicting(name, packageTypeName))
 								return RES_NAME_CONFLICT;
@@ -192,7 +192,7 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 	}
 
 	private ITypeBinding containingDeclaration(ITypeBinding binding, String qualifier, String name) {
-		for (ITypeBinding childBinding : binding.getDeclaredTypes()) {
+		for (ITypeBinding childBinding : binding.getDeclaredTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isSameType(childBinding, qualifier, name)) {
 				return childBinding;
 			} else {
@@ -234,7 +234,7 @@ public class ContextSensitiveImportRewriteContext extends ImportRewriteContext {
 			if (javaElement != null)
 				project= javaElement.getJavaProject();
 
-			List<SimpleName> imports= new ArrayList<>();
+			List<SimpleName> imports= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			ImportReferencesCollector.collect(fCompilationUnit, project, null, imports, null);
 			fImportedNames= imports.toArray(new Name[imports.size()]);
 		}

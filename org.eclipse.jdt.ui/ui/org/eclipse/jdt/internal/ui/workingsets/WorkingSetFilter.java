@@ -37,7 +37,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.JavaViewerFilter;
 /**
  * Working set filter for Java viewers.
  */
-public class WorkingSetFilter extends JavaViewerFilter {
+public class WorkingSetFilter extends JavaViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 
 	private static class WorkingSetCompareEntry {
@@ -50,7 +50,7 @@ public class WorkingSetFilter extends JavaViewerFilter {
 		private IJavaElement fJavaElement;
 
 
-		public WorkingSetCompareEntry(IAdaptable a) {
+		public WorkingSetCompareEntry(IAdaptable a) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (a instanceof IJavaElement) {
 				init((IJavaElement) a);
 			} else if (a instanceof IResource) {
@@ -60,7 +60,7 @@ public class WorkingSetFilter extends JavaViewerFilter {
 				IJavaProject proj= wrapper.getParentClassPathContainer().getJavaProject();
 				// the project reference is treated like an internal JAR.
 				// that means it will only appear if the parent container project is in the working set
-				IResource fakeInternal= proj.getProject().getFile(wrapper.getProject().getElementName() + "-fake-jar.jar"); //$NON-NLS-1$
+				IResource fakeInternal= proj.getProject().getFile(wrapper.getProject().getElementName() + "-fake-jar.jar"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				init(proj.getPackageFragmentRoot(fakeInternal));
 			} else if (a instanceof IJarEntryResource) {
 				init((IJarEntryResource)a);
@@ -92,13 +92,13 @@ public class WorkingSetFilter extends JavaViewerFilter {
 
 		private void init(IJarEntryResource jarEntryResource) {
 			Object parent= jarEntryResource.getParent();
-			while (parent instanceof IJarEntryResource)
+			while (parent instanceof IJarEntryResource) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= ((IJarEntryResource)parent).getParent();
 			fJavaElement= (IJavaElement)parent;
 			fResourcePath= null;
 		}
 
-		public boolean contains(WorkingSetCompareEntry element) {
+		public boolean contains(WorkingSetCompareEntry element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fJavaElement != null && element.fJavaElement != null) {
 				IJavaElement other= element.fJavaElement;
 				if (fJavaElement.getElementType() == IJavaElement.JAVA_PROJECT) {
@@ -148,7 +148,7 @@ public class WorkingSetFilter extends JavaViewerFilter {
 			if (parent.equals(anc)) {
 				return true;
 			}
-			while (anc instanceof IMember) { // ITypes can be in ITypes
+			while (anc instanceof IMember) { // ITypes can be in ITypes //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				anc= anc.getParent().getAncestor(parent.getElementType());
 				if (parent.equals(anc)) {
 					return true;
@@ -200,7 +200,7 @@ public class WorkingSetFilter extends JavaViewerFilter {
 		if (fWorkingSet != null) {
 			IAdaptable[] elements= fWorkingSet.getElements();
 			fCachedCompareEntries= new WorkingSetCompareEntry[elements.length];
-			for (int i= 0; i < elements.length; i++) {
+			for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fCachedCompareEntries[i]= new WorkingSetCompareEntry(elements[i]);
 			}
 		} else {
@@ -231,10 +231,10 @@ public class WorkingSetFilter extends JavaViewerFilter {
 		return true;
 	}
 
-	public boolean isEnclosing(IAdaptable a) {
+	public boolean isEnclosing(IAdaptable a) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		WorkingSetCompareEntry curr= new WorkingSetCompareEntry(a);
 		if (fCachedCompareEntries != null) {
-			for (WorkingSetCompareEntry entry : fCachedCompareEntries) {
+			for (WorkingSetCompareEntry entry : fCachedCompareEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.contains(curr)) {
 					return  true;
 				}
@@ -242,7 +242,7 @@ public class WorkingSetFilter extends JavaViewerFilter {
 			return false;
 		}
 		if (fWorkingSet != null) {
-			for (IAdaptable element : fWorkingSet.getElements()) {
+			for (IAdaptable element : fWorkingSet.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (new WorkingSetCompareEntry(element).contains(curr)) {
 					return true;
 				}
@@ -253,7 +253,7 @@ public class WorkingSetFilter extends JavaViewerFilter {
 
 	private boolean isEnclosing(PackageFragmentRootContainer container) {
 		// check whether the containing package fragment roots are enclosed
-		for (IAdaptable root : container.getChildren()) {
+		for (IAdaptable root : container.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isEnclosing(root)) {
 				return true;
 			}

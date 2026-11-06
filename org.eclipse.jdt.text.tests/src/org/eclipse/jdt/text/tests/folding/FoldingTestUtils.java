@@ -59,9 +59,9 @@ public final class FoldingTestUtils {
 	}
 
 	public static List<ProjectionRegion> extractRegions(ProjectionAnnotationModel model) {
-		List<ProjectionRegion> regions= new ArrayList<>();
+		List<ProjectionRegion> regions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Iterator<Annotation> it= model.getAnnotationIterator();
-		while (it.hasNext()) {
+		while (it.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation a= it.next();
 			if (a instanceof ProjectionAnnotation projectionAnnotation) {
 				Position p= model.getPosition(a);
@@ -79,7 +79,7 @@ public final class FoldingTestUtils {
 				.distinct()
 				.count();
 		assertEquals(regions.size(), distinctRegions,
-				"Some regions are duplicated: " + sorted(regions));
+				"Some regions are duplicated: " + sorted(regions)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private static void assertNoRegionsStartInTheSameOffset(Collection<ProjectionRegion> regions) {
@@ -89,19 +89,19 @@ public final class FoldingTestUtils {
 				.count();
 
 		assertEquals(regions.size(), distinctOffsets,
-				"Some regions start in the same offset: Regions: " + sorted(regions));
+				"Some regions start in the same offset: Regions: " + sorted(regions)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public static void assertCodeHasRegions(IPackageFragment packageFragment, String code, int regionsCount) throws Exception {
 		List<ProjectionRegion> regions= FoldingTestUtils.getProjectionRangesOfPackage(packageFragment, code);
-		assertEquals(regionsCount, regions.size(), String.format("Expected %d regions but saw %d.", regionsCount, regions.size()));
+		assertEquals(regionsCount, regions.size(), String.format("Expected %d regions but saw %d.", regionsCount, regions.size())); //FLLDCIM: MARK — M11 FORMAT_PRECOMPUTE CALL
 	}
 
 	public static void assertDoesNotContainRegionUsingStartLine(List<ProjectionRegion> projectionRanges, String input, int startLine) {
 		int startLineBegin= findLineStartIndex(input, startLine);
-		for (ProjectionRegion region : projectionRanges) {
+		for (ProjectionRegion region : projectionRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (region.offset() == startLineBegin) {
-				fail("found unexpected region at offset=" + region.offset() + ", length=" + region.length() +
+				fail("found unexpected region at offset=" + region.offset() + ", length=" + region.length() + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						" starting at line " + startLine + " (line offset: " + startLineBegin + ")");
 			}
 		}
@@ -125,22 +125,22 @@ public final class FoldingTestUtils {
 		assertContainsRegionWithCollapsedState(projectionRanges, input, startLine, endLine, false);
 	}
 
-	private static void assertContainsRegionWithCollapsedState(List<ProjectionRegion> projectionRanges, String input, int startLine, int endLine, boolean collapsed) {
+	private static void assertContainsRegionWithCollapsedState(List<ProjectionRegion> projectionRanges, String input, int startLine, int endLine, boolean collapsed) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StartEnd startEnd= getStartEnd(input, startLine, endLine);
 		int expectedRegionBegin= startEnd.start();
 		int expectedRegionLength= startEnd.end() - startEnd.start() + 1;
 
-		for (ProjectionRegion projectionRegion : projectionRanges) {
+		for (ProjectionRegion projectionRegion : projectionRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (projectionRegion.offset() == expectedRegionBegin && projectionRegion.length() == expectedRegionLength) {
 				assertEquals(collapsed, projectionRegion.collapsed(),
-						"incorrect collapsed state for region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin
+						"incorrect collapsed state for region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ ", length: " + expectedRegionLength + ")");
 				return;
 			}
 		}
 
 		fail(
-				"missing region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin
+				"missing region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ ", length: " + expectedRegionLength + ")" +
 						", actual regions: " + sorted(projectionRanges));
 	}
@@ -159,10 +159,10 @@ public final class FoldingTestUtils {
 	static void assertDoesNotContainRegionWithOffsetAndLength(List<ProjectionRegion> projectionRanges, int startLine, int endLine, int expectedRegionBegin, int expectedRegionEnd) {
 		int expectedRegionLength= expectedRegionEnd - expectedRegionBegin + 1;
 
-		for (ProjectionRegion region : projectionRanges) {
+		for (ProjectionRegion region : projectionRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (region.offset() == expectedRegionBegin && region.length() == expectedRegionLength) {
 				fail(
-						"The region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin
+						"The region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 								+ ", length: " + expectedRegionLength + ")" +
 								" shouldn't exist, actual regions: " + sorted(projectionRanges));
 			}
@@ -172,14 +172,14 @@ public final class FoldingTestUtils {
 	static void assertContainsRegionWithOffsetAndLength(List<ProjectionRegion> projectionRanges, int startLine, int endLine, int expectedRegionBegin, int expectedRegionEnd) {
 		int expectedRegionLength= expectedRegionEnd - expectedRegionBegin + 1;
 
-		for (ProjectionRegion region : projectionRanges) {
+		for (ProjectionRegion region : projectionRanges) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (region.offset() == expectedRegionBegin && region.length() == expectedRegionLength) {
 				return;
 			}
 		}
 
 		fail(
-				"missing region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin
+				"missing region from line " + startLine + " to line " + endLine + " (offset: " + expectedRegionBegin //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ ", length: " + expectedRegionLength + ")" +
 						", actual regions: " + sorted(projectionRanges));
 	}
@@ -192,7 +192,7 @@ public final class FoldingTestUtils {
 	 *         </ul>
 	 */
 	private static Collection<ProjectionRegion> sorted(Collection<ProjectionRegion> regions) {
-		List<ProjectionRegion> sortedRegions= new ArrayList<>(regions);
+		List<ProjectionRegion> sortedRegions= new ArrayList<>(regions); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		sortedRegions.sort(Comparator.comparingInt(ProjectionRegion::offset).thenComparing(Comparator.comparingInt(ProjectionRegion::length).reversed()));
 		return sortedRegions;
 	}
@@ -206,7 +206,7 @@ public final class FoldingTestUtils {
 
 	static int findLineStartIndex(String input, int lineNumber) {
 		int currentInputIndex= -1;
-		for (int i= 0; i < lineNumber; i++) {
+		for (int i= 0; i < lineNumber; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			currentInputIndex= findNextLineStart(input, currentInputIndex + 1);
 			if (currentInputIndex == -1) {
 				fail("line number is greater than the total number of lines");

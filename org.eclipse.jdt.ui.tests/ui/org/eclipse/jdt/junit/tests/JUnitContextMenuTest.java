@@ -66,7 +66,7 @@ public class JUnitContextMenuTest {
 		JavaProjectHelper.clear(fJProject, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDisableTestAction_TogglesAnnotation() throws Exception {
 		// Test that disabling and enabling works correctly
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -107,7 +107,7 @@ public class JUnitContextMenuTest {
 		assertFalse(afterRemove.contains("@Disabled"), "Should not contain @Disabled");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDisableTestAction_NoMultipleAnnotations() throws Exception {
 		// Test that adding @Disabled multiple times doesn't create duplicates
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -138,7 +138,7 @@ public class JUnitContextMenuTest {
 		assertTrue(TestAnnotationModifier.isDisabled(method), "Should be disabled");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDisableTestAction_JUnit4Support() throws Exception {
 		// Test that JUnit 4 @Ignore is handled correctly
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
@@ -179,7 +179,7 @@ public class JUnitContextMenuTest {
 		assertFalse(TestAnnotationModifier.isDisabled(method), "Should not be disabled");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDisableTestAction_ImportRetainedWhenOtherTestStillDisabled() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """
@@ -219,7 +219,7 @@ public class JUnitContextMenuTest {
 		assertTrue(source.contains("import org.junit.jupiter.api.Disabled;"), "Disabled import must remain because second method still uses it");
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testDisableTestAction_ParameterizedTest() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """
@@ -266,7 +266,7 @@ public class JUnitContextMenuTest {
 	private int countOccurrences(String text, String pattern) {
 		int count= 0;
 		int index= 0;
-		while ((index= text.indexOf(pattern, index)) != -1) {
+		while ((index= text.indexOf(pattern, index)) != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			count++;
 			index += pattern.length();
 		}

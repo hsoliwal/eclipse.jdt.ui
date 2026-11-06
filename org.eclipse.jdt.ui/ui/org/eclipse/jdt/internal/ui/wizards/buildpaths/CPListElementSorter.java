@@ -39,7 +39,7 @@ public class CPListElementSorter extends ViewerComparator {
 	/*
 	 * @see ViewerSorter#category(Object)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int category(Object obj) {
 		if (obj instanceof CPListElement) {
 			CPListElement element= (CPListElement) obj;
@@ -65,7 +65,7 @@ public class CPListElementSorter extends ViewerComparator {
 		return OTHER;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int compare(Viewer viewer, Object e1, Object e2) {
 
         int cat1 = category(e1);

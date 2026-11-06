@@ -59,7 +59,7 @@ public class RemoveDeclarationCorrectionProposalCore extends ASTRewriteCorrectio
 		fSimpleName= name;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getName() {
 		IBinding binding= fSimpleName.resolveBinding();
 		String name= BasicElementLabels.getJavaElementName(fSimpleName.getIdentifier());
@@ -83,7 +83,7 @@ public class RemoveDeclarationCorrectionProposalCore extends ASTRewriteCorrectio
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() {
 		IBinding binding= fSimpleName.resolveBinding();
 		CompilationUnit root= (CompilationUnit) fSimpleName.getRoot();
@@ -105,7 +105,7 @@ public class RemoveDeclarationCorrectionProposalCore extends ASTRewriteCorrectio
 			SimpleName nameNode= (SimpleName) NodeFinder.perform(completeRoot, fSimpleName.getStartPosition(), fSimpleName.getLength());
 
 			rewrite= ASTRewrite.create(completeRoot.getAST());
-			for (SimpleName reference : LinkedNodeFinder.findByBinding(completeRoot, nameNode.resolveBinding())) {
+			for (SimpleName reference : LinkedNodeFinder.findByBinding(completeRoot, nameNode.resolveBinding())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				removeVariableReferences(rewrite, reference);
 			}
 
@@ -137,9 +137,9 @@ public class RemoveDeclarationCorrectionProposalCore extends ASTRewriteCorrectio
 	 * @param rewrite the ast rewrite
 	 * @param reference the reference
 	 */
-	private void removeVariableReferences(ASTRewrite rewrite, SimpleName reference) {
+	private void removeVariableReferences(ASTRewrite rewrite, SimpleName reference) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ASTNode parent= reference.getParent();
-		while (parent instanceof QualifiedName) {
+		while (parent instanceof QualifiedName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			parent= parent.getParent();
 		}
 		if (parent instanceof FieldAccess) {
@@ -184,7 +184,7 @@ public class RemoveDeclarationCorrectionProposalCore extends ASTRewriteCorrectio
 	}
 
 	private void removeVariableWithInitializer(ASTRewrite rewrite, ASTNode initializerNode, ASTNode statementNode) {
-		ArrayList<Expression> sideEffectNodes= new ArrayList<>();
+		ArrayList<Expression> sideEffectNodes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		initializerNode.accept(new SideEffectFinder(sideEffectNodes));
 		int nSideEffects= sideEffectNodes.size();
 		if (nSideEffects == 0) {

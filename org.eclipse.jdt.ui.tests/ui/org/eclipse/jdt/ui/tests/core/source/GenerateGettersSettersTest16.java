@@ -57,7 +57,7 @@ public class GenerateGettersSettersTest16 extends SourceTestCase16 {
 	 */
 	private void runOperation(IType type, IField[] getters, IField[] setters, IField[] gettersAndSetters, boolean sort, int visibility, IJavaElement sibling) throws CoreException {
 
-		IRequestQuery allYes= _ -> IRequestQuery.YES_ALL;
+		IRequestQuery allYes= unused -> IRequestQuery.YES_ALL;
 
 		RefactoringASTParser parser= new RefactoringASTParser(IASTSharedValues.SHARED_AST_LEVEL);
 		CompilationUnit unit= parser.parse(type.getCompilationUnit(), true);
@@ -80,7 +80,7 @@ public class GenerateGettersSettersTest16 extends SourceTestCase16 {
 	/**
 	 * No setter for final fields (if skipped by user, as per parameter)
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug561413() throws Exception {
 
 		runOperation(fRecordA.getRecordComponents(), NOFIELDS, NOFIELDS);

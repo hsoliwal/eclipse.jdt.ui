@@ -41,7 +41,7 @@ import org.eclipse.jdt.ui.IWorkingCopyProvider;
  * Implementors must override 'getTypesInHierarchy'.
  * Java delta processing is also performed by the content provider
  */
-public abstract class TypeHierarchyContentProvider implements ITreeContentProvider, IWorkingCopyProvider {
+public abstract class TypeHierarchyContentProvider implements ITreeContentProvider, IWorkingCopyProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 	protected static final Object[] NO_ELEMENTS= new Object[0];
 
 	protected TypeHierarchyLifeCycle fTypeHierarchy;
@@ -102,7 +102,7 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 			return;
 		synchronized (fTypeHierarchyLifeCycleListener) {
 			boolean filterMethodOverrides= initializeMethodOverrideTester(filterMethod, typeToFindIn);
-			for (IMethod m : typeToFindIn.getMethods()) {
+			for (IMethod m : typeToFindIn.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				flags= m.getFlags();
 				if (Flags.isPrivate(flags) || Flags.isStatic(flags) || m.isConstructor())
 					continue;
@@ -119,7 +119,7 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 			return false;
 		synchronized (fTypeHierarchyLifeCycleListener) {
 			boolean filterMethodOverrides= initializeMethodOverrideTester(filterMethod, typeToFindIn);
-			for (IMethod m : typeToFindIn.getMethods()) {
+			for (IMethod m : typeToFindIn.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				flags= m.getFlags();
 				if (Flags.isPrivate(flags) || Flags.isStatic(flags) || m.isConstructor())
 					continue;
@@ -173,9 +173,9 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	 */
 	@Override
 	public Object[] getElements(Object parent) {
-		ArrayList<IType> types= new ArrayList<>();
+		ArrayList<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getRootTypes(types);
-		for (int i= types.size() - 1; i >= 0; i--) {
+		for (int i= types.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType curr= types.get(i);
 			try {
 				if (!isInTree(curr)) {
@@ -214,7 +214,7 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	protected abstract IType getParentType(IType type);
 
 
-	private boolean isInHierarchyOfInputElements(IType type) {
+	private boolean isInHierarchyOfInputElements(IType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fWorkingSetFilter != null && !fWorkingSetFilter.select(null, null, type)) {
 			return false;
 		}
@@ -222,7 +222,7 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 		IJavaElement[] input= fTypeHierarchy.getInputElements();
 		if (input == null)
 			return false;
-		for (IJavaElement e : input) {
+		for (IJavaElement e : input) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int inputType= e.getElementType();
 			if (inputType == IJavaElement.TYPE) {
 				return true;
@@ -243,13 +243,13 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	 * Called for the tree children.
 	 * @see ITreeContentProvider#getChildren
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object element) {
 		if (element instanceof IType) {
 			try {
 				IType type= (IType)element;
 
-				List<IMember> children= new ArrayList<>();
+				List<IMember> children= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				if (fMemberFilter != null) {
 					addFilteredMemberChildren(type, children);
 				}
@@ -281,7 +281,7 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	}
 
 	private void addFilteredMemberChildren(IType parent, List<IMember> children) throws JavaModelException {
-		for (IMember member : fMemberFilter) {
+		for (IMember member : fMemberFilter) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (parent.equals(member.getDeclaringType())) {
 				if (!children.contains(member)) {
 					children.add(member);
@@ -293,10 +293,10 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	}
 
 	private void addTypeChildren(IType type, List<IMember> children) throws JavaModelException {
-		ArrayList<IType> types= new ArrayList<>();
+		ArrayList<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getTypesInHierarchy(type, types);
 		int len= types.size();
-		for (int i= 0; i < len; i++) {
+		for (int i= 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType curr= types.get(i);
 			if (isInTree(curr)) {
 				children.add(curr);
@@ -316,7 +316,7 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	}
 
 	private boolean hasMemberFilterChildren(IType type) throws JavaModelException {
-		for (IMember member : fMemberFilter) {
+		for (IMember member : fMemberFilter) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.equals(member.getDeclaringType())) {
 				return true;
 			} else if (member instanceof IMethod) {
@@ -329,10 +329,10 @@ public abstract class TypeHierarchyContentProvider implements ITreeContentProvid
 	}
 
 	private boolean hasTypeChildren(IType type) throws JavaModelException {
-		ArrayList<IType> types= new ArrayList<>();
+		ArrayList<IType> types= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getTypesInHierarchy(type, types);
 		int len= types.size();
-		for (int i= 0; i < len; i++) {
+		for (int i= 0; i < len; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IType curr= types.get(i);
 			if (isInTree(curr)) {
 				return true;

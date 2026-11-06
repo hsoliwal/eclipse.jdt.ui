@@ -80,7 +80,7 @@ public class BulletListBlock extends Composite {
 		configureStyledText(fText, fEnabled);
 	}
 
-	private void configureStyledText(String text, boolean enabled) {
+	private void configureStyledText(String text, boolean enabled) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fStyledText == null)
 			return;
 

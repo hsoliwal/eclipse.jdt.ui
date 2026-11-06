@@ -40,7 +40,7 @@ public class PropertiesFileEscapes {
 	 * @param digit the Hex digit
 	 * @return the decimal value of digit, or -1 if digit is not a valid Hex digit.
 	 */
-	private static int getHexDigitValue(char digit) {
+	private static int getHexDigitValue(char digit) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (digit) {
 			case '0':
 			case '1':
@@ -93,11 +93,11 @@ public class PropertiesFileEscapes {
 	 * @return escaped string
 	 */
 	public static String escape(String s, boolean escapeWhitespaceChars, boolean escapeBackslash, boolean escapeUnicodeChars) {
-		StringBuilder sb= new StringBuilder(s.length());
+		StringBuilder sb= new StringBuilder(s.length()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int length= s.length();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= s.charAt(i);
-			sb.append(escape(c, escapeWhitespaceChars, escapeBackslash, escapeUnicodeChars));
+			sb.append(escape(c, escapeWhitespaceChars, escapeBackslash, escapeUnicodeChars)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return sb.toString();
 	}
@@ -111,7 +111,7 @@ public class PropertiesFileEscapes {
 	 * @param escapeUnicodeChars if <code>true</code>, escape unicode characters
 	 * @return escaped string
 	 */
-	public static String escape(char c, boolean escapeWhitespaceChars, boolean escapeBackslash, boolean escapeUnicodeChars) {
+	public static String escape(char c, boolean escapeWhitespaceChars, boolean escapeBackslash, boolean escapeUnicodeChars) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (c) {
 			case '\t':
 				return escapeWhitespaceChars ? "\\t" : "\t"; //$NON-NLS-1$//$NON-NLS-2$
@@ -126,7 +126,7 @@ public class PropertiesFileEscapes {
 			default:
 				if (escapeUnicodeChars && ((c < 0x0020) || (c > 0x007e && c <= 0x00a0) || (c > 0x00ff))) {
 					//NBSP (0x00a0) is escaped to differentiate from normal space character
-					return new StringBuilder()
+					return new StringBuilder() //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							.append('\\')
 							.append('u')
 							.append(toHex((c >> 12) & 0xF))
@@ -146,16 +146,16 @@ public class PropertiesFileEscapes {
 	 * @return string composed of Java characters
 	 * @throws CoreException if the escaped string has a malformed \\uxxx sequence
 	 */
-	public static String unescape(String s) throws CoreException {
+	public static String unescape(String s) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isValidEscapedString= true;
 		if (s == null)
 			return null;
 
 		char aChar;
 		int len= s.length();
-		StringBuilder outBuffer= new StringBuilder(len);
+		StringBuilder outBuffer= new StringBuilder(len); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (int x= 0; x < len;) {
+		for (int x= 0; x < len;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			aChar= s.charAt(x++);
 			if (aChar == '\\') {
 				if (x > len - 1) {
@@ -167,12 +167,12 @@ public class PropertiesFileEscapes {
 					// Read the xxxx
 					int value= 0;
 					if (x > len - 4) {
-						String exceptionMessage= Messages.format(PropertiesFileEditorCoreMessages.PropertiesFileHover_MalformedEncoding, outBuffer.toString() + s.substring(x - 2));
+						String exceptionMessage= Messages.format(PropertiesFileEditorCoreMessages.PropertiesFileHover_MalformedEncoding, outBuffer.toString() + s.substring(x - 2)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						throw new CoreException(new StatusInfo(IStatus.WARNING, exceptionMessage));
 					}
-					StringBuilder buf= new StringBuilder("\\u"); //$NON-NLS-1$
+					StringBuilder buf= new StringBuilder("\\u"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 					int digit= 0;
-					for (int i= 0; i < 4; i++) {
+					for (int i= 0; i < 4; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						aChar= s.charAt(x++);
 						digit= getHexDigitValue(aChar);
 						if (digit == -1) {
@@ -181,28 +181,28 @@ public class PropertiesFileEscapes {
 							break;
 						}
 						value= (value << 4) + digit;
-						buf.append(aChar);
+						buf.append(aChar); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					}
-					outBuffer.append(digit == -1 ? buf.toString() : String.valueOf((char)value));
+					outBuffer.append(digit == -1 ? buf.toString() : String.valueOf((char)value)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 't':
-					outBuffer.append('\t');
+					outBuffer.append('\t'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'n':
-					outBuffer.append('\n');
+					outBuffer.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'f':
-					outBuffer.append('\f');
+					outBuffer.append('\f'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				case 'r':
-					outBuffer.append('\r');
+					outBuffer.append('\r'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				default:
-					outBuffer.append(aChar); // silently ignore the \
+					outBuffer.append(aChar); // silently ignore the \ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					break;
 				}
 			} else
-				outBuffer.append(aChar);
+				outBuffer.append(aChar); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if (isValidEscapedString) {
 			return outBuffer.toString();
@@ -218,20 +218,20 @@ public class PropertiesFileEscapes {
 	 * @param s the escaped string
 	 * @return string with backslash characters unescaped
 	 */
-	public static String unescapeBackslashes(String s) {
+	public static String unescapeBackslashes(String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (s == null)
 			return null;
 
 		char c;
 		int length= s.length();
-		StringBuilder outBuffer= new StringBuilder(length);
+		StringBuilder outBuffer= new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		for (int i= 0; i < length;) {
+		for (int i= 0; i < length;) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			c= s.charAt(i++);
 			if (c == '\\') {
 				c= s.charAt(i++);
 			}
-			outBuffer.append(c);
+			outBuffer.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return outBuffer.toString();
@@ -244,7 +244,7 @@ public class PropertiesFileEscapes {
 	 * @return <code>true</code> if text contains an invalid escape sequence, <code>false</code>
 	 *         otherwise
 	 */
-	public static boolean containsInvalidEscapeSequence(String text) {
+	public static boolean containsInvalidEscapeSequence(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			//check for invalid unicode escapes
 			unescape(text);
@@ -253,7 +253,7 @@ public class PropertiesFileEscapes {
 		}
 
 		int length= text.length();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= text.charAt(i);
 			if (c == '\\') {
 				if (i < length - 1) {
@@ -290,9 +290,9 @@ public class PropertiesFileEscapes {
 	 * @return <code>true</code> if text contains an unescaped backslash character,
 	 *         <code>false</code> otherwise
 	 */
-	public static boolean containsUnescapedBackslash(String text) {
+	public static boolean containsUnescapedBackslash(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int length= text.length();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= text.charAt(i);
 			if (c == '\\') {
 				if (i < length - 1) {
@@ -320,10 +320,10 @@ public class PropertiesFileEscapes {
 	 * @return <code>true</code> if text contains only escaped backslash characters,
 	 *         <code>false</code> otherwise
 	 */
-	public static boolean containsEscapedBackslashes(String text) {
+	public static boolean containsEscapedBackslashes(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean result= false;
 		int length= text.length();
-		for (int i= 0; i < length; i++) {
+		for (int i= 0; i < length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= text.charAt(i);
 			if (c == '\\') {
 				if (i < length - 1) {

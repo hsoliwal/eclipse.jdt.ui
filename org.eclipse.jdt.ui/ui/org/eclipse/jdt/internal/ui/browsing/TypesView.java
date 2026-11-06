@@ -78,7 +78,7 @@ public class TypesView extends JavaBrowsingPart {
 	@Override
 	protected void addFilters() {
 		super.addFilters();
-		getViewer().addFilter(new NonJavaElementFilter());
+		getViewer().addFilter(new NonJavaElementFilter()); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class TypesView extends JavaBrowsingPart {
 	 * @param je	the Java element which has the focus
 	 * @return the element to select
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected IJavaElement findElementToSelect(IJavaElement je) {
 		if (je == null)
 			return null;
@@ -181,7 +181,7 @@ public class TypesView extends JavaBrowsingPart {
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 * @since 2.1
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (!needsToProcessSelectionChanged(part))
 			return;

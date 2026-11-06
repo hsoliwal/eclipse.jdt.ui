@@ -63,7 +63,7 @@ public final class LeadingWhitespacePredicateRule extends WordPatternRule {
 	@Override
 	protected boolean endSequenceDetected(ICharacterScanner scanner) {
 		int c;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			c= scanner.read();
 		} while (Character.isWhitespace((char) c));
 

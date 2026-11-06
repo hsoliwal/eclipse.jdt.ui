@@ -54,13 +54,13 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
 
 public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 
-	private class JavaElementChangeListener implements IElementChangedListener {
+	private class JavaElementChangeListener implements IElementChangedListener { //FLLDCIM: MARK — T31  IMPLEMENTS
 		@Override
 		public void elementChanged(ElementChangedEvent event) {
 			processJavaDelta(event.getDelta());
 		}
 
-		private boolean processJavaDelta(IJavaElementDelta delta) {
+		private boolean processJavaDelta(IJavaElementDelta delta) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement jElement= delta.getElement();
 			int type= jElement.getElementType();
 			switch (type) {
@@ -82,14 +82,14 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 						triggerUpdate();
 						return true;
 					}
-					for (IJavaElementDelta element : delta.getAffectedChildren()) {
+					for (IJavaElementDelta element : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (processJavaDelta(element))
 							return true;
 					}
 					break;
 				}
 				case IJavaElement.JAVA_MODEL:
-					for (IJavaElementDelta element : delta.getAffectedChildren()) {
+					for (IJavaElementDelta element : delta.getAffectedChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (processJavaDelta(element))
 							return true;
 					}
@@ -101,7 +101,7 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 		}
 	}
 
-	private class UpdateUIJob extends WorkbenchJob {
+	private class UpdateUIJob extends WorkbenchJob { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 		volatile Runnable task;
 
@@ -133,7 +133,7 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 
 	private IElementChangedListener fJavaElementChangeListener;
 
-	private Set<IWorkingSet> fWorkingSets= new HashSet<>();
+	private Set<IWorkingSet> fWorkingSets= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	private Map<String, IAdaptable[]> fInitialContents;
 
@@ -223,7 +223,7 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 		return updateElements(array, monitor);
 	}
 
-	private IStatus updateElements(IWorkingSet[] workingSets, IProgressMonitor monitor) {
+	private IStatus updateElements(IWorkingSet[] workingSets, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if(isDisposed.get() || monitor.isCanceled()) {
 				return Status.CANCEL_STATUS;
@@ -250,7 +250,7 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 	}
 
 	private static void updateWorkingSets(IWorkingSet[] workingSets, Map<String, IAdaptable[]> data) {
-		for (IWorkingSet w : workingSets) {
+		for (IWorkingSet w : workingSets) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (MAIN_NAME.equals(w.getName())) {
 				w.setElements(data.get(MAIN_NAME));
 			} else if (TEST_NAME.equals(w.getName())) {
@@ -259,20 +259,20 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 		}
 	}
 
-	private Map<String, IAdaptable[]> collectData(IProgressMonitor monitor) throws CoreException {
-		Map<String, IAdaptable[]> data = new HashMap<>();
+	private Map<String, IAdaptable[]> collectData(IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<String, IAdaptable[]> data = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		data.put(MAIN_NAME, new IAdaptable[0]);
 		data.put(TEST_NAME, new IAdaptable[0]);
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 		IJavaModel model= JavaCore.create(root);
-		List<IAdaptable> testResult= new ArrayList<>();
-		List<IAdaptable> mainResult= new ArrayList<>();
-		for (IJavaProject project : model.getJavaProjects()) {
+		List<IAdaptable> testResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<IAdaptable> mainResult= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaProject project : model.getJavaProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (monitor.isCanceled() || isDisposed.get()) {
 				return data;
 			}
 			if (project.getProject().isOpen()) {
-				for (IPackageFragmentRoot iPackageFragmentRoot : project.getPackageFragmentRoots()) {
+				for (IPackageFragmentRoot iPackageFragmentRoot : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IClasspathEntry classpathEntry= iPackageFragmentRoot.getRawClasspathEntry();
 					if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 						if (classpathEntry.isTest()) {
@@ -315,7 +315,7 @@ public class DynamicSourcesWorkingSetUpdater implements IWorkingSetUpdater2 {
 			} catch (CoreException e) {
 				JavaPlugin.log(e);
 			}
-			JavaCore.addElementChangedListener(fJavaElementChangeListener, ElementChangedEvent.POST_CHANGE);
+			JavaCore.addElementChangedListener(fJavaElementChangeListener, ElementChangedEvent.POST_CHANGE); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		}
 		fInitialContents.remove(name);
 		return data;

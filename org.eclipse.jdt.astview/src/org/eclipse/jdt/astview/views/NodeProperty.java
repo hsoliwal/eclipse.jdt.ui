@@ -46,27 +46,27 @@ public class NodeProperty extends ASTAttribute {
 		return EMPTY;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getLabel() {
-		StringBuilder buf= new StringBuilder();
-		buf.append(getPropertyName());
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append(getPropertyName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (fProperty.isSimpleProperty()) {
-			buf.append(": "); //$NON-NLS-1$
+			buf.append(": "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			Object node= getNode();
 			if (node != null) {
-				buf.append('\'');
-				buf.append(getNode().toString());
-				buf.append('\'');
+				buf.append('\''); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append(getNode().toString()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				buf.append('\''); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			} else {
-				buf.append("null"); //$NON-NLS-1$
+				buf.append("null"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		} else if (fProperty.isChildListProperty()) {
 			List<?> node= (List<?>) getNode();
-			buf.append(" (").append(node.size()).append(')'); //$NON-NLS-1$
+			buf.append(" (").append(node.size()).append(')'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else { // child property
 			if (getNode() == null) {
-				buf.append(": null"); //$NON-NLS-1$
+				buf.append(": null"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return buf.toString();
@@ -86,13 +86,13 @@ public class NodeProperty extends ASTAttribute {
 	}
 
 	private static String toConstantName(String string) {
-		StringBuilder buf= new StringBuilder();
-		for (int i= 0; i < string.length(); i++) {
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < string.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= string.charAt(i);
 			if (i != 0 && Character.isUpperCase(ch)) {
-				buf.append('_');
+				buf.append('_'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(Character.toUpperCase(ch));
+			buf.append(Character.toUpperCase(ch)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

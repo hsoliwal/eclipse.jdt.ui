@@ -161,7 +161,7 @@ public class ContentProviderTests3{
 		hiddenFile.create(new ByteArrayInputStream(new byte[0]), true, null);
 		NamePatternFilter filter= new NamePatternFilter();
 		filter.setPatterns(new String[] { ".*" }); //$NON-NLS-1$
-		fMyPart.getTreeViewer().addFilter(filter);
+		fMyPart.getTreeViewer().addFilter(filter); //FLLDCIM: MARK — T23 FILTER_LANE CALL
 
 		assertFalse(filter.select(fMyPart.getTreeViewer(), parent, hiddenFile), "Resource was not filtered"); //$NON-NLS-1$
 		assertFalse(EmptyPackageFilter.hasUnfilteredResources(fMyPart.getTreeViewer(), parent), "Package has an unfiltered resource"); //$NON-NLS-1$
@@ -233,7 +233,7 @@ public class ContentProviderTests3{
 		listener.elementChanged(new ElementChangedEvent(delta, ElementChangedEvent.POST_CHANGE));
 
 		//force events from dispaly
-		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) {
+		while(fMyPart.getTreeViewer().getControl().getDisplay().readAndDispatch()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 		}
 	}
 
@@ -296,7 +296,7 @@ public class ContentProviderTests3{
 	/*
 	 * @see TestCase#setUp()
 	 */
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 
 		fWorkspace= ResourcesPlugin.getWorkspace();
@@ -312,7 +312,7 @@ public class ContentProviderTests3{
 		assertNotNull(fJProject1, "project1 null");//$NON-NLS-1$
 		assertNotNull(fJProject2, "project2 null");//$NON-NLS-1$
 
-		for (Object object : fJProject2.getNonJavaResources()) {
+		for (Object object : fJProject2.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if(object instanceof IFile){
 				IFile file = (IFile) object;
 				if(".classpath".equals(file.getName()))//$NON-NLS-1$
@@ -337,7 +337,7 @@ public class ContentProviderTests3{
 		File junitSrcArchive= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.JUNIT_SRC_381);
 
 		assertNotNull(junitSrcArchive, "junit src not found");//$NON-NLS-1$
-		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$
+		assertTrue(junitSrcArchive.exists(), "junit src not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		fArchiveFragmentRoot= JavaProjectHelper.addSourceContainerWithImport(fJProject1, "src", junitSrcArchive, JavaProjectHelper.JUNIT_SRC_ENCODING);//$NON-NLS-1$
 
@@ -368,7 +368,7 @@ public class ContentProviderTests3{
 
 		File mylibJar= JavaTestPlugin.getDefault().getFileInPlugin(JavaProjectHelper.MYLIB);
 		assertNotNull(mylibJar, "lib not found");//$NON-NLS-1$
-		assertTrue(mylibJar.exists(), "lib not found");//$NON-NLS-1$
+		assertTrue(mylibJar.exists(), "lib not found");//$NON-NLS-1$ //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		JavaProjectHelper.addLibraryWithImport(fJProject1, Path.fromOSString(mylibJar.getPath()), null, null);
 
 		//set up project #2: file system structure with in a source folder
@@ -391,7 +391,7 @@ public class ContentProviderTests3{
 		setUpMockView();
 	}
 
-	public void setUpMockView() throws Exception{
+	public void setUpMockView() throws Exception{ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 
 //		fWorkspace= ResourcesPlugin.getWorkspace();
@@ -441,7 +441,7 @@ public class ContentProviderTests3{
 	private boolean compareArrays(Object[] children, Object[] expectedChildren) {
 		if(children.length!=expectedChildren.length)
 			return false;
-		for (Object child : children) {
+		for (Object child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IJavaElement) {
 				IJavaElement el= (IJavaElement) child;
 				if(!contains(el, expectedChildren))
@@ -460,7 +460,7 @@ public class ContentProviderTests3{
 	 * @return boolean
 	 */
 	private boolean contains(IResource res, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IResource) {
 				IResource expres= (IResource) object;
 				if(expres.equals(res))
@@ -475,7 +475,7 @@ public class ContentProviderTests3{
 	 * @return boolean
 	 */
 	private boolean contains(IJavaElement fragment, Object[] expectedChildren) {
-		for (Object object : expectedChildren) {
+		for (Object object : expectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (object instanceof IJavaElement) {
 				IJavaElement expfrag= (IJavaElement) object;
 				if(expfrag.equals(fragment))

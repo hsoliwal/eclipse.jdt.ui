@@ -24,7 +24,7 @@ public class ActivateTextEditorTest extends ActivateEditorTest {
 
 	private static final Class<ActivateTextEditorTest> THIS= ActivateTextEditorTest.class;
 
-	private static final String SHORT_NAME= "Activate " + ActivateEditorTest.getNumberOfEditors() + " text editors";
+	private static final String SHORT_NAME= "Activate " + ActivateEditorTest.getNumberOfEditors() + " text editors"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static Test suite() {
 		return new PerformanceTestSetup(new TestSuite(THIS));

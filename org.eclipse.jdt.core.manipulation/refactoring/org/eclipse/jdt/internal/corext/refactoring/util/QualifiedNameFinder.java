@@ -91,7 +91,7 @@ public class QualifiedNameFinder {
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean acceptPatternMatch(TextSearchMatchAccess matchAccess) throws CoreException {
 			int start= matchAccess.getMatchOffset();
 			int length= matchAccess.getMatchLength();
@@ -126,7 +126,7 @@ public class QualifiedNameFinder {
 	private QualifiedNameFinder() {
 	}
 
-	public static void process(QualifiedNameSearchResult result, String pattern, String newValue, String filePatterns, IProject root, IProgressMonitor monitor) {
+	public static void process(QualifiedNameSearchResult result, String pattern, String newValue, String filePatterns, IProject root, IProgressMonitor monitor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(pattern);
 		Assert.isNotNull(newValue);
 		Assert.isNotNull(root);
@@ -149,7 +149,7 @@ public class QualifiedNameFinder {
 	}
 
 	private static TextSearchScope createScope(String filePatterns, IProject root) {
-		HashSet<IProject> res= new HashSet<>();
+		HashSet<IProject> res= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		res.add(root);
 		addReferencingProjects(root, res);
 		IResource[] resArr= res.toArray(new IResource[res.size()]);
@@ -162,14 +162,14 @@ public class QualifiedNameFinder {
 		StringTokenizer tokenizer= new StringTokenizer(filePatterns, ","); //$NON-NLS-1$
 		String[] filePatternArray= new String[tokenizer.countTokens()];
 		int i= 0;
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			filePatternArray[i++]= tokenizer.nextToken().trim();
 		}
 		return PatternConstructor.createPattern(filePatternArray, true, false);
 	}
 
 	private static void addReferencingProjects(IProject root, Set<IProject> res) {
-		for (IProject project : root.getReferencingProjects()) {
+		for (IProject project : root.getReferencingProjects()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (res.add(project)) {
 				addReferencingProjects(project, res);
 			}

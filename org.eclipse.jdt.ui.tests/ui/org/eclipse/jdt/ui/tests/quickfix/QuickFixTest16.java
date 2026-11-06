@@ -55,7 +55,7 @@ public class QuickFixTest16 extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordGetNeedHigherComplianceProposal() throws Exception {
 		fJProject= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -83,7 +83,7 @@ public class QuickFixTest16 extends QuickFixTest {
 		assertProposalExists(proposals, label);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructorIncorrectParamsProposal1() throws Exception {
 		fJProject= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -147,7 +147,7 @@ public class QuickFixTest16 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructorIncorrectParamsProposal2() throws Exception {
 		fJProject= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -212,7 +212,7 @@ public class QuickFixTest16 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordConstructorIncorrectParamsProposal3() throws Exception {
 		fJProject= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject.setRawClasspath(projectsetup.getDefaultClasspath(), null);
@@ -262,7 +262,7 @@ public class QuickFixTest16 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testRecordCanonicalConstructordUninitializedFieldProposal() throws Exception {
 		fJProject= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject.setRawClasspath(projectsetup.getDefaultClasspath(), null);

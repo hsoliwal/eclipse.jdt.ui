@@ -69,7 +69,7 @@ public final class JarPackagerUtil {
 	static final String DESCRIPTION_EXTENSION= "jardesc"; //$NON-NLS-1$
 
 	private static final String META_INF_ENTRY= "META-INF"; //$NON-NLS-1$
-	private static final String REFACTORINGS_ENTRY= META_INF_ENTRY + "/REFACTORINGS.XML"; //$NON-NLS-1$
+	private static final String REFACTORINGS_ENTRY= META_INF_ENTRY + "/REFACTORINGS.XML"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private JarPackagerUtil() {
 		// Do nothing
@@ -102,7 +102,7 @@ public final class JarPackagerUtil {
 	 * @since 3.2
 	 */
 	public static String getDeprecationEntry(final String name) {
-		return META_INF_ENTRY + "/" + name; //$NON-NLS-1$
+		return META_INF_ENTRY + "/" + name; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**
@@ -126,8 +126,8 @@ public final class JarPackagerUtil {
 	public static List<IResource> asResources(Object[] elements) {
 		if (elements == null)
 			return null;
-		List<IResource> selectedResources= new ArrayList<>(elements.length);
-		for (Object element : elements) {
+		List<IResource> selectedResources= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IJavaElement) {
 				selectedResources.add(((IJavaElement)element).getResource());
 			}
@@ -170,7 +170,7 @@ public final class JarPackagerUtil {
 			return false;
 		final boolean[] returnValue= new boolean[1];
 		Runnable runnable= () -> returnValue[0]= MessageDialog.openQuestion(parent, title, message);
-		display.syncExec(runnable);
+		display.syncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 		return returnValue[0];
 	}
 
@@ -194,7 +194,7 @@ public final class JarPackagerUtil {
 	 * @param context the runnable context
 	 * @return <code>true</code> if a main class is specified and valid
 	 */
-	public static boolean isMainClassValid(JarPackageData data, IRunnableContext context) {
+	public static boolean isMainClassValid(JarPackageData data, IRunnableContext context) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (data == null)
 			return false;
 
@@ -217,7 +217,7 @@ public final class JarPackagerUtil {
 		return false;
 	}
 
-	static boolean contains(List<IResource> resources, IFile file) {
+	static boolean contains(List<IResource> resources, IFile file) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (resources == null || file == null)
 			return false;
 
@@ -225,7 +225,7 @@ public final class JarPackagerUtil {
 			return true;
 
 		Iterator<IResource> iter= resources.iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IResource resource= iter.next();
 			if (resource != null && resource.getType() != IResource.FILE) {
 				List<IResource> children= null;
@@ -258,7 +258,7 @@ public final class JarPackagerUtil {
 	 * @return the archive or <code>null</code> if it could not be retrieved
 	 * @throws CoreException if the archive could not be read
 	 */
-	public static ZipFile createZipFile(IPath location) throws CoreException {
+	public static ZipFile createZipFile(IPath location) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		File localFile= null;
 
 		IResource file= ResourcesPlugin.getWorkspace().getRoot().findMember(location);
@@ -280,7 +280,7 @@ public final class JarPackagerUtil {
 			return null;
 
 		try {
-			return new ZipFile(localFile);
+			return new ZipFile(localFile); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM NEW
 		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, e.getLocalizedMessage(), e));
 		}

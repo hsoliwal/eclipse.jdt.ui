@@ -75,7 +75,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			fUnresolved= unresolved;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(QualifiedName node) {
 			if (node.getParent() instanceof VariableDeclarationFragment)
 				return super.visit(node);
@@ -97,7 +97,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 				if (fResult.containsKey(binding)) {
 					list= fResult.get(binding);
 				} else {
-					list= new ArrayList<>();
+					list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				list.add(node);
 				fResult.put(binding, list);
@@ -106,7 +106,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SimpleName node) {
 			if (node.getParent() instanceof VariableDeclarationFragment)
 				return super.visit(node);
@@ -128,7 +128,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 				if (fResult.containsKey(binding)) {
 					list= fResult.get(binding);
 				} else {
-					list= new ArrayList<>();
+					list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				}
 				list.add(node);
 				fResult.put(binding, list);
@@ -181,7 +181,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 				handleFragments(node.fragments(), node);
 
 			List<VariableDeclarationFragment> fragments= node.fragments();
-			for (VariableDeclarationFragment fragment : fragments) {
+			for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression initializer= fragment.getInitializer();
 				if (initializer != null) {
 					initializer.accept(this);
@@ -197,7 +197,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 				handleFragments(node.fragments(), node);
 
 			List<VariableDeclarationFragment> fragments= node.fragments();
-			for (VariableDeclarationFragment fragment : fragments) {
+			for (VariableDeclarationFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression initializer= fragment.getInitializer();
 				if (initializer != null) {
 					initializer.accept(this);
@@ -207,7 +207,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(VariableDeclarationExpression node) {
 			if (fAddFinalLocals && node.fragments().size() == 1) {
 				SimpleName name= ((VariableDeclarationFragment)node.fragments().get(0)).getName();
@@ -229,10 +229,10 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			return false;
 		}
 
-		private boolean handleFragments(List<VariableDeclarationFragment> list, ASTNode declaration) {
-			List<VariableDeclarationFragment> toChange= new ArrayList<>();
+		private boolean handleFragments(List<VariableDeclarationFragment> list, ASTNode declaration) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			List<VariableDeclarationFragment> toChange= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (VariableDeclarationFragment fragment : list) {
+			for (VariableDeclarationFragment fragment : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				SimpleName name= fragment.getName();
 				IBinding resolveBinding= name.resolveBinding();
 				if (canAddFinal(resolveBinding, declaration)) {
@@ -255,7 +255,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			return false;
 		}
 
-		private boolean fieldCanBeFinal(VariableDeclarationFragment fragment, IVariableBinding binding) {
+		private boolean fieldCanBeFinal(VariableDeclarationFragment fragment, IVariableBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (Modifier.isStatic(((FieldDeclaration)fragment.getParent()).getModifiers()))
 				return false;
 
@@ -279,9 +279,9 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			if (!isWrittenInTypeConstructors(writes, declaringClass))
 				return false;
 
-			HashSet<IMethodBinding> writingConstructorBindings= new HashSet<>();
-			ArrayList<MethodDeclaration> writingConstructors= new ArrayList<>();
-			for (Name name : writes) {
+			HashSet<IMethodBinding> writingConstructorBindings= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			ArrayList<MethodDeclaration> writingConstructors= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Name name : writes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            MethodDeclaration constructor= getWritingConstructor(name);
 	            if (writingConstructors.contains(constructor))//variable is written twice or more in constructor
 	            	return false;
@@ -297,7 +297,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 				writingConstructorBindings.add(constructorBinding);
             }
 
-			for (MethodDeclaration constructor : writingConstructors) {
+			for (MethodDeclaration constructor : writingConstructors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            if (callsWritingConstructor(constructor, writingConstructorBindings))//writing constructor calls other writing constructor
 	            	return false;
             }
@@ -308,7 +308,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 				return false;
 
 			List<BodyDeclaration> bodyDeclarations= typeDecl.bodyDeclarations();
-			for (BodyDeclaration bodyDeclaration : bodyDeclarations) {
+			for (BodyDeclaration bodyDeclaration : bodyDeclarations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (bodyDeclaration instanceof MethodDeclaration method && method.isConstructor()) {
 	            	IMethodBinding methodBinding= method.resolveBinding();
 	            	if (methodBinding == null)
@@ -328,7 +328,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			// check if a field declaration initializes with a lambda that refers to the field in question
 			// in which case we cannot make it final
 			ASTVisitor findFieldLambdasUsingBinding= new ASTVisitor() {
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(FieldDeclaration node) {
 					ASTVisitor findLambdas= new ASTVisitor() {
 						@Override
@@ -366,12 +366,12 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 		}
 
 		private boolean callsWritingConstructor(MethodDeclaration methodDeclaration, HashSet<IMethodBinding> writingConstructorBindings) {
-			HashSet<MethodDeclaration> visitedMethodDeclarations= new HashSet<>();
+			HashSet<MethodDeclaration> visitedMethodDeclarations= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			visitedMethodDeclarations.add(methodDeclaration);
 			return callsWritingConstructor(methodDeclaration, writingConstructorBindings, visitedMethodDeclarations);
 		}
 
-		private boolean callsWritingConstructor(MethodDeclaration methodDeclaration, HashSet<IMethodBinding> writingConstructorBindings, Set<MethodDeclaration> visitedMethodDeclarations) {
+		private boolean callsWritingConstructor(MethodDeclaration methodDeclaration, HashSet<IMethodBinding> writingConstructorBindings, Set<MethodDeclaration> visitedMethodDeclarations) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Block body= methodDeclaration.getBody();
 			if (body == null)
 				return false;
@@ -404,11 +404,11 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			}
 		}
 
-		private boolean isWrittenInTypeConstructors(List<Name> writes, ITypeBinding declaringClass) {
+		private boolean isWrittenInTypeConstructors(List<Name> writes, ITypeBinding declaringClass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (writes == null) {
 				return false;
 			}
-			for (Name name : writes) {
+			for (Name name : writes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 	            MethodDeclaration methodDeclaration= getWritingConstructor(name);
 	            if (methodDeclaration == null)
 	            	return false;
@@ -453,7 +453,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 	        return true;
         }
 
-		private MethodDeclaration getWritingConstructor(Name name) {
+		private MethodDeclaration getWritingConstructor(Name name) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Assignment assignement= ASTNodes.getParent(name, Assignment.class);
 			if (assignement == null)
 				return null;
@@ -492,7 +492,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			return true;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(SingleVariableDeclaration node) {
 			SimpleName name= node.getName();
 
@@ -571,21 +571,21 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 		}
 	}
 
-	public static VariableDeclarationFixCore createChangeModifierToFinalFix(final CompilationUnit compilationUnit, ASTNode[] selectedNodes) {
-		HashMap<IBinding, List<Name>> writtenNames= new HashMap<>();
-		HashSet<String> unresolved= new HashSet<>();
+	public static VariableDeclarationFixCore createChangeModifierToFinalFix(final CompilationUnit compilationUnit, ASTNode[] selectedNodes) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		HashMap<IBinding, List<Name>> writtenNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashSet<String> unresolved= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		WrittenNamesFinder finder= new WrittenNamesFinder(writtenNames, unresolved);
 		try {
 			compilationUnit.accept(finder);
 		} catch (AbortSearchException e) {
 			return null;
 		}
-		List<ModifierChangeOperation> ops= new ArrayList<>();
+		List<ModifierChangeOperation> ops= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		VariableDeclarationFinder visitor= new VariableDeclarationFinder(true, true, true, ops, writtenNames, unresolved);
 		if (selectedNodes.length == 1) {
 			selectedNodes[0].accept(visitor);
 		} else {
-			for (ASTNode selectedNode : selectedNodes) {
+			for (ASTNode selectedNode : selectedNodes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectedNode.accept(visitor);
 			}
 		}
@@ -602,14 +602,14 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 		return new VariableDeclarationFixCore(label, compilationUnit, result);
 	}
 
-	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit,
+	public static ICleanUpFix createCleanUp(CompilationUnit compilationUnit, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean addFinalFields, boolean addFinalParameters, boolean addFinalLocals) {
 
 		if (!addFinalFields && !addFinalParameters && !addFinalLocals)
 			return null;
 
-		HashMap<IBinding, List<Name>> writtenNames= new HashMap<>();
-		HashSet<String> unresolved= new HashSet<>();
+		HashMap<IBinding, List<Name>> writtenNames= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		HashSet<String> unresolved= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		WrittenNamesFinder finder= new WrittenNamesFinder(writtenNames, unresolved);
 		try {
 			compilationUnit.accept(finder);
@@ -617,7 +617,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 			return null;
 		}
 
-		List<ModifierChangeOperation> operations= new ArrayList<>();
+		List<ModifierChangeOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		VariableDeclarationFinder visitor= new VariableDeclarationFinder(addFinalFields, addFinalParameters, addFinalLocals, operations,
 				writtenNames, unresolved);
 		compilationUnit.accept(visitor);
@@ -628,7 +628,7 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 		return new VariableDeclarationFixCore(FixMessages.VariableDeclarationFix_add_final_change_name, compilationUnit, operations.toArray(new CompilationUnitRewriteOperation[operations.size()]));
 	}
 
-	private static ModifierChangeOperation createAddFinalOperation(SimpleName name, ASTNode decl) {
+	private static ModifierChangeOperation createAddFinalOperation(SimpleName name, ASTNode decl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (decl == null)
 			return null;
 
@@ -638,23 +638,23 @@ public class VariableDeclarationFixCore extends CompilationUnitRewriteOperations
 
 		if (decl instanceof SingleVariableDeclaration
 				|| decl instanceof VariableDeclarationExpression) {
-			return new ModifierChangeOperation(decl, new ArrayList<>(), Modifier.FINAL, Modifier.NONE);
+			return new ModifierChangeOperation(decl, new ArrayList<>(), Modifier.FINAL, Modifier.NONE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		} else if (decl instanceof VariableDeclarationFragment){
 			VariableDeclarationFragment frag= (VariableDeclarationFragment)decl;
 			decl= decl.getParent();
 			if (decl instanceof FieldDeclaration || decl instanceof VariableDeclarationStatement) {
-				List<VariableDeclarationFragment> list= new ArrayList<>();
+				List<VariableDeclarationFragment> list= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				list.add(frag);
 				return new ModifierChangeOperation(decl, list, Modifier.FINAL, Modifier.NONE);
 			} else if (decl instanceof VariableDeclarationExpression) {
-				return new ModifierChangeOperation(decl, new ArrayList<>(), Modifier.FINAL, Modifier.NONE);
+				return new ModifierChangeOperation(decl, new ArrayList<>(), Modifier.FINAL, Modifier.NONE); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 		}
 
 		return null;
 	}
 
-	public static boolean canAddFinal(IBinding binding, ASTNode declNode) {
+	public static boolean canAddFinal(IBinding binding, ASTNode declNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(binding instanceof IVariableBinding))
 			return false;
 

@@ -82,7 +82,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		 * @return <code>true</code> iff the character is an operator, <code>false</code> otherwise.
 		 */
 		public boolean isOperator(char character) {
-			for (char element : JAVA_OPERATORS) {
+			for (char element : JAVA_OPERATORS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element == character)
 					return true;
 			}
@@ -94,7 +94,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 
 			int character= scanner.read();
 			if (isOperator((char) character)) {
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					character= scanner.read();
 				} while (isOperator((char) character));
 				scanner.unread();
@@ -134,7 +134,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		 * @return <code>true</code> iff the character is a bracket, <code>false</code> otherwise.
 		 */
 		public boolean isBracket(char character) {
-			for (char element : JAVA_BRACKETS) {
+			for (char element : JAVA_BRACKETS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element == character)
 					return true;
 			}
@@ -146,7 +146,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 
 			int character= scanner.read();
 			if (isBracket((char) character)) {
-				do {
+				do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					character= scanner.read();
 				} while (isBracket((char) character));
 				scanner.unread();
@@ -224,10 +224,10 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 			 * Resets the scanner to the marked position.
 			 */
 			public void reset() {
-				while (fReadCount > 0)
+				while (fReadCount > 0) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					unread();
 
-				while (fReadCount < 0)
+				while (fReadCount < 0) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					read();
 			}
 		}
@@ -282,10 +282,10 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 			}
 		}
 
-		private boolean readInterface(ICharacterScanner scanner) {
+		private boolean readInterface(ICharacterScanner scanner) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int ch= scanner.read();
 			int i= 0;
-			while (i < INTERFACE.length() && INTERFACE.charAt(i) == ch) {
+			while (i < INTERFACE.length() && INTERFACE.charAt(i) == ch) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				i++;
 				ch= scanner.read();
 			}
@@ -302,7 +302,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		}
 
 		private boolean skipWhitespace(ICharacterScanner scanner) {
-			while (fWhitespaceDetector.isWhitespace((char) scanner.read())) {
+			while (fWhitespaceDetector.isWhitespace((char) scanner.read())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				// do nothing
 			}
 
@@ -344,8 +344,8 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 
 	private static String[] fgConstants= { "false", "null", "true" }; //$NON-NLS-3$ //$NON-NLS-2$ //$NON-NLS-1$
 
-	private static final String ANNOTATION_BASE_KEY= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + SemanticHighlightings.ANNOTATION;
-	private static final String ANNOTATION_COLOR_KEY= ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX;
+	private static final String ANNOTATION_BASE_KEY= PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_PREFIX + SemanticHighlightings.ANNOTATION; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String ANNOTATION_COLOR_KEY= ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_COLOR_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static String[] fgTokenProperties= {
 		IJavaColorConstants.JAVA_KEYWORD,
@@ -357,7 +357,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		ANNOTATION_COLOR_KEY,
 	};
 
-	private List<ISourceVersionDependent> fVersionDependentRules= new ArrayList<>(3);
+	private List<ISourceVersionDependent> fVersionDependentRules= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private boolean fIsModuleInfoCode;
 
@@ -389,10 +389,10 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		return fgTokenProperties;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected List<IRule> createRules() {
 
-		List<IRule> rules= new ArrayList<>();
+		List<IRule> rules= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		Token defaultToken= getToken(IJavaColorConstants.JAVA_DEFAULT);
 
@@ -437,13 +437,13 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		// Add word rule for keywords, types, and constants.
 		CombinedWordRule.WordMatcher wordRule= new CombinedWordRule.WordMatcher();
 		token= getToken(IJavaColorConstants.JAVA_KEYWORD);
-		for (String fgKeyword : fgKeywords) {
+		for (String fgKeyword : fgKeywords) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			wordRule.addWord(fgKeyword, token);
 		}
-		for (String fgType : fgTypes) {
+		for (String fgType : fgTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			wordRule.addWord(fgType, token);
 		}
-		for (String fgConstant : fgConstants) {
+		for (String fgConstant : fgConstants) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			wordRule.addWord(fgConstant, token);
 		}
 
@@ -459,41 +459,41 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 		// Add word rule for new keywords
 		WordMatcher j9ModuleInfoMatcher= new WordMatcher();
 		Token token= getToken(IJavaColorConstants.JAVA_KEYWORD);
-		for (String fgJava9ModuleInfoKeyword : fgJava9ModuleInfoKeywords) {
+		for (String fgJava9ModuleInfoKeyword : fgJava9ModuleInfoKeywords) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			j9ModuleInfoMatcher.addWord(fgJava9ModuleInfoKeyword, token);
 		}
 
 		CombinedWordRule combinedWordRule= new CombinedWordRule(new JavaWordDetector(), j9ModuleInfoMatcher, defaultToken);
 
 		setDefaultReturnToken(defaultToken);
-		return new ArrayList<>(Arrays.asList(combinedWordRule));
+		return new ArrayList<>(Arrays.asList(combinedWordRule)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	@Override
 	protected String getBoldKey(String colorKey) {
 		if ((ANNOTATION_COLOR_KEY).equals(colorKey))
-			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX;
+			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_BOLD_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return super.getBoldKey(colorKey);
 	}
 
 	@Override
 	protected String getItalicKey(String colorKey) {
 		if ((ANNOTATION_COLOR_KEY).equals(colorKey))
-			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX;
+			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_ITALIC_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return super.getItalicKey(colorKey);
 	}
 
 	@Override
 	protected String getStrikethroughKey(String colorKey) {
 		if ((ANNOTATION_COLOR_KEY).equals(colorKey))
-			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX;
+			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_STRIKETHROUGH_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return super.getStrikethroughKey(colorKey);
 	}
 
 	@Override
 	protected String getUnderlineKey(String colorKey) {
 		if ((ANNOTATION_COLOR_KEY).equals(colorKey))
-			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX;
+			return ANNOTATION_BASE_KEY + PreferenceConstants.EDITOR_SEMANTIC_HIGHLIGHTING_UNDERLINE_SUFFIX; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return super.getUnderlineKey(colorKey);
 	}
 
@@ -511,7 +511,7 @@ public final class JavaCodeScanner extends AbstractJavaScanner {
 			if (value instanceof String) {
 				String s= (String) value;
 
-				for (ISourceVersionDependent dependent : fVersionDependentRules) {
+				for (ISourceVersionDependent dependent : fVersionDependentRules) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					dependent.setSourceVersion(s);
 				}
 			}

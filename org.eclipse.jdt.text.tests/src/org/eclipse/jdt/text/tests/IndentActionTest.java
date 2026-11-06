@@ -121,8 +121,8 @@ public class IndentActionTest {
 
 	private String createFileName(String qualifier) {
 		String name= tn.getMethodName();
-		name= name.substring(4, 5).toLowerCase() + name.substring(5);
-		return "/" + PROJECT + "/src/" + name + "/" + qualifier + ".java";
+		name= name.substring(4, 5).toLowerCase() + name.substring(5); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		return "/" + PROJECT + "/src/" + name + "/" + qualifier + ".java"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void selectAll() {
@@ -224,7 +224,7 @@ public class IndentActionTest {
 		assertIndentResult();
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug400670_1() throws Exception {
 		// With formatter profile from https://bugs.eclipse.org/bugs/show_bug.cgi?id=400670#c0
 		String indentOnColumn= DefaultCodeFormatterConstants.createAlignmentValue(true, DefaultCodeFormatterConstants.WRAP_NEXT_PER_LINE, DefaultCodeFormatterConstants.INDENT_ON_COLUMN);

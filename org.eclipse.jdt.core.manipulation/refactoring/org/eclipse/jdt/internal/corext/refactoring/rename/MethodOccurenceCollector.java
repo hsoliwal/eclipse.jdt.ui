@@ -47,7 +47,7 @@ public class MethodOccurenceCollector extends CuCollectingSearchRequestor {
 		fName= methodName;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void acceptSearchMatch(ICompilationUnit unit, SearchMatch match) throws CoreException {
 		if (match instanceof MethodReferenceMatch
 				&& ((MethodReferenceMatch) match).isSuperInvocation()
@@ -85,7 +85,7 @@ public class MethodOccurenceCollector extends CuCollectingSearchRequestor {
 		int simpleNameEnd= -1;
 		try {
 			int token = scanner.getNextToken();
-			while (token != ITerminalSymbols.TokenNameEOF && token != ITerminalSymbols.TokenNameLPAREN) { // reference in code includes arguments in parentheses
+			while (token != ITerminalSymbols.TokenNameEOF && token != ITerminalSymbols.TokenNameLPAREN) { // reference in code includes arguments in parentheses //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (token == InternalTokenNameIdentifier) {
 					simpleNameStart= scanner.getCurrentTokenStartPosition();
 					simpleNameEnd= scanner.getCurrentTokenEndPosition();

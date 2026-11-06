@@ -77,7 +77,7 @@ import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
  *
  * @see org.eclipse.jdt.ui.StandardJavaElementContentProvider
  */
-public class PackageExplorerContentProvider extends StandardJavaElementContentProvider implements IElementChangedListener, IPropertyChangeListener {
+public class PackageExplorerContentProvider extends StandardJavaElementContentProvider implements IElementChangedListener, IPropertyChangeListener { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	protected static final int ORIGINAL= 0;
 	protected static final int PARENT= 1 << 0;
@@ -128,7 +128,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 
 	@Override
 	public void elementChanged(final ElementChangedEvent event) {
-		final ArrayList<Runnable> runnables= new ArrayList<>();
+		final ArrayList<Runnable> runnables= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		try {
 			clearPackageCache();
 
@@ -145,7 +145,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 	}
 
-	protected final void executeRunnables(final Collection<Runnable> runnables) {
+	protected final void executeRunnables(final Collection<Runnable> runnables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		// now post all collected runnables
 		Control ctrl= fViewer.getControl();
@@ -169,9 +169,9 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 			}
 		}
 	}
-	private void postAsyncUpdate(final Display display) {
+	private void postAsyncUpdate(final Display display) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fUpdateJob == null) {
-			fUpdateJob= new UIJob(display, PackagesMessages.PackageExplorerContentProvider_update_job_description) {
+			fUpdateJob= new UIJob(display, PackagesMessages.PackageExplorerContentProvider_update_job_description) { //FLLDCIM: MARK — T09  ANONYMOUS
 				@Override
 				public IStatus runInUIThread(IProgressMonitor monitor) {
 					TreeViewer viewer= fViewer;
@@ -207,7 +207,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 
 	private void runUpdates(Collection<Runnable> runnables) {
 		Iterator<Runnable> runnableIterator = runnables.iterator();
-		while (runnableIterator.hasNext()){
+		while (runnableIterator.hasNext()){ //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			runnableIterator.next().run();
 		}
 	}
@@ -247,7 +247,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 
 		// hierarchical package mode
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getHierarchicalPackageRootChildren(root, result);
 		if (!isProjectPackageFragmentRoot(root)) {
 			Object[] nonJavaResources= root.getNonJavaResources();
@@ -263,7 +263,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 
 		// hierarchical package mode
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		getHierarchicalPackageChildren(fragment, result);
 		Object[] nonPackages= super.getPackageContent(fragment);
@@ -280,7 +280,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 
 		// hierarchical package mode
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		getHierarchicalPackagesInFolder(folder, result);
 		Object[] others= super.getFolderContent(folder);
@@ -291,7 +291,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	}
 
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object parentElement) {
 		try {
 			if (parentElement instanceof IJavaModel)
@@ -313,14 +313,14 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object[] getPackageFragmentRoots(IJavaProject project) throws JavaModelException {
 		if (!project.getProject().isOpen())
 			return NO_CHILDREN;
 
-		List<Object> result= new ArrayList<>();
+		List<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+		for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IClasspathEntry classpathEntry= root.getRawClasspathEntry();
 			int entryKind= classpathEntry.getEntryKind();
 			if (entryKind == IClasspathEntry.CPE_CONTAINER) {
@@ -350,7 +350,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 
 		// separate loop to make sure all containers are on the classpath (even empty ones)
-		for (IClasspathEntry classpathEntry : project.getRawClasspath()) {
+		for (IClasspathEntry classpathEntry : project.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 				result.add(new ClassPathContainer(project, classpathEntry));
 			}
@@ -368,7 +368,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		return model.getNonJavaResources();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Object internalGetParent(Object element) {
 		if (!fIsFlatLayout && element instanceof IPackageFragment) {
 			return getHierarchicalPackageParent((IPackageFragment) element);
@@ -400,7 +400,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		super.inputChanged(viewer, oldInput, newInput);
 		fViewer= (TreeViewer)viewer;
 		if (oldInput == null && newInput != null) {
-			JavaCore.addElementChangedListener(this);
+			JavaCore.addElementChangedListener(this); //FLLDCIM: MARK — T31 JAVA_ELEMENT_DELTA_ADAPTER CALL
 		} else if (oldInput != null && newInput == null) {
 			JavaCore.removeElementChangedListener(this);
 		}
@@ -415,9 +415,9 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	 * @param result Collection where the resulting elements are added
 	 * @throws JavaModelException if fetching the children fails
 	 */
-	private void getHierarchicalPackageRootChildren(IPackageFragmentRoot parent, Collection<Object> result) throws JavaModelException {
+	private void getHierarchicalPackageRootChildren(IPackageFragmentRoot parent, Collection<Object> result) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean is9OrHigher= JavaModelUtil.is9OrHigher(parent.getJavaProject());
-		for (IJavaElement child : parent.getChildren()) {
+		for (IJavaElement child : parent.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment curr= (IPackageFragment) child;
 			String name= curr.getElementName();
 			if (!name.isEmpty() && name.indexOf('.') == -1) {
@@ -451,7 +451,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	 */
 	private void getHierarchicalPackageChildren(IPackageFragment fragment, Collection<Object> result) throws JavaModelException {
 		List<IPackageFragment> children = packageCache.getDirectChildren(fragment);
-		for (IPackageFragment child : children) {
+		for (IPackageFragment child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (fFoldPackages) {
 				child= getFolded(child);
 			}
@@ -470,7 +470,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	IJavaElement emptyModuleInfo(IPackageFragment fragment, boolean is9OrHigher) throws JavaModelException {
 		if (is9OrHigher) {
 			// at 9, empty module-info.java should be added
-			for (IJavaElement child : fragment.getChildren()) {
+			for (IJavaElement child : fragment.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (child instanceof ITypeRoot && ((ITypeRoot) child).getChildren().length == 0)
 					return child;
 			}
@@ -485,7 +485,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	 * @throws CoreException thrown when elements could not be accessed
 	 */
 	private void getHierarchicalPackagesInFolder(IFolder folder, Collection<Object> result) throws CoreException {
-		for (IResource resource : folder.members()) {
+		for (IResource resource : folder.members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (resource instanceof IFolder) {
 				IFolder curr= (IFolder) resource;
 				IJavaElement element= JavaCore.create(curr);
@@ -500,7 +500,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		}
 	}
 
-	public Object getHierarchicalPackageParent(IPackageFragment child) {
+	public Object getHierarchicalPackageParent(IPackageFragment child) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String name= child.getElementName();
 		IPackageFragmentRoot parent= (IPackageFragmentRoot) child.getParent();
 		int index= name.lastIndexOf('.');
@@ -530,7 +530,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	}
 
 	private IPackageFragment getFolded(IPackageFragment pack) throws JavaModelException {
-		while (isEmpty(pack)) {
+		while (isEmpty(pack)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IPackageFragment collapsed= packageCache.getSingleChild(pack);
 			if (collapsed == null) {
 				return pack;
@@ -556,7 +556,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	 * to be processed
 	 * @throws JavaModelException thrown when the access to an element failed
 	 */
-	private boolean processDelta(IJavaElementDelta delta, Collection<Runnable> runnables) throws JavaModelException {
+	private boolean processDelta(IJavaElementDelta delta, Collection<Runnable> runnables) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		int kind= delta.getKind();
 		int flags= delta.getFlags();
@@ -765,12 +765,12 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		return (flags & IJavaElementDelta.F_CHILDREN) != 0 || (flags & (IJavaElementDelta.F_CONTENT | IJavaElementDelta.F_FINE_GRAINED)) == IJavaElementDelta.F_CONTENT;
 	}
 
-	/* package */ void handleAffectedChildren(IJavaElementDelta delta, IJavaElement element, Collection<Runnable> runnables) throws JavaModelException {
+	/* package */ void handleAffectedChildren(IJavaElementDelta delta, IJavaElement element, Collection<Runnable> runnables) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int count= 0;
 
 		IResourceDelta[] resourceDeltas= delta.getResourceDeltas();
 		if (resourceDeltas != null) {
-			for (IResourceDelta resourceDelta : resourceDeltas) {
+			for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				int kind= resourceDelta.getKind();
 				if (kind == IResourceDelta.ADDED || kind == IResourceDelta.REMOVED) {
 					count++;
@@ -778,7 +778,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 			}
 		}
 		IJavaElementDelta[] affectedChildren= delta.getAffectedChildren();
-		for (IJavaElementDelta affectedChildren1 : affectedChildren) {
+		for (IJavaElementDelta affectedChildren1 : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int kind= affectedChildren1.getKind();
 			if (kind == IJavaElementDelta.ADDED || kind == IJavaElementDelta.REMOVED) {
 				count++;
@@ -806,13 +806,13 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 			return;
 		}
 		if (resourceDeltas != null) {
-			for (IResourceDelta resourceDelta : resourceDeltas) {
+			for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (processResourceDelta(resourceDelta, element, runnables)) {
 					return; // early return, element got refreshed
 				}
 			}
 		}
-		for (IJavaElementDelta child : affectedChildren) {
+		for (IJavaElementDelta child : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (processDelta(child, runnables)) {
 				return; // early return, element got refreshed
 			}
@@ -820,7 +820,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	}
 
 	protected void processAffectedChildren(IJavaElementDelta[] affectedChildren, Collection<Runnable> runnables) throws JavaModelException {
-		for (IJavaElementDelta child : affectedChildren) {
+		for (IJavaElementDelta child : affectedChildren) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			processDelta(child, runnables);
 		}
 	}
@@ -849,7 +849,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	 * @param runnables the resulting view changes as runnables (type {@link Runnable})
 	 * @return true if the parent got refreshed
 	 */
-	private boolean processResourceDelta(IResourceDelta delta, Object parent, Collection<Runnable> runnables) {
+	private boolean processResourceDelta(IResourceDelta delta, Object parent, Collection<Runnable> runnables) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int status= delta.getKind();
 		int flags= delta.getFlags();
 
@@ -893,7 +893,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		IResourceDelta[] resourceDeltas= delta.getAffectedChildren();
 
 		int count= 0;
-		for (IResourceDelta resourceDelta : resourceDeltas) {
+		for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int kind= resourceDelta.getKind();
 			if (kind == IResourceDelta.ADDED || kind == IResourceDelta.REMOVED) {
 				count++;
@@ -903,7 +903,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 				}
 			}
 		}
-		for (IResourceDelta resourceDelta : resourceDeltas) {
+		for (IResourceDelta resourceDelta : resourceDeltas) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (processResourceDelta(resourceDelta, resource, runnables)) {
 				return false; // early return, element got refreshed
 			}
@@ -924,7 +924,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		// Therefore move the refresh start down to the viewer's input
 		if (isParent(root, fInput) || root instanceof IJavaModel)
 			root= fInput;
-		List<Object> toRefresh= new ArrayList<>(1);
+		List<Object> toRefresh= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		toRefresh.add(root);
 		augmentElementToRefresh(toRefresh, relation, affectedElement);
 		postRefresh(toRefresh, true, runnables);
@@ -951,9 +951,9 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 
 	protected void postRefresh(final List<Object> toRefresh, final boolean updateLabels, Collection<Runnable> runnables) {
 		runnables.add(() -> {
-			for (Object element : toRefresh.toArray()) {
+			for (Object element : toRefresh.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (element == null || fViewer.testFindItems(element).length > 0) {
-					fViewer.refresh(element, updateLabels);
+					fViewer.refresh(element, updateLabels); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				}
 			}
 		});
@@ -961,7 +961,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 
 	protected void postAdd(final Object parent, final Object element, Collection<Runnable> runnables) {
 		runnables.add(() -> {
-			for (Widget item : fViewer.testFindItems(element)) {
+			for (Widget item : fViewer.testFindItems(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (item instanceof TreeItem && !item.isDisposed()) {
 					TreeItem parentItem= ((TreeItem) item).getParentItem();
 					if (parentItem != null && !parentItem.isDisposed() && parent.equals(parentItem.getData())) {
@@ -983,7 +983,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 
 	protected void postProjectStateChanged(final Object root, Collection<Runnable> runnables) {
 		runnables.add(() -> {
-			fViewer.refresh(root, true);
+			fViewer.refresh(root, true); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			// trigger a synthetic selection change so that action refresh their
 			// enable state.
 			fViewer.setSelection(fViewer.getSelection());
@@ -1001,7 +1001,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 			if (fViewer != null && !fViewer.getControl().isDisposed()) {
 				fViewer.getControl().setRedraw(false);
 				Object[] expandedObjects= fViewer.getExpandedElements();
-				fViewer.refresh();
+				fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 				fViewer.setExpandedElements(expandedObjects);
 				fViewer.getControl().setRedraw(true);
 			}

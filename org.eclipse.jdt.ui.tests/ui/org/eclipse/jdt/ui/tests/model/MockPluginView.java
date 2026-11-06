@@ -81,7 +81,7 @@ public class MockPluginView extends ViewPart implements INavigatorContentService
 	}
 
 	public void setInput(Object input) {
-		fViewer.setInput(input);
+		fViewer.setInput(input); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 	}
 
 	public ITreeContentProvider getContentProvider() {
@@ -148,14 +148,14 @@ public class MockPluginView extends ViewPart implements INavigatorContentService
 		return project.getFile(path);
 	}
 
-	private ResourceDiff createResourceDiff(IProject project, String path, int kind) {
+	private ResourceDiff createResourceDiff(IProject project, String path, int kind) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IResource resource = getResource(project, path);
 		ResourceDiff diff = new ResourceDiff(resource, kind, 0, new FileRevision() {
 			@Override
 			public String getName() {
 				return resource.getName();
 			}
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public IStorage getStorage(IProgressMonitor monitor) throws CoreException {
 				return new IStorage() {
 					@Override

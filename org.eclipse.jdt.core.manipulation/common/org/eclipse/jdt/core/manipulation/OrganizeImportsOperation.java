@@ -90,7 +90,7 @@ import org.eclipse.jdt.internal.ui.text.correction.proposals.AddImportCorrection
 /**
  * @since 1.10
  */
-public class OrganizeImportsOperation implements IWorkspaceRunnable {
+public class OrganizeImportsOperation implements IWorkspaceRunnable { //FLLDCIM: MARK — T09  IMPLEMENTS
 	public interface IChooseImportQuery {
 		/**
 		 * Selects imports from a list of choices.
@@ -113,14 +113,14 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 	 * @see <a href="https://bugs.eclipse.org/357795">Bug 357795</a>
 	 */
 	private static class UnresolvableImportMatcher {
-		static UnresolvableImportMatcher forCompilationUnit(CompilationUnit cu) {
+		static UnresolvableImportMatcher forCompilationUnit(CompilationUnit cu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<ImportDeclaration> unresolvableImports= determineUnresolvableImports(cu);
 
-			Map<String, Set<String>> typeImportsBySimpleName= new HashMap<>();
-			Map<String, Set<String>> staticImportsBySimpleName= new HashMap<>();
-			for (ImportDeclaration importDeclaration : unresolvableImports) {
+			Map<String, Set<String>> typeImportsBySimpleName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			Map<String, Set<String>> staticImportsBySimpleName= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (ImportDeclaration importDeclaration : unresolvableImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String qualifiedName= importDeclaration.isOnDemand()
-						? importDeclaration.getName().getFullyQualifiedName() + ".*" //$NON-NLS-1$
+						? importDeclaration.getName().getFullyQualifiedName() + ".*" //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						: importDeclaration.getName().getFullyQualifiedName();
 
 				String simpleName= qualifiedName.substring(qualifiedName.lastIndexOf('.') + 1);
@@ -129,7 +129,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 						? staticImportsBySimpleName : typeImportsBySimpleName;
 				Set<String> importsWithSimpleName= importsBySimpleName.get(simpleName);
 				if (importsWithSimpleName == null) {
-					importsWithSimpleName= new HashSet<>();
+					importsWithSimpleName= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					importsBySimpleName.put(simpleName, importsWithSimpleName);
 				}
 
@@ -140,8 +140,8 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		}
 
 		private static Collection<ImportDeclaration> determineUnresolvableImports(CompilationUnit cu) {
-			Collection<ImportDeclaration> unresolvableImports= new ArrayList<>(cu.imports().size());
-			for (IProblem problem : cu.getProblems()) {
+			Collection<ImportDeclaration> unresolvableImports= new ArrayList<>(cu.imports().size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IProblem problem : cu.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (problem.getID() == IProblem.ImportNotFound) {
 					ImportDeclaration problematicImport= getProblematicImport(problem, cu);
 					if (problematicImport != null) {
@@ -212,11 +212,11 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			public UnresolvedTypeData(SimpleName ref) {
 				this.ref= ref;
 				this.typeKinds= ASTResolving.getPossibleTypeKinds(ref);
-				this.foundInfos= new ArrayList<>(3);
+				this.foundInfos= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			}
 
 			public void addInfo(TypeNameMatch info) {
-				for (int i= this.foundInfos.size() - 1; i >= 0; i--) {
+				for (int i= this.foundInfos.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TypeNameMatch curr= this.foundInfos.get(i);
 					if (curr.getTypeContainerName().equals(info.getTypeContainerName())) {
 						return; // not added. already contains type with same name
@@ -250,7 +250,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		private SourceRange[] fSourceRanges;
 
 
-		public TypeReferenceProcessor(Set<String> oldSingleImports, Set<String> oldDemandImports, Map<String, Set<String>> oldModuleImports,
+		public TypeReferenceProcessor(Set<String> oldSingleImports, Set<String> oldDemandImports, Map<String, Set<String>> oldModuleImports, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				CompilationUnit root, ImportRewrite impStructure, boolean ignoreLowerCaseNames, UnresolvableImportMatcher unresolvableImportMatcher) {
 			fOldSingleImports= oldSingleImports;
 			fOldDemandImports= oldDemandImports;
@@ -262,7 +262,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 
 			ICompilationUnit cu= impStructure.getCompilationUnit();
 
-			fImplicitImports= new HashSet<>(3);
+			fImplicitImports= new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 			fImplicitImports.add(""); //$NON-NLS-1$
 			fImplicitImports.add("java.lang"); //$NON-NLS-1$
 			fImplicitImports.add(cu.getParent().getElementName());
@@ -275,7 +275,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 						if (javaProject != null) {
 							IModuleDescription module= javaProject.findModule(AddImportCorrectionProposalCore.JAVA_BASE, cu.getOwner());
 							if (module != null) {
-								for (String packageName: module.getExportedPackageNames(null)) {
+								for (String packageName: module.getExportedPackageNames(null)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									fImplicitImports.add(packageName);
 								}
 							}
@@ -291,12 +291,12 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 
 			fCurrPackage= (IPackageFragment) cu.getParent();
 
-			fImportsAdded= new HashSet<>();
-			fModuleImportsAdded= new HashSet<>();
-			fUnresolvedTypes= new HashMap<>();
+			fImportsAdded= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			fModuleImportsAdded= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			fUnresolvedTypes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 
-		private boolean needsImport(ITypeBinding typeBinding, SimpleName ref) {
+		private boolean needsImport(ITypeBinding typeBinding, SimpleName ref) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (!typeBinding.isTopLevel() && !typeBinding.isMember() || typeBinding.isRecovered()) {
 				return false; // no imports for anonymous, local, primitive types or parameters types
 			}
@@ -321,7 +321,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			}
 
 			ASTNode parent= ref.getParent();
-			while (parent instanceof Type) {
+			while (parent instanceof Type) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parent= parent.getParent();
 			}
 			if ((parent instanceof AbstractTypeDeclaration && parent.getParent() instanceof CompilationUnit)
@@ -341,7 +341,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		 * Tries to find the given type name and add it to the import structure.
 		 * @param ref the name node
 		 */
-		public void add(SimpleName ref) {
+		public void add(SimpleName ref) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			String typeName= ref.getIdentifier();
 
 			if (fImportsAdded.contains(typeName)) {
@@ -367,7 +367,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 							if (fModuleImportsAdded.contains(entry.getKey())) {
 								fImportsAdded.add(typeName);
 							} else {
-								fImpStructure.addModuleImport(entry.getKey(), new ArrayList<>(entry.getValue()));
+								fImpStructure.addModuleImport(entry.getKey(), new ArrayList<>(entry.getValue())); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 								fModuleImportsAdded.add(entry.getKey());
 							}
 							if (!fOldModuleImports.isEmpty() && typeNameAmbiguousForImportedModules(typeName)) {
@@ -398,12 +398,12 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			fUnresolvedTypes.put(typeName, new UnresolvedTypeData(ref));
 		}
 
-		private boolean typeNameAmbiguousForImplicitModule(String typeName) {
+		private boolean typeNameAmbiguousForImplicitModule(String typeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaProject project= fCurrPackage.getJavaProject();
 			IType foundType= null;
-			for (String packageName : fImplicitImports) {
+			for (String packageName : fImplicitImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				try {
-					IType type= project.findType(packageName + "." + typeName); //$NON-NLS-1$
+					IType type= project.findType(packageName + "." + typeName); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					if (type != null) {
 						if (foundType != null) {
 							return true;
@@ -417,15 +417,15 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			return false;
 		}
 
-		private boolean typeNameAmbiguousForImportedModules(String typeName) {
+		private boolean typeNameAmbiguousForImportedModules(String typeName) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaProject project= fCurrPackage.getJavaProject();
 			List<ImportDeclaration> imports= fRoot.imports();
 			ITypeBinding typeBinding= null;
-			for (ImportDeclaration importDecl : imports) {
+			for (ImportDeclaration importDecl : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Modifier.isModule(importDecl.getModifiers())) {
 					if (importDecl.resolveBinding() instanceof IModuleBinding binding) {
 						List<IPackageBinding> packageBindings= ImportRewrite.getPackageBindingsForModule(binding, project);
-						for (IPackageBinding packageBinding : packageBindings) {
+						for (IPackageBinding packageBinding : packageBindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							ITypeBinding foundTypeBinding= packageBinding.findTypeBinding(typeName);
 							if (foundTypeBinding != null) {
 								if (typeBinding != null) {
@@ -440,7 +440,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			return false;
 		}
 
-		public boolean process(IProgressMonitor monitor) throws JavaModelException {
+		public boolean process(IProgressMonitor monitor) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			try {
 				int nUnresolved= fUnresolvedTypes.size();
 				if (nUnresolved == 0) {
@@ -448,17 +448,17 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 				}
 				char[][] allTypes= new char[nUnresolved][];
 				int i= 0;
-				for (String string : fUnresolvedTypes.keySet()) {
+				for (String string : fUnresolvedTypes.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					allTypes[i++]= string.toCharArray();
 				}
-				final ArrayList<TypeNameMatch> typesFound= new ArrayList<>();
+				final ArrayList<TypeNameMatch> typesFound= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				final IJavaProject project= fCurrPackage.getJavaProject();
 				boolean excludeTestCode= !((IPackageFragmentRoot)fCurrPackage.getParent()).getResolvedClasspathEntry().isTest();
 				IJavaSearchScope scope= SearchEngine.createJavaSearchScope(excludeTestCode, new IJavaElement[] { project }, true);
 				TypeNameMatchCollector collector= new TypeNameMatchCollector(typesFound);
 				new SearchEngine().searchAllTypeNames(null, allTypes, scope, collector, IJavaSearchConstants.WAIT_UNTIL_READY_TO_SEARCH, monitor);
 
-				for (TypeNameMatch curr : typesFound) {
+				for (TypeNameMatch curr : typesFound) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					UnresolvedTypeData data= fUnresolvedTypes.get(curr.getSimpleTypeName());
 					if (data != null && isVisible(curr) && isOfKind(curr, data.typeKinds)) {
 						if (curr.getPackageName().length() > 0) {
@@ -467,21 +467,21 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 					}
 				}
 
-				for (Entry<String, UnresolvedTypeData> entry : fUnresolvedTypes.entrySet()) {
+				for (Entry<String, UnresolvedTypeData> entry : fUnresolvedTypes.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (entry.getValue().foundInfos.isEmpty()) { // No result found in search
 						Set<String> matchingUnresolvableImports= fUnresolvableImportMatcher.matchTypeImports(entry.getKey());
 						if (!matchingUnresolvableImports.isEmpty()) {
 							// If there are matching unresolvable import(s), rely on them to provide the type.
-							for (String string : matchingUnresolvableImports) {
+							for (String string : matchingUnresolvableImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								fImpStructure.addImport(string, UNRESOLVABLE_IMPORT_CONTEXT);
 							}
 						}
 					}
 				}
 
-				ArrayList<TypeNameMatch[]> openChoices= new ArrayList<>(nUnresolved);
-				ArrayList<SourceRange> sourceRanges= new ArrayList<>(nUnresolved);
-				for (UnresolvedTypeData data : fUnresolvedTypes.values()) {
+				ArrayList<TypeNameMatch[]> openChoices= new ArrayList<>(nUnresolved); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				ArrayList<SourceRange> sourceRanges= new ArrayList<>(nUnresolved); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (UnresolvedTypeData data : fUnresolvedTypes.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TypeNameMatch[] openChoice= processTypeInfo(data.foundInfos);
 					if (openChoice != null) {
 						openChoices.add(openChoice);
@@ -499,7 +499,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			}
 		}
 
-		private TypeNameMatch[] processTypeInfo(List<TypeNameMatch> typeRefsFound) {
+		private TypeNameMatch[] processTypeInfo(List<TypeNameMatch> typeRefsFound) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int nFound= typeRefsFound.size();
 			if (nFound == 0) {
 				// nothing found
@@ -516,7 +516,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 				boolean foundInModule= false;
 
 				// multiple found, use old imports to find an entry
-				for (int i= 0; i < nFound; i++) {
+				for (int i= 0; i < nFound; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					TypeNameMatch typeRef= typeRefsFound.get(i);
 					String fullName= typeRef.getFullyQualifiedName();
 					String containerName= typeRef.getTypeContainerName();
@@ -555,7 +555,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		}
 
 		private Entry<String, Set<String>> getModuleImportsEntryForQualifier(String qualifier) {
-			for (Entry<String, Set<String>> entry : fOldModuleImports.entrySet()) {
+			for (Entry<String, Set<String>> entry : fOldModuleImports.entrySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Set<String> packageNames= entry.getValue();
 				if (packageNames.contains(qualifier)) {
 					return entry;
@@ -657,7 +657,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		fNumberOfImportsRemoved= 0;
 
 		fParsingError= null;
-		fResolvedStaticFavoriteImports = new HashSet<>();
+		fResolvedStaticFavoriteImports = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	/**
@@ -693,7 +693,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		JavaModelUtil.applyEdit(fCompilationUnit, edit, fDoSave, subMonitor.split(1));
 	}
 
-	public TextEdit createTextEdit(IProgressMonitor m) throws CoreException, OperationCanceledException {
+	public TextEdit createTextEdit(IProgressMonitor m) throws CoreException, OperationCanceledException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		SubMonitor subMonitor= SubMonitor.convert(m, Messages.format(JavaManipulationMessages.OrganizeImportsOperation_description, BasicElementLabels.getFileName(fCompilationUnit)), 9);
 		fNumberOfImportsAdded= 0;
 		fNumberOfImportsRemoved= 0;
@@ -709,11 +709,11 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 			importsRewrite.setUseContextToFilterImplicitImports(true);
 		}
 
-		Set<String> oldSingleImports= new HashSet<>();
-		Set<String> oldDemandImports= new HashSet<>();
-		Map<String, Set<String>> oldModulePackages= new HashMap<>();
-		List<SimpleName> typeReferences= new ArrayList<>();
-		List<SimpleName> staticReferences= new ArrayList<>();
+		Set<String> oldSingleImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Set<String> oldDemandImports= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		Map<String, Set<String>> oldModulePackages= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		List<SimpleName> typeReferences= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<SimpleName> staticReferences= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (!collectReferences(astRoot, typeReferences, staticReferences, oldSingleImports, oldDemandImports, oldModulePackages))
 			return null;
@@ -732,7 +732,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 				unresolvableImportMatcher);
 
 		Iterator<SimpleName> refIterator= typeReferences.iterator();
-		while (refIterator.hasNext()) {
+		while (refIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SimpleName typeRef= refIterator.next();
 			processor.add(typeRef);
 		}
@@ -748,7 +748,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 				// cancel pressed by the user
 				throw new OperationCanceledException();
 			}
-			for (int i= 0; i < chosen.length; i++) {
+			for (int i= 0; i < chosen.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeNameMatch typeInfo= chosen[i];
 				if (typeInfo != null) {
 					importsRewrite.addImport(typeInfo.getFullyQualifiedName());
@@ -757,7 +757,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 					Set<String> matchingUnresolvableImports= unresolvableImportMatcher.matchTypeImports(typeName);
 					if (!matchingUnresolvableImports.isEmpty()) {
 						// If there are matching unresolvable import(s), rely on them to provide the type.
-						for (String string : matchingUnresolvableImports) {
+						for (String string : matchingUnresolvableImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							importsRewrite.addImport(string, UNRESOLVABLE_IMPORT_CONTEXT);
 						}
 					}
@@ -772,20 +772,20 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		return result;
 	}
 
-	private void determineImportDifferences(ImportRewrite importsStructure, Set<String> oldSingleImports, Set<String> oldDemandImports) {
-		List<String> importsAdded= new ArrayList<>(importsStructure.getCreatedImports().length + importsStructure.getCreatedStaticImports().length);
+	private void determineImportDifferences(ImportRewrite importsStructure, Set<String> oldSingleImports, Set<String> oldDemandImports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<String> importsAdded= new ArrayList<>(importsStructure.getCreatedImports().length + importsStructure.getCreatedStaticImports().length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		importsAdded.addAll(Arrays.asList(importsStructure.getCreatedImports()));
 		importsAdded.addAll(Arrays.asList(importsStructure.getCreatedStaticImports()));
 		importsAdded.addAll(Arrays.asList(importsStructure.getCreatedModuleImports()));
 
-		for (Object element : oldSingleImports.toArray()) {
+		for (Object element : oldSingleImports.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String importName= (String) element;
 			if (importsAdded.remove(importName))
 				oldSingleImports.remove(importName);
 		}
-		for (Object element : oldDemandImports.toArray()) {
+		for (Object element : oldDemandImports.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String importName= (String) element;
-			if (importsAdded.remove(importName + ".*")) //$NON-NLS-1$
+			if (importsAdded.remove(importName + ".*")) //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				oldDemandImports.remove(importName);
 		}
 		fNumberOfImportsAdded= importsAdded.size();
@@ -793,7 +793,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 	}
 
 
-	private void addStaticImports(
+	private void addStaticImports( //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Collection<SimpleName> staticReferences,
 			ImportRewrite importRewrite,
 			UnresolvableImportMatcher unresolvableImportMatcher) {
@@ -801,13 +801,13 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		String pref= JavaManipulation.getPreference(JavaManipulationPlugin.CODEASSIST_FAVORITE_STATIC_MEMBERS, importRewrite.getCompilationUnit().getJavaProject());
 		String[] favourites= new String [0];
 		if (pref != null && !pref.isBlank()) {
-			favourites= pref.split(";"); //$NON-NLS-1$
+			favourites= pref.split(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		}
 
 		ICompilationUnit cu= importRewrite.getCompilationUnit().getPrimary();
 		StaticImportFavoritesCompletionInvoker ex= new StaticImportFavoritesCompletionInvoker(cu, favourites);
 
-		for (SimpleName name : staticReferences) {
+		for (SimpleName name : staticReferences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			boolean isMethod= name.getParent() instanceof MethodInvocation;
 			IBinding binding= name.resolveBinding();
 
@@ -817,7 +817,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 				// This could be an unresolvable reference to a static member.
 				String identifier= name.getIdentifier();
 				Set<String> unresolvableImports= unresolvableImportMatcher.matchStaticImports(identifier);
-				for (String unresolvableImport : unresolvableImports) {
+				for (String unresolvableImport : unresolvableImports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					int lastDotIndex= unresolvableImport.lastIndexOf('.');
 					// It's OK to skip invalid imports.
 					if (lastDotIndex != -1) {
@@ -843,7 +843,7 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 						String[] staticFavourites= ex.getStaticImportFavorites(identifier, isMethod);
 						fResolvedStaticFavoriteImports.add(identifier);
 						int i= 0;
-						while (i < staticFavourites.length) {
+						while (i < staticFavourites.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							String qualifiedTypeName= Signature.getQualifier(staticFavourites[i]);
 							if (!JavaElementUtil.isForbiddenOnClasspath(importRewrite.getCompilationUnit(), qualifiedTypeName)) {
 								importRewrite.addStaticImport(qualifiedTypeName, identifier, !isMethod);
@@ -865,10 +865,10 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 	}
 
 	// find type references in a compilation unit
-	private boolean collectReferences(CompilationUnit astRoot, List<SimpleName> typeReferences, List<SimpleName> staticReferences, Set<String> oldSingleImports,
+	private boolean collectReferences(CompilationUnit astRoot, List<SimpleName> typeReferences, List<SimpleName> staticReferences, Set<String> oldSingleImports, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			Set<String> oldDemandImports, Map<String, Set<String>> oldModuleImports) {
 		if (!fAllowSyntaxErrors) {
-			for (IProblem curr : astRoot.getProblems()) {
+			for (IProblem curr : astRoot.getProblems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.isError() && (curr.getID() & IProblem.Syntax) != 0) {
 					fParsingError= curr;
 					return false;
@@ -877,10 +877,10 @@ public class OrganizeImportsOperation implements IWorkspaceRunnable {
 		}
 		List<ImportDeclaration> imports= astRoot.imports();
 		IJavaProject project= fCompilationUnit.getJavaProject();
-		for (ImportDeclaration curr : imports) {
+		for (ImportDeclaration curr : imports) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= ASTResolving.getFullName(curr.getName());
 			if (Modifier.isModule(curr.getModifiers())) {
-				Set<String> oldModulePackages= new HashSet<>();
+				Set<String> oldModulePackages= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				oldModuleImports.put(id, oldModulePackages);
 				if (curr.resolveBinding() instanceof IModuleBinding binding) {
 					List<String> exportedPackageNames=

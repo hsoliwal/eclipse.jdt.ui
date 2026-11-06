@@ -59,7 +59,7 @@ public class AddBlockCommentAction extends BlockCommentAction {
 	/*
 	 * @see org.eclipse.jdt.internal.ui.actions.BlockCommentAction#runInternal(org.eclipse.jface.text.ITextSelection, org.eclipse.jface.text.IDocumentExtension3, org.eclipse.jdt.internal.ui.actions.BlockCommentAction.Edit.EditFactory)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void runInternal(ITextSelection selection, IDocumentExtension3 docExtension, Edit.EditFactory factory) throws BadLocationException, BadPartitioningException {
 		int selectionOffset= selection.getOffset();
 		int selectionEndOffset= selectionOffset + selection.getLength();
@@ -68,7 +68,7 @@ public class AddBlockCommentAction extends BlockCommentAction {
 
 		handleFirstPartition(partition, edits, factory, selectionOffset);
 
-		while (partition.getOffset() + partition.getLength() < selectionEndOffset) {
+		while (partition.getOffset() + partition.getLength() < selectionEndOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			partition= handleInteriorPartition(partition, edits, factory, docExtension);
 		}
 
@@ -131,7 +131,7 @@ public class AddBlockCommentAction extends BlockCommentAction {
 	 *             document gets modified concurrently
 	 * @throws BadPartitioningException if the document does not have a Java partitioning
 	 */
-	private ITypedRegion handleInteriorPartition(ITypedRegion partition, List<Edit> edits, Edit.EditFactory factory, IDocumentExtension3 docExtension)
+	private ITypedRegion handleInteriorPartition(ITypedRegion partition, List<Edit> edits, Edit.EditFactory factory, IDocumentExtension3 docExtension) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws BadPartitioningException, BadLocationException {
 
 		// end of previous partition

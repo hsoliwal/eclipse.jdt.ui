@@ -73,7 +73,7 @@ public class JarWriter4 extends JarWriter3 {
 				fJarPackage.isCompressed(), jarOutputStream, this.getDirectories());
 	}
 
-	public void addZipEntryStream(ZipEntry zipEntry, byte[] content, String path) throws IOException {
+	public void addZipEntryStream(ZipEntry zipEntry, byte[] content, String path) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJarPackage.areDirectoryEntriesIncluded())
 			addDirectories(path);
 		JarEntry newEntry= new JarEntry(path.replace(File.separatorChar, '/'));
@@ -110,13 +110,13 @@ public class JarWriter4 extends JarWriter3 {
 		}
 	}
 
-	private void addFile(File file, IPath path) throws IOException {
+	private void addFile(File file, IPath path) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJarPackage.areDirectoryEntriesIncluded())
 			addDirectories(path);
 
 		JarEntry newEntry= new JarEntry(path.toString().replace(File.separatorChar, '/'));
 
-		byte[] allBytes= Files.readAllBytes(file.toPath());
+		byte[] allBytes= Files.readAllBytes(file.toPath()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 		if (fJarPackage.isCompressed())
 			newEntry.setMethod(ZipEntry.DEFLATED);
 			// Entry is filled automatically.
@@ -125,7 +125,7 @@ public class JarWriter4 extends JarWriter3 {
 				JarPackagerUtil.setCrcAndSize(newEntry, allBytes);
 		}
 
-		newEntry.setTime(file.lastModified());
+		newEntry.setTime(file.lastModified()); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
 		@SuppressWarnings("resource")
 		JarOutputStream jarOutputStream= getJarOutputStream();

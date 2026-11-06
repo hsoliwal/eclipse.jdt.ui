@@ -100,29 +100,29 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isEnabled(CleanUpConstants.STATIC_INNER_CLASS)) {
-			bld.append("public static class InnerClass {\n"); //$NON-NLS-1$
+			bld.append("public static class InnerClass {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("public class InnerClass {\n"); //$NON-NLS-1$
+			bld.append("public class InnerClass {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		bld.append("    int i;\n"); //$NON-NLS-1$
-		bld.append("\n"); //$NON-NLS-1$
-		bld.append("    public boolean anotherMethod() {\n"); //$NON-NLS-1$
-		bld.append("        return true;\n"); //$NON-NLS-1$
-		bld.append("    }\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("    int i;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    public boolean anotherMethod() {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        return true;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.STATIC_INNER_CLASS)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperation> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			class TopLevelClassMemberVisitor extends InterruptibleVisitor {
@@ -139,7 +139,7 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 					return isTopLevelClassMemberUsed;
 				}
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public boolean visit(final SimpleName node) {
 					if (innerClass.getName() == node
 							|| node.getLocationInParent() == QualifiedName.NAME_PROPERTY
@@ -224,7 +224,7 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 
 			class DynamicClassInstanceCreationVisitor extends ASTVisitor {
 				private final ITypeBinding innerClass;
-				private final List<ClassInstanceCreation> dynamicClassInstanceCreations = new ArrayList<>();
+				private final List<ClassInstanceCreation> dynamicClassInstanceCreations = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 				public DynamicClassInstanceCreationVisitor(final ITypeBinding innerClass) {
 					this.innerClass= innerClass;
@@ -250,12 +250,12 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 				}
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final TypeDeclaration visited) {
 				if (!visited.isInterface()
 						&& !Modifier.isStatic(visited.getModifiers())
 						&& visited.resolveBinding() != null) {
-					Set<ITypeBinding> genericityTypes= new HashSet<>();
+					Set<ITypeBinding> genericityTypes= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					ASTNode enclosingType= ASTNodes.getFirstAncestorOrNull(visited, TypeDeclaration.class, MethodDeclaration.class);
 
 					if (enclosingType instanceof TypeDeclaration && ((TypeDeclaration) enclosingType).isInterface()) {
@@ -264,7 +264,7 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 					}
 
 					List<IExtendedModifier> modifiers= visited.modifiers();
-					for (IExtendedModifier modifier : modifiers) {
+					for (IExtendedModifier modifier : modifiers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (modifier.isAnnotation()) {
 							Annotation annotation= (Annotation)modifier;
 							if (annotation.isMarkerAnnotation()) {
@@ -279,7 +279,7 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 
 					TypeDeclaration topLevelClass= null;
 
-					while (enclosingType instanceof TypeDeclaration) {
+					while (enclosingType instanceof TypeDeclaration) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						topLevelClass= (TypeDeclaration) enclosingType;
 
 						if (!Modifier.isPrivate(visited.getModifiers()) && !Modifier.isFinal(topLevelClass.getModifiers())) {
@@ -326,7 +326,7 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 
 				ITypeBinding motherType= visited.resolveBinding().getSuperclass();
 
-				while (motherType != null) {
+				while (motherType != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (motherType.getDeclaringClass() != null && !Modifier.isStatic(motherType.getModifiers())) {
 						return true;
 					}
@@ -365,14 +365,14 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 			this.dynamicClassInstanceCreations= dynamicClassInstanceCreations;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			ListRewrite listRewrite= rewrite.getListRewrite(visited, TypeDeclaration.MODIFIERS2_PROPERTY);
 			AST ast= cuRewrite.getRoot().getAST();
 			TextEditGroup group= createTextEditGroup(MultiFixMessages.StaticInnerClassCleanUp_description, cuRewrite);
 
-			for (ClassInstanceCreation dynamicClassInstanceCreation : dynamicClassInstanceCreations) {
+			for (ClassInstanceCreation dynamicClassInstanceCreation : dynamicClassInstanceCreations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!dynamicClassInstanceCreation.getType().isQualifiedType()
 						&& dynamicClassInstanceCreation.getType().resolveBinding() != null) {
 					ThisExpression thisExpression= ASTNodes.as(dynamicClassInstanceCreation.getExpression(), ThisExpression.class);
@@ -386,10 +386,10 @@ public class StaticInnerClassCleanUpCore extends AbstractMultiFix {
 						}
 					} else {
 						String qualifiedName= dynamicClassInstanceCreation.getExpression().resolveTypeBinding().getErasure().getQualifiedName();
-						String[] qualifiedNameTokens= qualifiedName.split("\\."); //$NON-NLS-1$
+						String[] qualifiedNameTokens= qualifiedName.split("\\."); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 						Name newQualifiedName= null;
 
-						for (String qualifiedNameToken : qualifiedNameTokens) {
+						for (String qualifiedNameToken : qualifiedNameTokens) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (newQualifiedName == null) {
 								newQualifiedName= ast.newSimpleName(qualifiedNameToken);
 							} else {

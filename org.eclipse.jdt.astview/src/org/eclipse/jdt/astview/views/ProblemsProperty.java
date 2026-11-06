@@ -36,7 +36,7 @@ public class ProblemsProperty extends ASTAttribute {
 	public Object[] getChildren() {
 		IProblem[] problems= fRoot.getProblems();
 		Object[] res= new Object[problems.length];
-		for (int i= 0; i < res.length; i++) {
+		for (int i= 0; i < res.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			res[i]= new ProblemNode(this, problems[i]);
 		}
 		return res;
@@ -44,7 +44,7 @@ public class ProblemsProperty extends ASTAttribute {
 
 	@Override
 	public String getLabel() {
-		return "> compiler problems (" +  fRoot.getProblems().length + ")";  //$NON-NLS-1$//$NON-NLS-2$
+		return "> compiler problems (" +  fRoot.getProblems().length + ")";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	@Override

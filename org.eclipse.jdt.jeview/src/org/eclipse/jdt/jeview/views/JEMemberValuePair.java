@@ -45,7 +45,7 @@ public class JEMemberValuePair extends JEAttribute {
 		return fParent;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -94,15 +94,15 @@ public class JEMemberValuePair extends JEAttribute {
 
 	@Override
 	public String getLabel() {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (fName != null) {
-			sb.append(fName).append(": ");
+			sb.append(fName).append(": "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		sb.append("IMemberValuePair: ");
+		sb.append("IMemberValuePair: "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (fMemberValuePair == null) {
-			sb.append(fMemberValuePair);
+			sb.append(fMemberValuePair); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			sb.append(fMemberValuePair.getMemberName());
+			sb.append(fMemberValuePair.getMemberName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return sb.toString();
 	}
@@ -127,7 +127,7 @@ public class JEMemberValuePair extends JEAttribute {
 			@Override
 			protected JEAttribute[] computeChildren() throws JavaModelException {
 				JEAttribute[] children= new JEAttribute[values.length];
-				for (int i= 0; i < values.length; i++) {
+				for (int i= 0; i < values.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object value= values[i];
 					String childName= value == null ? "" : value.getClass().getSimpleName();
 					children[i]= createMVPairValue(this, childName, value);

@@ -75,7 +75,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class SortMembersAction extends SelectionDispatchAction {
+public class SortMembersAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private CompilationUnitEditor fEditor;
 	private final static String ID_OPTIONAL_DIALOG= "org.eclipse.jdt.ui.actions.SortMembersAction"; //$NON-NLS-1$
@@ -120,7 +120,7 @@ public class SortMembersAction extends SelectionDispatchAction {
 		setEnabled(enabled);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		Shell shell= getShell();
 		try {
@@ -174,7 +174,7 @@ public class SortMembersAction extends SelectionDispatchAction {
 	public void selectionChanged(ITextSelection selection) {
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		Shell shell= getShell();
 		IJavaElement input= SelectionConverter.getInput(fEditor);
@@ -200,7 +200,7 @@ public class SortMembersAction extends SelectionDispatchAction {
 	private boolean containsRelevantMarkers(IEditorPart editor) {
 		IAnnotationModel model= JavaUI.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
 		Iterator<Annotation> iterator= model.getAnnotationIterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation element= iterator.next();
 			if (element instanceof IJavaAnnotation) {
 				IJavaAnnotation annot= (IJavaAnnotation) element;
@@ -211,7 +211,7 @@ public class SortMembersAction extends SelectionDispatchAction {
 		return false;
 	}
 
-	private void run(Shell shell, ICompilationUnit cu, IEditorPart editor, boolean isNotSortFields) {
+	private void run(Shell shell, ICompilationUnit cu, IEditorPart editor, boolean isNotSortFields) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (containsRelevantMarkers(editor)) {
 			int returnCode= OptionalMessageDialog.open(ID_OPTIONAL_DIALOG,
 					getShell(),

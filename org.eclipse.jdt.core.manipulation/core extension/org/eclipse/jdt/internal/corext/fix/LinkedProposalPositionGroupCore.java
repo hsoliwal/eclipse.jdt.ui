@@ -129,7 +129,7 @@ public class LinkedProposalPositionGroupCore {
 		@Override
 		public int getOffset() {
 			int minStart= Integer.MAX_VALUE;
-			for (ITrackedNodePosition node : fPos) {
+			for (ITrackedNodePosition node : fPos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				minStart= Math.min(minStart, node.getStartPosition());
 			}
 			return minStart == Integer.MAX_VALUE ? -1 : minStart;
@@ -139,7 +139,7 @@ public class LinkedProposalPositionGroupCore {
 		public int getLength() {
 			int minStart= Integer.MAX_VALUE;
 			int maxEnd= 0;
-			for (ITrackedNodePosition node : fPos) {
+			for (ITrackedNodePosition node : fPos) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				minStart= Math.min(minStart, node.getStartPosition());
 				maxEnd= Math.max(maxEnd, node.getStartPosition() + node.getLength());
 			}
@@ -216,8 +216,8 @@ public class LinkedProposalPositionGroupCore {
 
 	public LinkedProposalPositionGroupCore(String groupID) {
 		fGroupId= groupID;
-		fPositions= new ArrayList<>();
-		fProposals= new ArrayList<>();
+		fPositions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void addPosition(PositionInformation position) {

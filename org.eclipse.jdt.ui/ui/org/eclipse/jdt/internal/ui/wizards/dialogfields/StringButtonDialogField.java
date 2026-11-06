@@ -102,7 +102,7 @@ public class StringButtonDialogField extends StringDialogField {
 	 * @param parent The parent composite or <code>null</code> if the widget has
 	 * already been created.
 	 */
-	public Button getChangeControl(Composite parent) {
+	public Button getChangeControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fBrowseButton == null) {
 			assertCompositeNotNull(parent);
 
@@ -110,7 +110,7 @@ public class StringButtonDialogField extends StringDialogField {
 			fBrowseButton.setFont(parent.getFont());
 			fBrowseButton.setText(fBrowseButtonLabel);
 			fBrowseButton.setEnabled(isEnabled() && fButtonEnabled);
-			fBrowseButton.addSelectionListener(new SelectionListener() {
+			fBrowseButton.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					changeControlPressed();

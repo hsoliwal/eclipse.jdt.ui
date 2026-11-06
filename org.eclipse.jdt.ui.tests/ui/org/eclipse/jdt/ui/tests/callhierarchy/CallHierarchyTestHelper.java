@@ -77,7 +77,7 @@ public class CallHierarchyTestHelper {
 	private IMethod fAbsI1FooMethod;
 	private IMethod fAbsI2FooMethod;
 
-    public void setUp() throws Exception {
+    public void setUp() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         fJavaProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
         fJavaProject2= JavaProjectHelper.createJavaProject("TestProject2", "bin");
         fJavaProject3= JavaProjectHelper.createJavaProject("TestProject3", "bin");
@@ -108,7 +108,7 @@ public class CallHierarchyTestHelper {
     /**
      * Creates two simple classes, A and B. Sets the instance fields fType1 and fType2.
      */
-    public void createSimpleClasses() throws Exception {
+    public void createSimpleClasses() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         createPackages();
 
 
@@ -158,7 +158,7 @@ public class CallHierarchyTestHelper {
     /**
      * Creates two simple classes, A and its subclass B, where B calls A's implicit constructor explicitly. Sets the instance fields fType1 and fType2.
      */
-    public void createImplicitConstructorClasses() throws Exception {
+    public void createImplicitConstructorClasses() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         createPackages();
 
         ICompilationUnit cu1= fPack1.getCompilationUnit("A.java");
@@ -182,7 +182,7 @@ public class CallHierarchyTestHelper {
     /**
      * Creates an inner class and sets the class attribute fType1.
      */
-    public void createInnerClass() throws Exception {
+    public void createInnerClass() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         createPackages();
 
         ICompilationUnit cu1= fPack1.getCompilationUnit("Outer.java");
@@ -206,7 +206,7 @@ public class CallHierarchyTestHelper {
     /**
      * Creates an anonymous inner class and sets the class attribute fType1.
      */
-    public void createAnonymousInnerClass() throws Exception {
+    public void createAnonymousInnerClass() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         createPackages();
 
         ICompilationUnit cu1= fPack1.getCompilationUnit("AnonymousInner.java");
@@ -264,7 +264,7 @@ public class CallHierarchyTestHelper {
     /**
      * Creates an anonymous inner class inside another method and sets the class attribute fType1.
      */
-    public void createAnonymousInnerClassInsideMethod() throws Exception {
+    public void createAnonymousInnerClassInsideMethod() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         createPackages();
 
         ICompilationUnit cu1= fPack1.getCompilationUnit("AnonymousInnerInsideMethod.java");
@@ -292,7 +292,7 @@ public class CallHierarchyTestHelper {
 	/**
 	 * Creates a class with various lambda function definitions and calls
 	 */
-	public void createClassWithLambdaCalls() throws Exception {
+	public void createClassWithLambdaCalls() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		createPackages();
 
 		ICompilationUnit cu= fPack1.getCompilationUnit("Snippet.java");
@@ -358,7 +358,7 @@ public class CallHierarchyTestHelper {
     /**
      * Creates a record class, OneRecord and sets the instance field fType1.
      */
-    public void createRecordClasses() throws Exception {
+    public void createRecordClasses() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
     	ProjectTestSetup projectsetup= new Java17ProjectTestSetup(false);
 		fJavaProject3.setRawClasspath(projectsetup.getDefaultClasspath(), null);
 		JavaProjectHelper.set17CompilerOptions(fJavaProject3, false);
@@ -408,7 +408,7 @@ public class CallHierarchyTestHelper {
 	/**
 	 * Creates a record class and a type that references a field of the record.
 	 */
-	public void createRecordWithCalleeClasses() throws Exception {
+	public void createRecordWithCalleeClasses() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ProjectTestSetup projectsetup= new Java17ProjectTestSetup(false);
 		fJavaProject3.setRawClasspath(projectsetup.getDefaultClasspath(), null);
 		JavaProjectHelper.set17CompilerOptions(fJavaProject3, false);
@@ -452,7 +452,7 @@ public class CallHierarchyTestHelper {
 		assertBuildWithoutErrors(fJavaProject3);
 	}
 
-    public void createCalleeClasses() throws Exception {
+    public void createCalleeClasses() throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         createPackages();
 
         ICompilationUnit cu3= fPack2.getCompilationUnit("P.java");
@@ -564,8 +564,8 @@ public class CallHierarchyTestHelper {
      */
     public List<IMarker> getErrorMarkers(IResource resource) throws CoreException {
         IMarker[] markers = resource.findMarkers(null, true, IResource.DEPTH_INFINITE);
-        List<IMarker> errorMarkers = new ArrayList<>();
-        for (IMarker marker : markers) {
+        List<IMarker> errorMarkers = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        for (IMarker marker : markers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             if (marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO) == IMarker.SEVERITY_ERROR) {
                 errorMarkers.add(marker);
             }
@@ -574,14 +574,14 @@ public class CallHierarchyTestHelper {
     }
 
     public static List<String> convertMarkers(IMarker [] markers) throws Exception {
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < markers.length; i++) {
+        List<String> result = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+        for (int i = 0; i < markers.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             IMarker marker = markers[i];
-            StringBuilder sb = new StringBuilder("Marker #");
-            sb.append(i).append("[");
-            sb.append(marker.getAttribute("message", null));
-            sb.append(" at line: ").append(marker.getAttribute("lineNumber", 0));
-            sb.append("], ");
+            StringBuilder sb = new StringBuilder("Marker #"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+            sb.append(i).append("["); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+            sb.append(marker.getAttribute("message", null)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+            sb.append(" at line: ").append(marker.getAttribute("lineNumber", 0)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+            sb.append("], "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
             result.add(sb.toString());
         }
         return result;
@@ -595,7 +595,7 @@ public class CallHierarchyTestHelper {
      */
     protected void assertBuildWithoutErrors(IJavaElement element) throws Exception {
     	IResource resource= element.getResource();
-    	Assertions.assertNotNull(resource, "Given element has no resource: " + element);
+    	Assertions.assertNotNull(resource, "Given element has no resource: " + element); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     	resource.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
 		assertNoErrorMarkers(resource);
     }
@@ -610,16 +610,16 @@ public class CallHierarchyTestHelper {
         List<IMarker> errorMarkers = getErrorMarkers(resource);
         List<String> messages = convertMarkers(errorMarkers.toArray(new IMarker[errorMarkers.size()]));
         Assertions.assertEquals(0, errorMarkers.size(),
-                "No error marker expected, but found markers with messages: " + messages.toString());
+                "No error marker expected, but found markers with messages: " + messages.toString()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
     }
 
     /**
      * Asserts that all the expected methods were found in the call results.
      */
     public void assertCalls(Collection<IMember> expectedMembers, Collection<MethodWrapper> calls) {
-        Collection<IMember> foundMembers= new ArrayList<>();
+        Collection<IMember> foundMembers= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (MethodWrapper element : calls) {
+		for (MethodWrapper element : calls) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			foundMembers.add(element.getMember());
 		}
 
@@ -643,7 +643,7 @@ public class CallHierarchyTestHelper {
 
     public MethodWrapper findMethodWrapper(IMethod method, Object[] methodWrappers) {
         MethodWrapper thirdLevelMethodWrapper= null;
-		for (Object methodWrapper : methodWrappers) {
+		for (Object methodWrapper : methodWrappers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (method.equals(((MethodWrapper) methodWrapper).getMember())) {
 				thirdLevelMethodWrapper= (MethodWrapper) methodWrapper;
 				break;

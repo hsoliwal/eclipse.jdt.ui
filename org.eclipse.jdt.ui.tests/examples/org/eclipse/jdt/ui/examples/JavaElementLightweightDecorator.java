@@ -102,13 +102,13 @@ public class JavaElementLightweightDecorator extends LabelProvider implements IL
 
 	public JavaElementLightweightDecorator() {
 		final FontRegistry fontRegistry= PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getFontRegistry();
-		Display.getDefault().syncExec(() -> {
+		Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			fBold= fontRegistry.getBold(JFaceResources.DEFAULT_FONT);
 		});
 		fListener= new FileBufferListener();
 		FileBuffers.getTextFileBufferManager().addFileBufferListener(fListener);
 
-		fChangedResources= new HashSet<>();
+		fChangedResources= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class JavaElementLightweightDecorator extends LabelProvider implements IL
 		}
 	}
 
-	private void update(IPath location) {
+	private void update(IPath location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IFile file= FileBuffers.getWorkspaceFileAtLocation(location);
 		if (file != null) {
 			boolean hasChanges= false;
@@ -136,7 +136,7 @@ public class JavaElementLightweightDecorator extends LabelProvider implements IL
 			}
 			if (hasChanges) {
 				if (fNotifierJob == null) {
-					fNotifierJob= new UIJob(Display.getDefault(), "Update Java test decorations") {
+					fNotifierJob= new UIJob(Display.getDefault(), "Update Java test decorations") { //FLLDCIM: MARK — T09  ANONYMOUS
 						@Override
 						public IStatus runInUIThread(IProgressMonitor monitor) {
 							runPendingUpdates();

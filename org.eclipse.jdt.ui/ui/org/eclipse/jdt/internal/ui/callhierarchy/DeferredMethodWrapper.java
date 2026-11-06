@@ -72,7 +72,7 @@ public class DeferredMethodWrapper extends MethodWrapperWorkbenchAdapter impleme
         return getMethodWrapper().getCalls(monitor);
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fetchDeferredChildren(Object object, IElementCollector collector, IProgressMonitor monitor) {
     	final DeferredMethodWrapper deferredMethodWrapper= (DeferredMethodWrapper)object;
     	try {
@@ -82,7 +82,7 @@ public class DeferredMethodWrapper extends MethodWrapperWorkbenchAdapter impleme
         } catch (OperationCanceledException e) {
         	final MethodWrapper methodWrapper= deferredMethodWrapper.getMethodWrapper();
 			if (!CallHierarchyContentProvider.isExpandWithConstructors(methodWrapper)) {
-	        	Display.getDefault().asyncExec(() -> {
+	        	Display.getDefault().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					CallHierarchyViewPart viewPart= fProvider.getViewPart();
 					if (viewPart != null && !viewPart.getViewer().getControl().isDisposed())
 						fProvider.collapseAndRefresh(methodWrapper);

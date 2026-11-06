@@ -44,7 +44,7 @@ public class DefaultSpellChecker implements ISpellChecker {
 	 */
 	protected static boolean isDigits(final String word) {
 
-		for (char c : word.toCharArray()) {
+		for (char c : word.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (Character.isDigit(c))
 				return true;
@@ -63,7 +63,7 @@ public class DefaultSpellChecker implements ISpellChecker {
 	 * @return <code>true</code> iff the contains mixed-case letters, <code>false</code>
 	 *               otherwise
 	 */
-	protected static boolean isMixedCase(final String word, final boolean sentence) {
+	protected static boolean isMixedCase(final String word, final boolean sentence) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final int length= word.length();
 		boolean upper= Character.isUpperCase(word.charAt(0));
@@ -73,13 +73,13 @@ public class DefaultSpellChecker implements ISpellChecker {
 
 		if (upper) {
 
-			for (int index= length - 1; index > 0; index--) {
+			for (int index= length - 1; index > 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isLowerCase(word.charAt(index)))
 					return true;
 			}
 		} else {
 
-			for (int index= length - 1; index > 0; index--) {
+			for (int index= length - 1; index > 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Character.isUpperCase(word.charAt(index)))
 					return true;
 			}
@@ -97,7 +97,7 @@ public class DefaultSpellChecker implements ISpellChecker {
 	 */
 	protected static boolean isUpperCase(final String word) {
 
-		for (int index= word.length() - 1; index >= 0; index--) {
+		for (int index= word.length() - 1; index >= 0; index--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (Character.isLowerCase(word.charAt(index)))
 				return false;
@@ -115,7 +115,7 @@ public class DefaultSpellChecker implements ISpellChecker {
 	 */
 	protected static boolean isUrl(final String word) {
 
-		for (String urlprefix : URL_PREFIXES) {
+		for (String urlprefix : URL_PREFIXES) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (word.startsWith(urlprefix)) {
 				return true;
 			}
@@ -127,12 +127,12 @@ public class DefaultSpellChecker implements ISpellChecker {
 	 * The dictionaries to use for spell checking. Synchronized to avoid
 	 * concurrent modifications.
 	 */
-	private final Set<ISpellDictionary> fDictionaries= Collections.synchronizedSet(new HashSet<ISpellDictionary>());
+	private final Set<ISpellDictionary> fDictionaries= Collections.synchronizedSet(new HashSet<ISpellDictionary>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * The words to be ignored. Synchronized to avoid concurrent modifications.
 	 */
-	private final Set<String> fIgnored= Collections.synchronizedSet(new HashSet<String>());
+	private final Set<String> fIgnored= Collections.synchronizedSet(new HashSet<String>()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/**
 	 * The preference store. Assumes the <code>IPreferenceStore</code>
@@ -173,10 +173,10 @@ public class DefaultSpellChecker implements ISpellChecker {
 		// the modifying methods add/checkWord (?)
 		Set<ISpellDictionary> copy;
 		synchronized (fDictionaries) {
-			copy= new HashSet<>(fDictionaries);
+			copy= new HashSet<>(fDictionaries); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 
-		for (ISpellDictionary dictionary : copy) {
+		for (ISpellDictionary dictionary : copy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			if (dictionary.acceptsWords())
 				return true;
@@ -189,11 +189,11 @@ public class DefaultSpellChecker implements ISpellChecker {
 		// synchronizing is necessary as this is a write access
 		Set<ISpellDictionary> copy;
 		synchronized (fDictionaries) {
-			copy= new HashSet<>(fDictionaries);
+			copy= new HashSet<>(fDictionaries); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 
 		final String addable= word.toLowerCase();
-		for (ISpellDictionary dictionary : copy) {
+		for (ISpellDictionary dictionary : copy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (dictionary.acceptsWords())
 				dictionary.addWord(addable);
 		}
@@ -206,7 +206,7 @@ public class DefaultSpellChecker implements ISpellChecker {
 		fIgnored.remove(word.toLowerCase());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void execute(final ISpellEventListener listener, final ISpellCheckIterator iterator) {
 
 		final boolean ignoreDigits= fPreferences.getBoolean(PreferenceConstants.SPELLING_IGNORE_DIGITS);
@@ -221,14 +221,14 @@ public class DefaultSpellChecker implements ISpellChecker {
 		iterator.setIgnoreSingleLetters(ignoreSingleLetters);
 
 		Iterator<ISpellDictionary> iter= fDictionaries.iterator();
-		while (iter.hasNext())
+		while (iter.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			iter.next().setStripNonLetters(ignoreNonLetters);
 
 		String word= null;
 		boolean starts= false;
 		int problemCount= 0;
 
-		while (problemCount <= problemsThreshold && iterator.hasNext()) {
+		while (problemCount <= problemsThreshold && iterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 			word= iterator.next();
 			if (word != null) {
@@ -269,12 +269,12 @@ public class DefaultSpellChecker implements ISpellChecker {
 		// the modifing methods add/removeDictionary (?)
 		Set<ISpellDictionary> copy;
 		synchronized (fDictionaries) {
-			copy= new HashSet<>(fDictionaries);
+			copy= new HashSet<>(fDictionaries); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 
-		final HashSet<RankedWordProposal> proposals= new HashSet<>();
+		final HashSet<RankedWordProposal> proposals= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		for (ISpellDictionary dictionary : copy) {
+		for (ISpellDictionary dictionary : copy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			proposals.addAll(dictionary.getProposals(word, sentence));
 		}
 		return proposals;
@@ -291,13 +291,13 @@ public class DefaultSpellChecker implements ISpellChecker {
 		// synchronizing is necessary as this is called from execute
 		Set<ISpellDictionary> copy;
 		synchronized (fDictionaries) {
-			copy= new HashSet<>(fDictionaries);
+			copy= new HashSet<>(fDictionaries); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		}
 
 		if (fIgnored.contains(word.toLowerCase()))
 			return true;
 
-		for (ISpellDictionary dictionary : copy) {
+		for (ISpellDictionary dictionary : copy) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (dictionary.isCorrect(word))
 				return true;
 		}

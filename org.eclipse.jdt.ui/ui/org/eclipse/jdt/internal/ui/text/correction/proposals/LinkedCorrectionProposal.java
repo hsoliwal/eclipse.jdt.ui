@@ -52,7 +52,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.LinkedProposalModelPresenter;
  *
  * @since 3.0
  */
-public class LinkedCorrectionProposal extends ASTRewriteCorrectionProposal {
+public class LinkedCorrectionProposal extends ASTRewriteCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 
 	/**
@@ -176,7 +176,7 @@ public class LinkedCorrectionProposal extends ASTRewriteCorrectionProposal {
 		getLinkedProposalModel().getPositionGroup(groupID, true).addProposal(type, getCompilationUnit(), 10);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void performChange(IEditorPart part, IDocument document) throws CoreException {
 		try {
 			super.performChange(part, document);

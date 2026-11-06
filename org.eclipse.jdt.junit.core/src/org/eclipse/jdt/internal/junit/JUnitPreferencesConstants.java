@@ -29,19 +29,19 @@ public class JUnitPreferencesConstants {
 	 * Boolean preference controlling whether the failure stack should be
 	 * filtered.
 	 */
-	public static final String DO_FILTER_STACK= JUnitCorePlugin.PLUGIN_ID + ".do_filter_stack"; //$NON-NLS-1$
+	public static final String DO_FILTER_STACK= JUnitCorePlugin.PLUGIN_ID + ".do_filter_stack"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Boolean preference controlling whether the JUnit view should be shown on
 	 * errors only.
 	 */
-	public static final String SHOW_ON_ERROR_ONLY= JUnitCorePlugin.PLUGIN_ID + ".show_on_error"; //$NON-NLS-1$
+	public static final String SHOW_ON_ERROR_ONLY= JUnitCorePlugin.PLUGIN_ID + ".show_on_error"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Boolean preference controlling whether '-ea' should be added to VM arguments when creating a
 	 * new JUnit launch configuration.
 	 */
-	public static final String ENABLE_ASSERTIONS= JUnitCorePlugin.PLUGIN_ID + ".enable_assertions"; //$NON-NLS-1$
+	public static final String ENABLE_ASSERTIONS= JUnitCorePlugin.PLUGIN_ID + ".enable_assertions"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	public static final boolean ENABLE_ASSERTIONS_DEFAULT= true;
 
@@ -49,134 +49,134 @@ public class JUnitPreferencesConstants {
 	 * List of active stack filters. A String containing a comma separated list
 	 * of fully qualified type names/patterns.
 	 */
-	public static final String PREF_ACTIVE_FILTERS_LIST = JUnitCorePlugin.PLUGIN_ID + ".active_filters"; //$NON-NLS-1$
+	public static final String PREF_ACTIVE_FILTERS_LIST = JUnitCorePlugin.PLUGIN_ID + ".active_filters"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * List of inactive stack filters. A String containing a comma separated
 	 * list of fully qualified type names/patterns.
 	 */
-	public static final String PREF_INACTIVE_FILTERS_LIST = JUnitCorePlugin.PLUGIN_ID + ".inactive_filters"; //$NON-NLS-1$
+	public static final String PREF_INACTIVE_FILTERS_LIST = JUnitCorePlugin.PLUGIN_ID + ".inactive_filters"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Maximum number of remembered test runs.
 	 */
-	public static final String MAX_TEST_RUNS= JUnitCorePlugin.PLUGIN_ID + ".max_test_runs"; //$NON-NLS-1$
+	public static final String MAX_TEST_RUNS= JUnitCorePlugin.PLUGIN_ID + ".max_test_runs"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for JUnit 3
 	 */
-	public static final String JUNIT3_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit3.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT3_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit3.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 	/**
 	 * Javadoc location for JUnit 4
 	 */
-	public static final String JUNIT4_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit4.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT4_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit4.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.hamcrest.core (JUnit 4)
 	 */
-	public static final String HAMCREST_CORE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit4.hamcrest.core.javadoclocation"; //$NON-NLS-1$
+	public static final String HAMCREST_CORE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit4.hamcrest.core.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.hamcrest (JUnit 4)
 	 */
-	public static final String HAMCREST_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit4.hamcrest.javadoclocation"; //$NON-NLS-1$
+	public static final String HAMCREST_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit4.hamcrest.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.jupiter.api (JUnit 5)
 	 */
-	public static final String JUNIT_JUPITER_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.api.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_JUPITER_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.api.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.jupiter.engine (JUnit 5)
 	 */
-	public static final String JUNIT_JUPITER_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_JUPITER_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.jupiter.migrationsupport (JUnit 5)
 	 */
-	public static final String JUNIT_JUPITER_MIGRATIONSUPPORT_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.migrationsupport.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_JUPITER_MIGRATIONSUPPORT_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.migrationsupport.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.jupiter.params (JUnit 5)
 	 */
-	public static final String JUNIT_JUPITER_PARAMS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.params.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_JUPITER_PARAMS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.jupiter.params.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.commons (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.commons.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.commons.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.engine (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.launcher (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_LAUNCHER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.launcher.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_LAUNCHER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.launcher.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.runner (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_RUNNER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.runner.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_RUNNER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.runner.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.suite.api (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_SUITE_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.suite.api.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_SUITE_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.suite.api.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.suite.engine (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_SUITE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.suite.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_SUITE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.suite.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.platform.suite.commons (JUnit 5)
 	 */
-	public static final String JUNIT_PLATFORM_SUITE_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.suite.commons.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_PLATFORM_SUITE_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.platform.suite.commons.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.junit.vintage.engine (JUnit 5)
 	 */
-	public static final String JUNIT_VINTAGE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.vintage.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_VINTAGE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.vintage.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.opentest4j (JUnit 5)
 	 */
-	public static final String JUNIT_OPENTEST4J_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.opentest4j.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_OPENTEST4J_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.opentest4j.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Javadoc location for org.apiguardian (JUnit 5)
 	 */
-	public static final String JUNIT_APIGUARDIAN_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.apiguardian.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT_APIGUARDIAN_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit5.apiguardian.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/** Javadoc location for org.junit.jupiter.api (JUnit 6)*/
-	public static final String JUNIT6_JUPITER_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.api.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_JUPITER_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.api.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.jupiter.engine (JUnit 6) */
-	public static final String JUNIT6_JUPITER_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_JUPITER_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.jupiter.migrationsupport (JUnit 6) */
-	public static final String JUNIT6_JUPITER_MIGRATIONSUPPORT_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.migrationsupport.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_JUPITER_MIGRATIONSUPPORT_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.migrationsupport.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.jupiter.params (JUnit 6)*/
-	public static final String JUNIT6_JUPITER_PARAMS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.params.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_JUPITER_PARAMS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.jupiter.params.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.commons (JUnit 6) */
-	public static final String JUNIT6_PLATFORM_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.commons.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.commons.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.engine (JUnit 6 */
-	public static final String JUNIT6_PLATFORM_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.launcher (JUnit 6) */
-	public static final String JUNIT6_PLATFORM_LAUNCHER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.launcher.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_LAUNCHER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.launcher.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.runner (JUnit 6) */
-	public static final String JUNIT6_PLATFORM_RUNNER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.runner.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_RUNNER_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.runner.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.suite.api (JUnit 6) */
-	public static final String JUNIT6_PLATFORM_SUITE_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.suite.api.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_SUITE_API_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.suite.api.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.suite.engine (JUnit 6) */
-	public static final String JUNIT6_PLATFORM_SUITE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.suite.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_SUITE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.suite.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.platform.suite.commons (JUnit 6) */
-	public static final String JUNIT6_PLATFORM_SUITE_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.suite.commons.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_PLATFORM_SUITE_COMMONS_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.platform.suite.commons.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/** Javadoc location for org.junit.vintage.engine (JUnit 6) */
-	public static final String JUNIT6_VINTAGE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.vintage.engine.javadoclocation"; //$NON-NLS-1$
+	public static final String JUNIT6_VINTAGE_ENGINE_JAVADOC= JUnitCorePlugin.PLUGIN_ID + ".junit6.vintage.engine.javadoclocation"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final String[] fgDefaultFilterPatterns= new String[] {
 		"org.eclipse.jdt.internal.junit.runner.*", //$NON-NLS-1$
@@ -227,9 +227,9 @@ public class JUnitPreferencesConstants {
 	 * @return an array of strings
 	 */
 	public static String[] parseList(String listString) {
-		List<String> list= new ArrayList<>(10);
+		List<String> list= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		StringTokenizer tokenizer= new StringTokenizer(listString, ","); //$NON-NLS-1$
-		while (tokenizer.hasMoreTokens())
+		while (tokenizer.hasMoreTokens()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			list.add(tokenizer.nextToken());
 		return list.toArray(new String[list.size()]);
 	}

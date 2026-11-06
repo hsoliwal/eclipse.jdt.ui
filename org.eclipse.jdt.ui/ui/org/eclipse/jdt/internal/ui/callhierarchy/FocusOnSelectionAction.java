@@ -59,12 +59,12 @@ class FocusOnSelectionAction extends Action {
 		}
 	}
 
-	private IMember[] getSelectedInputElements() {
+	private IMember[] getSelectedInputElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ISelection selection= getSelection();
 		if (selection instanceof IStructuredSelection) {
 			Object[] elements= ((IStructuredSelection) selection).toArray();
 			IMember[] members= new IMember[elements.length];
-			for (int i= 0; i < elements.length; i++) {
+			for (int i= 0; i < elements.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object element= elements[i];
 				if (CallHierarchy.isPossibleInputElement(element)) {
 					members[i]= (IMember) element;

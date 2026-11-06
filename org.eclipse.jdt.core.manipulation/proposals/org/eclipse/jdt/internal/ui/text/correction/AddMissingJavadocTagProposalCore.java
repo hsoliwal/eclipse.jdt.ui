@@ -63,7 +63,7 @@ public class AddMissingJavadocTagProposalCore extends LinkedCorrectionProposalCo
 		return rewrite;
 	}
 
-	private void insertMissingJavadocTag(ASTRewrite rewrite, ASTNode missingNode, BodyDeclaration bodyDecl) {
+	private void insertMissingJavadocTag(ASTRewrite rewrite, ASTNode missingNode, BodyDeclaration bodyDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= bodyDecl.getAST();
 		Javadoc javadoc= bodyDecl.getJavadoc();
 		if (javadoc == null) {
@@ -91,8 +91,8 @@ public class AddMissingJavadocTagProposalCore extends LinkedCorrectionProposalCo
 				Set<String> sameKindLeadingNames= JavadocTagsSubProcessorCore.getPreviousParamNames(params, decl);
 
 				List<TypeParameter> typeParams= methodDeclaration.typeParameters();
-				for (TypeParameter typeParam : typeParams) {
-					String curr= '<' + typeParam.getName().getIdentifier() + '>';
+				for (TypeParameter typeParam : typeParams) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					String curr= '<' + typeParam.getName().getIdentifier() + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					sameKindLeadingNames.add(curr);
 				}
 				JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, sameKindLeadingNames);
@@ -103,8 +103,8 @@ public class AddMissingJavadocTagProposalCore extends LinkedCorrectionProposalCo
 				Set<String> sameKindLeadingNames= JavadocTagsSubProcessorCore.getPreviousParamNames(params, decl);
 
 				List<TypeParameter> typeParams= recordDeclaration.typeParameters();
-				for (TypeParameter typeParam : typeParams) {
-					String curr= '<' + typeParam.getName().getIdentifier() + '>';
+				for (TypeParameter typeParam : typeParams) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					String curr= '<' + typeParam.getName().getIdentifier() + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					sameKindLeadingNames.add(curr);
 				}
 				JavadocTagsSubProcessorCore.insertTag(tagsRewriter, newTag, sameKindLeadingNames);
@@ -113,7 +113,7 @@ public class AddMissingJavadocTagProposalCore extends LinkedCorrectionProposalCo
 	 		// type parameter
 	 		TypeParameter typeParam= (TypeParameter) missingNode.getParent();
 
-			String name= '<' + ((SimpleName) missingNode).getIdentifier() + '>';
+			String name= '<' + ((SimpleName) missingNode).getIdentifier() + '>'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			newTag= ast.newTagElement();
 			newTag.setTagName(TagElement.TAG_PARAM);
 			TextElement text= ast.newTextElement();

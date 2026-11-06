@@ -84,7 +84,7 @@ public class NLSSubstitutionTest {
 	}
 
 	private void setPrefix(String prefix, NLSSubstitution[] subs) {
-		for (NLSSubstitution sub : subs) {
+		for (NLSSubstitution sub : subs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			sub.setPrefix(prefix);
 		}
 	}

@@ -38,7 +38,7 @@ public class CorrectionCommandInstaller {
 		fCorrectionHandlerActivations= null;
 	}
 
-	public void registerCommands(CompilationUnitEditor editor) {
+	public void registerCommands(CompilationUnitEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IWorkbench workbench= PlatformUI.getWorkbench();
 		ICommandService commandService= workbench.getAdapter(ICommandService.class);
 		IHandlerService handlerService= workbench.getAdapter(IHandlerService.class);
@@ -49,9 +49,9 @@ public class CorrectionCommandInstaller {
 		if (fCorrectionHandlerActivations != null) {
 			JavaPlugin.logErrorMessage("correction handler activations not released"); //$NON-NLS-1$
 		}
-		fCorrectionHandlerActivations= new ArrayList<>();
+		fCorrectionHandlerActivations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (String id : (Collection<String>)commandService.getDefinedCommandIds()) {
+		for (String id : (Collection<String>)commandService.getDefinedCommandIds()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (id.startsWith(ICommandAccess.COMMAND_ID_PREFIX)) {
 				boolean isAssist= id.endsWith(ICommandAccess.ASSIST_SUFFIX);
 				CorrectionCommandHandler handler= new CorrectionCommandHandler(editor, id, isAssist);

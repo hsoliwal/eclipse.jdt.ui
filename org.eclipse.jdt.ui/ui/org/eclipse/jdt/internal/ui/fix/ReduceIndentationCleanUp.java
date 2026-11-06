@@ -109,11 +109,11 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 			return false;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(final TryStatement visited) {
 			computeGreatestIndentation(visited.getBody());
 
-			for (Object object : visited.catchClauses()) {
+			for (Object object : visited.catchClauses()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				CatchClause clause= (CatchClause) object;
 				computeGreatestIndentation(clause.getBody());
 			}
@@ -136,7 +136,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 		}
 
 		private void computeGreatestIndentation(final Statement statements) {
-			for (Statement statement : ASTNodes.asList(statements)) {
+			for (Statement statement : ASTNodes.asList(statements)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IndentationVisitor visitor= new IndentationVisitor();
 
 				statement.accept(visitor);
@@ -171,29 +171,29 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 
 	@Override
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("if (i > 0) {\n"); //$NON-NLS-1$
-		bld.append("    return 0;\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("if (i > 0) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    return 0;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.REDUCE_INDENTATION)) {
-			bld.append("}\n"); //$NON-NLS-1$
-			bld.append("i = i + 1;\n\n"); //$NON-NLS-1$
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("i = i + 1;\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			bld.append("} else {\n"); //$NON-NLS-1$
-			bld.append("    i = i + 1;\n"); //$NON-NLS-1$
-			bld.append("}\n"); //$NON-NLS-1$
+			bld.append("} else {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("    i = i + 1;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(final CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REDUCE_INDENTATION)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -201,7 +201,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 				return processIfStatement(visited, null);
 			}
 
-			private boolean processIfStatement(final IfStatement visited, ReduceIndentationElseOperation currentOp) {
+			private boolean processIfStatement(final IfStatement visited, ReduceIndentationElseOperation currentOp) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				// The parsing crashes when there are two embedded lone ifs with an end of line comment at the right of the statement
 				// So we disable the rule on double lone if
 				if (currentOp == null && !(visited.getElseStatement() instanceof Block)
@@ -285,7 +285,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 			this.visited= visited;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -320,7 +320,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 	}
 
 	private static class ReduceIndentationElseOperation extends CompilationUnitRewriteOperationWithSourceRange {
-		private final List<IfStatement> ifStmtList= new ArrayList<>();
+		private final List<IfStatement> ifStmtList= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		public ReduceIndentationElseOperation(final IfStatement visited) {
 			this.ifStmtList.add(visited);
@@ -330,7 +330,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 			ifStmtList.add(visited);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -373,7 +373,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 				} else {
 					listRewrite= rewrite.getListRewrite(originalIf.getParent(), Block.STATEMENTS_PROPERTY);
 					List<Statement> originalList= listRewrite.getOriginalList();
-					for (int i= 0; i < originalList.size(); ++i) {
+					for (int i= 0; i < originalList.size(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (originalList.get(i).equals(originalIf)) {
 							index= i + 1;
 							break;
@@ -381,7 +381,7 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 					}
 				}
 
-				for (IfStatement ifStmt : ifStmtList) {
+				for (IfStatement ifStmt : ifStmtList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IfStatement newIfStmt= ast.newIfStatement();
 					newIfStmt.setExpression((Expression) rewrite.createCopyTarget(ifStmt.getExpression()));
 					newIfStmt.setThenStatement((Statement) rewrite.createCopyTarget(ifStmt.getThenStatement()));
@@ -393,10 +393,10 @@ public class ReduceIndentationCleanUp extends AbstractMultiFix {
 				if (lastStatement instanceof Block b) {
 					lastStatements= b.statements();
 				} else {
-					lastStatements= new ArrayList<>();
+					lastStatements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 					lastStatements.add(lastStatement);
 				}
-				for (Statement stmt : lastStatements) {
+				for (Statement stmt : lastStatements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Statement copy= (Statement) rewrite.createCopyTarget(stmt);
 					listRewrite.insertAt(copy, index++, group);
 				}

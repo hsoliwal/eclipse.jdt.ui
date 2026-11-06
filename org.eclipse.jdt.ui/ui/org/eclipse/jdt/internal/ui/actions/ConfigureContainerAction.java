@@ -71,7 +71,7 @@ public class ConfigureContainerAction implements IObjectActionDelegate {
 		}
 	}
 
-	private void openWizard(IClasspathEntry entry, final IJavaProject project) {
+	private void openWizard(IClasspathEntry entry, final IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Shell shell= fPart.getSite().getShell();
 		try {
 			IClasspathEntry[] entries= project.getRawClasspath();
@@ -94,7 +94,7 @@ public class ConfigureContainerAction implements IObjectActionDelegate {
 			if (context == null) {
 				context= PlatformUI.getWorkbench().getProgressService();
 			}
-			context.run(true, true, monitor -> {
+			context.run(true, true, monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 				try {
 					project.setRawClasspath(newEntries, project.getOutputLocation(), monitor);
 				} catch (CoreException e) {
@@ -116,7 +116,7 @@ public class ConfigureContainerAction implements IObjectActionDelegate {
 
 	@Deprecated
 	protected static int indexInClasspath(IClasspathEntry[] entries, IClasspathEntry entry) {
-		for (int i= 0; i < entries.length; i++) {
+		for (int i= 0; i < entries.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (entries[i] == entry) {
 				return i;
 			}

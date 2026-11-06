@@ -50,7 +50,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ConvertAnonymousToNestedAction extends SelectionDispatchAction {
+public class ConvertAnonymousToNestedAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final JavaEditor fEditor;
 

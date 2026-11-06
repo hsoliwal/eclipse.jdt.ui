@@ -46,7 +46,7 @@ class EclipsePreferencesAdapter implements IPreferenceStore {
 		@Override
 		public void preferenceChange(final IEclipsePreferences.PreferenceChangeEvent event) {
 			if (Display.getCurrent() == null) {
-				Display.getDefault().asyncExec(() -> firePropertyChangeEvent(event.getKey(), event.getOldValue(), event.getNewValue()));
+				Display.getDefault().asyncExec(() -> firePropertyChangeEvent(event.getKey(), event.getOldValue(), event.getNewValue())); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			} else {
 				firePropertyChangeEvent(event.getKey(), event.getOldValue(), event.getNewValue());
 			}
@@ -100,7 +100,7 @@ class EclipsePreferencesAdapter implements IPreferenceStore {
 	@Override
 	public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
 		PropertyChangeEvent event= new PropertyChangeEvent(this, name, oldValue, newValue);
-		for (IPropertyChangeListener listener : fListeners) {
+		for (IPropertyChangeListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.propertyChange(event);
 		}
 	}

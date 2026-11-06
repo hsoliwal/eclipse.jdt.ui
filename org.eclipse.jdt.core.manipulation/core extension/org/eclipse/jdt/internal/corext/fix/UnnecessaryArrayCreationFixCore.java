@@ -43,7 +43,7 @@ import org.eclipse.jdt.ui.cleanup.ICleanUpFix;
 public class UnnecessaryArrayCreationFixCore extends CompilationUnitRewriteOperationsFixCore {
 
 	public final static class UnnecessaryArrayCreationFinder extends GenericVisitor {
-		private static final Set<String> fInvalidTypes= new HashSet<>(Arrays.asList("byte", "char", "short")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		private static final Set<String> fInvalidTypes= new HashSet<>(Arrays.asList("byte", "char", "short")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 		private final List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> fResult;
 		private final boolean fRemoveUnnecessaryArrayCreation;
@@ -53,7 +53,7 @@ public class UnnecessaryArrayCreationFixCore extends CompilationUnitRewriteOpera
 			fResult= resultingCollection;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(ArrayCreation visited) {
 			if (!fRemoveUnnecessaryArrayCreation
 					|| visited.getType().getDimensions() != 1) {
@@ -137,7 +137,7 @@ public class UnnecessaryArrayCreationFixCore extends CompilationUnitRewriteOpera
 		if (!removeUnnecessaryArrayCreation)
 			return null;
 
-		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		UnnecessaryArrayCreationFixCore.UnnecessaryArrayCreationFinder finder= new UnnecessaryArrayCreationFixCore.UnnecessaryArrayCreationFinder(removeUnnecessaryArrayCreation, operations);
 		compilationUnit.accept(finder);
 
@@ -149,7 +149,7 @@ public class UnnecessaryArrayCreationFixCore extends CompilationUnitRewriteOpera
 	}
 
 	public static UnnecessaryArrayCreationFixCore createUnnecessaryArrayCreationFix(CompilationUnit compilationUnit, Expression methodInvocation) {
-		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>();
+		List<CompilationUnitRewriteOperationsFixCore.CompilationUnitRewriteOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		UnnecessaryArrayCreationFixCore.UnnecessaryArrayCreationFinder finder= new UnnecessaryArrayCreationFixCore.UnnecessaryArrayCreationFinder(true, operations);
 		methodInvocation.accept(finder);
 

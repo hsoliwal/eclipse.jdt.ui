@@ -41,9 +41,9 @@ public class SWTEventHelper {
 	}
 
 	public static void pressKeyCodeCombination(Display display, int[] keyCodes, boolean runEventQueue) {
-		for (int keyCode : keyCodes)
+		for (int keyCode : keyCodes) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			keyCodeDown(display, keyCode, runEventQueue);
-		for (int i= keyCodes.length - 1; i >= 0; i--)
+		for (int i= keyCodes.length - 1; i >= 0; i--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			keyCodeUp(display, keyCodes[i], runEventQueue);
 	}
 
@@ -84,9 +84,9 @@ public class SWTEventHelper {
 	}
 
 	public static void pressKeyCharCombination(Display display, char[] keyChars, boolean runEventQueue) {
-		for (char keyChar : keyChars)
+		for (char keyChar : keyChars) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			keyCharDown(display, keyChar, runEventQueue);
-		for (int i= keyChars.length - 1; i >= 0; i--)
+		for (int i= keyChars.length - 1; i >= 0; i--) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			keyCharUp(display, keyChars[i], runEventQueue);
 	}
 

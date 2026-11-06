@@ -69,7 +69,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class AddJavaDocStubAction extends SelectionDispatchAction {
+public class AddJavaDocStubAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private CompilationUnitEditor fEditor;
 
@@ -108,7 +108,7 @@ public class AddJavaDocStubAction extends SelectionDispatchAction {
 		setEnabled(members != null && members.length > 0);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		IMember[] members= getSelectedMembers(selection);
 		if (members == null || members.length == 0) {
@@ -144,7 +144,7 @@ public class AddJavaDocStubAction extends SelectionDispatchAction {
 		return fEditor != null && SelectionConverter.canOperateOn(fEditor);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		try {
 			IJavaElement element= SelectionConverter.getElementAtOffset(fEditor);
@@ -174,7 +174,7 @@ public class AddJavaDocStubAction extends SelectionDispatchAction {
 	 *
 	 * @param members an array of members
 	 */
-	private void run(IMember[] members) {
+	private void run(IMember[] members) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AddJavaDocStubOperation op= new AddJavaDocStubOperation(members);
 		if (members.length < 11) {
 			try {
@@ -199,13 +199,13 @@ public class AddJavaDocStubAction extends SelectionDispatchAction {
 		}
 	}
 
-	private IMember[] getSelectedMembers(IStructuredSelection selection) {
+	private IMember[] getSelectedMembers(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> elements= selection.toList();
 		int nElements= elements.size();
 		if (nElements > 0) {
 			IMember[] res= new IMember[nElements];
 			ICompilationUnit cu= null;
-			for (int i= 0; i < nElements; i++) {
+			for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object curr= elements.get(i);
 				if (curr instanceof IMethod || curr instanceof IType || curr instanceof IField) {
 					IMember member= (IMember)curr; // limit to methods, types & fields

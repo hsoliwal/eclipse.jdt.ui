@@ -92,7 +92,7 @@ public class TreeListDialogField<E> extends DialogField {
 	/**
 	 * @param adapter Can be <code>null</code>.
 	 */
-	public TreeListDialogField(ITreeListAdapter<E> adapter, String[] buttonLabels, ILabelProvider lprovider) {
+	public TreeListDialogField(ITreeListAdapter<E> adapter, String[] buttonLabels, ILabelProvider lprovider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super();
 		fTreeAdapter= adapter;
 
@@ -100,13 +100,13 @@ public class TreeListDialogField<E> extends DialogField {
 		fTreeViewerAdapter= new TreeViewerAdapter();
 		fParentElement= this;
 
-		fElements= new ArrayList<>(10);
+		fElements= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fButtonLabels= buttonLabels;
 		if (fButtonLabels != null) {
 			int nButtons= fButtonLabels.length;
 			fButtonsEnabled= new boolean[nButtons];
-			for (int i= 0; i < nButtons; i++) {
+			for (int i= 0; i < nButtons; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fButtonsEnabled[i]= true;
 			}
 		}
@@ -200,7 +200,7 @@ public class TreeListDialogField<E> extends DialogField {
 	/*
 	* @see DialogField#doFillIntoGrid
 	*/
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control[] doFillIntoGrid(Composite parent, int nColumns) {
 		PixelConverter converter= new PixelConverter(parent);
 
@@ -260,14 +260,14 @@ public class TreeListDialogField<E> extends DialogField {
 	* @param parent The parent composite when called the first time, or <code>null</code>
 	* after.
 	*/
-	public Control getTreeControl(Composite parent) {
+	public Control getTreeControl(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fTreeControl == null) {
 			assertCompositeNotNull(parent);
 
 			fTree= createTreeViewer(parent);
 
 			fTreeControl= (Tree) fTree.getControl();
-			fTreeControl.addKeyListener(new KeyAdapter() {
+			fTreeControl.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
 				@Override
 				public void keyPressed(KeyEvent e) {
 					handleKeyPressed(e);
@@ -275,14 +275,14 @@ public class TreeListDialogField<E> extends DialogField {
 			});
 			fTree.setContentProvider(fTreeViewerAdapter);
 			if(fLabelProvider instanceof IStyledLabelProvider) {
-				fTree.setLabelProvider(new DelegatingStyledCellLabelProvider((IStyledLabelProvider) fLabelProvider));
+				fTree.setLabelProvider(new DelegatingStyledCellLabelProvider((IStyledLabelProvider) fLabelProvider)); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			} else {
-				fTree.setLabelProvider(fLabelProvider);
+				fTree.setLabelProvider(fLabelProvider); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			}
-			fTree.addSelectionChangedListener(fTreeViewerAdapter);
-			fTree.addDoubleClickListener(fTreeViewerAdapter);
+			fTree.addSelectionChangedListener(fTreeViewerAdapter); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
+			fTree.addDoubleClickListener(fTreeViewerAdapter); //FLLDCIM: MARK — T05 VIEWER_OPEN CALL
 
-			fTree.setInput(fParentElement);
+			fTree.setInput(fParentElement); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			fTree.expandToLevel(fTreeExpandLevel);
 
 			if (fViewerComparator != null) {
@@ -330,7 +330,7 @@ public class TreeListDialogField<E> extends DialogField {
 		Button button= new Button(parent, SWT.PUSH);
 		button.setFont(parent.getFont());
 		button.setText(label);
-		button.addSelectionListener(listener);
+		button.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 		GridData gd= new GridData();
 		gd.horizontalAlignment= GridData.FILL;
 		gd.grabExcessHorizontalSpace= true;
@@ -359,7 +359,7 @@ public class TreeListDialogField<E> extends DialogField {
 	* @param parent The parent composite when called the first time, or <code>null</code>
 	* after.
 	*/
-	public Composite getButtonBox(Composite parent) {
+	public Composite getButtonBox(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fButtonsControl == null) {
 			assertCompositeNotNull(parent);
 
@@ -384,7 +384,7 @@ public class TreeListDialogField<E> extends DialogField {
 
 			if (fButtonLabels != null) {
 				fButtonControls= new Button[fButtonLabels.length];
-				for (int i= 0; i < fButtonLabels.length; i++) {
+				for (int i= 0; i < fButtonLabels.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String currLabel= fButtonLabels[i];
 					if (currLabel != null) {
 						fButtonControls[i]= createButton(contents, currLabel, listener);
@@ -407,7 +407,7 @@ public class TreeListDialogField<E> extends DialogField {
 
 	private void doButtonSelected(SelectionEvent e) {
 		if (fButtonControls != null) {
-			for (int i= 0; i < fButtonControls.length; i++) {
+			for (int i= 0; i < fButtonControls.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (e.widget == fButtonControls[i]) {
 					buttonPressed(i);
 					return;
@@ -447,7 +447,7 @@ public class TreeListDialogField<E> extends DialogField {
 	protected void updateButtonState() {
 		if (fButtonControls != null && isOkToUse(fTreeControl) && fTreeControl.isEnabled()) {
 			ISelection sel= fTree.getSelection();
-			for (int i= 0; i < fButtonControls.length; i++) {
+			for (int i= 0; i < fButtonControls.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Button button= fButtonControls[i];
 				if (isOkToUse(button)) {
 					button.setEnabled(isButtonEnabled(sel, i));
@@ -518,7 +518,7 @@ public class TreeListDialogField<E> extends DialogField {
 	* Sets the elements shown in the list.
 	*/
 	public void setElements(List<E> elements) {
-		fElements= new ArrayList<>(elements);
+		fElements= new ArrayList<>(elements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		refresh();
 		if (isOkToUse(fTreeControl)) {
 			fTree.expandToLevel(fTreeExpandLevel);
@@ -531,7 +531,7 @@ public class TreeListDialogField<E> extends DialogField {
 	* The list returned is a copy, so it can be modified by the user.
 	*/
 	public List<E> getElements() {
-		return new ArrayList<>(fElements);
+		return new ArrayList<>(fElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -551,7 +551,7 @@ public class TreeListDialogField<E> extends DialogField {
 	/**
 	* Replace an element.
 	*/
-	public void replaceElement(E oldElement, E newElement) throws IllegalArgumentException {
+	public void replaceElement(E oldElement, E newElement) throws IllegalArgumentException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int idx= fElements.indexOf(oldElement);
 		if (idx != -1) {
 			fElements.set(idx, newElement);
@@ -593,14 +593,14 @@ public class TreeListDialogField<E> extends DialogField {
 	/**
 	* Adds elements at the end of the tree list.
 	*/
-	public boolean addElements(List<E> elements) {
+	public boolean addElements(List<E> elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nElements= elements.size();
 
 		if (nElements > 0) {
 			// filter duplicated
-			ArrayList<E> elementsToAdd= new ArrayList<>(nElements);
+			ArrayList<E> elementsToAdd= new ArrayList<>(nElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (int i= 0; i < nElements; i++) {
+			for (int i= 0; i < nElements; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				E elem= elements.get(i);
 				if (!fElements.contains(elem)) {
 					elementsToAdd.add(elem);
@@ -610,7 +610,7 @@ public class TreeListDialogField<E> extends DialogField {
 				fElements.addAll(elementsToAdd);
 				if (isOkToUse(fTreeControl)) {
 					fTree.add(fParentElement, elementsToAdd.toArray());
-					for (E element : elementsToAdd) {
+					for (E element : elementsToAdd) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						fTree.expandToLevel(element, fTreeExpandLevel);
 					}
 				}
@@ -712,7 +712,7 @@ public class TreeListDialogField<E> extends DialogField {
 	public void postSetSelection(final ISelection selection) {
 		if (isOkToUse(fTreeControl)) {
 			Display d= fTreeControl.getDisplay();
-			d.asyncExec(() -> {
+			d.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				if (isOkToUse(fTreeControl)) {
 					selectElements(selection);
 				}
@@ -727,7 +727,7 @@ public class TreeListDialogField<E> extends DialogField {
 	public void refresh() {
 		super.refresh();
 		if (isOkToUse(fTreeControl)) {
-			fTree.refresh();
+			fTree.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -736,7 +736,7 @@ public class TreeListDialogField<E> extends DialogField {
 	*/
 	public void refresh(Object element) {
 		if (isOkToUse(fTreeControl)) {
-			fTree.refresh(element);
+			fTree.refresh(element); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		}
 	}
 
@@ -751,11 +751,11 @@ public class TreeListDialogField<E> extends DialogField {
 
 	// ------- list maintenance
 
-	private List<E> moveUp(List<E> elements, List<E> move) {
+	private List<E> moveUp(List<E> elements, List<E> move) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int nElements= elements.size();
-		List<E> res= new ArrayList<>(nElements);
+		List<E> res= new ArrayList<>(nElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		E floating= null;
-		for (E curr : elements) {
+		for (E curr : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (move.contains(curr)) {
 				res.add(curr);
 			} else {
@@ -786,7 +786,7 @@ public class TreeListDialogField<E> extends DialogField {
 	}
 
 	private List<E> reverse(List<E> p) {
-		List<E> reverse= new ArrayList<>(p);
+		List<E> reverse= new ArrayList<>(p); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Collections.reverse(reverse);
 		return reverse;
 	}
@@ -807,7 +807,7 @@ public class TreeListDialogField<E> extends DialogField {
 		if (isOkToUse(fTreeControl)) {
 			int nSelected= selectedElements.size();
 			int nElements= fElements.size();
-			for (int i= 0; i < nElements && nSelected > 0; i++) {
+			for (int i= 0; i < nElements && nSelected > 0; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!selectedElements.contains(fElements.get(i))) {
 					return true;
 				}
@@ -820,7 +820,7 @@ public class TreeListDialogField<E> extends DialogField {
 	private boolean canMoveDown(List<Object> selectedElements) {
 		if (isOkToUse(fTreeControl)) {
 			int nSelected= selectedElements.size();
-			for (int i= fElements.size() - 1; i >= 0 && nSelected > 0; i--) {
+			for (int i= fElements.size() - 1; i >= 0 && nSelected > 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!selectedElements.contains(fElements.get(i))) {
 					return true;
 				}
@@ -834,12 +834,12 @@ public class TreeListDialogField<E> extends DialogField {
 	* Returns the selected elements.
 	*/
 	public List<Object> getSelectedElements() {
-		ArrayList<Object> result= new ArrayList<>();
+		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isOkToUse(fTreeControl)) {
 			ISelection selection= fTree.getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Iterator<?> iter= ((IStructuredSelection)selection).iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.add(iter.next());
 				}
 			}
@@ -847,13 +847,13 @@ public class TreeListDialogField<E> extends DialogField {
 		return result;
 	}
 
-	public List<E> getSelectedRootElements() {
-		ArrayList<E> result= new ArrayList<>();
+	public List<E> getSelectedRootElements() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<E> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isOkToUse(fTreeControl)) {
 			ISelection selection= fTree.getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Iterator<?> iter= ((IStructuredSelection)selection).iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object element= iter.next();
 					if (fElements.contains(element)) {
 						@SuppressWarnings("unchecked")
@@ -875,7 +875,7 @@ public class TreeListDialogField<E> extends DialogField {
 
 	// ------- TreeViewerAdapter
 
-	private class TreeViewerAdapter implements ITreeContentProvider, ISelectionChangedListener, IDoubleClickListener {
+	private class TreeViewerAdapter implements ITreeContentProvider, ISelectionChangedListener, IDoubleClickListener { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private final Object[] NO_ELEMENTS= new Object[0];
 

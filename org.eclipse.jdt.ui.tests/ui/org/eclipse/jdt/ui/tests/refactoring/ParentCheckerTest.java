@@ -53,7 +53,7 @@ public class ParentCheckerTest {
 	private IResource classD2;
 
 
-	@BeforeEach
+	@BeforeEach //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 
 		/*
@@ -102,7 +102,7 @@ public class ParentCheckerTest {
 		IProgressMonitor monitor= new NullProgressMonitor();
 		boolean force= true;
 		String packageName= classPackage.getElementName();
-		ICompilationUnit compilationUnit= classPackage.createCompilationUnit(className + ".java", "package " + packageName + ";\n public class " + className + " {}", force, monitor);
+		ICompilationUnit compilationUnit= classPackage.createCompilationUnit(className + ".java", "package " + packageName + ";\n public class " + className + " {}", force, monitor); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return compilationUnit.getResource();
 	}
 

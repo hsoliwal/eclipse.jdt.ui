@@ -73,7 +73,7 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
 	 */
 	public void addLabelDecorator(ILabelDecorator decorator) {
 		if (fLabelDecorators == null) {
-			fLabelDecorators= new ArrayList<>(2);
+			fLabelDecorators= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
 		fLabelDecorators.add(decorator);
 	}
@@ -132,7 +132,7 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
 
 	protected Image decorateImage(Image image, Object element) {
 		if (fLabelDecorators != null && image != null) {
-			for (ILabelDecorator decorator : fLabelDecorators) {
+			for (ILabelDecorator decorator : fLabelDecorators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image= decorator.decorateImage(image, element);
 			}
 		}
@@ -151,7 +151,7 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
 
 	protected String decorateText(String text, Object element) {
 		if (fLabelDecorators != null && text.length() > 0) {
-			for (ILabelDecorator decorator : fLabelDecorators) {
+			for (ILabelDecorator decorator : fLabelDecorators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String decorated= decorator.decorateText(text, element);
 				if (decorated != null) {
 					text= decorated;
@@ -187,7 +187,7 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
 	@Override
 	public void dispose() {
 		if (fLabelDecorators != null) {
-			for (ILabelDecorator decorator : fLabelDecorators) {
+			for (ILabelDecorator decorator : fLabelDecorators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				decorator.dispose();
 			}
 			fLabelDecorators= null;
@@ -199,8 +199,8 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
 	@Override
 	public void addListener(ILabelProviderListener listener) {
 		if (fLabelDecorators != null) {
-			for (ILabelDecorator decorator : fLabelDecorators) {
-				decorator.addListener(listener);
+			for (ILabelDecorator decorator : fLabelDecorators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				decorator.addListener(listener); //FLLDCIM: MARK — T13 SWT_TYPED_EVENT CALL
 			}
 		}
 		fListeners.add(listener);
@@ -214,7 +214,7 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		if (fLabelDecorators != null) {
-			for (ILabelDecorator decorator : fLabelDecorators) {
+			for (ILabelDecorator decorator : fLabelDecorators) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				decorator.removeListener(listener);
 			}
 		}
@@ -254,11 +254,11 @@ public class JavaUILabelProvider implements ILabelProvider, IColorProvider, ISty
      * @see ILabelProviderListener#labelProviderChanged
      */
     protected void fireLabelProviderChanged(final LabelProviderChangedEvent event) {
-		for (final ILabelProviderListener l : fListeners) {
+		for (final ILabelProviderListener l : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             SafeRunner.run(new SafeRunnable() {
                 @Override
 				public void run() {
-                    l.labelProviderChanged(event);
+                    l.labelProviderChanged(event); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
                 }
             });
         }

@@ -36,7 +36,7 @@ import org.eclipse.jdt.core.dom.rewrite.ImportRewrite;
  */
 public class CodeStyleConfiguration {
 
-	private static final Pattern SEMICOLON_PATTERN= Pattern.compile(";"); //$NON-NLS-1$
+	private static final Pattern SEMICOLON_PATTERN= Pattern.compile(";"); //$NON-NLS-1$ //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 	/**
 	 * A named preference that holds a list of semicolon separated package names. The list specifies the import order used by
@@ -98,13 +98,13 @@ public class CodeStyleConfiguration {
 		return configureImportRewrite(ImportRewrite.create(astRoot, restoreExistingImports));
 	}
 
-	private static ImportRewrite configureImportRewrite(ImportRewrite rewrite) {
+	private static ImportRewrite configureImportRewrite(ImportRewrite rewrite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaProject project= rewrite.getCompilationUnit().getJavaProject();
 		String order= JavaManipulation.getPreference(ORGIMPORTS_IMPORTORDER, project);
 		if (order.endsWith(";")) { //$NON-NLS-1$
 			order= order.substring(0, order.length() - 1);
 		}
-		String[] split= SEMICOLON_PATTERN.split(order, -1);
+		String[] split= SEMICOLON_PATTERN.split(order, -1); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		rewrite.setImportOrder(split);
 
 		String thres= JavaManipulation.getPreference(ORGIMPORTS_ONDEMANDTHRESHOLD, project);

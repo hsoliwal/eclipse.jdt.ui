@@ -53,8 +53,8 @@ public class SnippetFinder extends GenericVisitor {
 		private Map<IVariableBinding, SimpleName> fLocalMappings;
 
 		public Match() {
-			fNodes= new ArrayList<>(10);
-			fLocalMappings= new HashMap<>();
+			fNodes= new ArrayList<>(10); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			fLocalMappings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		public void add(ASTNode node) {
 			fNodes.add(node);
@@ -117,7 +117,7 @@ public class SnippetFinder extends GenericVisitor {
 	}
 
 	private class Matcher extends ASTMatcher {
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean match(SimpleName candidate, Object s) {
 			if (!(s instanceof SimpleName))
 				return false;
@@ -148,7 +148,7 @@ public class SnippetFinder extends GenericVisitor {
 		}
 	}
 
-	private List<Match> fResult= new ArrayList<>(2);
+	private List<Match> fResult= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	private Match fMatch;
 	private ASTNode[] fSnippet;
 	private int fIndex;
@@ -166,7 +166,7 @@ public class SnippetFinder extends GenericVisitor {
 		Assert.isTrue(start instanceof AbstractTypeDeclaration || start instanceof AnonymousClassDeclaration);
 		SnippetFinder finder= new SnippetFinder(snippet);
 		start.accept(finder);
-		for (Iterator<Match> iter = finder.fResult.iterator(); iter.hasNext();) {
+		for (Iterator<Match> iter = finder.fResult.iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Match match = iter.next();
 			ASTNode[] nodes= match.getNodes();
 			// doesn't match if the candidate is the left hand side of an
@@ -179,7 +179,7 @@ public class SnippetFinder extends GenericVisitor {
 		return finder.fResult;
 	}
 
-	static boolean isLeftHandSideOfAssignment(ASTNode node) {
+	static boolean isLeftHandSideOfAssignment(ASTNode node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assignment assignment= (Assignment)ASTNodes.getParent(node, ASTNode.ASSIGNMENT);
 		if (assignment != null) {
 			Expression leftHandSide= assignment.getLeftHandSide();
@@ -280,7 +280,7 @@ public class SnippetFinder extends GenericVisitor {
 	}
 
 	private boolean isSnippetNode(ASTNode node) {
-		for (ASTNode a : fSnippet) {
+		for (ASTNode a : fSnippet) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (node == a) {
 				return true;
 			}

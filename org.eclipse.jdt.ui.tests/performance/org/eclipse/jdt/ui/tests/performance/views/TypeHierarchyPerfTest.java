@@ -100,7 +100,7 @@ public class TypeHierarchyPerfTest extends JdtPerformanceTestCaseCommon {
 		Performance.getDefault().assertPerformanceInAbsoluteBand(fPerformanceMeter, Dimension.ELAPSED_PROCESS, 0, 1000);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCOpenObjectHierarchy2() throws Exception {
 		//warm
 		tagAsSummary("Open type hierarchy on Object", Dimension.ELAPSED_PROCESS);
@@ -110,7 +110,7 @@ public class TypeHierarchyPerfTest extends JdtPerformanceTestCaseCommon {
 
 		TypeHierarchyViewPart viewPart= OpenTypeHierarchyUtil.open(element, workbenchWindow);
 
-		for (int i= 0; i < 10; i++) {
+		for (int i= 0; i < 10; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			viewPart.setInputElement(MyTestSetup.fJProject1.findType("java.lang.String"));
 			viewPart.getSite().getPage().hideView(viewPart);
 

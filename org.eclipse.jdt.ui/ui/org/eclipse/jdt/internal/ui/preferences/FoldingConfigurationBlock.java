@@ -132,8 +132,8 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 		fStore= store;
 		fStore.addKeys(createOverlayStoreKeys());
 		fProviderDescriptors= createListModel();
-		fProviderPreferences= new HashMap<>();
-		fProviderControls= new HashMap<>();
+		fProviderPreferences= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		fProviderControls= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		this.fContext= context;
 		this.fIsProjectPreferencePage= isProjectPreferencePage;
 	}
@@ -142,8 +142,8 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 		JavaFoldingStructureProviderRegistry reg= JavaPlugin.getDefault().getFoldingStructureProviderRegistry();
 		reg.reloadExtensions();
 		JavaFoldingStructureProviderDescriptor[] descs= reg.getFoldingProviderDescriptors();
-		Map<String, JavaFoldingStructureProviderDescriptor> map= new HashMap<>();
-		for (JavaFoldingStructureProviderDescriptor desc : descs) {
+		Map<String, JavaFoldingStructureProviderDescriptor> map= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+		for (JavaFoldingStructureProviderDescriptor desc : descs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			map.put(desc.getId(), desc);
 		}
 		return map;
@@ -151,7 +151,7 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 
 	private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys() {
 
-		ArrayList<OverlayKey> overlayKeys= new ArrayList<>();
+		ArrayList<OverlayKey> overlayKeys= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.BOOLEAN, PreferenceConstants.EDITOR_FOLDING_ENABLED));
 		overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, PreferenceConstants.EDITOR_FOLDING_PROVIDER));
@@ -167,7 +167,7 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 	 * @param parent the parent composite
 	 * @return the control for the preference page
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Control createControl(Composite parent) {
 
 		Composite composite= new Composite(parent, SWT.NULL);
@@ -188,7 +188,7 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 		fFoldingCheckbox.setText(PreferencesMessages.FoldingConfigurationBlock_enable);
 		gd= new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		fFoldingCheckbox.setLayoutData(gd);
-		fFoldingCheckbox.addSelectionListener(new SelectionListener() {
+		fFoldingCheckbox.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean enabled= fFoldingCheckbox.getSelection();
@@ -248,11 +248,11 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 		return composite;
 	}
 
-	private ComboViewer createProviderViewer() {
+	private ComboViewer createProviderViewer() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/* list viewer */
 		ComboViewer viewer= new ComboViewer(fProviderCombo);
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		viewer.setLabelProvider(new LabelProvider() {
+		viewer.setLabelProvider(new LabelProvider() { //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 			/*
 			 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 			 */
@@ -269,15 +269,15 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 				return ((JavaFoldingStructureProviderDescriptor) element).getName();
 			}
 		});
-		viewer.addSelectionChangedListener(event -> {
+		viewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			IStructuredSelection sel= (IStructuredSelection) event.getSelection();
 			if (!sel.isEmpty()) {
 				fStore.setValue(PreferenceConstants.EDITOR_FOLDING_PROVIDER, ((JavaFoldingStructureProviderDescriptor) sel.getFirstElement()).getId());
 				updateListDependencies();
 			}
 		});
-		viewer.setInput(fProviderDescriptors.values());
-		viewer.refresh();
+		viewer.setInput(fProviderDescriptors.values()); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
+		viewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		return viewer;
 	}
@@ -285,7 +285,7 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 	private void updateCheckboxDependencies() {
 	}
 
-	void updateListDependencies() {
+	void updateListDependencies() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String id= getGlobalPreferenceStore().getString(PreferenceConstants.EDITOR_FOLDING_PROVIDER);
 		JavaFoldingStructureProviderDescriptor desc= fProviderDescriptors.get(id);
 		IJavaFoldingPreferenceBlock prefs;
@@ -342,7 +342,7 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 
 	@Override
 	public void performOk() {
-		for (IJavaFoldingPreferenceBlock prefs : fProviderPreferences.values()) {
+		for (IJavaFoldingPreferenceBlock prefs : fProviderPreferences.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			prefs.performOk();
 		}
 	}
@@ -350,19 +350,19 @@ class FoldingConfigurationBlock implements IPreferenceAndPropertyConfigurationBl
 	@Override
 	public void performDefaults() {
 		restoreFromPreferences();
-		for (IJavaFoldingPreferenceBlock prefs : fProviderPreferences.values()) {
+		for (IJavaFoldingPreferenceBlock prefs : fProviderPreferences.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			prefs.performDefaults();
 		}
 	}
 
 	@Override
 	public void dispose() {
-		for (IJavaFoldingPreferenceBlock prefs : fProviderPreferences.values()) {
+		for (IJavaFoldingPreferenceBlock prefs : fProviderPreferences.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			prefs.dispose();
 		}
 	}
 
-	private void restoreFromPreferences() {
+	private void restoreFromPreferences() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean enabled= fStore.getBoolean(PreferenceConstants.EDITOR_FOLDING_ENABLED);
 		fFoldingCheckbox.setSelection(enabled);
 		updateCheckboxDependencies();

@@ -87,11 +87,11 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 	}
 
 	protected void initMenu(Menu menu) {
-		menu.addMenuListener(new MenuAdapter() {
+		menu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuShown(MenuEvent e) {
 				Menu m= (Menu) e.widget;
-				for (MenuItem item : m.getItems()) {
+				for (MenuItem item : m.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					item.dispose();
 				}
 				fillMenu(m);
@@ -119,7 +119,7 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 
 	private void disposeSubmenuActions() {
 		if (fPartService != null && fRetargetActions != null) {
-			for (RetargetAction action : fRetargetActions) {
+			for (RetargetAction action : fRetargetActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fPartService.removePartListener(action);
 				action.dispose();
 			}
@@ -145,7 +145,7 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IAction a) {
 		if (fRetargetActions == null)
 			return;
@@ -169,8 +169,8 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 			selection= activePart.getSite().getSelectionProvider().getSelection();
 		}
 
-		final ArrayList<IAction> activeActions= new ArrayList<>(fRetargetActions.length);
-		for (RetargetAction action : fRetargetActions) {
+		final ArrayList<IAction> activeActions= new ArrayList<>(fRetargetActions.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (RetargetAction action : fRetargetActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IAction actionHandler= action.getActionHandler();
 			if (actionHandler instanceof SelectionDispatchAction) {
 				((SelectionDispatchAction) actionHandler).update(selection);
@@ -200,7 +200,7 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 		if (javaSelection == null)
 			return;
 
-		for (RetargetAction action : fRetargetActions) {
+		for (RetargetAction action : fRetargetActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IAction actionHandler= action.getActionHandler();
 			if (actionHandler instanceof SelectionDispatchAction) {
 				((SelectionDispatchAction) actionHandler).update(javaSelection);
@@ -231,7 +231,7 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 		if (activeActions.isEmpty()) {
 			manager.add(NO_ACTION_AVAILABLE);
 		} else {
-			for (IAction activeAction : activeActions) {
+			for (IAction activeAction : activeActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				manager.add(activeAction);
 			}
 		}
@@ -244,7 +244,7 @@ public class OccurrencesSearchMenuAction implements IWorkbenchWindowPulldownDele
 	public void fillMenu(Menu menu) {
 		if (fRetargetActions != null) {
 			updateActions();
-			for (RetargetAction fRetargetAction : fRetargetActions) {
+			for (RetargetAction fRetargetAction : fRetargetActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ActionContributionItem item= new ActionContributionItem(fRetargetAction);
 				item.fill(menu, -1);
 			}

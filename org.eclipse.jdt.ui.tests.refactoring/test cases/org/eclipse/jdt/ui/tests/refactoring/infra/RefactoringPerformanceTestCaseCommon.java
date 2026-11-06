@@ -35,7 +35,7 @@ public abstract class RefactoringPerformanceTestCaseCommon extends JdtPerformanc
 		executeRefactoring(refactoring, measure, maxSeverity, true);
 	}
 
-	protected void executeRefactoring(Refactoring refactoring, boolean measure, int maxSeverity, boolean checkUndo) throws Exception {
+	protected void executeRefactoring(Refactoring refactoring, boolean measure, int maxSeverity, boolean checkUndo) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		PerformRefactoringOperation operation= new PerformRefactoringOperation(refactoring, CheckConditionsOperation.ALL_CONDITIONS);
 		joinBackgroudActivities();
 		// Flush the undo manager to not count any already existing undo objects

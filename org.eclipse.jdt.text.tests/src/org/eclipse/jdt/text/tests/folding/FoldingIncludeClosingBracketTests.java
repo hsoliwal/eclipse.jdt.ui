@@ -73,7 +73,7 @@ public class FoldingIncludeClosingBracketTests {
 		preferenceStore.setValue(PreferenceConstants.EDITOR_NEW_FOLDING_ENABLED, useEnhancedFolding);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testControlStructures() throws Exception {
 		String str= """
 				package org.example.test;
@@ -101,7 +101,7 @@ public class FoldingIncludeClosingBracketTests {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 12, 13); // do
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testOtherBlocks_closingBracketsShouldBeIncluded() throws Exception {
 		String str= """
 				package org.example.test;
@@ -124,7 +124,7 @@ public class FoldingIncludeClosingBracketTests {
 		FoldingTestUtils.assertContainsRegionUsingStartAndEndLine(regions, str, 8, 9); // s2
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAnnotatedEnums() throws Exception {
 		configureEnhancedFolding(false);
 		String str= """

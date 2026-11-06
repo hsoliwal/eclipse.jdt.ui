@@ -43,8 +43,8 @@ public class JavaProcessors {
 	}
 
 	public static String[] computeAffectedNaturs(IJavaElement[] elements) throws CoreException {
-		Set<String> result= new HashSet<>();
-		for (IJavaElement element : elements) {
+		Set<String> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String[] natures= computeAffectedNatures(element);
 			result.addAll(Arrays.asList(natures));
 		}

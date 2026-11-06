@@ -77,7 +77,7 @@ public class JavaReferenceCodeMining extends AbstractJavaElementLineHeaderCodeMi
 		this.showReferencesAtLeastOne= showReferencesAtLeastOne;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected CompletableFuture<Void> doResolve(ITextViewer viewer, IProgressMonitor monitor) {
 		return CompletableFuture.runAsync(() -> {
 			try {
@@ -132,7 +132,7 @@ public class JavaReferenceCodeMining extends AbstractJavaElementLineHeaderCodeMi
 	 * @throws JavaModelException throws when java error.
 	 * @throws CoreException throws when java error.
 	 */
-	private static long countReferences(IJavaElement element, IProgressMonitor monitor)
+	private static long countReferences(IJavaElement element, IProgressMonitor monitor) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws JavaModelException, CoreException {
 		if (element == null) {
 			return 0;
@@ -175,7 +175,7 @@ public class JavaReferenceCodeMining extends AbstractJavaElementLineHeaderCodeMi
 	 * @throws JavaModelException throws when java error.
 	 * @throws CoreException throws when java error.
 	 */
-	private SearchMatch getReferenceMatch(IJavaElement element, IProgressMonitor monitor)
+	private SearchMatch getReferenceMatch(IJavaElement element, IProgressMonitor monitor) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws JavaModelException, CoreException {
 		if (element == null) {
 			return null;

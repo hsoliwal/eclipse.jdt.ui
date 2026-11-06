@@ -40,7 +40,7 @@ public final class TestMethodFinder {
 	 * @param testSuiteElement the test suite element
 	 * @return the method, or <code>null</code> if it cannot be resolved unambiguously
 	 */
-	public static IMethod findMethodForParameterizedTest(TestSuiteElement testSuiteElement) {
+	public static IMethod findMethodForParameterizedTest(TestSuiteElement testSuiteElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (testSuiteElement == null) {
 			return null;
 		}
@@ -86,7 +86,7 @@ public final class TestMethodFinder {
 	public static IMethod findMethod(IType type, String methodName, String[] parameterTypes)
 			throws JavaModelException {
 		IMethod result= null;
-		for (IMethod method : type.getMethods()) {
+		for (IMethod method : type.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!methodName.equals(method.getElementName())
 					|| (parameterTypes != null && !hasParameterTypes(method, parameterTypes))) {
 				continue;
@@ -101,7 +101,7 @@ public final class TestMethodFinder {
 		return result;
 	}
 
-	private static boolean hasParameterTypes(IMethod method, String[] expectedParameterTypes)
+	private static boolean hasParameterTypes(IMethod method, String[] expectedParameterTypes) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			throws JavaModelException {
 		String[] parameterTypes= method.getParameterTypes();
 		if (parameterTypes.length != expectedParameterTypes.length) {
@@ -109,7 +109,7 @@ public final class TestMethodFinder {
 		}
 
 		IType declaringType= method.getDeclaringType();
-		for (int i= 0; i < parameterTypes.length; i++) {
+		for (int i= 0; i < parameterTypes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String expectedType= normalizeParameterType(expectedParameterTypes[i]);
 			if (expectedType == null) {
 				return false;
@@ -129,7 +129,7 @@ public final class TestMethodFinder {
 		return true;
 	}
 
-	private static String resolveTypeName(String typeSignature, IType declaringType,
+	private static String resolveTypeName(String typeSignature, IType declaringType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			char enclosingTypeSeparator) throws JavaModelException {
 		int dimensions= Signature.getArrayCount(typeSignature);
 		String elementTypeSignature= Signature.getElementType(typeSignature);
@@ -144,14 +144,14 @@ public final class TestMethodFinder {
 			return null;
 		}
 
-		StringBuilder result= new StringBuilder(resolvedTypeName);
-		for (int i= 0; i < dimensions; i++) {
-			result.append("[]"); //$NON-NLS-1$
+		StringBuilder result= new StringBuilder(resolvedTypeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < dimensions; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append("[]"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}
 
-	private static String normalizeParameterType(String parameterType) {
+	private static String normalizeParameterType(String parameterType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (parameterType == null) {
 			return null;
 		}
@@ -167,7 +167,7 @@ public final class TestMethodFinder {
 			}
 		}
 		if (result.endsWith("...")) { //$NON-NLS-1$
-			result= result.substring(0, result.length() - 3) + "[]"; //$NON-NLS-1$
+			result= result.substring(0, result.length() - 3) + "[]"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return result;
 	}

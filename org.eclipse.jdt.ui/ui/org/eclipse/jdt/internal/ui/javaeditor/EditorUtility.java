@@ -169,7 +169,7 @@ public class EditorUtility {
 		return openInSpecificEditor(inputElement, null, activate);
 	}
 
-	public static IEditorPart openInSpecificEditor(Object inputElement, String editorID, boolean activate) throws PartInitException {
+	public static IEditorPart openInSpecificEditor(Object inputElement, String editorID, boolean activate) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (inputElement instanceof IFile) {
 			IFile file= (IFile) inputElement;
 			if (!isClassFile(file))
@@ -199,7 +199,7 @@ public class EditorUtility {
 	 * @return the editor or <code>null</code>
 	 * @since 3.5
 	 */
-	private static IEditorPart findEditor(Object inputElement, boolean activate) {
+	private static IEditorPart findEditor(Object inputElement, boolean activate) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Support to navigate inside non-primary working copy.
 		 * For now we only support to navigate inside the currently
@@ -259,7 +259,7 @@ public class EditorUtility {
 	 * @param part the editor part
 	 * @param element the Java element to reveal
 	 */
-	public static void revealInEditor(IEditorPart part, IJavaElement element) {
+	public static void revealInEditor(IEditorPart part, IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null)
 			return;
 
@@ -303,7 +303,7 @@ public class EditorUtility {
 	 * @param offset the offset
 	 * @param length the length
 	 */
-	public static void revealInEditor(IEditorPart editor, final int offset, final int length) {
+	public static void revealInEditor(IEditorPart editor, final int offset, final int length) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (editor instanceof ITextEditor) {
 			((ITextEditor)editor).selectAndReveal(offset, length);
 			return;
@@ -318,12 +318,12 @@ public class EditorUtility {
 		if (gotoMarkerTarget != null && editor !=null) {
 			final IEditorInput input= editor.getEditorInput();
 			if (input instanceof IFileEditorInput) {
-				WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+				WorkspaceModifyOperation op = new WorkspaceModifyOperation() { //FLLDCIM: MARK — T09  ANONYMOUS
 					@Override
 					protected void execute(IProgressMonitor monitor) throws CoreException {
 						IMarker marker= null;
 						try {
-							Map<String,Object> attributes = new HashMap<>();
+							Map<String,Object> attributes = new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 							attributes.put(IMarker.CHAR_START, Integer.valueOf(offset));
 							attributes.put(IMarker.CHAR_END, Integer.valueOf(offset + length));
 
@@ -392,7 +392,7 @@ public class EditorUtility {
 		return editorPart;
 	}
 
-	private static void initializeHighlightRange(IEditorPart editorPart) {
+	private static void initializeHighlightRange(IEditorPart editorPart) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (editorPart instanceof ITextEditor) {
 			IAction toggleAction= editorPart.getEditorSite().getActionBars().getGlobalActionHandler(ITextEditorActionDefinitionIds.TOGGLE_SHOW_SELECTED_ELEMENT_ONLY);
 			if (toggleAction!= null) {
@@ -415,7 +415,7 @@ public class EditorUtility {
 		}
 	}
 
-	public static String getEditorID(IEditorInput input) throws PartInitException {
+	public static String getEditorID(IEditorInput input) throws PartInitException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isNotNull(input);
 		if (input instanceof IFileEditorInput)
 			return IDE.getEditorDescriptor(((IFileEditorInput)input).getFile(), true, false).getId();
@@ -471,7 +471,7 @@ public class EditorUtility {
 	}
 
 	private static IEditorInput getEditorInput(IJavaElement element) {
-		while (element != null) {
+		while (element != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof ICompilationUnit) {
 				ICompilationUnit unit= ((ICompilationUnit) element).getPrimary();
 					IResource resource= unit.getResource();
@@ -618,7 +618,7 @@ public class EditorUtility {
 	 *
 	 * @since 3.19
 	 */
-	public static IJavaProject getJavaProject(ITextEditor editor) {
+	public static IJavaProject getJavaProject(ITextEditor editor) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (editor == null)
 			return null;
 
@@ -652,13 +652,13 @@ public class EditorUtility {
 	 * @return an array of dirty editor parts
 	 * @since 3.4
 	 */
-	public static IEditorPart[] getDirtyEditors(boolean skipNonResourceEditors) {
-		Set<IEditorInput> inputs= new HashSet<>();
-		List<IEditorPart> result= new ArrayList<>(0);
+	public static IEditorPart[] getDirtyEditors(boolean skipNonResourceEditors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IEditorInput> inputs= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<IEditorPart> result= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkbench workbench= PlatformUI.getWorkbench();
-		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorPart ep : page.getDirtyEditors()) {
+		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorPart ep : page.getDirtyEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IEditorInput input= ep.getEditorInput();
 					if (inputs.add(input)) {
 						if (!skipNonResourceEditors || isResourceEditorInput(input)) {
@@ -674,7 +674,7 @@ public class EditorUtility {
 	private static boolean isResourceEditorInput(IEditorInput input) {
 		if (input instanceof MultiEditorInput) {
 			IEditorInput[] inputs= ((MultiEditorInput) input).getInput();
-			for (IEditorInput i : inputs) {
+			for (IEditorInput i : inputs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i.getAdapter(IResource.class) != null) {
 					return true;
 				}
@@ -710,13 +710,13 @@ public class EditorUtility {
 	 * @return the editors to save
 	 * @since 3.3
 	 */
-	public static IEditorPart[] getDirtyEditorsToSave(boolean saveUnknownEditors) {
-		Set<IEditorInput> inputs= new HashSet<>();
-		List<IEditorPart> result= new ArrayList<>(0);
+	public static IEditorPart[] getDirtyEditorsToSave(boolean saveUnknownEditors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Set<IEditorInput> inputs= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		List<IEditorPart> result= new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IWorkbench workbench= PlatformUI.getWorkbench();
-		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) {
-			for (IWorkbenchPage page : window.getPages()) {
-				for (IEditorPart ep : page.getDirtyEditors()) {
+		for (IWorkbenchWindow window : workbench.getWorkbenchWindows()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (IWorkbenchPage page : window.getPages()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (IEditorPart ep : page.getDirtyEditors()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IEditorInput input= ep.getEditorInput();
 					if (!mustSaveDirtyEditor(ep, input, saveUnknownEditors))
 						continue;
@@ -732,7 +732,7 @@ public class EditorUtility {
 	/*
 	 * @since 3.3
 	 */
-	private static boolean mustSaveDirtyEditor(IEditorPart ep, IEditorInput input, boolean saveUnknownEditors) {
+	private static boolean mustSaveDirtyEditor(IEditorPart ep, IEditorInput input, boolean saveUnknownEditors) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		/*
 		 * Goal: save all editors that could interfere with refactoring operations.
 		 *
@@ -778,7 +778,7 @@ public class EditorUtility {
 	 * @throws CoreException if something goes wrong
 	 * @since 3.4
 	 */
-	public static IRegion[] calculateChangedLineRegions(final ITextFileBuffer buffer, final IProgressMonitor monitor) throws CoreException {
+	public static IRegion[] calculateChangedLineRegions(final ITextFileBuffer buffer, final IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final IRegion[][] result= new IRegion[1][];
 		final IStatus[] errorStatus= new IStatus[] { Status.OK_STATUS };
 
@@ -827,7 +827,7 @@ public class EditorUtility {
 				 * @return the changed regions
 				 * @throws BadLocationException if fetching the line information fails
 				 */
-				private IRegion[] getChangedLineRegions(IDocument oldDocument, IDocument currentDocument) throws BadLocationException {
+				private IRegion[] getChangedLineRegions(IDocument oldDocument, IDocument currentDocument) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					/*
 					 * Do not change the type of those local variables. We use Object
 					 * here in order to prevent loading of the Compare plug-in at load
@@ -844,8 +844,8 @@ public class EditorUtility {
 					//2. Successive changed lines are merged into on RangeDifference
 					//     forAll r1,r2 element differences: r1.rightStart()<r2.rightStart() -> r1.rightEnd()<r2.rightStart
 
-					ArrayList<IRegion> regions= new ArrayList<>();
-					for (RangeDifference curr : differences) {
+					ArrayList<IRegion> regions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (RangeDifference curr : differences) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (curr.kind() == RangeDifference.CHANGE && curr.rightLength() > 0) {
 							int startLine= curr.rightStart();
 							int endLine= curr.rightEnd() - 1;

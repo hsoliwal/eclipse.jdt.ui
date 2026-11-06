@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.Assert;
  * Helper class to manage images that should be disposed when a control is disposed
  * contol.addWidgetListener(new ImageDisposer(myImage));
  */
-public class ImageDisposer implements DisposeListener {
+public class ImageDisposer implements DisposeListener { //FLLDCIM: MARK — T01  IMPLEMENTS
 
 	private Image[] fImages;
 
@@ -43,7 +43,7 @@ public class ImageDisposer implements DisposeListener {
 	@Override
 	public void widgetDisposed(DisposeEvent e) {
 		if (fImages != null) {
-			for (Image image : fImages) {
+			for (Image image : fImages) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				image.dispose();
 			}
 		}

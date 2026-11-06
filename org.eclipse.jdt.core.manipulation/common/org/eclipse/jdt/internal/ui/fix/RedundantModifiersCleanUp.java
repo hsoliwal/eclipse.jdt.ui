@@ -83,57 +83,57 @@ public class RedundantModifiersCleanUp extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder buf= new StringBuilder();
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (isEnabled(CleanUpConstants.REMOVE_REDUNDANT_MODIFIERS)) {
-			buf.append("public interface IFoo {\n"); //$NON-NLS-1$
-			buf.append("  int MAGIC_NUMBER = 646;\n"); //$NON-NLS-1$
-			buf.append("  int foo ();\n"); //$NON-NLS-1$
-			buf.append("  int bar (int bazz);\n"); //$NON-NLS-1$
+			buf.append("public interface IFoo {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  int MAGIC_NUMBER = 646;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  int foo ();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  int bar (int bazz);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("public abstract interface IFoo {\n"); //$NON-NLS-1$
-			buf.append("  public static final int MAGIC_NUMBER = 646;\n"); //$NON-NLS-1$
-			buf.append("  public abstract int foo ();\n"); //$NON-NLS-1$
-			buf.append("  public int bar (int bazz);\n"); //$NON-NLS-1$
+			buf.append("public abstract interface IFoo {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  public static final int MAGIC_NUMBER = 646;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  public abstract int foo ();\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  public int bar (int bazz);\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("public final class Sealed {\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public final class Sealed {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.REMOVE_REDUNDANT_MODIFIERS)) {
-			buf.append("  public void foo () {};\n"); //$NON-NLS-1$
-			buf.append("  \n"); //$NON-NLS-1$
-			buf.append("  interface INested {\n"); //$NON-NLS-1$
-			buf.append("  }\n"); //$NON-NLS-1$
+			buf.append("  public void foo () {};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  interface INested {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		} else {
-			buf.append("  public final void foo () {};\n"); //$NON-NLS-1$
-			buf.append("  \n"); //$NON-NLS-1$
-			buf.append("  abstract static interface INested {\n"); //$NON-NLS-1$
-			buf.append("  }\n"); //$NON-NLS-1$
+			buf.append("  public final void foo () {};\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  \n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  abstract static interface INested {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append("  }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
-		buf.append("public enum SampleEnum {\n"); //$NON-NLS-1$
-		buf.append("  VALUE1(\"1\"), VALUE2(\"2\");\n"); //$NON-NLS-1$
-		buf.append("\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public enum SampleEnum {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("  VALUE1(\"1\"), VALUE2(\"2\");\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (isEnabled(CleanUpConstants.REMOVE_REDUNDANT_MODIFIERS)) {
-			buf.append("  SampleEnum(String string) {}\n"); //$NON-NLS-1$
+			buf.append("  SampleEnum(String string) {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		} else {
-			buf.append("  private SampleEnum(String string) {}\n"); //$NON-NLS-1$
+			buf.append("  private SampleEnum(String string) {}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n"); //$NON-NLS-1$
+		buf.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 
 		return buf.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.REMOVE_REDUNDANT_MODIFIERS)) {
 			return null;
 		}
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -148,7 +148,7 @@ public class RedundantModifiersCleanUp extends AbstractMultiFix {
 				return true;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(MethodDeclaration node) {
 				if (node.getParent() instanceof TypeDeclaration) {
 					TypeDeclaration typeDecl= (TypeDeclaration) node.getParent();

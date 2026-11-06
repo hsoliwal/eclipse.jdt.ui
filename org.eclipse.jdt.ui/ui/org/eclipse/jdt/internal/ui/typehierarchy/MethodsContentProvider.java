@@ -57,7 +57,7 @@ public class MethodsContentProvider implements IStructuredContentProvider, IWork
 		if (show != fShowInheritedMethods) {
 			fShowInheritedMethods= show;
 			if (fViewer != null) {
-				fViewer.refresh();
+				fViewer.refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 			}
 		}
 	}
@@ -85,19 +85,19 @@ public class MethodsContentProvider implements IStructuredContentProvider, IWork
 	/*
 	 * @see IStructuredContentProvider#getElements
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getElements(Object element) {
 		if (element instanceof IType) {
 			IType type= (IType)element;
 
-			List<Object> res= new ArrayList<>();
+			List<Object> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			try {
 				ITypeHierarchy hierarchy= fHierarchyLifeCycle.getHierarchy();
 				if (fShowInheritedMethods && hierarchy != null) {
 					IType[] allSupertypes= hierarchy.getAllSupertypes(type);
 					// sort in from last to first: elements with same name
 					// will show up in hierarchy order
-					for (int i= allSupertypes.length - 1; i >= 0; i--) {
+					for (int i= allSupertypes.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IType superType= allSupertypes[i];
 						if (superType.exists()) {
 							addAll(superType.getMethods(), res);

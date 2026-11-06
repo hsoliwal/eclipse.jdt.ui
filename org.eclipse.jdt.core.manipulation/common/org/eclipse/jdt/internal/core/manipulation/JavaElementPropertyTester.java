@@ -92,14 +92,14 @@ public class JavaElementPropertyTester extends PropertyTester {
 		return JavaCore.callReadOnly(() -> testCached(receiver, method, args, expectedValue));
 	}
 
-	private boolean testCached(Object receiver, String method, Object[] args, Object expectedValue) {
+	private boolean testCached(Object receiver, String method, Object[] args, Object expectedValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (!(receiver instanceof IJavaElement)) {
 			return false;
 		}
 		IJavaElement res = (IJavaElement) receiver;
 		switch (method) {
 		case NAME:
-			return Pattern.matches(toString(expectedValue), res.getElementName());
+			return Pattern.matches(toString(expectedValue), res.getElementName()); //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 		case IS_IN_JAVA_PROJECT:
 		{
 			IJavaProject javaProject= res.getJavaProject();

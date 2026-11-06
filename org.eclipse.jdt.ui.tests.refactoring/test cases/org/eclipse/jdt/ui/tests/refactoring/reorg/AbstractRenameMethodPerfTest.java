@@ -45,23 +45,23 @@ public abstract class AbstractRenameMethodPerfTest extends RepeatingRefactoringP
 		ICompilationUnit result= definition.createCompilationUnit("A.java", str, false, null);
 
 		IPackageFragment references= fTestProject.getSourceFolder().createPackageFragment("ref", false, null);
-		for(int i= 0; i < numberOfCus; i++) {
+		for(int i= 0; i < numberOfCus; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createReferenceCu(references, i, numberOfRefs);
 		}
 		return result;
 	}
 
 	private void createReferenceCu(IPackageFragment pack, int index, int numberOfRefs) throws Exception {
-		StringBuilder buf= new StringBuilder();
-		buf.append("package " + pack.getElementName() + ";\n");
-		buf.append("import def.A;\n");
-		buf.append("public class Ref" + index + " {\n");
-		buf.append("    public void ref(A a) {\n");
-		for (int i= 0; i < numberOfRefs; i++) {
-			buf.append("        a.foo();\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package " + pack.getElementName() + ";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("import def.A;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Ref" + index + " {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    public void ref(A a) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < numberOfRefs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("        a.foo();\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("    }\n");
-		buf.append("}\n");
-		pack.createCompilationUnit("Ref" + index + ".java", buf.toString(), false, null);
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		pack.createCompilationUnit("Ref" + index + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

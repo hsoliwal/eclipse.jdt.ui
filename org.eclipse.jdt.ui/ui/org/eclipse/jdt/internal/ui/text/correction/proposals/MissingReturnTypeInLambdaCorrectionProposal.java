@@ -18,7 +18,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.LambdaExpression;
 import org.eclipse.jdt.core.dom.ReturnStatement;
 
-public class MissingReturnTypeInLambdaCorrectionProposal extends MissingReturnTypeCorrectionProposal {
+public class MissingReturnTypeInLambdaCorrectionProposal extends MissingReturnTypeCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public MissingReturnTypeInLambdaCorrectionProposal(MissingReturnTypeInLambdaCorrectionProposalCore core) {
 		super(core.getCompilationUnit(), core.getRelevance(), core);
 	}

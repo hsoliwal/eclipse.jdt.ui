@@ -81,7 +81,7 @@ public class PreferencesAdapter implements IPreferenceStore {
 	@Override
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
 		if (fListeners.size() == 0)
-			fPreferences.addPropertyChangeListener(fListener);
+			fPreferences.addPropertyChangeListener(fListener); //FLLDCIM: MARK — T06 PROPERTY_DELTA_SOURCE CALL
 		fListeners.add(listener);
 	}
 
@@ -97,11 +97,11 @@ public class PreferencesAdapter implements IPreferenceStore {
 		return fPreferences.contains(name);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
 		if (!fSilent) {
 			final PropertyChangeEvent event= new PropertyChangeEvent(this, name, oldValue, newValue);
-			for (final IPropertyChangeListener listener : fListeners) {
+			for (final IPropertyChangeListener listener : fListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Runnable runnable= () -> listener.propertyChange(event);
 
 				if (Display.getCurrent() != null)
@@ -114,7 +114,7 @@ public class PreferencesAdapter implements IPreferenceStore {
 						display= shell.getDisplay();
 					else
 						display= Display.getDefault();
-					display.asyncExec(runnable);
+					display.asyncExec(runnable); //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				}
 			}
 		}

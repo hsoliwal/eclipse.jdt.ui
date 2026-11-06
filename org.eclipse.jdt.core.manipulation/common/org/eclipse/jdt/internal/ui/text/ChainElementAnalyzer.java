@@ -34,7 +34,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 
 public final class ChainElementAnalyzer {
 
-	private static final Map<String, IType> typeCache= new HashMap<>();
+	private static final Map<String, IType> typeCache= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private static final Predicate<IField> NON_STATIC_FIELDS_ONLY_FILTER = t -> {
 		try {
@@ -91,12 +91,12 @@ public final class ChainElementAnalyzer {
                 STATIC_NON_VOID_NON_PRIMITIVE_METHODS_ONLY_FILTER);
     }
 
-    private static Collection<IJavaElement> findFieldsAndMethods(final ChainType type, final ChainType receiverType,
+    private static Collection<IJavaElement> findFieldsAndMethods(final ChainType type, final ChainType receiverType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             final Predicate<IField> fieldFilter, final Predicate<IMethod> methodFilter) {
-        final Map<String, IJavaElement> tmp = new LinkedHashMap<>();
-        for (final IType cur : findAllSupertypesIncludingArgument(type)) {
+        final Map<String, IJavaElement> tmp = new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
+        for (final IType cur : findAllSupertypesIncludingArgument(type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             try {
-				for (final IMethod method : cur.getMethods()) {
+				for (final IMethod method : cur.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				    if (!methodFilter.test(method) || !methodCanBeSeenBy(method, receiverType.getType())) {
 				        continue;
 				    }
@@ -109,7 +109,7 @@ public final class ChainElementAnalyzer {
 				// ignore
 			}
             try {
-				for (final IField field : cur.getFields()) {
+				for (final IField field : cur.getFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				    if (!fieldFilter.test(field) || !fieldCanBeSeenBy(field, receiverType.getType())) {
 				        continue;
 				    }
@@ -125,14 +125,14 @@ public final class ChainElementAnalyzer {
         return tmp.values();
     }
 
-    private static List<IType> findAllSupertypesIncludingArgument(final ChainType type) {
+    private static List<IType> findAllSupertypesIncludingArgument(final ChainType type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         if ((type.getPrimitiveType() != null)) {
             return Collections.emptyList();
         }
         final List<IType> supertypes = new LinkedList<>();
         final LinkedList<IType> queue = new LinkedList<>();
         queue.add(type.getType());
-        while (!queue.isEmpty()) {
+        while (!queue.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
             final IType superType = queue.poll();
             if (superType == null || supertypes.contains(superType)) {
                 continue;
@@ -144,7 +144,7 @@ public final class ChainElementAnalyzer {
 					IType superClassType= ChainElementAnalyzer.getTypeFromSignature(type.getType().getJavaProject(), superClass, superType);
 					queue.add(superClassType);
 				}
-				for (final String interfc : superType.getSuperInterfaceTypeSignatures()) {
+				for (final String interfc : superType.getSuperInterfaceTypeSignatures()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IType interfcType= ChainElementAnalyzer.getTypeFromSignature(type.getType().getJavaProject(), interfc, superType);
 					queue.add(interfcType);
 				}
@@ -155,7 +155,7 @@ public final class ChainElementAnalyzer {
         return supertypes;
     }
 
-    public static boolean isAssignable(final ChainElement edge, final IType expectedType,
+    public static boolean isAssignable(final ChainElement edge, final IType expectedType, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
             final int expectedDimension) {
         if (expectedDimension <= edge.getReturnTypeDimension()) {
             final IType base = edge.getReturnType().getType();
@@ -166,7 +166,7 @@ public final class ChainElementAnalyzer {
             supertypes.add(base);
             String expectedSignature = expectedType.getFullyQualifiedName();
 
-            while (!supertypes.isEmpty()) {
+            while (!supertypes.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                 final IType type = supertypes.poll();
                 String typeSignature = type.getFullyQualifiedName();
 
@@ -179,7 +179,7 @@ public final class ChainElementAnalyzer {
 						if (superclass != null) {
 							supertypes.add(superclass);
 						}
-						for (final String intf : type.getSuperInterfaceTypeSignatures()) {
+						for (final String intf : type.getSuperInterfaceTypeSignatures()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							IType intfType= ChainElementAnalyzer.getTypeFromSignature(type.getJavaProject(), intf, type);
 							supertypes.add(intfType);
 						}
@@ -192,11 +192,11 @@ public final class ChainElementAnalyzer {
         return false;
     }
 
-    private static boolean isAssignmentCompatible(IType base, IType expectedType) {
+    private static boolean isAssignmentCompatible(IType base, IType expectedType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
         LinkedList<IType> types= new LinkedList<> ();
         types.add(base);
         try {
-			while (!types.isEmpty()) {
+			while (!types.isEmpty()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IType type= types.poll();
 				if (type.getSuperclassTypeSignature() != null && !"java.lang.Object".equals(type.getSuperclassName())) { //$NON-NLS-1$
 					IType superType= ChainElementAnalyzer.getTypeFromSignature(type.getJavaProject(), type.getSuperclassTypeSignature(), type);
@@ -207,7 +207,7 @@ public final class ChainElementAnalyzer {
 				}
 
 				if (type.getSuperInterfaceNames().length > 0) {
-					for (String iface : type.getSuperInterfaceTypeSignatures()) {
+					for (String iface : type.getSuperInterfaceTypeSignatures()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						IType ifaceType= ChainElementAnalyzer.getTypeFromSignature(type.getJavaProject(), iface, type);
 						if (expectedType.equals(ifaceType)) {
 							return true;
@@ -267,7 +267,7 @@ public final class ChainElementAnalyzer {
 		return 0;
 	}
 
-	public static IType getTypeFromSignature (IJavaProject proj, String typeSig, IType declType) {
+	public static IType getTypeFromSignature (IJavaProject proj, String typeSig, IType declType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IType cType= typeCache.get(typeSig);
 		if (cType != null) {
 			return cType;
@@ -304,7 +304,7 @@ public final class ChainElementAnalyzer {
 		return null;
 	}
 
-	private static boolean methodCanBeSeenBy(IMethod mb, IType invocationType) {
+	private static boolean methodCanBeSeenBy(IMethod mb, IType invocationType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (Flags.isPublic(mb.getFlags())) {
 				return true;
@@ -331,11 +331,11 @@ public final class ChainElementAnalyzer {
 		try {
 			if (Flags.isPrivate(mb.getFlags())) {
 				IType mTypeRoot= mb.getDeclaringType();
-				while (invocationType.getDeclaringType() != null) {
+				while (invocationType.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					mTypeRoot= mTypeRoot.getDeclaringType();
 				}
 				IType invTypeRoot= invocationType;
-				while (invTypeRoot.getDeclaringType() != null) {
+				while (invTypeRoot.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					invTypeRoot= invTypeRoot.getDeclaringType();
 				}
 				return mTypeRoot.equals(invTypeRoot);
@@ -347,7 +347,7 @@ public final class ChainElementAnalyzer {
 		return invocationPackage.equals(methodPackage);
 	}
 
-	private static boolean fieldCanBeSeenBy(IField fb, IType invocationType) {
+	private static boolean fieldCanBeSeenBy(IField fb, IType invocationType) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			if (Flags.isPublic(fb.getFlags())) {
 				return true;
@@ -372,7 +372,7 @@ public final class ChainElementAnalyzer {
 				}
 
 				IType currType= invocationType;
-				while (currType.getSuperclassTypeSignature() != null) {
+				while (currType.getSuperclassTypeSignature() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					currType= ChainElementAnalyzer.getTypeFromSignature(currType.getJavaProject(), currType.getSuperclassTypeSignature(), currType);
 					if (currType.equals(fb.getDeclaringType())) {
 						return true;
@@ -386,11 +386,11 @@ public final class ChainElementAnalyzer {
 		try {
 			if (Flags.isPrivate(fb.getFlags())) {
 				IType fTypeRoot= fb.getDeclaringType();
-				while (invocationType.getDeclaringType() != null) {
+				while (invocationType.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fTypeRoot= fTypeRoot.getDeclaringType();
 				}
 				IType invTypeRoot= invocationType;
-				while (invTypeRoot.getDeclaringType() != null) {
+				while (invTypeRoot.getDeclaringType() != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					invTypeRoot= invTypeRoot.getDeclaringType();
 				}
 				if (fTypeRoot.equals(invTypeRoot)) {

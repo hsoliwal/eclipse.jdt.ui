@@ -67,7 +67,7 @@ import org.eclipse.jdt.internal.ui.util.OpenTypeHierarchyUtil;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class OpenTypeHierarchyAction extends SelectionDispatchAction {
+public class OpenTypeHierarchyAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -128,7 +128,7 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 		setEnabled(isEnabled(selection));
 	}
 
-	private boolean isEnabled(IStructuredSelection selection) {
+	private boolean isEnabled(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object[] elements= selection.toArray();
 		if (elements.length == 0)
 			return false;
@@ -160,7 +160,7 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 
 		// strategy: allow non-IJavaElements (e.g. an IResource), but stop for invalid IJavaElements
 		boolean hasValidElement= false;
-		for (Object input : elements) {
+		for (Object input : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (input instanceof LogicalPackage) {
 				hasValidElement= true;
 				continue;
@@ -182,7 +182,7 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 		return hasValidElement;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		IJavaElement input= SelectionConverter.getInput(fEditor);
 		if (!ActionUtil.isProcessable(getShell(), input))
@@ -192,8 +192,8 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 			IJavaElement[] elements= SelectionConverter.codeResolveOrInputForked(fEditor);
 			if (elements == null)
 				return;
-			List<IJavaElement> candidates= new ArrayList<>(elements.length);
-			for (IJavaElement element : elements) {
+			List<IJavaElement> candidates= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IJavaElement[] resolvedElements= OpenTypeHierarchyUtil.getCandidates(element);
 				if (resolvedElements != null)
 					candidates.addAll(Arrays.asList(resolvedElements));
@@ -206,10 +206,10 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
-		List<IJavaElement> validElements= new ArrayList<>();
-		for (Object input : selection.toArray()) {
+		List<IJavaElement> validElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object input : selection.toArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (input instanceof LogicalPackage) {
 				IPackageFragment[] fragments= ((LogicalPackage)input).getFragments();
 				if (fragments.length == 0)
@@ -225,7 +225,7 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 					continue;
 				}
 				String name= fragment.getElementName();
-				for (IPackageFragmentRoot root : roots) {
+				for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					IPackageFragment pack= root.getPackageFragment(name);
 					if (pack.exists())
 						validElements.add(pack);
@@ -242,7 +242,7 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 			ErrorDialog.openError(getShell(), getDialogTitle(), ActionMessages.OpenTypeHierarchyAction_messages_title, status);
 			return;
 		}
-		List<IJavaElement> result= new ArrayList<>();
+		List<IJavaElement> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IStatus status= compileCandidates(result, validElements);
 		if (status.isOK()) {
 			run(result.toArray(new IJavaElement[result.size()]));
@@ -267,10 +267,10 @@ public class OpenTypeHierarchyAction extends SelectionDispatchAction {
 		return ActionMessages.OpenTypeHierarchyAction_dialog_title;
 	}
 
-	private static IStatus compileCandidates(List<IJavaElement> result, List<IJavaElement> elements) {
+	private static IStatus compileCandidates(List<IJavaElement> result, List<IJavaElement> elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IStatus ok= Status.OK_STATUS;
 		boolean onlyContainers= true;
-		for (IJavaElement elem : elements) {
+		for (IJavaElement elem : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			try {
 				switch (elem.getElementType()) {
 					case IJavaElement.INITIALIZER:

@@ -65,7 +65,7 @@ public class SelectAllAction extends Action {
 	}
 
 	private void collectExpandedAndVisible(TreeItem[] items, List<TreeItem> result) {
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (item.getData() != null) {
 				result.add(item);
 				if (item.getExpanded()) {
@@ -81,7 +81,7 @@ public class SelectAllAction extends Action {
 	@Override
 	public void run() {
 		if (fViewer instanceof TreeViewer) {
-			ArrayList<TreeItem> allVisible= new ArrayList<>();
+			ArrayList<TreeItem> allVisible= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			Tree tree= ((TreeViewer) fViewer).getTree();
 			collectExpandedAndVisible(tree.getItems(), allVisible);
 			tree.setSelection(allVisible.toArray(new TreeItem[allVisible.size()]));

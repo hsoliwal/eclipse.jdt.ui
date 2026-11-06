@@ -102,35 +102,35 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
-		StringBuilder bld= new StringBuilder();
-		bld.append("boolean isFound = false;\n"); //$NON-NLS-1$
-		bld.append("for (int i = 0; i < number; i++) {\n"); //$NON-NLS-1$
-		bld.append("    if (i == 42) {\n"); //$NON-NLS-1$
-		bld.append("        isFound = true;\n"); //$NON-NLS-1$
+		StringBuilder bld= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		bld.append("boolean isFound = false;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("for (int i = 0; i < number; i++) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("    if (i == 42) {\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("        isFound = true;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (isEnabled(CleanUpConstants.BREAK_LOOP)) {
-			bld.append("        break;\n"); //$NON-NLS-1$
+			bld.append("        break;\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
-		bld.append("    }\n"); //$NON-NLS-1$
-		bld.append("}\n"); //$NON-NLS-1$
+		bld.append("    }\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		bld.append("}\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (!isEnabled(CleanUpConstants.BREAK_LOOP)) {
-			bld.append("\n"); //$NON-NLS-1$
+			bld.append("\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		return bld.toString();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.BREAK_LOOP)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			final class DisturbingEffectVisitor extends InterruptibleVisitor {
@@ -155,7 +155,7 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 					return visitVar(node.getLeftHandSide());
 				}
 
-				private boolean visitVar(final Expression modifiedVar) {
+				private boolean visitVar(final Expression modifiedVar) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (!(modifiedVar instanceof SimpleName)) {
 						hasDisturbingEffect= true;
 						return interruptVisit();
@@ -163,7 +163,7 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 
 					boolean isFound= false;
 
-					for (SimpleName localVariableName : localVariableNames) {
+					for (SimpleName localVariableName : localVariableNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (ASTNodes.isSameVariable(localVariableName, modifiedVar)) {
 							isFound= true;
 							break;
@@ -207,7 +207,7 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 
 				private boolean mayCallImplicitToString(final List<Expression> extendedOperands) {
 					if (extendedOperands != null) {
-						for (Expression expression : extendedOperands) {
+						for (Expression expression : extendedOperands) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (mayCallImplicitToString(expression)) {
 								return true;
 							}
@@ -265,12 +265,12 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 				}
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(final ForStatement node) {
-				Set<SimpleName> vars= new HashSet<>();
+				Set<SimpleName> vars= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 				List<Expression> initializers= node.initializers();
 
-				for (Expression initializer : initializers) {
+				for (Expression initializer : initializers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					vars.addAll(ASTNodes.getLocalVariableIdentifiers(initializer, true));
 				}
 
@@ -282,7 +282,7 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 
 				List<Expression> updaters= node.updaters();
 
-				for (Expression updater : updaters) {
+				for (Expression updater : updaters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (hasDisturbingEffect(updater, vars)) {
 						return true;
 					}
@@ -300,7 +300,7 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 			@Override
 			public boolean visit(final EnhancedForStatement node) {
 				if (ASTNodes.isArray(node.getExpression())) {
-					Set<SimpleName> vars= new HashSet<>();
+					Set<SimpleName> vars= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					vars.add(node.getParameter().getName());
 					return visitLoopBody(node.getBody(), vars);
 				}
@@ -308,14 +308,14 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean visitLoopBody(final Statement body, final Set<SimpleName> allowedVars) {
+			private boolean visitLoopBody(final Statement body, final Set<SimpleName> allowedVars) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				List<Statement> statements= ASTNodes.asList(body);
 
 				if (statements == null || statements.isEmpty()) {
 					return true;
 				}
 
-				for (int i= 0; i < statements.size() - 1; i++) {
+				for (int i= 0; i < statements.size() - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Statement statement= statements.get(i);
 					allowedVars.addAll(ASTNodes.getLocalVariableIdentifiers(statement, true));
 
@@ -338,17 +338,17 @@ public class BreakLoopCleanUpCore extends AbstractMultiFix {
 				return true;
 			}
 
-			private boolean areAssignmentsValid(final Set<SimpleName> allowedVars, final List<Statement> assignments) {
+			private boolean areAssignmentsValid(final Set<SimpleName> allowedVars, final List<Statement> assignments) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				if (assignments.isEmpty()) {
 					return false;
 				}
 
-				for (Statement statement : assignments) {
+				for (Statement statement : assignments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationStatement variableDeclaration= ASTNodes.as(statement, VariableDeclarationStatement.class);
 					Assignment assignment= ASTNodes.asExpression(statement, Assignment.class);
 
 					if (variableDeclaration != null) {
-						for (Object obj : variableDeclaration.fragments()) {
+						for (Object obj : variableDeclaration.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							VariableDeclarationFragment fragment= (VariableDeclarationFragment) obj;
 
 							if (!ASTNodes.isHardCoded(fragment.getInitializer())) {

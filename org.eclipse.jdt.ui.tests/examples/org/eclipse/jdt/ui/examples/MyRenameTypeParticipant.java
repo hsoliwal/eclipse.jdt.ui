@@ -87,10 +87,10 @@ public class MyRenameTypeParticipant extends RenameParticipant {
 		return new RefactoringStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Change createChange(IProgressMonitor pm) throws CoreException {
 
-		final HashMap<IFile, TextFileChange> changes= new HashMap<>();
+		final HashMap<IFile, TextFileChange> changes= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		final String newName= getArguments().getNewName();
 
 		// use the text search engine to find matches in my special files
@@ -99,7 +99,7 @@ public class MyRenameTypeParticipant extends RenameParticipant {
 		IResource[] roots= { fType.getJavaProject().getProject() };  // limit to the current project
 		String[] fileNamePatterns= { "*.special" }; //$NON-NLS-1$ // all files with file suffix 'special'
 		FileTextSearchScope scope= FileTextSearchScope.newSearchScope(roots , fileNamePatterns, false);
-		Pattern pattern= Pattern.compile(fType.getElementName()); // only find the simple name of the type
+		Pattern pattern= Pattern.compile(fType.getElementName()); // only find the simple name of the type //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
 
 		TextSearchRequestor collector= new TextSearchRequestor() {
 			@Override
@@ -127,7 +127,7 @@ public class MyRenameTypeParticipant extends RenameParticipant {
 			return null;
 
 		CompositeChange result= new CompositeChange("My special file updates"); //$NON-NLS-1$
-		for (TextFileChange textFileChange : changes.values()) {
+		for (TextFileChange textFileChange : changes.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.add(textFileChange);
 		}
 		return result;

@@ -363,18 +363,18 @@ public class ClasspathModifierQueries {
      *
      * @see OutputFolderQuery
      */
-    public static OutputFolderQuery getDefaultFolderQuery(final Shell shell, IPath outputLocation) {
+    public static OutputFolderQuery getDefaultFolderQuery(final Shell shell, IPath outputLocation) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
         return new OutputFolderQuery(outputLocation) {
 			protected IPath fOutputLocation;
 			protected boolean fRemoveProject;
 
-            @Override
+            @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean doQuery(final boolean editingOutputFolder,  final OutputFolderValidator validator, final IJavaProject project) throws JavaModelException {
                 final boolean[] result= { false };
                 fRemoveProject= false;
                 fOutputLocation= project.getOutputLocation();
-				Display.getDefault().syncExec(() -> {
+				Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					Shell sh= shell != null ? shell : JavaPlugin.getActiveWorkbenchShell();
 
 					String title= NewWizardMessages.ClasspathModifier_ChangeOutputLocationDialog_title;
@@ -421,8 +421,8 @@ public class ClasspathModifierQueries {
             private IPath getValidPath(IPath newOutputFolder, OutputFolderValidator validator) {
                 int i= 1;
                 IPath path= newOutputFolder;
-                while (!validator.validate(path)) {
-                    path= new Path(newOutputFolder.toString() + i);
+                while (!validator.validate(path)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+                    path= new Path(newOutputFolder.toString() + i); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
                     i++;
                 }
                 return path;
@@ -440,7 +440,7 @@ public class ClasspathModifierQueries {
      *
      * @see ClasspathModifierQueries.IInclusionExclusionQuery
      */
-	public static IInclusionExclusionQuery getDefaultInclusionExclusionQuery(final Shell shell) {
+	public static IInclusionExclusionQuery getDefaultInclusionExclusionQuery(final Shell shell) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new IInclusionExclusionQuery() {
 
 			protected IPath[] fInclusionPattern;
@@ -449,7 +449,7 @@ public class ClasspathModifierQueries {
 			@Override
 			public boolean doQuery(final CPListElement element, final boolean focusOnExcluded) {
 				final boolean[] result= { false };
-				Display.getDefault().syncExec(() -> {
+				Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					Shell sh= shell != null ? shell : JavaPlugin.getActiveWorkbenchShell();
 					ExclusionInclusionDialog dialog= new ExclusionInclusionDialog(sh, element, focusOnExcluded);
 					result[0]= dialog.open() == Window.OK;
@@ -484,7 +484,7 @@ public class ClasspathModifierQueries {
     public static IAddArchivesQuery getDefaultArchivesQuery(final Shell shell) {
         return () -> {
 		    final IPath[][] selected= {null};
-		    Display.getDefault().syncExec(() -> {
+		    Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			    Shell sh= shell != null ? shell : JavaPlugin.getActiveWorkbenchShell();
 			    selected[0]= BuildPathDialogAccess.chooseExternalJAREntries(sh);
 			});
@@ -505,7 +505,7 @@ public class ClasspathModifierQueries {
 	public static IRemoveLinkedFolderQuery getDefaultRemoveLinkedFolderQuery(final Shell shell) {
 		return folder -> {
 			final int[] result= { IRemoveLinkedFolderQuery.REMOVE_BUILD_PATH};
-			Display.getDefault().syncExec(() -> {
+			Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				final RemoveLinkedFolderDialog dialog= new RemoveLinkedFolderDialog((shell != null ? shell : JavaPlugin.getActiveWorkbenchShell()), folder);
 				final int status= dialog.open();
 				if (status == 0)
@@ -530,7 +530,7 @@ public class ClasspathModifierQueries {
     public static IAddLibrariesQuery getDefaultLibrariesQuery(final Shell shell) {
         return (project, entries) -> {
 		    final IClasspathEntry[][] selected= {null};
-		    Display.getDefault().syncExec(() -> {
+		    Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			    Shell sh= shell != null ? shell : JavaPlugin.getActiveWorkbenchShell();
 			    selected[0]= BuildPathDialogAccess.chooseContainerEntries(sh, project, entries);
 			});
@@ -547,15 +547,15 @@ public class ClasspathModifierQueries {
      * @param project the Java project to create the source folder for
      * @return returns the query
      */
-	public static ICreateFolderQuery getDefaultCreateFolderQuery(final Shell shell, final IJavaProject project) {
+	public static ICreateFolderQuery getDefaultCreateFolderQuery(final Shell shell, final IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		return new ICreateFolderQuery() {
 
 			private IFolder fNewFolder;
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean doQuery() {
 				final boolean[] isOK= {false};
-                Display.getDefault().syncExec(() -> {
+                Display.getDefault().syncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				    Shell sh= shell != null ? shell : JavaPlugin.getActiveWorkbenchShell();
 
 				    NewFolderDialog dialog= new NewFolderDialog(sh, project.getProject());

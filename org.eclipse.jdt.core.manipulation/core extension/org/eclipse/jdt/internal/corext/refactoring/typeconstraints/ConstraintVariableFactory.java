@@ -39,15 +39,15 @@ import org.eclipse.jdt.internal.corext.dom.Bindings;
  */
 public class ConstraintVariableFactory implements IConstraintVariableFactory {
 
-	private Map<IBinding, IBinding> fBindingMap= new HashMap<>();
+	private Map<IBinding, IBinding> fBindingMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	private Map<Object, ExpressionVariable> fExpressionMap= new Hashtable<>();
-	private Map<Integer, ExpressionVariable> fLiteralMap= new HashMap<>();
-	private Map<CompilationUnitRange, TypeVariable> fTypeVariableMap= new HashMap<>();
-	private Map<String, DeclaringTypeVariable> fDeclaringTypeVariableMap= new HashMap<>();
-	private Map<String, ParameterTypeVariable> fParameterMap= new HashMap<>();
-	private Map<String, RawBindingVariable> fRawBindingMap= new HashMap<>();
-	private Map<String, ReturnTypeVariable> fReturnVariableMap= new HashMap<>();
+	private Map<Integer, ExpressionVariable> fLiteralMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW //FLLDCIM: MARK — M10 M3_PRIMITIVE_LANES FIELD
+	private Map<CompilationUnitRange, TypeVariable> fTypeVariableMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<String, DeclaringTypeVariable> fDeclaringTypeVariableMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<String, ParameterTypeVariable> fParameterMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<String, RawBindingVariable> fRawBindingMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<String, ReturnTypeVariable> fReturnVariableMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	public static final boolean REPORT= false;
 	protected int nrCreated=0;
@@ -57,7 +57,7 @@ public class ConstraintVariableFactory implements IConstraintVariableFactory {
 		return nrCreated;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ConstraintVariable makeExpressionOrTypeVariable(Expression expression,
 													       IContext context) {
 		IBinding binding= ExpressionVariable.resolveBinding(expression);
@@ -113,7 +113,7 @@ public class ConstraintVariableFactory implements IConstraintVariableFactory {
 		if (fBindingMap.containsKey(binding)){
 			return fBindingMap.get(binding);
 		} else {
-			for (IBinding b2 : fBindingMap.keySet()) {
+			for (IBinding b2 : fBindingMap.keySet()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (Bindings.equals(binding, b2)){
 					fBindingMap.put(binding, b2);
 					return b2;
@@ -165,7 +165,7 @@ public class ConstraintVariableFactory implements IConstraintVariableFactory {
 	@Override
 	public ParameterTypeVariable makeParameterTypeVariable(IMethodBinding methodBinding,
 														   int parameterIndex) {
-		String key= methodBinding.getKey() + parameterIndex;
+		String key= methodBinding.getKey() + parameterIndex; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (! fParameterMap.containsKey(key)){
 			fParameterMap.put(key, new ParameterTypeVariable(methodBinding, parameterIndex));
 			if (REPORT) nrCreated++;
@@ -235,7 +235,7 @@ public class ConstraintVariableFactory implements IConstraintVariableFactory {
 	}
 
 	protected void dumpConstraintStats() {
-		System.out.println("created: " + nrCreated + ", retrieved: " + nrRetrieved); //$NON-NLS-1$ //$NON-NLS-2$
+		System.out.println("created: " + nrCreated + ", retrieved: " + nrRetrieved); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

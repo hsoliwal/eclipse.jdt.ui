@@ -86,7 +86,7 @@ public class PartialASTTest extends CoreTests {
 		JavaProjectHelper.clear(fJProject1, pts.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartialCU1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String existing= """
@@ -140,9 +140,9 @@ public class PartialASTTest extends CoreTests {
 		assertAllBindings(astRoot);
 	}
 
-	private void assertAllBindings(CompilationUnit astRoot) {
+	private void assertAllBindings(CompilationUnit astRoot) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<AbstractTypeDeclaration> list= astRoot.types();
-		for (AbstractTypeDeclaration element : list) {
+		for (AbstractTypeDeclaration element : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TypeDeclaration decl= (TypeDeclaration) element;
 			assertNotNull(decl.resolveBinding());
 
@@ -150,14 +150,14 @@ public class PartialASTTest extends CoreTests {
 				assertNotNull(decl.getSuperclassType().resolveBinding());
 			}
 			List<Type> interfaces= decl.superInterfaceTypes();
-			for (Type interface1 : interfaces) {
+			for (Type interface1 : interfaces) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertNotNull(interface1.resolveBinding());
 			}
 
-			for (MethodDeclaration meth : decl.getMethods()) {
+			for (MethodDeclaration meth : decl.getMethods()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				assertNotNull(meth.resolveBinding());
 				List<SingleVariableDeclaration> params= meth.parameters();
-				for (SingleVariableDeclaration arg : params) {
+				for (SingleVariableDeclaration arg : params) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					assertNotNull(arg.resolveBinding());
 				}
 				if (!meth.isConstructor()) {
@@ -170,7 +170,7 @@ public class PartialASTTest extends CoreTests {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartialCU2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String existing= """
@@ -233,7 +233,7 @@ public class PartialASTTest extends CoreTests {
 		assertAllBindings(astRoot);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartialCU3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String existing= """
@@ -300,7 +300,7 @@ public class PartialASTTest extends CoreTests {
 		assertAllBindings(astRoot);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartialCU4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String existing= """
@@ -363,7 +363,7 @@ public class PartialASTTest extends CoreTests {
 		assertAllBindings(astRoot);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartialCUPositionNotInMethod1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String existing= """
@@ -425,7 +425,7 @@ public class PartialASTTest extends CoreTests {
 		assertAllBindings(astRoot);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPartialCUPositionNotInMethod2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String existing= """

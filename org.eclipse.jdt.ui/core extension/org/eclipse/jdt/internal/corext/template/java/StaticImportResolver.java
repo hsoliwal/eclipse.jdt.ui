@@ -42,7 +42,7 @@ public class StaticImportResolver extends TemplateVariableResolver {
 
 		if (context instanceof JavaContext) {
 			JavaContext jc= (JavaContext) context;
-			for (String qualifiedMemberName : variable.getVariableType().getParams()) {
+			for (String qualifiedMemberName : variable.getVariableType().getParams()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				jc.addStaticImport(qualifiedMemberName);
 			}
 		} else {

@@ -108,10 +108,10 @@ public class FullConstraintCreator extends ConstraintCreator{
 		ITypeBinding arrayBinding= arrayInitializer.resolveTypeBinding();
 		Assert.isTrue(arrayBinding.isArray());
 		List<Expression> expressions= arrayInitializer.expressions();
-		List<ITypeConstraint> constraints= new ArrayList<>();
+		List<ITypeConstraint> constraints= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Type type= getTypeParent(arrayInitializer);
 		ConstraintVariable typeVariable= fConstraintVariableFactory.makeTypeVariable(type);
-		for (Expression each : expressions) {
+		for (Expression each : expressions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ITypeConstraint[] c= fTypeConstraintFactory.createSubtypeConstraint(
 					fConstraintVariableFactory.makeExpressionOrTypeVariable(each, getContext()),
 					typeVariable);
@@ -127,7 +127,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 				fConstraintVariableFactory.makeExpressionOrTypeVariable(assignment.getLeftHandSide(), getContext()));
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ITypeConstraint[] create(CastExpression castExpression){
 		Expression expression= castExpression.getExpression();
 		Type type= castExpression.getType();
@@ -141,7 +141,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 				return c2;
 			} else {
 				ITypeConstraint c1 = definesConstraint[0];
-				Collection<ITypeConstraint> constraints= new ArrayList<>();
+				Collection<ITypeConstraint> constraints= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				constraints.add(c1);
 				constraints.addAll(Arrays.asList(c2));
 				return constraints.toArray(new ITypeConstraint[constraints.size()]);
@@ -164,7 +164,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 				nameVariable,
 				fConstraintVariableFactory.makeRawBindingVariable(throwable));
 
-		ArrayList<ITypeConstraint> result= new ArrayList<>(Arrays.asList(defines));
+		ArrayList<ITypeConstraint> result= new ArrayList<>(Arrays.asList(defines)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.addAll(Arrays.asList(catchBound));
 		return result.toArray(new ITypeConstraint[result.size()]);
 	}
@@ -173,7 +173,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 	@Override
 	public ITypeConstraint[] create(ClassInstanceCreation instanceCreation){
 		List<Expression> arguments= instanceCreation.arguments();
-		List<ITypeConstraint> result= new ArrayList<>(arguments.size());
+		List<ITypeConstraint> result= new ArrayList<>(arguments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding methodBinding= instanceCreation.resolveConstructorBinding();
 		result.addAll(Arrays.asList(getArgumentConstraints(arguments, methodBinding)));
 		if (instanceCreation.getAnonymousClassDeclaration() == null){
@@ -187,7 +187,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 	@Override
 	public ITypeConstraint[] create(ConstructorInvocation invocation){
 		List<Expression> arguments= invocation.arguments();
-		List<ITypeConstraint> result= new ArrayList<>(arguments.size());
+		List<ITypeConstraint> result= new ArrayList<>(arguments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding methodBinding= invocation.resolveConstructorBinding();
 		result.addAll(Arrays.asList(getArgumentConstraints(arguments, methodBinding)));
 		return result.toArray(new ITypeConstraint[result.size()]);
@@ -206,7 +206,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 
 	@Override
 	public ITypeConstraint[] create(FieldDeclaration fd){
-		List<ITypeConstraint> result= new ArrayList<>(Arrays.asList(getConstraintsFromFragmentList(fd.fragments(), fd.getType())));
+		List<ITypeConstraint> result= new ArrayList<>(Arrays.asList(getConstraintsFromFragmentList(fd.fragments(), fd.getType()))); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		result.addAll(getConstraintsForHiding(fd));
 		result.addAll(getConstraintsForFieldDeclaringTypes(fd));
 		return result.toArray(new ITypeConstraint[result.size()]);
@@ -226,7 +226,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 
 	@Override
 	public ITypeConstraint[] create(ConditionalExpression node) {
-		List<ITypeConstraint> result= new ArrayList<>();
+		List<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Expression thenExpression= node.getThenExpression();
 		Expression elseExpression= node.getElseExpression();
 		ConstraintVariable whole= fConstraintVariableFactory.makeExpressionOrTypeVariable(node, getContext());
@@ -241,9 +241,9 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return result.toArray(new ITypeConstraint[result.size()]);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ITypeConstraint[] create(MethodDeclaration declaration){
-		List<ITypeConstraint> result= new ArrayList<>();
+		List<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding methodBinding= declaration.resolveBinding();
 		if (methodBinding == null)
 			return new ITypeConstraint[0];
@@ -258,7 +258,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 					returnTypeBindingVariable, returnTypeVariable);
 			result.addAll(Arrays.asList(defines));
 		}
-		for (int i= 0, n= declaration.parameters().size(); i < n; i++) {
+		for (int i= 0, n= declaration.parameters().size(); i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration paramDecl= (SingleVariableDeclaration)declaration.parameters().get(i);
 			ConstraintVariable parameterTypeVariable= fConstraintVariableFactory.makeParameterTypeVariable(methodBinding, i);
 			ConstraintVariable parameterNameVariable= fConstraintVariableFactory.makeExpressionOrTypeVariable(paramDecl.getName(), getContext());
@@ -281,10 +281,10 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return equal;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ITypeConstraint[] create(MethodInvocation invocation){
 		List<Expression> arguments= invocation.arguments();
-		List<ITypeConstraint> result= new ArrayList<>(arguments.size());
+		List<ITypeConstraint> result= new ArrayList<>(arguments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding methodBinding= invocation.resolveMethodBinding();
 		if (methodBinding == null)
 			return new ITypeConstraint[0];
@@ -299,8 +299,8 @@ public class FullConstraintCreator extends ConstraintCreator{
 				if (rootDefs.length == 1){
 					result.addAll(Arrays.asList(fTypeConstraintFactory.createSubtypeConstraint(expressionVar, fConstraintVariableFactory.makeDeclaringTypeVariable(rootDefs[0]))));
 				}else{
-					Collection<ITypeConstraint> constraints= new ArrayList<>();
-					for (IMethodBinding rootDef : rootDefs) {
+					Collection<ITypeConstraint> constraints= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (IMethodBinding rootDef : rootDefs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						ConstraintVariable rootDefTypeVar= fConstraintVariableFactory.makeDeclaringTypeVariable(rootDef);
 						ITypeConstraint[] tc= fTypeConstraintFactory.createSubtypeConstraint(expressionVar, rootDefTypeVar);
 						constraints.addAll(Arrays.asList(tc));
@@ -343,7 +343,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 				returnTypeVariable);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ITypeConstraint[] create(SingleVariableDeclaration svd){
 		ITypeConstraint[] defines= fTypeConstraintFactory.createDefinesConstraint(
 				fConstraintVariableFactory.makeExpressionOrTypeVariable(svd.getName(), getContext()),
@@ -360,7 +360,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 		} else if (constraints.length == 0){
 			return defines;
 		} else {
-			List<ITypeConstraint> all= new ArrayList<>(Arrays.asList(defines));
+			List<ITypeConstraint> all= new ArrayList<>(Arrays.asList(defines)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			all.addAll(Arrays.asList(constraints));
 			return all.toArray(new ITypeConstraint[all.size()]);
 		}
@@ -369,7 +369,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 	@Override
 	public ITypeConstraint[] create(SuperConstructorInvocation invocation){
 		List<Expression> arguments= invocation.arguments();
-		List<ITypeConstraint> result= new ArrayList<>(arguments.size());
+		List<ITypeConstraint> result= new ArrayList<>(arguments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding methodBinding= invocation.resolveConstructorBinding();
 		result.addAll(Arrays.asList(getArgumentConstraints(arguments, methodBinding)));
 		return result.toArray(new ITypeConstraint[result.size()]);
@@ -388,7 +388,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 	@Override
 	public ITypeConstraint[] create(SuperMethodInvocation invocation){
 		List<Expression> arguments= invocation.arguments();
-		List<ITypeConstraint> result= new ArrayList<>(arguments.size());
+		List<ITypeConstraint> result= new ArrayList<>(arguments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IMethodBinding methodBinding= invocation.resolveMethodBinding();
 		ITypeConstraint[] returnTypeConstraint= getReturnTypeConstraint(invocation, methodBinding);
 		result.addAll(Arrays.asList(returnTypeConstraint));
@@ -435,8 +435,8 @@ public class FullConstraintCreator extends ConstraintCreator{
 	//--------- private helpers ----------------//
 
 	private Collection<ITypeConstraint> getConstraintsForFieldDeclaringTypes(FieldDeclaration fd) {
-		Collection<ITypeConstraint> result= new ArrayList<>(fd.fragments().size());
-		for (Iterator<VariableDeclarationFragment> iter= fd.fragments().iterator(); iter.hasNext();) {
+		Collection<ITypeConstraint> result= new ArrayList<>(fd.fragments().size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<VariableDeclarationFragment> iter= fd.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment varDecl= iter.next();
 			IVariableBinding binding= varDecl.resolveBinding();
 			Assert.isTrue(binding.isField());
@@ -448,19 +448,19 @@ public class FullConstraintCreator extends ConstraintCreator{
 	}
 
 	private Collection<ITypeConstraint> getConstraintsForHiding(FieldDeclaration fd) {
-		Collection<ITypeConstraint> result= new ArrayList<>();
-		for (Iterator<VariableDeclarationFragment> iter= fd.fragments().iterator(); iter.hasNext();) {
+		Collection<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Iterator<VariableDeclarationFragment> iter= fd.fragments().iterator(); iter.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			result.addAll(getConstraintsForHiding(iter.next()));
 		}
 		return result;
 	}
 
 	private Collection<ITypeConstraint> getConstraintsForHiding(VariableDeclarationFragment fragment) {
-		Collection<ITypeConstraint> result= new ArrayList<>();
+		Collection<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IVariableBinding fieldBinding= fragment.resolveBinding();
 		Assert.isTrue(fieldBinding.isField());
 		ConstraintVariable hiddingFieldVar= fConstraintVariableFactory.makeDeclaringTypeVariable(fieldBinding);
-		for (ITypeBinding declaringSuperType : getDeclaringSuperTypes(fieldBinding)) {
+		for (ITypeBinding declaringSuperType : getDeclaringSuperTypes(fieldBinding)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IVariableBinding hiddenField= findField(fieldBinding, declaringSuperType);
 			Assert.isTrue(hiddenField.isField());
 			ConstraintVariable hiddenFieldVar= fConstraintVariableFactory.makeDeclaringTypeVariable(hiddenField);
@@ -469,17 +469,17 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return result;
 	}
 
-	private ITypeConstraint[] getConstraintsFromFragmentList(List<VariableDeclarationFragment> list, Type type) {
+	private ITypeConstraint[] getConstraintsFromFragmentList(List<VariableDeclarationFragment> list, Type type) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size= list.size();
 		ConstraintVariable typeVariable= fConstraintVariableFactory.makeTypeVariable(type);
-		List<ITypeConstraint> result= new ArrayList<>((size * (size - 1))/2);
-		for (int i= 0; i < size; i++) {
+		List<ITypeConstraint> result= new ArrayList<>((size * (size - 1))/2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			VariableDeclarationFragment fragment1= list.get(i);
 			SimpleName fragment1Name= fragment1.getName();
 			result.addAll(Arrays.asList(fTypeConstraintFactory.createDefinesConstraint(
 					fConstraintVariableFactory.makeExpressionOrTypeVariable(fragment1Name, getContext()),
 					typeVariable)));
-			for (int j= i + 1; j < size; j++) {
+			for (int j= i + 1; j < size; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				VariableDeclarationFragment fragment2= list.get(j);
 				result.addAll(Arrays.asList(fTypeConstraintFactory.createEqualsConstraint(
 						fConstraintVariableFactory.makeExpressionOrTypeVariable(fragment1Name, getContext()),
@@ -489,9 +489,9 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return result.toArray(new ITypeConstraint[result.size()]);
 	}
 
-	private Collection<ITypeConstraint> getConstraintsForOverriding(IMethodBinding overridingMethod) {
-		Collection<ITypeConstraint> result= new ArrayList<>();
-		for (ITypeBinding superType : getDeclaringSuperTypes(overridingMethod)) {
+	private Collection<ITypeConstraint> getConstraintsForOverriding(IMethodBinding overridingMethod) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Collection<ITypeConstraint> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (ITypeBinding superType : getDeclaringSuperTypes(overridingMethod)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IMethodBinding overriddenMethod= findMethod(overridingMethod, superType);
 			Assert.isNotNull(overriddenMethod);//because we asked for declaring types
 			if (Bindings.equals(overridingMethod, overriddenMethod))
@@ -501,7 +501,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 					fConstraintVariableFactory.makeReturnTypeVariable(overridingMethod));
 			result.addAll(Arrays.asList(returnTypeConstraint));
 			Assert.isTrue(overriddenMethod.getParameterTypes().length == overridingMethod.getParameterTypes().length);
-			for (int i= 0, n= overriddenMethod.getParameterTypes().length; i < n; i++) {
+			for (int i= 0, n= overriddenMethod.getParameterTypes().length; i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ITypeConstraint[] parameterTypeConstraint= fTypeConstraintFactory.createEqualsConstraint(
 						fConstraintVariableFactory.makeParameterTypeVariable(overriddenMethod, i),
 						fConstraintVariableFactory.makeParameterTypeVariable(overridingMethod, i));
@@ -523,8 +523,8 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return fTypeConstraintFactory.createDefinesConstraint(invocationVariable, returnTypeVariable);
 	}
 
-	private ITypeConstraint[] getArgumentConstraints(List<Expression> arguments, IMethodBinding methodBinding) {
-		List<ITypeConstraint> result= new ArrayList<>(arguments.size());
+	private ITypeConstraint[] getArgumentConstraints(List<Expression> arguments, IMethodBinding methodBinding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		List<ITypeConstraint> result= new ArrayList<>(arguments.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		if (methodBinding == null)
 			return new ITypeConstraint[0];
@@ -538,7 +538,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 
 			int i= 0;
 			// add the normal argument constraints up to the last one
-			for (; i < nParams - 1; i++) {
+			for (; i < nParams - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression argument= arguments.get(i);
 				ConstraintVariable expressionVariable= fConstraintVariableFactory.makeExpressionOrTypeVariable(argument, getContext());
 				ConstraintVariable parameterTypeVariable= fConstraintVariableFactory.makeParameterTypeVariable(methodBinding, i);
@@ -571,7 +571,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 				ITypeBinding componentBinding= binding.getComponentType();
 				Assert.isNotNull(componentBinding);
 				ConstraintVariable parameterTypeVariable= fConstraintVariableFactory.makeRawBindingVariable(componentBinding);
-				for (; i < nArgs; i++) {
+				for (; i < nArgs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Expression argument= arguments.get(i);
 					ConstraintVariable expressionVariable= fConstraintVariableFactory.makeExpressionOrTypeVariable(argument, getContext());
 					ITypeConstraint[] argConstraint= fTypeConstraintFactory.createSubtypeConstraint(expressionVariable, parameterTypeVariable);
@@ -580,7 +580,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 			}
 
 		} else {
-			for (int i= 0, n= arguments.size(); i < n; i++) {
+			for (int i= 0, n= arguments.size(); i < n; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Expression argument= arguments.get(i);
 				ConstraintVariable expressionVariable= fConstraintVariableFactory.makeExpressionOrTypeVariable(argument, getContext());
 				ConstraintVariable parameterTypeVariable= fConstraintVariableFactory.makeParameterTypeVariable(methodBinding, i);
@@ -592,7 +592,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return result.toArray(new ITypeConstraint[result.size()]);
 	}
 
-	private static Type getTypeParent(ArrayInitializer arrayInitializer) {
+	private static Type getTypeParent(ArrayInitializer arrayInitializer) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (arrayInitializer.getParent() instanceof ArrayCreation){
 			return ((ArrayCreation)arrayInitializer.getParent()).getType().getElementType();
 		} else if (arrayInitializer.getParent() instanceof ArrayInitializer){
@@ -624,7 +624,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 		return new ITypeConstraint[]{ fTypeConstraintFactory.createCompositeOrTypeConstraint(new ITypeConstraint[]{c1[0], c2[0]}) };
 	}
 
-	private ITypeConstraint[] createConstraintsForAccessToField(IVariableBinding fieldBinding, Expression qualifier, Expression accessExpression){
+	private ITypeConstraint[] createConstraintsForAccessToField(IVariableBinding fieldBinding, Expression qualifier, Expression accessExpression){ //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Assert.isTrue(fieldBinding.isField());
 		ITypeConstraint[] defines= fTypeConstraintFactory.createDefinesConstraint(
 				fConstraintVariableFactory.makeExpressionOrTypeVariable(accessExpression, getContext()),
@@ -654,8 +654,8 @@ public class FullConstraintCreator extends ConstraintCreator{
 	 * return Set of ITypeBindings
 	 */
 	private static Set<ITypeBinding> getDeclaringSuperTypes(IVariableBinding fieldBinding) {
-		Set<ITypeBinding> result= new HashSet<>();
-		for (ITypeBinding type : Bindings.getAllSuperTypes(fieldBinding.getDeclaringClass())) {
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ITypeBinding type : Bindings.getAllSuperTypes(fieldBinding.getDeclaringClass())) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (findField(fieldBinding, type) != null)
 				result.add(type);
 		}
@@ -666,7 +666,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 	protected static IMethodBinding[] getRootDefs(IMethodBinding methodBinding) {
 		Set<ITypeBinding> declaringSuperTypes= getDeclaringSuperTypes(methodBinding);
 		Set<IMethodBinding> result= new LinkedHashSet<>();
-		for (ITypeBinding type : declaringSuperTypes) {
+		for (ITypeBinding type : declaringSuperTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! containsASuperType(type, declaringSuperTypes))
 				result.add(findMethod(methodBinding, type));
 		}
@@ -683,7 +683,7 @@ public class FullConstraintCreator extends ConstraintCreator{
 	 * 		which is a strict supertype of <code>type</code>
 	 */
 	private static boolean containsASuperType(ITypeBinding type, Set<ITypeBinding> declaringSuperTypes) {
-		for (ITypeBinding maybeSuperType : declaringSuperTypes) {
+		for (ITypeBinding maybeSuperType : declaringSuperTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! Bindings.equals(maybeSuperType, type) && Bindings.isSuperType(maybeSuperType, type))
 				return true;
 		}
@@ -698,8 +698,8 @@ public class FullConstraintCreator extends ConstraintCreator{
 		Set<ITypeBinding> allSuperTypes= new LinkedHashSet<>(Arrays.asList(Bindings.getAllSuperTypes(superClass)));
 		if (allSuperTypes.isEmpty())
 			allSuperTypes.add(methodBinding.getDeclaringClass()); //TODO: Why only iff empty? The declaring class is not a supertype ...
-		Set<ITypeBinding> result= new HashSet<>();
-		for (ITypeBinding type : allSuperTypes) {
+		Set<ITypeBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (ITypeBinding type : allSuperTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (findMethod(methodBinding, type) != null)
 				result.add(type);
 		}

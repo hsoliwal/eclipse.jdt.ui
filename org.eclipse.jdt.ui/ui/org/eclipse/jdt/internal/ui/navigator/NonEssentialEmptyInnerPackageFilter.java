@@ -15,7 +15,7 @@ package org.eclipse.jdt.internal.ui.navigator;
 import org.eclipse.jdt.internal.ui.filters.EmptyInnerPackageFilter;
 
 
-public class NonEssentialEmptyInnerPackageFilter extends NonEssentialElementsFilter {
+public class NonEssentialEmptyInnerPackageFilter extends NonEssentialElementsFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 
 	public NonEssentialEmptyInnerPackageFilter() {

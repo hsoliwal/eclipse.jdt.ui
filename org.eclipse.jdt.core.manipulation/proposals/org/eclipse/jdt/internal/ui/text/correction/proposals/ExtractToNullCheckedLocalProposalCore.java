@@ -190,7 +190,7 @@ public class ExtractToNullCheckedLocalProposalCore extends LinkedCorrectionPropo
 		return enclosingMethod;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 
 		// infrastructure:
@@ -250,12 +250,12 @@ public class ExtractToNullCheckedLocalProposalCore extends LinkedCorrectionPropo
 
 		// else block: a Todo comment
 		Block elseBlock = ast.newBlock();
-		StringBuilder elseStatement= new StringBuilder("// TODO ").append(FixMessages.ExtractToNullCheckedLocalProposal_todoHandleNullDescription); //$NON-NLS-1$
+		StringBuilder elseStatement= new StringBuilder("// TODO ").append(FixMessages.ExtractToNullCheckedLocalProposal_todoHandleNullDescription); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (origStmt instanceof ReturnStatement) {
 			Type returnType= newType(((ReturnStatement)origStmt).getExpression().resolveTypeBinding(), ast, imports);
 			ReturnStatement returnStatement= ast.newReturnStatement();
 			returnStatement.setExpression(ASTNodeFactory.newDefaultExpression(ast, returnType, 0));
-			elseStatement.append('\n').append(ASTNodes.asFormattedString(returnStatement, 0, String.valueOf('\n'), FormatterProfileManagerCore.getProjectSettings(getCompilationUnit().getJavaProject())));
+			elseStatement.append('\n').append(ASTNodes.asFormattedString(returnStatement, 0, String.valueOf('\n'), FormatterProfileManagerCore.getProjectSettings(getCompilationUnit().getJavaProject()))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 
 		EmptyStatement todoNode= (EmptyStatement) rewrite.createStringPlaceholder(elseStatement.toString(), ASTNode.EMPTY_STATEMENT);
@@ -290,7 +290,7 @@ public class ExtractToNullCheckedLocalProposalCore extends LinkedCorrectionPropo
 	 * @param imports use this for optimal type names
 	 * @return a fully features non-null type reference (can be parameterized and/or array).
 	 */
-	public static Type newType(ITypeBinding typeBinding, AST ast, ImportRewrite imports) {
+	public static Type newType(ITypeBinding typeBinding, AST ast, ImportRewrite imports) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// unwrap array type:
 		int dimensions= typeBinding.getDimensions();
 		if (dimensions > 0)
@@ -308,7 +308,7 @@ public class ExtractToNullCheckedLocalProposalCore extends LinkedCorrectionPropo
 		// re-wrap as parameterized type:
 		if (typeArguments.length > 0) {
 			ParameterizedType parameterizedType= ast.newParameterizedType(elementType);
-			for (ITypeBinding typeArgument : typeArguments)
+			for (ITypeBinding typeArgument : typeArguments) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				parameterizedType.typeArguments().add(newType(typeArgument, ast, imports));
 			elementType = parameterizedType;
 		}

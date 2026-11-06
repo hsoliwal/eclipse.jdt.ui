@@ -40,15 +40,15 @@ public class UndoablePackageDeleteChange extends DynamicValidationStateChange {
 	public Change perform(IProgressMonitor pm) throws CoreException {
 		int count= fPackageDeletes.size();
 		SubMonitor subMonitor= SubMonitor.convert(pm, count * 3);
-		List<IResourceSnapshot<IResource>> snapshots = new ArrayList<>();
-		for (IResource resource : fPackageDeletes) {
+		List<IResourceSnapshot<IResource>> snapshots = new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IResource resource : fPackageDeletes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			snapshots.add(ResourceSnapshotFactory.fromResource(resource));
 			subMonitor.split(1);
 		}
 
 		DynamicValidationStateChange result= (DynamicValidationStateChange) super.perform(subMonitor.split(count));
 
-		for (IResourceSnapshot<IResource> resourceDescription : snapshots) {
+		for (IResourceSnapshot<IResource> resourceDescription : snapshots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			resourceDescription.recordStateFromHistory(subMonitor.split(1));
 			result.add(new UndoDeleteResourceChange(resourceDescription));
 		}

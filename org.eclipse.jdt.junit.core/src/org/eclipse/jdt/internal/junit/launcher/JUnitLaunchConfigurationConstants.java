@@ -37,25 +37,25 @@ public class JUnitLaunchConfigurationConstants {
 	public static final String MODE_RUN_QUIETLY_MODE = "runQuietly"; //$NON-NLS-1$
 	public static final String ID_JUNIT_APPLICATION= "org.eclipse.jdt.junit.launchconfig"; //$NON-NLS-1$
 
-	public static final String ATTR_NO_DISPLAY = JUnitCorePlugin.PLUGIN_ID + ".NO_DISPLAY"; //$NON-NLS-1$
+	public static final String ATTR_NO_DISPLAY = JUnitCorePlugin.PLUGIN_ID + ".NO_DISPLAY"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 
 
-	public static final String ATTR_PORT= JUnitCorePlugin.PLUGIN_ID+".PORT"; //$NON-NLS-1$
+	public static final String ATTR_PORT= JUnitCorePlugin.PLUGIN_ID+".PORT"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_DONT_ADD_MISSING_JUNIT5_DEPENDENCY= JUnitCorePlugin.PLUGIN_ID + ".DONT_ADD_MISSING_JUNIT5_DEPENDENCY"; //$NON-NLS-1$
+	public static final String ATTR_DONT_ADD_MISSING_JUNIT5_DEPENDENCY= JUnitCorePlugin.PLUGIN_ID + ".DONT_ADD_MISSING_JUNIT5_DEPENDENCY"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * If the element is a test class annotated with <code>@RunWith(JUnitPlatform.class)</code>,
 	 * this attribute is set to true.
 	 */
-	public static final String ATTR_RUN_WITH_JUNIT_PLATFORM_ANNOTATION= JUnitCorePlugin.PLUGIN_ID + ".IS_RUN_WITH_JUNIT_PLATFORM"; //$NON-NLS-1$
+	public static final String ATTR_RUN_WITH_JUNIT_PLATFORM_ANNOTATION= JUnitCorePlugin.PLUGIN_ID + ".IS_RUN_WITH_JUNIT_PLATFORM"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The test method name (followed by a comma-separated list of fully qualified parameter type
 	 * names in parentheses, if exists), or "" iff running the whole test type.
 	 */
-	public static final String ATTR_TEST_NAME= JUnitCorePlugin.PLUGIN_ID + ".TESTNAME"; //$NON-NLS-1$
+	public static final String ATTR_TEST_NAME= JUnitCorePlugin.PLUGIN_ID + ".TESTNAME"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * @deprecated use {@link #ATTR_TEST_NAME}
@@ -63,30 +63,30 @@ public class JUnitLaunchConfigurationConstants {
 	@Deprecated(forRemoval= true, since= "2024-03" )
 	public static final String ATTR_TEST_METHOD_NAME= ATTR_TEST_NAME;
 
-	public static final String ATTR_KEEPRUNNING = JUnitCorePlugin.PLUGIN_ID+ ".KEEPRUNNING_ATTR"; //$NON-NLS-1$
+	public static final String ATTR_KEEPRUNNING = JUnitCorePlugin.PLUGIN_ID+ ".KEEPRUNNING_ATTR"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	/**
 	 * The launch container, or "" iff running a single test type.
 	 */
-	public static final String ATTR_TEST_CONTAINER= JUnitCorePlugin.PLUGIN_ID+".CONTAINER"; //$NON-NLS-1$
+	public static final String ATTR_TEST_CONTAINER= JUnitCorePlugin.PLUGIN_ID+".CONTAINER"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_FAILURES_NAMES= JUnitCorePlugin.PLUGIN_ID+".FAILURENAMES"; //$NON-NLS-1$
+	public static final String ATTR_FAILURES_NAMES= JUnitCorePlugin.PLUGIN_ID+".FAILURENAMES"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_RERUN_LAUNCH_CONFIG_MEMENTO= JUnitCorePlugin.PLUGIN_ID + ".RERUN_LAUNCH_CONFIG_MEMENTO"; //$NON-NLS-1$
+	public static final String ATTR_RERUN_LAUNCH_CONFIG_MEMENTO= JUnitCorePlugin.PLUGIN_ID + ".RERUN_LAUNCH_CONFIG_MEMENTO"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_TEST_RUNNER_KIND= JUnitCorePlugin.PLUGIN_ID+".TEST_KIND"; //$NON-NLS-1$
+	public static final String ATTR_TEST_RUNNER_KIND= JUnitCorePlugin.PLUGIN_ID+".TEST_KIND"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_TEST_HAS_INCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".HAS_INCLUDE_TAGS"; //$NON-NLS-1$
+	public static final String ATTR_TEST_HAS_INCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".HAS_INCLUDE_TAGS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_TEST_HAS_EXCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".HAS_EXCLUDE_TAGS"; //$NON-NLS-1$
+	public static final String ATTR_TEST_HAS_EXCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".HAS_EXCLUDE_TAGS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_TEST_INCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".INCLUDE_TAGS"; //$NON-NLS-1$
+	public static final String ATTR_TEST_INCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".INCLUDE_TAGS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
-	public static final String ATTR_TEST_EXCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".EXCLUDE_TAGS"; //$NON-NLS-1$
+	public static final String ATTR_TEST_EXCLUDE_TAGS= JUnitCorePlugin.PLUGIN_ID + ".EXCLUDE_TAGS"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * The unique ID of test to run or "" if not available (applicable to JUnit 5 and above).
 	 */
-	public static final String ATTR_TEST_UNIQUE_ID= JUnitCorePlugin.PLUGIN_ID + ".TEST_UNIQUE_ID"; //$NON-NLS-1$
+	public static final String ATTR_TEST_UNIQUE_ID= JUnitCorePlugin.PLUGIN_ID + ".TEST_UNIQUE_ID"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Creates a detached working copy for a rerun and remembers the persistent

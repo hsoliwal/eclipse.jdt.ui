@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.dom.ReturnStatement;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 
-public class MissingReturnTypeCorrectionProposal extends LinkedCorrectionProposal {
+public class MissingReturnTypeCorrectionProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public MissingReturnTypeCorrectionProposal(ICompilationUnit cu, MethodDeclaration decl, ReturnStatement existingReturn, int relevance) {
 		super("", cu, null, relevance, JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), new MissingReturnTypeCorrectionProposalCore(cu, decl, existingReturn, relevance)); //$NON-NLS-1$
 	}

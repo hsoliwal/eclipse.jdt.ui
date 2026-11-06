@@ -57,7 +57,7 @@ import org.eclipse.jdt.internal.ui.text.spelling.engine.PersistentSpellDictionar
  *
  * @since 3.0
  */
-public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListener {
+public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListener { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	/** The dictionary location */
 	public static final String DICTIONARY_LOCATION= "dictionaries/"; //$NON-NLS-1$
@@ -79,14 +79,14 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	 * @param location dictionaries location
 	 * @return The available locales for this engine
 	 */
-	private static Set<Locale> getLocalesWithInstalledDictionaries(URL location) {
+	private static Set<Locale> getLocalesWithInstalledDictionaries(URL location) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] fileNames;
 		try {
 			URL url= FileLocator.toFileURL(location);
 			File file= new File(url.getFile());
-			if (!file.isDirectory())
+			if (!file.isDirectory()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 				return Collections.emptySet();
-			fileNames= file.list();
+			fileNames= file.list(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 			if (fileNames == null)
 				return Collections.emptySet();
 		} catch (IOException ex) {
@@ -94,9 +94,9 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 			return Collections.emptySet();
 		}
 
-		Set<Locale> localesWithInstalledDictionaries= new HashSet<>();
+		Set<Locale> localesWithInstalledDictionaries= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		int fileNameCount= fileNames.length;
-		for (int i= 0; i < fileNameCount; i++) {
+		for (int i= 0; i < fileNameCount; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String fileName= fileNames[i];
 			int localeEnd= fileName.indexOf(".dictionary"); //$NON-NLS-1$
 			if (localeEnd > 1) {
@@ -121,7 +121,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	 *
 	 * @return The available locales for this engine
 	 */
-	public static Set<Locale> getLocalesWithInstalledDictionaries() {
+	public static Set<Locale> getLocalesWithInstalledDictionaries() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fgLocalesWithInstalledDictionaries != null)
 			return fgLocalesWithInstalledDictionaries;
 
@@ -135,9 +135,9 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 			return fgLocalesWithInstalledDictionaries= Collections.emptySet();
 		}
 
-		fgLocalesWithInstalledDictionaries= new HashSet<>();
+		fgLocalesWithInstalledDictionaries= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
-		while (locations.hasMoreElements()) {
+		while (locations.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			URL location= locations.nextElement();
 			Set<Locale> locales= getLocalesWithInstalledDictionaries(location);
 			fgLocalesWithInstalledDictionaries.addAll(locales);
@@ -170,7 +170,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 		// Try same language
 		String language= locale.getLanguage();
 		Iterator<Entry<Locale, ISpellDictionary>> iter= fLocaleDictionaries.entrySet().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Entry<Locale, ISpellDictionary> entry= iter.next();
 			Locale dictLocale= entry.getKey();
 			if (dictLocale.getLanguage().equals(language))
@@ -184,7 +184,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	 * @see org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellCheckEngine#findDictionary(java.util.Locale)
 	 * @since 3.3
 	 */
-	public static Locale findClosestLocale(Locale locale) {
+	public static Locale findClosestLocale(Locale locale) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (locale == null || locale.toString().length() == 0)
 			return locale;
 
@@ -194,7 +194,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 		// Try same language
 		String language= locale.getLanguage();
 		Iterator<Locale> iter= getLocalesWithInstalledDictionaries().iterator();
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Locale dictLocale= iter.next();
 			if (dictLocale.getLanguage().equals(language))
 				return dictLocale;
@@ -222,7 +222,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	public static Enumeration<URL> getDictionaryLocations() throws IOException {
 		final JavaPlugin plugin= JavaPlugin.getDefault();
 		if (plugin != null)
-			return plugin.getBundle().getResources("/" + DICTIONARY_LOCATION); //$NON-NLS-1$
+			return plugin.getBundle().getResources("/" + DICTIONARY_LOCATION); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		return null;
 	}
 
@@ -250,13 +250,13 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	}
 
 	/** The registered locale insensitive dictionaries */
-	private Set<ISpellDictionary> fGlobalDictionaries= new HashSet<>();
+	private Set<ISpellDictionary> fGlobalDictionaries= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 	/** The spell checker for fLocale */
 	private ISpellChecker fChecker= null;
 
 	/** The registered locale sensitive dictionaries */
-	private Map<Locale, ISpellDictionary> fLocaleDictionaries= new HashMap<>();
+	private Map<Locale, ISpellDictionary> fLocaleDictionaries= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	/** The user dictionary */
 	private ISpellDictionary fUserDictionary= null;
@@ -264,7 +264,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	/**
 	 * Creates a new spell check manager.
 	 */
-	private SpellCheckEngine() {
+	private SpellCheckEngine() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		fGlobalDictionaries.add(new TaskTagDictionary());
 		fGlobalDictionaries.add(new HtmlTagDictionary());
@@ -275,10 +275,10 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 			Locale locale= null;
 			final Enumeration<URL> locations= getDictionaryLocations();
 
-			while (locations != null && locations.hasMoreElements()) {
+			while (locations != null && locations.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				URL location= locations.nextElement();
 
-				for (final Iterator<Locale> iterator= getLocalesWithInstalledDictionaries(location).iterator(); iterator.hasNext();) {
+				for (final Iterator<Locale> iterator= getLocalesWithInstalledDictionaries(location).iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 					locale= iterator.next();
 					fLocaleDictionaries.put(locale, new LocaleSensitiveSpellDictionary(locale, location));
@@ -296,7 +296,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellCheckEngine#getSpellChecker()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized final ISpellChecker getSpellChecker() throws IllegalStateException {
 		if (fGlobalDictionaries == null)
 			throw new IllegalStateException("spell checker has been shut down"); //$NON-NLS-1$
@@ -314,7 +314,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 		fChecker= new DefaultSpellChecker(store, locale);
 		resetUserDictionary();
 
-		for (ISpellDictionary dictionary : fGlobalDictionaries) {
+		for (ISpellDictionary dictionary : fGlobalDictionaries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fChecker.addDictionary(dictionary);
 		}
 
@@ -367,7 +367,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	/*
 	 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public final void propertyChange(final PropertyChangeEvent event) {
 		if (PreferenceConstants.SPELLING_LOCALE.equals(event.getProperty())) {
 			resetSpellChecker();
@@ -395,7 +395,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	/**
 	 * Resets the current checker's user dictionary.
 	 */
-	private synchronized void resetUserDictionary() {
+	private synchronized void resetUserDictionary() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fChecker == null)
 			return;
 
@@ -423,7 +423,7 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 		if (filePath.length() > 0) {
 			try {
 				File file= new File(filePath);
-				if (!file.exists() && !file.createNewFile())
+				if (!file.exists() && !file.createNewFile()) //FLLDCIM: MARK — M31 M3FILE_IO CALL
 					return;
 
 				final URL url= new URL("file", null, filePath); //$NON-NLS-1$
@@ -460,20 +460,20 @@ public class SpellCheckEngine implements ISpellCheckEngine, IPropertyChangeListe
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.spelling.engine.ISpellCheckEngine#unload()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public synchronized final void shutdown() {
 
 		JavaPlugin.getDefault().getPreferenceStore().removePropertyChangeListener(this);
 		EditorsUI.getPreferenceStore().removePropertyChangeListener(this);
 
 		ISpellDictionary dictionary= null;
-		for (final Iterator<ISpellDictionary> iterator= fGlobalDictionaries.iterator(); iterator.hasNext();) {
+		for (final Iterator<ISpellDictionary> iterator= fGlobalDictionaries.iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dictionary= iterator.next();
 			dictionary.unload();
 		}
 		fGlobalDictionaries= null;
 
-		for (final Iterator<ISpellDictionary> iterator= fLocaleDictionaries.values().iterator(); iterator.hasNext();) {
+		for (final Iterator<ISpellDictionary> iterator= fLocaleDictionaries.values().iterator(); iterator.hasNext();) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			dictionary= iterator.next();
 			dictionary.unload();
 		}

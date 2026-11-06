@@ -337,10 +337,10 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testTypeBlockTags() throws Exception {
 		tearDown();
-		for (String t : TYPE_BLOCK_TAGS) {
+		for (String t : TYPE_BLOCK_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			String tag= t;
-			assertTypeJavadocProposal(" * @|", tag, " * " + tag);
+			assertTypeJavadocProposal(" * @|", tag, " * " + tag); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();
@@ -349,11 +349,11 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testMethodBlockTags() throws Exception {
 		tearDown();
-		for (String t : METHOD_BLOCK_TAGS) {
+		for (String t : METHOD_BLOCK_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			addMembers(METHOD);
 			String tag= t;
-			assertMemberJavadocProposal(" * @|", tag, " * " + tag);
+			assertMemberJavadocProposal(" * @|", tag, " * " + tag); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();
@@ -362,11 +362,11 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testFieldBlockTags() throws Exception {
 		tearDown();
-		for (String t : FIELD_BLOCK_TAGS) {
+		for (String t : FIELD_BLOCK_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			addMembers(FIELD);
 			String tag= t;
-			assertMemberJavadocProposal(" * @|", tag, " * " + tag);
+			assertMemberJavadocProposal(" * @|", tag, " * " + tag); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();
@@ -374,7 +374,7 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 
  	public void testNoInlineAsBlockTags() throws Exception {
  		tearDown();
-		for (String t : TYPE_INLINE_TAGS) {
+		for (String t : TYPE_INLINE_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			String tag= t;
 			assertNoMethodBodyProposals(" * @|", tag);
@@ -386,10 +386,10 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testTypeInlineTags() throws Exception {
  		tearDown();
-		for (String t : TYPE_INLINE_TAGS) {
+		for (String t : TYPE_INLINE_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			String tag= t;
-			assertTypeJavadocProposal(" * {@|", "{" + tag + "}", " * {" + tag + "|}");
+			assertTypeJavadocProposal(" * {@|", "{" + tag + "}", " * {" + tag + "|}"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();
@@ -398,11 +398,11 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testMethodInlineTags() throws Exception {
 		tearDown();
-		for (String t : METHOD_INLINE_TAGS) {
+		for (String t : METHOD_INLINE_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			addMembers(METHOD);
 			String tag= t;
-			assertMemberJavadocProposal(" * {@|", "{" + tag + "}", " * {" + tag + "|}");
+			assertMemberJavadocProposal(" * {@|", "{" + tag + "}", " * {" + tag + "|}"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();
@@ -411,11 +411,11 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testFieldInlineTags() throws Exception {
 		tearDown();
-		for (String t : FIELD_INLINE_TAGS) {
+		for (String t : FIELD_INLINE_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			addMembers(FIELD);
 			String tag= t;
-			assertMemberJavadocProposal(" * {@|", "{" + tag + "}", " * {" + tag + "|}");
+			assertMemberJavadocProposal(" * {@|", "{" + tag + "}", " * {" + tag + "|}"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();
@@ -424,7 +424,7 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testNoBlockAsInlineTags() throws Exception {
 		tearDown();
-		for (String tag : TYPE_BLOCK_TAGS) {
+		for (String tag : TYPE_BLOCK_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			assertNoMethodBodyProposals(" * {@|", tag);
 			tearDown();
@@ -436,10 +436,10 @@ public class JavadocCompletionTest extends AbstractCompletionTest {
 	@Test
 	public void testHTMLTags() throws Exception {
 		tearDown();
-		for (String t : HTML_TAGS) {
+		for (String t : HTML_TAGS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			setUp();
 			String tag= t;
-			assertTypeJavadocProposal(" * Prefix <" + tag.charAt(0) + "| postfix", "<" + tag, " * Prefix <" + tag + ">| postfix");
+			assertTypeJavadocProposal(" * Prefix <" + tag.charAt(0) + "| postfix", "<" + tag, " * Prefix <" + tag + ">| postfix"); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			tearDown();
 		}
 		setUp();

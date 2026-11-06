@@ -55,7 +55,7 @@ public class AddMissingModuleJavadocTagProposalCore extends CUCorrectionProposal
 		fMissingNode= missingNode;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void addEdits(IDocument document, TextEdit rootEdit) throws CoreException {
 		try {
 			Javadoc javadoc= null;
@@ -64,7 +64,7 @@ public class AddMissingModuleJavadocTagProposalCore extends CUCorrectionProposal
 			CompilationUnit cu= (CompilationUnit)fDecl.getParent();
 			Name name= fDecl.getName();
 			List<Comment> comments= cu.getCommentList();
-			for (Comment comment : comments) {
+			for (Comment comment : comments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (comment instanceof Javadoc
 						&& comment.getStartPosition() + comment.getLength() < name.getStartPosition()) {
 					javadoc= (Javadoc)comment;
@@ -73,15 +73,15 @@ public class AddMissingModuleJavadocTagProposalCore extends CUCorrectionProposal
 			if (javadoc == null) {
 				return;
 			}
-			StringBuilder comment= new StringBuilder();
+			StringBuilder comment= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int insertPosition= findInsertPosition(javadoc, document, lineDelimiter);
 
 		 	if (fMissingNode instanceof UsesDirective) {
 		 		UsesDirective directive= (UsesDirective)fMissingNode;
-		 		comment.append(" * ").append(TagElement.TAG_USES).append(" ").append(directive.getName().getFullyQualifiedName().toString()).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$
+		 		comment.append(" * ").append(TagElement.TAG_USES).append(" ").append(directive.getName().getFullyQualifiedName().toString()).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		 	} else if (fMissingNode instanceof ProvidesDirective) {
 		 		ProvidesDirective directive= (ProvidesDirective)fMissingNode;
-		 		comment.append(" * ").append(TagElement.TAG_PROVIDES).append(" ").append(directive.getName().getFullyQualifiedName().toString()).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$
+		 		comment.append(" * ").append(TagElement.TAG_PROVIDES).append(" ").append(directive.getName().getFullyQualifiedName().toString()).append(lineDelimiter); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		 	}
 			IRegion region= document.getLineInformationOfOffset(insertPosition);
 
@@ -95,12 +95,12 @@ public class AddMissingModuleJavadocTagProposalCore extends CUCorrectionProposal
 		}
 	}
 
-	public static int findInsertPosition(Javadoc javadoc, IDocument document, String lineDelimiter) throws BadLocationException {
+	public static int findInsertPosition(Javadoc javadoc, IDocument document, String lineDelimiter) throws BadLocationException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int position= -1;
 		List<TagElement> tags= javadoc.tags();
 		TagElement lastTag= null;
 		// Put new tag after last @provides tag if found
-		for (TagElement tag : tags) {
+		for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String name= tag.getTagName();
 			if (TagElement.TAG_PROVIDES.equals(name)) {
 				lastTag= tag;
@@ -108,7 +108,7 @@ public class AddMissingModuleJavadocTagProposalCore extends CUCorrectionProposal
 		}
 		if (lastTag == null) {
 			// otherwise add before first @uses tag
-			for (TagElement tag : tags) {
+			for (TagElement tag : tags) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String name= tag.getTagName();
 				if (TagElement.TAG_USES.equals(name)) {
 					IRegion region= document.getLineInformationOfOffset(tag.getStartPosition());

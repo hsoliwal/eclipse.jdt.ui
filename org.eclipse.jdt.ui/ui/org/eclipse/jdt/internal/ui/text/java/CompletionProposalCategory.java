@@ -89,7 +89,7 @@ public final class CompletionProposalCategory {
 	 */
 	private boolean fNeedsSortingAfterFiltering;
 
-	CompletionProposalCategory(IConfigurationElement element, CompletionProposalComputerRegistry registry) throws CoreException {
+	CompletionProposalCategory(IConfigurationElement element, CompletionProposalComputerRegistry registry) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fElement= element;
 		fRegistry= registry;
 		IExtension parent= (IExtension) element.getParent();
@@ -252,7 +252,7 @@ public final class CompletionProposalCategory {
 	 */
 	public boolean hasComputers() {
 		List<CompletionProposalComputerDescriptor> descriptors= fRegistry.getProposalComputerDescriptors();
-		for (CompletionProposalComputerDescriptor desc : descriptors) {
+		for (CompletionProposalComputerDescriptor desc : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getCategory() == this)
 				return true;
 		}
@@ -269,7 +269,7 @@ public final class CompletionProposalCategory {
 	 */
 	public boolean hasComputers(String partition) {
 		List<CompletionProposalComputerDescriptor> descriptors= fRegistry.getProposalComputerDescriptors(partition);
-		for (CompletionProposalComputerDescriptor desc : descriptors) {
+		for (CompletionProposalComputerDescriptor desc : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getCategory() == this)
 				return true;
 		}
@@ -300,7 +300,7 @@ public final class CompletionProposalCategory {
 	 *         <code>false</code> otherwise
 	 * @since 3.8
 	 */
-	public boolean matches(IJavaProject javaProject) {
+	public boolean matches(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEnablementExpression == null) {
 			return true;
 		}
@@ -333,9 +333,9 @@ public final class CompletionProposalCategory {
 	 */
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, String partition, IProgressMonitor monitor) {
 		fLastError= null;
-		List<ICompletionProposal> result= new ArrayList<>();
-		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors(partition));
-		for (CompletionProposalComputerDescriptor desc : descriptors) {
+		List<ICompletionProposal> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors(partition)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposalComputerDescriptor desc : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getCategory() == this)
 				result.addAll(desc.computeCompletionProposals(context, monitor));
 			if (fLastError == null && desc.getErrorMessage() != null)
@@ -357,9 +357,9 @@ public final class CompletionProposalCategory {
 	 */
 	public List<IContextInformation> computeContextInformation(ContentAssistInvocationContext context, String partition, IProgressMonitor monitor) {
 		fLastError= null;
-		List<IContextInformation> result= new ArrayList<>();
-		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors(partition));
-		for (CompletionProposalComputerDescriptor desc : descriptors) {
+		List<IContextInformation> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors(partition)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposalComputerDescriptor desc : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getCategory() == this && (isIncluded() || isSeparateCommand()))
 				result.addAll(desc.computeContextInformation(context, monitor));
 			if (fLastError == null)
@@ -381,8 +381,8 @@ public final class CompletionProposalCategory {
 	 * Notifies the computers in this category of a proposal computation session start.
 	 */
 	public void sessionStarted() {
-		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors());
-		for (CompletionProposalComputerDescriptor desc : descriptors) {
+		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposalComputerDescriptor desc : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getCategory() == this) {
 				desc.sessionStarted();
 				fNeedsSortingAfterFiltering= fNeedsSortingAfterFiltering || desc.isSortingAfterFilteringNeeded();
@@ -397,8 +397,8 @@ public final class CompletionProposalCategory {
 	 */
 	public void sessionEnded() {
 		fNeedsSortingAfterFiltering= false;
-		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors());
-		for (CompletionProposalComputerDescriptor desc : descriptors) {
+		List<CompletionProposalComputerDescriptor> descriptors= new ArrayList<>(fRegistry.getProposalComputerDescriptors()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (CompletionProposalComputerDescriptor desc : descriptors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (desc.getCategory() == this)
 				desc.sessionEnded();
 			if (fLastError == null)

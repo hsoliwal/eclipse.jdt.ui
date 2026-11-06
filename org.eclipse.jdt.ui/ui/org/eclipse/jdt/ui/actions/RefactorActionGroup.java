@@ -181,7 +181,7 @@ public class RefactorActionGroup extends ActionGroup {
 
 	private UndoRedoActionGroup fUndoRedoActionGroup;
 
-	private final List<SelectionDispatchAction> fActions= new ArrayList<>();
+	private final List<SelectionDispatchAction> fActions= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	private static final String QUICK_MENU_ID= "org.eclipse.jdt.ui.edit.text.java.refactor.quickMenu"; //$NON-NLS-1$
 
@@ -235,7 +235,7 @@ public class RefactorActionGroup extends ActionGroup {
 	 *
 	 * @noreference This constructor is not intended to be referenced by clients.
 	 */
-	public RefactorActionGroup(JavaEditor editor, String groupName, boolean binary) {
+	public RefactorActionGroup(JavaEditor editor, String groupName, boolean binary) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final PerformanceStats stats= PerformanceStats.getStats(PERF_REFACTOR_ACTION_GROUP, this);
 		stats.startRun();
@@ -370,7 +370,7 @@ public class RefactorActionGroup extends ActionGroup {
 	 *
 	 * @since 3.4
 	 */
-	public RefactorActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) {
+	public RefactorActionGroup(IWorkbenchSite site, ISelectionProvider selectionProvider) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		final PerformanceStats stats= PerformanceStats.getStats(PERF_REFACTOR_ACTION_GROUP, this);
 		stats.startRun();
@@ -482,13 +482,13 @@ public class RefactorActionGroup extends ActionGroup {
 		action.setActionDefinitionId(actionDefinitionId);
 		action.update(selection);
 		if (provider != null)
-			provider.addSelectionChangedListener(action);
+			provider.addSelectionChangedListener(action); //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 		if (specialProvider != null)
 			action.setSpecialSelectionProvider(specialProvider);
 		fActions.add(action);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void fillActionBars(IActionBars actionBars) {
 		super.fillActionBars(actionBars);
 		if (!fBinary) {
@@ -544,7 +544,7 @@ public class RefactorActionGroup extends ActionGroup {
 	/*
 	 * @see ActionGroup#dispose()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dispose() {
 		if (!fBinary) {
 			disposeAction(fSelfEncapsulateField, fSelectionProvider);
@@ -589,19 +589,19 @@ public class RefactorActionGroup extends ActionGroup {
 			provider.removeSelectionChangedListener(action);
 	}
 
-	private void addRefactorSubmenu(IMenuManager menu) {
+	private void addRefactorSubmenu(IMenuManager menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		MenuManager refactorSubmenu= new MenuManager(ActionMessages.RefactorMenu_label, MENU_ID);
 		refactorSubmenu.setActionDefinitionId(QUICK_MENU_ID);
 		if (fEditor != null) {
 			final ITypeRoot element= getEditorInput();
 			if (element != null && ActionUtil.isOnBuildPath(element)) {
-				refactorSubmenu.addMenuListener(this::refactorMenuShown);
+				refactorSubmenu.addMenuListener(this::refactorMenuShown); //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 				refactorSubmenu.add(fNoActionAvailable);
 				menu.appendToGroup(fGroupName, refactorSubmenu);
 			}
 		} else {
 			ISelection selection= fSelectionProvider.getSelection();
-			for (SelectionDispatchAction selectionDispatchAction : fActions) {
+			for (SelectionDispatchAction selectionDispatchAction : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectionDispatchAction.update(selection);
 			}
 			if (fillRefactorMenu(refactorSubmenu) > 0)
@@ -609,7 +609,7 @@ public class RefactorActionGroup extends ActionGroup {
 		}
 	}
 
-	private int fillRefactorMenu(IMenuManager refactorSubmenu) {
+	private int fillRefactorMenu(IMenuManager refactorSubmenu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int added= 0;
 		refactorSubmenu.add(new Separator(GROUP_REORG));
 		added+= addAction(refactorSubmenu, fRenameAction);
@@ -659,11 +659,11 @@ public class RefactorActionGroup extends ActionGroup {
 		return 0;
 	}
 
-	private void refactorMenuShown(IMenuManager refactorSubmenu) {
+	private void refactorMenuShown(IMenuManager refactorSubmenu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// we know that we have an MenuManager since we created it in
 		// addRefactorSubmenu.
 		Menu menu= ((MenuManager)refactorSubmenu).getMenu();
-		menu.addMenuListener(new MenuAdapter() {
+		menu.addMenuListener(new MenuAdapter() { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 			@Override
 			public void menuHidden(MenuEvent e) {
 				refactorMenuHidden();
@@ -672,7 +672,7 @@ public class RefactorActionGroup extends ActionGroup {
 		ITextSelection textSelection= (ITextSelection)fEditor.getSelectionProvider().getSelection();
 		JavaTextSelection javaSelection= new JavaTextSelection(getEditorInput(), getDocument(), textSelection.getOffset(), textSelection.getLength());
 
-		for (SelectionDispatchAction action : fActions) {
+		for (SelectionDispatchAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.update(javaSelection);
 		}
 		refactorSubmenu.removeAll();
@@ -682,7 +682,7 @@ public class RefactorActionGroup extends ActionGroup {
 
 	private void refactorMenuHidden() {
 		ITextSelection textSelection= (ITextSelection)fEditor.getSelectionProvider().getSelection();
-		for (SelectionDispatchAction action : fActions) {
+		for (SelectionDispatchAction action : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			action.update(textSelection);
 		}
 	}
@@ -695,7 +695,7 @@ public class RefactorActionGroup extends ActionGroup {
 		return JavaUI.getDocumentProvider().getDocument(fEditor.getEditorInput());
 	}
 
-	private void fillQuickMenu(IMenuManager menu) {
+	private void fillQuickMenu(IMenuManager menu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fEditor != null) {
 			if (fEditor.isBreadcrumbActive())
 				return;
@@ -708,17 +708,17 @@ public class RefactorActionGroup extends ActionGroup {
 			ITextSelection textSelection= (ITextSelection)fEditor.getSelectionProvider().getSelection();
 			JavaTextSelection javaSelection= new JavaTextSelection(element, getDocument(), textSelection.getOffset(), textSelection.getLength());
 
-			for (SelectionDispatchAction selectionDispatchAction : fActions) {
+			for (SelectionDispatchAction selectionDispatchAction : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectionDispatchAction.update(javaSelection);
 			}
 			fillRefactorMenu(menu);
-			for (SelectionDispatchAction selectionDispatchAction : fActions) {
+			for (SelectionDispatchAction selectionDispatchAction : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectionDispatchAction.update(textSelection);
 			}
 
 		} else {
 			ISelection selection= fSelectionProvider.getSelection();
-			for (SelectionDispatchAction selectionDispatchAction : fActions) {
+			for (SelectionDispatchAction selectionDispatchAction : fActions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				selectionDispatchAction.update(selection);
 			}
 			fillRefactorMenu(menu);

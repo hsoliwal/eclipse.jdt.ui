@@ -87,7 +87,7 @@ public class NewWizardsActionGroup extends ActionGroup {
 			return true;
 
 		List<?> list= sel.toList();
-		for (Object name : list) {
+		for (Object name : list) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isNewTarget(name))
 				return false;
 		}
@@ -95,7 +95,7 @@ public class NewWizardsActionGroup extends ActionGroup {
 		return true;
 	}
 
-	private boolean isNewTarget(Object element) {
+	private boolean isNewTarget(Object element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element == null)
 			return true;
 		if (element instanceof IResource) {

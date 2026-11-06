@@ -20,7 +20,7 @@ import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
 
-public class MissingAnnotationAttributesProposal extends LinkedCorrectionProposal {
+public class MissingAnnotationAttributesProposal extends LinkedCorrectionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 	public MissingAnnotationAttributesProposal(ICompilationUnit cu, Annotation annotation, int relevance) {
 		super(CorrectionMessages.MissingAnnotationAttributesProposal_add_missing_attributes_label, cu, null, relevance,
 				JavaPluginImages.get(JavaPluginImages.IMG_CORRECTION_CHANGE), new MissingAnnotationAttributesProposalCore(cu, annotation, relevance));

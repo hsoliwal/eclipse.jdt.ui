@@ -44,7 +44,7 @@ import org.eclipse.jdt.internal.ui.refactoring.actions.RefactoringStarter;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class ConvertLocalToFieldAction extends SelectionDispatchAction {
+public class ConvertLocalToFieldAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private final JavaEditor fEditor;
 

@@ -75,12 +75,12 @@ public class SurroundWithTryCatchAnalyzer extends SurroundWithAnalyzer {
 		}
 	}
 
-	public Map<SimpleName, IVariableBinding> getVariableStatementBinding(ASTNode astNode) {
-		Map<SimpleName, IVariableBinding> variableBindings= new HashMap<>();
+	public Map<SimpleName, IVariableBinding> getVariableStatementBinding(ASTNode astNode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		Map<SimpleName, IVariableBinding> variableBindings= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		astNode.accept(new ASTVisitor() {
 			@Override
 			public boolean visit(VariableDeclarationStatement node) {
-				for (Object o : node.fragments()) {
+				for (Object o : node.fragments()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (o instanceof VariableDeclarationFragment) {
 						VariableDeclarationFragment vdf= (VariableDeclarationFragment) o;
 						SimpleName name= vdf.getName();
@@ -94,7 +94,7 @@ public class SurroundWithTryCatchAnalyzer extends SurroundWithAnalyzer {
 				return false;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public boolean visit(PatternInstanceofExpression node) {
 				VariableDeclaration vd= node.getRightOperand();
 				AST ast= node.getAST();

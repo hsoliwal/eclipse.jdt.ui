@@ -75,7 +75,7 @@ public class FileTransferDropAdapter extends JdtViewerDropAdapter implements Tra
 		return determineOperation(target, operation, transferType, DND.DROP_MOVE | DND.DROP_LINK | DND.DROP_COPY) != DND.DROP_NONE;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected int determineOperation(Object target, int operation, TransferData transferType, int operations) {
 
 		boolean isPackageFragment= target instanceof IPackageFragment;
@@ -99,7 +99,7 @@ public class FileTransferDropAdapter extends JdtViewerDropAdapter implements Tra
 		return DND.DROP_NONE;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean performDrop(final Object data) {
 		try {
 			final int currentOperation= getCurrentOperation();
@@ -114,7 +114,7 @@ public class FileTransferDropAdapter extends JdtViewerDropAdapter implements Tra
 			// Run the import operation asynchronously.
 			// Otherwise the drag source (e.g., Windows Explorer) will be blocked
 			// while the operation executes. Fixes bug 35796.
-			Display.getCurrent().asyncExec(() -> {
+			Display.getCurrent().asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				getShell().forceActive();
 				new CopyFilesAndFoldersOperation(getShell()).copyOrLinkFiles((String[])data, target, currentOperation);
 			});

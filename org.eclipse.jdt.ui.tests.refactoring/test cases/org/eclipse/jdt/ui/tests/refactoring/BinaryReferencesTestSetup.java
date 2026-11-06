@@ -45,7 +45,7 @@ public class BinaryReferencesTestSetup extends AbstractRefactoringTestSetup {
 		return fBinaryReference;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void before() throws Exception {
 		super.before();
 		Bundle bundle= RefactoringTestPlugin.getDefault().getBundle();

@@ -36,6 +36,6 @@ public class JavaElementDecorator extends LabelProvider implements ILabelDecorat
 	 */
 	@Override
 	public String decorateText(String text, Object element) {
-		return text + "*";
+		return text + "*"; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

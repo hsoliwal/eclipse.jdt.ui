@@ -110,7 +110,7 @@ public class CodeFormatterTest extends CoreTests {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFormatSelection() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String original= """
@@ -156,7 +156,7 @@ public class CodeFormatterTest extends CoreTests {
 		assertEqualString(formatted, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFormatFieldDeclWithExtraWhitespace() throws Exception {
 		String contents= """
 			package test1;
@@ -191,7 +191,7 @@ public class CodeFormatterTest extends CoreTests {
 	 * Tests that "Format Element" formats the surrounding Java Element (including comment) when
 	 * invoked in the default (code) partition.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFormatElement() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String original=
@@ -235,7 +235,7 @@ public class CodeFormatterTest extends CoreTests {
 	/*
 	 * Tests that "Format Element" only formats the surrounding javadoc, despite its name.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFormatElementInJavadoc() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String original=
@@ -279,7 +279,7 @@ public class CodeFormatterTest extends CoreTests {
 	/*
 	 * Tests that "Format Element" only formats the surrounding comment, despite its name.
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testFormatElementInComment() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String original=

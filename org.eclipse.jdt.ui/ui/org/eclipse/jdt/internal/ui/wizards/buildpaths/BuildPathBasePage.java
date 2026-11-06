@@ -81,7 +81,7 @@ public abstract class BuildPathBasePage {
 		return false;
 	}
 
-	protected boolean showModuleDialog(Shell shell, CPListElementAttribute elem) {
+	protected boolean showModuleDialog(Shell shell, CPListElementAttribute elem) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElement selElement= elem.getParent();
 		// the element targeted by the CP entry will be the source module from which packages are exported:
 		IJavaElement[] selectedJavaElements= ModuleEncapsulationDetail.getTargetJavaElements(selElement.getJavaProject(), selElement.getPath());
@@ -128,7 +128,7 @@ public abstract class BuildPathBasePage {
 		IJavaElement[] selectedJavaElements;
 		IJavaProject javaProject= element.getJavaProject();
 		IClasspathEntry newEntry= element.getClasspathEntry();
-		IWorkspaceRunnable runnable= monitor -> {
+		IWorkspaceRunnable runnable= monitor -> { //FLLDCIM: MARK — T09  LAMBDA
 			IClasspathEntry[] oldClasspath= javaProject.getRawClasspath();
 			int nEntries= oldClasspath.length;
 			IClasspathEntry[] newEntries= Arrays.copyOf(oldClasspath, nEntries+1);
@@ -152,14 +152,14 @@ public abstract class BuildPathBasePage {
 		return false;
 	}
 
-	protected void removeEncapsulationDetail(ModuleEncapsulationDetail detail) {
+	protected void removeEncapsulationDetail(ModuleEncapsulationDetail detail) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CPListElementAttribute parent= detail.getParent();
 		if (parent != null) {
 			Object value= parent.getValue();
 			if (value instanceof ModuleEncapsulationDetail[]) {
 				ModuleEncapsulationDetail[] existingDetails= (ModuleEncapsulationDetail[]) value;
 				int count= 0;
-				for (ModuleEncapsulationDetail aDetail : existingDetails) {
+				for (ModuleEncapsulationDetail aDetail : existingDetails) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (aDetail != detail)
 						existingDetails[count++]= aDetail;
 				}
@@ -206,8 +206,8 @@ public abstract class BuildPathBasePage {
 	public abstract boolean isEntryKind(int kind);
 
 	protected void filterAndSetSelection(List<?> list) {
-		ArrayList<Object> res= new ArrayList<>(list.size());
-		for (int i= list.size()-1; i >= 0; i--) {
+		ArrayList<Object> res= new ArrayList<>(list.size()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (int i= list.size()-1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object curr= list.get(i);
 			if (curr instanceof CPListElement) {
 				CPListElement elem= (CPListElement) curr;
@@ -220,14 +220,14 @@ public abstract class BuildPathBasePage {
 	}
 
 	public static void fixNestingConflicts(CPListElement[] newEntries, CPListElement[] existing, Set<CPListElement> modifiedSourceEntries) {
-		for (CPListElement newEntry : newEntries) {
+		for (CPListElement newEntry : newEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			addExclusionPatterns(newEntry, existing, modifiedSourceEntries);
 		}
 	}
 
-	private static void addExclusionPatterns(CPListElement newEntry, CPListElement[] existing, Set<CPListElement> modifiedEntries) {
+	private static void addExclusionPatterns(CPListElement newEntry, CPListElement[] existing, Set<CPListElement> modifiedEntries) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IPath entryPath= newEntry.getPath();
-		for (CPListElement curr : existing) {
+		for (CPListElement curr : existing) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 				IPath currPath= curr.getPath();
 				if (!currPath.equals(entryPath)) {
@@ -262,7 +262,7 @@ public abstract class BuildPathBasePage {
 		if (selElements.isEmpty()) {
 			return true;
 		}
-		for (Object elem : selElements) {
+		for (Object elem : selElements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (elem instanceof CPListElement) {
 				if (((CPListElement) elem).getParentContainer() != null) {
 					return false;
@@ -282,7 +282,7 @@ public abstract class BuildPathBasePage {
 
 
 	protected boolean getRootExpansionState(TreeListDialogField<CPListElement> list, boolean isClassPathRoot) {
-		for (CPListElement cpListElement : list.getElements()) {
+		for (CPListElement cpListElement : list.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cpListElement.isClassPathRootNode() && isClassPathRoot) {
 				return list.getTreeViewer().getExpandedState(cpListElement);
 			}
@@ -297,7 +297,7 @@ public abstract class BuildPathBasePage {
 		if (list.getTreeViewer() == null) {
 			return;
 		}
-		for (CPListElement cpListElement : list.getElements()) {
+		for (CPListElement cpListElement : list.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cpListElement.isClassPathRootNode() && isClassPathRoot && list.getTreeViewer() != null) {
 				list.getTreeViewer().setExpandedState(cpListElement, state);
 			}
@@ -313,12 +313,12 @@ public abstract class BuildPathBasePage {
 	 * @param selElement is classpath element
 	 * @param changeNodeDirection indicate in which direction the element should be moved
 	 */
-	protected void moveCPElementAcrossNode(TreeListDialogField<CPListElement> listField, CPListElement selElement, RootNodeChange changeNodeDirection) {
+	protected void moveCPElementAcrossNode(TreeListDialogField<CPListElement> listField, CPListElement selElement, RootNodeChange changeNodeDirection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean firedDialogFieldChanged= false;
 		List<CPListElement> elements= listField.getElements();
 		//remove from module node or classnode
 		int indexOfSelElement = -1;
-		for (CPListElement cpListElement : elements) {
+		for (CPListElement cpListElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cpListElement.isRootNodeForPath()) {
 				RootCPListElement rootElement= (RootCPListElement) cpListElement;
 				if (rootElement.isSourceRootNode(changeNodeDirection) && rootElement.getChildren().contains(selElement)) {
@@ -331,7 +331,7 @@ public abstract class BuildPathBasePage {
 			}
 		}
 		// add to classpath node or module and select the cpe
-		for (CPListElement cpListElement : elements) {
+		for (CPListElement cpListElement : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cpListElement.isRootNodeForPath()) {
 				RootCPListElement rootCPListElement= (RootCPListElement) cpListElement;
 				if (rootCPListElement.isTargetRootNode(changeNodeDirection)) {
@@ -360,7 +360,7 @@ public abstract class BuildPathBasePage {
 	}
 
 	protected void selectRootNode(TreeListDialogField<CPListElement> list, boolean modulePath) {
-		for (CPListElement cpListElement : list.getElements()) {
+		for (CPListElement cpListElement : list.getElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (cpListElement instanceof RootCPListElement) {
 				RootCPListElement root= (RootCPListElement) cpListElement;
 				if (root.isModulePathRootNode() == modulePath) {
@@ -402,21 +402,21 @@ public abstract class BuildPathBasePage {
 		}
 	}
 
-	public BuildPathBasePage switchToTab(Class<? extends BuildPathBasePage> tabClass) {
+	public BuildPathBasePage switchToTab(Class<? extends BuildPathBasePage> tabClass) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSWTControl == null) {
-			JavaPlugin.logErrorMessage("Page does not support tab switching: "+this.getClass()); //$NON-NLS-1$
+			JavaPlugin.logErrorMessage("Page does not support tab switching: "+this.getClass()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			return null;
 		}
 		Composite parent= fSWTControl.getParent();
 		if(parent instanceof TabFolder tabFolder) {
-			for (TabItem tabItem : tabFolder.getItems()) {
+			for (TabItem tabItem : tabFolder.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (tabClass.isInstance(tabItem.getData())) {
 					tabFolder.setSelection(tabItem);
 					return (BuildPathBasePage) tabItem.getData();
 				}
 			}
 		} else if(parent instanceof CTabFolder cTabFolder) {
-			for (CTabItem ctabItem : cTabFolder.getItems()) {
+			for (CTabItem ctabItem : cTabFolder.getItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (tabClass.isInstance(ctabItem.getData())) {
 					cTabFolder.setSelection(ctabItem);
 					return (BuildPathBasePage) ctabItem.getData();

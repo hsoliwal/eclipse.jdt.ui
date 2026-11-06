@@ -84,17 +84,17 @@ public class MultiActionGroup extends ActionGroup {
 	/**
 	 * Adds the actions to the given menu manager.
 	 */
-	protected void addActions(IMenuManager viewMenu) {
+	protected void addActions(IMenuManager viewMenu) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		viewMenu.add(new Separator());
 		fItems= new MenuItem[fActions.length];
 
-		for (int i= 0; i < fActions.length; i++) {
+		for (int i= 0; i < fActions.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			final int j= i;
 
 			viewMenu.add(new ContributionItem() {
 
-				@Override
+				@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 				public void fill(Menu menu, int index) {
 
 					int style= SWT.CHECK;
@@ -107,7 +107,7 @@ public class MultiActionGroup extends ActionGroup {
 					fItems[j]= mi;
 					mi.setText(fActions[j].getText());
 					mi.setSelection(fCurrentSelection == j);
-					mi.addSelectionListener(new SelectionAdapter() {
+					mi.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 						@Override
 						public void widgetSelected(SelectionEvent e) {

@@ -59,14 +59,14 @@ public class EditorInputTransferDragAdapter extends DragSourceAdapter implements
 	/*
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void dragStart(DragSourceEvent event) {
-		fEditorInputDatas= new ArrayList<>();
+		fEditorInputDatas= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		ISelection selection= fProvider.getSelection();
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection= (IStructuredSelection) selection;
-			for (Object element : structuredSelection) {
+			for (Object element : structuredSelection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IEditorInput editorInput= EditorUtility.getEditorInput(element);
 				if (editorInput != null && editorInput.getPersistable() != null) {
 					try {

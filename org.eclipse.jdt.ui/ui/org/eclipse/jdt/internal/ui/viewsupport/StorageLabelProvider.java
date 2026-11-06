@@ -43,7 +43,7 @@ import org.eclipse.jdt.internal.core.manipulation.util.BasicElementLabels;
 public class StorageLabelProvider extends LabelProvider {
 
 	private IEditorRegistry fEditorRegistry= null;
-	private Map<String, Image> fJarImageMap= new HashMap<>(10);
+	private Map<String, Image> fJarImageMap= new HashMap<>(10); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 	private Image fDefaultImage;
 
 	private IEditorRegistry getEditorRegistry() {
@@ -72,7 +72,7 @@ public class StorageLabelProvider extends LabelProvider {
 	public void dispose() {
 		if (fJarImageMap != null) {
 			Iterator<Image> each= fJarImageMap.values().iterator();
-			while (each.hasNext()) {
+			while (each.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Image image= each.next();
 				image.dispose();
 			}
@@ -85,7 +85,7 @@ public class StorageLabelProvider extends LabelProvider {
 	 * Gets and caches an image for a JarEntryFile.
 	 * The image for a JarEntryFile is retrieved from the EditorRegistry.
 	 */
-	private Image getImageForJarEntry(IStorage element) {
+	private Image getImageForJarEntry(IStorage element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (element instanceof IJarEntryResource && !((IJarEntryResource) element).isFile()) {
 			return ISharedImages.get().getImage(ISharedImages.IMG_OBJ_FOLDER);
 		}
@@ -103,7 +103,7 @@ public class StorageLabelProvider extends LabelProvider {
 			return image;
 		IFileEditorMapping[] mappings= getEditorRegistry().getFileEditorMappings();
 		int i= 0;
-		while (i < mappings.length) {
+		while (i < mappings.length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (mappings[i].getLabel().equals(name))
 				break;
 			i++;

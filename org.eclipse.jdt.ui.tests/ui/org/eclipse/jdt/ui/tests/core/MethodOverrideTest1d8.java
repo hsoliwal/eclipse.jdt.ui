@@ -62,17 +62,17 @@ public class MethodOverrideTest1d8 extends MethodOverrideTest {
 		JavaProjectHelper.clear(fJProject1, j18p.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void overrideLambda1() throws Exception {
 		IPackageFragment pack1= fSrc.createPackageFragment("test1", false, null);
-		StringBuilder buf= new StringBuilder();
-		buf.append("package test1;\n");
-		buf.append("public interface MyFunction<T, R> {\n");
-		buf.append("    R apply(T t);\n");
-		buf.append("    default <V> MyFunction<V, R> compose(MyFunction<? super V, ? extends T> before) {\n");
-		buf.append("        return (V v) -> apply(before.apply(v));\n");
-		buf.append("    }\n");
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package test1;\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public interface MyFunction<T, R> {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    R apply(T t);\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    default <V> MyFunction<V, R> compose(MyFunction<? super V, ? extends T> before) {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("        return (V v) -> apply(before.apply(v));\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("    }\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		ICompilationUnit cu= pack1.createCompilationUnit("MyFunction.java", buf.toString(), false, null);
 
 		CompilationUnit root= assertNoCompilationError(cu);

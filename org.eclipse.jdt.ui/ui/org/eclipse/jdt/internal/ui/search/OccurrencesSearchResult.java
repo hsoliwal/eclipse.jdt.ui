@@ -64,7 +64,7 @@ public class OccurrencesSearchResult extends AbstractTextSearchResult implements
 	/*
 	 * @see org.eclipse.search.ui.text.AbstractTextSearchResult#findContainedMatches(org.eclipse.ui.IEditorPart)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Match[] computeContainedMatches(AbstractTextSearchResult result, IEditorPart editor) {
 		//TODO same code in JavaSearchResult
 		IEditorInput editorInput= editor.getEditorInput();
@@ -171,8 +171,8 @@ public class OccurrencesSearchResult extends AbstractTextSearchResult implements
 	private Match[] collectMatches(Object[] elements) {
 		Match[] matches= new Match[getMatchCount()];
 		int writeIndex= 0;
-		for (Object element : elements) {
-			for (Match perElement : getMatches(element)) {
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			for (Match perElement : getMatches(element)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				matches[writeIndex++]= perElement;
 			}
 		}

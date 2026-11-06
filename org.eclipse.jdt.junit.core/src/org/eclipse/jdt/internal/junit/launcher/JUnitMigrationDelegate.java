@@ -84,7 +84,7 @@ public class JUnitMigrationDelegate implements ILaunchConfigurationMigrationDele
 	 * @return resource or <code>null</code>
 	 * @throws CoreException if an exception occurs mapping resource
 	 */
-	private static IResource getResource(ILaunchConfiguration config) throws CoreException {
+	private static IResource getResource(ILaunchConfiguration config) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String projName = config.getAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, (String)null);
 		String containerHandle = config.getAttribute(JUnitLaunchConfigurationConstants.ATTR_TEST_CONTAINER, (String)null);
 		String typeName = config.getAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, (String)null);

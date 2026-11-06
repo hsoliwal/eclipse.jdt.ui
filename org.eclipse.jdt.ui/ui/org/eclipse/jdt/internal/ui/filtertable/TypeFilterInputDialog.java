@@ -106,7 +106,7 @@ class TypeFilterInputDialog extends StatusDialog {
 		return fNameDialogField.getText();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		Composite composite= (Composite) super.createDialogArea(parent);
 
@@ -137,11 +137,11 @@ class TypeFilterInputDialog extends StatusDialog {
 		dialog.setFilter(fNameDialogField.getText());
 		if (dialog.open() == IDialogConstants.OK_ID) {
 			IPackageFragment res= (IPackageFragment) dialog.getFirstResult();
-			fNameDialogField.setText(res.getElementName() + ".*"); //$NON-NLS-1$
+			fNameDialogField.setText(res.getElementName() + ".*"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
-	private void doValidation() {
+	private void doValidation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		String newText= fNameDialogField.getText();
 		if (newText.length() == 0) {

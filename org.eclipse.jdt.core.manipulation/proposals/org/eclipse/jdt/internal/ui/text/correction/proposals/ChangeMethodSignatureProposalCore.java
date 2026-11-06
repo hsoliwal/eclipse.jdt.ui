@@ -113,7 +113,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		fExceptionChanges= exceptionChanges;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ASTRewrite getRewrite() throws CoreException {
 		CompilationUnit astRoot= (CompilationUnit) fInvocationNode.getRoot();
 		ASTNode methodDecl= astRoot.findDeclaringNode(fSenderBinding);
@@ -141,13 +141,13 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		return null;
 	}
 
-	private void modifyParameters(ASTRewrite rewrite, MethodDeclaration methodDecl) {
+	private void modifyParameters(ASTRewrite rewrite, MethodDeclaration methodDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= methodDecl.getAST();
 
-		ArrayList<String> usedNames= new ArrayList<>();
+		ArrayList<String> usedNames= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean hasCreatedVariables= false;
 
-		for (IVariableBinding declaredField : fSenderBinding.getDeclaringClass().getDeclaredFields()) {
+		for (IVariableBinding declaredField : fSenderBinding.getDeclaringClass().getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// avoid to take parameter names that are equal to field names
 			usedNames.add(declaredField.getName());
 		}
@@ -159,7 +159,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		List<SingleVariableDeclaration> parameters= methodDecl.parameters(); // old parameters
 		int k= 0; // index over the oldParameters
 
-		for (int i= 0; i < fParameterChanges.length; i++) {
+		for (int i= 0; i < fParameterChanges.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeMethodSignatureProposalCore.ChangeDescription curr= fParameterChanges[i];
 
 			if (curr == null) {
@@ -185,7 +185,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 					newTagElement.setTagName(TagElement.TAG_PARAM);
 					SimpleName arg= ast.newSimpleName("x"); //$NON-NLS-1$
 					newTagElement.fragments().add(arg);
-					insertTabStop(rewrite, newTagElement.fragments(), "param_tagcomment" + i); //$NON-NLS-1$
+					insertTabStop(rewrite, newTagElement.fragments(), "param_tagcomment" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					insertParamTag(rewrite.getListRewrite(javadoc, Javadoc.TAGS_PROPERTY), parameters, k, newTagElement);
 					desc.resultingTagArg= arg; // set the name later
 				} else {
@@ -222,7 +222,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 				if (binding != null) {
 					SimpleName[] names= LinkedNodeFinder.findByBinding(decl.getRoot(), binding);
 					SimpleName[] newNames= new SimpleName[names.length];
-					for (int j= 0; j < names.length; j++) {
+					for (int j= 0; j < names.length; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						SimpleName newName= ast.newSimpleName("x"); //$NON-NLS-1$  // name will be set later
 						newNames[j]= newName;
 						rewrite.replace(names[j], newName, null);
@@ -277,7 +277,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		if (methodDecl.getBody() != null) {
 			// avoid take a name of a local variable inside
 			CompilationUnit root= (CompilationUnit) methodDecl.getRoot();
-			for (IBinding binding : (new ScopeAnalyzer(root)).getDeclarationsAfter(methodDecl.getBody().getStartPosition(), ScopeAnalyzer.VARIABLES)) {
+			for (IBinding binding : (new ScopeAnalyzer(root)).getDeclarationsAfter(methodDecl.getBody().getStartPosition(), ScopeAnalyzer.VARIABLES)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				usedNames.add(binding.getName());
 			}
 		}
@@ -285,10 +285,10 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		fixupNames(rewrite, usedNames);
 	}
 
-	private void fixupNames(ASTRewrite rewrite, ArrayList<String> usedNames) {
+	private void fixupNames(ASTRewrite rewrite, ArrayList<String> usedNames) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= rewrite.getAST();
 		// set names for new parameters
-		for (int i= 0; i < fParameterChanges.length; i++) {
+		for (int i= 0; i < fParameterChanges.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeMethodSignatureProposalCore.ChangeDescription curr= fParameterChanges[i];
 			if (curr instanceof ChangeMethodSignatureProposalCore.ModifyDescription) {
 				ChangeMethodSignatureProposalCore.ModifyDescription desc= (ChangeMethodSignatureProposalCore.ModifyDescription) curr;
@@ -312,7 +312,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 
 				Type type= desc.resultingParamType;
 				String[] suggestedNames= StubUtility.getArgumentNameSuggestions(getCompilationUnit().getJavaProject(), type, excludedNames);
-				for (String sname : suggestedNames) {
+				for (String sname : suggestedNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addLinkedPositionProposal(nameKey, sname);
 				}
 				if (favourite == null) {
@@ -320,7 +320,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 				}
 				usedNames.add(favourite);
 
-				for (SimpleName name : desc.resultingParamName) {
+				for (SimpleName name : desc.resultingParamName) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					name.setIdentifier(favourite);
 					addLinkedPosition(rewrite.track(name), false, nameKey);
 				}
@@ -328,7 +328,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 				addLinkedPosition(rewrite.track(desc.resultingParamType), true, typeKey);
 
 				// collect type suggestions
-				for (ITypeBinding binding : ASTResolving.getRelaxingTypes(ast, desc.type)) {
+				for (ITypeBinding binding : ASTResolving.getRelaxingTypes(ast, desc.type)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					addLinkedPositionProposal(typeKey, binding);
 				}
 
@@ -350,8 +350,8 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 	}
 
 	private TagElement insertParamTag(ListRewrite tagRewriter, List<SingleVariableDeclaration> parameters, int currentIndex, TagElement newTagElement) {
-		HashSet<String> previousNames= new HashSet<>();
-		for (int n = 0; n < currentIndex; n++) {
+		HashSet<String> previousNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int n = 0; n < currentIndex; n++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			SingleVariableDeclaration var= parameters.get(n);
 			previousNames.add(var.getName().getIdentifier());
 		}
@@ -360,7 +360,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		return newTagElement;
 	}
 
-	private void modifyExceptions(ASTRewrite rewrite, MethodDeclaration methodDecl) {
+	private void modifyExceptions(ASTRewrite rewrite, MethodDeclaration methodDecl) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		AST ast= methodDecl.getAST();
 
 		ImportRewrite imports= getImportRewrite();
@@ -370,7 +370,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 		List<Type> exceptions= methodDecl.thrownExceptionTypes(); // old exceptions
 		int k= 0; // index over the old exceptions
 
-		for (int i= 0; i < fExceptionChanges.length; i++) {
+		for (int i= 0; i < fExceptionChanges.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ChangeMethodSignatureProposalCore.ChangeDescription curr= fExceptionChanges[i];
 
 			if (curr == null) {
@@ -391,7 +391,7 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 					newTagElement.setTagName(TagElement.TAG_THROWS);
 					ASTNode newRef= ASTNodeFactory.newName(ast, type);
 					newTagElement.fragments().add(newRef);
-					insertTabStop(rewrite, newTagElement.fragments(), "throws_tagcomment" + i); //$NON-NLS-1$
+					insertTabStop(rewrite, newTagElement.fragments(), "throws_tagcomment" + i); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					insertThrowsTag(rewrite.getListRewrite(javadoc, Javadoc.TAGS_PROPERTY), exceptions, k, newTagElement);
 
 					addLinkedPosition(rewrite.track(newRef), false, key);
@@ -473,8 +473,8 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 	}
 
 	private TagElement insertThrowsTag(ListRewrite tagRewriter, List<Type> exceptions, int currentIndex, TagElement newTagElement) {
-		HashSet<String> previousNames= new HashSet<>();
-		for (int n = 0; n < currentIndex; n++) {
+		HashSet<String> previousNames= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (int n = 0; n < currentIndex; n++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Type curr= exceptions.get(n);
 			previousNames.add(ASTNodes.getTypeName(curr));
 		}
@@ -485,15 +485,15 @@ public class ChangeMethodSignatureProposalCore extends LinkedCorrectionProposalC
 
 
 	public String getParamNameGroupId(int idx) {
-		return "param_name_" + idx; //$NON-NLS-1$
+		return "param_name_" + idx; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public String getParamTypeGroupId(int idx) {
-		return "param_type_" + idx; //$NON-NLS-1$
+		return "param_type_" + idx; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	public String getExceptionTypeGroupId(int idx) {
-		return "exc_type_" + idx; //$NON-NLS-1$
+		return "exc_type_" + idx; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

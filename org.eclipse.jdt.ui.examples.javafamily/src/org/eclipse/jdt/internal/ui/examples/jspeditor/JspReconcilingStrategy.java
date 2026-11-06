@@ -89,15 +89,15 @@ public class JspReconcilingStrategy implements IReconcilingStrategy, IReconcilin
 
 	}
 
-	private void process(final IReconcileResult[] results) {
+	private void process(final IReconcileResult[] results) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		if (results == null)
 			return;
 
-		IRunnableWithProgress runnable= new WorkspaceModifyOperation(null) 	 {
+		IRunnableWithProgress runnable= new WorkspaceModifyOperation(null) 	 { //FLLDCIM: MARK — T09  ANONYMOUS
 			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
-				for (IReconcileResult r : results) {
+				for (IReconcileResult r : results) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fProgressMonitor != null && fProgressMonitor.isCanceled())
 						return;
 					if (!(r instanceof AnnotationAdapter)) {
@@ -128,7 +128,7 @@ public class JspReconcilingStrategy implements IReconcilingStrategy, IReconcilin
 	 */
 	private void removeTemporaryAnnotations() {
 		Iterator iter= getAnnotationModel().getAnnotationIterator();
-		while (iter.hasNext())  {
+		while (iter.hasNext())  { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object annotation= iter.next();
 			if (annotation instanceof Annotation)  {
 				Annotation extension= (Annotation)annotation;

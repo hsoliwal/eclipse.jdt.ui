@@ -32,7 +32,7 @@ public class SelectionHistoryTest {
 	@Rule
 	public ProjectTestSetup pts= new ProjectTestSetup();
 
-	private void assertEquals(String[] actual, String[] expected) {
+	private void assertEquals(String[] actual, String[] expected) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (expected == null && actual == null)
 			return;
 
@@ -60,7 +60,7 @@ public class SelectionHistoryTest {
 			fail(buf.toString());
 		}
 
-		for (int i= 0; i < actual.length; i++) {
+		for (int i= 0; i < actual.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!expected[i].equals(actual[i])) {
 				StringBuffer buf= new StringBuffer();
 				buf.append("Actual array is not equal expected array \n");
@@ -77,7 +77,7 @@ public class SelectionHistoryTest {
 		buf.append('{');
 		if (actual.length > 0) {
 			buf.append(actual[0]);
-			for (int i= 1; i < actual.length; i++) {
+			for (int i= 1; i < actual.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buf.append(", ");
 				buf.append(actual[i]);
 			}

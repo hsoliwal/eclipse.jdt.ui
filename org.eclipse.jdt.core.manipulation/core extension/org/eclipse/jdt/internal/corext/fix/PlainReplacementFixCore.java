@@ -87,7 +87,7 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 			this.visited= visited;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteAST(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -119,7 +119,7 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 			}
 		}
 
-		private String tryToSimplifyStringLiteralArgument(boolean isRegex, final AST ast, final ASTRewrite rewrite, final TextEditGroup group) {
+		private String tryToSimplifyStringLiteralArgument(boolean isRegex, final AST ast, final ASTRewrite rewrite, final TextEditGroup group) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			int index= isRegex ? 0 : 1;
 			Expression argument= (Expression) visited.arguments().get(index);
 
@@ -163,7 +163,7 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 	}
 
 	public static ICleanUpFix createCleanUp(final CompilationUnit compilationUnit) {
-		List<PlainReplacementFixOperation> operations= new ArrayList<>();
+		List<PlainReplacementFixOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		PlainReplacementFinder finder= new PlainReplacementFinder(operations);
 		compilationUnit.accept(finder);
 
@@ -187,11 +187,11 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 	 *         or when in doubt (for the sake of simplicity, e.g. {@code null} is also returned for {@code "a[b]c"}
 	 *         even if that would be {@code "abc"})
 	 */
-	private static String toPlainString(final String regexOrReplacement, final boolean isRegex, final boolean doUnescape) {
+	private static String toPlainString(final String regexOrReplacement, final boolean isRegex, final boolean doUnescape) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean isEscaped= false;
 		StringBuilder plainString= null;
 
-		for (int i= 0; i < regexOrReplacement.length(); i++) {
+		for (int i= 0; i < regexOrReplacement.length(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= regexOrReplacement.charAt(i);
 
 			if (Character.isSurrogate(c)) {
@@ -204,14 +204,14 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 							return null;
 						}
 
-						plainString= new StringBuilder();
+						plainString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 						if (i > 1) {
-							plainString.append(regexOrReplacement, 0, i - 1);
+							plainString.append(regexOrReplacement, 0, i - 1); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 
-					plainString.append(c);
+					plainString.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				} else if (c != '\\') {
 					return null;
 				}
@@ -225,17 +225,17 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 
 				if (!isMetaChar(c, false)) {
 					if (plainString == null) {
-						plainString= new StringBuilder();
+						plainString= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 						if (i > 1) {
-							plainString.append(regexOrReplacement, 0, i - 1);
+							plainString.append(regexOrReplacement, 0, i - 1); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						}
 					}
 
-					plainString.append(c);
+					plainString.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				}
 			} else if (plainString != null) {
-				plainString.append(c);
+				plainString.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 
 			isEscaped= !isEscaped && c == '\\';
@@ -244,7 +244,7 @@ public class PlainReplacementFixCore extends CompilationUnitRewriteOperationsFix
 		return isEscaped ? null : (plainString == null ? regexOrReplacement : plainString.toString());
 	}
 
-	private static boolean isMetaChar(char c, boolean isRegex) {
+	private static boolean isMetaChar(char c, boolean isRegex) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (isRegex) {
 			return c == '.'
 					|| c == '$'

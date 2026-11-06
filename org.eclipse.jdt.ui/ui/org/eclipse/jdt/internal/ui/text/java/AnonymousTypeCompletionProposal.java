@@ -79,7 +79,7 @@ import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 import org.eclipse.jdt.internal.ui.preferences.formatter.FormatterProfileManager;
 
 
-public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal {
+public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	private final String fDeclarationSignature;
 	private final IType fSuperType;
@@ -103,33 +103,33 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 		setCursorPosition(constructorCompletion.indexOf('(') + 1);
 	}
 
-	private String createDummyType(String name) throws JavaModelException {
-		StringBuilder buffer= new StringBuilder();
+	private String createDummyType(String name) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
-		buffer.append("abstract class "); //$NON-NLS-1$
-		buffer.append(name);
+		buffer.append("abstract class "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(name); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		if (fSuperType.isInterface())
-			buffer.append(" implements "); //$NON-NLS-1$
+			buffer.append(" implements "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
-			buffer.append(" extends "); //$NON-NLS-1$
+			buffer.append(" extends "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		if (fDeclarationSignature != null)
-			buffer.append(Signature.toString(fDeclarationSignature));
+			buffer.append(Signature.toString(fDeclarationSignature)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
-			buffer.append(fSuperType.getFullyQualifiedParameterizedName());
-		buffer.append(" {"); //$NON-NLS-1$
-		buffer.append("\n"); // Using newline is ok since source is used in dummy compilation unit //$NON-NLS-1$
-		buffer.append("}"); //$NON-NLS-1$
+			buffer.append(fSuperType.getFullyQualifiedParameterizedName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append(" {"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append("\n"); // Using newline is ok since source is used in dummy compilation unit //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buffer.append("}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return buffer.toString();
 	}
 
-	private String createNewBody(ImportRewrite importRewrite, int offset) throws CoreException {
+	private String createNewBody(ImportRewrite importRewrite, int offset) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (importRewrite == null)
 			return null;
 
 		ICompilationUnit workingCopy= null;
 		try {
-			String name= "Type" + System.currentTimeMillis(); //$NON-NLS-1$
+			String name= "Type" + System.currentTimeMillis(); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			workingCopy= fCompilationUnit.getPrimary().getWorkingCopy(null);
 
 
@@ -137,7 +137,7 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 			// creates a type that extends the super type
 			String dummyClassContent= createDummyType(name);
 
-			StringBuilder workingCopyContents= new StringBuilder(fCompilationUnit.getSource());
+			StringBuilder workingCopyContents= new StringBuilder(fCompilationUnit.getSource()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int insertPosition;
 			if (range != null && fCompilationUnit.equals(fSuperType.getCompilationUnit())) {
 				insertPosition= range.getOffset() + range.getLength();
@@ -147,7 +147,7 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 			}
 			if (fSuperType.isLocal()) {
 				// add an extra block: helps the AST to recover
-				workingCopyContents.insert(insertPosition, '{' + dummyClassContent + '}');
+				workingCopyContents.insert(insertPosition, '{' + dummyClassContent + '}'); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				insertPosition++;
 				if(offset > insertPosition) {
 					offset += dummyClassContent.length()+2;
@@ -157,7 +157,7 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 				 * The two empty lines are added because the trackedDeclaration uses the covered range
 				 * and hence would also included comments that directly follow the dummy class.
 				 */
-				workingCopyContents.insert(insertPosition, dummyClassContent + "\n\n"); //$NON-NLS-1$
+				workingCopyContents.insert(insertPosition, dummyClassContent + "\n\n"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				if(offset > insertPosition) {
 					offset += dummyClassContent.length()+2;
 				}
@@ -212,8 +212,8 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 				dialog.setElementPositionEnabled(false);
 				if (dialog.open() == Window.OK) {
 					Object[] selection= dialog.getResult();
-					ArrayList<Object> result= new ArrayList<>(selection.length);
-					for (Object s : selection) {
+					ArrayList<Object> result= new ArrayList<>(selection.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+					for (Object s : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (s instanceof IMethodBinding) {
 							result.add(s);
 						}
@@ -228,8 +228,8 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 				}
 			} else {
 				settings.createComments= false;
-				List<IMethodBinding> result= new ArrayList<>();
-				for (IMethodBinding curr : bindings) {
+				List<IMethodBinding> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IMethodBinding curr : bindings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (Modifier.isAbstract(curr.getModifiers()))
 						result.add(curr);
 				}
@@ -245,7 +245,7 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 			ITrackedNodePosition trackedDeclaration= rewrite.track(declaration);
 
 			ListRewrite rewriter= rewrite.getListRewrite(declaration, declaration.getBodyDeclarationsProperty());
-			for (IMethodBinding curr : methodsToOverride) {
+			for (IMethodBinding curr : methodsToOverride) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				MethodDeclaration stub= StubUtility2Core.createImplementationStub(workingCopy, rewrite, importRewrite, context, curr, dummyTypeBinding, settings, dummyTypeBinding.isInterface(), focusNode);
 				rewriter.insertFirst(stub, null);
 			}
@@ -388,7 +388,7 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 	/*
 	 * @see org.eclipse.jdt.internal.ui.text.java.JavaTypeCompletionProposal#updateReplacementString(org.eclipse.jface.text.IDocument, char, int, org.eclipse.jdt.core.dom.rewrite.ImportRewrite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected boolean updateReplacementString(IDocument document, char trigger, int offset, ImportRewrite impRewrite) throws CoreException, BadLocationException {
 		fImportRewrite= impRewrite;
 		String newBody= createNewBody(impRewrite, offset);
@@ -401,10 +401,10 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 		boolean replacementStringEndsWithParentheses= isAnonymousConstructorInvoc || getReplacementString().endsWith(")"); //$NON-NLS-1$
 
 		// construct replacement text: an expression to be formatted
-		StringBuilder buf= new StringBuilder("new A("); //$NON-NLS-1$
+		StringBuilder buf= new StringBuilder("new A("); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (!replacementStringEndsWithParentheses || isAnonymousConstructorInvoc)
-			buf.append(')');
-		buf.append(newBody);
+			buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(newBody); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		// use the code formatter
 		String lineDelim= TextUtilities.getDefaultLineDelimiter(document);
@@ -420,14 +420,14 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 
 		int p= offset;
 		char ch= document.getChar(p);
-		while (p < lineEndOffset) {
+		while (p < lineEndOffset) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ch == '(' || ch == ')' || ch == ';' || ch == ',')
 				break;
 			ch= document.getChar(++p);
 		}
 
 		if (ch != ';' && ch != ',' && ch != ')')
-			replacementString= replacementString + ';';
+			replacementString= replacementString + ';'; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 		replacementString= Strings.changeIndent(replacementString, 0, project, CodeFormatterUtil.createIndentString(indent, project), lineDelim);
 
@@ -441,13 +441,13 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 			// Keep existing code
 			int endPos= pos;
 			ch= document.getChar(endPos);
-			while (endPos < lineEndOffset && ch != '(' && ch != ')' && ch != ';' && ch != ',' && !Character.isWhitespace(ch))
+			while (endPos < lineEndOffset && ch != '(' && ch != ')' && ch != ';' && ch != ',' && !Character.isWhitespace(ch)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ch= document.getChar(++endPos);
 
 			int keepLength= endPos - pos;
 			if (keepLength > 0) {
 				String keepStr= document.get(pos, keepLength);
-				replacementString= replacementString + keepStr;
+				replacementString= replacementString + keepStr; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				setCursorPosition(replacementString.length() - keepLength);
 			}
 		} else
@@ -488,7 +488,7 @@ public class AnonymousTypeCompletionProposal extends JavaTypeCompletionProposal 
 		return super.getContextInformation();
 	}
 
-	protected IContextInformation computeContextInformation() {
+	protected IContextInformation computeContextInformation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			fContextInformationPosition= getReplacementOffset() - 1;
 

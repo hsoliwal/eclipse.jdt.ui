@@ -51,7 +51,7 @@ public class NLSKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 	/*
 	 * @see org.eclipse.jface.text.hyperlink.IHyperlinkDetector#detectHyperlinks(org.eclipse.jface.text.ITextViewer, org.eclipse.jface.text.IRegion, boolean)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= getAdapter(ITextEditor.class);
 		if (region == null || textEditor == null)

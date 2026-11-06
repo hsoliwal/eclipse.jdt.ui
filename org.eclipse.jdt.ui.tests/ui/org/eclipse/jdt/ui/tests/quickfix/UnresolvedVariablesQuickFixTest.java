@@ -68,7 +68,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -94,7 +94,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInAssignment() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -172,7 +172,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssingmentInIfBody() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -257,7 +257,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssingmentInThenBody() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -347,7 +347,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInAssignmentWithGenerics() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -425,7 +425,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssignedByWildcard1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -456,7 +456,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssignedByWildcard2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -487,7 +487,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssignedByWildcard3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -518,7 +518,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssignedToWildcard1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -549,7 +549,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssignedToWildcard2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -580,7 +580,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssignedToWildcard3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -611,7 +611,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssingmentInIfBodyWithGenerics() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -696,7 +696,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAssingmentInThenBodyWithGenerics() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -787,7 +787,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInVarArgs1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -856,7 +856,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInVarArgs2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -901,7 +901,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInForInitializer() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -964,7 +964,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInForInitializer2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1045,7 +1045,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInInitializer() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1086,7 +1086,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInOtherType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1140,7 +1140,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInSuperFieldAccess() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1193,7 +1193,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInSuper() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1264,7 +1264,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInAnonymous() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1389,7 +1389,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4, preview5, preview6 }, new String[] { expected1, expected2, expected3, expected4, expected5, expected6 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInAnnotation1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1431,7 +1431,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInAnnotation2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1473,7 +1473,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInAnnotation3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("pack", false, null);
 		String str= """
@@ -1515,7 +1515,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImportFavorite1() throws Exception {
 		IPreferenceStore preferenceStore= PreferenceConstants.getPreferenceStore();
 		preferenceStore.setValue(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS, "java.lang.Math.*");
@@ -1556,7 +1556,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testStaticImportFavorite_Issue2893() throws Exception { //https://github.com/eclipse-jdt/eclipse.jdt.ui/issues/2893
 		IPreferenceStore preferenceStore= PreferenceConstants.getPreferenceStore();
 		preferenceStore.setValue(PreferenceConstants.CODEASSIST_FAVORITE_STATIC_MEMBERS, "test.Assertions.*");
@@ -1655,7 +1655,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		}
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testLongVarRef() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1713,7 +1713,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2}, new String[] { expected1, expected2});
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarAndTypeRef() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1818,7 +1818,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarWithGenericType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -1879,7 +1879,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 	}
 
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarVariableNames1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);
 		String str= """
@@ -1898,7 +1898,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		ArrayList<IJavaCompletionProposal> proposals= collectCorrections(cu, astRoot);
-		for (int i= proposals.size() - 1; i >= 0; i--) {
+		for (int i= proposals.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object curr= proposals.get(i);
 			if (!(curr instanceof RenameNodeCorrectionProposal)) {
 				proposals.remove(i);
@@ -1943,7 +1943,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarVariableNames2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);
 		String str= """
@@ -1964,7 +1964,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		ArrayList<IJavaCompletionProposal> proposals= collectCorrections(cu, astRoot);
-		for (int i= proposals.size() - 1; i >= 0; i--) {
+		for (int i= proposals.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object curr= proposals.get(i);
 			if (!(curr instanceof RenameNodeCorrectionProposal)) {
 				proposals.remove(i);
@@ -2013,7 +2013,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarVariableNamesMultipleOcc() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test3", false, null);
 		String str= """
@@ -2033,7 +2033,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		ArrayList<IJavaCompletionProposal> proposals= collectCorrections(cu, astRoot, 3);
-		for (int i= proposals.size() - 1; i >= 0; i--) {
+		for (int i= proposals.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object curr= proposals.get(i);
 			if (!(curr instanceof RenameNodeCorrectionProposal)) {
 				proposals.remove(i);
@@ -2063,7 +2063,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualString( preview1, expected1);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndeclaredPrimitiveVariable() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String given= """
@@ -2085,7 +2085,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 
 		CUCorrectionProposal localProposal= null;
-		for (IJavaCompletionProposal curr : proposals) {
+		for (IJavaCompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof NewVariableCorrectionProposal && ((NewVariableCorrectionProposal) curr).getVariableKind() == NewVariableCorrectionProposal.LOCAL) {
 				localProposal= (CUCorrectionProposal) curr;
 			}
@@ -2109,7 +2109,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testUndeclaredObjectVariable() throws Exception {
 		IPackageFragment pack= fSourceFolder.createPackageFragment("test1", false, null);
 		String given= """
@@ -2131,7 +2131,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 
 		CUCorrectionProposal localProposal= null;
-		for (IJavaCompletionProposal curr : proposals) {
+		for (IJavaCompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof NewVariableCorrectionProposal && ((NewVariableCorrectionProposal) curr).getVariableKind() == NewVariableCorrectionProposal.LOCAL) {
 				localProposal= (CUCorrectionProposal) curr;
 			}
@@ -2155,7 +2155,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarMultipleOccurences1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2175,7 +2175,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 
 		CUCorrectionProposal localProposal= null;
-		for (IJavaCompletionProposal curr : proposals) {
+		for (IJavaCompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof NewVariableCorrectionProposal && ((NewVariableCorrectionProposal) curr).getVariableKind() == NewVariableCorrectionProposal.LOCAL) {
 				localProposal= (CUCorrectionProposal) curr;
 			}
@@ -2196,7 +2196,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarMultipleOccurences2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2217,7 +2217,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 
 		CUCorrectionProposal localProposal= null;
-		for (IJavaCompletionProposal curr : proposals) {
+		for (IJavaCompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof NewVariableCorrectionProposal && ((NewVariableCorrectionProposal) curr).getVariableKind() == NewVariableCorrectionProposal.LOCAL) {
 				localProposal= (CUCorrectionProposal) curr;
 			}
@@ -2239,7 +2239,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarMultipleOccurences3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2260,7 +2260,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertCorrectLabels(proposals);
 
 		CUCorrectionProposal localProposal= null;
-		for (IJavaCompletionProposal curr : proposals) {
+		for (IJavaCompletionProposal curr : proposals) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (curr instanceof NewVariableCorrectionProposal && ((NewVariableCorrectionProposal) curr).getVariableKind() == NewVariableCorrectionProposal.LOCAL) {
 				localProposal= (CUCorrectionProposal) curr;
 			}
@@ -2283,7 +2283,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualString(preview, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInArray() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2318,7 +2318,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInEnumSwitch() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2373,7 +2373,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2 }, new String[] { expected1, expected2 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInEnumMethodReturn1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2448,7 +2448,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInEnumMethodReturn2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2527,7 +2527,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInEnumMethod1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2607,7 +2607,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInEnumMethod2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2691,7 +2691,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInMethodInvocation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2773,7 +2773,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInConstructurInvocation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2840,7 +2840,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInSuperConstructurInvocation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2910,7 +2910,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3 }, new String[] { expected1, expected2, expected3 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInClassInstanceCreation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -2993,7 +2993,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1, preview2, preview3, preview4 }, new String[] { expected1, expected2, expected3, expected4 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarInArrayAccess() throws Exception {
 		// bug 194913
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
@@ -3063,7 +3063,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarWithMethodName1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3098,7 +3098,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview1 }, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarWithMethodName2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3133,7 +3133,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, new String[] { expected1 });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testSimilarVarsAndVisibility() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test", false, null);
 		String str= """
@@ -3241,7 +3241,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarOfShadowedType() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """
@@ -3321,7 +3321,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 	 * @throws Exception if anything goes wrong
 	 * @since 3.9
 	 */
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testVarParameterAccess() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		IPackageFragment pack2= fSourceFolder.createPackageFragment("test2", false, null);
@@ -3361,7 +3361,7 @@ public class UnresolvedVariablesQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug547404() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String str= """

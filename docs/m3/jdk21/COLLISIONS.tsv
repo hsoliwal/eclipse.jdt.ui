@@ -1,0 +1,6 @@
+step	path_line	rename
+collision	org.eclipse.jdt.core.manipulation/core extension/org/eclipse/jdt/internal/corext/fix/helper/WhileToForEach.java:107	unused -> unused2
+collision	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java:345	unused -> unused2
+collision	org.eclipse.jdt.junit/src/org/eclipse/jdt/junit/launcher/JUnitLaunchConfigurationTab.java:317	unused -> unused3
+collision	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java:438	unused -> unused3
+collision	org.eclipse.jdt.ui.tests/ui/org/eclipse/jdt/internal/common/VisitorTest.java:434	unused -> unused4

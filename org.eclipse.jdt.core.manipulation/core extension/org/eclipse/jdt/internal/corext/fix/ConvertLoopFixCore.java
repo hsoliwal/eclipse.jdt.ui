@@ -54,7 +54,7 @@ public class ConvertLoopFixCore extends CompilationUnitRewriteOperationsFixCore 
 			fParentOperation= null;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean visit(ForStatement node) {
 			if (fFindForLoopsToConvert || fConvertIterableForLoops) {
 				ForStatement current= node;
@@ -64,7 +64,7 @@ public class ConvertLoopFixCore extends CompilationUnitRewriteOperationsFixCore 
 				}
 				fParentOperation= operation;
 				ConvertLoopOperation oldOperation= null;
-				while (operation != null) {
+				while (operation != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (oldOperation == null) {
 						fResult.add(operation);
 					} else {
@@ -88,7 +88,7 @@ public class ConvertLoopFixCore extends CompilationUnitRewriteOperationsFixCore 
 			return super.visit(node);
 		}
 
-		private ConvertLoopOperation getConvertOperation(ForStatement node) {
+		private ConvertLoopOperation getConvertOperation(ForStatement node) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			Collection<String> usedNamesCollection= fUsedNames.values();
 			String[] usedNames= usedNamesCollection.toArray(new String[usedNamesCollection.size()]);
@@ -124,7 +124,7 @@ public class ConvertLoopFixCore extends CompilationUnitRewriteOperationsFixCore 
 		if (!convertForLoops && !convertIterableForLoops)
 			return null;
 
-		List<ConvertLoopOperation> operations= new ArrayList<>();
+		List<ConvertLoopOperation> operations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		ControlStatementFinder finder= new ControlStatementFinder(convertForLoops, convertIterableForLoops, makeFinal, checkIfLoopVarUsed, operations);
 		compilationUnit.accept(finder);
 

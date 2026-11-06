@@ -23,7 +23,7 @@ import org.eclipse.jdt.internal.corext.refactoring.typeconstraints2.ConstraintVa
 	private final Map<ConstraintVariable2, ParametricStructure> fElemStructure;
 
 	public ElementStructureEnvironment(){
-		fElemStructure= new LinkedHashMap<>();
+		fElemStructure= new LinkedHashMap<>(); //FLLDCIM: MARK — M04 M3_ORDERED_LANES NEW
 	}
 
 	public void setElemStructure(ConstraintVariable2 v, ParametricStructure t) {

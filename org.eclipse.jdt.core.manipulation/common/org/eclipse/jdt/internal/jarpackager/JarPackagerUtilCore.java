@@ -78,24 +78,24 @@ public class JarPackagerUtilCore {
 	 *
 	 * @since 1.14
 	 */
-	public static void writeArchive(ZipFile zipFile, boolean areDirectoryEntriesIncluded,
+	public static void writeArchive(ZipFile zipFile, boolean areDirectoryEntriesIncluded, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean isCompressed, JarOutputStream jarOutputStream,
 			Set<String> directories, MultiStatus status, IProgressMonitor progressMonitor) {
-		Enumeration<? extends ZipEntry> jarEntriesEnum= zipFile.entries();
+		Enumeration<? extends ZipEntry> jarEntriesEnum= zipFile.entries(); //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 		File zipFile1= new File(zipFile.getName());
 		try {
-			String zipFileCanonical= zipFile1.getCanonicalPath();
+			String zipFileCanonical= zipFile1.getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
 
-			while (jarEntriesEnum.hasMoreElements()) {
+			while (jarEntriesEnum.hasMoreElements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ZipEntry zipEntry= jarEntriesEnum.nextElement();
 				if (!zipEntry.isDirectory()) {
 					String entryName= zipEntry.getName();
 					File zipEntryFile= new File(zipFile1, entryName);
-					String zipEntryCanonical= zipEntryFile.getCanonicalPath();
-					if (zipEntryCanonical.startsWith(zipFileCanonical + File.separator)) {
+					String zipEntryCanonical= zipEntryFile.getCanonicalPath(); //FLLDCIM: MARK — M31 M3FILE_IO CALL
+					if (zipEntryCanonical.startsWith(zipFileCanonical + File.separator)) { //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						addFile(entryName, zipEntry, zipFile, areDirectoryEntriesIncluded, isCompressed, jarOutputStream, directories, status);
 					} else {
-						addWarning("Invalid path" + entryName, null, status); //$NON-NLS-1$
+						addWarning("Invalid path" + entryName, null, status); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					}
 				}
 				progressMonitor.worked(1);
@@ -104,7 +104,7 @@ public class JarPackagerUtilCore {
 				}
 			}
 		} catch (IOException e) {
-			addWarning("ZipFile error" + zipFile.getName(), null, status); //$NON-NLS-1$
+			addWarning("ZipFile error" + zipFile.getName(), null, status); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			e.printStackTrace();
 		}
 	}
@@ -124,7 +124,7 @@ public class JarPackagerUtilCore {
 	 *
 	 * @since 1.14
 	 */
-	private static void addFile(String destinationPath, ZipEntry jarEntry, ZipFile zipFile,
+	private static void addFile(String destinationPath, ZipEntry jarEntry, ZipFile zipFile, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean areDirectoryEntriesIncluded, boolean isCompressed,
 			JarOutputStream jarOutputStream, Set<String> directories, MultiStatus status) {
 		// Handle META-INF/MANIFEST.MF
@@ -162,7 +162,7 @@ public class JarPackagerUtilCore {
 	 *
 	 * @since 1.14
 	 */
-	public static void addZipEntry(ZipEntry zipEntry, ZipFile zipFile, String path,
+	public static void addZipEntry(ZipEntry zipEntry, ZipFile zipFile, String path, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			boolean areDirectoryEntriesIncluded, boolean isCompressed,
 			JarOutputStream jarOutputStream, Set<String> directories) throws IOException {
 		if (areDirectoryEntriesIncluded) {
@@ -183,7 +183,7 @@ public class JarPackagerUtilCore {
 
 		// Set modification time
 		newEntry.setTime(lastModified);
-		try (InputStream content= zipFile.getInputStream(zipEntry);) {
+		try (InputStream content= zipFile.getInputStream(zipEntry);) { //FLLDCIM: MARK — M25 M3FILE_ARCHIVE_STREAM CALL
 			jarOutputStream.putNextEntry(newEntry);
 			content.transferTo(jarOutputStream);
 		}
@@ -201,11 +201,11 @@ public class JarPackagerUtilCore {
 	 *
 	 * @since 1.14
 	 */
-	public static void addDirectories(String destPath, JarOutputStream jarOutputStream, Set<String> directories) throws IOException {
+	public static void addDirectories(String destPath, JarOutputStream jarOutputStream, Set<String> directories) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String path= destPath.replace(File.separatorChar, '/');
 		int lastSlash= path.lastIndexOf('/');
-		List<JarEntry> entryDirectories= new ArrayList<>(2);
-		while (lastSlash != -1) {
+		List<JarEntry> entryDirectories= new ArrayList<>(2); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		while (lastSlash != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			path= path.substring(0, lastSlash + 1);
 			if (!directories.add(path)) {
 				break;
@@ -220,7 +220,7 @@ public class JarPackagerUtilCore {
 			lastSlash= path.lastIndexOf('/', lastSlash - 1);
 		}
 
-		for (int i= entryDirectories.size() - 1; i >= 0; --i) {
+		for (int i= entryDirectories.size() - 1; i >= 0; --i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			jarOutputStream.putNextEntry(entryDirectories.get(i));
 		}
 	}

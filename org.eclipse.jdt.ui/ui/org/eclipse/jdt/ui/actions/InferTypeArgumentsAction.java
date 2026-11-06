@@ -48,7 +48,7 @@ import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class InferTypeArgumentsAction extends SelectionDispatchAction {
+public class InferTypeArgumentsAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	private JavaEditor fEditor;
 
@@ -157,7 +157,7 @@ public class InferTypeArgumentsAction extends SelectionDispatchAction {
 	private static IJavaElement[] getSelectedElements(IStructuredSelection selection){
 		List<?> list= selection.toList();
 		IJavaElement[] elements= new IJavaElement[list.size()];
-		for (int i= 0; i < list.size(); i++) {
+		for (int i= 0; i < list.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object object= list.get(i);
 			if (object instanceof IJavaElement)
 				elements[i]= (IJavaElement) object;

@@ -25,13 +25,13 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 
-class ProjectAndSourceFolderContentProvider extends JavaBrowsingContentProvider {
+class ProjectAndSourceFolderContentProvider extends JavaBrowsingContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 	ProjectAndSourceFolderContentProvider(JavaBrowsingPart browsingPart) {
 		super(false, browsingPart);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object[] getChildren(Object element) {
 		if (!exists(element))
 			return NO_CHILDREN;
@@ -43,7 +43,7 @@ class ProjectAndSourceFolderContentProvider extends JavaBrowsingContentProvider 
 				Object[] result= new Object[0];
 				Class<?> clazz= null;
 				Iterator<?> iter= ((IStructuredSelection)element).iterator();
-				while (iter.hasNext()) {
+				while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Object item=  iter.next();
 					if (clazz == null)
 						clazz= item.getClass();
@@ -58,7 +58,7 @@ class ProjectAndSourceFolderContentProvider extends JavaBrowsingContentProvider 
 				Assert.isLegal(false);
 				Object[] result= new Object[0];
 				Iterator<?> iter= ((IStructuredSelection)element).iterator();
-				while (iter.hasNext())
+				while (iter.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result= concatenate(result, getChildren(iter.next()));
 				return result;
 			}
@@ -82,10 +82,10 @@ class ProjectAndSourceFolderContentProvider extends JavaBrowsingContentProvider 
 			return NO_CHILDREN;
 
 		IPackageFragmentRoot[] roots= project.getPackageFragmentRoots();
-		List<IPackageFragmentRoot> list= new ArrayList<>(roots.length);
+		List<IPackageFragmentRoot> list= new ArrayList<>(roots.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		// filter out package fragments that correspond to projects and
 		// replace them with the package fragments directly
-		for (IPackageFragmentRoot root : roots) {
+		for (IPackageFragmentRoot root : roots) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isProjectPackageFragmentRoot(root))
 				list.add(root);
 		}

@@ -63,8 +63,8 @@ public class JavaElementPrefixPatternMatcherTest {
 
 	private static final String[] ALL_STRING_CONSTANTS;
 	static {
-		ArrayList<String> strings= new ArrayList<>();
-		for (Field field : JavaElementPrefixPatternMatcherTest.class.getDeclaredFields()) {
+		ArrayList<String> strings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Field field : JavaElementPrefixPatternMatcherTest.class.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (String.class.equals(field.getType()))
 				try {
 					strings.add((String) field.get(null));
@@ -78,8 +78,8 @@ public class JavaElementPrefixPatternMatcherTest {
 	private static void doMatch(String pattern, String... labelStrings) {
 		JavaElementPrefixPatternMatcher matcher= new JavaElementPrefixPatternMatcher(pattern);
 
-		ArrayList<String> matched= new ArrayList<>();
-		for (String label : ALL_STRING_CONSTANTS) {
+		ArrayList<String> matched= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (String label : ALL_STRING_CONSTANTS) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (matcher.matches(label))
 				matched.add(label);
 		}

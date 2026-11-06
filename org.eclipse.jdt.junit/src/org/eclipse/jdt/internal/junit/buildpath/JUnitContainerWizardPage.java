@@ -70,7 +70,7 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 	public static IJavaProject getPlaceholderProject() {
 		String name= "####internal"; //$NON-NLS-1$
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			IProject project= root.getProject(name);
 			if (!project.exists()) {
 				return JavaCore.create(project);
@@ -102,7 +102,7 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 		fContainerEntryResult= containerEntry;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void createControl(Composite parent) {
 		PixelConverter converter= new PixelConverter(parent);
 
@@ -137,7 +137,7 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 		} else {
 			fVersionCombo.select(3);
 		}
-		fVersionCombo.addModifyListener(_ -> doSelectionChanged());
+		fVersionCombo.addModifyListener(unused -> doSelectionChanged()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		label= new Label(composite, SWT.NONE);
 		label.setFont(composite.getFont());
@@ -176,7 +176,7 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 		}
 	}
 
-	protected void doSelectionChanged() {
+	protected void doSelectionChanged() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		JUnitStatus status= new JUnitStatus();
 
 		IClasspathEntry libEntry;
@@ -221,10 +221,9 @@ public class JUnitContainerWizardPage extends NewElementWizardPage implements IC
 	}
 
 	private String getPathLabel(IPath path) {
-		StringBuilder buf= new StringBuilder(BasicElementLabels.getResourceName(path.lastSegment()));
-		buf.append(JavaElementLabels.CONCAT_STRING);
-		buf.append(BasicElementLabels.getPathLabel(path.removeLastSegments(1), true));
-		return buf.toString();
+		return BasicElementLabels.getResourceName(path.lastSegment()) + JavaElementLabels.CONCAT_STRING + BasicElementLabels.getPathLabel(path.removeLastSegments(1), true);
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 	}
 
 	@Override

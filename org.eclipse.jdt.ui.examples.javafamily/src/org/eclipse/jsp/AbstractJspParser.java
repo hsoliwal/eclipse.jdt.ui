@@ -28,7 +28,7 @@ public abstract class AbstractJspParser {
 		super();
 	}
 
-	private int getc() throws IOException {
+	private int getc() throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPos++;
 		if (fHasUnread) {
 			fHasUnread= false;
@@ -55,9 +55,9 @@ public abstract class AbstractJspParser {
 	}
 
 	private void parseDirective() throws IOException {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int pos= fPos;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int c = getc();
 			if (c == '%') {
 				c= getc();
@@ -67,14 +67,14 @@ public abstract class AbstractJspParser {
 					return;
 				}
 			}
-			sb.append((char)c);
+			sb.append((char)c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 
-	private void parseTag(boolean endTag) throws IOException {
-		StringBuilder sb= new StringBuilder();
+	private void parseTag(boolean endTag) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int pos= fPos;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int c= getc();
 			if (c == '/') {
 				c= getc();
@@ -90,12 +90,12 @@ public abstract class AbstractJspParser {
 				parseAttributes(pos, sb.toString());
 				return;
 			}
-			sb.append((char)c);
+			sb.append((char)c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 
 	private void parseComment() throws IOException {
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int c = getc();
 			if (c == '-') {
 				c= getc();
@@ -113,9 +113,9 @@ public abstract class AbstractJspParser {
 	}
 
 	private void parseJava(char type) throws IOException {
-		StringBuilder sb= new StringBuilder();
+		StringBuilder sb= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int line= fLines;
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int c = getc();
 			if (c == '%') {
 				c= getc();
@@ -124,7 +124,7 @@ public abstract class AbstractJspParser {
 					return;
 				}
 			}
-			sb.append((char)c);
+			sb.append((char)c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 	}
 
@@ -132,11 +132,11 @@ public abstract class AbstractJspParser {
 		// empty implementation
 	}
 
-	private void parseAttributes(int pos, String s) {
+	private void parseAttributes(int pos, String s) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		boolean hasValue= false;
-		StringBuilder name= new StringBuilder();
-		StringBuilder value= new StringBuilder();
+		StringBuilder name= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		StringBuilder value= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		String startTag= ""; //$NON-NLS-1$
 		int i= 0;
 		int ix= 0;
@@ -145,15 +145,15 @@ public abstract class AbstractJspParser {
 		char c= s.charAt(i++);
 
 		try {
-			while (true) {
+			while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 
 				// whitespace
-				while (Character.isWhitespace(c))
+				while (Character.isWhitespace(c)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					c= s.charAt(i++);
 
 				startName= i;
-				while (Character.isLetterOrDigit(c) || c == ':') {
-					name.append(c);
+				while (Character.isLetterOrDigit(c) || c == ':') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+					name.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					c= s.charAt(i++);
 				}
 				if (startName == i) {
@@ -162,7 +162,7 @@ public abstract class AbstractJspParser {
 				}
 
 				// whitespace
-				while (Character.isWhitespace(c))
+				while (Character.isWhitespace(c)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					c= s.charAt(i++);
 
 				hasValue= false;
@@ -170,28 +170,28 @@ public abstract class AbstractJspParser {
 					c= s.charAt(i++);
 
 					// value
-					while (Character.isWhitespace(c))
+					while (Character.isWhitespace(c)) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						c= s.charAt(i++);
 
 					startValue= i;
 
 					// Special handling for this taglib tag
 					if ("c:out".equals(startTag))  { //$NON-NLS-1$
-						value= value.append(s.substring(startValue, Math.max(startValue, s.length() - 2)));
+						value= value.append(s.substring(startValue, Math.max(startValue, s.length() - 2))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 						name.setLength(0);
 						tagAttribute(name.toString(), value.toString(), startName+pos, startValue+pos);
 						break;
 					} else if (c == '"') {
 						c= s.charAt(i++);
-						while (c != '"') {
-							value.append(c);
+						while (c != '"') { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							value.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							c= s.charAt(i++);
 						}
 						c= s.charAt(i++);
 
 					} else {
-						while (Character.isLetterOrDigit(c)) {
-							value.append(c);
+						while (Character.isLetterOrDigit(c)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+							value.append(c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 							c= s.charAt(i++);
 						}
 					}
@@ -239,15 +239,15 @@ public abstract class AbstractJspParser {
 		// empty implementation
 	}
 
-	void parse(Reader reader) throws IOException {
+	void parse(Reader reader) throws IOException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int c;
-		StringBuilder buffer= new StringBuilder();
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		fPos= 0;
 		fLines= 1;
 		int line= fLines;
 		fReader= reader;
 
-		while (true) {
+		while (true) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			c= getc();
 			switch (c) {
 			case -1:
@@ -299,7 +299,7 @@ public abstract class AbstractJspParser {
 				break;
 
 			default:
-				buffer.append((char)c);
+				buffer.append((char)c); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				break;
 			}
 		}

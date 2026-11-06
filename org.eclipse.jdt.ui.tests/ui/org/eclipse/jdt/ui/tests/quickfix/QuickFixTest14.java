@@ -43,7 +43,7 @@ public class QuickFixTest14 extends QuickFixTest {
 
 	public static final String MODULE_INFO_FILE= "module-info.java";
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDefaultCaseSwitchStatement1() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -99,7 +99,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDefaultCaseSwitchStatement2() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -156,7 +156,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDefaultCaseSwitchStatement3() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -227,7 +227,7 @@ public class QuickFixTest14 extends QuickFixTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddMissingCaseSwitchStatement1() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -284,7 +284,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddMissingCaseSwitchStatement2() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -351,7 +351,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDefaultCaseSwitchExpression1() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -407,7 +407,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDefaultCaseSwitchExpression2() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -469,7 +469,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddDefaultCaseSwitchExpression3() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -515,7 +515,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddMissingCaseSwitchExpression() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -585,7 +585,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceIncorrectReturnInSwitchExpressionWithYieldStatement() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -646,7 +646,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testReplaceIncorrectReturnInSwitchExpressionWithYieldStatement2() throws Exception {
 		fJProject1= JavaProjectHelper.createJavaProject("TestProject1", "bin");
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);
@@ -715,7 +715,7 @@ public class QuickFixTest14 extends QuickFixTest {
 		assertEqualStringsIgnoreOrder(new String[] { preview }, new String[] { expected });
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testIncompleteSwitchDespiteSwitch() throws Exception {
 		fJProject1= projectSetup.getProject();
 		fJProject1.setRawClasspath(projectSetup.getDefaultClasspath(), null);

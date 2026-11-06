@@ -57,7 +57,7 @@ public class RenameTypeWizardSimilarElementsOptionsDialog extends MessageDialog 
 		return true;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createMessageArea(Composite parent) {
 		initializeDialogUnits(parent);
 
@@ -118,17 +118,17 @@ public class RenameTypeWizardSimilarElementsOptionsDialog extends MessageDialog 
 		fWarningLabel.setLayoutData(gridData);
 		fWarningLabel.setFont(warningComposite.getFont());
 
-		fExactStrategyRadio.setDialogFieldListener(_ -> {
+		fExactStrategyRadio.setDialogFieldListener(unused -> {
 			updateLabel();
 			fSelectedStrategy= RenamingNameSuggestor.STRATEGY_EXACT;
 		});
 
-		fEmbeddedStrategyRadio.setDialogFieldListener(_ -> {
+		fEmbeddedStrategyRadio.setDialogFieldListener(unused -> {
 			updateLabel();
 			fSelectedStrategy= RenamingNameSuggestor.STRATEGY_EMBEDDED;
 		});
 
-		fSuffixStrategyRadio.setDialogFieldListener(_ -> {
+		fSuffixStrategyRadio.setDialogFieldListener(unused -> {
 			updateLabel();
 			fSelectedStrategy= RenamingNameSuggestor.STRATEGY_SUFFIX;
 		});

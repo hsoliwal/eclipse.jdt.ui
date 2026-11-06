@@ -58,7 +58,7 @@ public class PullUpTests1d8 extends PullUpTests {
 		super(new Java1d8Setup());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test18_1() throws Exception {
 		String[] methodNames= new String[] { "getArea" };
 		String[][] signatures= new String[][] { new String[] { "QInteger;" } };
@@ -125,7 +125,7 @@ public class PullUpTests1d8 extends PullUpTests {
 	}
 
 	// bug 394551: no override annotation expected
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test18_4() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		boolean previousValue= store.getBoolean(PreferenceConstants.CODEGEN_USE_OVERRIDE_ANNOTATION);
@@ -152,7 +152,7 @@ public class PullUpTests1d8 extends PullUpTests {
 	}
 
 	// bug 394551: no override annotation expected
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test18_5() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		boolean previousValue= store.getBoolean(PreferenceConstants.CODEGEN_USE_OVERRIDE_ANNOTATION);
@@ -185,7 +185,7 @@ public class PullUpTests1d8 extends PullUpTests {
 	}
 
 	// bug 394551: override annotation expected
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test18_6() throws Exception {
 		IPreferenceStore store= JavaPlugin.getDefault().getPreferenceStore();
 		boolean previousValue= store.getBoolean(PreferenceConstants.CODEGEN_USE_OVERRIDE_ANNOTATION);
@@ -217,7 +217,7 @@ public class PullUpTests1d8 extends PullUpTests {
 	}
 
 	// bug 497368
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void test54() throws Exception {
 		ICompilationUnit cuFoo= createCUfromTestFile(getPackageP(), "Foo");
 		ICompilationUnit cuIFoo= createCUfromTestFile(getPackageP(), "IFoo");
@@ -244,7 +244,7 @@ public class PullUpTests1d8 extends PullUpTests {
 	}
 
 	// bug 552377
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testGenerics16() throws Exception {
 		ICompilationUnit cuIGeneric= createCUfromTestFile(getPackageP(), "IGeneric");
 		ICompilationUnit cuMainImpl= createCUfromTestFile(getPackageP(), "MainImpl");
@@ -268,7 +268,7 @@ public class PullUpTests1d8 extends PullUpTests {
 		RefactoringStatus result= performRefactoring(ref);
 
 		if (result != null && result.hasError()) {
-			fail("No errors should occur: " + result.getMessageMatchingSeverity(RefactoringStatus.ERROR));
+			fail("No errors should occur: " + result.getMessageMatchingSeverity(RefactoringStatus.ERROR)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		assertEqualLines("IGeneric", getFileContents(getOutputTestFileName("IGeneric")), cuIGeneric.getSource());

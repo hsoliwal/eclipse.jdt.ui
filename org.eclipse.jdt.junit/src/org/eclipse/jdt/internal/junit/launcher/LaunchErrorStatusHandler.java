@@ -31,10 +31,10 @@ import org.eclipse.jdt.internal.junit.ui.JUnitMessages;
 
 public class LaunchErrorStatusHandler implements IStatusHandler {
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object handleStatus(final IStatus status, Object source) throws CoreException {
 		final AtomicBoolean success= new AtomicBoolean(false);
-		getDisplay().syncExec(
+		getDisplay().syncExec( //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 				() -> {
 					Shell shell= PlatformUI.getWorkbench().getModalDialogShellProvider().getShell();
 					if (shell == null)

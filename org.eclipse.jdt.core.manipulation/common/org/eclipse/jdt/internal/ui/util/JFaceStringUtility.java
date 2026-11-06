@@ -33,7 +33,7 @@ public class JFaceStringUtility {
 	 *         expressions)
 	 * @since 3.4
 	 */
-	public static String replaceAll(String src, String find, String replacement) {
+	public static String replaceAll(String src, String find, String replacement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int len = src.length();
 		final int findLen = find.length();
 
@@ -42,11 +42,11 @@ public class JFaceStringUtility {
 			return src;
 		}
 
-		StringBuilder buf = new StringBuilder();
+		StringBuilder buf = new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int beginIndex = 0;
-		while (idx != -1 && idx < len) {
-			buf.append(src.substring(beginIndex, idx));
-			buf.append(replacement);
+		while (idx != -1 && idx < len) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(src.substring(beginIndex, idx)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(replacement); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 			beginIndex = idx + findLen;
 			if (beginIndex < len) {
@@ -56,7 +56,7 @@ public class JFaceStringUtility {
 			}
 		}
 		if (beginIndex<len) {
-			buf.append(src.substring(beginIndex, (idx==-1?len:idx)));
+			buf.append(src.substring(beginIndex, (idx==-1?len:idx))); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

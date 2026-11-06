@@ -53,7 +53,7 @@ public class SimpleSelectionProvider implements ISelectionProvider {
 	public void setSelection(ISelection selection) {
 		fSelection= selection;
 
-		for (ISelectionChangedListener listener : fSelectionChangedListeners) {
+		for (ISelectionChangedListener listener : fSelectionChangedListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
 	}

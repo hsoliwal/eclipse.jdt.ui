@@ -68,9 +68,9 @@ public class PackageBrowseAdapter implements IStringButtonAdapter {
 	public static Object[] createPackageListInput(ICompilationUnit cu, String elementNameMatch){
 		try{
 			IJavaProject project= cu.getJavaProject();
-			List<IPackageFragment> result= new ArrayList<>();
-			HashMap<String, Object> entered =new HashMap<>();
-			for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+			List<IPackageFragment> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			HashMap<String, Object> entered =new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+			for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canAddPackageRoot(root)) {
 					getValidPackages(root, result, entered, elementNameMatch);
 				}
@@ -96,14 +96,14 @@ public class PackageBrowseAdapter implements IStringButtonAdapter {
     	return true;
     }
 
-	static void getValidPackages(IPackageFragmentRoot root, List<IPackageFragment> result, HashMap<String, Object> entered, String elementNameMatch) throws JavaModelException {
+	static void getValidPackages(IPackageFragmentRoot root, List<IPackageFragment> result, HashMap<String, Object> entered, String elementNameMatch) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaElement[] children= null;
 		try {
 			children= root.getChildren();
 		} catch (JavaModelException e){
 			return;
 		}
-		for (IJavaElement child : children) {
+		for (IJavaElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof IPackageFragment) {
 				IPackageFragment packageFragment = (IPackageFragment) child;
 				String packageName = packageFragment.getElementName();
@@ -134,8 +134,8 @@ public class PackageBrowseAdapter implements IStringButtonAdapter {
 
     public static List<IPackageFragment> searchAllPackages(IJavaProject project, String matcher) {
 		try{
-			List<IPackageFragment> result= new ArrayList<>();
-			for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) {
+			List<IPackageFragment> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IPackageFragmentRoot root : project.getPackageFragmentRoots()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (canAddPackageRoot(root)) {
 					getValidPackages(root, result, null, matcher);
 				}
@@ -143,7 +143,7 @@ public class PackageBrowseAdapter implements IStringButtonAdapter {
 			return result;
 		} catch (JavaModelException e) {
 			JavaPlugin.log(e);
-			return new ArrayList<>(0);
+			return new ArrayList<>(0); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		}
     }
 }

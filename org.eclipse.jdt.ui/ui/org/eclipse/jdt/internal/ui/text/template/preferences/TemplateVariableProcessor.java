@@ -58,13 +58,13 @@ public class TemplateVariableProcessor implements IContentAssistProcessor {
 	/*
 	 * @see IContentAssistProcessor#computeCompletionProposals(ITextViewer, int)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,	int documentOffset) {
 
 		if (fContextType == null)
 			return null;
 
-		List<TemplateVariableProposal> proposals= new ArrayList<>();
+		List<TemplateVariableProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		String text= viewer.getDocument().get();
 		int start= getStart(text, documentOffset);
@@ -92,30 +92,30 @@ public class TemplateVariableProcessor implements IContentAssistProcessor {
 
 		int length= end - offset;
 
-		for (Iterator<TemplateVariableResolver> iterator= fContextType.resolvers(); iterator.hasNext(); ) {
+		for (Iterator<TemplateVariableResolver> iterator= fContextType.resolvers(); iterator.hasNext(); ) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			TemplateVariableResolver variable= iterator.next();
 
 			if (variable.getType().startsWith(prefix))
 				proposals.add(new TemplateVariableProposal(variable, offset, length, viewer, includeBrace));
 		}
 
-		Collections.sort(proposals, fgTemplateVariableProposalComparator);
+		Collections.sort(proposals, fgTemplateVariableProposalComparator); //FLLDCIM: MARK — M16 SORT_LANE CALL
 		return proposals.toArray(new ICompletionProposal[proposals.size()]);
 	}
 
 	/* Guesses the start position of the completion */
-	private int getStart(String string, int end) {
+	private int getStart(String string, int end) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int start= end;
 
 		if (start >= 1 && string.charAt(start - 1) == '$')
 			return start - 1;
 
-		while ((start != 0) && Character.isUnicodeIdentifierPart(string.charAt(start - 1)))
+		while ((start != 0) && Character.isUnicodeIdentifierPart(string.charAt(start - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			start--;
 
 		if (start >= 1 && string.charAt(start - 1) == ':') {
 			start--;
-			while ((start != 0) && Character.isUnicodeIdentifierPart(string.charAt(start - 1)))
+			while ((start != 0) && Character.isUnicodeIdentifierPart(string.charAt(start - 1))) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				start--;
 		}
 

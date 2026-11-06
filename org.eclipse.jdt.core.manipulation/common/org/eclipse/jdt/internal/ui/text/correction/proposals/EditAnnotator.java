@@ -103,7 +103,7 @@ public class EditAnnotator extends TextEditVisitor {
 		return false;
 	}
 
-	private void appendContent(IDocument text, int startOffset, int endOffset, boolean surroundLinesOnly) {
+	private void appendContent(IDocument text, int startOffset, int endOffset, boolean surroundLinesOnly) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		final int surroundLines= 1;
 		try {
 			int startLine= text.getLineOfOffset(startOffset);
@@ -116,7 +116,7 @@ public class EditAnnotator extends TextEditVisitor {
 				dotsAdded= true;
 			}
 
-			for (int i= startLine; i <= endLine; i++) {
+			for (int i= startLine; i <= endLine; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (surroundLinesOnly) {
 					if ((i - startLine > surroundLines) && (endLine - i > surroundLines)) {
 						if (!dotsAdded) {
@@ -139,7 +139,7 @@ public class EditAnnotator extends TextEditVisitor {
 				if (surroundLinesOnly && (from == start) && Strings.containsOnlyWhitespaces(content)) {
 					continue; // ignore empty lines except when range started in the middle of a line
 				}
-				for (int k= 0; k < content.length(); k++) {
+				for (int k= 0; k < content.length(); k++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					char ch= content.charAt(k);
 					switch (ch) {
 					case '<':

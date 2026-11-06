@@ -149,17 +149,17 @@ public class TableTextCellEditor extends CellEditor {
 	    return fModifyListener;
 	}
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createControl(Composite parent) {
         text= new Text(parent, getStyle());
-        text.addSelectionListener(new SelectionAdapter() {
+        text.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
             @Override
 			public void widgetDefaultSelected(SelectionEvent e) {
                 handleDefaultSelection();
             }
         });
-		text.addKeyListener(new KeyAdapter() {
-			@Override
+		text.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public void keyPressed(KeyEvent e) {
 				// support switching rows while editing:
 				if (e.stateMask == SWT.MOD1 || e.stateMask == SWT.MOD2) {
@@ -205,7 +205,7 @@ public class TableTextCellEditor extends CellEditor {
 					fTableViewer.editElement(newSelection.getFirstElement(), fColumn);
 			}
 		});
-        text.addKeyListener(new KeyAdapter() {
+        text.addKeyListener(new KeyAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
             // hook key pressed - see PR 14201
             @Override
 			public void keyPressed(KeyEvent e) {
@@ -220,7 +220,7 @@ public class TableTextCellEditor extends CellEditor {
                 checkSelectable();
             }
         });
-        text.addTraverseListener(e -> {
+        text.addTraverseListener(e -> { //FLLDCIM: MARK — T16 MENU_TRAVERSE CALL
 		    if (e.detail == SWT.TRAVERSE_ESCAPE
 		            || e.detail == SWT.TRAVERSE_RETURN) {
 		        e.doit = false;
@@ -229,7 +229,7 @@ public class TableTextCellEditor extends CellEditor {
         // We really want a selection listener but it is not supported so we
         // use a key listener and a mouse listener to know when selection changes
         // may have occurred
-        text.addMouseListener(new MouseAdapter() {
+        text.addMouseListener(new MouseAdapter() { //FLLDCIM: MARK — T12 INPUT_EVENT CALL
             @Override
 			public void mouseUp(MouseEvent e) {
                 checkSelection();
@@ -237,10 +237,10 @@ public class TableTextCellEditor extends CellEditor {
                 checkSelectable();
             }
         });
-        text.addFocusListener(new FocusAdapter() {
+        text.addFocusListener(new FocusAdapter() { //FLLDCIM: MARK — T15 FOCUS CALL
             @Override
 			public void focusLost(FocusEvent e) {
-            	e.display.asyncExec(() -> {
+            	e.display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 					if (text.isDisposed())
 						return;
 					// without the asyncExec, focus has not had a chance to go to the content assist proposals
@@ -251,7 +251,7 @@ public class TableTextCellEditor extends CellEditor {
         text.setFont(parent.getFont());
         text.setBackground(parent.getBackground());
         text.setText("");//$NON-NLS-1$
-        text.addModifyListener(getModifyListener());
+        text.addModifyListener(getModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
 
 		return text;
     }
@@ -298,7 +298,7 @@ public class TableTextCellEditor extends CellEditor {
         Assert.isTrue(text != null && (value instanceof String));
         text.removeModifyListener(getModifyListener());
         text.setText((String) value);
-        text.addModifyListener(getModifyListener());
+        text.addModifyListener(getModifyListener()); //FLLDCIM: MARK — T02 TEXT_INPUT_DEBOUNCE CALL
     }
 
     /**
@@ -370,7 +370,7 @@ public class TableTextCellEditor extends CellEditor {
         return text.getCharCount() > 0;
     }
 
-    @Override
+    @Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
         if (keyEvent.character == '\r') { // Return key
             // Enter is handled in handleDefaultSelection.

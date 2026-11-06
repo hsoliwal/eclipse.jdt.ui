@@ -35,8 +35,8 @@ public class TestExecutionTimingProtocol {
 	}
 
 	private static class RecordingListener implements ITestRunListener2 {
-		final List<Timing> timings= new ArrayList<>();
-		final List<String> events= new ArrayList<>();
+		final List<Timing> timings= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		final List<String> events= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		@Override
 		public void testTiming(String testId, long start, long elapsed, long cpu, long user) {
@@ -45,27 +45,27 @@ public class TestExecutionTimingProtocol {
 
 		@Override
 		public void testRunStarted(int testCount) {
-			events.add("runStarted:" + testCount); //$NON-NLS-1$
+			events.add("runStarted:" + testCount); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
 		public void testRunEnded(long elapsedTime) {
-			events.add("runEnded:" + elapsedTime); //$NON-NLS-1$
+			events.add("runEnded:" + elapsedTime); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
 		public void testStarted(String testId, String testName) {
-			events.add("started:" + testId); //$NON-NLS-1$
+			events.add("started:" + testId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
 		public void testEnded(String testId, String testName) {
-			events.add("ended:" + testId); //$NON-NLS-1$
+			events.add("ended:" + testId); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
 		public void testFailed(int status, String testId, String testName, String trace, String expected, String actual) {
-			events.add("failed:" + testId + ":" + status + ":" + trace); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			events.add("failed:" + testId + ":" + status + ":" + trace); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		@Override
@@ -105,7 +105,7 @@ public class TestExecutionTimingProtocol {
 
 	@Test
 	public void testInvalidTimingRangesAreIgnored() throws Exception {
-		for (String timing : List.of(
+		for (String timing : List.of( //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				"1,-1,20,10,5", //$NON-NLS-1$
 				"1,10,-1,10,5", //$NON-NLS-1$
 				"1,10,20,-2,5", //$NON-NLS-1$
@@ -122,7 +122,7 @@ public class TestExecutionTimingProtocol {
 
 	@Test
 	public void testMalformedTimingDoesNotInterruptResults() throws Exception {
-		for (String timing : List.of(
+		for (String timing : List.of( //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				"", //$NON-NLS-1$
 				",10,20,10,5", //$NON-NLS-1$
 				"1,10,20,10", //$NON-NLS-1$
@@ -144,7 +144,7 @@ public class TestExecutionTimingProtocol {
 				new Timing("1", 10, 20, 10, -1), //$NON-NLS-1$
 				new Timing("1", Long.MAX_VALUE, 0, -1, -1), //$NON-NLS-1$
 				new Timing("1", 0, Long.MAX_VALUE, Long.MAX_VALUE, Long.MAX_VALUE)); //$NON-NLS-1$
-		for (Timing timing : timings) {
+		for (Timing timing : timings) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			receive(MessageIds.TEST_TIMING + timing.testId() + ',' + timing.start() + ',' + timing.elapsed() + ',' + timing.cpu() + ',' + timing.user());
 		}
 		assertEquals(timings, fListener.timings);
@@ -157,16 +157,16 @@ public class TestExecutionTimingProtocol {
 
 	private void assertTimingIgnored(String timing) throws Exception {
 		fListener.events.clear();
-		receive(MessageIds.TEST_RUN_START + "1 v2"); //$NON-NLS-1$
-		receive(MessageIds.TEST_START + "1,testTiming(pack.TimingTest)"); //$NON-NLS-1$
+		receive(MessageIds.TEST_RUN_START + "1 v2"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		receive(MessageIds.TEST_START + "1,testTiming(pack.TimingTest)"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		if (timing != null)
 			receive(MessageIds.TEST_TIMING + timing);
-		receive(MessageIds.TEST_FAILED + "1,testTiming(pack.TimingTest)"); //$NON-NLS-1$
+		receive(MessageIds.TEST_FAILED + "1,testTiming(pack.TimingTest)"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		receive(MessageIds.TRACE_START);
 		receive("AssertionError"); //$NON-NLS-1$
 		receive(MessageIds.TRACE_END);
-		receive(MessageIds.TEST_END + "1,testTiming(pack.TimingTest)"); //$NON-NLS-1$
-		receive(MessageIds.TEST_RUN_END + "23"); //$NON-NLS-1$
+		receive(MessageIds.TEST_END + "1,testTiming(pack.TimingTest)"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		receive(MessageIds.TEST_RUN_END + "23"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		assertEquals(timing, List.of("runStarted:1", "started:1", "failed:1:2:AssertionError", "ended:1", "runEnded:23"), fListener.events); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		assertTrue(timing, fListener.timings.isEmpty());
 	}

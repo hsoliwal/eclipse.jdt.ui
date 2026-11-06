@@ -31,7 +31,7 @@ public class RefactoringStarter {
 
 	private RefactoringStatus fStatus;
 
-	public boolean activate(RefactoringWizard wizard, Shell parent, String dialogTitle, int saveMode) {
+	public boolean activate(RefactoringWizard wizard, Shell parent, String dialogTitle, int saveMode) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		RefactoringSaveHelper saveHelper= new RefactoringSaveHelper(saveMode);
 		if (! canActivate(saveHelper, parent))
 			return false;

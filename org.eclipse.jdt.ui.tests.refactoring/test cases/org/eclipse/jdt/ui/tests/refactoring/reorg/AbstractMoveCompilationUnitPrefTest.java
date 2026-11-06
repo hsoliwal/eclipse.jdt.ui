@@ -54,20 +54,20 @@ public abstract class AbstractMoveCompilationUnitPrefTest extends RepeatingRefac
 		ICompilationUnit result= source.createCompilationUnit("A.java", str, false, null);
 
 		IPackageFragment references= fTestProject.getSourceFolder().createPackageFragment("ref", false, null);
-		for(int i= 0; i < numberOfCus; i++) {
+		for(int i= 0; i < numberOfCus; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			createReferenceCu(references, i, numberOfRefs);
 		}
 		return result;
 	}
 
 	private static void createReferenceCu(IPackageFragment pack, int index, int numberOfRefs) throws Exception {
-		StringBuilder buf= new StringBuilder();
-		buf.append("package " + pack.getElementName() + ";\n");
-		buf.append("public class Ref" + index + " {\n");
-		for (int i= 0; i < numberOfRefs - 1; i++) {
-			buf.append("    source.A field" + i +";\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("package " + pack.getElementName() + ";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public class Ref" + index + " {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 0; i < numberOfRefs - 1; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append("    source.A field" + i +";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append("}\n");
-		pack.createCompilationUnit("Ref" + index + ".java", buf.toString(), false, null);
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		pack.createCompilationUnit("Ref" + index + ".java", buf.toString(), false, null); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }

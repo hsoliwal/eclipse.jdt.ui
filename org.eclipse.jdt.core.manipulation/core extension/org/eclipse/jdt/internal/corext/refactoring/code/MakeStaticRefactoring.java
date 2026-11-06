@@ -103,7 +103,7 @@ public class MakeStaticRefactoring extends Refactoring {
 	 * @return The refactoring status indicating the result of the initial conditions check.
 	 * @throws JavaModelException if an exception occurs while accessing the Java model
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public RefactoringStatus checkInitialConditions(IProgressMonitor progressMonitor) throws JavaModelException {
 		fStatus= new RefactoringStatus();
 		SubMonitor progress= SubMonitor.convert(progressMonitor, RefactoringCoreMessages.MakeStaticRefactoring_checking_preconditions, 10);

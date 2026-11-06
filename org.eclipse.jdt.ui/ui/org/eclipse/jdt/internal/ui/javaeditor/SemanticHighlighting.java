@@ -77,7 +77,7 @@ public abstract class SemanticHighlighting extends SemanticHighlightingCore {
 	public abstract boolean isEnabledByDefault();
 
 	private String getThemeColorKey() {
-		return JavaUI.ID_PLUGIN + "." + getPreferenceKey() + "Highlighting";  //$NON-NLS-1$//$NON-NLS-2$
+		return JavaUI.ID_PLUGIN + "." + getPreferenceKey() + "Highlighting";  //$NON-NLS-1$//$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	/**

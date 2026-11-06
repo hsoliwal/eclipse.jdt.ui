@@ -46,7 +46,7 @@ public class TestParticipant implements IQueryParticipant {
 
 	@Override
 	public void search(ISearchRequestor requestor, QuerySpecification data, IProgressMonitor monitor) throws CoreException {
-		for (int i= 0; i < 20; i++) {
+		for (int i= 0; i < 20; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			requestor.reportMatch(new Match(Integer.valueOf(fgRandom.nextInt()), -1, -1));
 		}
 	}
@@ -70,7 +70,7 @@ class TestLabelProvider extends LabelProvider {
 	}
 	@Override
 	public String getText(Object element) {
-		return "Int: value= "+((Integer)element).toString();
+		return "Int: value= "+((Integer)element).toString(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 }
 
@@ -78,7 +78,7 @@ class TestUIParticipant implements IMatchPresentation {
 
 	@Override
 	public void showMatch(Match match, int currentOffset, int currentLength, boolean activate) throws PartInitException {
-		MessageDialog.openInformation(null, "Showing element", "Showning an integer of value: "+((Integer)match.getElement()).intValue());
+		MessageDialog.openInformation(null, "Showing element", "Showning an integer of value: "+((Integer)match.getElement()).intValue()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	}
 

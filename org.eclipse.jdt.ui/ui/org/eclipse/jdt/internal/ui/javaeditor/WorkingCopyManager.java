@@ -125,7 +125,7 @@ public class WorkingCopyManager implements IWorkingCopyManager, IWorkingCopyMana
 	public void setWorkingCopy(IEditorInput input, ICompilationUnit workingCopy) {
 		if (fDocumentProvider.getDocument(input) != null) {
 			if (fMap == null)
-				fMap= new HashMap<>();
+				fMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fMap.put(input, workingCopy);
 		}
 	}

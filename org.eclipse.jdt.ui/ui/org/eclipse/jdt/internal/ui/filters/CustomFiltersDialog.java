@@ -113,7 +113,7 @@ public class CustomFiltersDialog extends SelectionDialog {
 	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(Composite)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createDialogArea(Composite parent) {
 		initializeDialogUnits(parent);
 		// create a composite with standard margins and spacing
@@ -150,7 +150,7 @@ public class CustomFiltersDialog extends SelectionDialog {
 		fEnableUserDefinedPatterns.setSelection(fEnablePatterns);
 		fUserDefinedPatterns.setEnabled(fEnablePatterns);
 		info.setEnabled(fEnablePatterns);
-		fEnableUserDefinedPatterns.addSelectionListener(new SelectionAdapter() {
+		fEnableUserDefinedPatterns.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean state= fEnableUserDefinedPatterns.getSelection();
@@ -169,7 +169,7 @@ public class CustomFiltersDialog extends SelectionDialog {
 		return parent;
 	}
 
-	private void createCheckBoxList(Composite parent) {
+	private void createCheckBoxList(Composite parent) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// Filler
 		new Label(parent, SWT.NONE);
 
@@ -181,10 +181,10 @@ public class CustomFiltersDialog extends SelectionDialog {
 		data.heightHint= fCheckBoxList.getTable().getItemHeight() * 10;
 		fCheckBoxList.getTable().setLayoutData(data);
 
-		fCheckBoxList.setLabelProvider(createLabelPrivder());
+		fCheckBoxList.setLabelProvider(createLabelPrivder()); //FLLDCIM: MARK — T24 LABEL_DELTA CALL
 		fCheckBoxList.setContentProvider(ArrayContentProvider.getInstance());
 		Arrays.sort(fBuiltInFilters);
-		fCheckBoxList.setInput(fBuiltInFilters);
+		fCheckBoxList.setInput(fBuiltInFilters); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 		setInitialSelections((Object[]) getEnabledFilterDescriptors());
 
 		List<Object[]> initialSelection= getInitialElementSelections();
@@ -199,7 +199,7 @@ public class CustomFiltersDialog extends SelectionDialog {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.heightHint= convertHeightInCharsToPixels(3);
 		description.setLayoutData(data);
-		fCheckBoxList.addSelectionChangedListener(event -> {
+		fCheckBoxList.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 			ISelection selection= event.getSelection();
 			if (selection instanceof IStructuredSelection) {
 				Object selectedElement= ((IStructuredSelection)selection).getFirstElement();
@@ -207,7 +207,7 @@ public class CustomFiltersDialog extends SelectionDialog {
 					description.setText(((FilterDescriptor)selectedElement).getDescription());
 			}
 		});
-		fCheckBoxList.addCheckStateListener(event -> {
+		fCheckBoxList.addCheckStateListener(event -> { //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 			Object element= event.getElement();
 			if (element instanceof FilterDescriptor) {
 				// renew if already touched
@@ -220,7 +220,7 @@ public class CustomFiltersDialog extends SelectionDialog {
 		addSelectionButtons(parent);
 	}
 
-	private void addSelectionButtons(Composite composite) {
+	private void addSelectionButtons(Composite composite) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Composite buttonComposite= new Composite(composite, SWT.RIGHT);
 		GridLayout layout= new GridLayout();
 		layout.numColumns= 2;
@@ -238,12 +238,12 @@ public class CustomFiltersDialog extends SelectionDialog {
 			public void widgetSelected(SelectionEvent e) {
 				fCheckBoxList.setAllChecked(true);
 				fFilterDescriptorChangeHistory.clear();
-				for (FilterDescriptor builtInFilter : fBuiltInFilters) {
+				for (FilterDescriptor builtInFilter : fBuiltInFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fFilterDescriptorChangeHistory.push(builtInFilter);
 				}
 			}
 		};
-		selectButton.addSelectionListener(listener);
+		selectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 
 		// De-select All button
 		label= FilterMessages.CustomFiltersDialog_DeselectAllButton_label;
@@ -254,25 +254,25 @@ public class CustomFiltersDialog extends SelectionDialog {
 			public void widgetSelected(SelectionEvent e) {
 				fCheckBoxList.setAllChecked(false);
 				fFilterDescriptorChangeHistory.clear();
-				for (FilterDescriptor builtInFilter : fBuiltInFilters) {
+				for (FilterDescriptor builtInFilter : fBuiltInFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					fFilterDescriptorChangeHistory.push(builtInFilter);
 				}
 			}
 		};
-		deselectButton.addSelectionListener(listener);
+		deselectButton.addSelectionListener(listener); //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 	}
 
 	private void checkInitialSelections() {
 		Iterator<Object[]> itemsToCheck= getInitialElementSelections().iterator();
-		while (itemsToCheck.hasNext())
+		while (itemsToCheck.hasNext()) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fCheckBoxList.setChecked(itemsToCheck.next(),true);
 	}
 
 	@Override
 	protected void okPressed() {
 		if (fBuiltInFilters != null) {
-			ArrayList<FilterDescriptor> result= new ArrayList<>();
-			for (FilterDescriptor fBuiltInFilter : fBuiltInFilters) {
+			ArrayList<FilterDescriptor> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (FilterDescriptor fBuiltInFilter : fBuiltInFilters) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (fCheckBoxList.getChecked(fBuiltInFilter))
 					result.add(fBuiltInFilter);
 			}
@@ -325,8 +325,8 @@ public class CustomFiltersDialog extends SelectionDialog {
 	 */
 	public String[] getEnabledFilterIds() {
 		Object[] result= getResult();
-		Set<String> enabledIds= new HashSet<>(result.length);
-		for (Object r : result) {
+		Set<String> enabledIds= new HashSet<>(result.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+		for (Object r : result) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			enabledIds.add(((FilterDescriptor) r).getId());
 		}
 		return enabledIds.toArray(new String[enabledIds.size()]);
@@ -349,9 +349,9 @@ public class CustomFiltersDialog extends SelectionDialog {
 
 	private FilterDescriptor[] getEnabledFilterDescriptors() {
 		FilterDescriptor[] filterDescs= fBuiltInFilters;
-		List<FilterDescriptor> result= new ArrayList<>(filterDescs.length);
+		List<FilterDescriptor> result= new ArrayList<>(filterDescs.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		List<String> enabledFilterIds= Arrays.asList(fEnabledFilterIds);
-		for (FilterDescriptor filterDesc : filterDescs) {
+		for (FilterDescriptor filterDesc : filterDescs) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String id= filterDesc.getId();
 			if (enabledFilterIds.contains(id)) {
 				result.add(filterDesc);
@@ -361,13 +361,13 @@ public class CustomFiltersDialog extends SelectionDialog {
 	}
 
 
-	public static String[] convertFromString(String patterns, String separator) {
+	public static String[] convertFromString(String patterns, String separator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StringTokenizer tokenizer= new StringTokenizer(patterns, separator, true);
 		int tokenCount= tokenizer.countTokens();
-		List<String> result= new ArrayList<>(tokenCount);
+		List<String> result= new ArrayList<>(tokenCount); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		boolean escape= false;
 		boolean append= false;
-		while (tokenizer.hasMoreTokens()) {
+		while (tokenizer.hasMoreTokens()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String token= tokenizer.nextToken().trim();
 			if (separator.equals(token)) {
 				if (!escape)
@@ -393,33 +393,33 @@ public class CustomFiltersDialog extends SelectionDialog {
 			list.add(pattern);
 		else {
 			int index= list.size() - 1;
-			list.set(index, list.get(index) + pattern);
+			list.set(index, list.get(index) + pattern); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 	}
 
 	public static String convertToString(String[] patterns, String separator) {
 		int length= patterns.length;
-		StringBuilder strBuf= new StringBuilder();
+		StringBuilder strBuf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (length > 0)
-			strBuf.append(escapeSeparator(patterns[0], separator));
+			strBuf.append(escapeSeparator(patterns[0], separator)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		else
 			return ""; //$NON-NLS-1$
 		int i= 1;
-		while (i < length) {
-			strBuf.append(separator);
-			strBuf.append(" "); //$NON-NLS-1$
-			strBuf.append(escapeSeparator(patterns[i++], separator));
+		while (i < length) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			strBuf.append(separator); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			strBuf.append(" "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			strBuf.append(escapeSeparator(patterns[i++], separator)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return strBuf.toString();
 	}
 
 	private static String escapeSeparator(String pattern, String separator) {
 		int length= pattern.length();
-		StringBuilder buf= new StringBuilder(length);
-		for (char ch : pattern.toCharArray()) {
+		StringBuilder buf= new StringBuilder(length); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (char ch : pattern.toCharArray()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (separator.equals(String.valueOf(ch)))
-				buf.append(ch);
-			buf.append(ch);
+				buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 

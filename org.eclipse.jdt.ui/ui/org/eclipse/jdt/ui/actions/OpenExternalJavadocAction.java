@@ -36,7 +36,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
  * @noextend This class is not intended to be subclassed by clients.
  * @deprecated As of 3.6, replaced by {@link OpenAttachedJavadocAction}
  */
-@Deprecated
+@Deprecated //FLLDCIM: MARK — T04  IMPLEMENTS
 public class OpenExternalJavadocAction extends OpenAttachedJavadocAction {
 
 	/**

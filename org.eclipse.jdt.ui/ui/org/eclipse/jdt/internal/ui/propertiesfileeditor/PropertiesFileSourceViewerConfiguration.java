@@ -178,7 +178,7 @@ public class PropertiesFileSourceViewerConfiguration extends TextSourceViewerCon
 	/*
 	 * @see SourceViewerConfiguration#getPresentationReconciler(ISourceViewer)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 
 		PresentationReconciler reconciler= new JavaPresentationReconciler();
@@ -346,7 +346,7 @@ public class PropertiesFileSourceViewerConfiguration extends TextSourceViewerCon
 		return new String[] {"#", ""}; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public IAutoEditStrategy[] getAutoEditStrategies(ISourceViewer sourceViewer, String contentType) {
 		IAutoEditStrategy[] autoEditStrategies= super.getAutoEditStrategies(sourceViewer, contentType);
 
@@ -357,7 +357,7 @@ public class PropertiesFileSourceViewerConfiguration extends TextSourceViewerCon
 			if (!PropertiesFileDocumentProvider.isJavaPropertiesFile(fTextEditor.getEditorInput())) {
 				return autoEditStrategies;
 			}
-			List<IAutoEditStrategy> stratergies= new ArrayList<>(Arrays.asList(autoEditStrategies));
+			List<IAutoEditStrategy> stratergies= new ArrayList<>(Arrays.asList(autoEditStrategies)); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			stratergies.add(new PropertiesFileAutoEditStrategy(((IFileEditorInput)fTextEditor.getEditorInput()).getFile(), sourceViewer));
 			return stratergies.toArray(new IAutoEditStrategy[stratergies.size()]);
 		} catch (CoreException e) {

@@ -62,7 +62,7 @@ public final class ReferenceTracker {
 		fQueue.add(new ReferencedArrayElement(prev, index, to));
 	}
 
-	private void followFieldReference(ReferencedObject ref, Object curr, Field fld) {
+	private void followFieldReference(ReferencedObject ref, Object curr, Field fld) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			String packageName= fld.getDeclaringClass().getPackageName();
 			if (packageName.startsWith("jdk.")  || packageName.startsWith("sun.") ) {
@@ -74,7 +74,7 @@ public final class ReferenceTracker {
 			}
 			boolean isAccessible= fld.trySetAccessible();
 			if (!isAccessible) {
-				throw new RuntimeException("Cannot access '" + fld + "' in package '" + packageName
+				throw new RuntimeException("Cannot access '" + fld + "' in package '" + packageName //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						+ "'. JVM settings for --add-modules, --add-opens, and --illegal-access are probably missing. see 'javavmargs' in test.xml");
 			}
 			Object fieldVal= fld.get(curr);
@@ -101,18 +101,18 @@ public final class ReferenceTracker {
 
 
 	private void handleError(Throwable t, Field fld) {
-		fStatus.add(new Status(IStatus.ERROR, JavaTestPlugin.getPluginId(), IStatus.ERROR, "Problem on access of " + fld.toString(), t));
+		fStatus.add(new Status(IStatus.ERROR, JavaTestPlugin.getPluginId(), IStatus.ERROR, "Problem on access of " + fld.toString(), t)); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 	private void followStaticReferences(Class<?> classInstance) {
-		for (Field fld : classInstance.getDeclaredFields()) {
+		for (Field fld : classInstance.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (isStatic(fld.getModifiers()) && !fld.getType().isPrimitive()) {
 				followFieldReference(new RootReference(classInstance), null, fld);
 			}
 		}
 	}
 
-	private void visit(ReferencedObject ref) {
+	private void visit(ReferencedObject ref) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Object curr= ref.getValue();
 		Class<?> currClass= curr.getClass();
 		if (!isInteresting(currClass)) {
@@ -131,7 +131,7 @@ public final class ReferenceTracker {
 				return;
 			}
 			Object[] array= (Object[]) curr;
-			for (int i= 0; i < array.length; i++) {
+			for (int i= 0; i < array.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object elem= array[i];
 				if (elem != null) {
 					followArrayReference(ref, i, elem);
@@ -143,8 +143,8 @@ public final class ReferenceTracker {
 			if (currClass == Class.class) {
 				followStaticReferences((Class<?>) curr);
 			}
-			do {
-				for (Field fld : currClass.getDeclaredFields()) {
+			do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				for (Field fld : currClass.getDeclaredFields()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (!isStatic(fld.getModifiers()) && !fld.getType().isPrimitive()) {
 						followFieldReference(ref, curr, fld);
 					}
@@ -158,7 +158,7 @@ public final class ReferenceTracker {
 		return (modifiers & Modifier.STATIC) != 0;
 	}
 
-	public IStatus start(Object root) {
+	public IStatus start(Object root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fVisitedElements= new IdentityHashSet(1 << 21); // 2 M -> 8 MB
 		fQueue= new FIFOQueue(100);
 		fStatus= new MultiStatus(JavaTestPlugin.getPluginId(), IStatus.OK, "Problem tracking resources", null);
@@ -169,7 +169,7 @@ public final class ReferenceTracker {
 			FIFOQueue queue= fQueue;
 
 			ReferencedObject next= (ReferencedObject) queue.poll();
-			while (next != null) {
+			while (next != null) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				visit(next);
 				next= (ReferencedObject) queue.poll();
 			}

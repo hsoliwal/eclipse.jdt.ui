@@ -25,7 +25,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaElementLabels;
 
 
-public class SortingLabelProvider extends SearchLabelProvider {
+public class SortingLabelProvider extends SearchLabelProvider { //FLLDCIM: MARK — T06  IMPLEMENTS
 
 	public static final int SHOW_ELEMENT_CONTAINER= 1; // default
 	public static final int SHOW_CONTAINER_ELEMENT= 2;
@@ -93,7 +93,7 @@ public class SortingLabelProvider extends SearchLabelProvider {
 		return ""; //$NON-NLS-1$
 	}
 
-	public void setOrder(int orderFlag) {
+	public void setOrder(int orderFlag) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fCurrentOrder= orderFlag;
 		long flags= 0;
 		switch (orderFlag) {

@@ -72,7 +72,7 @@ public abstract class MoveLineTest extends TextPerformanceTestCase {
 		assertAllPerformance();
 	}
 
-	private void measureMoveLine(PerformanceMeter performanceMeter, int runs) throws Exception {
+	private void measureMoveLine(PerformanceMeter performanceMeter, int runs) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IAction expandAll= fEditor.getAction("FoldingExpandAll");
 		int offset= EditorTestHelper.getDocument(fEditor).getLineOffset(LINE);
 
@@ -81,7 +81,7 @@ public abstract class MoveLineTest extends TextPerformanceTestCase {
 		event.keyCode= SWT.ARROW_DOWN;
 		event.stateMask= SWT.MOD3;
 		Display display= fEditor.getSite().getShell().getDisplay();
-		for (int i= 0; i < runs; i++) {
+		for (int i= 0; i < runs; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			/*
 			 * Avoid bug 68697: [projection] folding + move lines down/up can corrupt source
 			 * see https://bugs.eclipse.org/bugs/show_bug.cgi?id=68697
@@ -94,7 +94,7 @@ public abstract class MoveLineTest extends TextPerformanceTestCase {
 			fEditor.selectAndReveal(offset, 0);
 			performanceMeter.start();
 			SWTEventHelper.keyCodeDown(display, SWT.MOD3, false);
-			for (int j= 0; j < DISTANCE; j++) {
+			for (int j= 0; j < DISTANCE; j++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				event.type= SWT.KeyDown;
 				display.post(event);
 

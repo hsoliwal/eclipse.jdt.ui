@@ -26,7 +26,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
  * @see org.eclipse.core.resources.IWorkspaceRunnable
  * @since 2.0
  */
-public interface IJarExportRunnable extends IRunnableWithProgress {
+public interface IJarExportRunnable extends IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
 
 	/**
 	 * Returns the current status of this operation.

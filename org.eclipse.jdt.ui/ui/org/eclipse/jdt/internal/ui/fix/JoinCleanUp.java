@@ -104,7 +104,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 		return new String[0];
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public String getPreview() {
 		if (isEnabled(CleanUpConstants.JOIN)) {
 			return """
@@ -137,13 +137,13 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 			"""; //$NON-NLS-1$
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected ICleanUpFix createFix(CompilationUnit unit) throws CoreException {
 		if (!isEnabled(CleanUpConstants.JOIN)) {
 			return null;
 		}
 
-		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>();
+		final List<CompilationUnitRewriteOperationWithSourceRange> rewriteOperations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		unit.accept(new ASTVisitor() {
 			@Override
@@ -184,7 +184,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return maybeRefactorLoop(node, node.getExpression(), IterationType.FOREACH, node.getParameter().getName(), node.getBody());
 				}
 
-				private boolean maybeRefactorLoop(final Statement node, final Expression containerVariable,
+				private boolean maybeRefactorLoop(final Statement node, final Expression containerVariable, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final IterationType iterationType, final Name loopVariable, final Statement body) {
 					List<Statement> statements= ASTNodes.asList(body);
 					Statement previousStatement= ASTNodes.getPreviousSibling(node);
@@ -223,12 +223,12 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 						}
 
 						String builderClass= ASTNodes.hasType(builder, StringBuffer.class.getCanonicalName()) ? StringBuffer.class.getCanonicalName() : StringBuilder.class.getCanonicalName();
-						Set<SimpleName> builderUses= new HashSet<>(3);
-						Set<SimpleName> booleanUses= new HashSet<>(2);
+						Set<SimpleName> builderUses= new HashSet<>(3); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+						Set<SimpleName> booleanUses= new HashSet<>(2); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 
 						Statement itemAppendingStatement= null;
 
-						for (Statement statement : statements) {
+						for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 							if (isItemAppendingValid(containerVariable, loopVariable, iterationType, builderClass, statement, builderUses)) {
 								itemAppendingStatement= statement;
 								break;
@@ -240,7 +240,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 							Expression delimiter= null;
 							boolean isDelimiterFirst= true;
 
-							for (Statement statement : statements) {
+							for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								if (itemAppendingStatement == statement) {
 									isDelimiterFirst= false;
 								} else {
@@ -263,7 +263,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 
 								boolean isDelimiterConditionVisited= false;
 
-								for (Statement statement : statements) {
+								for (Statement statement : statements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									if (delimiterConditionStatement == statement) {
 										isDelimiterConditionVisited= true;
 									} else if (isDelimiterConditionVisited
@@ -279,7 +279,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 								}
 							}
 
-							List<SimpleName> readsToRefactor= new ArrayList<>();
+							List<SimpleName> readsToRefactor= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 							if (delimiterConditionStatement != null
 									&& (booleanUses.isEmpty() || isBooleanUseValid(booleanForInterval, booleanUses))
@@ -295,7 +295,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return true;
 				}
 
-				private Expression getDelimiter(final IterationType iterationType, final Expression containerVariable,
+				private Expression getDelimiter(final IterationType iterationType, final Expression containerVariable, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final Name loopVariable, final boolean isInitedToTrue, final boolean isDelimiterFirst,
 						final Statement statement, final String builderClass, final Set<SimpleName> booleanUses, final Set<SimpleName> builderUses, final boolean isBooleanShiftDone) {
 					IfStatement delimiterCondition= ASTNodes.as(statement, IfStatement.class);
@@ -327,7 +327,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return null;
 				}
 
-				private boolean isConditionOnIndexValid(final IterationType iterationType, final Expression containerVariable,
+				private boolean isConditionOnIndexValid(final IterationType iterationType, final Expression containerVariable, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final Name loopVariable, final boolean isDelimiterFirst, final IfStatement delimiterCondition, final Set<SimpleName> builderUses) {
 					InfixExpression conditionForDelimiter= ASTNodes.as(delimiterCondition.getExpression(), InfixExpression.class);
 
@@ -389,9 +389,9 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return false;
 				}
 
-				private boolean isConcatenationUseValid(final Statement node, final SimpleName builder, final String builderClass,
+				private boolean isConcatenationUseValid(final Statement node, final SimpleName builder, final String builderClass, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final List<SimpleName> readsToRefactor, final Set<SimpleName> builderUses) {
-					for (SimpleName simpleName : builderUses) {
+					for (SimpleName simpleName : builderUses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!ASTNodes.isSameVariable(builder, simpleName)) {
 							return false;
 						}
@@ -409,7 +409,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 						return false;
 					}
 
-					for (SimpleName read : reads) {
+					for (SimpleName read : reads) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!isReadValid(node, builderClass, readsToRefactor, read)) {
 							return false;
 						}
@@ -418,7 +418,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return true;
 				}
 
-				private boolean isReadValid(final Statement node, final String builderClass,
+				private boolean isReadValid(final Statement node, final String builderClass, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final List<SimpleName> readsToRefactor, final SimpleName read) {
 					if (!ASTNodes.isParent(read, node) && read.getParent() instanceof MethodInvocation) {
 						MethodInvocation methodInvocation= (MethodInvocation) read.getParent();
@@ -453,12 +453,12 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return false;
 				}
 
-				private boolean isBooleanUseValid(final SimpleName booleanForInterval, final Set<SimpleName> booleanUses) {
+				private boolean isBooleanUseValid(final SimpleName booleanForInterval, final Set<SimpleName> booleanUses) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (booleanForInterval == null) {
 						return false;
 					}
 
-					for (SimpleName simpleName : booleanUses) {
+					for (SimpleName simpleName : booleanUses) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!ASTNodes.isSameVariable(booleanForInterval, simpleName)) {
 							return false;
 						}
@@ -467,7 +467,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					VarDefinitionsUsesVisitor booleanOccurrencesVisitor= new VarDefinitionsUsesVisitor((IVariableBinding) booleanForInterval.resolveBinding(),
 					startNode, true);
 
-					Set<SimpleName> actualBooleanOccurences= new HashSet<>(booleanOccurrencesVisitor.getReads());
+					Set<SimpleName> actualBooleanOccurences= new HashSet<>(booleanOccurrencesVisitor.getReads()); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 					actualBooleanOccurences.addAll(booleanOccurrencesVisitor.getWrites());
 
 					if (!actualBooleanOccurences.remove(booleanForInterval)) {
@@ -477,7 +477,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return actualBooleanOccurences.containsAll(booleanUses) && booleanUses.containsAll(actualBooleanOccurences);
 				}
 
-				private Expression getDelimiterWithBooleanShifter(final IfStatement delimiterCondition, final boolean isInitedToTrue,
+				private Expression getDelimiterWithBooleanShifter(final IfStatement delimiterCondition, final boolean isInitedToTrue, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final boolean isDelimiterFirst, final String builderClass, final Set<SimpleName> builderUses, final Set<SimpleName> booleanUses, final boolean isBooleanShiftDone) {
 					boolean isConditionReversed= true;
 					SimpleName booleanForDelimiterAgain= ASTNodes.as(delimiterCondition.getExpression(), SimpleName.class);
@@ -530,7 +530,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return null;
 				}
 
-				private Expression getDelimiterAppend(final String builderClass, final Statement appendDelimiter, final Set<SimpleName> builderUses) {
+				private Expression getDelimiterAppend(final String builderClass, final Statement appendDelimiter, final Set<SimpleName> builderUses) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					MethodInvocation appendInvocation= getAppendInvocation(ASTNodes.as(appendDelimiter, ExpressionStatement.class), builderClass, builderUses);
 
 					if (ASTNodes.usesGivenSignature(appendInvocation, builderClass, "append", String.class.getCanonicalName()) //$NON-NLS-1$
@@ -576,7 +576,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return false;
 				}
 
-				private boolean isItemAppendingValid(final Expression containerVariable,
+				private boolean isItemAppendingValid(final Expression containerVariable, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 						final Name loopVariable, final IterationType iterationType,
 						final String builderClass, final Statement appendingStatement,
 						final Set<SimpleName> builderUses) {
@@ -613,7 +613,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return false;
 				}
 
-				private MethodInvocation getAppendInvocation(final ExpressionStatement appending, final String builderClass, final Set<SimpleName> builderUses) {
+				private MethodInvocation getAppendInvocation(final ExpressionStatement appending, final String builderClass, final Set<SimpleName> builderUses) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					if (appending != null) {
 						Assignment assignDelimiter= ASTNodes.as(appending.getExpression(), Assignment.class);
 
@@ -644,7 +644,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 					return null;
 				}
 
-				private SimpleName getBuilder(final Statement statement) {
+				private SimpleName getBuilder(final Statement statement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 					VariableDeclarationFragment fragment= ASTNodes.getUniqueFragment(statement);
 
 					if (fragment != null
@@ -735,7 +735,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 			this.booleanUses= booleanUses;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void rewriteASTInternal(final CompilationUnitRewrite cuRewrite, final LinkedProposalModelCore linkedModel) throws CoreException {
 			ASTRewrite rewrite= cuRewrite.getASTRewrite();
 			AST ast= cuRewrite.getRoot().getAST();
@@ -782,7 +782,7 @@ public class JoinCleanUp extends AbstractMultiFix implements ICleanUpFix {
 			ASTNodes.removeButKeepComment(rewrite, builderStatement, group);
 			ASTNodes.replaceButKeepComment(rewrite, node, joinStatement, group);
 
-			for (SimpleName readToRefactor : readsToRefactor) {
+			for (SimpleName readToRefactor : readsToRefactor) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNodes.replaceButKeepComment(rewrite, readToRefactor.getParent(), ASTNodes.createMoveTarget(rewrite, readToRefactor), group);
 			}
 		}

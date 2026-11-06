@@ -72,7 +72,7 @@ public class TableLayoutComposite extends Composite {
 		}
 	}
 
-	private List<ColumnLayoutData> columns= new ArrayList<>();
+	private List<ColumnLayoutData> columns= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Creates a new <code>TableLayoutComposite</code>.
@@ -80,9 +80,9 @@ public class TableLayoutComposite extends Composite {
 	 * @param parent the parent composite
 	 * @param style the SWT style
 	 */
-	public TableLayoutComposite(Composite parent, int style) {
+	public TableLayoutComposite(Composite parent, int style) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(parent, style);
-        addControlListener(new ControlAdapter() {
+        addControlListener(new ControlAdapter() { //FLLDCIM: MARK — T11 VIEWPORT_RESIZE_DELTA CALL
             @Override
 			public void controlResized(ControlEvent e) {
                 Rectangle area= getClientArea();
@@ -111,12 +111,12 @@ public class TableLayoutComposite extends Composite {
 
 	//---- Helpers -------------------------------------------------------------------------------------
 
-	private Point computeTableSize(Table table) {
+	private Point computeTableSize(Table table) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Point result= table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
 		int width= 0;
 		int size= columns.size();
-		for (int i= 0; i < size; ++i) {
+		for (int i= 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ColumnLayoutData layoutData= columns.get(i);
 			if (layoutData instanceof ColumnPixelData) {
 				ColumnPixelData col= (ColumnPixelData) layoutData;
@@ -136,7 +136,7 @@ public class TableLayoutComposite extends Composite {
 		return result;
 	}
 
-	private void layoutTable(Table table, int width, Rectangle area, boolean increase) {
+	private void layoutTable(Table table, int width, Rectangle area, boolean increase) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// XXX: Layout is being called with an invalid value the first time
 		// it is being called on Linux. This method resets the
 		// Layout to null so we make sure we run it only when
@@ -152,7 +152,7 @@ public class TableLayoutComposite extends Composite {
 		int totalWeight= 0;
 
 		// First calc space occupied by fixed columns
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ColumnLayoutData col= columns.get(i);
 			if (col instanceof ColumnPixelData) {
 				ColumnPixelData cpd= (ColumnPixelData) col;
@@ -179,7 +179,7 @@ public class TableLayoutComposite extends Composite {
 			// Now distribute the rest to the columns with weight.
 			int rest= width - fixedWidth;
 			int totalDistributed= 0;
-			for (int i= 0; i < size; ++i) {
+			for (int i= 0; i < size; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ColumnLayoutData col= columns.get(i);
 				if (col instanceof ColumnWeightData) {
 					ColumnWeightData cw= (ColumnWeightData) col;
@@ -196,7 +196,7 @@ public class TableLayoutComposite extends Composite {
 
 			// Distribute any remaining pixels to columns with weight.
 			int diff= rest - totalDistributed;
-			for (int i= 0; diff > 0; ++i) {
+			for (int i= 0; diff > 0; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (i == size)
 					i= 0;
 				ColumnLayoutData col= columns.get(i);
@@ -210,7 +210,7 @@ public class TableLayoutComposite extends Composite {
 		if (increase) {
 			table.setSize(area.width, area.height);
 		}
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			tableColumns[i].setWidth(widths[i]);
 		}
 		if (!increase) {

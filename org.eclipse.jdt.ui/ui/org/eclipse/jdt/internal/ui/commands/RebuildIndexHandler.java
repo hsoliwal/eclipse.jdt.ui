@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.JavaCore;
  * @since 3.13
  */
 public class RebuildIndexHandler extends AbstractHandler {
-	private final Job rebuildJob= Job.create(CommandsMessages.RebuildIndexHandler_jobName, monitor -> {
+	private final Job rebuildJob= Job.create(CommandsMessages.RebuildIndexHandler_jobName, monitor -> { //FLLDCIM: MARK — T09 BACKGROUND_MODEL_THREAD CALL
 		JavaCore.rebuildIndex(monitor);
 	});
 

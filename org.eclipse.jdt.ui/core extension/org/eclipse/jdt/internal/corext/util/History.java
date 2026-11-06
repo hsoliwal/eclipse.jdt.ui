@@ -168,8 +168,8 @@ public abstract class History<K, V> {
 	public synchronized void load() {
 		IPath stateLocation= JavaPlugin.getDefault().getStateLocation().append(fFileName);
 		File file= stateLocation.toFile();
-		if (file.exists()) {
-			try (InputStreamReader reader= new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
+		if (file.exists()) { //FLLDCIM: MARK — M31 M3FILE_IO CALL
+			try (InputStreamReader reader= new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				load(new InputSource(reader));
 			} catch (IOException | CoreException e) {
 				JavaPlugin.log(e);
@@ -180,7 +180,7 @@ public abstract class History<K, V> {
 	public synchronized void save() {
 		IPath stateLocation= JavaPlugin.getDefault().getStateLocation().append(fFileName);
 		File file= stateLocation.toFile();
-		try (OutputStream out= new FileOutputStream(file)) {
+		try (OutputStream out= new FileOutputStream(file)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 			save(out);
 		} catch (IOException | CoreException | TransformerFactoryConfigurationError e) {
 			// The XML library can be misconficgured (e.g. via
@@ -224,13 +224,13 @@ public abstract class History<K, V> {
 	private void rebuildPositions() {
 		fPositions.clear();
 		int pos=0;
-		for (V element : fHistory.values()) {
+		for (V element : fHistory.values()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fPositions.put(getKey(element), pos);
 			pos++;
 		}
 	}
 
-	private void load(InputSource inputSource) throws CoreException {
+	private void load(InputSource inputSource) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Element root;
 		try {
 			DocumentBuilder parser = XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE().newDocumentBuilder();
@@ -246,7 +246,7 @@ public abstract class History<K, V> {
 		}
 		NodeList list= root.getChildNodes();
 		int length= list.getLength();
-		for (int i= 0; i < length; ++i) {
+		for (int i= 0; i < length; ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Node node= list.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element type= (Element) node;
@@ -261,7 +261,7 @@ public abstract class History<K, V> {
 		rebuildPositions();
 	}
 
-	private void save(OutputStream stream) throws CoreException {
+	private void save(OutputStream stream) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			DocumentBuilderFactory factory= XmlProcessorFactoryJdtUi.createDocumentBuilderFactoryWithErrorOnDOCTYPE();
 			DocumentBuilder builder= factory.newDocumentBuilder();
@@ -271,7 +271,7 @@ public abstract class History<K, V> {
 			document.appendChild(rootElement);
 
 			Iterator<V> values= getValues().iterator();
-			while (values.hasNext()) {
+			while (values.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				Object object= values.next();
 				Element element= document.createElement(fInfoNodeName);
 				setAttributes(object, element);

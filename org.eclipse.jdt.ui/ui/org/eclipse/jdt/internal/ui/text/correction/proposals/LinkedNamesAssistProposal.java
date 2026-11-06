@@ -69,7 +69,7 @@ import org.eclipse.jdt.internal.ui.text.correction.IProposalRelevance;
 /**
  * A template proposal.
  */
-public class LinkedNamesAssistProposal implements IJavaCompletionProposal, ICompletionProposalExtension2, ICompletionProposalExtension6, ICommandAccess {
+public class LinkedNamesAssistProposal implements IJavaCompletionProposal, ICompletionProposalExtension2, ICompletionProposalExtension6, ICommandAccess { //FLLDCIM: MARK — T30  IMPLEMENTS
 
 	/**
 	 * An exit policy that skips Backspace and Delete at the beginning and at the end
@@ -84,7 +84,7 @@ public class LinkedNamesAssistProposal implements IJavaCompletionProposal, IComp
 			fDocument= document;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ExitFlags doExit(LinkedModeModel model, VerifyEvent event, int offset, int length) {
 			if (length == 0 && (event.character == SWT.BS || event.character == SWT.DEL)) {
 				LinkedPosition position= model.findPosition(new LinkedPosition(fDocument, offset, 0, LinkedPositionGroup.NO_STOP));
@@ -128,7 +128,7 @@ public class LinkedNamesAssistProposal implements IJavaCompletionProposal, IComp
 		fRelevance= IProposalRelevance.LINKED_NAMES_ASSIST;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void apply(ITextViewer viewer, char trigger, int stateMask, int offset) {
 		try {
 			Point seletion= viewer.getSelectedRange();
@@ -173,7 +173,7 @@ public class LinkedNamesAssistProposal implements IJavaCompletionProposal, IComp
 
 			IDocument document= viewer.getDocument();
 			LinkedPositionGroup group= new LinkedPositionGroup();
-			for (int i= 0; i < sameNodes.length; i++) {
+			for (int i= 0; i < sameNodes.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ASTNode elem= sameNodes[i];
 				group.addPosition(new LinkedPosition(document, elem.getStartPosition(), elem.getLength(), i));
 			}

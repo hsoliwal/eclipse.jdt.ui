@@ -53,7 +53,7 @@ public class EnhancedForLoopToForEachFixCore extends CompilationUnitRewriteOpera
 		super(name, compilationUnit, operation);
 	}
 
-	public static EnhancedForLoopToForEachFixCore createReplaceEnhancedLoop(CompilationUnit compilationUnit, EnhancedForStatement forStatement) {
+	public static EnhancedForLoopToForEachFixCore createReplaceEnhancedLoop(CompilationUnit compilationUnit, EnhancedForStatement forStatement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 		LoopBodyAnalyzer analyzer = new LoopBodyAnalyzer();
 		Statement body = forStatement.getBody();
@@ -213,7 +213,7 @@ public class EnhancedForLoopToForEachFixCore extends CompilationUnitRewriteOpera
 	      ASTNodes.replaceButKeepComment(rewrite, loopToModify, forEachexpressionStatement, group);
 	  }
 
-	  public Expression prepareForEach(AST ast) {
+	  public Expression prepareForEach(AST ast) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		  // This method has been adapted from sandbox code: https://github.com/carstenartur/sandbox
 		  MethodInvocation forEachCall = ast.newMethodInvocation();
 		  forEachCall.setExpression(ast.newSimpleName(expressionName));
@@ -240,7 +240,7 @@ public class EnhancedForLoopToForEachFixCore extends CompilationUnitRewriteOpera
               } else {
                   // Multiple statements - copy all into a block
                   Block lambdaBlock = ast.newBlock();
-                  for (Object stmt : block.statements()) {
+                  for (Object stmt : block.statements()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
                       lambdaBlock.statements().add(ASTNode.copySubtree(ast, (Statement) stmt));
                   }
                   lambda.setBody(lambdaBlock);

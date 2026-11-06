@@ -224,7 +224,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 	 *            an extension of the standard type selection dialog; See
 	 *            {@link TypeSelectionExtension}
 	 */
-	public FilteredTypesSelectionDialog(Shell shell, boolean multi, IRunnableContext context, IJavaSearchScope scope, int elementKinds, TypeSelectionExtension extension) {
+	public FilteredTypesSelectionDialog(Shell shell, boolean multi, IRunnableContext context, IJavaSearchScope scope, int elementKinds, TypeSelectionExtension extension) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(shell, multi);
 
 		setSelectionHistory(new TypeSelectionHistory());
@@ -303,7 +303,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void restoreDialog(IDialogSettings settings) {
 		super.restoreDialog(settings);
 
@@ -336,12 +336,12 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		// }
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillViewMenu(IMenuManager menuManager) {
 		super.fillViewMenu(menuManager);
 
 		if (fAllowScopeSwitching) {
-			fFilterActionGroup= new WorkingSetFilterActionGroup(getShell(), JavaPlugin.getActivePage(), event -> {
+			fFilterActionGroup= new WorkingSetFilterActionGroup(getShell(), JavaPlugin.getActivePage(), event -> { //FLLDCIM: MARK — T06  LAMBDA
 				IWorkingSet ws= (IWorkingSet) event.getNewValue();
 				if (ws == null || (ws.isAggregateWorkingSet() && ws.isEmpty())) {
 					setSearchScope(SearchEngine.createWorkspaceScope());
@@ -360,7 +360,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		menuManager.add(new TypeFiltersPreferencesAction());
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createExtendedContentArea(Composite parent) {
 		Control addition= null;
 
@@ -380,12 +380,12 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		return addition;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void setResult(List newResult) {
 
-		List<IType> resultToReturn= new ArrayList<>();
+		List<IType> resultToReturn= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		for (Object element : newResult) {
+		for (Object element : newResult) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof TypeNameMatch) {
 				IType type= ((TypeNameMatch) element).getType();
 				if (type.exists()) {
@@ -419,7 +419,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public int open() {
 		if (getInitialPattern() == null) {
 			IWorkbenchWindow window= JavaPlugin.getActiveWorkbenchWindow();
@@ -439,18 +439,18 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		return super.open();
 	}
 
-	protected String getModifiedPatternText(String text) {
-		StringBuilder builder= new StringBuilder();
+	protected String getModifiedPatternText(String text) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder builder= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		boolean canAddAnyStringNext= false;
 		boolean allUpperCase= true;
-		for (int i= 0; i < text.length(); ++i) {
+		for (int i= 0; i < text.length(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char ch= text.charAt(i);
 			boolean upperCase= Character.isUpperCase(ch);
 			allUpperCase &= upperCase;
 			if (canAddAnyStringNext && upperCase) {
-				builder.append('*');
+				builder.append('*'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			builder.append(ch);
+			builder.append(ch); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			canAddAnyStringNext= canAddAnyStringNext(ch);
 		}
 		// Default search is Camel Case but if there are any * or ? chars,
@@ -495,7 +495,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(shell, IJavaHelpContextIds.TYPE_SELECTION_DIALOG2);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void fillContentProvider(AbstractContentProvider provider, ItemsFilter itemsFilter, IProgressMonitor progressMonitor) throws CoreException {
 		TypeItemsFilter typeSearchFilter= (TypeItemsFilter) itemsFilter;
 		TypeSearchRequestor requestor= new TypeSearchRequestor(provider, typeSearchFilter);
@@ -572,8 +572,8 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 	 * We only have to ensure history consistency here since the search engine
 	 * takes care of working copies.
 	 */
-	private static class ConsistencyRunnable implements IRunnableWithProgress {
-		@Override
+	private static class ConsistencyRunnable implements IRunnableWithProgress { //FLLDCIM: MARK — T09  IMPLEMENTS
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 			if (fgFirstTime) {
 				// Join the initialize after load job.
@@ -620,7 +620,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 	/*
 	 * @see org.eclipse.ui.dialogs.FilteredItemsSelectionDialog#reloadCache(boolean, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void reloadCache(boolean checkDuplicates, IProgressMonitor monitor) {
 		IProgressMonitor remainingMonitor;
 		SubMonitor subMonitor= SubMonitor.convert(monitor, JavaUIMessages.TypeSelectionDialog_progress_consistency, 10);
@@ -730,7 +730,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 			return BasicElementLabels.getJavaElementName(fTypeInfoUtil.getFullyQualifiedText((TypeNameMatch) element));
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public StyledString getStyledText(Object element) {
 			String text= getText(element);
 			StyledString string= new StyledString(text);
@@ -819,7 +819,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 
 		private final TypeInfoRequestorAdapter fAdapter= new TypeInfoRequestorAdapter();
 
-		private final Map<IPath, String> fLib2Name= new HashMap<>();
+		private final Map<IPath, String> fLib2Name= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		private final IPath[] fInstallLocations;
 
@@ -827,9 +827,9 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 
 		public TypeInfoUtil(ITypeInfoImageProvider extension) {
 			fProviderExtension= extension;
-			List<IPath> locations= new ArrayList<>();
-			List<String> labels= new ArrayList<>();
-			for (IVMInstallType install : JavaRuntime.getVMInstallTypes()) {
+			List<IPath> locations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<String> labels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IVMInstallType install : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processVMInstallType(install, locations, labels);
 			}
 			fInstallLocations= CollectionsUtil.toArray(locations, IPath.class);
@@ -837,10 +837,10 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 
 		}
 
-		private void processVMInstallType(IVMInstallType installType, List<IPath> locations, List<String> labels) {
+		private void processVMInstallType(IVMInstallType installType, List<IPath> locations, List<String> labels) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (installType != null) {
 				boolean isMac= Platform.OS.isMac();
-				for (IVMInstall install : installType.getVMInstalls()) {
+				for (IVMInstall install : installType.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String label= getFormattedLabel(install.getName());
 					LibraryLocation[] libLocations = install.getLibraryLocations();
 					if (libLocations != null) {
@@ -858,7 +858,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		}
 
 		private void processLibraryLocation(LibraryLocation[] libLocations, String label) {
-			for (LibraryLocation location : libLocations) {
+			for (LibraryLocation location : libLocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fLib2Name.put(location.getSystemLibraryPath(), label);
 			}
 		}
@@ -868,26 +868,26 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		}
 
 		public String getFullyQualifiedText(TypeNameMatch type) {
-			StringBuilder result= new StringBuilder();
-			result.append(type.getSimpleTypeName());
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+			result.append(type.getSimpleTypeName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			String containerName= type.getTypeContainerName();
 			if (containerName.length() > 0) {
-				result.append(JavaElementLabels.CONCAT_STRING);
-				result.append(containerName);
+				result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(containerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			result.append(JavaElementLabels.CONCAT_STRING);
-			result.append(getContainerName(type));
+			result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(getContainerName(type)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return result.toString();
 		}
 
 		public String getQualificationText(TypeNameMatch type) {
-			StringBuilder result= new StringBuilder();
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			String containerName= type.getTypeContainerName();
 			if (containerName.length() > 0) {
-				result.append(containerName);
-				result.append(JavaElementLabels.CONCAT_STRING);
+				result.append(containerName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(JavaElementLabels.CONCAT_STRING); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			result.append(getContainerName(type));
+			result.append(getContainerName(type)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return result.toString();
 		}
 
@@ -904,7 +904,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 			IPackageFragmentRoot root= type.getPackageFragmentRoot();
 			if (root.isExternal()) {
 				IPath path= root.getPath();
-				for (int i= 0; i < fInstallLocations.length; i++) {
+				for (int i= 0; i < fInstallLocations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (fInstallLocations[i].isPrefixOf(path)) {
 						return fVMNames[i];
 					}
@@ -1129,7 +1129,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 	 */
 	private static class TypeItemsComparator implements Comparator<TypeNameMatch> {
 
-		private final Map<String, String> fLib2Name= new HashMap<>();
+		private final Map<String, String> fLib2Name= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 		private final String[] fInstallLocations;
 
@@ -1141,9 +1141,9 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		 * Creates new instance of TypeItemsComparator
 		 */
 		public TypeItemsComparator(TypeItemsFilter filter) {
-			List<String> locations= new ArrayList<>();
-			List<String> labels= new ArrayList<>();
-			for (IVMInstallType install : JavaRuntime.getVMInstallTypes()) {
+			List<String> locations= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			List<String> labels= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IVMInstallType install : JavaRuntime.getVMInstallTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				processVMInstallType(install, locations, labels);
 			}
 			fInstallLocations= locations.toArray(new String[locations.size()]);
@@ -1162,7 +1162,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		 */
 		private void setOriginalPrefix(String originalPattern) {
 			int index= -1;
-			for (int i= 0; i < originalPattern.length(); ++i) {
+			for (int i= 0; i < originalPattern.length(); ++i) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				char c= originalPattern.charAt(i);
 				if (c == '*' || c == '?') {
 					index= i;
@@ -1176,11 +1176,11 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 			}
 		}
 
-		private void processVMInstallType(IVMInstallType installType, List<String> locations, List<String> labels) {
+		private void processVMInstallType(IVMInstallType installType, List<String> locations, List<String> labels) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (installType != null) {
 				boolean isMac= Platform.OS.isMac();
 				final String HOME_SUFFIX= "/Home"; //$NON-NLS-1$
-				for (IVMInstall install : installType.getVMInstalls()) {
+				for (IVMInstall install : installType.getVMInstalls()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					String label = getFormattedLabel(install.getName());
 					LibraryLocation[] libLocations= install.getLibraryLocations();
 					if (libLocations != null) {
@@ -1199,7 +1199,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		}
 
 		private void processLibraryLocation(LibraryLocation[] libLocations, String label) {
-			for (LibraryLocation location : libLocations) {
+			for (LibraryLocation location : libLocations) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fLib2Name.put(location.getSystemLibraryPath().toString(), label);
 			}
 		}
@@ -1208,7 +1208,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 			return MessageFormat.format(JavaUIMessages.FilteredTypesSelectionDialog_library_name_format, name);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public int compare(TypeNameMatch leftInfo, TypeNameMatch rightInfo) {
 			int result= compareWithOriginalText(leftInfo.getSimpleTypeName(), rightInfo.getSimpleTypeName());
 			if (result != 0)
@@ -1235,37 +1235,37 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 			return compareContainerName(leftInfo, rightInfo);
 		}
 
-		private int compareWithOriginalText(String leftString, String rightString) {
+		private int compareWithOriginalText(String leftString, String rightString) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			if (fOriginalPrefix != null && !fOriginalPrefix.isEmpty()) {
 				int iLeft= 0;
 				int leftLength= leftString.length();
 				int prefixLength= fOriginalPrefix.length();
-				while (iLeft < prefixLength && iLeft < leftLength && leftString.charAt(iLeft) == fOriginalPrefix.charAt(iLeft)) {
+				while (iLeft < prefixLength && iLeft < leftLength && leftString.charAt(iLeft) == fOriginalPrefix.charAt(iLeft)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					++iLeft;
 				}
 				int iRight= 0;
 				int rightLength= rightString.length();
-				while (iRight < prefixLength && iRight < rightLength && rightString.charAt(iRight) == fOriginalPrefix.charAt(iRight)) {
+				while (iRight < prefixLength && iRight < rightLength && rightString.charAt(iRight) == fOriginalPrefix.charAt(iRight)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					++iRight;
 				}
 				int index= iLeft;
 				if (iRight == iLeft) {
-					while (index < prefixLength && (iLeft < leftLength || iRight < rightLength)) {
+					while (index < prefixLength && (iLeft < leftLength || iRight < rightLength)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						// Find next char in original prefix
 						char nextChar= fOriginalPrefix.charAt(index++);
 						if (Character.isUpperCase(nextChar)) {
 							int leftMatch= 0;
 							int rightMatch= 0;
-							do {
+							do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								char leftChar= 0;
 								char rightChar= 0;
-								while (iLeft < leftLength && !Character.isUpperCase(leftChar= leftString.charAt(iLeft))) {
+								while (iLeft < leftLength && !Character.isUpperCase(leftChar= leftString.charAt(iLeft))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									++iLeft;
 								}
 								if (leftChar == nextChar) {
 									leftMatch= 1;
 								}
-								while (iRight < rightLength && !Character.isUpperCase(rightChar= rightString.charAt(iRight))) {
+								while (iRight < rightLength && !Character.isUpperCase(rightChar= rightString.charAt(iRight))) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 									++iRight;
 								}
 								if (rightChar == nextChar) {
@@ -1280,10 +1280,10 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 						} else {
 							int originalLeft= iLeft;
 							int originalRight= iRight;
-							while (iLeft < leftLength && leftString.charAt(iLeft) != nextChar) {
+							while (iLeft < leftLength && leftString.charAt(iLeft) != nextChar) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								++iLeft;
 							}
-							while (iRight < rightLength && rightString.charAt(iRight) != nextChar) {
+							while (iRight < rightLength && rightString.charAt(iRight) != nextChar) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 								++iRight;
 							}
 							int diffLeft= iLeft - originalLeft;
@@ -1339,7 +1339,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 			IPackageFragmentRoot root= type.getPackageFragmentRoot();
 			if (root.isExternal()) {
 				String name= root.getPath().toOSString();
-				for (int i= 0; i < fInstallLocations.length; i++) {
+				for (int i= 0; i < fInstallLocations.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (name.startsWith(fInstallLocations[i])) {
 						return fVMNames[i];
 					}
@@ -1393,7 +1393,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		public void load(IMemento memento) {
 			TypeNameMatch[] types= OpenTypeHistory.getInstance().getTypeInfos();
 
-			for (int i= types.length - 1; i >= 0 ; i--) { // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=205314
+			for (int i= types.length - 1; i >= 0 ; i--) { // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=205314 //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				TypeNameMatch type= types[i];
 				accessed(type);
 			}
@@ -1410,7 +1410,7 @@ public class FilteredTypesSelectionDialog extends FilteredItemsSelectionDialog i
 		 */
 		private synchronized void persistHistory() {
 			if (getReturnCode() == OK) {
-				for (Object item : getHistoryItems()) {
+				for (Object item : getHistoryItems()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					OpenTypeHistory.getInstance().accessed((TypeNameMatch) item);
 				}
 			}

@@ -96,7 +96,7 @@ public class LinkedProposalPositionGroup extends LinkedProposalPositionGroupCore
 
 	public LinkedProposalPositionGroup(String groupID) {
 		super(groupID);
-		fProposals= new ArrayList<>();
+		fProposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	public void addProposal(Proposal proposal) {

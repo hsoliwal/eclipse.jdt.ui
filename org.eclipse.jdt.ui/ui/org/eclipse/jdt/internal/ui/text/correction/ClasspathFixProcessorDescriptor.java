@@ -70,8 +70,8 @@ public final class ClasspathFixProcessorDescriptor {
 		}
 		IConfigurationElement[] children= fConfigurationElement.getChildren(OVERRIDES);
 		if (children.length > 0) {
-			fOverriddenIds= new ArrayList<>(children.length);
-			for (IConfigurationElement child : children) {
+			fOverriddenIds= new ArrayList<>(children.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IConfigurationElement child : children) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				fOverriddenIds.add(child.getAttribute(ID));
 			}
 		} else {
@@ -90,12 +90,12 @@ public final class ClasspathFixProcessorDescriptor {
 	public IStatus checkSyntax() {
 		IConfigurationElement[] children= fConfigurationElement.getChildren(ExpressionTagNames.ENABLEMENT);
 		if (children.length > 1) {
-			return new StatusInfo(IStatus.ERROR, "Only one < enablement > element allowed. Disabling " + getID()); //$NON-NLS-1$
+			return new StatusInfo(IStatus.ERROR, "Only one < enablement > element allowed. Disabling " + getID()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return new StatusInfo(IStatus.OK, "Syntactically correct classpath fix processor"); //$NON-NLS-1$
 	}
 
-	public boolean matches(IJavaProject javaProject) {
+	public boolean matches(IJavaProject javaProject) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fStatus != null) {
 			return fStatus;
 		}
@@ -118,7 +118,7 @@ public final class ClasspathFixProcessorDescriptor {
 		return false;
 	}
 
-	public ClasspathFixProcessor getProcessor(IJavaProject project) {
+	public ClasspathFixProcessor getProcessor(IJavaProject project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (matches(project)) {
 			if (fProcessorInstance == null) {
 				try {
@@ -126,7 +126,7 @@ public final class ClasspathFixProcessorDescriptor {
 					if (extension instanceof ClasspathFixProcessor) {
 						fProcessorInstance= (ClasspathFixProcessor) extension;
 					} else {
-						String message= "Invalid extension to " + ATT_EXTENSION //$NON-NLS-1$
+						String message= "Invalid extension to " + ATT_EXTENSION //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 							+ ". Must extends ClasspathFixProcessor: " + getID(); //$NON-NLS-1$
 						JavaPlugin.log(new Status(IStatus.ERROR, JavaUI.ID_PLUGIN, message));
 						fStatus= Boolean.FALSE;
@@ -143,12 +143,12 @@ public final class ClasspathFixProcessorDescriptor {
 		return null;
 	}
 
-	private static ClasspathFixProcessorDescriptor[] getCorrectionProcessors() {
+	private static ClasspathFixProcessorDescriptor[] getCorrectionProcessors() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fgContributedClasspathFixProcessors == null) {
 			IConfigurationElement[] elements= Platform.getExtensionRegistry().getConfigurationElementsFor(JavaUI.ID_PLUGIN, ATT_EXTENSION);
-			ArrayList<ClasspathFixProcessorDescriptor> res= new ArrayList<>(elements.length);
+			ArrayList<ClasspathFixProcessorDescriptor> res= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-			for (IConfigurationElement element : elements) {
+			for (IConfigurationElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ClasspathFixProcessorDescriptor desc= new ClasspathFixProcessorDescriptor(element);
 				IStatus status= desc.checkSyntax();
 				if (status.isOK()) {
@@ -171,12 +171,12 @@ public final class ClasspathFixProcessorDescriptor {
 		return fgContributedClasspathFixProcessors;
 	}
 
-	public static ClasspathFixProposal[] getProposals(final IJavaProject project, final String missingType, final MultiStatus status) {
-		final ArrayList<ClasspathFixProposal> proposals= new ArrayList<>();
+	public static ClasspathFixProposal[] getProposals(final IJavaProject project, final String missingType, final MultiStatus status) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		final ArrayList<ClasspathFixProposal> proposals= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
-		final HashSet<String> overriddenIds= new HashSet<>();
+		final HashSet<String> overriddenIds= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		ClasspathFixProcessorDescriptor[] correctionProcessors= getCorrectionProcessors();
-		for (ClasspathFixProcessorDescriptor curr : correctionProcessors) {
+		for (ClasspathFixProcessorDescriptor curr : correctionProcessors) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!overriddenIds.contains(curr.getID())) {
 				SafeRunner.run(new ISafeRunnable() {
 					@Override

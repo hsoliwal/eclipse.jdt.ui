@@ -97,7 +97,7 @@ public class CallerMethodWrapper extends MethodWrapper {
 	 * @return The result of the search for children
 	 * @see org.eclipse.jdt.internal.corext.callhierarchy.MethodWrapper#findChildren(IProgressMonitor)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Map<String, MethodCall> findChildren(IProgressMonitor progressMonitor) {
 		try {
 
@@ -145,7 +145,7 @@ public class CallerMethodWrapper extends MethodWrapper {
 				pattern= SearchPattern.createPattern(member, limitTo, SearchUtils.GENERICS_AGNOSTIC_MATCH_RULE);
 			}
 			if (pattern == null) { // e.g. for initializers
-				return new HashMap<>(0);
+				return new HashMap<>(0); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			}
 
 			SearchEngine searchEngine= new SearchEngine();
@@ -170,7 +170,7 @@ public class CallerMethodWrapper extends MethodWrapper {
 
 		} catch (CoreException e) {
 			JavaManipulationPlugin.log(e);
-			return new HashMap<>(0);
+			return new HashMap<>(0); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 	}
 

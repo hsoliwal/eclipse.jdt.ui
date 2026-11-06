@@ -52,7 +52,7 @@ public final class ConvertRecordSubProcessor extends ConvertRecordBaseSubProcess
 
 	@Override
 	protected ICommandAccess changeCorrectionProposalToT(final ChangeCorrectionProposalCore proposal, int uid) {
-		ChangeCorrectionProposal ret= new ChangeCorrectionProposal(proposal.getName(), null, proposal.getRelevance()) {
+		ChangeCorrectionProposal ret= new ChangeCorrectionProposal(proposal.getName(), null, proposal.getRelevance()) { //FLLDCIM: MARK — T30  ANONYMOUS
 			@Override
 			protected Change createChange() throws CoreException {
 				return proposal.getChange();

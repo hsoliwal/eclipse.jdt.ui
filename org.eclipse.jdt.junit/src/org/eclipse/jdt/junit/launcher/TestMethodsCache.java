@@ -55,7 +55,7 @@ class TestMethodsCache {
 
 	private boolean fCanceled;
 
-	private final Map<String, Set<String>> fCacheMap= new HashMap<>();
+	private final Map<String, Set<String>> fCacheMap= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	void put(String key, Set<String> value) {
 		fCacheMap.put(key, value);

@@ -47,7 +47,7 @@ public class JUnitProjectTestSetup implements BeforeEachCallback, AfterEachCallb
 
 	@Override
 	public void beforeEach(ExtensionContext context) throws Exception {
-		String projectName= "JUnit_" + System.currentTimeMillis();
+		String projectName= "JUnit_" + System.currentTimeMillis(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		fgProject= JavaProjectHelper.createJavaProjectWithJUnitSource(projectName, "src", "bin");
 	}
 

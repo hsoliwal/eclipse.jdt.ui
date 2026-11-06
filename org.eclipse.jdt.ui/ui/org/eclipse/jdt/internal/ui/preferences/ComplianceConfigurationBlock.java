@@ -187,14 +187,14 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	private Button fEnablePreviewCheck;
 	private Combo fReportPreviewCombo;
 
-	public ComplianceConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) {
+	public ComplianceConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(context, project, getKeys(project != null), container);
 		setDefaultCompilerComplianceValues();
 
 		fBlockEnableState= null;
-		fComplianceFollowsEEControls= new ArrayList<>();
-		fComplianceControls= new ArrayList<>();
-		fComplianceChildControls= new ArrayList<>();
+		fComplianceFollowsEEControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fComplianceControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fComplianceChildControls= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fComplianceStatus= new StatusInfo();
 
@@ -264,17 +264,17 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		}
 	}
 
-	private Composite createComplianceTabContent(Composite folder) {
+	private Composite createComplianceTabContent(Composite folder) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
-		ArrayList<String> allJavaProjectVersions = new ArrayList<>(JavaCore.getAllJavaSourceVersionsSupportedByCompiler());
+		ArrayList<String> allJavaProjectVersions = new ArrayList<>(JavaCore.getAllJavaSourceVersionsSupportedByCompiler()); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		Collections.reverse(allJavaProjectVersions);
 
 		final String[] complianceVersions= allJavaProjectVersions.toArray(String[]::new);
 
-		for (int i= 0; i < allJavaProjectVersions.size(); i++) {
+		for (int i= 0; i < allJavaProjectVersions.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String version= allJavaProjectVersions.get(i);
 			if (isBetaVersion(version)) {
-				allJavaProjectVersions.set(i, version + " (BETA)"); //$NON-NLS-1$
+				allJavaProjectVersions.set(i, version + " (BETA)"); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				break;
 			}
 		}
@@ -416,7 +416,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		String versionLabel= getVersionLabel(JavaCore.getAllJavaSourceVersionsSupportedByCompiler().first());
 		fJRE50InfoText.setText(Messages.format(PreferencesMessages.ComplianceConfigurationBlock_jrecompliance_info_project, new String[] { versionLabel, versionLabel }));
 		fJRE50InfoText.setVisible(false);
-		fJRE50InfoText.addSelectionListener(new SelectionListener() {
+		fJRE50InfoText.addSelectionListener(new SelectionListener() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				if ("1".equals(e.text)) { //$NON-NLS-1$
@@ -441,7 +441,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		return sc1;
 	}
 
-	private void initializeReleaseCheckBox(boolean useProjectSpecificSettings) {
+	private void initializeReleaseCheckBox(boolean useProjectSpecificSettings) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProject != null && !useProjectSpecificSettings) {
 			String value= PREF_RELEASE.getStoredValue(new IScopeContext[] { new ProjectScope(fProject) }, false, null);
 			if (value != null) {
@@ -465,7 +465,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 
 	protected final void openBuildPathPropertyPage() {
 		if (getPreferenceContainer() != null) {
-			Map<Object, IClasspathEntry> data= new HashMap<>();
+			Map<Object, IClasspathEntry> data= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			data.put(BuildPathsPropertyPage.DATA_REVEAL_ENTRY, JavaRuntime.getDefaultJREContainerEntry());
 			getPreferenceContainer().openPage(BuildPathsPropertyPage.PROP_ID, data);
 		}
@@ -486,7 +486,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		validateComplianceStatus();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void validateSettings(Key changedKey, String oldValue, String newValue) {
 		if (!areSettingsEnabled()) {
 			return;
@@ -559,7 +559,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		fContext.statusChanged(fComplianceStatus);
 	}
 
-	public void refreshComplianceSettings() {
+	public void refreshComplianceSettings() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fOriginalStoredCompliance == null) {
 			fOriginalStoredCompliance= new String[] { // caution: order depends on IDX_* constants
 					getOriginalStoredValue(PREF_SOURCE_COMPATIBILITY),
@@ -620,7 +620,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		updateReleaseOptionStatus();
 	}
 
-	private void validateComplianceStatus() {
+	private void validateComplianceStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fJRE50InfoText != null && !fJRE50InfoText.isDisposed()) {
 			boolean isVisible= false;
 			Image image= JFaceResources.getImage(Dialog.DLG_IMG_MESSAGE_WARNING);
@@ -706,14 +706,14 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 //		return JavaCore.VERSION_27.equals(compliance);
 	}
 
-	private String addsExportToSystemModule() {
+	private String addsExportToSystemModule() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProject == null) {
 			return null;
 		}
 		try {
-			for (IClasspathEntry cpe : JavaCore.create(fProject).getRawClasspath()) {
+			for (IClasspathEntry cpe : JavaCore.create(fProject).getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (cpe.getEntryKind() == IClasspathEntry.CPE_CONTAINER && LibrariesWorkbookPage.isJREContainer(cpe.getPath())) {
-					for (IClasspathAttribute attribute : cpe.getExtraAttributes()) {
+					for (IClasspathAttribute attribute : cpe.getExtraAttributes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (IClasspathAttribute.ADD_EXPORTS.equals(attribute.getName())) {
 							return attribute.getValue();
 						}
@@ -727,7 +727,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		return null;
 	}
 
-	private void updateReleaseOptionStatus() {
+	private void updateReleaseOptionStatus() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fCompilerReleaseCheck != null && !fCompilerReleaseCheck.isDisposed()) {
 			String compliance= getStoredValue(PREF_COMPLIANCE); // get actual value
 			IVMInstall install= null;
@@ -809,7 +809,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 
-	private IStatus validateCompliance() {
+	private IStatus validateCompliance() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		StatusInfo status= new StatusInfo();
 		String compliance= getValue(PREF_COMPLIANCE);
 		String source= getValue(PREF_SOURCE_COMPATIBILITY);
@@ -867,7 +867,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		validateComplianceStatus();
 	}
 
-	private void updateComplianceFollowsEE() {
+	private void updateComplianceFollowsEE() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProject != null) {
 			String complianceFollowsEE= DISABLED;
 			IExecutionEnvironment ee= getEE();
@@ -904,7 +904,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		updateReleaseOptionStatus();
 	}
 
-	private void updateComplianceEnableSourceTargetState() {
+	private void updateComplianceEnableSourceTargetState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean enableComplianceControls= true;
 		if (fProject != null) {
 			boolean hasProjectSpecificOptions= hasProjectSpecificOptions(fProject);
@@ -913,7 +913,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		}
 		boolean enableBasedOnRelease= !fCompilerReleaseCheck.getSelection();
 		boolean enableComplianceChildren= enableComplianceControls && checkValue(INTR_DEFAULT_COMPLIANCE, USER_CONF) && enableBasedOnRelease;
-		for (int i= fComplianceChildControls.size() - 1; i >= 0; i--) {
+		for (int i= fComplianceChildControls.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= fComplianceChildControls.get(i);
 			ControlData data= (ControlData) curr.getData();
 			if (data != null) {
@@ -927,7 +927,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private void updateControlsEnableState(List<Control> controls, boolean enable) {
-		for (int i= controls.size() - 1; i >= 0; i--) {
+		for (int i= controls.size() - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Control curr= controls.get(i);
 			if (curr instanceof Composite) {
 				updateControlsEnableState(Arrays.asList(((Composite)curr).getChildren()), enable);
@@ -957,7 +957,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		}
 	}
 
-	private void updateRememberedComplianceOption(Key prefKey, int idx, boolean enabled, String defaultComboValue) {
+	private void updateRememberedComplianceOption(Key prefKey, int idx, boolean enabled, String defaultComboValue) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (prefKey.getName().equals(PREF_ENABLE_PREVIEW.getName())) {
 			Button checkBox= getCheckBox(prefKey);
 			boolean wasCheckBoxEnabled= checkBox.isEnabled();
@@ -1005,7 +1005,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 
 	}
 
-	private void updateStoreMethodParamNamesEnableState() {
+	private void updateStoreMethodParamNamesEnableState() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		boolean enabled= true;
 		Button checkBox= getCheckBox(PREF_CODEGEN_METHOD_PARAMETERS_ATTR);
 		boolean wasCheckBoxEnabled= checkBox.isEnabled();
@@ -1039,7 +1039,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	 *            user settings. If <code>false</code>, overwrite the current settings.
 	 * @param oldComplianceLevel the previous compliance level
 	 */
-	private void updateComplianceDefaultSettings(boolean rememberOld, String oldComplianceLevel) {
+	private void updateComplianceDefaultSettings(boolean rememberOld, String oldComplianceLevel) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String enablePreview, reportPreview, source, target;
 		boolean isDefault= checkValue(INTR_DEFAULT_COMPLIANCE, DEFAULT_CONF);
 		boolean isFollowEE= checkValue(INTR_COMPLIANCE_FOLLOWS_EE, DEFAULT_CONF);
@@ -1085,7 +1085,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 				source= getValue(PREF_COMPLIANCE);
 				target= getValue(PREF_COMPLIANCE);
 			} else {
-				HashMap<String, String> options= new HashMap<>();
+				HashMap<String, String> options= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				JavaModelUtil.setComplianceOptions(options, complianceLevel);
 				if (complianceLevel.equals(options.get(JavaCore.COMPILER_COMPLIANCE))) {
 					enablePreview= options.get(JavaCore.COMPILER_PB_ENABLE_PREVIEW_FEATURES);
@@ -1143,7 +1143,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	private String getCurrentCompliance() {
 		String complianceLevel= getValue(PREF_COMPLIANCE);
 
-		HashMap<String, String> defaultOptions= new HashMap<>();
+		HashMap<String, String> defaultOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		JavaModelUtil.setComplianceOptions(defaultOptions, complianceLevel);
 
 		boolean isDefault= complianceLevel.equals(defaultOptions.get(JavaCore.COMPILER_COMPLIANCE))
@@ -1157,12 +1157,12 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 		return isDefault ? DEFAULT_CONF : USER_CONF;
 	}
 
-	private IExecutionEnvironment getEE() {
+	private IExecutionEnvironment getEE() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fProject == null)
 			return null;
 
 		try {
-			for (IClasspathEntry entry : JavaCore.create(fProject).getRawClasspath()) {
+			for (IClasspathEntry entry : JavaCore.create(fProject).getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.getEntryKind() == IClasspathEntry.CPE_CONTAINER) {
 					String eeId= JavaRuntime.getExecutionEnvironmentId(entry.getPath());
 					if (eeId != null) {
@@ -1199,7 +1199,7 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private String checkDefaults(Key[] keys, Map<String, String> options) {
-		for (Key key : keys) {
+		for (Key key : keys) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Object option= options.get(key.getName());
 			if (!checkValue(key, (String)option))
 				return USER_CONF;
@@ -1225,12 +1225,12 @@ public class ComplianceConfigurationBlock extends OptionsConfigurationBlock {
 	 *
 	 * @since 3.5
 	 */
-	private void setDefaultCompilerComplianceValues() {
+	private void setDefaultCompilerComplianceValues() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IVMInstall defaultVMInstall= JavaRuntime.getDefaultVMInstall();
 		if (defaultVMInstall instanceof IVMInstall2) {
 			String complianceLevel= JavaModelUtil.getCompilerCompliance((IVMInstall2)defaultVMInstall, JavaCore.VERSION_1_8);
 			if (isOriginalDefaultCompliance(complianceLevel)) {
-				Map<String, String> complianceOptions= new HashMap<>();
+				Map<String, String> complianceOptions= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				JavaModelUtil.setComplianceOptions(complianceOptions, complianceLevel);
 				String releaseVal= complianceOptions.get(PREF_RELEASE.getName());
 				setDefaultValue(PREF_COMPLIANCE, complianceOptions.get(PREF_COMPLIANCE.getName()));

@@ -34,7 +34,7 @@ public class LinkedProposalModelCore {
 		}
 
 		if (fPositionGroups == null) {
-			fPositionGroups= new HashMap<>();
+			fPositionGroups= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 		}
 		fPositionGroups.put(positionGroup.getGroupId(), positionGroup);
 	}

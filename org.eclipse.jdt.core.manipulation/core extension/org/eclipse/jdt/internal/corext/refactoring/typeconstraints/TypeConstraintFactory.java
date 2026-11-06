@@ -22,8 +22,8 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 
 public class TypeConstraintFactory implements ITypeConstraintFactory {
 
-	private Map<ConstraintVariable, Map<ConstraintVariable, Map<ConstraintOperator, SimpleTypeConstraint>>> fSimpleConstraints= new HashMap<>();
-	private Map<ConstraintVariable, Map<String, CompositeOrTypeConstraint>> fOrConstraints= new HashMap<>();
+	private Map<ConstraintVariable, Map<ConstraintVariable, Map<ConstraintOperator, SimpleTypeConstraint>>> fSimpleConstraints= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
+	private Map<ConstraintVariable, Map<String, CompositeOrTypeConstraint>> fOrConstraints= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 
 	protected static final boolean PRINT_STATS= false;
 	protected int fNrCreated= 0;
@@ -31,7 +31,7 @@ public class TypeConstraintFactory implements ITypeConstraintFactory {
 	protected int fNrRetrieved= 0;
 
 	// Only to be called by the createXXXConstraint() methods
-	private SimpleTypeConstraint createSimpleTypeConstraint(ConstraintVariable v1, ConstraintVariable v2, ConstraintOperator operator) {
+	private SimpleTypeConstraint createSimpleTypeConstraint(ConstraintVariable v1, ConstraintVariable v2, ConstraintOperator operator) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (fSimpleConstraints.containsKey(v1)){
 			Map<ConstraintVariable, Map<ConstraintOperator, SimpleTypeConstraint>> m2= fSimpleConstraints.get(v1);
 			if (m2.containsKey(v2)){
@@ -44,14 +44,14 @@ public class TypeConstraintFactory implements ITypeConstraintFactory {
 					return storeConstraint(v1, v2, operator, m3);
 				}
 			} else {
-				Map<ConstraintOperator, SimpleTypeConstraint> m3= new HashMap<>();
+				Map<ConstraintOperator, SimpleTypeConstraint> m3= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 				m2.put(v2, m3);
 				return storeConstraint(v1, v2, operator, m3);
 			}
 		} else {
-			Map<ConstraintVariable, Map<ConstraintOperator, SimpleTypeConstraint>> m2= new HashMap<>();
+			Map<ConstraintVariable, Map<ConstraintOperator, SimpleTypeConstraint>> m2= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fSimpleConstraints.put(v1, m2);
-			Map<ConstraintOperator, SimpleTypeConstraint> m3= new HashMap<>();
+			Map<ConstraintOperator, SimpleTypeConstraint> m3= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			m2.put(v2, m3);
 			return storeConstraint(v1, v2, operator, m3);
 		}
@@ -109,15 +109,15 @@ public class TypeConstraintFactory implements ITypeConstraintFactory {
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public CompositeOrTypeConstraint createCompositeOrTypeConstraint(ITypeConstraint[] constraints){
 		ConstraintVariable left= ((SimpleTypeConstraint)constraints[0]).getLeft();
 		String bounds= ""; //$NON-NLS-1$
-		for (ITypeConstraint constraint : constraints) {
+		for (ITypeConstraint constraint : constraints) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ConstraintVariable right= ((SimpleTypeConstraint) constraint).getRight();
 			ITypeBinding binding= right.getBinding();
 			String typeName= binding.getQualifiedName();
-			bounds= bounds + typeName +","; //$NON-NLS-1$
+			bounds= bounds + typeName +","; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		if (fOrConstraints.containsKey(left)){
@@ -134,7 +134,7 @@ public class TypeConstraintFactory implements ITypeConstraintFactory {
 				return constraint;
 			}
 		} else {
-			Map<String, CompositeOrTypeConstraint> m2= new HashMap<>();
+			Map<String, CompositeOrTypeConstraint> m2= new HashMap<>(); //FLLDCIM: MARK — M01 M3_HASH_LANES NEW
 			fOrConstraints.put(left, m2);
 			CompositeOrTypeConstraint constraint= new CompositeOrTypeConstraint(constraints);
 			m2.put(bounds, constraint);
@@ -145,7 +145,7 @@ public class TypeConstraintFactory implements ITypeConstraintFactory {
 	}
 
 	protected void dumpStats() {
-		System.out.println("Constraints: " + fNrCreated + " created, " + fNrRetrieved + " retrieved, " + fNrFiltered + " filtered");	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		System.out.println("Constraints: " + fNrCreated + " created, " + fNrRetrieved + " retrieved, " + fNrFiltered + " filtered");	 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 	}
 
 }

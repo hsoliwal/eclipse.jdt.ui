@@ -94,7 +94,7 @@ import org.eclipse.jdt.internal.ui.util.ASTHelper;
 		return false;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(QualifiedName node) {
 		if (isMovedMember(node.resolveBinding())) {
 			if (node.getParent() instanceof ImportDeclaration) {
@@ -106,7 +106,7 @@ import org.eclipse.jdt.internal.ui.util.ASTHelper;
 
 					if (typeBinding != null)
 						fCuRewrite.getImportRewrite().removeImport(typeBinding.getQualifiedName());
-					String imp= fCuRewrite.getImportRewrite().addImport(fTarget.getQualifiedName() + '.' + node.getName().getIdentifier());
+					String imp= fCuRewrite.getImportRewrite().addImport(fTarget.getQualifiedName() + '.' + node.getName().getIdentifier()); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					fCuRewrite.getImportRemover().registerAddedImport(imp);
 				}
 			} else {

@@ -25,7 +25,7 @@ public class PrettySignatures {
 		return getPlain(binding);
 	}
 
-	private static String getPlain(ITypeBinding binding) {
+	private static String getPlain(ITypeBinding binding) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (binding.isPrimitive()) {
 			return binding.getName();
 		} else if (binding.isArray()) {
@@ -51,54 +51,54 @@ public class PrettySignatures {
 	}
 
 	private static String getPlainCaptureType(ITypeBinding binding) {
-		StringBuilder result= new StringBuilder("capture-of ");
-		result.append(PrettySignatures.getPlain(binding.getWildcard()));
+		StringBuilder result= new StringBuilder("capture-of "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		result.append(PrettySignatures.getPlain(binding.getWildcard())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
 	private static String getPlainSuperWildCardType(ITypeBinding binding) {
-		StringBuilder result= new StringBuilder("?");
+		StringBuilder result= new StringBuilder("?"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ITypeBinding bound= binding.getBound();
 		if (bound != null) {
-			result.append(" super ");
-			result.append(PrettySignatures.getPlain(bound));
+			result.append(" super "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(PrettySignatures.getPlain(bound)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}
 
 	private static String getPlainExtendsWildCardType(ITypeBinding binding) {
-		StringBuilder result= new StringBuilder("?");
+		StringBuilder result= new StringBuilder("?"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ITypeBinding bound= binding.getBound();
 		if (bound != null) {
-			result.append(" extends ");
-			result.append(PrettySignatures.getPlain(bound));
+			result.append(" extends "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(PrettySignatures.getPlain(bound)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}
 
 	private static String getPlainParameterizedType(ITypeBinding binding) {
-		StringBuilder result= new StringBuilder(getQualifiedName(binding));
+		StringBuilder result= new StringBuilder(getQualifiedName(binding)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ITypeBinding[] typeArguments= binding.getTypeArguments();
-		result.append("<"); //$NON-NLS-1$
-		result.append(PrettySignatures.getPlain(typeArguments[0]));
-		for (int i= 1; i < typeArguments.length; i++) {
-			result.append(", "); //$NON-NLS-1$
-			result.append(PrettySignatures.getPlain(typeArguments[i]));
+		result.append("<"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(PrettySignatures.getPlain(typeArguments[0])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 1; i < typeArguments.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(PrettySignatures.getPlain(typeArguments[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append(">"); //$NON-NLS-1$
+		result.append(">"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
 	private static String getPlainGenericType(ITypeBinding binding) {
-		StringBuilder result= new StringBuilder(getQualifiedName(binding));
+		StringBuilder result= new StringBuilder(getQualifiedName(binding)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		ITypeBinding[] typeParameters= binding.getTypeParameters();
-		result.append("<"); //$NON-NLS-1$
-		result.append(PrettySignatures.get(typeParameters[0]));
-		for (int i= 1; i < typeParameters.length; i++) {
-			result.append(", "); //$NON-NLS-1$
-			result.append(PrettySignatures.get(typeParameters[i]));
+		result.append("<"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		result.append(PrettySignatures.get(typeParameters[0])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (int i= 1; i < typeParameters.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(", "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(PrettySignatures.get(typeParameters[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		result.append(">"); //$NON-NLS-1$
+		result.append(">"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
@@ -107,13 +107,13 @@ public class PrettySignatures {
 		if (bounds.length == 1 && "java.lang.Object".equals(bounds[0].getQualifiedName()))
 			return binding.getName();
 
-		StringBuilder result= new StringBuilder(binding.getName());
+		StringBuilder result= new StringBuilder(binding.getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		if (bounds.length > 0) {
-			result.append(" extends "); //$NON-NLS-1$
-			result.append(PrettySignatures.getPlain(bounds[0]));
-			for (int i= 1; i < bounds.length; i++) {
-				result.append(" & "); //$NON-NLS-1$
-				result.append(PrettySignatures.getPlain(bounds[i]));
+			result.append(" extends "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			result.append(PrettySignatures.getPlain(bounds[0])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (int i= 1; i < bounds.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				result.append(" & "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+				result.append(PrettySignatures.getPlain(bounds[i])); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 		}
 		return result.toString();
@@ -128,9 +128,9 @@ public class PrettySignatures {
 	}
 
 	private static String getPlainArrayType(ITypeBinding binding) {
-		StringBuilder result= new StringBuilder(PrettySignatures.getPlain(binding.getElementType()));
-		for (int i= 0; i < binding.getDimensions(); i++) {
-			result.append("[]");
+		StringBuilder result= new StringBuilder(PrettySignatures.getPlain(binding.getElementType())); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < binding.getDimensions(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append("[]"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return result.toString();
 	}

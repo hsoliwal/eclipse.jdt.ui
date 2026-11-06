@@ -37,9 +37,9 @@ public class TestMoveParticipantShared extends MoveParticipant implements IShara
 
 	static TestMoveParticipantShared fgInstance;
 
-	List<Object> fElements= new ArrayList<>(3);
-	List<String> fHandles= new ArrayList<>(3);
-	List<RefactoringArguments> fArguments= new ArrayList<>(3);
+	List<Object> fElements= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<String> fHandles= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	List<RefactoringArguments> fArguments= new ArrayList<>(3); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	@Override
 	public boolean initialize(Object element) {
@@ -89,7 +89,7 @@ public class TestMoveParticipantShared extends MoveParticipant implements IShara
 
 	public static void testArguments(MoveArguments[] args) {
 		testNumberOfElements(args.length);
-		for (int i= 0; i < args.length; i++) {
+		for (int i= 0; i < args.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			MoveArguments expected= args[i];
 			MoveArguments actual= (MoveArguments)fgInstance.fArguments.get(i);
 			Assert.assertEquals(expected.getDestination(), actual.getDestination());

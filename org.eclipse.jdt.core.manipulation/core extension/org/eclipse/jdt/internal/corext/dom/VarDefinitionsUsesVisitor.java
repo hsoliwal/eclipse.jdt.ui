@@ -32,8 +32,8 @@ public final class VarDefinitionsUsesVisitor extends ASTVisitor {
 	private final IVariableBinding variableBinding;
 	private final ASTNode scopeNode;
 	private final boolean includeInnerScopes;
-	private final List<SimpleName> writes= new ArrayList<>();
-	private final List<SimpleName> reads= new ArrayList<>();
+	private final List<SimpleName> writes= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+	private final List<SimpleName> reads= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 	/**
 	 * Builds from a {@link VariableDeclaration} and infers the variable binding and
@@ -67,7 +67,7 @@ public final class VarDefinitionsUsesVisitor extends ASTVisitor {
 
 	private static ASTNode getDeclaringScope(final VariableDeclaration variableDeclaration) {
 		ASTNode node= variableDeclaration.getParent();
-		while (isVariableDeclaration(node)) {
+		while (isVariableDeclaration(node)) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			node= node.getParent();
 		}
 
@@ -87,7 +87,7 @@ public final class VarDefinitionsUsesVisitor extends ASTVisitor {
 		}
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean visit(final SimpleName node) {
 		if (ASTNodes.isSameLocalVariable(variableBinding, node)) {
 			switch (node.getParent().getNodeType()) {

@@ -35,7 +35,7 @@ public class SubTypeHierarchyViewer extends TypeHierarchyViewer {
 	@Override
 	protected void hookUpdateContent(boolean expand) {
 		getTree().setRedraw(false);
-		refresh();
+		refresh(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
 
 		if (expand) {
 			int expandLevel= 2;
@@ -50,7 +50,7 @@ public class SubTypeHierarchyViewer extends TypeHierarchyViewer {
 	/**
 	 * Content provider for the subtype hierarchy
 	 */
-	public static class SubTypeHierarchyContentProvider extends TypeHierarchyContentProvider {
+	public static class SubTypeHierarchyContentProvider extends TypeHierarchyContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 		public SubTypeHierarchyContentProvider(TypeHierarchyLifeCycle lifeCycle) {
 			super(lifeCycle);
 		}
@@ -61,7 +61,7 @@ public class SubTypeHierarchyViewer extends TypeHierarchyViewer {
 			if (hierarchy != null) {
 				IType[] types= hierarchy.getSubtypes(type);
 				if (isObject(type)) {
-					for (IType t : types) {
+					for (IType t : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (!isAnonymousFromInterface(t)) {
 							res.add(t);
 						}

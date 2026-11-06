@@ -78,7 +78,7 @@ public class NewTypeWizardTest {
 	@Rule
 	public ProjectTestSetup projectSetup = new ProjectTestSetup();
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -114,7 +114,7 @@ public class NewTypeWizardTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClass1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -126,7 +126,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -156,7 +156,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClass2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -168,7 +168,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("java.util.ArrayList<String>", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, false, true);
@@ -200,7 +200,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClass3() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
@@ -222,7 +222,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("pack.A<String>", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, true, true);
@@ -262,7 +262,7 @@ public class NewTypeWizardTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClass4() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
@@ -284,7 +284,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("pack.A<String>", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(true, true, true, true);
@@ -331,7 +331,7 @@ public class NewTypeWizardTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateInnerClass1() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
@@ -354,7 +354,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("java.util.ArrayList<S>", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, true, true);
@@ -387,7 +387,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClassExtraImports1() throws Exception {
 
 		String newFileTemplate= "${filecomment}\n${package_declaration}\n\nimport java.util.Map;\n\n${typecomment}\n${type_declaration}";
@@ -403,7 +403,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add("java.util.List<java.io.File>");
 		wizardPage.setSuperInterfaces(interfaces, true);
 
@@ -439,7 +439,7 @@ public class NewTypeWizardTest {
 
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClassExtraImports2() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
@@ -467,7 +467,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("pack.A", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, true, true);
@@ -508,7 +508,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateClassExtraImports3() throws Exception {
 
 		IPackageFragment pack0= fSourceFolder.createPackageFragment("pack", false, null);
@@ -542,7 +542,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("pack.A", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setMethodStubSelection(false, false, true, true);
@@ -583,7 +583,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateInterface() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -592,7 +592,7 @@ public class NewTypeWizardTest {
 		wizardPage.setPackageFragment(pack1, true);
 		wizardPage.setTypeName("E", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		interfaces.add("java.util.List<String>");
 		interfaces.add("java.lang.Runnable");
 		wizardPage.setSuperInterfaces(interfaces, true);
@@ -625,7 +625,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateEnum() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -634,7 +634,7 @@ public class NewTypeWizardTest {
 		wizardPage.setPackageFragment(pack1, true);
 		wizardPage.setTypeName("E", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setAddComments(true, true);
@@ -663,7 +663,7 @@ public class NewTypeWizardTest {
 		StringAsserts.assertEqualStringIgnoreDelim(actual, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateAnnotation() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 
@@ -672,7 +672,7 @@ public class NewTypeWizardTest {
 		wizardPage.setPackageFragment(pack1, true);
 		wizardPage.setTypeName("E", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setAddComments(true, true);
@@ -702,7 +702,7 @@ public class NewTypeWizardTest {
 	}
 
 
-	public void typeBodyTest( NewTypeWizardPage wizardPage, String templateID, String templateBody, String expectedBody,
+	public void typeBodyTest( NewTypeWizardPage wizardPage, String templateID, String templateBody, String expectedBody, //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	    String packageName, String typeName, String typeKeyword) throws Exception {
 		StubUtility.setCodeTemplate(templateID, templateBody, null);
 
@@ -715,7 +715,7 @@ public class NewTypeWizardTest {
 
 		wizardPage.setSuperClass("", true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		//wizardPage.setMethodStubSelection(false, false, false, true);
@@ -728,24 +728,24 @@ public class NewTypeWizardTest {
 
 		String actual= wizardPage.getCreatedType().getCompilationUnit().getSource();
 
-		StringBuilder buf= new StringBuilder();
-		buf.append("/**\n");
-		buf.append(" * File\n");
-		buf.append(" */\n");
-		buf.append("package ");
-		buf.append(packageName);
-		buf.append(";\n");
-		buf.append("\n");
-		buf.append("/**\n");
-		buf.append(" * Type\n");
-		buf.append(" */\n");
-		buf.append("public ");
-		buf.append(typeKeyword);
-		buf.append( " ");
-		buf.append(typeName);
-		buf.append(" {\n");
-		buf.append(expectedBody);
-		buf.append("}\n");
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("/**\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" * File\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" */\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("package "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(packageName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(";\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("/**\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" * Type\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" */\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("public "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(typeKeyword); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append( " "); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(typeName); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(" {\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append(expectedBody); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append("}\n"); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		String expected= buf.toString();
 
 		// one carriage return is the default for all body templates
@@ -803,7 +803,7 @@ public class NewTypeWizardTest {
 			"@interface" );
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAttemptCreateExistingClass() throws Exception
 	{
 		// Foo1.java and Foo2.java in test1
@@ -843,7 +843,7 @@ public class NewTypeWizardTest {
 		assertEquals("Foo3.java", actual);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAddFinalSuperClassError1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("test1", false, null);
 		String test= """
@@ -861,7 +861,7 @@ public class NewTypeWizardTest {
 		wizardPage.setTypeName("E", true);
 		wizardPage.setSuperClass(superCls, true);
 
-		List<String> interfaces= new ArrayList<>();
+		List<String> interfaces= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		wizardPage.setSuperInterfaces(interfaces, true);
 
 		wizardPage.setAddComments(true, true);

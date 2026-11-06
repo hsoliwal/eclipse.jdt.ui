@@ -47,7 +47,7 @@ public class ReorgUtils extends ReorgUtilsCore {
 	public static boolean containsOnlyWorkingSets (List<?> elements){
 		if (elements.isEmpty())
 			return false;
-		for (Object name : elements) {
+		for (Object name : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isWorkingSet(name))
 				return false;
 		}
@@ -56,8 +56,8 @@ public class ReorgUtils extends ReorgUtilsCore {
 
 
 	public static IWorkingSet[] getWorkingSets(List<?> elements) {
-		List<IWorkingSet> result= new ArrayList<>(1);
-		for (Object element : elements) {
+		List<IWorkingSet> result= new ArrayList<>(1); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (Object element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (element instanceof IWorkingSet) {
 				result.add((IWorkingSet) element);
 			}

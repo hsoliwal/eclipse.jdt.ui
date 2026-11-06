@@ -74,8 +74,8 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 	private static final Key PREF_IGNORELOWERCASE= getJDTUIKey(PreferenceConstants.ORGIMPORTS_IGNORELOWERCASE);
 	private static final Key PREF_STATICONDEMANDTHRESHOLD= getJDTUIKey(PreferenceConstants.ORGIMPORTS_STATIC_ONDEMANDTHRESHOLD);
 
-	private static final String DIALOGSETTING_LASTLOADPATH= JavaUI.ID_PLUGIN + ".importorder.loadpath"; //$NON-NLS-1$
-	private static final String DIALOGSETTING_LASTSAVEPATH= JavaUI.ID_PLUGIN + ".importorder.savepath"; //$NON-NLS-1$
+	private static final String DIALOGSETTING_LASTLOADPATH= JavaUI.ID_PLUGIN + ".importorder.loadpath"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+	private static final String DIALOGSETTING_LASTSAVEPATH= JavaUI.ID_PLUGIN + ".importorder.savepath"; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static Key[] getAllKeys() {
 		return new Key[] {
@@ -94,7 +94,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 		}
 
 		public String serialize() {
-			return isStatic ? '#' + name : name;
+			return isStatic ? '#' + name : name; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 
 		public static ImportOrderEntry fromSerialized(String str) {
@@ -182,7 +182,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 
 	private PixelConverter fPixelConverter;
 
-	public ImportOrganizeConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) {
+	public ImportOrganizeConfigurationBlock(IStatusChangeListener context, IProject project, IWorkbenchPreferenceContainer container) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		super(context, project, getAllKeys(), container);
 
 		String[] buttonLabels= new String[] {
@@ -229,7 +229,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 		updateControls();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected Control createContents(Composite parent) {
 		setShell(parent.getShell());
 
@@ -286,7 +286,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 		return status.isOK();
 	}
 
-	private void doButtonPressed(int index) {
+	private void doButtonPressed(int index) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (index == IDX_ADD || index == IDX_ADD_STATIC) { // add new
 			List<ImportOrderEntry> existing= fOrderListField.getElements();
 			ImportOrganizeInputDialog dialog= new ImportOrganizeInputDialog(getShell(), existing, index == IDX_ADD_STATIC);
@@ -322,10 +322,10 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 	 * The import order file is a property file. The keys are
 	 * "0", "1" ... last entry. The values must be valid package names.
 	 */
-	private List<ImportOrderEntry> loadFromProperties(Properties properties) {
-		ArrayList<ImportOrderEntry> res= new ArrayList<>();
+	private List<ImportOrderEntry> loadFromProperties(Properties properties) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<ImportOrderEntry> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int nEntries= properties.size();
-		for (int i= 0 ; i < nEntries; i++) {
+		for (int i= 0 ; i < nEntries; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String curr= properties.getProperty(String.valueOf(i));
 			if (curr != null) {
 				ImportOrderEntry entry= ImportOrderEntry.fromSerialized(curr);
@@ -341,7 +341,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 		return res;
 	}
 
-	private List<ImportOrderEntry> loadImportOrder() {
+	private List<ImportOrderEntry> loadImportOrder() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings dialogSettings= JavaPlugin.getDefault().getDialogSettings();
 
 		FileDialog dialog= new FileDialog(getShell(), SWT.OPEN | SWT.SHEET);
@@ -356,7 +356,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 			dialogSettings.put(DIALOGSETTING_LASTLOADPATH, dialog.getFilterPath());
 
 			Properties properties= new Properties();
-			try (FileInputStream fis= new FileInputStream(fileName)) {
+			try (FileInputStream fis= new FileInputStream(fileName)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				properties.load(fis);
 				List<ImportOrderEntry> res= loadFromProperties(properties);
 				if (res != null) {
@@ -372,7 +372,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 		return null;
 	}
 
-	private void saveImportOrder(List<ImportOrderEntry> elements) {
+	private void saveImportOrder(List<ImportOrderEntry> elements) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IDialogSettings dialogSettings= JavaPlugin.getDefault().getDialogSettings();
 
 		FileDialog dialog= new FileDialog(getShell(), SWT.SAVE | SWT.SHEET);
@@ -388,11 +388,11 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 			dialogSettings.put(DIALOGSETTING_LASTSAVEPATH, dialog.getFilterPath());
 
 			Properties properties= new Properties();
-			for (int i= 0; i < elements.size(); i++) {
+			for (int i= 0; i < elements.size(); i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				ImportOrderEntry entry= elements.get(i);
 				properties.setProperty(String.valueOf(i), entry.serialize());
 			}
-			try (FileOutputStream fos= new FileOutputStream(fileName)) {
+			try (FileOutputStream fos= new FileOutputStream(fileName)) { //FLLDCIM: MARK — M31 M3FILE_IO NEW
 				properties.store(fos, "Organize Import Order"); //$NON-NLS-1$
 			} catch (IOException e) {
 				JavaPlugin.log(e);
@@ -420,7 +420,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 		boolean ignoreLowerCase= Boolean.parseBoolean(getValue(PREF_IGNORELOWERCASE));
 
 		fOrderListField.removeAllElements();
-		for (ImportOrderEntry i : importOrder) {
+		for (ImportOrderEntry i : importOrder) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			fOrderListField.addElement(i);
 		}
 		fThresholdField.setText(String.valueOf(threshold));
@@ -429,7 +429,7 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 	}
 
 
-	protected final void doDialogFieldChanged(DialogField field) {
+	protected final void doDialogFieldChanged(DialogField field) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		// set values in working copy
 		if (field == fOrderListField) {
 	  		setValue(PREF_IMPORTORDER, packOrderList(fOrderListField.getElements()));
@@ -460,9 +460,9 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 	}
 
 	private static ImportOrderEntry[] unpackOrderList(String str) {
-		ArrayList<ImportOrderEntry> res= new ArrayList<>();
+		ArrayList<ImportOrderEntry> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		int start= 0;
-		do {
+		do { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			int end= str.indexOf(';', start);
 			if (end == -1) {
 				end= str.length();
@@ -475,10 +475,10 @@ public class ImportOrganizeConfigurationBlock extends OptionsConfigurationBlock 
 	}
 
 	private static String packOrderList(List<ImportOrderEntry> orderList) {
-		StringBuilder buf= new StringBuilder();
-		for (ImportOrderEntry entry : orderList) {
-			buf.append(entry.serialize());
-			buf.append(';');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (ImportOrderEntry entry : orderList) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(entry.serialize()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append(';'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}

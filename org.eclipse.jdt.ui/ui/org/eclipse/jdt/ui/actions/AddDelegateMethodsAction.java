@@ -115,7 +115,7 @@ import org.eclipse.jdt.internal.ui.viewsupport.BindingLabelProvider;
  *
  * @noextend This class is not intended to be subclassed by clients.
  */
-public class AddDelegateMethodsAction extends SelectionDispatchAction {
+public class AddDelegateMethodsAction extends SelectionDispatchAction { //FLLDCIM: MARK — T04  IMPLEMENTS
 
 	// ---- Helpers -------------------------------------------------------------------
 
@@ -127,14 +127,14 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 			fEntries= entries;
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public IStatus validate(Object[] selection) {
 			int selectedCount= 0;
 			int duplicateCount= 0;
 			if (selection != null && selection.length > 0) {
 
-				HashSet<String> signatures= new HashSet<>(selection.length);
-				for (Object element : selection) {
+				HashSet<String> signatures= new HashSet<>(selection.length); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+				for (Object element : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element instanceof DelegateEntry) {
 						DelegateEntry delegateEntry = (DelegateEntry) element;
 						if (!signatures.add(getSignature(delegateEntry.delegateMethod)))
@@ -152,29 +152,29 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 		}
 
 		private String getSignature(IMethodBinding binding) {
-			StringBuilder buf= new StringBuilder(binding.getName()).append('(');
-			for (ITypeBinding parameterType : binding.getParameterTypes()) {
-				buf.append(parameterType.getTypeDeclaration().getName());
+			StringBuilder buf= new StringBuilder(binding.getName()).append('('); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			for (ITypeBinding parameterType : binding.getParameterTypes()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				buf.append(parameterType.getTypeDeclaration().getName()); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			buf.append(')');
+			buf.append(')'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			return buf.toString();
 		}
 
 	}
 
-	private static class AddDelegateMethodsContentProvider implements ITreeContentProvider {
+	private static class AddDelegateMethodsContentProvider implements ITreeContentProvider { //FLLDCIM: MARK — M22  IMPLEMENTS
 
 		private DelegateEntry[] fDelegateEntries;
 		private IVariableBinding[] fExpanded= new IVariableBinding[0];
 
-		AddDelegateMethodsContentProvider(CompilationUnit astRoot, IType type, IField[] fields) throws JavaModelException {
+		AddDelegateMethodsContentProvider(CompilationUnit astRoot, IType type, IField[] fields) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 
 			final ITypeBinding binding= ASTNodes.getTypeBinding(astRoot, type);
 			if (binding != null) {
 				fDelegateEntries= StubUtility2Core.getDelegatableMethods(binding);
 
-				List<IVariableBinding> expanded= new ArrayList<>();
-				for (IField field : fields) {
+				List<IVariableBinding> expanded= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					VariableDeclarationFragment fragment= ASTNodeSearchUtil.getFieldDeclarationFragmentNode(field, astRoot);
 					if (fragment != null) {
 						IVariableBinding variableBinding= fragment.resolveBinding();
@@ -193,8 +193,8 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 		@Override
 		public Object[] getChildren(Object element) {
 			if (element instanceof IVariableBinding) {
-				List<DelegateEntry> result= new ArrayList<>();
-				for (DelegateEntry delegateEntry : fDelegateEntries) {
+				List<DelegateEntry> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (DelegateEntry delegateEntry : fDelegateEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (element == delegateEntry.field) {
 						result.add(delegateEntry);
 					}
@@ -210,8 +210,8 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			HashSet<IVariableBinding> result= new HashSet<>();
-			for (DelegateEntry curr : fDelegateEntries) {
+			HashSet<IVariableBinding> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (DelegateEntry curr : fDelegateEntries) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(curr.field);
 			}
 			return result.toArray();
@@ -265,7 +265,7 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 		protected Control createLinkControl(Composite composite) {
 			Link link= new Link(composite, SWT.WRAP);
 			link.setText(ActionMessages.AddDelegateMethodsAction_template_link_message);
-			link.addSelectionListener(new SelectionAdapter() {
+			link.addSelectionListener(new SelectionAdapter() { //FLLDCIM: MARK — T03 SELECTION_LANE CALL
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					openCodeTempatePage(CodeTemplateContextType.OVERRIDECOMMENT_ID);
@@ -390,7 +390,7 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 		if (fields == null || fields.length == 0)
 			return false;
 		int count= 0;
-		for (IField field : fields) {
+		for (IField field : fields) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!JdtFlags.isEnum(field) && !hasPrimitiveType(field) || isArray(field)) {
 				count++;
 			}
@@ -416,12 +416,12 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 		return canRunOn(type.getFields());
 	}
 
-	private IField[] getSelectedFields(IStructuredSelection selection) {
+	private IField[] getSelectedFields(IStructuredSelection selection) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		List<?> elements= selection.toList();
 		if (elements.size() > 0) {
 			IField[] result= new IField[elements.size()];
 			ICompilationUnit unit= null;
-			for (int index= 0; index < elements.size(); index++) {
+			for (int index= 0; index < elements.size(); index++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (elements.get(index) instanceof IField) {
 					IField field= (IField) elements.get(index);
 
@@ -455,7 +455,7 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 		return null;
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(IStructuredSelection selection) {
 		try {
 			IField[] selectedFields= getSelectedFields(selection);
@@ -476,7 +476,7 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ITextSelection selection) {
 		try {
 			if (!ActionUtil.isProcessable(fEditor))
@@ -538,7 +538,7 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 	public void selectionChanged(ITextSelection selection) {
 	}
 
-	private void showUI(IType type, IField[] fields) {
+	private void showUI(IType type, IField[] fields) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			CompilationUnit astRoot= SharedASTProviderCore.getAST(type.getCompilationUnit(), SharedASTProviderCore.WAIT_YES, new NullProgressMonitor());
 
@@ -571,8 +571,8 @@ public class AddDelegateMethodsAction extends SelectionDispatchAction {
 					notifyResult(false);
 					return;
 				}
-				List<DelegateEntry> tuples= new ArrayList<>(objectarray.length);
-				for (Object object : objectarray) {
+				List<DelegateEntry> tuples= new ArrayList<>(objectarray.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+				for (Object object : objectarray) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (object instanceof DelegateEntry) {
 						tuples.add((DelegateEntry) object);
 					}

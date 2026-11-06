@@ -68,7 +68,7 @@ public class TypeFactory {
 			}
 			return null;
 		} catch (JavaModelException e) {
-			BytecodeOutlinePlugin.error("getType() fails for: " + simpleTypeName, e); //$NON-NLS-1$
+			BytecodeOutlinePlugin.error("getType() fails for: " + simpleTypeName, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return null;
 	}
@@ -76,7 +76,7 @@ public class TypeFactory {
 	public String getTypeQualifiedName() {
 		if (enclosingNames != null && enclosingNames.length > 0) {
 			StringBuffer buf = new StringBuffer();
-			for (char[] enclosingName : enclosingNames) {
+			for (char[] enclosingName : enclosingNames) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				buf.append(enclosingName);
 				buf.append('.');
 			}
@@ -114,7 +114,7 @@ public class TypeFactory {
 		return result;
 	}
 
-	private IType createIFileTypeInfo(String packageName, String typeName, String path, String project) {
+	private IType createIFileTypeInfo(String packageName, String typeName, String path, String project) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String rest = path.substring(project.length() + 1); // the first slashes.
 		int index = rest.lastIndexOf(SEPARATOR);
 		if (index == -1) {
@@ -149,7 +149,7 @@ public class TypeFactory {
 		return getType(container);
 	}
 
-	protected IType createJarFileEntryTypeInfo(String packageName, String typeName, String path, int index, IJavaSearchScope searchScope) {
+	protected IType createJarFileEntryTypeInfo(String packageName, String typeName, String path, int index, IJavaSearchScope searchScope) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String jar = path.substring(0, index);
 		String rest = path.substring(index + 1);
 		index = rest.lastIndexOf(SEPARATOR);
@@ -175,13 +175,13 @@ public class TypeFactory {
 			container = info.getContainer(searchScope);
 			return getType(container);
 		} catch (JavaModelException e) {
-			BytecodeOutlinePlugin.error("createJarFileEntryTypeInfo() fails for: " + simpleTypeName, e); //$NON-NLS-1$
+			BytecodeOutlinePlugin.error("createJarFileEntryTypeInfo() fails for: " + simpleTypeName, e); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return null;
 	}
 
 	private String getProject(String path) {
-		for (String project : fProjects) {
+		for (String project : fProjects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (path.startsWith(project, 1)) {
 				return project;
 			}
@@ -189,13 +189,13 @@ public class TypeFactory {
 		return null;
 	}
 
-	private static String[] getProjectList() {
+	private static String[] getProjectList() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		IJavaModel model = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 		String[] result;
 		try {
 			IJavaProject[] projects = model.getJavaProjects();
 			result = new String[projects.length];
-			for (int i = 0; i < projects.length; i++) {
+			for (int i = 0; i < projects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i] = projects[i].getElementName();
 			}
 		} catch (JavaModelException e) {
@@ -231,7 +231,7 @@ public class TypeFactory {
 			if (type.isBinary() && !type.isAnonymous()) {
 				IType declaringType = type.getDeclaringType();
 				if (declaringType != null) {
-					return getTypeQualifiedName(declaringType) + '.' + type.getElementName();
+					return getTypeQualifiedName(declaringType) + '.' + type.getElementName(); //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				}
 			}
 		} catch (JavaModelException e) {
@@ -252,7 +252,7 @@ public class TypeFactory {
 	 */
 	private static IType findTypeInCompilationUnit(ICompilationUnit cu, String typeQualifiedName) throws JavaModelException {
 		IType[] types = cu.getAllTypes();
-		for (IType type : types) {
+		for (IType type : types) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String currName = getTypeQualifiedName(type);
 			if (typeQualifiedName.equals(currName)) {
 				return type;
@@ -278,11 +278,11 @@ public class TypeFactory {
 			fExtension = extension;
 		}
 
-		private IJavaElement getContainer(IJavaSearchScope scope) throws JavaModelException {
+		private IJavaElement getContainer(IJavaSearchScope scope) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaModel jmodel = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 			IPath[] enclosedPaths = scope.enclosingProjectsAndJars();
 
-			for (IPath curr : enclosedPaths) {
+			for (IPath curr : enclosedPaths) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (curr.segmentCount() == 1) {
 					IJavaProject jproject = jmodel.getJavaProject(curr.segment(0));
 					IPackageFragmentRoot root = jproject.getPackageFragmentRoot(fJar);
@@ -293,7 +293,7 @@ public class TypeFactory {
 			}
 			List<IPath> paths = Arrays.asList(enclosedPaths);
 			IJavaProject[] projects = jmodel.getJavaProjects();
-			for (IJavaProject jproject : projects) {
+			for (IJavaProject jproject : projects) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (!paths.contains(jproject.getPath())) {
 					IPackageFragmentRoot root = jproject.getPackageFragmentRoot(fJar);
 					if (root.exists()) {
@@ -304,11 +304,11 @@ public class TypeFactory {
 			return null;
 		}
 
-		private IJavaElement findElementInRoot(IPackageFragmentRoot root) {
+		private IJavaElement findElementInRoot(IPackageFragmentRoot root) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			IJavaElement res;
 			IPackageFragment frag = root.getPackageFragment(pkg);
 			String extension = fExtension;
-			String fullName = fFileName + '.' + extension;
+			String fullName = fFileName + '.' + extension; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 			if ("class".equals(extension)) { //$NON-NLS-1$
 				res = frag.getClassFile(fullName);
@@ -357,7 +357,7 @@ public class TypeFactory {
 			return null;
 		}
 
-		private String getPath() {
+		private String getPath() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			StringBuffer result = new StringBuffer();
 			result.append(SEPARATOR);
 			result.append(fProject);

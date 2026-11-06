@@ -47,8 +47,8 @@ public class CheckedListDialogField<E> extends ListDialogField<E> {
 
 	public CheckedListDialogField(IListAdapter<E> adapter, String[] customButtonLabels, ILabelProvider lprovider) {
 		super(adapter, customButtonLabels, lprovider);
-		fCheckedElements= new ArrayList<>();
-		fGrayedElements= new ArrayList<>();
+		fCheckedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		fGrayedElements= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		fCheckAllButtonIndex= -1;
 		fUncheckAllButtonIndex= -1;
@@ -87,7 +87,7 @@ public class CheckedListDialogField<E> extends ListDialogField<E> {
 		Table table= new Table(parent, SWT.CHECK | getListStyle());
 		table.setFont(parent.getFont());
 		CheckboxTableViewer tableViewer= new CheckboxTableViewer(table);
-		tableViewer.addCheckStateListener(e -> doCheckStateChanged(e));
+		tableViewer.addCheckStateListener(e -> doCheckStateChanged(e)); //FLLDCIM: MARK — T21 CHECK_STATE_LANE CALL
 		return tableViewer;
 	}
 
@@ -111,7 +111,7 @@ public class CheckedListDialogField<E> extends ListDialogField<E> {
 	 */
 	@Override
 	public void dialogFieldChanged() {
-		for (int i= fCheckedElements.size() -1; i >= 0; i--) {
+		for (int i= fCheckedElements.size() -1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!fElements.contains(fCheckedElements.get(i))) {
 				fCheckedElements.remove(i);
 			}
@@ -134,15 +134,15 @@ public class CheckedListDialogField<E> extends ListDialogField<E> {
 		if (isOkToUse(fTableControl)) {
 			// workaround for bug 53853
 			Object[] checked= ((CheckboxTableViewer) fTable).getCheckedElements();
-			ArrayList<E> res= new ArrayList<>(checked.length);
-			for (Object c : checked) {
+			ArrayList<E> res= new ArrayList<>(checked.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (Object c : checked) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				res.add((E) c);
 			}
 			return res;
 		}
 
 
-		return new ArrayList<>(fCheckedElements);
+		return new ArrayList<>(fCheckedElements); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class CheckedListDialogField<E> extends ListDialogField<E> {
 	 * @param list the list of checked elements
 	 */
 	public void setCheckedElements(Collection<E> list) {
-		fCheckedElements= new ArrayList<>(list);
+		fCheckedElements= new ArrayList<>(list); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		if (isOkToUse(fTableControl)) {
 			((CheckboxTableViewer)fTable).setCheckedElements(list.toArray());
 		}

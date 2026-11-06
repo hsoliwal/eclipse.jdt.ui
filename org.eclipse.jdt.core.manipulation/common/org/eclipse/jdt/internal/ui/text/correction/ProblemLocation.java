@@ -107,44 +107,44 @@ public class ProblemLocation implements IProblemLocation {
 
 	@Override
 	public String toString() {
-		StringBuilder buf= new StringBuilder();
-		buf.append("Id: ").append(getErrorCode(fId)).append('\n'); //$NON-NLS-1$
-		buf.append('[').append(fOffset).append(", ").append(fLength).append(']').append('\n'); //$NON-NLS-1$
-		for (String arg : fArguments) {
-			buf.append(arg);
-			buf.append('\n');
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		buf.append("Id: ").append(getErrorCode(fId)).append('\n'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		buf.append('[').append(fOffset).append(", ").append(fLength).append(']').append('\n'); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+		for (String arg : fArguments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			buf.append(arg); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buf.append('\n'); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buf.toString();
 	}
 
-	private String getErrorCode(int code) {
-		StringBuilder buf= new StringBuilder();
+	private String getErrorCode(int code) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		StringBuilder buf= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 
 		if ((code & IProblem.TypeRelated) != 0) {
-			buf.append("TypeRelated + "); //$NON-NLS-1$
+			buf.append("TypeRelated + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.FieldRelated) != 0) {
-			buf.append("FieldRelated + "); //$NON-NLS-1$
+			buf.append("FieldRelated + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.ConstructorRelated) != 0) {
-			buf.append("ConstructorRelated + "); //$NON-NLS-1$
+			buf.append("ConstructorRelated + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.MethodRelated) != 0) {
-			buf.append("MethodRelated + "); //$NON-NLS-1$
+			buf.append("MethodRelated + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.ImportRelated) != 0) {
-			buf.append("ImportRelated + "); //$NON-NLS-1$
+			buf.append("ImportRelated + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.Internal) != 0) {
-			buf.append("Internal + "); //$NON-NLS-1$
+			buf.append("Internal + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.Syntax) != 0) {
-			buf.append("Syntax + "); //$NON-NLS-1$
+			buf.append("Syntax + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		if ((code & IProblem.Javadoc) != 0) {
-			buf.append("Javadoc + "); //$NON-NLS-1$
+			buf.append("Javadoc + "); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
-		buf.append(code & IProblem.IgnoreCategoriesMask);
+		buf.append(code & IProblem.IgnoreCategoriesMask); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 
 		return buf.toString();
 	}

@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.JavaModelException;
 /**
  * Filters classes
  */
-public class ClassFilter extends ViewerFilter {
+public class ClassFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	/*
 	 * @see ViewerFilter

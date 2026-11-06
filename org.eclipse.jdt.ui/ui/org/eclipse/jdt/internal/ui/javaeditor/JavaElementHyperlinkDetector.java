@@ -84,7 +84,7 @@ public class JavaElementHyperlinkDetector extends AbstractHyperlinkDetector {
 		return JavaCore.callReadOnly(() -> detectHyperlinksCached(region));
 	}
 
-	private IHyperlink[] detectHyperlinksCached(IRegion region) {
+	private IHyperlink[] detectHyperlinksCached(IRegion region) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		ITextEditor textEditor= getAdapter(ITextEditor.class);
 		if (region == null || !(textEditor instanceof JavaEditor))
 			return null;
@@ -134,8 +134,8 @@ public class JavaElementHyperlinkDetector extends AbstractHyperlinkDetector {
 			if (elements.length == 0)
 				return null;
 
-			ArrayList<IHyperlink> links= new ArrayList<>(elements.length);
-			for (IJavaElement element : elements) {
+			ArrayList<IHyperlink> links= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+			for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				addHyperlinks(links, wordRegion, (SelectionDispatchAction) openAction, element, elements.length > 1, (JavaEditor) textEditor);
 			}
 			if (links.isEmpty())
@@ -201,8 +201,8 @@ public class JavaElementHyperlinkDetector extends AbstractHyperlinkDetector {
 	 * @since 3.4
 	 */
 	private IJavaElement[] selectOpenableElements(IJavaElement[] elements) {
-		List<IJavaElement> result= new ArrayList<>(elements.length);
-		for (IJavaElement element : elements) {
+		List<IJavaElement> result= new ArrayList<>(elements.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IJavaElement element : elements) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			switch (element.getElementType()) {
 				case IJavaElement.PACKAGE_DECLARATION:
 				case IJavaElement.PACKAGE_FRAGMENT:
@@ -226,7 +226,7 @@ public class JavaElementHyperlinkDetector extends AbstractHyperlinkDetector {
 	 * @return the break or continue target location or <code>null</code> if none
 	 * @since 3.7
 	 */
-	public static OccurrenceLocation findBreakOrContinueTarget(ITypeRoot input, IRegion region) {
+	public static OccurrenceLocation findBreakOrContinueTarget(ITypeRoot input, IRegion region) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= SharedASTProviderCore.getAST(input, SharedASTProviderCore.WAIT_NO, null);
 		if (astRoot == null)
 			return null;
@@ -267,7 +267,7 @@ public class JavaElementHyperlinkDetector extends AbstractHyperlinkDetector {
 	 * @return the switch-case target location or <code>null</code> if none
 	 * @since 3.14
 	 */
-	public static OccurrenceLocation findSwitchCaseTarget(ITypeRoot input, IRegion region) {
+	public static OccurrenceLocation findSwitchCaseTarget(ITypeRoot input, IRegion region) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		CompilationUnit astRoot= SharedASTProviderCore.getAST(input, SharedASTProviderCore.WAIT_NO, null);
 		if (astRoot == null) {
 			return null;
@@ -305,7 +305,7 @@ public class JavaElementHyperlinkDetector extends AbstractHyperlinkDetector {
 		return findEnumConstructorTarget(astRoot, region);
 	}
 
-	public static OccurrenceLocation findEnumConstructorTarget(CompilationUnit astRoot, IRegion region) {
+	public static OccurrenceLocation findEnumConstructorTarget(CompilationUnit astRoot, IRegion region) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (astRoot == null) {
 			return null;
 		}

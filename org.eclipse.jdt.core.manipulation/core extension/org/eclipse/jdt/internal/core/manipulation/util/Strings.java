@@ -52,7 +52,7 @@ public class Strings {
 		USE_TEXT_PROCESSOR= testString != TextProcessor.process(testString);
 	}
 
-	protected static final String JAVA_ELEMENT_DELIMITERS= TextProcessor.getDefaultDelimiters() + "<>(),?{} "; //$NON-NLS-1$
+	protected static final String JAVA_ELEMENT_DELIMITERS= TextProcessor.getDefaultDelimiters() + "<>(),?{} "; //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	/**
 	 * Adds special marks so that that the given string is readable in a BiDi environment.
@@ -112,7 +112,7 @@ public class Strings {
 		int prefixLength= prefix.length();
 		if (textLength < prefixLength)
 			return false;
-		for (int i= prefixLength - 1; i >= 0; i--) {
+		for (int i= prefixLength - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (Character.toLowerCase(prefix.charAt(i)) != Character.toLowerCase(text.charAt(i)))
 				return false;
 		}
@@ -120,17 +120,17 @@ public class Strings {
 	}
 
 	public static String removeNewLine(String message) {
-		StringBuilder result= new StringBuilder();
+		StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		int current= 0;
 		int index= message.indexOf('\n', 0);
-		while (index != -1) {
-			result.append(message.substring(current, index));
+		while (index != -1) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+			result.append(message.substring(current, index)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			if (current < index && index != 0)
-				result.append(' ');
+				result.append(' '); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			current= index + 1;
 			index= message.indexOf('\n', current);
 		}
-		result.append(message.substring(current));
+		result.append(message.substring(current)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		return result.toString();
 	}
 
@@ -148,7 +148,7 @@ public class Strings {
 			tracker.set(input);
 			int size= tracker.getNumberOfLines();
 			String result[]= new String[size];
-			for (int i= 0; i < size; i++) {
+			for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion region= tracker.getLineInformation(i);
 				int offset= region.getOffset();
 				result[i]= input.substring(offset, offset + region.getLength());
@@ -172,7 +172,7 @@ public class Strings {
 	 */
 	public static boolean containsOnlyWhitespaces(String s) {
 		int size= s.length();
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!Character.isWhitespace(s.charAt(i)))
 				return false;
 		}
@@ -189,7 +189,7 @@ public class Strings {
 	public static String trimLeadingTabsAndSpaces(String line) {
 		int size= line.length();
 		int start= size;
-		for (int i= 0; i < size; i++) {
+		for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= line.charAt(i);
 			if (!IndentManipulation.isIndentChar(c)) {
 				start= i;
@@ -204,10 +204,10 @@ public class Strings {
 			return line.substring(start);
 	}
 
-	public static String trimTrailingTabsAndSpaces(String line) {
+	public static String trimTrailingTabsAndSpaces(String line) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size= line.length();
 		int end= size;
-		for (int i= size - 1; i >= 0; i--) {
+		for (int i= size - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= line.charAt(i);
 			if (IndentManipulation.isIndentChar(c)) {
 				end= i;
@@ -389,11 +389,11 @@ public class Strings {
 	 * @param considerFirstLine If {@code  considerFirstLine} is false the first line will be ignored.
 	 * @since 3.1
 	 */
-	public static void trimIndentation(String[] lines, int tabWidth, int indentWidth, boolean considerFirstLine) {
+	public static void trimIndentation(String[] lines, int tabWidth, int indentWidth, boolean considerFirstLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		String[] toDo= new String[lines.length];
 		// find indentation common to all lines
 		int minIndent= Integer.MAX_VALUE; // very large
-		for (int i= considerFirstLine ? 0 : 1; i < lines.length; i++) {
+		for (int i= considerFirstLine ? 0 : 1; i < lines.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			String line= lines[i];
 			if (containsOnlyWhitespaces(line))
 				continue;
@@ -406,7 +406,7 @@ public class Strings {
 
 		if (minIndent > 0) {
 			// remove this indent from all lines
-			for (int i= considerFirstLine ? 0 : 1; i < toDo.length; i++) {
+			for (int i= considerFirstLine ? 0 : 1; i < toDo.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				String s= toDo[i];
 				if (s != null)
 					lines[i]= trimIndent(s, minIndent, tabWidth, indentWidth);
@@ -470,7 +470,7 @@ public class Strings {
 	}
 
 	private static int findLastNonEmptyLineIndex(String[] sourceLines) {
-		for (int i= sourceLines.length - 1; i >= 0; i--) {
+		for (int i= sourceLines.length - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (! sourceLines[i].trim().isEmpty())
 				return i;
 		}
@@ -536,7 +536,7 @@ public class Strings {
 		return trimIndentation(source, CodeFormatterUtil.getTabWidth(cu), CodeFormatterUtil.getIndentWidth(cu), considerFirstLine);
 	}
 
-	public static String trimIndentation(String source, int tabWidth, int indentWidth, boolean considerFirstLine) {
+	public static String trimIndentation(String source, int tabWidth, int indentWidth, boolean considerFirstLine) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		try {
 			ILineTracker tracker= new DefaultLineTracker();
 			tracker.set(source);
@@ -544,18 +544,18 @@ public class Strings {
 			if (size == 1)
 				return source;
 			String lines[]= new String[size];
-			for (int i= 0; i < size; i++) {
+			for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				IRegion region= tracker.getLineInformation(i);
 				int offset= region.getOffset();
 				lines[i]= source.substring(offset, offset + region.getLength());
 			}
 			Strings.trimIndentation(lines, tabWidth, indentWidth, considerFirstLine);
-			StringBuilder result= new StringBuilder();
+			StringBuilder result= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			int last= size - 1;
-			for (int i= 0; i < size; i++) {
-				result.append(lines[i]);
+			for (int i= 0; i < size; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
+				result.append(lines[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				if (i < last)
-					result.append(tracker.getLineDelimiter(i));
+					result.append(tracker.getLineDelimiter(i)); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
 			return result.toString();
 		} catch (BadLocationException e) {
@@ -573,11 +573,11 @@ public class Strings {
 	 * @return the concatenated lines
 	 */
 	public static String concatenate(String[] lines, String delimiter) {
-		StringBuilder buffer= new StringBuilder();
-		for (int i= 0; i < lines.length; i++) {
+		StringBuilder buffer= new StringBuilder(); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
+		for (int i= 0; i < lines.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (i > 0)
-				buffer.append(delimiter);
-			buffer.append(lines[i]);
+				buffer.append(delimiter); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
+			buffer.append(lines[i]); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 		}
 		return buffer.toString();
 	}
@@ -586,16 +586,16 @@ public class Strings {
 		if (s.length() != c.length)
 			return false;
 
-		for (int i = c.length; --i >= 0;)
+		for (int i = c.length; --i >= 0;) //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (s.charAt(i) != c[i])
 				return false;
 		return true;
 	}
 
-	public static String removeTrailingCharacters(String text, char toRemove) {
+	public static String removeTrailingCharacters(String text, char toRemove) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int size= text.length();
 		int end= size;
-		for (int i= size - 1; i >= 0; i--) {
+		for (int i= size - 1; i >= 0; i--) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			char c= text.charAt(i);
 			if (c == toRemove) {
 				end= i;

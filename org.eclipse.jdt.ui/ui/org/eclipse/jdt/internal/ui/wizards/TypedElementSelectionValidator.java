@@ -70,7 +70,7 @@ public class TypedElementSelectionValidator implements ISelectionStatusValidator
 	}
 
 	private boolean isOfAcceptedType(Object o) {
-		for (Class<?> type : fAcceptedTypes) {
+		for (Class<?> type : fAcceptedTypes) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (type.isInstance(o)) {
 				return true;
 			}
@@ -99,7 +99,7 @@ public class TypedElementSelectionValidator implements ISelectionStatusValidator
 			return false;
 		}
 
-		for (Object o : selection) {
+		for (Object o : selection) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (!isOfAcceptedType(o) || isRejectedElement(o) || !isSelectedValid(o)) {
 				return false;
 			}

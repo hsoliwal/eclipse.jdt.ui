@@ -50,7 +50,7 @@ public class OpenPreferencePageTest extends TextPerformanceTestCase {
 		return new TestSuite(THIS);
 	}
 
-	public void testOpenPreferencePage() {
+	public void testOpenPreferencePage() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Display display= EditorTestHelper.getActiveDisplay();
 
 		PreferenceDialog d= PreferencesUtil.createPreferenceDialogOn(null, null, null, null);
@@ -78,7 +78,7 @@ public class OpenPreferencePageTest extends TextPerformanceTestCase {
 		SWTEventHelper.pressKeyCode(display, SWT.KEYPAD_ADD);
 		long timeout= System.currentTimeMillis() + 5000;
 		TreeItem editorNode= null;
-		while (editorNode == null && System.currentTimeMillis() < timeout) {
+		while (editorNode == null && System.currentTimeMillis() < timeout) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			EditorTestHelper.runEventQueue();
 			editorNode= findTreeItem(javaNode.getItems(), "Editor");
 		}
@@ -112,7 +112,7 @@ public class OpenPreferencePageTest extends TextPerformanceTestCase {
 	}
 
 	private Tree findTree(Composite composite) {
-		for (Control child : composite.getChildren()) {
+		for (Control child : composite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (child instanceof Tree) {
 				return (Tree) child;
 			} else if (child instanceof Composite) {
@@ -140,7 +140,7 @@ public class OpenPreferencePageTest extends TextPerformanceTestCase {
 
 	private TreeItem findTreeItem(TreeItem[] items, String string) {
 		// depth first
-		for (TreeItem item : items) {
+		for (TreeItem item : items) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (string.equals(item.getText())) {
 				return item;
 			}

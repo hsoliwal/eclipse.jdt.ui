@@ -130,7 +130,7 @@ public class SuperTypeHierarchyCacheTest extends CoreTests {
 		assertSame("the cached hierarchy must be reused", first, second);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testHierarchyRebuiltAfterSuperTypeChange() throws Exception {
 		createBase();
 		IType sub= createSub().getType("Sub");
@@ -186,7 +186,7 @@ public class SuperTypeHierarchyCacheTest extends CoreTests {
 		assertSame(second.getTypeHierarchy(), SuperTypeHierarchyCache.getTypeHierarchy(sub));
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testMethodOverrideTesterSeesRemovedSuperType() throws Exception {
 		createBase();
 		IType sub= createSub().getType("Sub");

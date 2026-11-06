@@ -61,7 +61,7 @@ public class ProjectWithJavaResourcesImportConfigurator implements ProjectConfig
 		@Override
 		public boolean visit(final IResource resource) throws CoreException {
 			if (this.ignoredDirectories != null) {
-				for (IPath ignoredDirectory : this.ignoredDirectories) {
+				for (IPath ignoredDirectory : this.ignoredDirectories) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (ignoredDirectory.isPrefixOf(resource.getLocation())) {
 						return false;
 					}
@@ -94,7 +94,7 @@ public class ProjectWithJavaResourcesImportConfigurator implements ProjectConfig
 		return javaResourceFinder.hasJavaFile();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void configure(IProject project, Set<IPath> ignoredDirectories, IProgressMonitor monitor) {
 		try {
 			SubMonitor subMonitor = SubMonitor.convert(monitor, 6);
@@ -102,7 +102,7 @@ public class ProjectWithJavaResourcesImportConfigurator implements ProjectConfig
 			List<String> natures = Arrays.asList(description.getNatureIds());
 			IJavaProject javaProject = null;
 			if (!natures.contains(JavaCore.NATURE_ID)) {
-				List<String> newNatures = new ArrayList<>(natures);
+				List<String> newNatures = new ArrayList<>(natures); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 				newNatures.add(JavaCore.NATURE_ID);
 				description.setNatureIds(newNatures.toArray(new String[newNatures.size()]));
 				project.setDescription(description, subMonitor.split(1));
@@ -149,9 +149,9 @@ public class ProjectWithJavaResourcesImportConfigurator implements ProjectConfig
 		return false; // Having a .java file isn't enough to guarantee we are at the root of a project
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Set<IFolder> getFoldersToIgnore(IProject project, IProgressMonitor monitor) {
-		Set<IFolder> res = new HashSet<>();
+		Set<IFolder> res = new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		try {
 			// the project may have Java resources but not (yet) the Java nature
 			if (!project.isAccessible() || !project.hasNature(JavaCore.NATURE_ID)) {
@@ -162,7 +162,7 @@ public class ProjectWithJavaResourcesImportConfigurator implements ProjectConfig
 			if (resource != null && resource.exists() && resource.getType() == IResource.FOLDER) {
 				res.add((IFolder)resource);
 			}
-			for (IClasspathEntry entry : javaProject.getRawClasspath()) {
+			for (IClasspathEntry entry : javaProject.getRawClasspath()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
 					IFolder sourceFolder = project.getFolder(entry.getPath());
 					res.add(sourceFolder);

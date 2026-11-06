@@ -33,7 +33,7 @@ import org.eclipse.jdt.internal.ui.JavaPlugin;
  * Archives are files with file extension 'jar' and 'zip'.
  * The filter is not case sensitive.
  */
-public class ArchiveFileFilter extends ViewerFilter {
+public class ArchiveFileFilter extends ViewerFilter { //FLLDCIM: MARK — T23  IMPLEMENTS
 
 	public static final String JARZIP_FILTER_STRING= "*.jar,*.zip"; //$NON-NLS-1$
 
@@ -57,7 +57,7 @@ public class ArchiveFileFilter extends ViewerFilter {
 	/*
 	 * @see ViewerFilter#select
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public boolean select(Viewer viewer, Object parent, Object element) {
 		if (element instanceof IFile) {
 			if (fExcludes != null && fExcludes.contains(element)) {
@@ -72,7 +72,7 @@ public class ArchiveFileFilter extends ViewerFilter {
 			if (element instanceof IProject && !((IProject)element).isOpen())
 				return false;
 			try {
-				for (IResource resource : ((IContainer)element).members()) {
+				for (IResource resource : ((IContainer)element).members()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					// recursive! Only show containers that contain an archive
 					if (select(viewer, parent, resource)) {
 						return true;
@@ -97,7 +97,7 @@ public class ArchiveFileFilter extends ViewerFilter {
 	}
 
 	public static boolean isArchiveFileExtension(String ext) {
-		for (String extension : fgArchiveExtensions) {
+		for (String extension : fgArchiveExtensions) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			if (ext.equalsIgnoreCase(extension)) {
 				return true;
 			}

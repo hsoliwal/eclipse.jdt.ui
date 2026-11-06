@@ -122,7 +122,7 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 				return new IProject[0];
 			}
 			IProject[] result= new IProject[projects.length];
-			for (int i= 0; i < projects.length; i++) {
+			for (int i= 0; i < projects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= projects[i].getProject();
 			}
 			return result;
@@ -131,7 +131,7 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 		public ResourceTraversal[] getTraversals(ResourceMappingContext context, IProgressMonitor monitor) throws CoreException {
 			IJavaProject[] projects= fJavaModel.getJavaProjects();
 			ResourceTraversal[] result= new ResourceTraversal[projects.length];
-			for (int i= 0; i < projects.length; i++) {
+			for (int i= 0; i < projects.length; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result[i]= new ResourceTraversal(new IResource[] {projects[i].getProject()}, IResource.DEPTH_INFINITE, 0);
 			}
 			return result;
@@ -207,13 +207,13 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 	}
 
 	private static ResourceTraversal[] getPackageFragmentTraversals(IPackageFragment pack) throws CoreException {
-		ArrayList<ResourceTraversal> res= new ArrayList<>();
+		ArrayList<ResourceTraversal> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IContainer container= (IContainer)pack.getResource();
 
 		if (container != null) {
 			res.add(new ResourceTraversal(new IResource[] { container }, IResource.DEPTH_ONE, 0));
 			if (pack.exists()) { // folder may not exist any more, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=269167
-				for (Object resource : pack.getNonJavaResources()) {
+				for (Object resource : pack.getNonJavaResources()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (resource instanceof IFolder) {
 						res.add(new ResourceTraversal(new IResource[] { (IResource)resource }, IResource.DEPTH_INFINITE, 0));
 					}
@@ -224,8 +224,8 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 		return res.toArray(new ResourceTraversal[res.size()]);
 	}
 
-	private static ResourceTraversal[] getRemotePackageFragmentTraversals(IPackageFragment pack, RemoteResourceMappingContext context, IProgressMonitor monitor) throws CoreException {
-		ArrayList<ResourceTraversal> res= new ArrayList<>();
+	private static ResourceTraversal[] getRemotePackageFragmentTraversals(IPackageFragment pack, RemoteResourceMappingContext context, IProgressMonitor monitor) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		ArrayList<ResourceTraversal> res= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		IContainer container= (IContainer)pack.getResource();
 
 		if (container != null) {
@@ -235,7 +235,7 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 				remoteMembers= context.fetchMembers(container, monitor);
 			}
 			if (remoteMembers != null) {
-				for (IResource member : remoteMembers) {
+				for (IResource member : remoteMembers) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					if (member instanceof IFolder
 						&& JavaConventionsUtil.validatePackageName(member.getName(), pack).getSeverity() == IStatus.ERROR) {
 						res.add(new ResourceTraversal(new IResource[] { member }, IResource.DEPTH_INFINITE, 0));
@@ -300,21 +300,21 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 		}
 		@Override
 		public IProject[] getProjects() {
-			Set<IProject> result= new HashSet<>();
-			for (IPackageFragment fragment : fFragments) {
+			Set<IProject> result= new HashSet<>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
+			for (IPackageFragment fragment : fFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				result.add(fragment.getJavaProject().getProject());
 			}
 			return result.toArray(new IProject[result.size()]);
 		}
 		@Override
 		public ResourceTraversal[] getTraversals(ResourceMappingContext context, IProgressMonitor monitor) throws CoreException {
-			List<ResourceTraversal> result= new ArrayList<>();
+			List<ResourceTraversal> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 			if (context instanceof RemoteResourceMappingContext) {
-				for (IPackageFragment fragment : fFragments) {
+				for (IPackageFragment fragment : fFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.addAll(Arrays.asList(getRemotePackageFragmentTraversals(fragment, (RemoteResourceMappingContext)context, monitor)));
 				}
 			} else {
-				for (IPackageFragment fragment : fFragments) {
+				for (IPackageFragment fragment : fFragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					result.addAll(Arrays.asList(getPackageFragmentTraversals(fragment)));
 				}
 			}
@@ -327,7 +327,7 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 		}
 	}
 
-	public static ResourceMapping create(IJavaElement element) {
+	public static ResourceMapping create(IJavaElement element) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		switch (element.getElementType()) {
 			case IJavaElement.TYPE:
 				return create((IType)element);
@@ -398,8 +398,8 @@ public abstract class JavaElementResourceMapping extends ResourceMapping {
 
 	public static ResourceMapping create(LogicalPackage logicalPackage) {
 		IPackageFragment[] fragments= logicalPackage.getFragments();
-		List<IPackageFragment> toProcess= new ArrayList<>(fragments.length);
-		for (IPackageFragment fragment : fragments) {
+		List<IPackageFragment> toProcess= new ArrayList<>(fragments.length); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
+		for (IPackageFragment fragment : fragments) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			// only add if not part of an archive
 			IPackageFragmentRoot root= (IPackageFragmentRoot) fragment.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 			if (!root.isArchive() && !root.isExternal()) {

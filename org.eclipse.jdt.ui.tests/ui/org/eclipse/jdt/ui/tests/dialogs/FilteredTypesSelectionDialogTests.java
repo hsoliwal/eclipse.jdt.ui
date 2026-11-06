@@ -156,7 +156,7 @@ public class FilteredTypesSelectionDialogTests {
 				return table;
 			}
 			if (control instanceof Composite composite) {
-				for (Control child : composite.getChildren()) {
+				for (Control child : composite.getChildren()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 					Table table = findTable(child);
 					if (table != null) {
 						return table;

@@ -94,7 +94,7 @@ public class ChainCompletionTest {
 		assertEquals(0, proposals.size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvalidPreferenceHandling() throws Exception {
 		IEclipsePreferences node= new ProjectScope(fJProject.getProject()).getNode(JavaManipulation.getPreferenceNodeId());
 		node.put(PreferenceConstants.PREF_MAX_CHAIN_LENGTH, "number_four");
@@ -116,7 +116,7 @@ public class ChainCompletionTest {
 		assertEquals(0, proposals.size());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBasic() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -151,7 +151,7 @@ public class ChainCompletionTest {
 		assertEquals("getBar().getBaz() - 2 elements", proposals.get(0).getDisplayString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testPrimitiveCompletion() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -178,7 +178,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAccessMethodParameters() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -208,7 +208,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testAvoidRecursiveCallToMember() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -236,7 +236,7 @@ public class ChainCompletionTest {
 		assertEquals("getSubElement().findMe - 2 elements", proposals.get(0).getDisplayString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnArrayMemberAccessInMethod1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -264,7 +264,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnArrayWithCastsSupertype1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -292,7 +292,7 @@ public class ChainCompletionTest {
 		assertEquals("obj.findme[][][] - 2 elements", proposals.get(0).getDisplayString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnGenericTypeInMethod1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -319,7 +319,7 @@ public class ChainCompletionTest {
 		assertEquals("variable.findMe - 2 elements", proposals.get(0).getDisplayString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnMemberCallChainDepth1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -353,7 +353,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnMemberInMethodWithPrefix() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -384,7 +384,7 @@ public class ChainCompletionTest {
 		assertEquals("getSubElement().findMe - 2 elements", proposals.get(0).getDisplayString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnMethodReturn() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -420,7 +420,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnNonPublicMemberInMethod1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -446,7 +446,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnSuperTypeInMethod1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -473,7 +473,7 @@ public class ChainCompletionTest {
 		assertEquals("useMe.findMe - 2 elements", proposals.get(0).getDisplayString());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnSuperTypeMemberInMethod1() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -501,7 +501,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnSuperTypeMemberInMethod2() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -531,7 +531,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnThisAndLocal() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -561,7 +561,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCompletionOnType() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -596,7 +596,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug552849 () throws Exception {
 		IPackageFragment pkg2= javaSrc.createPackageFragment("test2", false, null);
 		IPackageFragment pkg3= javaSrc.createPackageFragment("test3", false, null);
@@ -647,7 +647,7 @@ public class ChainCompletionTest {
 		assertProposalsExist(expected, proposals);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testBug559385 () throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -675,7 +675,7 @@ public class ChainCompletionTest {
 		assertTrue(proposals.size() > 0);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testNoTriggerCompletionInvocation() throws Exception {
 		StringBuffer buf= new StringBuffer();
 		buf.append("""
@@ -747,7 +747,7 @@ public class ChainCompletionTest {
 	}
 
 	private void assertProposalsExist(List<String> expected, List<ICompletionProposal> proposals) {
-		for (String propDisplay : expected) {
+		for (String propDisplay : expected) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			assertTrue(proposals.stream().anyMatch(p -> propDisplay.equals(p.getDisplayString())));
 		}
 	}

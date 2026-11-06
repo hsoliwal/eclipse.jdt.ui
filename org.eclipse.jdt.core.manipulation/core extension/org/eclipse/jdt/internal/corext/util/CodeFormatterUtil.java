@@ -261,7 +261,7 @@ public class CodeFormatterUtil {
 				edit.apply(document, TextEdit.NONE);
 			} catch (BadLocationException e) {
 				JavaManipulationPlugin.log(e); // bug in the formatter
-				Assert.isTrue(false, "Formatter created edits with wrong positions: " + e.getMessage()); //$NON-NLS-1$
+				Assert.isTrue(false, "Formatter created edits with wrong positions: " + e.getMessage()); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 			}
 			return document.get();
 		}
@@ -295,7 +295,7 @@ public class CodeFormatterUtil {
 	 */
 	public static TextEdit format2(int kind, String source, int offset, int length, int indentationLevel, String lineSeparator, Map<String, String> options) {
 		if (offset < 0 || length < 0 || offset + length > source.length()) {
-			throw new IllegalArgumentException("offset or length outside of string. offset: " + offset + ", length: " + length + ", string size: " + source.length()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			throw new IllegalArgumentException("offset or length outside of string. offset: " + offset + ", length: " + length + ", string size: " + source.length()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return ToolFactory.createCodeFormatter(options).format(kind, source, offset, length, indentationLevel, lineSeparator);
 	}
@@ -356,7 +356,7 @@ public class CodeFormatterUtil {
 	 */
 	public static TextEdit reformat(int kind, String source, int offset, int length, int indentationLevel, String lineSeparator, Map<String, String> options) {
 		if (offset < 0 || length < 0 || offset + length > source.length()) {
-			throw new IllegalArgumentException("offset or length outside of string. offset: " + offset + ", length: " + length + ", string size: " + source.length()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			throw new IllegalArgumentException("offset or length outside of string. offset: " + offset + ", length: " + length + ", string size: " + source.length()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		}
 		return ToolFactory.createCodeFormatter(options, ToolFactory.M_FORMAT_EXISTING).format(kind, source, offset, length, indentationLevel, lineSeparator);
 	}
@@ -448,7 +448,7 @@ public class CodeFormatterUtil {
 	 * @throws IllegalArgumentException
 	 *         If the offset and length are not inside the string, a IllegalArgumentException is thrown.
 	 */
-	public static TextEdit format2(ASTNode node, String source, int indentationLevel, String lineSeparator, Map<String, String> options) {
+	public static TextEdit format2(ASTNode node, String source, int indentationLevel, String lineSeparator, Map<String, String> options) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		int code;
 		String prefix= ""; //$NON-NLS-1$
 		String suffix= ""; //$NON-NLS-1$
@@ -539,7 +539,7 @@ public class CodeFormatterUtil {
 			}
 		}
 
-		String concatStr= prefix + source + suffix;
+		String concatStr= prefix + source + suffix; //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 		TextEdit edit= format2(code, concatStr, prefix.length(), source.length(), indentationLevel, lineSeparator, options);
 		if (edit != null && prefix.length() > 0) {
 			edit.moveTree(-prefix.length());

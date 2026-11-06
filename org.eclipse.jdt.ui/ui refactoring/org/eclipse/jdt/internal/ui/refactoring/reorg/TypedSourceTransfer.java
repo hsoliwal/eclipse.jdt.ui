@@ -35,7 +35,7 @@ public class TypedSourceTransfer extends ByteArrayTransfer {
 
 	// Create a unique ID to make sure that different Eclipse
 	// applications use different "types" of <code>TypedSourceTransfer</code>
-	private static final String TYPE_NAME = "typed-source-transfer-format:" + System.currentTimeMillis() + ":" + fgInstance.hashCode();//$NON-NLS-2$//$NON-NLS-1$
+	private static final String TYPE_NAME = "typed-source-transfer-format:" + System.currentTimeMillis() + ":" + fgInstance.hashCode();//$NON-NLS-2$//$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 
 	private static final int TYPEID = registerType(TYPE_NAME);
 
@@ -61,7 +61,7 @@ public class TypedSourceTransfer extends ByteArrayTransfer {
 		return new String[] {TYPE_NAME};
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void javaToNative(Object data, TransferData transferData) {
 		if (! (data instanceof TypedSource[]))
 			return;
@@ -80,7 +80,7 @@ public class TypedSourceTransfer extends ByteArrayTransfer {
 
 			dataOut.writeInt(sources.length);
 
-			for (TypedSource source : sources) {
+			for (TypedSource source : sources) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				writeJavaElement(dataOut, source);
 			}
 			super.javaToNative(out.toByteArray(), transferData);
@@ -98,7 +98,7 @@ public class TypedSourceTransfer extends ByteArrayTransfer {
 		try (DataInputStream in= new DataInputStream(new ByteArrayInputStream(bytes))) {
 			int count= in.readInt();
 			TypedSource[] results= new TypedSource[count];
-			for (int i= 0; i < count; i++) {
+			for (int i= 0; i < count; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				results[i]= readJavaElement(in);
 				Assert.isNotNull(results[i]);
 			}

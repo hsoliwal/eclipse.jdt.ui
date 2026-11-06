@@ -41,7 +41,7 @@ class JavaCompareWithEditionActionImpl extends JavaHistoryActionImpl {
 		super(false);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void run(ISelection selection) {
 
 		IMember input= getEditionElement(selection);

@@ -56,7 +56,7 @@ public class TypeAnnotationQuickFixTest extends QuickFixTest {
 
 	private IPackageFragmentRoot fSourceFolder;
 
-	@Before
+	@Before //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void setUp() throws Exception {
 		Hashtable<String, String> options= TestOptions.getDefaultOptions();
 		options.put(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR, JavaCore.SPACE);
@@ -83,7 +83,7 @@ public class TypeAnnotationQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	public void runQuickFixTest(String testCaseSpecificInput, String... testCaseSpecificOutputs) throws Exception {
+	public void runQuickFixTest(String testCaseSpecificInput, String... testCaseSpecificOutputs) throws Exception { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Hashtable<String, String> options= JavaCore.getOptions();
 		options.put(JavaCore.COMPILER_ANNOTATION_NULL_ANALYSIS, JavaCore.ENABLED);
 		options.put(JavaCore.COMPILER_PB_NULL_SPECIFICATION_VIOLATION, JavaCore.ERROR);
@@ -122,7 +122,7 @@ public class TypeAnnotationQuickFixTest extends QuickFixTest {
 			class Generic<T> {@Nullable Object f;}
 			""";
 
-		String input= prefix +
+		String input= prefix + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 				"public class Test {\n" +
 				testCaseSpecificInput + "\n" +
 				"}\n";
@@ -130,14 +130,14 @@ public class TypeAnnotationQuickFixTest extends QuickFixTest {
 
 		CompilationUnit astRoot= getASTRoot(cu);
 		int nProblems= testCaseSpecificOutputs.length;
-		for (int p= 0; p < nProblems; p++) {
+		for (int p= 0; p < nProblems; p++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			ArrayList<IJavaCompletionProposal> proposals= collectCorrections(cu, astRoot, nProblems, p, null);
 			assertCorrectLabels(proposals);
 
 			CUCorrectionProposal proposal= (CUCorrectionProposal) proposals.get(0);
 			String preview= getPreviewContent(proposal);
 
-			String expected= prefix +
+			String expected= prefix + //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 					"public class Test {\n" +
 					testCaseSpecificOutputs[p] + "\n" +
 					"}\n";

@@ -76,7 +76,7 @@ public class GetterSetterQuickFixTest extends QuickFixTest {
 		JavaProjectHelper.clear(fJProject1, projectSetup.getDefaultClasspath());
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvisibleFieldToGetterSetter() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("b112441", false, null);
 		String str= """
@@ -159,7 +159,7 @@ public class GetterSetterQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvisibleFieldToGetterSetterBug335173_1() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -219,7 +219,7 @@ public class GetterSetterQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvisibleFieldToGetterSetterBug335173_2() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -279,7 +279,7 @@ public class GetterSetterQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvisibleFieldToGetterSetterBug335173_3() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -339,7 +339,7 @@ public class GetterSetterQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testInvisibleFieldToGetterSetterBug335173_4() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("p", false, null);
 		String str= """
@@ -399,7 +399,7 @@ public class GetterSetterQuickFixTest extends QuickFixTest {
 		assertExpectedExistInProposals(proposals, expected);
 	}
 
-	@Test
+	@Test //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void testCreateFieldUsingSef() throws Exception {
 		IPackageFragment pack1= fSourceFolder.createPackageFragment("", false, null);
 		String str= """

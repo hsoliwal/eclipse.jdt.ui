@@ -86,7 +86,7 @@ public class JavaSelectAnnotationRulerAction extends SelectMarkerRulerAction {
 	 * @see org.eclipse.jface.action.IAction#runWithEvent(org.eclipse.swt.widgets.Event)
 	 * @since 3.2
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void runWithEvent(Event event) {
 		if (fAnnotation instanceof OverrideIndicatorManager.OverrideIndicator) {
 			((OverrideIndicatorManager.OverrideIndicator)fAnnotation).open();
@@ -106,7 +106,7 @@ public class JavaSelectAnnotationRulerAction extends SelectMarkerRulerAction {
 		super.run();
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public void update() {
 		findJavaAnnotation();
 		setEnabled(true); // super.update() might change this later
@@ -127,7 +127,7 @@ public class JavaSelectAnnotationRulerAction extends SelectMarkerRulerAction {
 		super.update();
 	}
 
-	private void findJavaAnnotation() {
+	private void findJavaAnnotation() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		fPosition= null;
 		fAnnotation= null;
 		fHasCorrection= false;
@@ -144,7 +144,7 @@ public class JavaSelectAnnotationRulerAction extends SelectMarkerRulerAction {
 		Iterator<Annotation> iter= model.getAnnotationIterator();
 		int layer= Integer.MIN_VALUE;
 
-		while (iter.hasNext()) {
+		while (iter.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation annotation= iter.next();
 			if (annotation.isMarkedDeleted())
 				continue;

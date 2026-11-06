@@ -46,7 +46,7 @@ public class JavaAnnotationIterator implements Iterator<Annotation> {
 	}
 
 	private void skip() {
-		while (fIterator.hasNext()) {
+		while (fIterator.hasNext()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 			Annotation next= fIterator.next();
 
 			if (next.isMarkedDeleted())
