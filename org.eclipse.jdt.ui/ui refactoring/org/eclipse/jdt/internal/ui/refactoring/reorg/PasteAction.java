@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2023 IBM Corporation and others.
+ * Copyright (c) 2000, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -357,6 +357,8 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 
 	private static class TextPaster extends Paster {
 
+		private static final String VOID_MAIN_CHECK= "\\bvoid\\s+main\\s*\\(\\s*\\)"; //$NON-NLS-1$
+
 		private static class ParsedCu {
 			private final String fText;
 			private final int fKind;
@@ -519,13 +521,13 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 			super(shell, clipboard);
 		}
 
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public boolean canEnable(TransferData[] availableTypes) {
 			fAvailableTypes= availableTypes;
 			return PasteAction.isAvailable(TextTransfer.getInstance(), availableTypes) && ! PasteAction.isAvailable(FileTransfer.getInstance(), availableTypes);
 		}
 
-		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		@Override
 		public boolean canPasteOn(IJavaElement[] javaElements, IResource[] resources, IWorkingSet[] selectedWorkingSets, List<?> selectedElements) throws JavaModelException {
 			final String text= getClipboardText(fAvailableTypes);
 
@@ -819,7 +821,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 							return cu;
 
 						} else if (kind == ASTParser.K_CLASS_BODY_DECLARATIONS || kind == ASTParser.K_STATEMENTS) {
-							return pasteBodyDeclsOrStatements(destinationPack, parsedText, kind, Progress.subMonitor(pm, 2));
+							return pasteBodyDeclsOrStatements(destinationPack, parsedText, kind, Progress.subMonitor(pm, 2),implicitType);
 						} else {
 							throw new IllegalStateException("Unexpected kind: " + kind); //$NON-NLS-1$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
 						}
@@ -828,7 +830,8 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 					}
 				}
 
-				private ICompilationUnit pasteBodyDeclsOrStatements(IPackageFragment destinationPack, String parsedText, int kind, IProgressMonitor pm) throws CoreException, JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+				private ICompilationUnit pasteBodyDeclsOrStatements(IPackageFragment destinationPack, String parsedText, int kind, IProgressMonitor pm, boolean isImplicit) //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+						throws CoreException, JavaModelException {
 					ICompilationUnit cu;
 					IType type;
 					String typeName;
@@ -856,7 +859,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 							AbstractTypeDeclaration typeDecl= type.exists() ? ASTNodeSearchUtil.getAbstractTypeDeclarationNode(type, cuNode) : null;
 							MethodDeclaration methodDecl= fDestinationMethod != null ? ASTNodeSearchUtil.getMethodDeclarationNode(fDestinationMethod, cuNode) : null;
 
-							ITrackedNodePosition textPosition= createOrFillTypeDeclaration(cuNode, document, cu, typeDecl, typeName, methodDecl, kind, parsedText);
+							ITrackedNodePosition textPosition= createOrFillTypeDeclaration(cuNode, document, cu, typeDecl, typeName, methodDecl, kind, parsedText, isImplicit);
 							EditorUtility.revealInEditor(editorPart[0], textPosition.getStartPosition() + textPosition.getLength(), 0);
 							// leave unsaved
 						} finally {
@@ -880,7 +883,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 						parser.setStatementsRecovery(true);
 						CompilationUnit cuNode= (CompilationUnit) parser.createAST(pm);
 
-						ITrackedNodePosition textPosition= createOrFillTypeDeclaration(cuNode, document, cu, null, typeName, null, kind, parsedText);
+						ITrackedNodePosition textPosition= createOrFillTypeDeclaration(cuNode, document, cu, null, typeName, null, kind, parsedText, isImplicit);
 						destinationPack.createCompilationUnit(cu.getElementName(), document.get(), false, null);
 						editorPart[0]= openCu(cu);
 						EditorUtility.revealInEditor(editorPart[0], textPosition.getStartPosition() + textPosition.getLength(), 0);
@@ -896,21 +899,30 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 						String typeName,
 						MethodDeclaration methodDecl,
 						int kind,
-						String parsedText) throws CoreException {
+						String parsedText, boolean isImplicit) throws CoreException {
 
 					AST ast= cuNode.getAST();
 					ASTRewrite rewrite= ASTRewrite.create(ast);
 					String delim= StubUtility.getLineDelimiterUsed(cu);
 
 					if (typeDecl == null) {
-						typeDecl= ast.newTypeDeclaration();
-						typeDecl.getName().setIdentifier(typeName);
+						if (isImplicit && hasInstanceMainMethod(parsedText) && JavaModelUtil.is25OrHigher(cu.getJavaProject())) {
+							typeDecl= ast.newImplicitTypeDeclaration();
+							PackageDeclaration packageDecl= cuNode.getPackage();
+							if (packageDecl != null) {
+								rewrite.remove(packageDecl, null);
+							}
+						} else {
+							typeDecl= ast.newTypeDeclaration();
+							typeDecl.getName().setIdentifier(typeName);
+							typeDecl.modifiers().add(ast.newModifier(ModifierKeyword.PUBLIC_KEYWORD));
+						}
+
 						if (StubUtility.doAddComments(cu.getJavaProject())) {
 							String typeComment= CodeGeneration.getTypeComment(cu, typeName, delim);
 							if (typeComment != null)
 								typeDecl.setJavadoc((Javadoc) rewrite.createStringPlaceholder(typeComment, ASTNode.JAVADOC));
 						}
-						typeDecl.modifiers().add(ast.newModifier(ModifierKeyword.PUBLIC_KEYWORD));
 
 						String typeBody= CodeGeneration.getTypeBody(CodeGeneration.CLASS_BODY_TEMPLATE_ID, cu, typeName, delim);
 						if (typeBody != null) {
@@ -971,6 +983,11 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 							((IDocumentExtension4) document).stopRewriteSession(rewriteSession);
 					}
 					return null;
+				}
+
+				private boolean hasInstanceMainMethod(String sourceCode) {
+					Pattern pattern= Pattern.compile(VOID_MAIN_CHECK);
+					return pattern.matcher(sourceCode).find();
 				}
 
 				private IPackageFragmentRoot createNewProject(IProgressMonitor pm) throws CoreException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
@@ -1545,7 +1562,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 				return sources != null && sources.length > 0;
 			}
 
-			@Override
+			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 			public RefactoringStatus checkInitialConditions(IProgressMonitor pm) throws CoreException {
 				return new RefactoringStatus();
 			}
@@ -1557,7 +1574,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 				return result;
 			}
 
-			@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+			@Override
 			public Change createChange(IProgressMonitor pm) throws CoreException {
 				ASTParser p= ASTParser.newParser(IASTSharedValues.SHARED_AST_LEVEL);
 				p.setSource(getDestinationCu());

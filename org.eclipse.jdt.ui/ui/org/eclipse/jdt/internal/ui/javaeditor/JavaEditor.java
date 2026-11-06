@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2025 IBM Corporation and others.
+ * Copyright (c) 2000, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -585,7 +585,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public void documentAboutToBeChanged(DocumentEvent event) {
 			if (fOccurrencesFinderJob != null)
 				fOccurrencesFinderJob.doCancel();
@@ -646,7 +646,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.ui.texteditor.AbstractTextEditor.LineStartAction#getLineStartPosition(java.lang.String, int, java.lang.String)
 		 */
-		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		@Override
 		protected int getLineStartPosition(final IDocument document, final String line, final int length, final int offset) {
 
 			String type= IDocument.DEFAULT_CONTENT_TYPE;
@@ -788,7 +788,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.NextSubWordAction#setCaretPosition(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setCaretPosition(final int position) {
 			getTextWidget().setCaretOffset(modelOffset2WidgetOffset(getSourceViewer(), position));
 		}
@@ -913,7 +913,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		@Override
 		public void run() {
 			// Check whether we are in a java code partition and the preference is enabled
 			final IPreferenceStore store= getPreferenceStore();
@@ -1006,7 +1006,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.PreviousSubWordAction#setCaretPosition(int)
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		protected void setCaretPosition(final int position) {
 			getTextWidget().setCaretOffset(modelOffset2WidgetOffset(getSourceViewer(), position));
 		}
@@ -1141,7 +1141,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		@Override
 		public void run() {
 
 			final JavaSourceViewer viewer= (JavaSourceViewer) getSourceViewer();
@@ -1393,7 +1393,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
 		 */
-		@Override
+		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		public ISelection getSelection() {
 			if (fInvalidSelection != null)
 				return fInvalidSelection;
@@ -1413,7 +1413,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		/*
 		 * @see org.eclipse.jface.viewers.ISelectionProvider#setSelection(ISelection)
 		 */
-		@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+		@Override
 		public void setSelection(ISelection selection) {
 			if (selection instanceof ITextSelection) {
 				if (fInvalidSelection != null) {
@@ -1472,7 +1472,6 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			fInvalidSelection= new TextSelection(0, 0);
 
 			SelectionChangedEvent event= new SelectionChangedEvent(this, fInvalidSelection);
-
 			for (ISelectionChangedListener listener : fSelectionListeners) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				listener.selectionChanged(event);
 			}
@@ -1813,7 +1812,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#initializeKeyBindingScopes()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected void initializeKeyBindingScopes() {
 		setKeyBindingScopes(new String[] { "org.eclipse.jdt.ui.javaEditorScope" });  //$NON-NLS-1$
 	}
@@ -1839,7 +1838,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see AbstractTextEditor#createSourceViewer(Composite, IVerticalRuler, int)
 	 */
-	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	@Override
 	protected final ISourceViewer createSourceViewer(Composite parent, IVerticalRuler verticalRuler, int styles) {
 
 		Composite composite= new Composite(parent, SWT.NONE);
@@ -2495,7 +2494,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see StatusTextEditor#getStatusHeader(IStatus)
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected String getStatusHeader(IStatus status) {
 		if (fEncodingSupport != null) {
 			String message= fEncodingSupport.getStatusHeader(status);
@@ -2534,7 +2533,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see AbstractTextEditor#doSetInput
 	 */
-	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		ISourceViewer sourceViewer= getSourceViewer();
 		if (!(sourceViewer instanceof ISourceViewerExtension2)) {
@@ -3066,7 +3065,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider#getViewPartInput()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public Object getViewPartInput() {
 		return getEditorInput().getAdapter(IJavaElement.class);
 	}
@@ -3098,7 +3097,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 
@@ -3187,12 +3186,16 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		private final ISelectionValidator fPostSelectionValidator;
 		private boolean fCanceled= false;
 		private final OccurrenceLocation[] fLocations;
+		private final IRegion fTargetRegion;
+		private final long fModificationStamp;
 
-		public OccurrencesFinderJob(IDocument document, OccurrenceLocation[] locations, ISelection selection) {
+		public OccurrencesFinderJob(IDocument document, OccurrenceLocation[] locations, ISelection selection, IRegion targetRegion, long modificationStamp) {
 			super(JavaEditorMessages.JavaEditor_markOccurrences_job_name);
 			fDocument= document;
 			fSelection= selection;
 			fLocations= locations;
+			fTargetRegion= targetRegion;
+			fModificationStamp= modificationStamp;
 
 			if (getSelectionProvider() instanceof ISelectionValidator)
 				fPostSelectionValidator= (ISelectionValidator)getSelectionProvider();
@@ -3267,6 +3270,10 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 					}
 				}
 				fOccurrenceAnnotations= annotationMap.keySet().toArray(new Annotation[annotationMap.size()]);
+				// Only cache successfully installed annotations. A canceled update must not
+				// prevent a later selection in the same word from updating the annotations.
+				fMarkOccurrenceTargetRegion= fTargetRegion;
+				fMarkOccurrenceModificationStamp= fModificationStamp;
 			}
 
 			return Status.OK_STATUS;
@@ -3297,17 +3304,18 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			return;
 
 		boolean hasChanged= false;
+		IRegion targetRegion= null;
+		long currentModificationStamp= IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
 		if (document instanceof IDocumentExtension4) {
 			int offset= selection.getOffset();
-			long currentModificationStamp= ((IDocumentExtension4)document).getModificationStamp();
+			currentModificationStamp= ((IDocumentExtension4)document).getModificationStamp();
 			IRegion markOccurrenceTargetRegion= fMarkOccurrenceTargetRegion;
 			hasChanged= currentModificationStamp != fMarkOccurrenceModificationStamp;
 			if (markOccurrenceTargetRegion != null && !hasChanged) {
 				if (markOccurrenceTargetRegion.getOffset() <= offset && offset <= markOccurrenceTargetRegion.getOffset() + markOccurrenceTargetRegion.getLength())
 					return;
 			}
-			fMarkOccurrenceTargetRegion= JavaWordFinder.findWord(document, offset);
-			fMarkOccurrenceModificationStamp= currentModificationStamp;
+			targetRegion= JavaWordFinder.findWord(document, offset);
 		}
 
 		OccurrenceLocation[] locations= null;
@@ -3359,7 +3367,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 			return;
 		}
 
-		fOccurrencesFinderJob= new OccurrencesFinderJob(document, locations, selection);
+		fOccurrencesFinderJob= new OccurrencesFinderJob(document, locations, selection, targetRegion, currentModificationStamp);
 		//fOccurrencesFinderJob.setPriority(Job.DECORATE);
 		//fOccurrencesFinderJob.setSystem(true);
 		//fOccurrencesFinderJob.schedule();
@@ -3460,18 +3468,22 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	}
 
 	void removeOccurrenceAnnotations() { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		fMarkOccurrenceModificationStamp= IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
-		fMarkOccurrenceTargetRegion= null;
-
 		IDocumentProvider documentProvider= getDocumentProvider();
-		if (documentProvider == null)
+		IAnnotationModel annotationModel= documentProvider == null ? null : documentProvider.getAnnotationModel(getEditorInput());
+		if (annotationModel == null) {
+			fMarkOccurrenceModificationStamp= IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
+			fMarkOccurrenceTargetRegion= null;
 			return;
-
-		IAnnotationModel annotationModel= documentProvider.getAnnotationModel(getEditorInput());
-		if (annotationModel == null || fOccurrenceAnnotations == null)
-			return;
+		}
 
 		synchronized (getLockObject(annotationModel)) {
+			// Invalidate the cache under the same lock used to install annotations.
+			// Otherwise a concurrent update can republish the cache before removal.
+			fMarkOccurrenceModificationStamp= IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
+			fMarkOccurrenceTargetRegion= null;
+			if (fOccurrenceAnnotations == null)
+				return;
+
 			if (annotationModel instanceof IAnnotationModelExtension) {
 				((IAnnotationModelExtension)annotationModel).replaceAnnotations(fOccurrenceAnnotations, null);
 			} else {
@@ -3824,7 +3836,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		return new Region(viewerSelection.x, viewerSelection.y);
 	}
 
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	public ISelectionProvider getSelectionProvider() {
 		return fSelectionProvider;
 	}
@@ -3866,7 +3878,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @return the found annotation
 	 * @since 3.2
 	 */
-	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	@Override
 	protected Annotation findAnnotation(final int offset, final int length, boolean forward, Position annotationPosition) {
 
 		Annotation nextAnnotation= null;
@@ -4043,7 +4055,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	/*
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createChangeHover()
 	 */
-	@Override
+	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 	protected LineChangeHover createChangeHover() {
 		return new JavaChangeHover(IJavaPartitions.JAVA_PARTITIONING, getOrientation());
 	}
@@ -4090,7 +4102,7 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createAnnotationRulerColumn(org.eclipse.jface.text.source.CompositeRuler)
 	 * @since 3.2
 	 */
-	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	@Override
 	protected IVerticalRulerColumn createAnnotationRulerColumn(CompositeRuler ruler) {
 		if (!getPreferenceStore().getBoolean(PreferenceConstants.EDITOR_ANNOTATION_ROLL_OVER))
 			return super.createAnnotationRulerColumn(ruler);
@@ -4218,7 +4230,6 @@ public abstract class JavaEditor extends AbstractDecoratedTextEditor implements 
 		// use this as the preferred class for comparing objects.
 		return new NonLocalUndoUserApprover(undoContext, this, new Object [] { getInputJavaElement() }, IResource.class);
 	}
-
 	/**
 	 * Resets the foldings structure according to the folding
 	 * preferences.
