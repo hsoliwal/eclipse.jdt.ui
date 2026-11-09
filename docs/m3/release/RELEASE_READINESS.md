@@ -11,7 +11,7 @@ Tools and raw evidence: [`docs/m3/jdk21/release-20261109`](../jdk21/release-2026
 | G2b | Parse gate: every tracked Java source (3876 files, test bundles included, test-input folders excluded), JDK 25 javac `--release 21` stopped after parsing | FAIL on master (10 rows, PARSE_GATE_MASTER.tsv); PASS with this PR | PARSE_GATE.tsv |
 | G3 | Recipe fixed point (`apply_jdk21.sh` + `apply_jdk21_pins.sh` change nothing on master) | PASS | RECIPE_CHANGES.tsv |
 | G4 | Metadata consistent: Tycho bundle/feature versions match their pom, no EE above 21 in a Java-21 bundle | PASS | META.tsv |
-| G5 | Full Tycho build of this repository on JDK 21 (`mvn -B clean verify -DskipTests`, fork parent + SDK target from the fork aggregator, other components from the upstream 4.42 I-build repository) | FAIL | BUILD FAILURE in 246 s, modules 9/10 ok, 1 failed, 13 [ERROR] rows (BUILD_G5.tsv, BUILD_G5_ERRORS.tsv, BUILD_G5.log.gz) |
+| G5 | Full Tycho build of this repository on JDK 21 (`mvn -B clean verify -DskipTests`, fork parent + SDK target from the fork aggregator, other components from the upstream 4.42 I-build repository) | PASS | BUILD SUCCESS in 372 s, modules 22/22 ok, 0 failed, 0 [ERROR] rows (BUILD_G5.tsv, BUILD_G5_ERRORS.tsv, BUILD_G5.log.gz) |
 | G6 | Eclipse SDK product build and launch on JDK 21 | PENDING | aggregator verdict, eclipse.platform.releng.aggregator docs/m3/release/RELEASE_READINESS.md |
 
 ## What this PR changes
@@ -35,6 +35,14 @@ before attempt 1 (`fix_nls_tags.sh`).
 | Attempt | Result |
 | --- | --- |
 | 1 | BUILD FAILURE: org.eclipse.jdt.ui stopped on 1 ECJ NLS error, TypeInfoViewer 759 `return "" + dashes + fMessage + dashes;` (M3LinearStringBuilderRecipe fold) inside a class-level `@SuppressWarnings("all")`; the first pre-check ran NLS as a suppressible warning and missed it. The pre-check now follows each bundle's `suppressOptionalErrors` and reports it; fixed |
+| 2 | BUILD SUCCESS: 22/22 modules in 372 s, target/ 124 MB (ECJ pre-check before the build: 0 rows left) |
+
+Recipes behind the NLS rows (CNPCDA anchors next to the fixed lines, lane PR bodies): **M3LinearStringBuilderRecipe**
+(strings lane L1, crate `recipes/recipe-crates/m3-eclipse-strings-lane-20261023`; anchors `M14 M3STRING_COMPOSITE` /
+`M33 M3STRING_COMPOSITE CONCAT`) folds `StringBuilder.append` chains into `"" + x` without a `//$NON-NLS-1$`;
+**M3HoistConstantStringRegexCallsRecipe** / **M3HoistConstantPatternCompileRecipe** (regex lane L1b/L1, crate
+`recipes/recipe-crates/m3-eclipse-regex-lane-20261023`; anchor `M12 REGEX_PRECOMPUTE CALL`) move literals into hoisted
+`Pattern` fields and keep the old tags. Recipe fix (HOLD, com.synexia): emit/carry `//$NON-NLS-n$` per literal moved.
 
 ## Re-run
 
