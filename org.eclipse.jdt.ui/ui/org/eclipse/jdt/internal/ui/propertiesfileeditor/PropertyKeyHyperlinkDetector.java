@@ -123,7 +123,7 @@ public class PropertyKeyHyperlinkDetector extends AbstractHyperlinkDetector {
 				iter.next();
 				c= iter.current();
 				if (c == 'u') {
-					c= (char)Integer.parseInt("" + iter.next() + iter.next() + iter.next() + iter.next(), 16);
+					c= (char)Integer.parseInt("" + iter.next() + iter.next() + iter.next() + iter.next(), 16); //$NON-NLS-1$
 					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 				}

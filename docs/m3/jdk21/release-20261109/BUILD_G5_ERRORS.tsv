@@ -1,0 +1,13 @@
+Failed to execute goal org.eclipse.tycho:tycho-compiler-plugin:5.0.4:compile (default-compile) on project org.eclipse.jdt.ui: Compilation failure: Compilation failure: 
+F:\m3-scratch\rel21\forks\eclipse.jdt.ui\org.eclipse.jdt.ui\internal compatibility\org\eclipse\jdt\internal\ui\dialogs\TypeInfoViewer.java:[759] 
+	return "" + dashes + fMessage + dashes;
+	       ^^
+Non-externalized string literal; it should be followed by //$NON-NLS-<n>$
+-> [Help 1]
+
+To see the full stack trace of the errors, re-run Maven with the -e switch.
+Re-run Maven using the -X switch to enable full debug logging.
+For more information about the errors and possible solutions, please read the following articles:
+[Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+After correcting the problems, you can resume the build with the command
+mvn <args> -rf :org.eclipse.jdt.ui

@@ -387,7 +387,7 @@ public class CoreJavaDoc2HTMLTextReader extends SubstitutionReader {
 		int c= nextChar();
 
 		if (c != '@') {
-			return "" + '{' + (char) c;
+			return "" + '{' + (char) c; //$NON-NLS-1$
 			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}

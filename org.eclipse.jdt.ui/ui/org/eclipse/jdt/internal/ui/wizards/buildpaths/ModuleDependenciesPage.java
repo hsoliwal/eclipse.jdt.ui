@@ -636,8 +636,8 @@ public class ModuleDependenciesPage extends BuildPathBasePage {
 			if (!confirmRemoveModule(MessageFormat.format(NewWizardMessages.ModuleDependenciesPage_removingModuleTransitive_message, seedModules) + allModulesToRemove.stream()
                     .filter(m -> !seedModules.contains(m))
                     .sorted()
-                    .collect(Collectors.joining("\n\t", "\t", ""))))
-				return; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    .collect(Collectors.joining("\n\t", "\t", "")))) //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				return;   
 				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			fModuleList.fNames.removeAll(allModulesToRemove);

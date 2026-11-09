@@ -536,7 +536,7 @@ public class CompilationUnitEditor extends JavaEditor implements IJavaReconcilin
 
 				final char character= event.character;
 				final char closingCharacter= getPeerCharacter(character);
-				document.replace(offset, length, "" + character + closingCharacter);
+				document.replace(offset, length, "" + character + closingCharacter); //$NON-NLS-1$
 				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 				// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 

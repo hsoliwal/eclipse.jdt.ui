@@ -11,7 +11,7 @@ Tools and raw evidence: [`docs/m3/jdk21/release-20261109`](../jdk21/release-2026
 | G2b | Parse gate: every tracked Java source (3876 files, test bundles included, test-input folders excluded), JDK 25 javac `--release 21` stopped after parsing | FAIL on master (10 rows, PARSE_GATE_MASTER.tsv); PASS with this PR | PARSE_GATE.tsv |
 | G3 | Recipe fixed point (`apply_jdk21.sh` + `apply_jdk21_pins.sh` change nothing on master) | PASS | RECIPE_CHANGES.tsv |
 | G4 | Metadata consistent: Tycho bundle/feature versions match their pom, no EE above 21 in a Java-21 bundle | PASS | META.tsv |
-| G5 | Full Tycho build of this repository on JDK 21 | PENDING | not run locally (disk and time budget); the javac gate G2 covers language level and API |
+| G5 | Full Tycho build of this repository on JDK 21 (`mvn -B clean verify -DskipTests`, fork parent + SDK target from the fork aggregator, other components from the upstream 4.42 I-build repository) | FAIL | BUILD FAILURE in 246 s, modules 9/10 ok, 1 failed, 13 [ERROR] rows (BUILD_G5.tsv, BUILD_G5_ERRORS.tsv, BUILD_G5.log.gz) |
 | G6 | Eclipse SDK product build and launch on JDK 21 | PENDING | aggregator verdict, eclipse.platform.releng.aggregator docs/m3/release/RELEASE_READINESS.md |
 
 ## What this PR changes
@@ -25,6 +25,16 @@ after that error differs between `--release 21` and `--release 25`, which is the
 Fill (`fix_textblock_anchors.sh` + `textblock_anchor.awk`, CNPCDA-safe): each anchor moves unchanged to its own line above
 the statement; nothing else changes (5 anchors in 4 files: ClassFileEditorTests, MarkdownCommentTests x2, CleanUpTest1d8,
 ReplaceInvocationsTests). Gate after the fill: residue 0; parse gate 0 rows over 3876 files.
+
+## G5 (Tycho build on JDK 21.0.9)
+
+NLS pre-check first (`nls_precheck.sh`, ECJ 3.47 over the 8 bundles that compile NLS problems as errors; jdt.ui sets
+`suppressOptionalErrors=disabled`, so @SuppressWarnings does not hide them): 12 missing + 7 surplus tags fixed in 11 lines
+before attempt 1 (`fix_nls_tags.sh`).
+
+| Attempt | Result |
+| --- | --- |
+| 1 | BUILD FAILURE: org.eclipse.jdt.ui stopped on 1 ECJ NLS error, TypeInfoViewer 759 `return "" + dashes + fMessage + dashes;` (M3LinearStringBuilderRecipe fold) inside a class-level `@SuppressWarnings("all")`; the first pre-check ran NLS as a suppressible warning and missed it. The pre-check now follows each bundle's `suppressOptionalErrors` and reports it; fixed |
 
 ## Re-run
 

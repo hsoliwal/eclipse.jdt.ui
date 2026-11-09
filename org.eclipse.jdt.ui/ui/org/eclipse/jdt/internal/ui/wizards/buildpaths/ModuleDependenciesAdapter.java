@@ -860,8 +860,8 @@ class ModuleDependenciesAdapter implements IDialogFieldListener, ITreeListAdapte
 					NewWizardMessages.ModuleDependenciesAdapter_addSystemModule_title, NewWizardMessages.ModuleDependenciesAdapter_addSystemModules_question + unavailableSystemModules.stream()
                     .map(IJavaElement::getElementName)
                     .sorted()
-                    .collect(Collectors.joining("\n\t", "\t", "")), SWT.NONE,
-					NewWizardMessages.ModuleDependenciesAdapter_add_button, IDialogConstants.CANCEL_LABEL); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    .collect(Collectors.joining("\n\t", "\t", "")), SWT.NONE, //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+					NewWizardMessages.ModuleDependenciesAdapter_add_button, IDialogConstants.CANCEL_LABEL);   
 					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 					// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			if (answer == 0) {
