@@ -214,7 +214,8 @@ public class ClassFileEditorTests {
 	}
 
 	private void createHelloWorldClass() throws CoreException {
-		createClassFromSource(TYPE_NAME + ".java", """ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		//FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
+		createClassFromSource(TYPE_NAME + ".java", """
 			public class HelloWorld {
 				public static void main(String[] args) {
 					System.out.println("Hello World");

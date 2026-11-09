@@ -5988,7 +5988,8 @@ public class CleanUpTest1d8 extends CleanUpTestCase {
 		assertRefactoringHasNoChange(new ICompilationUnit[] { cu });
 	}
 
-	@Ignore(""" //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	//FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	@Ignore("""
 		Either check exactly the data type (eg CopyOnWriteArrayList allows modifications)\
 		 or stay away from refactoring when deletions/additions happen.\
 		btw simple for loop to enhanced for loop should do the same.""")
