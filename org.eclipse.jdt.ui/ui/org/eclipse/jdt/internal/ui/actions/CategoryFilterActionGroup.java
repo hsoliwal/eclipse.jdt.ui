@@ -202,7 +202,7 @@ public class CategoryFilterActionGroup extends ActionGroup {
 
 		public CategoryFilterAction(String category, int count) {
 			fCategory= category;
-			setText("" + '&' + count + ' ' + fCategory);
+			setText("" + '&' + count + ' ' + fCategory); //$NON-NLS-1$
 			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			setChecked(!fFilteredCategories.contains(fCategory));

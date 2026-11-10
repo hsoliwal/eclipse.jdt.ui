@@ -63,7 +63,8 @@ public class ReplaceInvocationsTests extends AbstractJunit4SelectionTestCase {
 		CompilationUnit compilationUnit= new RefactoringASTParser(AST.getJLSLatest()).parse(unit, false);
 		Comment comment= (Comment) compilationUnit.getCommentList().get(0);
 		String commentString= unit.getBuffer().getText(comment.getStartPosition(), comment.getLength());
-		Matcher matcher= Pattern.compile(""" //FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		//FLLDCIM: MARK — M12 REGEX_PRECOMPUTE CALL
+		Matcher matcher= Pattern.compile("""
 			(?s)/\\*\\s*params:[[^\\r\\n]&&\\s]*\
 			([^\\r\\n]*)\
 			(\\r\\n?|\\n)\

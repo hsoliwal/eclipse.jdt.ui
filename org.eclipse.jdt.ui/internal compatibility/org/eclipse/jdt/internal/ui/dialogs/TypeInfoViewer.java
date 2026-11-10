@@ -756,7 +756,7 @@ public class TypeInfoViewer {
 			for (int i= 0; i < chars; i++) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 				dashes.append(SEPARATOR); //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			}
-			return "" + dashes + fMessage + dashes;
+			return "" + dashes + fMessage + dashes; //$NON-NLS-1$
 			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			// preserved predecessor annotation: //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 		}

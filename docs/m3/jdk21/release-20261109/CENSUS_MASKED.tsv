@@ -1,0 +1,7 @@
+unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java:108:					   	case R(_, long l) -> {}
+unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java:119:					   	case R(_, _) -> {}
+unnamed_lambda	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java:120:					   	case R _ -> {}
+unnamed_pattern	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java:108:					   	case R(_, long l) -> {}
+unnamed_pattern	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java:119:					   	case R(_, _) -> {}
+unnamed_pattern	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/RenameUnusedVariableCleanUpCore.java:120:					   	case R _ -> {}
+import_module	org.eclipse.jdt.core.manipulation/common/org/eclipse/jdt/internal/ui/fix/ModuleImportsCleanUpCore.java:308:				import module java.base;
