@@ -168,14 +168,16 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 
 					// IElementChangedListener can run on a Java-model worker thread.
 					Display d= fM3OutlineDisplay;
+					if (!(fInput instanceof ICompilationUnit cu))
+						return;
 					if (d != null && !d.isDisposed()) {
 						d.asyncExec(() -> {
-							if (fM3OutlineDisplay != d || fOutlineViewer == null)
+							// The input may change while this model update is queued.
+							if (fM3OutlineDisplay != d || fInput != cu || fOutlineViewer == null)
 								return; //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 							Control control= fOutlineViewer.getControl();
 							if (control == null || control.isDisposed())
 								return;
-							ICompilationUnit cu= (ICompilationUnit) fInput;
 							IJavaElement base= cu;
 							if (fTopLevelTypeOnly) {
 								base= cu.findPrimaryType(); //FLLDCIM: MARK — M21 FULL_REBUILD_TO_DELTA CALL
@@ -755,7 +757,7 @@ public class JavaOutlinePage extends Page implements IContentOutlinePage, IAdapt
 	/** A flag to show contents of top level type only */
 	private boolean fTopLevelTypeOnly;
 
-	private IJavaElement fInput;
+	private volatile IJavaElement fInput;
 	private String fContextMenuID;
 	private Menu fMenu;
 	private JavaOutlineViewer fOutlineViewer;
