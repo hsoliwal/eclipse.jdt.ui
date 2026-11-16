@@ -876,7 +876,7 @@ public class MarkdownCommentTests extends CoreTests {
 		String actualHtmlContent= getHoverHtmlContent(cu, method);
 		String expectedContent= """
 					<p>This is a test Javadoc for method test1()</p>
-					<pre><code class="language-java"><span class="jc-method">test1</span>(<span class="jc-number">42</span>);
+					<pre><code class="nohighlight"><span class="jc-method">test1</span>(<span class="jc-number">42</span>);
 					</code></pre>
 					<dl><dt>Parameters:</dt><dd><b>a</b> some parameter for test1</dd></dl>
 					""";
@@ -895,7 +895,7 @@ public class MarkdownCommentTests extends CoreTests {
 		actualHtmlContent= getHoverHtmlContent(cu, method);
 		expectedContent= """
 					<p>This is a test Javadoc for method test3()</p>
-					<pre><code class="language-java"><span class="jc-keyword">int</span> <span class="jc-local-var-decl">r</span> = <span class="jc-method">test3</span>();
+					<pre><code class="nohighlight"><span class="jc-keyword">int</span> <span class="jc-local-var-decl">r</span> = <span class="jc-method">test3</span>();
 					<span class="jc-type">System</span>.out.<span class="jc-method">println</span>(<span class="jc-local-var">r</span>);
 					</code></pre>
 					<dl><dt>Returns:</dt><dd>an int value</dd></dl>
@@ -905,11 +905,11 @@ public class MarkdownCommentTests extends CoreTests {
 		expectedContent= """
 					<p>This is a test Javadoc for method test4()
 					Invocation method 1:</p>
-					<pre><code class="language-java"><span class="jc-keyword">int</span> <span class="jc-local-var-decl">r</span> = <span class="jc-method">test4</span>();
+					<pre><code class="nohighlight"><span class="jc-keyword">int</span> <span class="jc-local-var-decl">r</span> = <span class="jc-method">test4</span>();
 					<span class="jc-type">System</span>.out.<span class="jc-method">println</span>(<span class="jc-local-var">r</span>);
 					</code></pre>
 					<p>Invocation method 2:</p>
-					<pre><code class="language-java"><span class="jc-type">System</span>.out.<span class="jc-method">println</span>(<span class="jc-method">test4</span>());
+					<pre><code class="nohighlight"><span class="jc-type">System</span>.out.<span class="jc-method">println</span>(<span class="jc-method">test4</span>());
 					</code></pre>
 					<dl><dt>Parameters:</dt><dd><b>i</b> an int param</dd><dt>Returns:</dt><dd>an int value</dd></dl>
 					""";

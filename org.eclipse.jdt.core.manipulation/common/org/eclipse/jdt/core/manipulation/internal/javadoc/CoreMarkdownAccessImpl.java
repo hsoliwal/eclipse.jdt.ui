@@ -64,6 +64,10 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 	}
 
 	private static final Set<String> JAVA_LANGUAGES= Set.of("java", "jav"); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Map<String, String> LANGUAGE_ALIASES= Map.of(
+			"c++", "cpp", //$NON-NLS-1$ //$NON-NLS-2$
+			"c#", "csharp" //$NON-NLS-1$ //$NON-NLS-2$
+	);
 
 	static class JavaSyntaxHighlightingRenderer implements NodeRenderer {
 		private final HtmlNodeRendererContext context;
@@ -94,13 +98,17 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			html.line();
 			if (isJava) {
 				html.tag("pre"); //$NON-NLS-1$
-				html.tag("code", Map.of("class", "language-java")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				html.tag("code", Map.of("class", "nohighlight")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				html.raw(JavaCodeTokenizer.tokenize(literal));
 			} else {
 				html.tag("pre"); //$NON-NLS-1$
-				Map<String, String> attrs= info != null && !info.isEmpty()
-						? Map.of("class", "language-" + info.trim()) //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-						: Collections.emptyMap();
+				Map<String, String> attrs;
+				if (info != null && !info.isEmpty()) {
+					String lang= LANGUAGE_ALIASES.getOrDefault(info.trim().toLowerCase(), info.trim());
+					attrs= Map.of("class", "language-" + lang); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					attrs= Collections.emptyMap();
+				}
 				html.tag("code", attrs); //$NON-NLS-1$
 				html.text(literal);
 			}
