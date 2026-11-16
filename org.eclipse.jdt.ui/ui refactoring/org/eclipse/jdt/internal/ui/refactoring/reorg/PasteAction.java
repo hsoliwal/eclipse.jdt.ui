@@ -1169,8 +1169,7 @@ public class PasteAction extends SelectionDispatchAction{ //FLLDCIM: MARK — T0
 		}
 
 		private String getVMVersion(IVMInstall vm) {
-			if (vm instanceof IVMInstall2) {
-				IVMInstall2 vm2= (IVMInstall2) vm;
+			if (vm instanceof IVMInstall2 vm2) {
 				return JavaModelUtil.getCompilerCompliance(vm2, null);
 			} else {
 				return null;

@@ -153,8 +153,7 @@ public final class MoveInstanceMethodWizard extends RefactoringWizard {
 
 			viewer.addSelectionChangedListener(event -> { //FLLDCIM: MARK — T04 VIEWER_SELECTION_DELTA CALL
 				final Object element= ((IStructuredSelection) event.getSelection()).getFirstElement();
-				if (element instanceof IVariableBinding) {
-					final IVariableBinding target= (IVariableBinding) element;
+				if (element instanceof final IVariableBinding target) {
 					boolean success= false;
 					for (IVariableBinding v : fProcessor.getPossibleTargets()) { //FLLDCIM: MARK — M32 LOOP_TO_LANE LOOP
 						if (Bindings.equals(target, v)) {
