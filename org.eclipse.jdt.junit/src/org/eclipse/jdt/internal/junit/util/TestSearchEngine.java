@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 
 import org.eclipse.jface.operation.IRunnableContext;
@@ -64,9 +63,19 @@ public class TestSearchEngine extends CoreTestSearchEngine {
 		var result= new HashSet<String>(); //FLLDCIM: MARK — M03 M3_SET_LANES NEW
 		context.run(true, true, (progressMonitor) -> { //FLLDCIM: MARK — T09  LAMBDA
 			String message= Messages.format(JUnitMessages.TestSearchEngine_search_message_progress_monitor, type.getElementName());
-			SubMonitor subMonitor= SubMonitor.convert(progressMonitor, message, 1);
+			SubMonitor subMonitor= SubMonitor.convert(progressMonitor, message, 2);
 			try {
-				collectMethodNames(type, javaProject, testKind.getId(), result, subMonitor);
+				IType[] types= type.newSupertypeHierarchy(subMonitor.split(1)).getAllTypes();
+
+				subMonitor= subMonitor.split(1);
+				subMonitor.setWorkRemaining(types.length);
+
+				for (IType it : types) {
+					if (!"java.lang.Object".equals(it.getFullyQualifiedName())) {//$NON-NLS-1$
+						collectDeclaredMethodNames(it, javaProject, testKind.getId(), result);
+					}
+					subMonitor.worked(1);
+				}
 			} catch (CoreException e) {
 				throw new InvocationTargetException(e);
 			}
