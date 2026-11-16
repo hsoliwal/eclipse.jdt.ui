@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -39,6 +40,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IBasicPropertyConstants;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.progress.UIJob;
@@ -89,6 +91,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	private boolean fIsFlatLayout;
 	private boolean fShowLibrariesNode;
 	private boolean fFoldPackages;
+	private boolean fFoldResourceFolders;
 
 	private Collection<Runnable> fPendingUpdates;
 
@@ -111,6 +114,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		fShowLibrariesNode= false;
 		fIsFlatLayout= false;
 		fFoldPackages= arePackagesFoldedInHierarchicalLayout();
+		fFoldResourceFolders= areResourceFoldersFoldedInHierarchicalLayout();
 		fPendingUpdates= null;
 		JavaPlugin.getDefault().getPreferenceStore().addPropertyChangeListener(this);
 
@@ -120,6 +124,10 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 
 	private boolean arePackagesFoldedInHierarchicalLayout(){
 		return PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER);
+	}
+
+	private boolean areResourceFoldersFoldedInHierarchicalLayout() {
+		return PreferenceConstants.getPreferenceStore().getBoolean(PreferenceConstants.APPEARANCE_FOLD_RESOURCE_FOLDERS_IN_PACKAGE_EXPLORER);
 	}
 
 	protected Object getViewerInput() {
@@ -250,7 +258,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 		getHierarchicalPackageRootChildren(root, result);
 		if (!isProjectPackageFragmentRoot(root)) {
-			Object[] nonJavaResources= root.getNonJavaResources();
+			Object[] nonJavaResources= foldResourceFolders(root.getNonJavaResources());
 			result.addAll(Arrays.asList(nonJavaResources));
 		}
 		return result.toArray();
@@ -266,7 +274,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		getHierarchicalPackageChildren(fragment, result);
-		Object[] nonPackages= super.getPackageContent(fragment);
+		Object[] nonPackages= foldResourceFolders(super.getPackageContent(fragment));
 		if (result.isEmpty())
 			return nonPackages;
 		result.addAll(Arrays.asList(nonPackages));
@@ -283,7 +291,7 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		ArrayList<Object> result= new ArrayList<>(); //FLLDCIM: MARK — M02 M3_ARRAY_LANES NEW
 
 		getHierarchicalPackagesInFolder(folder, result);
-		Object[] others= super.getFolderContent(folder);
+		Object[] others= foldResourceFolders(super.getFolderContent(folder));
 		if (result.isEmpty())
 			return others;
 		result.addAll(Arrays.asList(others));
@@ -311,6 +319,18 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		} catch (CoreException e) {
 			return NO_CHILDREN;
 		}
+	}
+
+	@Override
+	public Object getParent(Object element) {
+		if (!fIsFlatLayout && fFoldResourceFolders && element instanceof IFolder) {
+			try {
+				return getHierarchicalFolderParent((IFolder) element);
+			} catch (CoreException e) {
+				// fall through
+			}
+		}
+		return super.getParent(element);
 	}
 
 	@Override //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
@@ -538,6 +558,76 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 			pack= collapsed;
 		}
 		return pack;
+	}
+
+	private Object[] foldResourceFolders(Object[] children) {
+		if (!fFoldResourceFolders) {
+			return children;
+		}
+		Object[] result= children.clone();
+		for (int i= 0; i < result.length; i++) {
+			if (result[i] instanceof IFolder) {
+				try {
+					result[i]= getFolded((IFolder) result[i]);
+				} catch (CoreException e) {
+					// leave the original folder unfolded
+				}
+			}
+		}
+		return result;
+	}
+
+	private IFolder getFolded(IFolder folder) throws CoreException {
+		IFolder child;
+		while ((child= getSingleVisibleFolderChild(folder)) != null) {
+			folder= child;
+		}
+		return folder;
+	}
+
+	public Object getHierarchicalFolderParent(IFolder child) throws CoreException {
+		if (!fFoldResourceFolders) {
+			return super.getParent(child);
+		}
+		IContainer parent= child.getParent();
+		while (parent instanceof IFolder) {
+			IJavaElement javaParent= JavaCore.create(parent);
+			if (javaParent instanceof IPackageFragmentRoot && javaParent.exists()) {
+				return javaParent;
+			}
+			if (!child.equals(getSingleVisibleFolderChild((IFolder) parent))) {
+				return parent;
+			}
+			IContainer grandParent= parent.getParent();
+			child= (IFolder) parent;
+			parent= grandParent;
+		}
+		return parent;
+	}
+
+	private IFolder getSingleVisibleFolderChild(IFolder folder) throws CoreException {
+		IFolder result= null;
+		for (Object child : super.getFolderContent(folder)) {
+			if (isVisible(folder, child)) {
+				if (!(child instanceof IFolder) || result != null) {
+					return null;
+				}
+				result= (IFolder) child;
+			}
+		}
+		return result;
+	}
+
+	private boolean isVisible(Object parent, Object child) {
+		if (fViewer == null) {
+			return true;
+		}
+		for (ViewerFilter filter : fViewer.getFilters()) {
+			if (!filter.select(fViewer, parent, child)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean isEmpty(IPackageFragment fragment) throws JavaModelException {
@@ -889,6 +979,13 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 		if (resource == null)
 			return false;
 
+		if (!fIsFlatLayout && fFoldResourceFolders
+				&& (status == IResourceDelta.ADDED || status == IResourceDelta.REMOVED)
+				&& resource.getParent() instanceof IFolder) {
+			postRefresh(getVisibleResourceAncestor(parent), ORIGINAL, resource, runnables);
+			return true;
+		}
+
 		// this could be optimized by handling all the added children in the parent
 		if ((status & IResourceDelta.REMOVED) != 0) {
 			if (parent instanceof IPackageFragment) {
@@ -940,6 +1037,13 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 			}
 		}
 		return false;
+	}
+
+	private Object getVisibleResourceAncestor(Object element) {
+		while (element instanceof IFolder && fViewer.testFindItem(element) == null) {
+			element= super.getParent(element);
+		}
+		return element;
 	}
 
 	public void setIsFlatLayout(boolean state) {
@@ -1027,8 +1131,11 @@ public class PackageExplorerContentProvider extends StandardJavaElementContentPr
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
-		if (arePackagesFoldedInHierarchicalLayout() != fFoldPackages){
-			fFoldPackages= arePackagesFoldedInHierarchicalLayout();
+		boolean foldPackages= arePackagesFoldedInHierarchicalLayout();
+		boolean foldResourceFolders= areResourceFoldersFoldedInHierarchicalLayout();
+		if (foldPackages != fFoldPackages || foldResourceFolders != fFoldResourceFolders) {
+			fFoldPackages= foldPackages;
+			fFoldResourceFolders= foldResourceFolders;
 			if (fViewer != null && !fViewer.getControl().isDisposed()) {
 				fViewer.getControl().setRedraw(false);
 				Object[] expandedObjects= fViewer.getExpandedElements();
