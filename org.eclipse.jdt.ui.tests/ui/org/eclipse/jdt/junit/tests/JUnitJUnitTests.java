@@ -25,6 +25,7 @@ import org.junit.platform.suite.api.Suite;
 //WrappingUnitTest.class,
 
 TestEnableAssertions.class,
+JUnitLaunchConfigurationPrototypeTest.class,
 TestPriorization.class,
 TestTestSearchEngine.class,
 JUnitLaunchConfigurationTabTest.class,
@@ -33,6 +34,7 @@ TestExecutionTimingProtocol.class,
 JUnit4SuiteSourceTest.class,
 JUnitSuiteSourceNavigationTest.class,
 
+RemoteTestRunnerClientTest.class,
 TestRunListenerTest3.class,
 TestRunListenerTest4.class,
 TestRunListenerTest5.class,
@@ -52,6 +54,7 @@ ImportedTestRunReloadUITest.class,
 
 JUnit3TestFinderTest.class,
 JUnitTestFinderTest.class,
+JUnitCodeMiningTest.class,
 JUnit4TestFinderTest16.class,
 JUnit5TestFinderJupiterTest.class,
 JUnit6TestFinderJupiterTest.class,

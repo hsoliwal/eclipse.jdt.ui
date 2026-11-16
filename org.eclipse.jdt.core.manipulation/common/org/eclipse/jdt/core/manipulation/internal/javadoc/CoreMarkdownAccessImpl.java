@@ -33,11 +33,19 @@ import org.commonmark.renderer.html.HtmlNodeRendererContext;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.commonmark.renderer.html.HtmlWriter;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
+
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.TagElement;
 import org.eclipse.jdt.core.dom.TextElement;
+
+import org.eclipse.jdt.core.manipulation.IFencedCodeTokenizer;
+import org.eclipse.jdt.core.manipulation.JavaManipulation;
+
+import org.eclipse.jdt.internal.core.manipulation.JavaManipulationPlugin;
 
 public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 
@@ -64,6 +72,43 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 	}
 
 	private static final Set<String> JAVA_LANGUAGES= Set.of("java", "jav"); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Map<String, String> LANGUAGE_ALIASES= Map.of(
+			"c++", "cpp", //$NON-NLS-1$ //$NON-NLS-2$
+			"c#", "csharp" //$NON-NLS-1$ //$NON-NLS-2$
+	);
+
+	private static final String EXTENSION_POINT_ID= JavaManipulation.ID_PLUGIN + ".fencedCodeTokenizers"; //$NON-NLS-1$
+
+	private static volatile IFencedCodeTokenizer fFencedCodeTokenizer;
+	private static volatile boolean fTokenizerInitialized;
+	private static volatile boolean fTokenizerFailed;
+
+	static IFencedCodeTokenizer getFencedCodeTokenizer() {
+		if (!fTokenizerInitialized) {
+			initTokenizer();
+		}
+		return fFencedCodeTokenizer;
+	}
+
+	private static synchronized void initTokenizer() {
+		if (fTokenizerInitialized) {
+			return;
+		}
+		try {
+			IConfigurationElement[] elements= Platform.getExtensionRegistry()
+					.getConfigurationElementsFor(EXTENSION_POINT_ID);
+			for (IConfigurationElement element : elements) {
+				Object obj= element.createExecutableExtension("class"); //$NON-NLS-1$
+				if (obj instanceof IFencedCodeTokenizer tokenizer) {
+					fFencedCodeTokenizer= tokenizer;
+					break;
+				}
+			}
+		} catch (Exception e) {
+			JavaManipulationPlugin.logErrorMessage("Failed to load fenced code tokenizer extension: " + e.getMessage()); //$NON-NLS-1$
+		}
+		fTokenizerInitialized= true;
+	}
 
 	static class JavaSyntaxHighlightingRenderer implements NodeRenderer {
 		private final HtmlNodeRendererContext context;
@@ -94,15 +139,37 @@ public class CoreMarkdownAccessImpl extends CoreJavadocAccessImpl {
 			html.line();
 			if (isJava) {
 				html.tag("pre"); //$NON-NLS-1$
-				html.tag("code", Map.of("class", "language-java")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				html.tag("code", Map.of("class", "nohighlight")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				html.raw(JavaCodeTokenizer.tokenize(literal));
 			} else {
 				html.tag("pre"); //$NON-NLS-1$
-				Map<String, String> attrs= info != null && !info.isEmpty()
-						? Map.of("class", "language-" + info.trim()) //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-						: Collections.emptyMap();
+				Map<String, String> attrs;
+				if (info != null && !info.isEmpty()) {
+					String lang= LANGUAGE_ALIASES.getOrDefault(info.trim().toLowerCase(), info.trim());
+					attrs= Map.of("class", "language-" + lang); //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					attrs= Collections.emptyMap();
+				}
 				html.tag("code", attrs); //$NON-NLS-1$
-				html.text(literal);
+				String tokenized= null;
+				if (info != null && !info.isEmpty()) {
+					try {
+						IFencedCodeTokenizer tokenizer= getFencedCodeTokenizer();
+						if (tokenizer != null) {
+							tokenized= tokenizer.tokenize(info.trim().toLowerCase(java.util.Locale.ROOT), literal);
+						}
+					} catch (Exception | LinkageError e) {
+						if (!fTokenizerFailed) {
+							fTokenizerFailed= true;
+							JavaManipulationPlugin.logErrorMessage("Fenced code tokenizer failed with: " + e.getMessage()); //$NON-NLS-1$
+						}
+					}
+				}
+				if (tokenized != null) {
+					html.raw(tokenized);
+				} else {
+					html.text(literal);
+				}
 			}
 			html.tag("/code"); //$NON-NLS-1$
 			html.tag("/pre"); //$NON-NLS-1$
