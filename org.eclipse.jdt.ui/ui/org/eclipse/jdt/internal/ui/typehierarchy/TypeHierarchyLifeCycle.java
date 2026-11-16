@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2017 IBM Corporation and others.
+ * Copyright (c) 2000, 2026 IBM Corporation and others.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -310,6 +310,17 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 			}
 			return JavaCore.newTypeHierarchy(region, null, pm);
 		}
+	}
+
+
+	/** Installs a detached restoration result only after the view accepts its job. */
+	void installHierarchy(IJavaElement[] elements, ITypeHierarchy hierarchy) {
+		freeHierarchy();
+		fHierarchy= hierarchy;
+		fInputElements= elements;
+		fHierarchy.addTypeHierarchyChangedListener(this);
+		JavaCore.addElementChangedListener(this);
+		fHierarchyRefreshNeeded= false;
 	}
 
 
