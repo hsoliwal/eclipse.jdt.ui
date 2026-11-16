@@ -214,6 +214,10 @@ public class MockPluginView extends PackageExplorerPart { //FLLDCIM: MARK — T0
 		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER, fold);
 	}
 
+	public void setResourceFolderFolding(boolean fold) {
+		JavaPlugin.getDefault().getPreferenceStore().setValue(PreferenceConstants.APPEARANCE_FOLD_RESOURCE_FOLDERS_IN_PACKAGE_EXPLORER, fold);
+	}
+
 	public void clear() {
 		fRefreshedObjects.clear();
 		fRemovedObjects.clear();

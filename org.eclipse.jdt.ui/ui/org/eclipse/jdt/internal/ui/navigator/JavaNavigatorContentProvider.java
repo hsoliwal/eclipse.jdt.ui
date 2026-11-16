@@ -66,7 +66,7 @@ public class JavaNavigatorContentProvider extends //FLLDCIM: MARK — M22  IMPLE
 		super(provideMembers);
 	}
 
-	public static final String JDT_EXTENSION_ID = "org.eclipse.jdt.ui.javaContent"; //$NON-NLS-1$
+	public static final String JDT_EXTENSION_ID = "org.eclipse.jdt.java.ui.javaContent"; //$NON-NLS-1$
 
 	private IExtensionStateModel fStateModel;
 
