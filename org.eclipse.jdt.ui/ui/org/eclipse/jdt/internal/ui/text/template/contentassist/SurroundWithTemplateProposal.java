@@ -251,7 +251,7 @@ public class SurroundWithTemplateProposal extends TemplateProposal { //FLLDCIM: 
 		String newSelection= document.get(offset, length);
 
 		//Create the new context
-		CompilationUnitContextType contextType= (CompilationUnitContextType) JavaPlugin.getDefault().getTemplateContextRegistry().getContextType(fTemplate.getContextTypeId());
+		CompilationUnitContextType contextType= (CompilationUnitContextType) JavaPlugin.getDefault().getTemplateContextRegistryCore().getContextType(fTemplate.getContextTypeId());
 		CompilationUnitContext context= (CompilationUnitContext) contextType.createContext(document, offset, newSelection.length(), fCompilationUnit);
 		context.setVariable("selection", newSelection); //$NON-NLS-1$
 		context.setForceEvaluation(true);
