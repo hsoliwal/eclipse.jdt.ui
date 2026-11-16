@@ -89,13 +89,11 @@ public class JavaTypeCompletionProcessor extends CUPositionCompletionProcessor {
 	}
 
 	public void setExtendsCompletionContext(IJavaElement javaElement) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
-		if (javaElement instanceof IPackageFragment) {
-			IPackageFragment packageFragment= (IPackageFragment) javaElement;
+		if (javaElement instanceof IPackageFragment packageFragment) {
 			ICompilationUnit cu= packageFragment.getCompilationUnit(DUMMY_CU_NAME);
 			setCompletionContext(cu, "public class " + DUMMY_CLASS_NAME + " extends ", " {}"); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //FLLDCIM: MARK — M33 M3STRING_COMPOSITE CONCAT
-		} else if (javaElement instanceof IType) {
+		} else if (javaElement instanceof IType type) {
 			// pattern: public class OuterType { public class Type extends /*caret*/  {} }
-			IType type= (IType) javaElement;
 			StringBuilder before= new StringBuilder("public class ").append(type.getElementName()).append(" extends "); //$NON-NLS-1$ //$NON-NLS-2$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE CALL
 			StringBuilder after= new StringBuilder(" {}"); //$NON-NLS-1$ //FLLDCIM: MARK — M14 M3STRING_COMPOSITE NEW
 			IJavaElement parent= type.getParent();

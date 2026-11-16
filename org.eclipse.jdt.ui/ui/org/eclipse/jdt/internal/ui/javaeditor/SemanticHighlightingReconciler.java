@@ -635,26 +635,34 @@ public class SemanticHighlightingReconciler implements IJavaReconcilingListener,
 	 */
 	private void updatePresentation(TextPresentation textPresentation, List<Position> addedPositions, List<Position> removedPositions) { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		Runnable runnable= fJobPresenter.createUpdateRunnable(textPresentation, addedPositions, removedPositions);
-		if (runnable == null)
+		if (runnable == null) {
 			return;
+		}
 
 		JavaEditor editor= fEditor;
-		if (editor == null)
+		if (editor == null) {
 			return;
+		}
 
 		IWorkbenchPartSite site= editor.getSite();
-		if (site == null)
+		if (site == null) {
 			return;
+		}
 
 		Shell shell= site.getShell();
-		if (shell == null || shell.isDisposed())
+		if (shell == null || shell.isDisposed()) {
 			return;
+		}
 
 		Display display= shell.getDisplay();
-		if (display == null || display.isDisposed())
+		if (display == null || display.isDisposed()) {
 			return;
+		}
 
 		IDocument document= fSourceViewer.getDocument();
+		if (document == null) {
+			return;
+		}
 		String contents= document.get();
 		display.asyncExec(() -> { //FLLDCIM: MARK — T08 UI_THREAD_SYNCHRONIZER CALL
 			// check Editor not reused for other document or document changed meanwhile
