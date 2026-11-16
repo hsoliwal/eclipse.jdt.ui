@@ -16,14 +16,20 @@ package org.eclipse.jdt.junit.tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +41,9 @@ import org.eclipse.jdt.junit.model.ITestElement.ProgressState;
 import org.eclipse.jdt.junit.model.ITestElement.Result;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 import org.eclipse.jdt.testplugin.JavaProjectHelper;
+import org.eclipse.jdt.testplugin.util.DisplayHelper;
+
+import org.eclipse.swt.widgets.Display;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -54,6 +63,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 
 import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IElementChangedListener;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
@@ -68,6 +78,7 @@ import org.eclipse.jdt.internal.junit.model.TestElement.Status;
 import org.eclipse.jdt.internal.junit.model.TestRunSession;
 import org.eclipse.jdt.internal.junit.ui.JUnitMessages;
 import org.eclipse.jdt.internal.junit.ui.JUnitPlugin;
+import org.eclipse.jdt.internal.junit.ui.TestRunnerViewPart;
 
 public class TestRunListenerTest5 extends AbstractTestRunListenerTest {
 
@@ -455,5 +466,117 @@ public class TestRunListenerTest5 extends AbstractTestRunListenerTest {
 		public boolean acceptsSwapToDisk() {
 			return false;
 		}
+	}
+
+	@Test
+	public void testRetiredSessionTerminationDoesNotStopActiveSession() throws Exception {
+		assertSessionNotification(ITestSessionListener::sessionTerminated, true);
+	}
+
+	@Test
+	public void testRetiredSessionStopDoesNotStopActiveSession() throws Exception {
+		assertSessionNotification(listener -> listener.sessionStopped(0), true);
+	}
+
+	@Test
+	public void testRetiredSessionEndDoesNotStopActiveSession() throws Exception {
+		assertSessionNotification(listener -> listener.sessionEnded(0), true);
+	}
+
+	@Test
+	public void testActiveSessionTerminationStopsUpdateJobs() throws Exception {
+		assertSessionNotification(ITestSessionListener::sessionTerminated, false);
+	}
+
+	@Test
+	public void testActiveSessionStopStopsUpdateJobs() throws Exception {
+		assertSessionNotification(listener -> listener.sessionStopped(0), false);
+	}
+
+	@Test
+	public void testActiveSessionEndStopsUpdateJobs() throws Exception {
+		assertSessionNotification(listener -> listener.sessionEnded(0), false);
+	}
+
+	private void assertSessionNotification(Consumer<ITestSessionListener> notification, boolean retired) throws Exception {
+		TestRunnerViewPart view= JUnitPlugin.showTestRunnerViewPartInActivePage();
+		assertNotNull(view);
+		DisplayHelper.driveEventQueue(Display.getCurrent());
+		Field activeSessionField= accessibleField(TestRunnerViewPart.class, "fTestRunSession");
+		Field listenerField= accessibleField(TestRunnerViewPart.class, "fTestSessionListener");
+		Field jobField= accessibleField(TestRunnerViewPart.class, "fUpdateJob");
+		Field runningField= accessibleField(TestRunSession.class, "fIsRunning");
+		Field dirtyListenerField= accessibleField(TestRunnerViewPart.class, "fDirtyListener");
+		Object previousDirtyListener= dirtyListenerField.get(view);
+		Method activate= TestRunnerViewPart.class.getDeclaredMethod("setActiveTestRunSession", TestRunSession.class);
+		activate.setAccessible(true);
+		Object previous= activeSessionField.get(view);
+		TestRunSession oldSession= new TestRunSession("retired-session", fProject);
+		TestRunSession currentSession= new TestRunSession("active-session", fProject);
+		runningField.setBoolean(oldSession, true);
+		runningField.setBoolean(currentSession, true);
+		try {
+			activate.invoke(view, oldSession);
+			ITestSessionListener oldListener= (ITestSessionListener) listenerField.get(view);
+			assertNotNull(oldListener);
+			activate.invoke(view, currentSession);
+			ITestSessionListener currentListener= (ITestSessionListener) listenerField.get(view);
+			Object currentJob= jobField.get(view);
+			assertNotNull(currentListener);
+			assertNotNull(currentJob);
+			assertNotSame(oldListener, currentListener);
+
+			// A notifier may retain an old ListenerList snapshot while the UI
+			// switches sessions. Deliver that event on a notification thread.
+			ITestSessionListener recipient= retired ? oldListener : currentListener;
+			deliverSessionNotification(notification, recipient);
+			assertSame(currentSession, activeSessionField.get(view));
+			if (retired) {
+				assertSame("A retired session must not detach the active session listener", currentListener, listenerField.get(view));
+				assertSame("A retired session must not stop the active session's update job", currentJob, jobField.get(view));
+				assertTrue("The active update job must remain schedulable", ((Job) currentJob).shouldSchedule());
+			} else {
+				assertNull("The active session must still detach its own listener", listenerField.get(view));
+				assertNull("The active session must still stop its own update job", jobField.get(view));
+				assertFalse("The stopped update job must not reschedule", ((Job) currentJob).shouldSchedule());
+			}
+		} finally {
+			Object dirtyListener= dirtyListenerField.get(view);
+			if (dirtyListener != previousDirtyListener) {
+				if (dirtyListener != null)
+					JavaCore.removeElementChangedListener((IElementChangedListener) dirtyListener);
+				dirtyListenerField.set(view, previousDirtyListener);
+				if (previousDirtyListener != null)
+					JavaCore.addElementChangedListener((IElementChangedListener) previousDirtyListener);
+			}
+			runningField.setBoolean(oldSession, false);
+			runningField.setBoolean(currentSession, false);
+			activate.invoke(view, previous);
+		}
+	}
+
+	private static void deliverSessionNotification(Consumer<ITestSessionListener> notification, ITestSessionListener recipient) throws Exception {
+		FutureTask<Void> delivered= new FutureTask<>(() -> {
+			notification.accept(recipient);
+			return null;
+		});
+		Thread notifier= new Thread(delivered, "JUnit view session notification");
+		notifier.setDaemon(true);
+		try {
+			notifier.start();
+			assertTrue("The session notification must complete", waitForCondition(delivered::isDone, 10000, 10));
+			delivered.get();
+		} finally {
+			// Keep dispatching pending syncExec work even after an assertion fails.
+			// The worker must finish before the previous view session is restored.
+			assertTrue("The notification thread must finish before restoring the view",
+					waitForCondition(() -> !notifier.isAlive(), 10000, 10));
+		}
+	}
+
+	private static Field accessibleField(Class<?> declaringClass, String name) throws ReflectiveOperationException {
+		Field field= declaringClass.getDeclaredField(name);
+		field.setAccessible(true);
+		return field;
 	}
 }
