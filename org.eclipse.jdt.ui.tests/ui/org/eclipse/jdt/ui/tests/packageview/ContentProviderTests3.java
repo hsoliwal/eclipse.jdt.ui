@@ -57,7 +57,6 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 
 import org.eclipse.jdt.internal.ui.filters.EmptyPackageFilter;
 import org.eclipse.jdt.internal.ui.filters.NamePatternFilter;
-import org.eclipse.jdt.internal.ui.filters.NamePatternFilter;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.util.CoreUtility;
