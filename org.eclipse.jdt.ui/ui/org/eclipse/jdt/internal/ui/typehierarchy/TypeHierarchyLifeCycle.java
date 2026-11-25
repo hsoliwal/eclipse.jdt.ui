@@ -286,7 +286,7 @@ public class TypeHierarchyLifeCycle implements ITypeHierarchyChangedListener, IE
 		}
 	}
 
-	private ITypeHierarchy createTypeHierarchy(IJavaElement[] elements, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
+	ITypeHierarchy createTypeHierarchy(IJavaElement[] elements, IProgressMonitor pm) throws JavaModelException { //FLLDCIM: MARK — ML METHOD_SPLIT METHOD
 		if (elements.length == 1 && elements[0].getElementType() == IJavaElement.TYPE) {
 			IType type= (IType)elements[0];
 			if (fIsSuperTypesOnly) {
